@@ -1,6 +1,6 @@
 #!/bin/sh
 # goal-prompts installer — https://goal-prompts.vercel.app
-# Installs 30 audit briefs as Claude Code slash commands (/goal:*)
+# Installs the full goal-prompts catalog as Claude Code slash commands (/goal:*)
 set -e
 BASE="https://goal-prompts.vercel.app"
 DEST=".claude/commands"

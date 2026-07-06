@@ -16,7 +16,8 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 LIMIT = 4000
 FAMILY_ORDER = ["Product", "Quality", "Speed", "Trust", "Growth", "Team",
-                "Clarity", "Data", "Ops", "Subtract", "Meta"]
+                "Clarity", "Data", "Ops", "Subtract", "Meta",
+                "Agent", "Automation", "AI-UX"]
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
 
 

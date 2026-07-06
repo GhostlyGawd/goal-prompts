@@ -1,6 +1,6 @@
 # Goal Prompts
 
-Thirty mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root.
+Forty-six mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root.
 
 Every prompt body is under 4,000 characters.
 
@@ -27,6 +27,8 @@ Curated sequences on the site, for when you don't want to choose:
 | Pre-Launch | 06 · 08 · 23 · 25 | the night before |
 | Spring Cleaning | 26 → 27 → 13 → 22 | make it smaller and clearer |
 | Weekly Vitals | 29 | ten minutes, every week |
+| Agent Day-1 | 30 → 31 → 32 → 37 | first contact with an agent codebase |
+| Agent Ship-Check | 35 · 34 · 43 · 38 | before an agent touches real users |
 
 ## Use
 
@@ -39,7 +41,7 @@ Curated sequences on the site, for when you don't want to choose:
 
 | Family | Question | Prompts |
 |---|---|---|
-| Product | what could this be? | 00 |
+| Product | what could this be? | 00, 45 |
 | Quality | does it work? | 01–03 |
 | Speed | does it scale? | 04–05 |
 | Trust | is it safe? | 06–08 |
@@ -50,6 +52,9 @@ Curated sequences on the site, for when you don't want to choose:
 | Ops | does it run? | 23–25 |
 | Subtract | what should go? | 26–27 |
 | Meta | do the reports compose? | 28–29 |
+| Agent | does the agent deliver? | 30–38 |
+| Automation | does the process hold? | 39–41 |
+| AI-UX | does the human trust it? | 42–44 |
 
 ## Develop
 

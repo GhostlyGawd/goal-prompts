@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — 2026-07-06
+- 16 new briefs (30–45) for AI-agent products, in three new families:
+  Agent (does the agent deliver?), Automation (does the process hold?),
+  AI-UX (does the human trust it?), plus Feedback Loop Audit in Product
+- Two new playbooks: Agent Day-1 and Agent Ship-Check
+- Catalog copy de-hardcoded from "30"; OG image regenerated
+
 ## 0.2.0 — 2026-07-06
 - Slash-command installer: `curl -fsSL https://goal-prompts.vercel.app/install | sh`
   installs all briefs as `/goal:*` Claude Code commands (+ commands.zip)
