@@ -1,0 +1,32 @@
+#!/bin/sh
+# One-command gate: build (lints all briefs), verify the site script parses,
+# and smoke-test the MCP server. Used locally and by CI.
+set -e
+cd "$(dirname "$0")/.."
+
+echo "→ build.py (lints every brief, regenerates outputs)"
+python3 build.py
+
+echo "→ site JS parses"
+if command -v node >/dev/null 2>&1; then
+  sed -n '/^<script>$/,/^<\/script>$/p' index.html | sed '1d;$d' > /tmp/gp-site.js
+  node --check /tmp/gp-site.js
+  sed -n '/^<script>$/,/^<\/script>$/p' studio.html | sed '1d;$d' > /tmp/gp-studio.js
+  node --check /tmp/gp-studio.js
+  echo "→ MCP server smoke test"
+  node --check mcp/server.cjs
+  printf '%s\n%s\n%s\n' \
+    '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{}}}' \
+    '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+    '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"suggest_briefs","arguments":{"goal":"agent looping and burning tokens"}}}' \
+    | node mcp/server.cjs | grep -q suggest_briefs && echo "  MCP responds ✓"
+else
+  echo "  (node not found — skipping JS checks)"
+fi
+
+echo "→ python build tests"
+if command -v python3 >/dev/null 2>&1 && [ -f tests/test_build.py ]; then
+  python3 tests/test_build.py
+fi
+
+echo "✓ all checks passed"

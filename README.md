@@ -1,6 +1,6 @@
 # Goal Prompts
 
-Forty-six mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root.
+Fifty-four mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root.
 
 Every prompt body is under 4,000 characters.
 
@@ -35,6 +35,11 @@ On the site, open **"aim the briefs at your repo"** to save your stack,
 product, and stage — it's appended to every brief you copy as an
 Operator context section.
 
+**Close the loop:** [Report Studio](https://goal-prompts.vercel.app/studio)
+turns the reports your audits produce into action — drop them in, pick
+findings, and it generates a prompt for brief 47 (The Fixer) that implements
+exactly what you chose.
+
 Real output lives in the [sample reports](https://goal-prompts.vercel.app/examples/) —
 the Day-1 playbook run against this very repo.
 
@@ -64,18 +69,19 @@ Curated sequences on the site, for when you don't want to choose:
 |---|---|---|
 | Product | what could this be? | 00, 45 |
 | Quality | does it work? | 01–03 |
-| Speed | does it scale? | 04–05 |
+| Speed | does it scale? | 04–05, 51 |
 | Trust | is it safe? | 06–08 |
 | Growth | does it grow? | 09–12 |
-| Team | can others build on it? | 13–15 |
+| Team | can others build on it? | 13–15, 52 |
 | Clarity | is it understood? | 16–18 |
 | Data | is it sound? | 19–22 |
-| Ops | does it run? | 23–25 |
+| Ops | does it run? | 23–25, 53 |
 | Subtract | what should go? | 26–27 |
 | Meta | do the reports compose? | 28–29 |
-| Agent | does the agent deliver? | 30–38 |
+| Agent | does the agent deliver? | 30–38, 48–50 |
 | Automation | does the process hold? | 39–41 |
 | AI-UX | does the human trust it? | 42–44 |
+| Act | what needs attention? | 46–47 |
 
 ## Develop
 

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.0 — 2026-07-06
+- 8 new briefs (46–53), 54 total. New **Act** family closes the loop:
+  46 Audit Triage (routes you to the right briefs) and 47 The Fixer (the
+  first brief that *implements* findings — gated, one commit each)
+- Deeper Agent briefs: 48 Memory & State, 49 Retrieval Quality, 50 Multi-Agent
+  Topology. Plus 51 Latency Budget, 52 Agent Readiness, 53 Config & Environment
+- **Report Studio** (/studio): drop your report files, check off findings,
+  generate a Fixer prompt that implements exactly those — nothing retyped
+- **Conductor builder**: pick any briefs on the site to generate a custom
+  run; new MCP make_conductor tool does the same for agents
+- MCP suggest_briefs now stems and de-noises catalog-generic terms
+- Two playbooks: Triage & Fix, Retrieval Tune-Up. Per-family conductors
+  (raw/family-*.md). Sample-report chips on audited briefs
+- Paid our own audit debt: scripts/check gate, linter tests (incl. the
+  regression it caught), security headers, and a CLAUDE.md
+
 ## 0.4.0 — 2026-07-06
 - Agent-native catalog: stable raw URLs per brief, playbook conductors,
   machine-readable catalog.json, and a zero-dependency MCP server

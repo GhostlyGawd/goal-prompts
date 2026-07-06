@@ -14,10 +14,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Build (fails if any brief exceeds 4k chars)
-        run: python3 build.py
+        run: sh scripts/check
       - name: Fail on drift between sources and generated files
         run: |
-          git diff --exit-code index.html commands.tar.gz commands.zip || {
+          git diff --exit-code index.html studio catalog.json checksums.txt commands.tar.gz commands.zip raw b || {
             echo "::error::Generated files are out of date. Run 'python3 build.py' and commit."
             exit 1
           }

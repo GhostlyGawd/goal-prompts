@@ -19,6 +19,21 @@ const briefs = catalog.briefs;
 const byId = {};
 briefs.forEach(function (b) { byId[b.id] = b; });
 
+// terms appearing in a large fraction of briefs are noise for ranking
+var STOP = (function () {
+  var df = {}, N = briefs.length;
+  briefs.forEach(function (b) {
+    var seen = {};
+    (b.title + " " + b.tagline + " " + b.family + " " + b.question)
+      .toLowerCase().split(/[^a-z0-9]+/).forEach(function (w) {
+        if (w.length > 2 && !seen[w]) { seen[w] = 1; df[w] = (df[w] || 0) + 1; }
+      });
+  });
+  var stop = { the: 1, and: 1, for: 1, your: 1, that: 1, with: 1, this: 1 };
+  Object.keys(df).forEach(function (w) { if (df[w] / N > 0.25) stop[w] = 1; });
+  return stop;
+})();
+
 function readBody(id) {
   return fs.readFileSync(path.join(ROOT, "raw", id + ".md"), "utf8");
 }
@@ -71,6 +86,23 @@ const TOOLS = [
     }
   },
   {
+    name: "make_conductor",
+    description: "Compose a custom conductor prompt from an ordered list of " +
+      "brief ids. Returns a single prompt that runs exactly those briefs in " +
+      "sequence, each writing its report — use it to build a bespoke audit " +
+      "run tailored to what you found (e.g. after suggest_briefs).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        ids: {
+          type: "array", items: { type: "string" },
+          description: "Brief ids in run order, e.g. ['33','49','34']"
+        }
+      },
+      required: ["ids"]
+    }
+  },
+  {
     name: "get_playbook",
     description: "Fetch a playbook conductor — a single prompt that runs a " +
       "curated sequence of briefs in order. Keys: " +
@@ -85,15 +117,29 @@ const TOOLS = [
   }
 ];
 
-function score(brief, words) {
-  const title = brief.title.toLowerCase();
-  const tag = brief.tagline.toLowerCase();
-  const fam = (brief.family + " " + brief.question).toLowerCase();
+// crude stemmer: fold common suffixes so "looping" matches "loop", "queries"
+// matches "query", etc. Applied to both the goal words and the haystacks.
+function stem(w) {
+  if (w.length > 5 && w.slice(-3) === "ing") w = w.slice(0, -3);
+  else if (w.length > 4 && w.slice(-2) === "ed") w = w.slice(0, -2);
+  else if (w.length > 4 && w.slice(-3) === "ies") w = w.slice(0, -3) + "y";
+  else if (w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") w = w.slice(0, -1);
+  return w;
+}
+function stemAll(text) {
+  return text.toLowerCase().split(/[^a-z0-9]+/).map(stem).join(" ");
+}
+function score(brief, stems) {
+  const title = stemAll(brief.title);
+  const fam = stemAll(brief.family + " " + brief.question);
+  const tag = stemAll(brief.tagline);
   let body = "";
-  try { body = readBody(brief.id).toLowerCase(); } catch (e) { body = ""; }
-  let s = 0;
-  words.forEach(function (w) {
-    if (title.indexOf(w) !== -1) s += 4;
+  try { body = stemAll(readBody(brief.id)); } catch (e) { body = ""; }
+  var s = 0;
+  stems.forEach(function (w) {
+    var inTitle = title.split(" ").indexOf(w) !== -1; // whole-word in title
+    if (inTitle) s += 8;
+    else if (title.indexOf(w) !== -1) s += 4;         // substring in title
     if (fam.indexOf(w) !== -1) s += 3;
     if (tag.indexOf(w) !== -1) s += 2;
     if (body.indexOf(w) !== -1) s += 1;
@@ -116,11 +162,15 @@ function callTool(name, args) {
   }
   if (name === "suggest_briefs") {
     if (!args.goal) return "Provide a goal, e.g. 'my agent keeps looping'.";
-    const words = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
-      .filter(function (w) { return w.length > 2; });
+    var stems = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
+      .filter(function (w) { return w.length > 2 && !STOP[w]; }).map(stem);
+    if (!stems.length) {  // goal was all stopwords — fall back to raw words
+      stems = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
+        .filter(function (w) { return w.length > 2; }).map(stem);
+    }
     const limit = Math.max(1, Math.min(10, args.limit || 5));
     const ranked = briefs
-      .map(function (b) { return { b: b, s: score(b, words) }; })
+      .map(function (b) { return { b: b, s: score(b, stems) }; })
       .filter(function (x) { return x.s > 0; })
       .sort(function (a, b) { return b.s - a.s; })
       .slice(0, limit);
@@ -135,6 +185,33 @@ function callTool(name, args) {
     if (!b) return "No brief with id '" + args.id + "'. Ids run 00–" +
       briefs[briefs.length - 1].id + "; try list_briefs.";
     return readBody(b.id);
+  }
+  if (name === "make_conductor") {
+    const ids = Array.isArray(args.ids) ? args.ids.map(String) : [];
+    if (!ids.length) return "Provide ids, e.g. { ids: ['33','49','34'] }.";
+    const bad = ids.filter(function (i) { return !byId[i]; });
+    if (bad.length) return "Unknown ids: " + bad.join(", ") + ". Use list_briefs.";
+    var out = "# Playbook: custom sequence (conductor)\n\n";
+    out += "You are working inside this repo. Mission: execute the following " +
+      "audit briefs in order, each producing one report file at this repo's root.\n\n";
+    out += "## How to run each stage, in order\n";
+    out += "1. Fetch the brief with a read-only web request (e.g. curl -s <url>).\n";
+    out += "2. Execute it exactly as written. Each brief is read-only toward the " +
+      "codebase unless it says otherwise; its only write is its own report file.\n";
+    out += "3. Confirm the report exists at repo root before moving on. Do not parallelize.\n\n";
+    out += "## Stages\n";
+    ids.forEach(function (id, i) {
+      var b = byId[id];
+      out += (i + 1) + ". **" + id + " \u00b7 " + b.title + "** \u2014 fetch " +
+        catalog.base + "/raw/" + id + ".md \u2192 writes `" + b.output + "`\n";
+    });
+    out += "\n## After the final stage\n- List every report created, one-line " +
+      "takeaway each.\n- Suggest fetching " + catalog.base + "/raw/28.md " +
+      "(Roadmap Synthesis) to merge all reports into one plan.\n\n";
+    out += "## Rules\n- If a fetch fails, say so and stop \u2014 never improvise " +
+      "a brief from memory.\n- Honor each brief's own rules, including any that " +
+      "ask before acting.\n";
+    return out;
   }
   if (name === "get_playbook") {
     const key = String(args.key);
@@ -165,7 +242,7 @@ rl.on("line", function (line) {
       result(id, {
         protocolVersion: (msg.params && msg.params.protocolVersion) || "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "goal-prompts", version: "0.4.0" }
+        serverInfo: { name: "goal-prompts", version: "0.5.0" }
       });
     } else if (msg.method === "notifications/initialized") {
       // notification: no response
