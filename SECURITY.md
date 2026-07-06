@@ -1,0 +1,30 @@
+# SECURITY.md
+*Produced by brief 06 · Security & Privacy Audit, run against this repo (goal-prompts, v0.4). Part of the sample-report gallery.*
+
+## Posture summary
+Static site with no backend, no accounts, no stored user data beyond device-local preferences — the attack surface is client-side JavaScript, the supply chain, and the curl-pipe-to-shell installer pattern. Trust boundaries: the search box (only user input reaching the DOM) and everything downloaded by the installer.
+
+## Findings
+
+**1. Self-XSS at the search/empty-state boundary — was High-adjacent · FIXED in 0.4**
+Location: `template.html` empty-state rendering. Risk: user-typed query flowed into `innerHTML`; self-only today, reflected the day anyone adds a `?q=` parameter. Fix shipped: `textContent` construction. Adopted default: user input never meets `innerHTML` anywhere in this codebase.
+
+**2. Installer had no integrity check — Medium · FIXED in 0.4**
+Location: `install`. Risk: curl-pipe-sh delivers whatever the CDN serves; users had no way to detect tampering or corruption. Fix shipped: `build.py` publishes `checksums.txt` (sha256 of both archives); the installer downloads to a temp file and verifies before extracting when `sha256sum` exists, hard-failing on mismatch.
+
+**3. No security headers — Medium · open**
+Location: `vercel.json` (absent `headers` block). Risk: no `X-Content-Type-Options`, `Referrer-Policy`, or frame-ancestors control; a strict CSP is complicated by the inline script and Google Fonts but a baseline is free. Fix: add nosniff, `Referrer-Policy: strict-origin-when-cross-origin`, and `frame-ancestors 'self'` via a headers block. Effort S.
+
+**4. Runtime third-party dependency: Google Fonts — Low · open**
+Location: `template.html` head. Risk: availability and a request leak to a third party on every visit. Fix: self-host both families as woff2 (also an IMPROVEMENTS.md item). Effort M.
+
+**5. MCP server trust scope — informational**
+`mcp/server.cjs` reads only its own package files, takes no network or filesystem input beyond tool arguments, and executes nothing. The meaningful trust decision is `npx github:` itself — users execute this repo's code; the linter and CI keep the diff surface reviewable.
+
+## Fix-this-week
+Finding 3 (headers) — one config block.
+
+## Defaults to adopt
+User input renders via `textContent` only; anything piped to a shell ships a published checksum; new runtime third-party dependencies require a reason in the PR.
+
+*Report only — which fixes should be made?*

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 — 2026-07-06
+- Agent-native catalog: stable raw URLs per brief, playbook conductors,
+  machine-readable catalog.json, and a zero-dependency MCP server
+  (list_briefs / suggest_briefs / get_brief / get_playbook)
+- Context configurator: aim every copied brief at your stack and stage
+- Dogfood gallery at /examples/ — Day-1 playbook run on this repo;
+  two bugs it found (copy-label race, empty-state self-XSS) fixed here
+- Installer now verifies a published sha256 and warns before overwriting
+- Brief linter in the build: 4-phase skeleton, Rules section, ask-first
+  ending, lens counts — enforced on every deploy
+- Per-brief share pages (/b/30) with individual OG cards; discuss links;
+  ctrl/cmd-K; PWA manifest and icons
+
 ## 0.3.0 — 2026-07-06
 - 16 new briefs (30–45) for AI-agent products, in three new families:
   Agent (does the agent deliver?), Automation (does the process hold?),

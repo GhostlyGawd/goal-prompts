@@ -13,6 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
 <meta name="theme-color" content="#14181E">
+<link rel="manifest" href="/manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='32' font-weight='700' text-anchor='middle' fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,6 +254,19 @@
     font-size:11.5px;cursor:pointer;text-decoration:underline;padding:0;
   }
 
+  /* ---------- context configurator ---------- */
+  .ctx{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+  .ctx summary{cursor:pointer;padding:12px 14px;font-family:var(--mono);font-size:12px;color:var(--dim);list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ctx summary::-webkit-details-marker{display:none}
+  .ctx summary .chev{transition:transform .2s;display:inline-block}
+  .ctx[open] summary .chev{transform:rotate(90deg)}
+  .ctx summary .on{color:#52C280}
+  .ctxbody{padding:2px 14px 14px;display:grid;gap:9px}
+  .ctxbody label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px}
+  .ctxbody input{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 11px;outline:0}
+  .ctxbody .hint{font-size:11.5px;color:var(--faint);font-family:var(--mono)}
+  .ctxbody .clearctx{justify-self:start}
+
   @media (max-width:560px){
     header{padding-top:40px}
     .card-top{flex-wrap:wrap}
@@ -272,6 +286,17 @@
   <h1>Goal<br>Prompts<span class="tick">.</span></h1>
   <p class="sub">A growing catalog of mission briefs. Each points the agent at your repo, runs a four-phase audit — explore, audit, curate, report — and leaves one evidence-backed report file behind.</p>
   <div class="stats" id="stats"></div>
+  <details class="ctx" id="ctxbox">
+    <summary><span class="chev">▸</span> aim the briefs at your repo <span class="on" id="ctxon" hidden>· applied to every copy</span></summary>
+    <div class="ctxbody">
+      <div><label for="cstack">stack</label><input id="cstack" data-ctx="stack" placeholder="e.g. Next.js + Supabase + Claude API" autocomplete="off"></div>
+      <div><label for="ctype">product</label><input id="ctype" data-ctx="product" placeholder="e.g. AI agent that automates invoice processing" autocomplete="off"></div>
+      <div><label for="cstage">stage</label><input id="cstage" data-ctx="stage" placeholder="e.g. beta, ~200 users, solo dev" autocomplete="off"></div>
+      <div><label for="cnotes">watch out for</label><input id="cnotes" data-ctx="notes" placeholder="e.g. payments code is fragile" autocomplete="off"></div>
+      <p class="hint">saved on this device · appended to every brief you copy as an “Operator context” section</p>
+      <button class="iconbtn clearctx" id="ctxclear">clear</button>
+    </div>
+  </details>
 </header>
 
 <div class="toolbar wrap">
@@ -298,6 +323,11 @@
       <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
       <p>Run from a repo root. Every brief becomes a native Claude Code command — <span style="font-family:var(--mono)">/goal:bug-hunt</span>, <span style="font-family:var(--mono)">/goal:prune-audit</span>, <span style="font-family:var(--mono)">/goal:roadmap-synthesis</span>… Prefer a file? <a href="/commands.zip">commands.zip</a></p>
     </div>
+    <div class="installbox">
+      <b>For agents — call the catalog directly</b>
+      <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
+      <p>An MCP server with <span style="font-family:var(--mono)">list_briefs</span>, <span style="font-family:var(--mono)">suggest_briefs</span>, and <span style="font-family:var(--mono)">get_brief</span> — your agent pulls the right audit mid-conversation. Every brief also lives at a stable URL (<a href="/raw/30.md">/raw/30.md</a>), each playbook ships a one-paste <a href="/raw/playbook-day1.md">conductor</a>, the machine index is <a href="/catalog.json">/catalog.json</a>, and real output lives in the <a href="/examples/">sample reports</a>.</p>
+    </div>
     <p class="buildnote">source of truth: <code>prompts/&lt;family&gt;/*.md</code> · rebuild with <code>python3 build.py</code> · every body &lt; 4k chars, enforced by the build · <a href="https://github.com/GhostlyGawd/goal-prompts" style="color:var(--dim)">github</a> · <button class="reset" id="reset">reset run tracker</button></p>
   </div>
 </footer>
@@ -321,14 +351,7 @@ const FAMILIES = [
   ["Automation","does the process hold?"],
   ["AI-UX","does the human trust it?"]
 ];
-const PLAYBOOKS = [
-  {key:"day1", name:"Day-1 New Repo", desc:"First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.", ids:["00","01","06","14"]},
-  {key:"prelaunch", name:"Pre-Launch", desc:"The night-before checks: safe, accessible, deployable, ready for a bad day.", ids:["06","08","23","25"]},
-  {key:"cleaning", name:"Spring Cleaning", desc:"Make it smaller and clearer: delete, simplify, then map what debt remains.", ids:["26","27","13","22"]},
-  {key:"vitals", name:"Weekly Vitals", desc:"Ten minutes, trend arrows. Re-run every week.", ids:["29"]},
-  {key:"agentday1", name:"Agent Day-1", desc:"First contact with an agent codebase: read its mind, its hands, its loops, its traces.", ids:["30","31","32","37"]},
-  {key:"shipcheck", name:"Agent Ship-Check", desc:"Before an agent touches real users: guarded, evaluated, supervised, affordable.", ids:["35","34","43","38"]}
-];
+const PLAYBOOKS = __PLAYBOOKS_JSON__;
 const fkey = f => "f-" + f.toLowerCase();
 const byId = {};
 DATA.forEach(p => byId[p.id] = p);
@@ -342,6 +365,22 @@ let runs = {};
 try{ runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}; }catch(e){ runs = {}; }
 function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} }
 function runCount(){ return Object.keys(runs).filter(k => runs[k]).length; }
+
+/* ---- operator context ---- */
+let ctx = {};
+try{ ctx = JSON.parse(localStorage.getItem("gp-ctx") || "{}") || {}; }catch(e){ ctx = {}; }
+function ctxActive(){ return Object.values(ctx).some(v => v && String(v).trim()); }
+function saveCtx(){ try{ localStorage.setItem("gp-ctx", JSON.stringify(ctx)); }catch(e){} syncCtxUi(); renderStats(); }
+function withContext(body){
+  if(!ctxActive()) return body;
+  const L = [];
+  if(ctx.stack) L.push("- Stack: " + ctx.stack);
+  if(ctx.product) L.push("- Product: " + ctx.product);
+  if(ctx.stage) L.push("- Stage: " + ctx.stage);
+  if(ctx.notes) L.push("- Watch out for: " + ctx.notes);
+  return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
+}
+function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); }
 
 /* ---- stats ---- */
 function renderStats(){
@@ -357,6 +396,7 @@ function renderStats(){
   } else {
     s.append(mk("<b>1</b> tap to copy"));
   }
+  if(ctxActive()){ const c = mk("<b>ctx</b> aimed"); c.className = "ran"; s.append(c); }
 }
 
 /* ---- chips ---- */
@@ -400,9 +440,10 @@ function buildPbs(){
 
 /* ---- copy ---- */
 function feedback(btn, ok){
-  const old = btn.textContent;
+  if(!btn.dataset.label) btn.dataset.label = btn.textContent;
+  clearTimeout(btn._t);
   btn.textContent = ok; btn.classList.add("done");
-  setTimeout(()=>{btn.textContent = old; btn.classList.remove("done");}, 1600);
+  btn._t = setTimeout(()=>{btn.textContent = btn.dataset.label; btn.classList.remove("done");}, 1600);
 }
 function copyText(txt, btn, ok, evt){
   const done = ()=>{
@@ -453,7 +494,7 @@ function card(p, idx, stepNo){
   const btn = document.createElement("button");
   btn.className = "copy"; btn.textContent = "Copy";
   btn.setAttribute("aria-label","Copy prompt: "+p.title);
-  btn.onclick = e=>{e.stopPropagation(); copyText(p.body, btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});};
+  btn.onclick = e=>{e.stopPropagation(); copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});};
   top.append(num, tt, btn);
 
   const meta = document.createElement("div"); meta.className="card-meta";
@@ -469,7 +510,7 @@ function card(p, idx, stepNo){
   const share = document.createElement("button"); share.className="iconbtn";
   share.textContent = "link";
   share.setAttribute("aria-label","Copy link to "+p.title);
-  share.onclick = ()=>copyText(location.origin + "/#" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
+  share.onclick = ()=>copyText(location.origin + "/b/" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
   const run = document.createElement("button"); run.className="iconbtn" + (runs[p.id] ? " on" : "");
   run.textContent = runs[p.id] ? "✓ run" : "mark run";
   run.setAttribute("aria-pressed", !!runs[p.id]);
@@ -483,7 +524,10 @@ function card(p, idx, stepNo){
     run.setAttribute("aria-pressed", !!runs[p.id]);
     renderNudge();
   };
-  meta.append(out, ch, view, share, run);
+  const disc = document.createElement("a"); disc.className = "iconbtn";
+  disc.textContent = "discuss"; disc.target = "_blank"; disc.rel = "noopener";
+  disc.href = "https://github.com/GhostlyGawd/goal-prompts/discussions/new?category=general&title=" + encodeURIComponent(p.id + " · " + p.title);
+  meta.append(out, ch, view, share, run, disc);
 
   const body = document.createElement("div"); body.className="body";
   const pre = document.createElement("pre"); pre.textContent = p.body;
@@ -509,7 +553,8 @@ function render(){
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
-    e.innerHTML = "nothing matches <b>“"+query+"”</b> — try another word or clear the filter";
+    const bq = document.createElement("b"); bq.textContent = "“"+query+"”";
+    e.append("nothing matches ", bq, " — try another word or clear the filter");
     listEl.append(e); return;
   }
   let i = 0;
@@ -520,6 +565,13 @@ function render(){
     fh.className = "famhead";
     fh.innerHTML = '<span class="name" style="color:var(--amber)">'+pb.name+'</span><span class="q">'+pb.desc+'</span><span class="rule"></span>';
     listEl.append(fh);
+    const cbar = document.createElement("div"); cbar.className = "nudge";
+    cbar.append("Run the whole playbook with one paste — the conductor fetches each brief in order and writes every report. ");
+    const cbtn = document.createElement("button"); cbtn.className = "iconbtn";
+    cbtn.textContent = "copy conductor";
+    cbtn.onclick = ()=>copyText(pb.conductor, cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
+    cbar.append(cbtn);
+    listEl.append(cbar);
     let step = 1;
     for(const p of shown) listEl.append(card(p, i++, pb.ids.length>1 ? step++ : null));
     return;
@@ -562,12 +614,23 @@ const qEl = document.getElementById("q");
 qEl.addEventListener("input", ()=>{query = qEl.value.trim().toLowerCase(); render();});
 document.addEventListener("keydown", e=>{
   if(e.key==="/" && document.activeElement!==qEl){e.preventDefault(); qEl.focus();}
+  if((e.key==="k"||e.key==="K") && (e.metaKey||e.ctrlKey)){e.preventDefault(); qEl.focus(); qEl.select();}
 });
 
 /* ---- footer wiring ---- */
 document.getElementById("copyinstall").onclick = function(){
   copyText(document.getElementById("installcmd").textContent, this, "✓", {name:"copy_install"});
 };
+document.getElementById("copymcp").onclick = function(){
+  copyText(document.getElementById("mcpcmd").textContent, this, "✓", {name:"copy_mcp"});
+};
+document.querySelectorAll("[data-ctx]").forEach(el=>{
+  el.value = ctx[el.dataset.ctx] || "";
+  el.addEventListener("input", ()=>{ ctx[el.dataset.ctx] = el.value.trim(); if(!ctx[el.dataset.ctx]) delete ctx[el.dataset.ctx]; saveCtx(); });
+});
+document.getElementById("ctxclear").onclick = ()=>{ ctx = {}; saveCtx();
+  document.querySelectorAll("[data-ctx]").forEach(el=>{ el.value = ""; }); };
+syncCtxUi();
 document.getElementById("reset").onclick = ()=>{
   if(!runCount()) return;
   if(confirm("Clear all "+runCount()+" run marks?")){

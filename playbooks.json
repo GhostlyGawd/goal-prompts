@@ -1,0 +1,8 @@
+[
+  {"key":"day1","name":"Day-1 New Repo","desc":"First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.","ids":["00","01","06","14"]},
+  {"key":"prelaunch","name":"Pre-Launch","desc":"The night-before checks: safe, accessible, deployable, ready for a bad day.","ids":["06","08","23","25"]},
+  {"key":"cleaning","name":"Spring Cleaning","desc":"Make it smaller and clearer: delete, simplify, then map what debt remains.","ids":["26","27","13","22"]},
+  {"key":"vitals","name":"Weekly Vitals","desc":"Ten minutes, trend arrows. Re-run every week.","ids":["29"]},
+  {"key":"agentday1","name":"Agent Day-1","desc":"First contact with an agent codebase: read its mind, its hands, its loops, its traces.","ids":["30","31","32","37"]},
+  {"key":"shipcheck","name":"Agent Ship-Check","desc":"Before an agent touches real users: guarded, evaluated, supervised, affordable.","ids":["35","34","43","38"]}
+]

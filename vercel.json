@@ -1,4 +1,6 @@
 {
   "buildCommand": "python3 build.py",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "installCommand": "",
+  "cleanUrls": true
 }

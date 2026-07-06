@@ -9,13 +9,30 @@ if [ ! -d .git ]; then
   printf 'note: no .git here — installing into %s/.claude/commands anyway\n' "$PWD"
 fi
 mkdir -p "$DEST"
+TMP=$(mktemp)
+trap 'rm -f "$TMP"' EXIT
 printf 'Downloading goal prompts…\n'
-curl -fsSL "$BASE/commands.tar.gz" | tar -xz -C "$DEST"
+curl -fsSL "$BASE/commands.tar.gz" -o "$TMP"
+
+if command -v sha256sum >/dev/null 2>&1; then
+  WANT=$(curl -fsSL "$BASE/checksums.txt" 2>/dev/null | grep ' commands.tar.gz' | cut -d' ' -f1 || true)
+  GOT=$(sha256sum "$TMP" | cut -d' ' -f1)
+  if [ -n "$WANT" ] && [ "$WANT" != "$GOT" ]; then
+    printf 'ERROR: checksum mismatch — refusing to install.\n' >&2
+    exit 1
+  fi
+  printf 'Checksum verified.\n'
+fi
+
+if [ -d "$DEST/goal" ]; then
+  printf 'Existing %s/goal found — updating in place (local edits to those files will be overwritten).\n' "$DEST"
+fi
+tar -xzf "$TMP" -C "$DEST"
 N=$(ls "$DEST/goal" | wc -l | tr -d ' ')
 printf 'Installed %s commands into %s/goal/\n\n' "$N" "$DEST"
 printf 'In Claude Code, try:\n'
 printf '  /goal:product-improvement   the flagship discovery audit\n'
 printf '  /goal:bug-hunt              find what is already broken\n'
-printf '  /goal:prune-audit           find what can be deleted\n'
+printf '  /goal:loop-termination-audit  how your agent runs end\n'
 printf '  /goal:roadmap-synthesis     run last — merges all reports\n\n'
 printf 'Catalog: %s\n' "$BASE"
