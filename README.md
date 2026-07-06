@@ -4,7 +4,7 @@ Thirty mission briefs for Claude Code (or any coding agent). Each one points the
 
 Every prompt body is under 4,000 characters.
 
-**Live:** https://goal-prompts.vercel.app · MIT licensed
+**Live:** https://goal-prompts.vercel.app · **Source:** https://github.com/GhostlyGawd/goal-prompts · MIT licensed
 
 ## Install as slash commands
 
@@ -84,5 +84,6 @@ The build injects all prompts into `template.html` and writes `index.html`. It f
 
 ## Contributing
 
-See `CONTRIBUTING.md`. CI runs `build.py` on every PR and fails on
-oversized briefs or uncommitted generated files.
+See `CONTRIBUTING.md`. Every push is built on Vercel with `build.py` as a
+hard gate — an oversized brief blocks the deploy. An optional GitHub
+Actions workflow lives at `.github/ci.example.yml`.
