@@ -1,0 +1,48 @@
+---
+id: "01"
+title: Bug Hunt
+family: Quality
+question: does it work?
+output: BUGS.md
+tagline: Trace latent bugs, unhandled edge cases, and race conditions; rank by user pain with repro paths and fix sketches.
+---
+# Goal: Bug Hunt
+
+You are working inside this repo. Mission: find the bugs that are already here — latent, intermittent, or quietly shipping — and rank them by user pain. Not style issues, not refactors: defects.
+
+Read anything, run read-only checks (tests, linters, the app itself). Don't fix anything yet. Your only write is the report file.
+
+## Phase 1 — Map the blast zones
+Before hunting, learn where bugs hurt most:
+- Which flows touch money, auth, or irreversible data changes?
+- Where does state live, and who mutates it?
+- Which code is newest, most complex, or most-edited? (check git log)
+
+## Phase 2 — Hunt through 8 lenses
+Cite file and line for every suspect.
+1. **Unhandled failures** — missing try/catch on I/O, unchecked return values, promise rejections with no handler
+2. **Null paths** — optional data dereferenced as if guaranteed; API responses trusted blindly
+3. **Race conditions** — async ordering assumptions, stale closures, double-submits, missing debounce/locks
+4. **Boundaries** — empty lists, zero, negative, huge inputs, unicode, max lengths, pagination edges
+5. **Time & math** — timezone handling, off-by-one, float comparison, date arithmetic across DST
+6. **State drift** — UI state vs server truth, cache invalidation gaps, optimistic updates that never reconcile
+7. **Validation gaps** — client-only validation, type coercion surprises, trusting input shape
+8. **Leaks** — listeners, subscriptions, timers, connections never cleaned up
+
+## Phase 3 — Curate
+- Keep only suspects you can argue from the code, with a plausible trigger scenario
+- Severity: **S1** data loss / security / money · **S2** feature broken for some users · **S3** annoyance
+- Confidence: certain / likely / worth-verifying
+
+## Phase 4 — Report
+Create `BUGS.md` at repo root:
+1. **Summary** — count by severity; the single scariest finding
+2. **Findings** — each: Name · Severity + confidence · Location (path:line) · Trigger (how a user hits it) · Expected vs actual · Root-cause hypothesis · Fix sketch (2–3 lines) · Effort S/M/L
+3. **Verification plan** — fastest way to confirm each worth-verifying item
+4. **Top 3 to fix first** — and why
+
+## Rules
+- Evidence or it doesn't exist: every finding cites code
+- A trigger scenario is required — "this looks wrong" isn't a bug report
+- Depth on real defects beats volume of nitpicks
+- Report only — end by asking which bugs to fix

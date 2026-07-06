@@ -1,0 +1,21 @@
+#!/bin/sh
+# goal-prompts installer — https://goal-prompts.vercel.app
+# Installs 30 audit briefs as Claude Code slash commands (/goal:*)
+set -e
+BASE="https://goal-prompts.vercel.app"
+DEST=".claude/commands"
+
+if [ ! -d .git ]; then
+  printf 'note: no .git here — installing into %s/.claude/commands anyway\n' "$PWD"
+fi
+mkdir -p "$DEST"
+printf 'Downloading goal prompts…\n'
+curl -fsSL "$BASE/commands.tar.gz" | tar -xz -C "$DEST"
+N=$(ls "$DEST/goal" | wc -l | tr -d ' ')
+printf 'Installed %s commands into %s/goal/\n\n' "$N" "$DEST"
+printf 'In Claude Code, try:\n'
+printf '  /goal:product-improvement   the flagship discovery audit\n'
+printf '  /goal:bug-hunt              find what is already broken\n'
+printf '  /goal:prune-audit           find what can be deleted\n'
+printf '  /goal:roadmap-synthesis     run last — merges all reports\n\n'
+printf 'Catalog: %s\n' "$BASE"

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goal Prompts — 30 mission briefs for Claude Code</title>
+<meta name="description" content="30 copy-paste mission briefs for Claude Code — audits for quality, speed, trust, growth and more. Each leaves one evidence-backed report in your repo.">
+<meta property="og:title" content="Goal Prompts — 30 mission briefs for Claude Code">
+<meta property="og:description" content="Point Claude Code at your repo. Each brief runs a four-phase audit — explore, audit, curate, report — and leaves one report behind. Free and open, every brief under 4k chars.">
+<meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
+<meta property="og:url" content="https://goal-prompts.vercel.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="theme-color" content="#14181E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='32' font-weight='700' text-anchor='middle' fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<style>
+  :root{
+    --ink:#14181E;
+    --panel:#1B212B;
+    --panel-2:#202834;
+    --line:#2A3340;
+    --text:#E2E6EC;
+    --dim:#8B96A5;
+    --faint:#5C6675;
+    --amber:#E8B44C;
+    --radius:10px;
+    --sans:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  /* family colors — the structural signature: color = family, everywhere */
+  .f-product{--fc:#E8B44C}.f-quality{--fc:#E8705F}.f-speed{--fc:#4D9FFF}
+  .f-trust{--fc:#52C280}.f-growth{--fc:#A98CF5}.f-team{--fc:#3FC1C9}
+  .f-clarity{--fc:#9AD4E8}.f-data{--fc:#F0904A}.f-ops{--fc:#B4C64A}
+  .f-subtract{--fc:#E87FB0}.f-meta{--fc:#C4CBD8}
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--text);font-family:var(--sans);
+    font-size:16px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* ---------- masthead ---------- */
+  header{padding:56px 0 8px}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    color:var(--dim);text-transform:uppercase;
+  }
+  .eyebrow b{color:var(--text);font-weight:500}
+  h1{
+    font-weight:900;font-size:clamp(44px,9vw,72px);line-height:.95;
+    letter-spacing:-.02em;text-transform:uppercase;margin:14px 0 16px;
+  }
+  h1 .tick{color:var(--amber)}
+  .sub{color:var(--dim);max-width:56ch;font-size:15px}
+  .stats{
+    display:flex;gap:20px;flex-wrap:wrap;margin-top:22px;
+    font-family:var(--mono);font-size:12.5px;color:var(--dim);
+  }
+  .stats span b{color:var(--text);font-weight:600}
+  .stats .ran b{color:#52C280}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{padding:26px 0 6px;position:sticky;top:0;z-index:5;
+    background:linear-gradient(var(--ink) 82%,transparent)}
+  .search{
+    display:flex;align-items:center;gap:10px;background:var(--panel);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:11px 14px;
+  }
+  .search svg{flex:none;opacity:.5}
+  .search input{
+    flex:1;background:none;border:0;outline:0;color:var(--text);
+    font-family:var(--sans);font-size:15px;min-width:0;
+  }
+  .search input::placeholder{color:var(--faint)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:12px;color:var(--dim);
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:999px;padding:7px 12px;cursor:pointer;
+    transition:border-color .15s,color .15s,background .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--fc,var(--dim));flex:none}
+  .chip .n{color:var(--faint)}
+  .chip:hover{border-color:var(--fc,var(--dim));color:var(--text)}
+  .chip[aria-pressed="true"]{
+    border-color:var(--fc,var(--text));color:var(--text);
+    background:color-mix(in srgb,var(--fc,#fff) 12%,var(--panel));
+  }
+  .chip:focus-visible,button:focus-visible,input:focus-visible,a:focus-visible{
+    outline:2px solid var(--amber);outline-offset:2px;
+  }
+
+  /* ---------- playbooks ---------- */
+  .pbs{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .pblabel{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint);
+    align-self:center;margin-right:3px;
+  }
+  .pb{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:12px;color:var(--dim);
+    background:transparent;border:1px dashed var(--line);
+    border-radius:999px;padding:7px 12px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:border-color .15s,color .15s,background .15s;
+  }
+  .pb .len{color:var(--faint)}
+  .pb:hover{border-color:var(--dim);color:var(--text)}
+  .pb[aria-pressed="true"]{
+    border-style:solid;border-color:var(--amber);color:var(--text);
+    background:color-mix(in srgb,#E8B44C 10%,var(--panel));
+  }
+
+  /* ---------- catalog ---------- */
+  main{padding:10px 0 24px}
+  .famhead{
+    display:flex;align-items:baseline;gap:12px;margin:34px 0 12px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;
+  }
+  .famhead .name{color:var(--fc);text-transform:uppercase;font-weight:600}
+  .famhead .q{color:var(--faint);letter-spacing:.02em;font-style:italic;font-family:var(--sans);font-size:13px}
+  .famhead .rule{flex:1;height:1px;background:var(--line)}
+
+  .nudge{
+    margin:20px 0 4px;padding:12px 14px;
+    border:1px solid var(--line);border-left:3px solid #C4CBD8;
+    border-radius:var(--radius);
+    background:var(--panel);font-size:13.5px;color:var(--dim);
+  }
+  .nudge a{color:var(--amber);font-family:var(--mono);text-decoration:none}
+  .nudge a:hover{text-decoration:underline}
+
+  .card{
+    background:var(--panel);border:1px solid var(--line);
+    border-left:3px solid var(--fc);border-radius:var(--radius);
+    padding:16px 16px 14px;margin-bottom:10px;
+    animation:rise .4s cubic-bezier(.2,.7,.3,1) both;
+    scroll-margin-top:120px;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .card.flash{outline:2px solid var(--fc);outline-offset:2px}
+  .card-top{display:flex;align-items:flex-start;gap:12px}
+  .num{
+    font-family:var(--mono);font-size:22px;font-weight:600;color:var(--fc);
+    line-height:1.25;flex:none;min-width:34px;
+  }
+  .stepno{
+    display:inline-block;font-family:var(--mono);font-size:10.5px;
+    font-weight:700;color:var(--ink);background:var(--amber);
+    border-radius:6px;padding:2px 7px;margin-bottom:4px;
+  }
+  .card h2{font-size:17.5px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+  .tagline{color:var(--dim);font-size:13.5px;margin-top:4px;line-height:1.45}
+  .copy{
+    flex:none;margin-left:auto;
+    font-family:var(--mono);font-size:12.5px;font-weight:600;
+    color:var(--ink);background:var(--fc);border:0;border-radius:8px;
+    padding:10px 14px;min-height:40px;cursor:pointer;
+    transition:transform .1s,filter .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .copy:hover{filter:brightness(1.1)}
+  .copy:active{transform:scale(.96)}
+  .copy.done{background:var(--text);color:var(--ink)}
+  .card-meta{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--faint);
+  }
+  .out{
+    color:var(--dim);background:var(--panel-2);border:1px solid var(--line);
+    border-radius:6px;padding:2px 7px;
+  }
+  .out::before{content:"→ ";color:var(--fc)}
+  .view{
+    background:none;border:0;color:var(--dim);cursor:pointer;
+    font-family:var(--mono);font-size:11.5px;padding:2px 0;
+    display:inline-flex;align-items:center;gap:5px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .view:hover{color:var(--text)}
+  .view .chev{transition:transform .2s;display:inline-block}
+  .card.open .view .chev{transform:rotate(90deg)}
+  .iconbtn{
+    background:none;border:1px solid var(--line);border-radius:8px;
+    color:var(--dim);cursor:pointer;font-family:var(--mono);
+    font-size:11.5px;padding:5px 9px;min-height:28px;
+    display:inline-flex;align-items:center;gap:5px;
+    -webkit-tap-highlight-color:transparent;
+    transition:border-color .15s,color .15s;
+  }
+  .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  .iconbtn.on{color:#52C280;border-color:#52C280}
+  .body{display:none;margin-top:12px}
+  .card.open .body{display:block}
+  .body pre{
+    font-family:var(--mono);font-size:12px;line-height:1.62;
+    color:#C7CEDA;background:var(--ink);border:1px solid var(--line);
+    border-radius:8px;padding:14px;overflow-x:auto;white-space:pre-wrap;
+    word-break:break-word;max-height:60vh;overflow-y:auto;
+  }
+  .empty{
+    text-align:center;color:var(--faint);font-family:var(--mono);
+    font-size:13px;padding:56px 0;
+  }
+  .empty b{color:var(--dim);font-weight:500}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);margin-top:28px;padding:30px 0 60px}
+  .how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .step{font-size:13.5px;color:var(--dim);line-height:1.5}
+  .step b{
+    display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--text);margin-bottom:5px;
+  }
+  .installbox{
+    margin-top:26px;padding:14px;border:1px solid var(--line);
+    border-radius:var(--radius);background:var(--panel);
+  }
+  .installbox b{
+    display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--text);margin-bottom:7px;
+  }
+  .installbox p{font-size:13px;color:var(--dim);margin-top:8px}
+  .installbox p a{color:var(--dim)}
+  .cmd{
+    display:flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:12px;color:#C7CEDA;
+    background:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;overflow-x:auto;
+  }
+  .cmd code{flex:1;white-space:nowrap}
+  .cmd .iconbtn{flex:none}
+  .buildnote{
+    margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--faint);
+  }
+  .buildnote code{color:var(--dim)}
+  .reset{
+    background:none;border:0;color:var(--faint);font-family:var(--mono);
+    font-size:11.5px;cursor:pointer;text-decoration:underline;padding:0;
+  }
+
+  @media (max-width:560px){
+    header{padding-top:40px}
+    .card-top{flex-wrap:wrap}
+    .copy{margin-left:0;width:100%;order:9;margin-top:2px}
+    .num{min-width:30px;font-size:19px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="eyebrow">a field manual for <b>claude code</b></div>
+  <h1>Goal<br>Prompts<span class="tick">.</span></h1>
+  <p class="sub">Thirty mission briefs. Each points the agent at your repo, runs a four-phase audit — explore, audit, curate, report — and leaves one evidence-backed report file behind.</p>
+  <div class="stats" id="stats"></div>
+</header>
+
+<div class="toolbar wrap">
+  <div class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Search briefs — try “errors”, “funnel”, “delete”…" autocomplete="off" aria-label="Search prompts">
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Filter by family"></div>
+  <div class="pbs" id="pbs" role="group" aria-label="Playbooks"></div>
+</div>
+
+<main class="wrap" id="list" aria-live="polite"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="how">
+      <div class="step"><b>1 · Copy</b>Tap Copy on any brief. The whole prompt lands on your clipboard.</div>
+      <div class="step"><b>2 · Paste</b>Drop it into Claude Code inside the repo you want audited.</div>
+      <div class="step"><b>3 · Read</b>The agent writes its report — BUGS.md, PERF.md… — at your repo root.</div>
+      <div class="step"><b>4 · Compose</b>Run 28 · Roadmap Synthesis last. It merges every report into ROADMAP.md.</div>
+    </div>
+    <div class="installbox">
+      <b>Install all 30 as slash commands</b>
+      <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p>Run from a repo root. Every brief becomes a native Claude Code command — <span style="font-family:var(--mono)">/goal:bug-hunt</span>, <span style="font-family:var(--mono)">/goal:prune-audit</span>, <span style="font-family:var(--mono)">/goal:roadmap-synthesis</span>… Prefer a file? <a href="/commands.zip">commands.zip</a></p>
+    </div>
+    <p class="buildnote">source of truth: <code>prompts/&lt;family&gt;/*.md</code> · rebuild with <code>python3 build.py</code> · every body &lt; 4k chars, enforced by the build · <button class="reset" id="reset">reset run tracker</button></p>
+  </div>
+</footer>
+
+<script>
+const DATA = __PROMPTS_JSON__;
+
+const FAMILIES = [
+  ["Product","what could this be?"],
+  ["Quality","does it work?"],
+  ["Speed","does it scale?"],
+  ["Trust","is it safe?"],
+  ["Growth","does it grow?"],
+  ["Team","can others build on it?"],
+  ["Clarity","is it understood?"],
+  ["Data","is it sound?"],
+  ["Ops","does it run?"],
+  ["Subtract","what should go?"],
+  ["Meta","do the reports compose?"]
+];
+const PLAYBOOKS = [
+  {key:"day1", name:"Day-1 New Repo", desc:"First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.", ids:["00","01","06","14"]},
+  {key:"prelaunch", name:"Pre-Launch", desc:"The night-before checks: safe, accessible, deployable, ready for a bad day.", ids:["06","08","23","25"]},
+  {key:"cleaning", name:"Spring Cleaning", desc:"Make it smaller and clearer: delete, simplify, then map what debt remains.", ids:["26","27","13","22"]},
+  {key:"vitals", name:"Weekly Vitals", desc:"Ten minutes, trend arrows. Re-run every week.", ids:["29"]}
+];
+const fkey = f => "f-" + f.toLowerCase();
+const byId = {};
+DATA.forEach(p => byId[p.id] = p);
+
+let activeFam = "All";
+let activePb = null;
+let query = "";
+
+/* ---- run tracker ---- */
+let runs = {};
+try{ runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}; }catch(e){ runs = {}; }
+function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} }
+function runCount(){ return Object.keys(runs).filter(k => runs[k]).length; }
+
+/* ---- stats ---- */
+function renderStats(){
+  const s = document.getElementById("stats");
+  s.textContent = "";
+  const mk = (h)=>{const e=document.createElement("span"); e.innerHTML=h; return e;};
+  s.append(mk("<b>"+DATA.length+"</b> briefs"), mk("<b>"+FAMILIES.length+"</b> families"), mk("<b>&lt;4k</b> chars each"));
+  const n = runCount();
+  if(n > 0){
+    const r = mk("<b>"+n+"/"+DATA.length+"</b> run");
+    r.className = "ran";
+    s.append(r);
+  } else {
+    s.append(mk("<b>1</b> tap to copy"));
+  }
+}
+
+/* ---- chips ---- */
+const chipsEl = document.getElementById("chips");
+function buildChips(){
+  chipsEl.textContent = "";
+  const all = document.createElement("button");
+  all.className = "chip";
+  all.setAttribute("aria-pressed", activeFam==="All" && !activePb);
+  all.innerHTML = '<span class="dot" style="background:linear-gradient(90deg,#E8B44C,#4D9FFF,#E87FB0)"></span>All <span class="n">'+DATA.length+"</span>";
+  all.onclick = ()=>{activeFam="All"; activePb=null; sync();};
+  chipsEl.append(all);
+  for(const [name] of FAMILIES){
+    const n = DATA.filter(p=>p.family===name).length;
+    if(!n) continue;
+    const b = document.createElement("button");
+    b.className = "chip " + fkey(name);
+    b.setAttribute("aria-pressed", activeFam===name);
+    b.innerHTML = '<span class="dot"></span>'+name+' <span class="n">'+n+"</span>";
+    b.onclick = ()=>{activeFam = activeFam===name ? "All" : name; activePb=null; sync();};
+    chipsEl.append(b);
+  }
+}
+
+/* ---- playbooks ---- */
+const pbsEl = document.getElementById("pbs");
+function buildPbs(){
+  pbsEl.textContent = "";
+  const lab = document.createElement("span");
+  lab.className = "pblabel"; lab.textContent = "playbooks";
+  pbsEl.append(lab);
+  for(const pb of PLAYBOOKS){
+    const b = document.createElement("button");
+    b.className = "pb";
+    b.setAttribute("aria-pressed", activePb===pb.key);
+    b.innerHTML = pb.name + ' <span class="len">'+pb.ids.length+"</span>";
+    b.onclick = ()=>{ activePb = activePb===pb.key ? null : pb.key; activeFam="All"; sync(); };
+    pbsEl.append(b);
+  }
+}
+
+/* ---- copy ---- */
+function feedback(btn, ok){
+  const old = btn.textContent;
+  btn.textContent = ok; btn.classList.add("done");
+  setTimeout(()=>{btn.textContent = old; btn.classList.remove("done");}, 1600);
+}
+function copyText(txt, btn, ok, evt){
+  const done = ()=>{
+    feedback(btn, ok || "Copied ✓");
+    if(evt){ try{ window.va("event", evt); }catch(e){} }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallback());
+  } else fallback();
+  function fallback(){
+    const ta = document.createElement("textarea");
+    ta.value = txt; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.append(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ btn.textContent="copy failed"; }
+    ta.remove();
+  }
+}
+
+/* ---- render ---- */
+const listEl = document.getElementById("list");
+function matches(p){
+  if(activePb){
+    const pb = PLAYBOOKS.find(x=>x.key===activePb);
+    if(!pb.ids.includes(p.id)) return false;
+  }
+  if(activeFam!=="All" && p.family!==activeFam) return false;
+  if(!query) return true;
+  const h = (p.id+" "+p.title+" "+p.tagline+" "+p.family+" "+p.output+" "+p.body).toLowerCase();
+  return query.split(/\s+/).every(t=>h.includes(t));
+}
+function card(p, idx, stepNo){
+  const c = document.createElement("article");
+  c.className = "card " + fkey(p.family);
+  c.id = "p" + p.id;
+  c.style.animationDelay = Math.min(idx*35, 420) + "ms";
+
+  const top = document.createElement("div"); top.className="card-top";
+  const num = document.createElement("div"); num.className="num";
+  if(stepNo){
+    const st = document.createElement("span"); st.className="stepno"; st.textContent = "step " + stepNo;
+    num.append(st, document.createElement("br"));
+  }
+  num.append(document.createTextNode(p.id));
+  const tt = document.createElement("div");
+  const h2 = document.createElement("h2"); h2.textContent = p.title;
+  const tg = document.createElement("p"); tg.className="tagline"; tg.textContent = p.tagline;
+  tt.append(h2, tg);
+  const btn = document.createElement("button");
+  btn.className = "copy"; btn.textContent = "Copy";
+  btn.setAttribute("aria-label","Copy prompt: "+p.title);
+  btn.onclick = e=>{e.stopPropagation(); copyText(p.body, btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});};
+  top.append(num, tt, btn);
+
+  const meta = document.createElement("div"); meta.className="card-meta";
+  const out = document.createElement("span"); out.className="out"; out.textContent = p.output;
+  const ch = document.createElement("span"); ch.textContent = (p.chars/1000).toFixed(1)+"k";
+  const view = document.createElement("button"); view.className="view";
+  view.innerHTML = '<span class="chev">▸</span> view';
+  view.setAttribute("aria-expanded","false");
+  view.onclick = ()=>{
+    const open = c.classList.toggle("open");
+    view.setAttribute("aria-expanded", open);
+  };
+  const share = document.createElement("button"); share.className="iconbtn";
+  share.textContent = "link";
+  share.setAttribute("aria-label","Copy link to "+p.title);
+  share.onclick = ()=>copyText(location.origin + "/#" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
+  const run = document.createElement("button"); run.className="iconbtn" + (runs[p.id] ? " on" : "");
+  run.textContent = runs[p.id] ? "✓ run" : "mark run";
+  run.setAttribute("aria-pressed", !!runs[p.id]);
+  run.setAttribute("aria-label","Mark "+p.title+" as run");
+  run.onclick = ()=>{
+    runs[p.id] = !runs[p.id];
+    if(!runs[p.id]) delete runs[p.id];
+    saveRuns(); renderStats();
+    run.className = "iconbtn" + (runs[p.id] ? " on" : "");
+    run.textContent = runs[p.id] ? "✓ run" : "mark run";
+    run.setAttribute("aria-pressed", !!runs[p.id]);
+    renderNudge();
+  };
+  meta.append(out, ch, view, share, run);
+
+  const body = document.createElement("div"); body.className="body";
+  const pre = document.createElement("pre"); pre.textContent = p.body;
+  body.append(pre);
+
+  c.append(top, meta, body);
+  return c;
+}
+function renderNudge(){
+  const old = document.getElementById("nudge");
+  if(old) old.remove();
+  if(activePb || query || activeFam!=="All") return;
+  const n = runCount();
+  if(n >= 5 && !runs["28"]){
+    const d = document.createElement("div");
+    d.className = "nudge"; d.id = "nudge";
+    d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
+    listEl.prepend(d);
+  }
+}
+function render(){
+  listEl.textContent = "";
+  let shown = DATA.filter(matches);
+  if(!shown.length){
+    const e = document.createElement("div"); e.className="empty";
+    e.innerHTML = "nothing matches <b>“"+query+"”</b> — try another word or clear the filter";
+    listEl.append(e); return;
+  }
+  let i = 0;
+  if(activePb){
+    const pb = PLAYBOOKS.find(x=>x.key===activePb);
+    shown = pb.ids.map(id=>byId[id]).filter(p=>p && matches(p));
+    const fh = document.createElement("div");
+    fh.className = "famhead";
+    fh.innerHTML = '<span class="name" style="color:var(--amber)">'+pb.name+'</span><span class="q">'+pb.desc+'</span><span class="rule"></span>';
+    listEl.append(fh);
+    let step = 1;
+    for(const p of shown) listEl.append(card(p, i++, pb.ids.length>1 ? step++ : null));
+    return;
+  }
+  let lastFam = null;
+  for(const p of shown){
+    if(p.family !== lastFam){
+      lastFam = p.family;
+      const fh = document.createElement("div");
+      fh.className = "famhead " + fkey(p.family);
+      const q = (FAMILIES.find(f=>f[0]===p.family)||["",""])[1];
+      fh.innerHTML = '<span class="name">'+p.family+'</span><span class="q">'+q+'</span><span class="rule"></span>';
+      listEl.append(fh);
+    }
+    listEl.append(card(p, i++));
+  }
+  renderNudge();
+}
+function sync(){
+  buildChips(); buildPbs(); render();
+}
+
+/* ---- deep links ---- */
+function openFromHash(){
+  const h = (location.hash || "").replace("#","");
+  if(!/^\d\d$/.test(h) || !byId[h]) return;
+  activePb = null; activeFam = "All"; query = ""; qEl.value = "";
+  sync();
+  const el = document.getElementById("p"+h);
+  if(!el) return;
+  el.classList.add("open","flash");
+  const v = el.querySelector(".view");
+  if(v) v.setAttribute("aria-expanded","true");
+  el.scrollIntoView({block:"start"});
+  setTimeout(()=>el.classList.remove("flash"), 2000);
+}
+
+/* ---- search ---- */
+const qEl = document.getElementById("q");
+qEl.addEventListener("input", ()=>{query = qEl.value.trim().toLowerCase(); render();});
+document.addEventListener("keydown", e=>{
+  if(e.key==="/" && document.activeElement!==qEl){e.preventDefault(); qEl.focus();}
+});
+
+/* ---- footer wiring ---- */
+document.getElementById("copyinstall").onclick = function(){
+  copyText(document.getElementById("installcmd").textContent, this, "✓", {name:"copy_install"});
+};
+document.getElementById("reset").onclick = ()=>{
+  if(!runCount()) return;
+  if(confirm("Clear all "+runCount()+" run marks?")){
+    runs = {}; saveRuns(); renderStats(); render();
+  }
+};
+
+renderStats();
+sync();
+window.addEventListener("hashchange", openFromHash);
+if(location.hash) openFromHash();
+</script>
+</body>
+</html>

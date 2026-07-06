@@ -1,0 +1,42 @@
+---
+id: "21"
+title: PII & Retention Map
+family: Data
+question: is it sound?
+output: PRIVACY.md
+tagline: Trace where personal data enters, spreads, and lingers — then run the delete-request test: could you honor one today?
+---
+# Goal: PII & Retention Map
+
+You are working inside this repo. Mission: trace where personal data enters this system, everywhere it spreads, how long it lingers — then run the delete-request test: could this product fully honor a deletion request today?
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Define what's personal here
+- List the personal data this product touches: emails, names, IPs, user content, payment references, identifiers.
+- Find every entry point: signup, forms, uploads, third-party auth, imports, support channels.
+
+## Phase 2 — Trace through 6 lenses
+1. **Storage spread** — every place each datum lands: primary tables, caches, search indexes, files, third-party services
+2. **Leakage paths** — personal data flowing into logs, analytics, error trackers, and backups (the copies everyone forgets)
+3. **Access surface** — which code paths and roles can read each datum; anything readable far beyond its need
+4. **Retention reality** — does anything ever get deleted, or does everything live forever by default?
+5. **The delete-request test** — trace an account deletion end to end; list every copy that would survive it
+6. **Minimization** — data collected but never used; fields that could be dropped, masked, or truncated at entry
+
+## Phase 3 — Curate
+- Rank by exposure: sensitivity × spread × access breadth
+- Every finding cites the code path or config where the datum flows
+
+## Phase 4 — Report
+Create `PRIVACY.md` at repo root:
+1. **Data inventory** — table: datum · entry points · everywhere it lives · who/what reads it · retention today
+2. **Delete-request verdict** — pass/fail, with the list of surviving copies
+3. **Leakage findings** — logs, analytics, backups: what to scrub, where
+4. **Minimization steps** — stop-collecting and mask-at-entry changes
+5. **Fix sequence** — quick scrubs first, deletion plumbing second
+
+## Rules
+- Backups, logs, and third parties count — a copy is a copy
+- Collecting less beats protecting more
+- Report only — end by asking which fixes to make

@@ -1,0 +1,46 @@
+---
+id: "06"
+title: Security & Privacy Audit
+family: Trust
+question: is it safe?
+output: SECURITY.md
+tagline: A defensive review of your own codebase — auth gaps, injection surfaces, exposed secrets, and data leaks, ranked by exploitability.
+---
+# Goal: Security & Privacy Audit
+
+You are working inside this repo. Mission: a defensive review of this codebase — find the weaknesses before someone else does, and rank them by exploitability × impact.
+
+Read-only pass: inspect code and config, run audit tooling if available. Your only write is the report file.
+
+## Phase 1 — Map the trust boundaries
+- Where does untrusted input enter: forms, APIs, uploads, webhooks, URL params?
+- Where is auth enforced — and is it enforced in one place or re-implemented per route?
+- What data here is sensitive: credentials, tokens, personal data, payment references?
+
+## Phase 2 — Audit through 8 lenses
+Cite file and line for every finding.
+1. **Authorization gaps** — endpoints missing checks, object-level access (can user A load user B's resource by ID?), role checks only in the UI
+2. **Injection surfaces** — string-built SQL, unsanitized HTML rendering, shell/exec calls, path traversal on file access
+3. **Secrets** — hardcoded keys, committed env files, secrets reaching the client bundle or logs
+4. **Sessions & tokens** — storage location, expiry, invalidation on logout/password change
+5. **Input validation** — trust boundaries where shape and bounds are assumed, not checked
+6. **Data exposure** — verbose error messages, personal data in logs, API responses returning more than the UI needs
+7. **Dependencies** — run the ecosystem's audit command; note critical/high findings
+8. **Config hygiene** — permissive CORS, missing security headers, debug flags reachable in production
+
+## Phase 3 — Curate
+- Severity = exploitability × impact; note the preconditions an attacker needs
+- Keep the exploit description to the one or two lines needed to justify the fix — this is a defensive report
+- Skip theoretical findings with no realistic path
+
+## Phase 4 — Report
+Create `SECURITY.md` at repo root:
+1. **Posture summary** — the honest three-sentence version
+2. **Findings** — each: Name · Severity (critical/high/med/low) · Location · Risk scenario (1–2 lines) · Fix · Effort
+3. **Fix-this-week list** — the top 3
+4. **Defaults to adopt** — patterns that prevent whole classes (central authz, parameterized queries, secret scanning)
+
+## Rules
+- Their own severity labels must survive scrutiny — justify critical/high
+- One systemic fix beats ten spot patches; say when that's the case
+- Report only — end by asking which fixes to make
