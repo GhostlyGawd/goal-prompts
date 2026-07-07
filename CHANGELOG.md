@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.9.0 — 2026-07-07
+- Seven briefs closing the biggest coverage gaps, each the standard
+  read-only 4-phase audit that leaves one evidence-backed report:
+  - 68 Localization Readiness (Trust): hardcoded strings, locale-blind
+    number/date formatting, plural and RTL gaps — writes I18N.md
+  - 69 License & Compliance (Trust): dependency license compatibility,
+    copyleft reach, attribution owed — writes LICENSES.md
+  - 70 SEO & Discoverability (Growth): titles, crawlability, structured
+    data, social unfurls — writes SEO.md
+  - 71 Migration Safety (Data): table locks, reversibility, timed-out
+    backfills, expand/contract ordering — writes MIGRATIONS.md
+  - 72 Ownership & Bus Factor (Team): git-history truck factor, orphaned
+    code, single points of human failure — writes OWNERSHIP.md
+  - 73 Telemetry & SLOs (Ops): the positive side of observability —
+    metric/trace/log coverage and SLOs, not just crash detection —
+    writes TELEMETRY.md
+  - 74 Change Risk Review (Act): the first diff-scoped brief — blast
+    radius, missing tests, rollback story, go/no-go — writes CHANGE-RISK.md
+- Two playbooks: Ship to the World (68 → 08 → 70, reach & inclusion) and
+  OSS Release-Ready (06 → 07 → 69, safe to make public). 75 briefs,
+  13 playbooks
+
 ## 0.8.0 — 2026-07-07
 - Paid down the whole IMPROVEMENTS.md opportunity map (the v0.7 self-audit
   re-run) via 47 · The Fixer, one finding per commit:

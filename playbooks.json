@@ -9,5 +9,7 @@
   {"key":"retrievaltune","name":"Retrieval Tune-Up","desc":"For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.","ids":["33","49","34"]},
   {"key":"facelift","name":"Face-Lift","desc":"The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.","ids":["54","57","55","56","47"]},
   {"key":"founderfunnel","name":"Founder Funnel","desc":"One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.","ids":["61","62","63","64","65","66","67"]},
-  {"key":"gutcheck","name":"Gut Check","desc":"Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.","ids":["62","63","67"]}
+  {"key":"gutcheck","name":"Gut Check","desc":"Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.","ids":["62","63","67"]},
+  {"key":"world","name":"Ship to the World","desc":"Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.","ids":["68","08","70"]},
+  {"key":"release","name":"OSS Release-Ready","desc":"Before the repo goes public: safe to expose, dependencies sound, and every license accounted for.","ids":["06","07","69"]}
 ]
