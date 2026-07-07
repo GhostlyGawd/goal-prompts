@@ -285,7 +285,7 @@ def main() -> None:
         encoding="utf-8")
 
     # ---- sitemap + robots (crawlers can't guess 68 share pages) ----
-    urls = [f"{BASE}/", f"{BASE}/studio", f"{BASE}/examples/"]
+    urls = [f"{BASE}/", f"{BASE}/studio", f"{BASE}/vitals", f"{BASE}/examples/"]
     urls += [f"{BASE}/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

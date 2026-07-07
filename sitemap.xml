@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://goal-prompts.vercel.app/</loc></url>
   <url><loc>https://goal-prompts.vercel.app/studio</loc></url>
+  <url><loc>https://goal-prompts.vercel.app/vitals</loc></url>
   <url><loc>https://goal-prompts.vercel.app/examples/</loc></url>
   <url><loc>https://goal-prompts.vercel.app/b/60</loc></url>
   <url><loc>https://goal-prompts.vercel.app/b/61</loc></url>
