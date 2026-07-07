@@ -174,7 +174,7 @@
 <header class="wrap">
   <div class="eyebrow"><a href="/">← goal prompts</a> · <b>act on it</b></div>
   <h1>Report<br>Studio<span class="tick">.</span></h1>
-  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY.md, IMPROVEMENTS.md… Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
+  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
 </header>
 
 <main class="wrap">
@@ -185,6 +185,7 @@
   <input type="file" id="file" accept=".md,.markdown,.txt,text/markdown,text/plain" multiple hidden>
   <div class="altrow">
     <button class="iconbtn" id="pastebtn">paste markdown</button>
+    <button class="iconbtn" id="ghbtn">load from a github repo</button>
     <button class="iconbtn" id="demobtn">try it on this repo's own reports</button>
     <button class="iconbtn" id="clearall" hidden>remove all reports</button>
   </div>
@@ -192,6 +193,11 @@
     <input id="pastename" placeholder="report name — e.g. BUGS.md" autocomplete="off" aria-label="Report name">
     <textarea id="pastetext" rows="8" placeholder="# paste the report markdown here…" aria-label="Report markdown"></textarea>
     <div class="altrow"><button class="iconbtn" id="pasteadd">add report</button></div>
+  </div>
+  <div class="pastebox" id="ghbox" hidden>
+    <input id="ghref" placeholder="owner/repo, owner/repo@branch, or a GitHub URL" autocomplete="off" aria-label="Public GitHub repository">
+    <div class="altrow"><button class="iconbtn" id="ghload">load its reports</button></div>
+    <p class="drop-small" style="margin-top:0;text-align:left">public repos only — fetches the ALL-CAPS .md reports at the repo root, straight from GitHub to this tab</p>
   </div>
   <div class="note" id="note" hidden></div>
   <div class="repchips" id="repchips"></div>
@@ -496,6 +502,95 @@ document.getElementById("pasteadd").onclick = () => {
   document.getElementById("pastetext").value = "";
   document.getElementById("pastebox").hidden = true;
 };
+/* ---------- load from a public GitHub repo (browser → GitHub, nothing through us) ---------- */
+const GH_SKIP = new Set(["README.MD", "LICENSE.MD", "CONTRIBUTING.MD", "CODE_OF_CONDUCT.MD",
+  "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "NOTICE.MD", "AUTHORS.MD",
+  "MAINTAINERS.MD", "PULL_REQUEST_TEMPLATE.MD", "CLAUDE.MD", "AGENTS.MD"]);
+const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "PERF.md", "DX.md",
+  "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
+function parseRepoRef(s){
+  s = String(s || "").trim();
+  let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
+  if(m) return { owner: m[1], repo: m[2].replace(/\.git$/, ""), branch: m[3] || null };
+  m = s.match(/^([\w.-]+)\/([\w.-]+?)(?:@([\w.\/-]+))?$/);
+  if(m) return { owner: m[1], repo: m[2], branch: m[3] || null };
+  return null;
+}
+function reportLike(name){
+  return /^[A-Z0-9_-]+\.md$/.test(name) && !GH_SKIP.has(name.toUpperCase());
+}
+async function ghProbeCommon(r){
+  const branches = r.branch ? [r.branch] : ["main", "master"];
+  for(const br of branches){
+    const found = [];
+    await Promise.all(GH_COMMON.map(async n => {
+      try{
+        const res = await fetch("https://raw.githubusercontent.com/" + r.owner + "/" + r.repo + "/" + br + "/" + n);
+        if(res.ok){ const t = await res.text(); if(t.trim()) found.push({ name: n, text: t }); }
+      }catch(e){}
+    }));
+    if(found.length) return found;
+  }
+  return [];
+}
+async function loadFromGitHub(refStr){
+  const r = parseRepoRef(refStr);
+  if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return 0; }
+  let files = null;
+  try{
+    const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo +
+      "/contents" + (r.branch ? "?ref=" + encodeURIComponent(r.branch) : ""));
+    if(res.ok){
+      const list = await res.json();
+      if(Array.isArray(list)){
+        files = list
+          .filter(f => f.type === "file" && reportLike(f.name) && f.download_url)
+          .slice(0, 12);
+      }
+    } else if(res.status === 404){
+      note("GitHub can't find " + r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : "") + " — private repos need their reports dropped or pasted here instead.");
+      return 0;
+    }
+    /* other statuses (403 rate limit…) fall through to the raw-URL probe */
+  }catch(e){ /* offline or blocked — probe below */ }
+  let loaded;
+  if(files){
+    loaded = [];
+    await Promise.all(files.map(async f => {
+      try{
+        const res = await fetch(f.download_url);
+        if(res.ok){ const t = await res.text(); if(t.trim()) loaded.push({ name: f.name, text: t }); }
+      }catch(e){}
+    }));
+  } else {
+    loaded = await ghProbeCommon(r);
+  }
+  if(!loaded.length){
+    note("No report-shaped .md files (ALL-CAPS names) at that repo's root — run some briefs on it first, or drop files here.");
+    return 0;
+  }
+  loaded.sort((a, b) => a.name < b.name ? -1 : 1);
+  for(const f of loaded) addReport(f.name, f.text);
+  try{ window.va("event", { name: "studio_load_github", data: { n: loaded.length } }); }catch(e){}
+  return loaded.length;
+}
+document.getElementById("ghbtn").onclick = () => {
+  const box = document.getElementById("ghbox");
+  box.hidden = !box.hidden;
+  if(!box.hidden) document.getElementById("ghref").focus();
+};
+document.getElementById("ghload").onclick = async function(){
+  const ref = document.getElementById("ghref").value;
+  this.disabled = true; this.textContent = "loading…";
+  const n = await loadFromGitHub(ref);
+  this.disabled = false;
+  this.textContent = n ? "loaded " + n + " ✓" : "load its reports";
+  if(n){ document.getElementById("ghbox").hidden = true; this.textContent = "load its reports"; }
+};
+document.getElementById("ghref").addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); document.getElementById("ghload").click(); }
+});
+
 document.getElementById("demobtn").onclick = async function(){
   const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "DX.md"];
   this.disabled = true; this.textContent = "loading…";
