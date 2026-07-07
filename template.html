@@ -402,6 +402,17 @@ let runs = {};
 try{ runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}; }catch(e){ runs = {}; }
 function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} }
 function runCount(){ return Object.keys(runs).filter(k => runs[k]).length; }
+const DAY = 86400000;
+function ago(ts){
+  if(typeof ts !== "number") return "";           // pre-0.8 marks were booleans
+  const d = Math.floor((Date.now() - ts) / DAY);
+  return d <= 0 ? "today" : d === 1 ? "1d ago" : d + "d ago";
+}
+function runLabel(id){
+  if(!runs[id]) return "mark run";
+  const a = ago(runs[id]);
+  return a ? "✓ run · " + a : "✓ run";
+}
 
 /* ---- custom conductor sequence ---- */
 let seq = [];
@@ -633,7 +644,6 @@ function card(p, idx, stepNo){
   const btn = document.createElement("button");
   btn.className = "copy"; btn.textContent = "Copy";
   btn.setAttribute("aria-label","Copy prompt: "+p.title);
-  btn.onclick = e=>{e.stopPropagation(); copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});};
   top.append(num, tt, btn);
 
   const meta = document.createElement("div"); meta.className="card-meta";
@@ -651,17 +661,21 @@ function card(p, idx, stepNo){
   share.setAttribute("aria-label","Copy link to "+p.title);
   share.onclick = ()=>copyText(location.origin + "/b/" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
   const run = document.createElement("button"); run.className="iconbtn" + (runs[p.id] ? " on" : "");
-  run.textContent = runs[p.id] ? "✓ run" : "mark run";
+  run.textContent = runLabel(p.id);
   run.setAttribute("aria-pressed", !!runs[p.id]);
   run.setAttribute("aria-label","Mark "+p.title+" as run");
   run.onclick = ()=>{
-    runs[p.id] = !runs[p.id];
-    if(!runs[p.id]) delete runs[p.id];
+    if(runs[p.id]) delete runs[p.id]; else runs[p.id] = Date.now();
     saveRuns(); renderStats();
     run.className = "iconbtn" + (runs[p.id] ? " on" : "");
-    run.textContent = runs[p.id] ? "✓ run" : "mark run";
+    run.textContent = runLabel(p.id);
     run.setAttribute("aria-pressed", !!runs[p.id]);
     renderNudge();
+  };
+  btn.onclick = e=>{
+    e.stopPropagation();
+    copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
+    if(!runs[p.id]) run.textContent = "ran it? mark it";
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -696,6 +710,13 @@ function renderNudge(){
     const d = document.createElement("div");
     d.className = "nudge"; d.id = "nudge";
     d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
+    listEl.prepend(d);
+    return;
+  }
+  if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
+    const d = document.createElement("div");
+    d.className = "nudge"; d.id = "nudge";
+    d.innerHTML = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
     listEl.prepend(d);
   }
 }
