@@ -284,10 +284,22 @@ def main() -> None:
         json.dumps(catalog, ensure_ascii=False, sort_keys=True, indent=1) + "\n",
         encoding="utf-8")
 
+    # ---- sitemap + robots (crawlers can't guess 68 share pages) ----
+    urls = [f"{BASE}/", f"{BASE}/studio", f"{BASE}/examples/"]
+    urls += [f"{BASE}/b/{p['id']}" for p in prompts]
+    sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+               + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls)
+               + "</urlset>\n")
+    (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    (ROOT / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n", encoding="utf-8")
+
     write_archives(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
-          f"raw/, b/, catalog.json, commands.tar.gz, commands.zip")
+          f"raw/, b/, catalog.json, sitemap.xml, robots.txt, "
+          f"commands.tar.gz, commands.zip")
 
 
 if __name__ == "__main__":
