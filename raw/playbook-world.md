@@ -1,8 +1,8 @@
-# Playbook: All Growth briefs (conductor)
+# Playbook: Ship to the World (conductor)
 
-You are working inside this repo. Mission: execute the **All Growth briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **Ship to the World** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Growth brief in the catalog, in order — 09 through 70, one report each.
+Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -11,11 +11,9 @@ Every Growth brief in the catalog, in order — 09 through 70, one report each.
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **09 · Funnel Friction Audit** — fetch https://goal-prompts.vercel.app/raw/09.md → writes `FUNNEL.md`
-2. **10 · Competitive Gap Scan** — fetch https://goal-prompts.vercel.app/raw/10.md → writes `COMPETITIVE.md`
-3. **11 · Monetization Map** — fetch https://goal-prompts.vercel.app/raw/11.md → writes `REVENUE.md`
-4. **12 · AI Opportunity Scan** — fetch https://goal-prompts.vercel.app/raw/12.md → writes `AI-IDEAS.md`
-5. **70 · SEO & Discoverability** — fetch https://goal-prompts.vercel.app/raw/70.md → writes `SEO.md`
+1. **68 · Localization Readiness** — fetch https://goal-prompts.vercel.app/raw/68.md → writes `I18N.md`
+2. **08 · Accessibility Audit** — fetch https://goal-prompts.vercel.app/raw/08.md → writes `A11Y.md`
+3. **70 · SEO & Discoverability** — fetch https://goal-prompts.vercel.app/raw/70.md → writes `SEO.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

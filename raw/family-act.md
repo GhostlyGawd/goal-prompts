@@ -1,8 +1,8 @@
 # Playbook: All Act briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Act briefs** playbook — 2 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Act briefs** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Act brief in the catalog, in order — 46 through 47, one report each.
+Every Act brief in the catalog, in order — 46 through 74, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -13,6 +13,7 @@ Every Act brief in the catalog, in order — 46 through 47, one report each.
 ## Stages
 1. **46 · Audit Triage** — fetch https://goal-prompts.vercel.app/raw/46.md → writes `TRIAGE.md`
 2. **47 · The Fixer** — fetch https://goal-prompts.vercel.app/raw/47.md → writes `FIXLOG.md`
+3. **74 · Change Risk Review** — fetch https://goal-prompts.vercel.app/raw/74.md → writes `CHANGE-RISK.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

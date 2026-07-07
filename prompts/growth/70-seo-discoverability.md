@@ -1,0 +1,46 @@
+---
+id: "70"
+title: SEO & Discoverability
+family: Growth
+question: does it grow?
+output: SEO.md
+tagline: Titles, metadata, structured data, crawlability, and social unfurls — every place a search engine or a shared link fails to find, index, or render your pages.
+---
+# Goal: SEO & Discoverability
+
+You are working inside this repo. Mission: find every place a search engine or a shared link fails to find, index, understand, or render your public pages — the gap between the content you ship and the traffic it could earn.
+
+Read-only pass. Fetch a few rendered pages if you can. Your only write is the report file.
+
+## Phase 1 — Map the public surface
+- Which routes are public and meant to rank? Static, server-rendered, or client-only (and does content exist without JS)?
+- Find the machinery: title/meta handling, sitemap, robots, canonical strategy, structured data, redirects.
+- Note the framework's SEO affordances and whether they are actually used.
+
+## Phase 2 — Audit through 8 lenses
+Cite the file or route for every finding.
+1. **Titles & descriptions** — unique, present, and meaningful per page, or one global `<title>` and no meta description
+2. **Crawlability** — robots.txt, sitemap freshness and coverage, an accidental noindex, orphaned pages, redirect chains
+3. **Indexable content** — does the primary content render without client JS, or does the crawler see an empty shell
+4. **Canonical & duplicates** — canonical tags, trailing-slash and case variants, query-param dupes, http/https and www drift
+5. **Structured data** — schema.org/JSON-LD for the content type; valid, or absent where it would earn rich results
+6. **Social unfurls** — Open Graph and Twitter cards: present, correct dimensions, non-404 images, per-page not site-wide
+7. **Semantics & headings** — one `h1`, logical outline, descriptive link text, image alt; not `<div>` soup
+8. **Performance signals** — Core Web Vitals proxies (payload, layout shift, blocking resources) that ranking rewards
+
+## Phase 3 — Curate
+- Separate reach-blockers (not indexable, noindex shipped) from polish (a missing OG image).
+- Spot-check three real pages: what a crawler and a shared-link preview actually get.
+- Rank by traffic at stake, not by rule count.
+
+## Phase 4 — Report
+Create `SEO.md` at repo root:
+1. **Verdict** — indexable and shareable today? the single biggest leak
+2. **Three page checks** — page → what the crawler sees → what the unfurl renders → gap
+3. **Findings** — each: Name · Lens · Where · Impact · Fix sketch · Effort
+4. **Quick wins** — the highest-reach fixes shippable this week
+
+## Rules
+- Verify against rendered output, not intentions in the source
+- Every claim names a page or a file
+- Report only — end by asking which fixes to make

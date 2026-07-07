@@ -1,8 +1,8 @@
 # Playbook: All Ops briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Ops briefs** playbook — 4 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Ops briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Ops brief in the catalog, in order — 23 through 53, one report each.
+Every Ops brief in the catalog, in order — 23 through 73, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -15,6 +15,7 @@ Every Ops brief in the catalog, in order — 23 through 53, one report each.
 2. **24 · Cost Audit** — fetch https://goal-prompts.vercel.app/raw/24.md → writes `COSTS.md`
 3. **25 · Incident Readiness Review** — fetch https://goal-prompts.vercel.app/raw/25.md → writes `RELIABILITY.md`
 4. **53 · Config & Environment Audit** — fetch https://goal-prompts.vercel.app/raw/53.md → writes `CONFIG.md`
+5. **73 · Telemetry & SLOs** — fetch https://goal-prompts.vercel.app/raw/73.md → writes `TELEMETRY.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

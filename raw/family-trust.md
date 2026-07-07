@@ -1,8 +1,8 @@
 # Playbook: All Trust briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Trust briefs** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Trust briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Trust brief in the catalog, in order — 06 through 08, one report each.
+Every Trust brief in the catalog, in order — 06 through 69, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -14,6 +14,8 @@ Every Trust brief in the catalog, in order — 06 through 08, one report each.
 1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY.md`
 2. **07 · Dependency Health Check** — fetch https://goal-prompts.vercel.app/raw/07.md → writes `DEPS.md`
 3. **08 · Accessibility Audit** — fetch https://goal-prompts.vercel.app/raw/08.md → writes `A11Y.md`
+4. **68 · Localization Readiness** — fetch https://goal-prompts.vercel.app/raw/68.md → writes `I18N.md`
+5. **69 · License & Compliance** — fetch https://goal-prompts.vercel.app/raw/69.md → writes `LICENSES.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

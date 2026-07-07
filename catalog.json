@@ -217,6 +217,28 @@
    "title": "Accessibility Audit"
   },
   {
+   "chars": 2660,
+   "family": "Trust",
+   "id": "68",
+   "output": "I18N.md",
+   "question": "is it safe?",
+   "raw": "https://goal-prompts.vercel.app/raw/68.md",
+   "slug": "localization-readiness",
+   "tagline": "Hardcoded strings, locale-blind number and date formatting, and layouts that break in translation — every gap between you and a non-default-locale user.",
+   "title": "Localization Readiness"
+  },
+  {
+   "chars": 2611,
+   "family": "Trust",
+   "id": "69",
+   "output": "LICENSES.md",
+   "question": "is it safe?",
+   "raw": "https://goal-prompts.vercel.app/raw/69.md",
+   "slug": "license-compliance",
+   "tagline": "Every dependency's license, the ones incompatible with how you ship, the attribution you owe, and the copyleft reaching into your own source.",
+   "title": "License & Compliance"
+  },
+  {
    "chars": 2004,
    "family": "Growth",
    "id": "09",
@@ -259,6 +281,17 @@
    "slug": "ai-opportunity-scan",
    "tagline": "Where an LLM feature genuinely earns its place — automation, drafting, summarization — and where it would be a gimmick.",
    "title": "AI Opportunity Scan"
+  },
+  {
+   "chars": 2474,
+   "family": "Growth",
+   "id": "70",
+   "output": "SEO.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/70.md",
+   "slug": "seo-discoverability",
+   "tagline": "Titles, metadata, structured data, crawlability, and social unfurls — every place a search engine or a shared link fails to find, index, or render your pages.",
+   "title": "SEO & Discoverability"
   },
   {
    "chars": 2146,
@@ -304,6 +337,17 @@
    "slug": "agent-readiness-audit",
    "tagline": "Can a coding agent work here? Entry files, one-command checks, discoverable conventions, and a mechanical definition of done — audited by attempting the work.",
    "title": "Agent Readiness Audit"
+  },
+  {
+   "chars": 2525,
+   "family": "Team",
+   "id": "72",
+   "output": "OWNERSHIP.md",
+   "question": "can others build on it?",
+   "raw": "https://goal-prompts.vercel.app/raw/72.md",
+   "slug": "ownership-bus-factor",
+   "tagline": "Read git history for the human risks — files only one person understands, critical paths with a truck factor of one, and the knowledge that leaves when they do.",
+   "title": "Ownership & Bus Factor"
   },
   {
    "chars": 2008,
@@ -449,6 +493,17 @@
    "title": "Git Hotspot Mining"
   },
   {
+   "chars": 2728,
+   "family": "Data",
+   "id": "71",
+   "output": "MIGRATIONS.md",
+   "question": "is it sound?",
+   "raw": "https://goal-prompts.vercel.app/raw/71.md",
+   "slug": "migration-safety",
+   "tagline": "Schema and data migrations under real traffic — table locks, reversibility, timed-out backfills, and the deploy ordering that turns a change into an outage.",
+   "title": "Migration Safety"
+  },
+  {
    "chars": 2089,
    "family": "Ops",
    "id": "23",
@@ -491,6 +546,17 @@
    "slug": "config-environment-audit",
    "tagline": "Every knob, var, and magic value — where config sprawls, where environments drift, what explodes at boot versus at 3am, and which secrets hide in plain sight.",
    "title": "Config & Environment Audit"
+  },
+  {
+   "chars": 2698,
+   "family": "Ops",
+   "id": "73",
+   "output": "TELEMETRY.md",
+   "question": "does it run?",
+   "raw": "https://goal-prompts.vercel.app/raw/73.md",
+   "slug": "telemetry-slos",
+   "tagline": "The positive side of observability — whether metrics, traces, and SLOs let you answer any question about the running system, not just whether it crashed.",
+   "title": "Telemetry & SLOs"
   },
   {
    "chars": 2154,
@@ -558,6 +624,17 @@
    "slug": "the-fixer",
    "tagline": "Turns the reports at your root into commits. Presents every finding, asks which to implement, then executes safely — branch, one finding per commit, verify after each.",
    "title": "The Fixer"
+  },
+  {
+   "chars": 2655,
+   "family": "Act",
+   "id": "74",
+   "output": "CHANGE-RISK.md",
+   "question": "does anything change?",
+   "raw": "https://goal-prompts.vercel.app/raw/74.md",
+   "slug": "change-risk-review",
+   "tagline": "Point it at a diff, branch, or PR: blast radius, the tests that should exist, the migration and rollback story, and a go / no-go with the risks ranked.",
+   "title": "Change Risk Review"
   },
   {
    "chars": 2320,
@@ -915,6 +992,26 @@
    ],
    "key": "gutcheck",
    "name": "Gut Check"
+  },
+  {
+   "desc": "Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.",
+   "ids": [
+    "68",
+    "08",
+    "70"
+   ],
+   "key": "world",
+   "name": "Ship to the World"
+  },
+  {
+   "desc": "Before the repo goes public: safe to expose, dependencies sound, and every license accounted for.",
+   "ids": [
+    "06",
+    "07",
+    "69"
+   ],
+   "key": "release",
+   "name": "OSS Release-Ready"
   }
  ]
 }
