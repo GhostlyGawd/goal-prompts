@@ -1,6 +1,6 @@
 # Goal Prompts
 
-Sixty mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+Sixty-eight mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
@@ -40,6 +40,18 @@ Real output lives in the [sample reports](https://goal-prompts.vercel.app/exampl
 the Day-1 playbook run against this very repo, and the FIXLOG showing those
 reports turned into commits.
 
+## Research a company before it exists
+
+The Venture family (60–67) runs the same machinery *before* there is a
+product: create an empty repo as your research workspace, and each brief
+web-researches one stage — niche, demand, competitors, market, positioning,
+moat — leaving a sourced report at the root. `67 · Venture Verdict` reads
+them all and rules go, pivot, or kill against bars written before scoring.
+House evidence rules: every claim carries a source and date, arithmetic is
+always shown, and the bear case gets the same effort as the bull. Start
+with `60 · Opportunity Scan`, or run the whole **Founder Funnel** playbook
+with one paste.
+
 ## Act on the reports — Report Studio
 
 Audits leave reports at your repo root; the
@@ -65,6 +77,8 @@ Curated sequences on the site, for when you don't want to choose:
 | Triage & Fix | 46 → 47 | recon the repo, run your picks, then commit the findings |
 | Retrieval Tune-Up | 33 → 49 → 34 | for RAG-shaped agents: context, retrieval, evals |
 | Face-Lift | 54 → 57 → 55 → 56 → 47 | the visual overhaul, ending in commits |
+| Founder Funnel | 61 → 62 → 63 → 64 → 65 → 66 → 67 | one niche, end to end, ruled on |
+| Gut Check | 62 → 63 → 67 | 72 hours of truth for one idea |
 
 ## Use
 
@@ -77,6 +91,7 @@ Curated sequences on the site, for when you don't want to choose:
 
 | Family | Question | Prompts |
 |---|---|---|
+| Venture | is it worth building? | 60–67 |
 | Product | what could this be? | 00, 45 |
 | Quality | does it work? | 01–03 |
 | Speed | does it scale? | 04–05, 51 |

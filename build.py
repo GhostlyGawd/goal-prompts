@@ -21,7 +21,7 @@ DEFAULT_BASE = "https://goal-prompts.vercel.app"
 # surface (site, raw/, conductors, catalog.json, brief bodies) follows it.
 BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
-FAMILY_ORDER = ["Product", "Quality", "Speed", "Trust", "Growth", "Team",
+FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Growth", "Team",
                 "Clarity", "Design", "Data", "Ops", "Subtract", "Meta", "Act",
                 "Agent", "Automation", "AI-UX"]
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.0 — 2026-07-06
+- Venture family (is it worth building?): eight briefs that research a
+  company before it exists — 60 Opportunity Scan, 61 Niche Map, 62 Pain &
+  Demand Mining, 63 Competitor Teardown, 64 Market Size & Timing,
+  65 Positioning & Wedge, 66 Moat & Model Check, 67 Venture Verdict.
+  Repo-as-workspace: each brief web-researches one stage and leaves a
+  sourced report; 67 rules go/pivot/kill against bars set before scoring
+- Family evidence rules: every claim carries a source link and date,
+  arithmetic is shown, and disconfirming evidence gets equal effort
+- Two playbooks: Founder Funnel (61→67, the whole pipeline) and Gut Check
+  (62·63·67, 72 hours of truth). Audit Triage (46) learns the pre-product
+  signal. 68 briefs, 11 playbooks; the catalog now opens with Venture
+
 ## 0.6.0 — 2026-07-06
 - Design family (is it beautiful?): six briefs for UI, web, and graphic
   design — 54 Visual Hierarchy, 55 Typography, 56 Color & Contrast,

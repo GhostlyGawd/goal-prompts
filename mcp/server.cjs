@@ -269,7 +269,7 @@ rl.on("line", function (line) {
       result(id, {
         protocolVersion: (msg.params && msg.params.protocolVersion) || "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "goal-prompts", version: "0.6.0" }
+        serverInfo: { name: "goal-prompts", version: "0.7.0" }
       });
     } else if (msg.method === "notifications/initialized") {
       // notification: no response

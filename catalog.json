@@ -2,6 +2,94 @@
  "base": "https://goal-prompts.vercel.app",
  "briefs": [
   {
+   "chars": 2851,
+   "family": "Venture",
+   "id": "60",
+   "output": "OPPORTUNITIES.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/60.md",
+   "slug": "opportunity-scan",
+   "tagline": "The candidate field. Turns your edges, interests, and constraints plus live market signals into 10-15 scored venture candidates — divergence before any deep dive.",
+   "title": "Opportunity Scan"
+  },
+  {
+   "chars": 2597,
+   "family": "Venture",
+   "id": "61",
+   "output": "NICHE.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/61.md",
+   "slug": "niche-map",
+   "tagline": "One niche, fully mapped — the players, buyers, channels, watering holes, jargon, money flows, and unwritten rules — before you decide to enter it.",
+   "title": "Niche Map"
+  },
+  {
+   "chars": 2550,
+   "family": "Venture",
+   "id": "62",
+   "output": "DEMAND.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/62.md",
+   "slug": "pain-demand-mining",
+   "tagline": "Proof people actually hurt — verbatim complaints mined from reviews and forums, search and hiring signals, and what they already pay to make the pain stop.",
+   "title": "Pain & Demand Mining"
+  },
+  {
+   "chars": 2755,
+   "family": "Venture",
+   "id": "63",
+   "output": "COMPETITORS.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/63.md",
+   "slug": "competitor-teardown",
+   "tagline": "Everyone already fighting for this money — features, pricing, positioning, and traction compared, their customers' complaints mined, and the gaps nobody covers.",
+   "title": "Competitor Teardown"
+  },
+  {
+   "chars": 2608,
+   "family": "Venture",
+   "id": "64",
+   "output": "MARKET.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/64.md",
+   "slug": "market-size-timing",
+   "tagline": "Bottom-up sizing with the arithmetic shown, growth read from primary signals, and the why-now case argued both ways — no analyst-deck TAM theater.",
+   "title": "Market Size & Timing"
+  },
+  {
+   "chars": 2597,
+   "family": "Venture",
+   "id": "65",
+   "output": "POSITIONING.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/65.md",
+   "slug": "positioning-wedge",
+   "tagline": "How to enter and be understood — the beachhead customer, the against-what frame, the category call, and message options tested against real competitor language.",
+   "title": "Positioning & Wedge"
+  },
+  {
+   "chars": 2568,
+   "family": "Venture",
+   "id": "66",
+   "output": "MOAT.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/66.md",
+   "slug": "moat-model-check",
+   "tagline": "Why this survives contact with incumbents and arithmetic — monetization options, napkin unit economics, defensibility paths, and the kill risks named out loud.",
+   "title": "Moat & Model Check"
+  },
+  {
+   "chars": 2546,
+   "family": "Venture",
+   "id": "67",
+   "output": "VERDICT.md",
+   "question": "is it worth building?",
+   "raw": "https://goal-prompts.vercel.app/raw/67.md",
+   "slug": "venture-verdict",
+   "tagline": "The decider. Reads every venture report at this root, scores the candidate against bars set before scoring, and rules go, pivot, or kill — reasoning shown.",
+   "title": "Venture Verdict"
+  },
+  {
    "chars": 3224,
    "example": "https://goal-prompts.vercel.app/IMPROVEMENTS.md",
    "family": "Product",
@@ -446,7 +534,7 @@
    "title": "Recurring Health Check"
   },
   {
-   "chars": 2783,
+   "chars": 2937,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -668,6 +756,7 @@
   }
  ],
  "families": [
+  "Venture",
   "Product",
   "Quality",
   "Speed",
@@ -701,7 +790,8 @@
   "Speed": "https://goal-prompts.vercel.app/raw/family-speed.md",
   "Subtract": "https://goal-prompts.vercel.app/raw/family-subtract.md",
   "Team": "https://goal-prompts.vercel.app/raw/family-team.md",
-  "Trust": "https://goal-prompts.vercel.app/raw/family-trust.md"
+  "Trust": "https://goal-prompts.vercel.app/raw/family-trust.md",
+  "Venture": "https://goal-prompts.vercel.app/raw/family-venture.md"
  },
  "name": "goal-prompts",
  "playbooks": [
@@ -798,6 +888,30 @@
    ],
    "key": "facelift",
    "name": "Face-Lift"
+  },
+  {
+   "desc": "One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.",
+   "ids": [
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "67"
+   ],
+   "key": "founderfunnel",
+   "name": "Founder Funnel"
+  },
+  {
+   "desc": "Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.",
+   "ids": [
+    "62",
+    "63",
+    "67"
+   ],
+   "key": "gutcheck",
+   "name": "Gut Check"
   }
  ]
 }

@@ -7,5 +7,7 @@
   {"key":"shipcheck","name":"Agent Ship-Check","desc":"Before an agent touches real users: guarded, evaluated, supervised, affordable.","ids":["35","34","43","38"]},
   {"key":"triagefix","name":"Triage & Fix","desc":"Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.","ids":["46","47"]},
   {"key":"retrievaltune","name":"Retrieval Tune-Up","desc":"For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.","ids":["33","49","34"]},
-  {"key":"facelift","name":"Face-Lift","desc":"The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.","ids":["54","57","55","56","47"]}
+  {"key":"facelift","name":"Face-Lift","desc":"The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.","ids":["54","57","55","56","47"]},
+  {"key":"founderfunnel","name":"Founder Funnel","desc":"One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.","ids":["61","62","63","64","65","66","67"]},
+  {"key":"gutcheck","name":"Gut Check","desc":"Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.","ids":["62","63","67"]}
 ]
