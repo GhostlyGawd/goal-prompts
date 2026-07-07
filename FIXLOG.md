@@ -1,7 +1,40 @@
 # FIXLOG.md
-*Produced by brief 47 · The Fixer, run against this repo (goal-prompts) during the 0.5 cycle. Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below.*
+*Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.*
 
-## Session
+## Session — 0.8 cycle (2026-07-07)
+- Branch: `claude/product-improvement-discovery-7yhdyg` · off 0.7.0 (`97ad4fe`)
+- Reports consumed: IMPROVEMENTS.md (the v0.7 re-run), plus carried-forward BUGS.md and SECURITY.md findings
+- Protocol: one finding per commit, `scripts/check` green after each. Selection = the whole 16-item opportunity map.
+
+### Fixed
+| # | Finding | Source | Commit | Verified by |
+|---|---|---|---|---|
+| 1 | Share cards for briefs 46–67 + generator & build gate | IMPROVEMENTS 1 | `cba0db3` | `scripts/og.py` renders 22 cards; build fails on a missing `og/<id>.png` |
+| 2 | Deep-link scroll clears the sticky toolbar | BUGS 3 | `f8ffa35` | `openFromHash` sets scroll-margin from measured toolbar height |
+| 3 | Zero-result search → closest briefs + `search_zero` event | IMPROVEMENTS 3 | `c6d7083` | ported stem/rarity scoring; "looping" → 32 first, verified in node |
+| 4 | Run tracker timestamps, staleness nudge, copy→run link | IMPROVEMENTS 4 | `7364947` | marks store `Date.now()`; "run · Nd ago"; stale-vitals nudge |
+| 5 | Families injected by the build (kill 3-way sync) | IMPROVEMENTS 5 | `f3d313c` | `__FAMILIES_JSON__` derived from front matter; build fails on missing token |
+| 6 | Self-host Archivo + IBM Plex Mono | SECURITY 4 | `224243d` | no `fonts.googleapis`/`gstatic` in built HTML; OFL license vendored |
+| 7 | Studio loads reports from a GitHub repo | IMPROVEMENTS 7 (big bet) | `a4af75c` | repo-ref parser + report filter unit-tested; API + raw fallback |
+| 8 | Report grammar defined; parsers lean on it | IMPROVEMENTS 9 (big bet) | `48fdcb0` | new lint rule + test; Studio surfaces impact chip |
+| 9 | Venture dogfood (sourced Gut Check) | IMPROVEMENTS 8 (big bet) | `f5f9fc3` | 3 reports under `examples/venture/`; example chips on 62/63/67 |
+| 10 | MCP version from package.json; 3-digit hash router | IMPROVEMENTS 12 · BUGS 4 | `683dff5` | smoke green; `^\d{2,3}$` |
+| 11 | Conductor copy on playbook chips | IMPROVEMENTS 13 | `ab85d16` | ⧉ button fires `copy_conductor` from the chip |
+| 12 | sitemap.xml + robots.txt from the build | IMPROVEMENTS 14 | `7af662e` | 71-URL sitemap; robots points at it; both follow `GOAL_PROMPTS_BASE` |
+| 13 | Vitals Viewer (`/vitals`) for HEALTH.md history | IMPROVEMENTS 10 (big bet) | `82c6194` | table parser unit-tested; in the JS-syntax gate |
+| 14 | Offline PWA via a generated service worker | IMPROVEMENTS 15 | `979b9f2` | content-hash cache version, deterministic; `node --check sw.js` |
+| 15 | MCP package publish-ready (`files` allowlist, keywords) | IMPROVEMENTS 11 | `e2b1ebe` | `npm pack --dry-run` → lean ~150KB tarball |
+
+### Skipped / partial
+- **npm publish itself** (IMPROVEMENTS 11, big bet) — the package is now publish-ready but the actual `npm publish` and MCP-registry listing are blocked on npm credentials this environment doesn't have. Prep shipped; the publish is the one remaining manual step.
+- **Community brief index** (prior IMPROVEMENTS big bet) — still a project, not a one-commit fix; not in this run's scope.
+
+### Follow-ups the fixes revealed
+- `scripts/og.py` needs Pillow — a heavier dep than the stdlib-only site build. It's a dev/generate-time tool (the build only *checks* cards exist), but worth a note in CONTRIBUTING if brief-adding contributors hit it.
+- The Studio's GitHub loader and the report grammar (items 7–8) now make a report *schema validator* tractable — a natural next audit of the report format itself.
+- Family colors still live in two places (`template.html` CSS + `scripts/og.py`); only order/questions got unified. A future pass could inject colors too.
+
+## Session — 0.5 cycle (2026-07-07)
 - Date: 2026-07-07 · branch: `v0.5-round` · off 0.4.0 (`d041b3f`)
 - Reports consumed: IMPROVEMENTS.md, SECURITY.md, DX.md
 - Protocol: one finding per commit, the repo's own `scripts/check` run green after each

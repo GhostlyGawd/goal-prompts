@@ -1,29 +1,31 @@
 # IMPROVEMENTS.md
 *Produced by brief 00 · Product Improvement Discovery, run against this repo (goal-prompts, v0.7). Supersedes the v0.4 sample run; part of the sample-report gallery.*
 
+> **Build status (0.8 cycle):** all 16 items below were then implemented via 47 · The Fixer — one finding per commit, `scripts/check` green after each. The only item not fully closed is the npm **publish** step of #11 (package made publish-ready; the publish itself is blocked on credentials). See `FIXLOG.md` for the commit-by-commit log. Status is marked in the map's last column.
+
 ## Product snapshot
 Goal-prompts is a catalog of 68 audit briefs for coding agents — each a <4k-char prompt that runs a 4-phase audit (Explore → Audit → Curate → Report) and leaves one evidence-backed report at the target repo's root. It is built as a static site by a stdlib-only Python build (`build.py`) from markdown sources, with five ways in: the catalog UI (`index.html`), slash-command installer (`install`), stable raw URLs + conductors (`raw/`), a zero-dependency MCP server (`mcp/server.cjs`), and the machine index (`catalog.json`). Users are developers running Claude Code (or any agent) on their own repos. The journey: land on catalog → filter/search → copy a brief (optionally aimed via the operator-context box) → run it in a repo → drop the reports into Report Studio (`/studio`) → tick findings → the generated 47 · Fixer prompt turns them into commits, logged in FIXLOG.md. Retention machinery exists but is thin: a localStorage run tracker with a nudge toward brief 28 after five runs, and the Weekly Vitals playbook (brief 29) that implies a weekly habit nothing in the product actually supports. The most underused assets: the search/suggest scoring that exists only server-side in `mcp/server.cjs`, the run tracker's data (booleans, no dates), and the newest flagship family (Venture, 60–67) which ships with zero sample output.
 
 ## Opportunity map
 
-| # | Item | Tag | Impact | Effort |
-|---|---|---|---|---|
-| 1 | OG images for briefs 46–67 (+ generator in build) | FIX | H | S–M |
-| 2 | Deep-link scroll hides under sticky toolbar | FIX | M | S |
-| 3 | Zero-result search: suggest + log the miss | IMPROVE | H | S |
-| 4 | Run tracker: timestamps, staleness, copy→run link | IMPROVE | H | S |
-| 5 | Inject FAMILIES from build (kill 3-way sync) | IMPROVE | M | S |
-| 6 | Self-host the two fonts | IMPROVE | M | M |
-| 7 | Studio: load reports straight from a GitHub repo | NEW | H | M |
-| 8 | Venture sample reports in the gallery | NEW | H | M |
-| 9 | Report schema shared by briefs / Studio / Fixer | IMPROVE | H | M–L |
-| 10 | HEALTH.md report-diff viewer (Weekly Vitals loop) | NEW | M | L |
-| 11 | npm publish + MCP registry listing | NEW | H | S (blocked) |
-| 12 | MCP server version read from package.json | FIX | L | S |
-| 13 | Conductor copy on playbook chips | IMPROVE | M | S |
-| 14 | sitemap.xml + robots.txt from the build | NEW | M | S |
-| 15 | Offline PWA (service worker; studio manifest link) | IMPROVE | M | M |
-| 16 | Hash router caps at two-digit ids | FIX | L | S |
+| # | Item | Tag | Impact | Effort | Status |
+|---|---|---|---|---|---|
+| 1 | OG images for briefs 46–67 (+ generator in build) | FIX | H | S–M | ✅ shipped 0.8 |
+| 2 | Deep-link scroll hides under sticky toolbar | FIX | M | S | ✅ shipped 0.8 |
+| 3 | Zero-result search: suggest + log the miss | IMPROVE | H | S | ✅ shipped 0.8 |
+| 4 | Run tracker: timestamps, staleness, copy→run link | IMPROVE | H | S | ✅ shipped 0.8 |
+| 5 | Inject FAMILIES from build (kill 3-way sync) | IMPROVE | M | S | ✅ shipped 0.8 |
+| 6 | Self-host the two fonts | IMPROVE | M | M | ✅ shipped 0.8 |
+| 7 | Studio: load reports straight from a GitHub repo | NEW | H | M | ✅ shipped 0.8 |
+| 8 | Venture sample reports in the gallery | NEW | H | M | ✅ shipped 0.8 |
+| 9 | Report schema shared by briefs / Studio / Fixer | IMPROVE | H | M–L | ✅ shipped 0.8 |
+| 10 | HEALTH.md report-diff viewer (Weekly Vitals loop) | NEW | M | L | ✅ shipped 0.8 (`/vitals`) |
+| 11 | npm publish + MCP registry listing | NEW | H | S (blocked) | ◑ publish-ready; publish blocked on creds |
+| 12 | MCP server version read from package.json | FIX | L | S | ✅ shipped 0.8 |
+| 13 | Conductor copy on playbook chips | IMPROVE | M | S | ✅ shipped 0.8 |
+| 14 | sitemap.xml + robots.txt from the build | NEW | M | S | ✅ shipped 0.8 |
+| 15 | Offline PWA (service worker; studio manifest link) | IMPROVE | M | M | ✅ shipped 0.8 |
+| 16 | Hash router caps at two-digit ids | FIX | L | S | ✅ shipped 0.8 |
 
 ## Top 5 quick wins
 1. **OG images for the 22 newest briefs** — FIX · UI/Reach. `og/` holds `00.png`–`45.png` (46 files) but briefs run to 67; every `b/<id>.html` for the Act, Design, Venture families and briefs 48–53 references a 404 image (`b/46.html` → `/og/46.png`). Share pages are the viral surface — right now the newest, most differentiated families unfurl broken. Root cause is felt debt: OG generation isn't in `build.py`, so new briefs ship without cards. Generate the 22, and add a check (or generator) to the build so it can't regress.
