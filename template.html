@@ -720,6 +720,8 @@ function openFromHash(){
   sync();
   const el = document.getElementById("p"+h);
   if(!el) return;
+  const tb = document.querySelector(".toolbar");
+  if(tb) el.style.scrollMarginTop = Math.ceil(tb.getBoundingClientRect().height) + 16 + "px";
   el.classList.add("open","flash");
   const v = el.querySelector(".view");
   if(v) v.setAttribute("aria-expanded","true");
