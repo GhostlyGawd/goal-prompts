@@ -210,6 +210,12 @@ def main() -> None:
     if violations:
         sys.exit(f"\nFAIL: {violations} lint violation(s)")
 
+    missing_og = [p["id"] for p in prompts
+                  if not (ROOT / "og" / f"{p['id']}.png").exists()]
+    if missing_og:
+        fail(f"briefs missing share cards: og/{{{','.join(missing_og)}}}.png"
+             " — generate with scripts/og.py (needs Pillow)")
+
     # ---- injected site ----
     prompt_payload = [{**{k: p[k] for k in
                           ("id", "title", "family", "question", "output",
