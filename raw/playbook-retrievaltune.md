@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **Retrieval Tune-Up** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
 
-Make RAG answers better: see what enters the window, audit the retrieval pipeline, then lock quality with evals.
+For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

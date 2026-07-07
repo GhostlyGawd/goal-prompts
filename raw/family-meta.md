@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **All Meta briefs** playbook — 2 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every brief in the Meta family, run in sequence.
+Every Meta brief in the catalog, in order — 28 through 29, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

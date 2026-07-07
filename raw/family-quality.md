@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **All Quality briefs** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every brief in the Quality family, run in sequence.
+Every Quality brief in the catalog, in order — 01 through 03, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

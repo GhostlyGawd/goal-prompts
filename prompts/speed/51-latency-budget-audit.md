@@ -4,41 +4,40 @@ title: Latency Budget Audit
 family: Speed
 question: does it scale?
 output: LATENCY.md
-tagline: Decompose the wall-clock of a real user action into a per-stage budget — find the tail, the serial chains, and the wait nobody measured.
+tagline: Where the seconds go. Decomposes p50 and p95 of the runs users feel into stages — queue, retrieval, first token, tools — and names the stage worth attacking.
 ---
 # Goal: Latency Budget Audit
 
-You are working inside this repo. Mission: take the user's most important action, decompose its wall-clock time stage by stage, and find where the seconds actually go — with attention to the tail, not just the average.
+You are working inside this repo. Mission: decompose the latency of the runs users actually feel — p50 and p95, stage by stage — and name the stages worth attacking versus the ones already fine.
 
-Read-only pass: trace, time where measurable, and reason about the rest. Your only write is the report file.
+Read-only pass. Your only write is the report file. Read existing timers, traces, and logs where they exist; estimate from code where they don't.
 
-## Phase 1 — Pick the action and trace it
-- Choose the highest-value user-perceived action (page load, search, a run kickoff, checkout).
-- Trace every stage from user intent to visible result: client work, network hops, auth, queries, external calls, model calls, rendering.
-- Time what you can; estimate the rest and mark it estimated. Build the timeline.
+## Phase 1 — Define the runs
+- Pick the 1–3 user-facing runs that matter: a chat turn, a job, a page, a pipeline.
+- Find what timing already exists — logs, traces, metrics, or nothing — and note precisely which stages are measurable today and which will be estimates.
 
-## Phase 2 — Audit through 7 lenses
-1. **Stage decomposition** — where the wall-clock goes per stage; the one or two stages that dominate the budget
-2. **Serial chains** — awaits that run one-after-another but don't depend on each other and could be parallel
-3. **The tail** — p95/p99 vs p50: what makes the slow requests slow (cold caches, big tenants, retry paths); tail latency is what users remember
-4. **Blocking the paint** — work done before the user sees anything, that could be deferred, streamed, or moved after first render
-5. **External variance** — third-party and model calls whose latency you don't control; are they bounded, cached, or on the critical path unnecessarily
-6. **Perceived vs actual** — where optimistic UI, skeletons, or streaming would cut felt latency even if wall-clock is fixed (ties to 42)
-7. **Measurement gaps** — stages with no timing instrumentation, so regressions here would be invisible
+## Phase 2 — Audit through 8 lenses
+1. **Stage decomposition** — queue wait, retrieval, prompt assembly, time-to-first-token, generation, tool calls, post-processing: a number or an honest estimate for each
+2. **The p95 gap** — what makes the slow tail slow: retries, cold starts, long inputs, contended resources; p95 is a different animal from p50 and gets its own diagnosis
+3. **Serial that could be parallel** — awaits in sequence with no data dependency; fan-out opportunities in tool calls and retrieval
+4. **Perceived vs actual** — time-to-first-token and streaming: what could render early; a fast-feeling eight seconds beats a silent five
+5. **Payload fit** — prompt and context sizes versus need; the tokens that cost milliseconds on every single run
+6. **Cache absences** — identical work done repeatedly: embeddings, tool results, static context blocks
+7. **Timeout architecture** — per-stage budgets that fail fast, or one global timeout that ships the worst case to the user
+8. **Instrumentation gaps** — the stages nobody can measure; you cannot attack what you cannot see
 
 ## Phase 3 — Curate
-- Assign a rough budget: how many ms each stage costs now vs a reasonable target
-- Rank fixes by felt-latency-per-effort on the common path; separate real speedups from perceived-speed wins and note both
+- Build the budget: stage · p50 · p95 · share of total · verdict (fine / attack).
+- Rank attacks by seconds saved on the p95 path per unit of effort.
 
 ## Phase 4 — Report
 Create `LATENCY.md` at repo root:
-1. **The timeline** — stage · time now (measured/estimated) · target · notes
-2. **Budget verdict** — where the action spends its time, and the dominant stage in one sentence
-3. **Findings** — each: stage · issue · fix · expected saving · effort
-4. **Parallelize / defer / stream list** — the structural wins, ordered
-5. **Instrumentation to add** — so the budget can be tracked over time
+1. **The budget table** — the full decomposition, measured versus estimated flagged honestly
+2. **The p95 story** — what the slow tail is made of
+3. **Attacks** — ranked; parallelization and streaming usually beat micro-optimizations
+4. **Instrumentation first** — the timers to add wherever an estimate stood in for a number
 
 ## Rules
-- Optimize the tail and the common path; a better average that hides a worse p99 is a regression
-- Distinguish real latency cuts from perceived ones — ship both, but label which is which
-- Report only — end by asking which fixes to make
+- Every number is labeled measured or estimated — never launder a guess
+- Optimize the user's clock, not the flame graph's aesthetics
+- Report only — end by asking which attacks to make

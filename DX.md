@@ -14,12 +14,12 @@
 - **Node requirement is optional but undeclared** — only `mcp/` work needs it; README implies nothing either way.
 
 ## Fixes
-1. `scripts/check` running build + JS check + MCP smoke; reference it in CONTRIBUTING and the CI example — effort S.
-2. `tests/test_build.py` with 3 cases: oversized body fails, missing phase fails, lens count scoped to Phase 2 — effort S.
+1. `scripts/check` running build + linter tests + JS check + MCP smoke; referenced in CONTRIBUTING and the CI example. SHIPPED in 0.5.
+2. `tests/test_build.py` — SHIPPED in 0.5 with 12 cases, including the Phase-2 lens-scoping regression this audit named.
 3. README "project layout" block marking generated paths — effort S (shipped in 0.4's README update).
-4. One line in CONTRIBUTING: Node needed only for `mcp/` — effort S.
+4. One line in CONTRIBUTING: Node needed only for `mcp/` and site-script checks. SHIPPED in 0.5.
 
 ## The one-hour fix
-Fix 1: a single `scripts/check` command collapses the entire contribution ritual into one step and becomes the CI body — every future contributor saves the discovery cost this audit just paid.
+Fix 1 shipped in 0.5: a single `scripts/check` command collapses the entire contribution ritual into one step and is now the CI body — every future contributor saves the discovery cost this audit paid. Remaining open: self-hosting fonts, j/k navigation.
 
 *Report only — which fixes should be made?*

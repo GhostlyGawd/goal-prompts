@@ -2,44 +2,45 @@
 id: "47"
 title: The Fixer
 family: Act
-kind: action
-question: shall we fix it?
+question: does anything change?
 output: FIXLOG.md
-tagline: The one brief that changes code. Reads any audit report, asks which findings to implement, then fixes them safely — one commit each, re-checked.
+example: /FIXLOG.md
+tagline: Turns the reports at your root into commits. Presents every finding, asks which to implement, then executes safely — branch, one finding per commit, verify after each.
 ---
 # Goal: The Fixer
 
-You are working inside this repo. Mission: turn an audit report into merged fixes — safely, one finding at a time, with the operator approving scope before anything changes.
+You are working inside this repo. Mission: turn the audit reports sitting at this repo's root into implemented fixes — safely, one finding at a time, with the operator choosing exactly what gets touched.
 
-This brief modifies code. Unlike every audit brief, it acts — but it never acts without explicit approval first, and it works in small reversible steps.
+This is the acting half of the catalog: every other brief reports; this one implements. Nothing in the codebase changes until the operator picks findings.
 
-## Phase 1 — Load and understand the findings
-- Ask which report to work from, or detect audit reports at repo root (BUGS.md, SECURITY.md, PERF.md, and the rest).
-- Parse the findings: name, severity, location, proposed fix, effort. Restate them back compactly so the operator sees what you see.
-- Confirm a clean working tree and note the current branch; if the tree is dirty, stop and say so.
+## Phase 1 — Collect
+- Find every audit report at repo root: IMPROVEMENTS.md, BUGS.md, SECURITY.md, PERF.md, TRIAGE.md, ROADMAP.md, and kin. List what you found.
+- Extract every actionable finding into one pool: source report · finding · severity or impact · effort · the code it cites.
+- Set aside items already marked fixed or shipped; note them as done.
 
-## Phase 2 — Agree the scope (gate — do not skip)
-- Present the findings as a numbered list with severity and effort.
-- Ask the operator which to implement: all, a subset, or just the top N. **Wait for an answer. Change nothing until they choose.**
-- For anything destructive, ambiguous, or architectural, flag that it needs a human decision and surface the options rather than guessing.
+## Phase 2 — Present, then stop
+- Show the menu: a numbered table of findings — id (like BUGS-3) · what · severity · effort · files it will touch.
+- Recommend a starter set: the cheapest high-severity items first.
+- Then stop. Report only — end by asking which findings to implement. Not one line of code changes before an explicit selection.
 
-## Phase 3 — Implement, one finding per commit
-Work on a dedicated branch (e.g. `fixer/<report>-<date>`). For each approved finding, in severity order:
-1. Make the smallest change that resolves it; touch only what the finding names.
-2. Run the relevant tests or checks; if the repo has a check script, run it.
-3. Commit alone, message referencing the finding. One finding, one commit — so any single fix can be reverted cleanly.
-4. If a fix balloons beyond its estimate or breaks something, stop, revert that change, and report — don't push through.
+## Phase 3 — Execute the selection
+For the chosen findings only:
+1. Create a branch: `fix/goal-<date>`. Never work directly on the default branch.
+2. Before editing, re-read each finding's section in its source report and the code it cites.
+3. One finding per commit. Message: `fix(<report>): <finding title>`.
+4. After every commit, run the repo's own checks — tests, lint, build, whatever exists. A failing check means fix it or revert that commit; never stack work on a broken state.
+5. If a finding proves ambiguous, already fixed, or bigger than the report implied: skip it, log why, move on. No improvising beyond the selection.
 
-## Phase 4 — Log
-Create `FIXLOG.md` at repo root:
-1. **Session summary** — report worked from, branch name, findings approved vs deferred
-2. **Changes** — per finding: what changed · files · commit · check result
-3. **Deferred & blocked** — what wasn't done and why (needs decision, out of scope, risky)
-4. **Verification** — how to confirm the fixes; what the operator should review before merge
-5. **Suggested next** — re-run the source audit to confirm findings cleared
+## Phase 4 — Report
+Create or append to `FIXLOG.md` at repo root:
+1. **Session** — date · branch · reports consumed
+2. **Fixed** — finding · commit · how it was verified
+3. **Skipped** — finding · reason (ambiguous, already fixed, bigger than reported)
+4. **Follow-ups** — anything the fixes revealed that belongs in a future audit
+
+Close by summarizing the branch and asking whether to open a PR, merge, or continue with more findings.
 
 ## Rules
-- Never change code before the operator approves scope in Phase 2 — ask before acting
-- One finding per commit; smallest viable change; stay inside what the finding names
-- If a fix isn't clearly safe, defer it with options rather than guessing
-- Leave the branch and FIXLOG for review — end by asking whether to open a PR or re-run the audit
+- The operator's selection is the whole scope — unchosen findings do not get fixed, improved, or refactored in passing
+- Every fix is verified by the repo's own checks before the next one begins
+- FIXLOG.md is append-only history; never rewrite past sessions

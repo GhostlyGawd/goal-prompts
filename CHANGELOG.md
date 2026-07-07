@@ -1,20 +1,25 @@
 # Changelog
 
 ## 0.5.0 — 2026-07-06
-- 8 new briefs (46–53), 54 total. New **Act** family closes the loop:
-  46 Audit Triage (routes you to the right briefs) and 47 The Fixer (the
-  first brief that *implements* findings — gated, one commit each)
-- Deeper Agent briefs: 48 Memory & State, 49 Retrieval Quality, 50 Multi-Agent
-  Topology. Plus 51 Latency Budget, 52 Agent Readiness, 53 Config & Environment
-- **Report Studio** (/studio): drop your report files, check off findings,
-  generate a Fixer prompt that implements exactly those — nothing retyped
-- **Conductor builder**: pick any briefs on the site to generate a custom
-  run; new MCP make_conductor tool does the same for agents
-- MCP suggest_briefs now stems and de-noises catalog-generic terms
-- Two playbooks: Triage & Fix, Retrieval Tune-Up. Per-family conductors
-  (raw/family-*.md). Sample-report chips on audited briefs
-- Paid our own audit debt: scripts/check gate, linter tests (incl. the
-  regression it caught), security headers, and a CLAUDE.md
+- Act family (does anything change?): 46 Audit Triage routes a repo to the
+  briefs it needs; 47 The Fixer turns audit reports into verified commits,
+  one finding per commit on its own branch
+- Report Studio (/studio): drop your reports, findings become a checklist
+  with severity chips, and checked findings become a targeted Fixer prompt —
+  entirely client-side
+- Six new audits: 48 Memory & State, 49 Retrieval Quality, 50 Multi-Agent
+  Topology, 51 Latency Budget, 52 Agent Readiness, 53 Config & Environment;
+  two new playbooks (Triage & Fix, Retrieval Tune-Up). 54 briefs, 8 playbooks
+- Custom conductors: compose any sequence of briefs into one conductor
+  prompt — '+ seq' on the site, make_conductor over MCP, plus per-family
+  'run all' conductors at /raw/family-<slug>.md
+- Paid down the self-audit debt the sample reports named: stemmed and
+  rarity-weighted suggest_briefs (IMPROVEMENTS 1); sample-report chips on
+  audited cards (IMPROVEMENTS 2); scripts/check one-command gate and a real
+  MCP smoke test (DX 1); linter tests including the lens-scoping regression
+  (DX 2); baseline security headers (SECURITY 3); FIXLOG.md records it
+- Fork support: GOAL_PROMPTS_BASE rewrites every generated surface for teams
+  running a private catalog
 
 ## 0.4.0 — 2026-07-06
 - Agent-native catalog: stable raw URLs per brief, playbook conductors,

@@ -1,32 +1,54 @@
 #!/bin/sh
-# One-command gate: build (lints all briefs), verify the site script parses,
-# and smoke-test the MCP server. Used locally and by CI.
+# One-command gate for goal-prompts — DX.md fix 1.
+#
+#   scripts/check
+#
+# Runs everything a contribution must clear: the build (which lints every
+# brief), the linter's own tests, JS syntax on the MCP server and both site
+# scripts, and the MCP smoke test. CI and Vercel run the same steps; passing
+# here means the deploy will not surprise you.
+#
+# Node is required only for the mcp/ and site-script steps; prompt-only
+# contributions pass with Python alone (those steps are skipped, loudly).
 set -e
 cd "$(dirname "$0")/.."
 
-echo "→ build.py (lints every brief, regenerates outputs)"
-python3 build.py
+step=0
+say() { step=$((step + 1)); printf '\n== %s/5  %s ==\n' "$step" "$1"; }
 
-echo "→ site JS parses"
+say "build (lints all briefs, regenerates every surface)"
+python3 build.py | tail -1
+
+say "linter tests"
+python3 -m unittest discover -s tests -q
+
 if command -v node >/dev/null 2>&1; then
-  sed -n '/^<script>$/,/^<\/script>$/p' index.html | sed '1d;$d' > /tmp/gp-site.js
-  node --check /tmp/gp-site.js
-  sed -n '/^<script>$/,/^<\/script>$/p' studio.html | sed '1d;$d' > /tmp/gp-studio.js
-  node --check /tmp/gp-studio.js
-  echo "→ MCP server smoke test"
+  say "mcp server syntax"
   node --check mcp/server.cjs
-  printf '%s\n%s\n%s\n' \
-    '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{}}}' \
-    '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
-    '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"suggest_briefs","arguments":{"goal":"agent looping and burning tokens"}}}' \
-    | node mcp/server.cjs | grep -q suggest_briefs && echo "  MCP responds ✓"
+  echo "OK  mcp/server.cjs"
+
+  say "site script syntax (index.html + studio.html)"
+  node - <<'EOF'
+const fs = require("fs");
+const vm = require("vm");
+for (const file of ["index.html", "studio.html"]) {
+  const html = fs.readFileSync(file, "utf8");
+  const blocks = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(m => m[1]).filter(s => s.trim());
+  if (!blocks.length) { console.error("FAIL  no inline scripts in " + file); process.exit(1); }
+  blocks.forEach((src, i) => {
+    try { new vm.Script(src, { filename: file + "#script" + i }); }
+    catch (e) { console.error("FAIL  " + file + " script " + i + ": " + e.message); process.exit(1); }
+  });
+  console.log("OK  " + file + " (" + blocks.length + " script block" + (blocks.length > 1 ? "s" : "") + ")");
+}
+EOF
+
+  say "mcp smoke (spawns the real server)"
+  node scripts/mcp-smoke.cjs
 else
-  echo "  (node not found — skipping JS checks)"
+  step=5
+  printf '\n== 3-5/5  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
 fi
 
-echo "→ python build tests"
-if command -v python3 >/dev/null 2>&1 && [ -f tests/test_build.py ]; then
-  python3 tests/test_build.py
-fi
-
-echo "✓ all checks passed"
+printf '\nALL CHECKS PASSED\n'

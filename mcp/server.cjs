@@ -6,7 +6,7 @@
  * directory, so it works offline and never drifts from the installed version.
  *
  * Install:  claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts
- * Tools:    list_briefs · suggest_briefs · get_brief · get_playbook
+ * Tools:    list_briefs · suggest_briefs · get_brief · get_playbook · make_conductor
  */
 "use strict";
 const fs = require("fs");
@@ -19,24 +19,15 @@ const briefs = catalog.briefs;
 const byId = {};
 briefs.forEach(function (b) { byId[b.id] = b; });
 
-// terms appearing in a large fraction of briefs are noise for ranking
-var STOP = (function () {
-  var df = {}, N = briefs.length;
-  briefs.forEach(function (b) {
-    var seen = {};
-    (b.title + " " + b.tagline + " " + b.family + " " + b.question)
-      .toLowerCase().split(/[^a-z0-9]+/).forEach(function (w) {
-        if (w.length > 2 && !seen[w]) { seen[w] = 1; df[w] = (df[w] || 0) + 1; }
-      });
-  });
-  var stop = { the: 1, and: 1, for: 1, your: 1, that: 1, with: 1, this: 1 };
-  Object.keys(df).forEach(function (w) { if (df[w] / N > 0.25) stop[w] = 1; });
-  return stop;
-})();
-
 function readBody(id) {
   return fs.readFileSync(path.join(ROOT, "raw", id + ".md"), "utf8");
 }
+
+var bodyCache = {};
+briefs.forEach(function (b) {
+  try { bodyCache[b.id] = readBody(b.id).toLowerCase(); }
+  catch (e) { bodyCache[b.id] = ""; }
+});
 
 function briefLine(b) {
   return b.id + " · " + b.title + "  [" + b.family + "]  -> " + b.output +
@@ -61,7 +52,8 @@ const TOOLS = [
     name: "suggest_briefs",
     description: "Given a goal in plain words (e.g. 'my agent keeps looping' " +
       "or 'costs are exploding'), return the most relevant briefs, best " +
-      "first. Simple keyword scoring over titles, taglines, and bodies — " +
+      "first. Stemmed, rarity-weighted keyword scoring over titles, taglines, " +
+      "and bodies — " +
       "review the matches rather than trusting rank blindly.",
     inputSchema: {
       type: "object",
@@ -87,17 +79,18 @@ const TOOLS = [
   },
   {
     name: "make_conductor",
-    description: "Compose a custom conductor prompt from an ordered list of " +
-      "brief ids. Returns a single prompt that runs exactly those briefs in " +
-      "sequence, each writing its report — use it to build a bespoke audit " +
-      "run tailored to what you found (e.g. after suggest_briefs).",
+    description: "Compose a conductor — one prompt that fetches and runs a " +
+      "custom sequence of briefs in order — from any list of brief ids. " +
+      "Your own playbook: e.g. ids ['46','47'] for triage-then-fix, or " +
+      "['33','49','34'] for a retrieval tune-up. Ids run in the order given.",
     inputSchema: {
       type: "object",
       properties: {
         ids: {
           type: "array", items: { type: "string" },
-          description: "Brief ids in run order, e.g. ['33','49','34']"
-        }
+          description: "Brief ids in run order, e.g. ['00','01','06']"
+        },
+        name: { type: "string", description: "Optional playbook name" }
       },
       required: ["ids"]
     }
@@ -117,34 +110,73 @@ const TOOLS = [
   }
 ];
 
-// crude stemmer: fold common suffixes so "looping" matches "loop", "queries"
-// matches "query", etc. Applied to both the goal words and the haystacks.
+// Light stemming so "looping" matches "loop", "costs" matches "cost".
+// Substring matching does the rest: the stem is a prefix of every inflection.
 function stem(w) {
-  if (w.length > 5 && w.slice(-3) === "ing") w = w.slice(0, -3);
-  else if (w.length > 4 && w.slice(-2) === "ed") w = w.slice(0, -2);
-  else if (w.length > 4 && w.slice(-3) === "ies") w = w.slice(0, -3) + "y";
-  else if (w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") w = w.slice(0, -1);
+  if (w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
+  if (w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
+  if (w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
   return w;
 }
-function stemAll(text) {
-  return text.toLowerCase().split(/[^a-z0-9]+/).map(stem).join(" ");
+
+// A word like "agent" matches half the catalog and says little; a word like
+// "loop" matches a handful and says a lot. Weight = 1/sqrt(briefs matched),
+// clamped so one colorful phrase in a single tagline can't hijack a query.
+var dfCache = {};
+function rarity(w) {
+  if (dfCache[w] !== undefined) return dfCache[w];
+  var df = 0;
+  briefs.forEach(function (b) {
+    var hay = (b.title + " " + b.family + " " + b.tagline).toLowerCase() +
+      " " + bodyCache[b.id];
+    if (hay.indexOf(w) !== -1) df++;
+  });
+  dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
+  return dfCache[w];
 }
-function score(brief, stems) {
-  const title = stemAll(brief.title);
-  const fam = stemAll(brief.family + " " + brief.question);
-  const tag = stemAll(brief.tagline);
-  let body = "";
-  try { body = stemAll(readBody(brief.id)); } catch (e) { body = ""; }
-  var s = 0;
-  stems.forEach(function (w) {
-    var inTitle = title.split(" ").indexOf(w) !== -1; // whole-word in title
-    if (inTitle) s += 8;
-    else if (title.indexOf(w) !== -1) s += 4;         // substring in title
-    if (fam.indexOf(w) !== -1) s += 3;
-    if (tag.indexOf(w) !== -1) s += 2;
-    if (body.indexOf(w) !== -1) s += 1;
+
+function score(brief, words) {
+  const title = brief.title.toLowerCase();
+  const tag = brief.tagline.toLowerCase();
+  const fam = (brief.family + " " + brief.question).toLowerCase();
+  const body = bodyCache[brief.id];
+  let s = 0;
+  words.forEach(function (w) {
+    var m = 0;
+    if (title.indexOf(w) !== -1) m += 4;
+    if (fam.indexOf(w) !== -1) m += 3;
+    if (tag.indexOf(w) !== -1) m += 2;
+    if (body.indexOf(w) !== -1) m += 1;
+    s += m * rarity(w);
   });
   return s;
+}
+
+function conductorText(name, desc, ids) {
+  var base = catalog.base;
+  var stages = ids.map(function (id, i) {
+    var p = byId[id];
+    return (i + 1) + ". **" + id + " · " + p.title + "** — fetch " + base +
+      "/raw/" + id + ".md → writes `" + p.output + "`";
+  });
+  var plural = ids.length > 1 ? "briefs" : "brief";
+  return "# Playbook: " + name + " (conductor)\n\n" +
+"You are working inside this repo. Mission: execute the **" + name + "** playbook — " +
+ids.length + " audit " + plural + " in sequence, each producing one report file at this repo's root.\n\n" +
+desc + "\n\n" +
+"## How to run each stage, in order\n" +
+"1. Fetch the brief with a read-only web request (for example: curl -s <url>).\n" +
+"2. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.\n" +
+"3. Confirm the report file exists at repo root before moving on.\n" +
+"4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.\n\n" +
+"## Stages\n" + stages.join("\n") + "\n\n" +
+"## After the final stage\n" +
+"- List every report created, with a one-line takeaway each.\n" +
+"- Suggest the natural next step: fetch " + base + "/raw/28.md (Roadmap Synthesis) to merge all reports at this root into one sequenced plan.\n\n" +
+"## Rules\n" +
+"- If a fetch fails, say so and stop — never improvise a brief from memory.\n" +
+"- Honor each brief's own rules, including ending by asking before any changes.\n" +
+"- If a stage's report already exists, ask whether to re-run or skip that stage.\n";
 }
 
 function callTool(name, args) {
@@ -162,15 +194,13 @@ function callTool(name, args) {
   }
   if (name === "suggest_briefs") {
     if (!args.goal) return "Provide a goal, e.g. 'my agent keeps looping'.";
-    var stems = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
-      .filter(function (w) { return w.length > 2 && !STOP[w]; }).map(stem);
-    if (!stems.length) {  // goal was all stopwords — fall back to raw words
-      stems = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
-        .filter(function (w) { return w.length > 2; }).map(stem);
-    }
+    const words = String(args.goal).toLowerCase().split(/[^a-z0-9]+/)
+      .filter(function (w) { return w.length > 2; })
+      .map(stem)
+      .filter(function (w, i, a) { return a.indexOf(w) === i; });
     const limit = Math.max(1, Math.min(10, args.limit || 5));
     const ranked = briefs
-      .map(function (b) { return { b: b, s: score(b, stems) }; })
+      .map(function (b) { return { b: b, s: score(b, words) }; })
       .filter(function (x) { return x.s > 0; })
       .sort(function (a, b) { return b.s - a.s; })
       .slice(0, limit);
@@ -178,7 +208,9 @@ function callTool(name, args) {
       briefs.length + " briefs.";
     return "Best matches for: " + args.goal + "\n\n" +
       ranked.map(function (x) { return briefLine(x.b); }).join("\n") +
-      "\n\nUse get_brief with an id to fetch the full prompt.";
+      "\n\nRanked by stemmed-keyword overlap with titles, families, taglines, " +
+      "and bodies \u2014 review the matches rather than trusting rank blindly." +
+      "\nUse get_brief with an id to fetch the full prompt.";
   }
   if (name === "get_brief") {
     const b = byId[String(args.id)];
@@ -187,31 +219,26 @@ function callTool(name, args) {
     return readBody(b.id);
   }
   if (name === "make_conductor") {
-    const ids = Array.isArray(args.ids) ? args.ids.map(String) : [];
-    if (!ids.length) return "Provide ids, e.g. { ids: ['33','49','34'] }.";
-    const bad = ids.filter(function (i) { return !byId[i]; });
-    if (bad.length) return "Unknown ids: " + bad.join(", ") + ". Use list_briefs.";
-    var out = "# Playbook: custom sequence (conductor)\n\n";
-    out += "You are working inside this repo. Mission: execute the following " +
-      "audit briefs in order, each producing one report file at this repo's root.\n\n";
-    out += "## How to run each stage, in order\n";
-    out += "1. Fetch the brief with a read-only web request (e.g. curl -s <url>).\n";
-    out += "2. Execute it exactly as written. Each brief is read-only toward the " +
-      "codebase unless it says otherwise; its only write is its own report file.\n";
-    out += "3. Confirm the report exists at repo root before moving on. Do not parallelize.\n\n";
-    out += "## Stages\n";
-    ids.forEach(function (id, i) {
-      var b = byId[id];
-      out += (i + 1) + ". **" + id + " \u00b7 " + b.title + "** \u2014 fetch " +
-        catalog.base + "/raw/" + id + ".md \u2192 writes `" + b.output + "`\n";
+    var raw = args.ids;
+    if (typeof raw === "string") raw = raw.split(/[\s,]+/);
+    if (!Array.isArray(raw) || !raw.length) {
+      return "Provide ids as an array of brief ids in run order, e.g. ['46','47']. " +
+        "Use list_briefs to browse.";
+    }
+    var ids = raw.map(function (x) {
+      var s = String(x).trim();
+      return s.length === 1 ? "0" + s : s;
     });
-    out += "\n## After the final stage\n- List every report created, one-line " +
-      "takeaway each.\n- Suggest fetching " + catalog.base + "/raw/28.md " +
-      "(Roadmap Synthesis) to merge all reports into one plan.\n\n";
-    out += "## Rules\n- If a fetch fails, say so and stop \u2014 never improvise " +
-      "a brief from memory.\n- Honor each brief's own rules, including any that " +
-      "ask before acting.\n";
-    return out;
+    var unknown = ids.filter(function (id) { return !byId[id]; });
+    if (unknown.length) {
+      return "Unknown brief id(s): " + unknown.join(", ") + ". Ids run 00–" +
+        briefs[briefs.length - 1].id + "; try list_briefs.";
+    }
+    if (ids.length > 12) return "That's " + ids.length + " briefs — cap a conductor at 12; split the run.";
+    var cname = args.name ? String(args.name) : "Custom sequence";
+    var cdesc = "A custom sequence of " + ids.length + " brief" + (ids.length > 1 ? "s" : "") +
+      ", composed via the goal-prompts MCP server.";
+    return conductorText(cname, cdesc, ids);
   }
   if (name === "get_playbook") {
     const key = String(args.key);

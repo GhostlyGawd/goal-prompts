@@ -12,15 +12,18 @@ Outputs (all committed, all deterministic, stdlib only — this also runs on Ver
 The linter enforces the house rules on every brief: front matter complete,
 4-phase skeleton, a Rules section, the ask-first ending, and body < 4,000 chars.
 """
-import gzip, io, json, re, shutil, sys, tarfile, zipfile
+import gzip, io, json, os, re, shutil, sys, tarfile, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-BASE = "https://goal-prompts.vercel.app"
+DEFAULT_BASE = "https://goal-prompts.vercel.app"
+# Forks: set GOAL_PROMPTS_BASE to your deployment URL — every generated
+# surface (site, raw/, conductors, catalog.json, brief bodies) follows it.
+BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
 FAMILY_ORDER = ["Product", "Quality", "Speed", "Trust", "Growth", "Team",
-                "Clarity", "Data", "Ops", "Subtract", "Meta",
-                "Agent", "Automation", "AI-UX", "Act"]
+                "Clarity", "Data", "Ops", "Subtract", "Meta", "Act",
+                "Agent", "Automation", "AI-UX"]
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
 
 
@@ -47,8 +50,9 @@ def parse(path: Path) -> dict:
     if '"' in meta["tagline"]:
         fail(f"{path}: tagline may not contain double quotes")
     meta["body"] = parts[2].strip()
+    if BASE != DEFAULT_BASE:
+        meta["body"] = meta["body"].replace(DEFAULT_BASE, BASE)
     meta["chars"] = len(meta["body"])
-    meta["kind"] = meta.get("kind", "audit")
     meta["slug"] = re.sub(r"^\d+-", "", path.stem)
     meta["_path"] = str(path.relative_to(ROOT))
     return meta
@@ -62,15 +66,8 @@ def lint(p: dict) -> list:
             v.append(f"missing '## Phase {n}' header")
     if "## Rules" not in body:
         v.append("missing '## Rules' section")
-    if p.get("kind") == "action":
-        low = body.lower()
-        if "ask" not in low or "before" not in low:
-            v.append("action brief must gate on asking before it acts")
-        if "end by asking" not in low:
-            v.append("action brief must end by asking (what to do next)")
-    else:
-        if "Report only — end by asking" not in body:
-            v.append("missing the ask-first ending ('Report only — end by asking …')")
+    if "Report only — end by asking" not in body:
+        v.append("missing the ask-first ending ('Report only — end by asking …')")
     if not re.fullmatch(r"[A-Z0-9-]+\.md", p["output"]):
         v.append(f"output '{p['output']}' must look like REPORT.md")
     if len(p["tagline"]) > 170:
@@ -81,6 +78,8 @@ def lint(p: dict) -> list:
         v.append(f"{len(lenses)} lenses (want 4–12)")
     if p["chars"] > LIMIT:
         v.append(f"body is {p['chars']} chars (max {LIMIT})")
+    if p.get("example") and not p["example"].startswith("/"):
+        v.append(f"example '{p['example']}' must be a root-relative path like /BUGS.md")
     return v
 
 
@@ -186,10 +185,6 @@ def main() -> None:
     prompts.sort(key=lambda p: (FAMILY_ORDER.index(p["family"]), p["id"]))
     by_id = {p["id"]: p for p in prompts}
 
-    # which briefs have a published sample report sitting at repo root?
-    examples = {p["id"]: "/" + p["output"]
-                for p in prompts if (ROOT / p["output"]).exists()}
-
     ids = [p["id"] for p in prompts]
     if len(ids) != len(set(ids)):
         fail("duplicate prompt ids")
@@ -216,16 +211,16 @@ def main() -> None:
         sys.exit(f"\nFAIL: {violations} lint violation(s)")
 
     # ---- injected site ----
-    prompt_payload = [{k: p[k] for k in
-                       ("id", "title", "family", "question", "output",
-                        "tagline", "body", "chars", "kind")}
+    prompt_payload = [{**{k: p[k] for k in
+                          ("id", "title", "family", "question", "output",
+                           "tagline", "body", "chars")},
+                       **({"example": BASE + p["example"]} if p.get("example") else {})}
                       for p in prompts]
-    for pp in prompt_payload:
-        if pp["id"] in examples:
-            pp["example"] = examples[pp["id"]]
     pb_payload = [{k: pb[k] for k in ("key", "name", "desc", "ids", "conductor")}
                   for pb in playbooks]
     template = (ROOT / "template.html").read_text(encoding="utf-8")
+    if BASE != DEFAULT_BASE:
+        template = template.replace(DEFAULT_BASE, BASE)
     for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
@@ -246,20 +241,19 @@ def main() -> None:
         (ROOT / "raw" / f'playbook-{pb["key"]}.md').write_text(
             pb["conductor"], encoding="utf-8")
 
-    # per-family conductors: "run every Trust brief", etc.
-    from collections import OrderedDict
-    fam_groups = OrderedDict()
-    for p in prompts:
-        fam_groups.setdefault(p["family"], []).append(p["id"])
-    for fam, fids in fam_groups.items():
-        if len(fids) < 2:
+    # ---- per-family conductors ("run all Trust briefs") ----
+    fam_conductors = {}
+    for fam in FAMILY_ORDER:
+        ids = [p["id"] for p in prompts if p["family"] == fam]
+        if len(ids) < 2:
             continue
-        pseudo = {"name": f"All {fam} briefs",
-                  "desc": f"Every brief in the {fam} family, run in sequence.",
-                  "ids": fids}
-        slug = fam.lower().replace(" ", "-")
-        (ROOT / "raw" / f'family-{slug}.md').write_text(
-            conductor(pseudo, by_id), encoding="utf-8")
+        slug = fam.lower()
+        fam_pb = {"name": f"All {fam} briefs",
+                  "desc": f"Every {fam} brief in the catalog, in order — {ids[0]} through {ids[-1]}, one report each.",
+                  "ids": ids}
+        (ROOT / "raw" / f"family-{slug}.md").write_text(
+            conductor(fam_pb, by_id), encoding="utf-8")
+        fam_conductors[fam] = f"{BASE}/raw/family-{slug}.md"
 
     # ---- machine-readable catalog ----
     catalog = {
@@ -268,18 +262,15 @@ def main() -> None:
         "families": FAMILY_ORDER,
         "playbooks": [{k: pb[k] for k in ("key", "name", "desc", "ids")}
                       for pb in playbooks],
+        "family_conductors": fam_conductors,
         "briefs": [{**{k: p[k] for k in ("id", "title", "family", "question",
-                                         "output", "tagline", "chars", "slug",
-                                         "kind")},
-                    "raw": f"{BASE}/raw/{p['id']}.md",
-                    **({"example": examples[p["id"]]} if p["id"] in examples else {})}
-                   for p in prompts],
+                                         "output", "tagline", "chars", "slug")},
+                    **({"example": BASE + p["example"]} if p.get("example") else {}),
+                    "raw": f"{BASE}/raw/{p['id']}.md"} for p in prompts],
     }
     (ROOT / "catalog.json").write_text(
         json.dumps(catalog, ensure_ascii=False, sort_keys=True, indent=1) + "\n",
         encoding="utf-8")
-
-    shutil.copyfile(ROOT / "studio.html", ROOT / "studio")
 
     write_archives(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
