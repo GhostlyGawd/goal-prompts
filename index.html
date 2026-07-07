@@ -218,6 +218,7 @@
     font-size:13px;padding:56px 0;
   }
   .empty b{color:var(--dim);font-weight:500}
+  .empty .nearrow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
   /* ---------- custom conductor bar ---------- */
   .seqbar{
@@ -554,8 +555,54 @@ function copyText(txt, btn, ok, evt){
   }
 }
 
+/* ---- closest matches — the same stemmed, rarity-weighted scoring as the MCP server's suggest_briefs ---- */
+function stemWord(w){
+  if(w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
+  if(w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
+  if(w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
+  return w;
+}
+const hay = {};
+DATA.forEach(p => hay[p.id] = {
+  title: p.title.toLowerCase(),
+  fam: (p.family + " " + p.question).toLowerCase(),
+  tag: p.tagline.toLowerCase(),
+  body: p.body.toLowerCase()
+});
+const dfCache = {};
+function rarity(w){
+  if(dfCache[w] !== undefined) return dfCache[w];
+  let df = 0;
+  for(const p of DATA){
+    const h = hay[p.id];
+    if(h.title.includes(w) || h.fam.includes(w) || h.tag.includes(w) || h.body.includes(w)) df++;
+  }
+  dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
+  return dfCache[w];
+}
+function closest(q, n){
+  const words = q.toLowerCase().split(/[^a-z0-9]+/)
+    .filter(w => w.length > 2).map(stemWord)
+    .filter((w, i, a) => a.indexOf(w) === i);
+  if(!words.length) return [];
+  return DATA.map(p => {
+    const h = hay[p.id];
+    let s = 0;
+    for(const w of words){
+      let m = 0;
+      if(h.title.includes(w)) m += 4;
+      if(h.fam.includes(w)) m += 3;
+      if(h.tag.includes(w)) m += 2;
+      if(h.body.includes(w)) m += 1;
+      s += m * rarity(w);
+    }
+    return {p, s};
+  }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, n).map(x => x.p);
+}
+
 /* ---- render ---- */
 const listEl = document.getElementById("list");
+let zeroT;
 function matches(p){
   if(activePb){
     const pb = PLAYBOOKS.find(x=>x.key===activePb);
@@ -655,11 +702,33 @@ function renderNudge(){
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
   listEl.textContent = "";
+  clearTimeout(zeroT);
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
     const bq = document.createElement("b"); bq.textContent = "“"+query+"”";
     e.append("nothing matches ", bq, " — try another word or clear the filter");
+    if(query){
+      const near = closest(query, 3);
+      if(near.length){
+        const row = document.createElement("div"); row.className = "nearrow";
+        row.append("closest matches: ");
+        for(const p of near){
+          const b = document.createElement("button"); b.className = "iconbtn";
+          b.textContent = p.id + " · " + p.title;
+          b.onclick = ()=>{
+            qEl.value = ""; query = "";
+            if(location.hash === "#"+p.id) openFromHash(); else location.hash = p.id;
+          };
+          row.append(b);
+        }
+        e.append(row);
+      }
+      const q0 = query;
+      zeroT = setTimeout(()=>{
+        if(query === q0){ try{ window.va("event", {name:"search_zero", data:{q:q0.slice(0,80)}}); }catch(err){} }
+      }, 1200);
+    }
     listEl.append(e); return;
   }
   let i = 0;
