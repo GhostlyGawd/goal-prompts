@@ -26,6 +26,8 @@ if command -v node >/dev/null 2>&1; then
   say "mcp server syntax"
   node --check mcp/server.cjs
   echo "OK  mcp/server.cjs"
+  node --check sw.js
+  echo "OK  sw.js"
 
   say "site script syntax (index.html + studio.html + vitals.html)"
   node - <<'EOF'

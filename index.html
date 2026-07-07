@@ -866,6 +866,10 @@ sync();
 syncSeqUi();
 window.addEventListener("hashchange", openFromHash);
 if(location.hash) openFromHash();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
+}
 </script>
 </body>
 </html>
