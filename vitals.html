@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitals Viewer — Goal Prompts</title>
+<meta name="description" content="Drop the HEALTH.md scorecards brief 29 produces. Each run's vitals line up into trend arrows and sparklines — drift at a glance. All client-side.">
+<meta property="og:title" content="Vitals Viewer — Goal Prompts">
+<meta property="og:description" content="Turn brief 29's dated HEALTH.md history into visible trends: every vital as a sparkline with run-over-run deltas. Nothing leaves your browser.">
+<meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
+<meta property="og:url" content="https://goal-prompts.vercel.app/vitals">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="theme-color" content="#14181E">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='32' font-weight='700' text-anchor='middle' fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E">
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<style>
+  /* self-hosted fonts (OFL 1.1 — see /fonts/LICENSE.txt) */
+  @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/archivo-latin-var.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexmono-latin-400.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/plexmono-latin-500.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexmono-latin-600.woff2) format('woff2')}
+  :root{
+    --ink:#14181E; --panel:#1B212B; --panel-2:#202834; --line:#2A3340;
+    --text:#E2E6EC; --dim:#8B96A5; --faint:#5C6675; --amber:#E8B44C;
+    --meta:#C4CBD8; --up:#52C280; --down:#E8705F; --radius:10px;
+    --sans:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  a{color:var(--amber)}
+  header{padding:56px 0 8px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+  .eyebrow a{color:var(--dim);text-decoration:none}
+  .eyebrow a:hover{color:var(--text)}
+  .eyebrow b{color:var(--text);font-weight:500}
+  h1{font-weight:900;font-size:clamp(44px,9vw,72px);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;margin:14px 0 16px}
+  h1 .tick{color:var(--meta)}
+  .sub{color:var(--dim);max-width:58ch;font-size:15px}
+  .sub a{color:var(--amber);text-decoration:none}
+  .sub a:hover{text-decoration:underline}
+  main{padding:22px 0 40px}
+  .drop{border:1.5px dashed var(--line);border-radius:var(--radius);background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+  .drop:hover,.drop.over{border-color:var(--meta);background:color-mix(in srgb,#C4CBD8 6%,var(--panel))}
+  .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .drop-big{font-weight:700;font-size:17px}
+  .drop-big b{color:var(--meta);font-family:var(--mono);font-weight:600}
+  .drop-small{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:6px}
+  .altrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .iconbtn{background:none;border:1px solid var(--line);border-radius:8px;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:11.5px;padding:6px 10px;min-height:30px;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s;text-decoration:none}
+  .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  .iconbtn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .pastebox{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);display:grid;gap:9px}
+  .pastebox input,.pastebox textarea{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:12.5px;padding:9px 11px;outline:0;resize:vertical}
+  .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--meta);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
+  .runrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;align-items:center}
+  .runchip{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+  .runchip .n{color:var(--faint)}
+  .metrics{margin-top:22px;display:grid;gap:9px}
+  .metric{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--meta);border-radius:var(--radius);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center}
+  .mname{font-weight:600;font-size:14.5px}
+  .mval{font-family:var(--mono);font-size:15px;text-align:right}
+  .mval .delta{font-size:12px;margin-left:8px}
+  .up{color:var(--up)}.down{color:var(--down)}.flat{color:var(--faint)}
+  .spark{grid-column:1/-1;margin-top:2px}
+  .mseries{font-family:var(--mono);font-size:11px;color:var(--faint);grid-column:1/-1;overflow-x:auto;white-space:nowrap}
+  .empty{text-align:center;color:var(--faint);font-family:var(--mono);font-size:13px;padding:44px 0}
+  footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
+  .buildnote{font-family:var(--mono);font-size:11.5px;color:var(--faint);line-height:1.7}
+  .buildnote a{color:var(--dim)}
+  @media (max-width:560px){header{padding-top:40px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="eyebrow"><a href="/">← goal prompts</a> · <b>see the drift</b></div>
+  <h1>Vitals<br>Viewer<span class="tick">.</span></h1>
+  <p class="sub">Drop the <a href="/#29">HEALTH.md</a> scorecards brief 29 leaves behind — one dated row per weekly run. Every vital lines up into a sparkline with a run-over-run delta, so drift shows as a trend, not a surprise. Drop several files or one with a full history table; everything stays in this tab.</p>
+</header>
+
+<main class="wrap">
+  <div class="drop" id="drop" role="button" tabindex="0" aria-label="Drop HEALTH.md files here, or press Enter to browse">
+    <div class="drop-big">drop <b>HEALTH.md</b> files here</div>
+    <div class="drop-small">or click to browse — the history table inside is enough on its own</div>
+  </div>
+  <input type="file" id="file" accept=".md,.markdown,.txt,text/markdown,text/plain" multiple hidden>
+  <div class="altrow">
+    <button class="iconbtn" id="pastebtn">paste markdown</button>
+    <button class="iconbtn" id="demobtn">try a sample history</button>
+    <button class="iconbtn" id="clearall" hidden>clear</button>
+  </div>
+  <div class="pastebox" id="pastebox" hidden>
+    <textarea id="pastetext" rows="8" placeholder="# paste HEALTH.md (or just its history table) here…" aria-label="HEALTH markdown"></textarea>
+    <div class="altrow"><button class="iconbtn" id="pasteadd">add</button></div>
+  </div>
+  <div class="note" id="note" hidden></div>
+  <div class="runrow" id="runrow"></div>
+  <div class="metrics" id="metrics"></div>
+  <div class="empty" id="empty">nothing loaded yet — trends appear here once a HEALTH.md with a dated history table is in</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="buildnote">the weekly loop: run <a href="/#29">29 · Health Check</a> → it appends a dated row to HEALTH.md → drop the file here for trend arrows. part of the <a href="/">goal-prompts</a> catalog · sample input in the <a href="/examples/">report gallery</a>.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? fb : v; }catch(e){ return fb; } }
+function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+let texts = load("gp-vitals-texts", []);   // raw HEALTH.md strings
+
+const noteEl = document.getElementById("note");
+function note(msg){ noteEl.textContent = msg || ""; noteEl.hidden = !msg; }
+
+/* ---------- markdown table parsing ---------- */
+function parseTables(md){
+  const tables = [];
+  const lines = String(md).replace(/\r\n?/g, "\n").split("\n");
+  let block = [];
+  const flush = () => {
+    if(block.length >= 2){
+      const rows = block.map(l => l.trim().replace(/^\|/, "").replace(/\|$/, "")
+        .split("|").map(c => c.trim()));
+      const sep = rows[1] && rows[1].every(c => /^:?-{2,}:?$/.test(c.replace(/\s/g, "")));
+      if(sep){ tables.push({ head: rows[0], body: rows.slice(2) }); }
+    }
+    block = [];
+  };
+  for(const ln of lines){
+    if(/^\s*\|.*\|\s*$/.test(ln)) block.push(ln);
+    else flush();
+  }
+  flush();
+  return tables;
+}
+function looksLikeDate(s){
+  return /\d{4}-\d{2}-\d{2}/.test(s) || /^\d{4}[-/]\d{1,2}([-/]\d{1,2})?$/.test(s) ||
+    /\b(20\d\d)\b/.test(s) || /^(wk|week|run)\s*\d+/i.test(s);
+}
+function firstNumber(s){
+  const m = String(s).replace(/,/g, "").match(/-?\d+(\.\d+)?/);
+  return m ? parseFloat(m[0]) : null;
+}
+
+/* A history table: first column reads like a date/run, and there are ≥2 rows. */
+function historyRows(md){
+  const out = [];
+  for(const t of parseTables(md)){
+    const firstHead = (t.head[0] || "").toLowerCase();
+    const dateCol = /date|run|week|when|day/.test(firstHead) ||
+      t.body.filter(r => looksLikeDate(r[0])).length >= Math.max(1, t.body.length - 1);
+    if(!dateCol || t.body.length < 1) continue;
+    for(const r of t.body){
+      if(!r[0]) continue;
+      const rec = { _run: r[0] };
+      for(let i = 1; i < t.head.length; i++){
+        const key = t.head[i] || ("col" + i);
+        rec[key] = r[i] !== undefined ? r[i] : "";
+      }
+      out.push(rec);
+    }
+  }
+  return out;
+}
+
+/* ---------- assembling the series ---------- */
+function allRuns(){
+  const seen = new Map();                 // run label -> record (last wins)
+  for(const md of texts){
+    for(const rec of historyRows(md)){
+      seen.set(rec._run, Object.assign(seen.get(rec._run) || {}, rec));
+    }
+  }
+  return [...seen.values()].sort((a, b) => a._run < b._run ? -1 : a._run > b._run ? 1 : 0);
+}
+
+/* ---------- rendering ---------- */
+const runrowEl = document.getElementById("runrow");
+const metricsEl = document.getElementById("metrics");
+const emptyEl = document.getElementById("empty");
+
+function sparkline(nums){
+  const vals = nums.filter(n => n !== null);
+  if(vals.length < 2) return null;
+  const w = Math.max(60, nums.length * 22), h = 30, pad = 3;
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
+  const pts = [];
+  nums.forEach((n, i) => {
+    if(n === null) return;
+    const x = pad + (nums.length === 1 ? 0 : i * (w - 2 * pad) / (nums.length - 1));
+    const y = h - pad - (n - lo) / span * (h - 2 * pad);
+    pts.push([x, y]);
+  });
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const last = pts[pts.length - 1];
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 " + w + " " + h); svg.setAttribute("width", w); svg.setAttribute("height", h);
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", d); path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "#C4CBD8"); path.setAttribute("stroke-width", "1.6");
+  svg.appendChild(path);
+  const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  dot.setAttribute("cx", last[0]); dot.setAttribute("cy", last[1]); dot.setAttribute("r", "2.6");
+  dot.setAttribute("fill", "#E8B44C");
+  svg.appendChild(dot);
+  return svg;
+}
+
+function render(){
+  const runs = allRuns();
+  runrowEl.textContent = "";
+  metricsEl.textContent = "";
+  emptyEl.hidden = runs.length > 0;
+  document.getElementById("clearall").hidden = texts.length === 0;
+  if(!runs.length){
+    if(texts.length) note("Loaded, but no dated history table found. Brief 29's HEALTH.md keeps one row per run — that's what this reads.");
+    return;
+  }
+  note("");
+  for(const r of runs){
+    const c = document.createElement("span"); c.className = "runchip";
+    c.textContent = r._run;
+    runrowEl.append(c);
+  }
+  const metricKeys = [];
+  for(const r of runs) for(const k in r) if(k !== "_run" && !metricKeys.includes(k)) metricKeys.push(k);
+  for(const key of metricKeys){
+    const series = runs.map(r => (r[key] === undefined ? "" : r[key]));
+    const nums = series.map(firstNumber);
+    const el = document.createElement("div"); el.className = "metric";
+    const name = document.createElement("div"); name.className = "mname"; name.textContent = key;
+    const val = document.createElement("div"); val.className = "mval";
+    const latest = series[series.length - 1] || "—";
+    val.append(document.createTextNode(latest));
+    // delta vs previous non-null numeric
+    let prev = null;
+    for(let i = nums.length - 2; i >= 0; i--){ if(nums[i] !== null){ prev = nums[i]; break; } }
+    const cur = nums[nums.length - 1];
+    if(cur !== null && prev !== null && cur !== prev){
+      const d = cur - prev;
+      const s = document.createElement("span");
+      s.className = "delta " + (d > 0 ? "up" : "down");
+      s.textContent = (d > 0 ? "▲ +" : "▼ ") + (Math.round(d * 100) / 100);
+      val.append(s);
+    } else if(cur !== null && prev !== null){
+      const s = document.createElement("span"); s.className = "delta flat"; s.textContent = "▬ 0";
+      val.append(s);
+    }
+    el.append(name, val);
+    const spark = sparkline(nums);
+    if(spark){ const wrap = document.createElement("div"); wrap.className = "spark"; wrap.append(spark); el.append(wrap); }
+    const ser = document.createElement("div"); ser.className = "mseries";
+    ser.textContent = series.map(v => v || "—").join("  →  ");
+    el.append(ser);
+    metricsEl.append(el);
+  }
+  try{ window.va("event", { name: "vitals_render", data: { runs: runs.length, metrics: metricKeys.length } }); }catch(e){}
+}
+
+/* ---------- input ---------- */
+function addText(t){
+  if(!t || !t.trim()){ note("That looked empty — nothing added."); return; }
+  texts.push(String(t)); save("gp-vitals-texts", texts); note(""); render();
+}
+function readFiles(list){
+  for(const f of list){ const reader = new FileReader(); reader.onload = () => addText(reader.result); reader.readAsText(f); }
+}
+const dropEl = document.getElementById("drop");
+const fileEl = document.getElementById("file");
+dropEl.onclick = () => fileEl.click();
+dropEl.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); fileEl.click(); } };
+fileEl.onchange = () => { readFiles(fileEl.files); fileEl.value = ""; };
+["dragenter", "dragover"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.remove("over"); }));
+dropEl.addEventListener("drop", e => { if(e.dataTransfer && e.dataTransfer.files) readFiles(e.dataTransfer.files); });
+document.getElementById("pastebtn").onclick = () => {
+  const b = document.getElementById("pastebox"); b.hidden = !b.hidden;
+  if(!b.hidden) document.getElementById("pastetext").focus();
+};
+document.getElementById("pasteadd").onclick = () => {
+  addText(document.getElementById("pastetext").value);
+  document.getElementById("pastetext").value = "";
+  document.getElementById("pastebox").hidden = true;
+};
+document.getElementById("clearall").onclick = () => {
+  if(!confirm("Clear all loaded HEALTH.md data?")) return;
+  texts = []; save("gp-vitals-texts", texts); render();
+};
+document.getElementById("demobtn").onclick = function(){
+  addText([
+    "## History table",
+    "| Date | Tests | Build (s) | Vulns | TODOs | LOC |",
+    "|---|---|---|---|---|---|",
+    "| 2026-06-09 | 128 pass / 2 fail | 41 | 3 | 57 | 8120 |",
+    "| 2026-06-16 | 131 pass / 1 fail | 38 | 3 | 54 | 8240 |",
+    "| 2026-06-23 | 134 pass / 0 fail | 36 | 1 | 49 | 8305 |",
+    "| 2026-06-30 | 140 pass / 0 fail | 35 | 1 | 46 | 8410 |"
+  ].join("\n"));
+  this.textContent = "loaded ✓";
+};
+
+render();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
+}
+</script>
+</body>
+</html>

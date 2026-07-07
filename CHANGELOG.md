@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.8.0 — 2026-07-07
+- Paid down the whole IMPROVEMENTS.md opportunity map (the v0.7 self-audit
+  re-run) via 47 · The Fixer, one finding per commit:
+- Share cards for every brief: the 22 briefs added since 0.5 (Act, Design,
+  Venture, 48–53) had no OG image, so their `/b/<id>` pages unfurled a 404.
+  `scripts/og.py` generates cards from front matter and the build now fails
+  if a brief ships without one
+- Self-hosted fonts: Archivo + IBM Plex Mono vendored as woff2 (OFL),
+  dropping the site's last runtime third party — closes SECURITY 4
+- Offline PWA: a build-generated service worker precaches the shell and
+  fonts (content-hash cache version); the catalog, Studio, and new Vitals
+  Viewer work offline
+- Vitals Viewer (/vitals): drop brief 29's HEALTH.md history and every
+  vital becomes a sparkline with run-over-run deltas — client-side
+- Report Studio loads reports straight from a public GitHub repo, no
+  download step; the report grammar is now documented and linted, and the
+  Studio surfaces the impact chip
+- Venture family dogfooded: a sourced Gut Check (62 → 63 → 67) on a real
+  candidate niche, live in the sample gallery — every claim linked and dated
+- Zero-result search suggests the closest briefs (the MCP server's
+  rarity-weighted scoring, in-page) and logs the miss; run tracker keeps
+  timestamps and nudges when Weekly Vitals goes stale; playbook chips copy
+  their conductor in one tap
+- sitemap.xml + robots.txt from the build; families injected from one
+  source instead of hand-synced; MCP version reads from package.json;
+  3-digit hash-router ids; MCP package made publish-ready (npm publish
+  itself still pending credentials). 68 briefs, 11 playbooks
+
 ## 0.7.0 — 2026-07-06
 - Venture family (is it worth building?): eight briefs that research a
   company before it exists — 60 Opportunity Scan, 61 Niche Map, 62 Pain &

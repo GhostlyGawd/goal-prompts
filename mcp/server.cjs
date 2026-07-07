@@ -14,6 +14,7 @@ const path = require("path");
 const readline = require("readline");
 
 const ROOT = path.join(__dirname, "..");
+const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version;
 const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
 const briefs = catalog.briefs;
 const byId = {};
@@ -269,7 +270,7 @@ rl.on("line", function (line) {
       result(id, {
         protocolVersion: (msg.params && msg.params.protocolVersion) || "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "goal-prompts", version: "0.7.0" }
+        serverInfo: { name: "goal-prompts", version: VERSION }
       });
     } else if (msg.method === "notifications/initialized") {
       // notification: no response

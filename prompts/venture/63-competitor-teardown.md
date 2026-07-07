@@ -4,6 +4,7 @@ title: Competitor Teardown
 family: Venture
 question: is it worth building?
 output: COMPETITORS.md
+example: /examples/venture/COMPETITORS.md
 tagline: Everyone already fighting for this money — features, pricing, positioning, and traction compared, their customers' complaints mined, and the gaps nobody covers.
 ---
 # Goal: Competitor Teardown

@@ -25,6 +25,7 @@
   },
   {
    "chars": 2550,
+   "example": "https://goal-prompts.vercel.app/examples/venture/DEMAND.md",
    "family": "Venture",
    "id": "62",
    "output": "DEMAND.md",
@@ -36,6 +37,7 @@
   },
   {
    "chars": 2755,
+   "example": "https://goal-prompts.vercel.app/examples/venture/COMPETITORS.md",
    "family": "Venture",
    "id": "63",
    "output": "COMPETITORS.md",
@@ -80,6 +82,7 @@
   },
   {
    "chars": 2546,
+   "example": "https://goal-prompts.vercel.app/examples/venture/VERDICT.md",
    "family": "Venture",
    "id": "67",
    "output": "VERDICT.md",

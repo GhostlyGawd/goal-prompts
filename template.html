@@ -14,13 +14,18 @@
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
 <meta name="theme-color" content="#14181E">
 <link rel="manifest" href="/manifest.json">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='32' font-weight='700' text-anchor='middle' fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <style>
+  /* self-hosted fonts (OFL 1.1 — see /fonts/LICENSE.txt); the site's only former runtime third party */
+  @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/archivo-latin-var.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexmono-latin-400.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/plexmono-latin-500.woff2) format('woff2')}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexmono-latin-600.woff2) format('woff2')}
   :root{
     --ink:#14181E;
     --panel:#1B212B;
@@ -125,6 +130,16 @@
     border-style:solid;border-color:var(--amber);color:var(--text);
     background:color-mix(in srgb,#E8B44C 10%,var(--panel));
   }
+  .pbwrap{display:inline-flex;align-items:stretch}
+  .pbwrap .pb{border-top-right-radius:0;border-bottom-right-radius:0;border-right:0}
+  .pbcopy{
+    display:inline-flex;align-items:center;font-family:var(--mono);font-size:12px;
+    color:var(--faint);background:transparent;border:1px dashed var(--line);
+    border-left:0;border-radius:0 999px 999px 0;padding:0 11px 0 8px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s;
+  }
+  .pbcopy:hover{color:var(--text);border-color:var(--dim)}
+  .pbcopy.done{color:#52C280;border-color:#52C280}
 
   /* ---------- catalog ---------- */
   main{padding:10px 0 24px}
@@ -218,6 +233,7 @@
     font-size:13px;padding:56px 0;
   }
   .empty b{color:var(--dim);font-weight:500}
+  .empty .nearrow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
   /* ---------- custom conductor bar ---------- */
   .seqbar{
@@ -359,6 +375,7 @@
     <div class="installbox">
       <b>Act on the reports</b>
       <p style="margin-top:0">Your audits leave reports at the repo root — the <a href="/studio" style="color:var(--amber)">Report Studio</a> turns them into a checklist. Drop the .md files, tick the findings that matter, and one tap builds a targeted <a href="/#47" style="color:var(--amber)">47 · Fixer</a> prompt containing exactly those findings. Client-side only; nothing leaves your browser. Prefer sequencing audits instead? Tap <span style="font-family:var(--mono)">+ seq</span> on any cards to compose your own conductor.</p>
+      <p>Re-running <a href="/#29" style="color:var(--amber)">29 · Health Check</a> weekly? The <a href="/vitals" style="color:var(--amber)">Vitals Viewer</a> reads its HEALTH.md history into trend arrows and sparklines — drift at a glance.</p>
     </div>
     <p class="buildnote">source of truth: <code>prompts/&lt;family&gt;/*.md</code> · rebuild with <code>python3 build.py</code> · every body &lt; 4k chars, enforced by the build · <a href="https://github.com/GhostlyGawd/goal-prompts" style="color:var(--dim)">github</a> · <button class="reset" id="reset">reset run tracker</button></p>
   </div>
@@ -367,25 +384,7 @@
 <script>
 const DATA = __PROMPTS_JSON__;
 
-const FAMILIES = [
-  ["Venture","is it worth building?"],
-  ["Product","what could this be?"],
-  ["Quality","does it work?"],
-  ["Speed","does it scale?"],
-  ["Trust","is it safe?"],
-  ["Growth","does it grow?"],
-  ["Team","can others build on it?"],
-  ["Clarity","is it understood?"],
-  ["Design","is it beautiful?"],
-  ["Data","is it sound?"],
-  ["Ops","does it run?"],
-  ["Subtract","what should go?"],
-  ["Meta","do the reports compose?"],
-  ["Act","does anything change?"],
-  ["Agent","does the agent deliver?"],
-  ["Automation","does the process hold?"],
-  ["AI-UX","does the human trust it?"]
-];
+const FAMILIES = __FAMILIES_JSON__; /* [name, question] pairs, injected by build.py from the briefs' own front matter */
 const PLAYBOOKS = __PLAYBOOKS_JSON__;
 const fkey = f => "f-" + f.toLowerCase();
 const byId = {};
@@ -401,6 +400,17 @@ let runs = {};
 try{ runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}; }catch(e){ runs = {}; }
 function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} }
 function runCount(){ return Object.keys(runs).filter(k => runs[k]).length; }
+const DAY = 86400000;
+function ago(ts){
+  if(typeof ts !== "number") return "";           // pre-0.8 marks were booleans
+  const d = Math.floor((Date.now() - ts) / DAY);
+  return d <= 0 ? "today" : d === 1 ? "1d ago" : d + "d ago";
+}
+function runLabel(id){
+  if(!runs[id]) return "mark run";
+  const a = ago(runs[id]);
+  return a ? "✓ run · " + a : "✓ run";
+}
 
 /* ---- custom conductor sequence ---- */
 let seq = [];
@@ -515,12 +525,19 @@ function buildPbs(){
   lab.className = "pblabel"; lab.textContent = "playbooks";
   pbsEl.append(lab);
   for(const pb of PLAYBOOKS){
+    const wrap = document.createElement("span"); wrap.className = "pbwrap";
     const b = document.createElement("button");
     b.className = "pb";
     b.setAttribute("aria-pressed", activePb===pb.key);
     b.innerHTML = pb.name + ' <span class="len">'+pb.ids.length+"</span>";
     b.onclick = ()=>{ activePb = activePb===pb.key ? null : pb.key; activeFam="All"; sync(); };
-    pbsEl.append(b);
+    const c = document.createElement("button");
+    c.className = "pbcopy"; c.textContent = "⧉";
+    c.setAttribute("aria-label", "Copy the " + pb.name + " conductor — runs all " + pb.ids.length + " briefs in one paste");
+    c.title = "copy conductor";
+    c.onclick = e=>{ e.stopPropagation(); copyText(pb.conductor, c, "✓", {name:"copy_conductor", data:{key:pb.key}}); };
+    wrap.append(b, c);
+    pbsEl.append(wrap);
   }
   const st = document.createElement("a");
   st.className = "pb"; st.href = "/studio";
@@ -554,8 +571,54 @@ function copyText(txt, btn, ok, evt){
   }
 }
 
+/* ---- closest matches — the same stemmed, rarity-weighted scoring as the MCP server's suggest_briefs ---- */
+function stemWord(w){
+  if(w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
+  if(w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
+  if(w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
+  return w;
+}
+const hay = {};
+DATA.forEach(p => hay[p.id] = {
+  title: p.title.toLowerCase(),
+  fam: (p.family + " " + p.question).toLowerCase(),
+  tag: p.tagline.toLowerCase(),
+  body: p.body.toLowerCase()
+});
+const dfCache = {};
+function rarity(w){
+  if(dfCache[w] !== undefined) return dfCache[w];
+  let df = 0;
+  for(const p of DATA){
+    const h = hay[p.id];
+    if(h.title.includes(w) || h.fam.includes(w) || h.tag.includes(w) || h.body.includes(w)) df++;
+  }
+  dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
+  return dfCache[w];
+}
+function closest(q, n){
+  const words = q.toLowerCase().split(/[^a-z0-9]+/)
+    .filter(w => w.length > 2).map(stemWord)
+    .filter((w, i, a) => a.indexOf(w) === i);
+  if(!words.length) return [];
+  return DATA.map(p => {
+    const h = hay[p.id];
+    let s = 0;
+    for(const w of words){
+      let m = 0;
+      if(h.title.includes(w)) m += 4;
+      if(h.fam.includes(w)) m += 3;
+      if(h.tag.includes(w)) m += 2;
+      if(h.body.includes(w)) m += 1;
+      s += m * rarity(w);
+    }
+    return {p, s};
+  }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, n).map(x => x.p);
+}
+
 /* ---- render ---- */
 const listEl = document.getElementById("list");
+let zeroT;
 function matches(p){
   if(activePb){
     const pb = PLAYBOOKS.find(x=>x.key===activePb);
@@ -586,7 +649,6 @@ function card(p, idx, stepNo){
   const btn = document.createElement("button");
   btn.className = "copy"; btn.textContent = "Copy";
   btn.setAttribute("aria-label","Copy prompt: "+p.title);
-  btn.onclick = e=>{e.stopPropagation(); copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});};
   top.append(num, tt, btn);
 
   const meta = document.createElement("div"); meta.className="card-meta";
@@ -604,17 +666,21 @@ function card(p, idx, stepNo){
   share.setAttribute("aria-label","Copy link to "+p.title);
   share.onclick = ()=>copyText(location.origin + "/b/" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
   const run = document.createElement("button"); run.className="iconbtn" + (runs[p.id] ? " on" : "");
-  run.textContent = runs[p.id] ? "✓ run" : "mark run";
+  run.textContent = runLabel(p.id);
   run.setAttribute("aria-pressed", !!runs[p.id]);
   run.setAttribute("aria-label","Mark "+p.title+" as run");
   run.onclick = ()=>{
-    runs[p.id] = !runs[p.id];
-    if(!runs[p.id]) delete runs[p.id];
+    if(runs[p.id]) delete runs[p.id]; else runs[p.id] = Date.now();
     saveRuns(); renderStats();
     run.className = "iconbtn" + (runs[p.id] ? " on" : "");
-    run.textContent = runs[p.id] ? "✓ run" : "mark run";
+    run.textContent = runLabel(p.id);
     run.setAttribute("aria-pressed", !!runs[p.id]);
     renderNudge();
+  };
+  btn.onclick = e=>{
+    e.stopPropagation();
+    copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
+    if(!runs[p.id]) run.textContent = "ran it? mark it";
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -650,16 +716,45 @@ function renderNudge(){
     d.className = "nudge"; d.id = "nudge";
     d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
     listEl.prepend(d);
+    return;
+  }
+  if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
+    const d = document.createElement("div");
+    d.className = "nudge"; d.id = "nudge";
+    d.innerHTML = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
+    listEl.prepend(d);
   }
 }
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
   listEl.textContent = "";
+  clearTimeout(zeroT);
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
     const bq = document.createElement("b"); bq.textContent = "“"+query+"”";
     e.append("nothing matches ", bq, " — try another word or clear the filter");
+    if(query){
+      const near = closest(query, 3);
+      if(near.length){
+        const row = document.createElement("div"); row.className = "nearrow";
+        row.append("closest matches: ");
+        for(const p of near){
+          const b = document.createElement("button"); b.className = "iconbtn";
+          b.textContent = p.id + " · " + p.title;
+          b.onclick = ()=>{
+            qEl.value = ""; query = "";
+            if(location.hash === "#"+p.id) openFromHash(); else location.hash = p.id;
+          };
+          row.append(b);
+        }
+        e.append(row);
+      }
+      const q0 = query;
+      zeroT = setTimeout(()=>{
+        if(query === q0){ try{ window.va("event", {name:"search_zero", data:{q:q0.slice(0,80)}}); }catch(err){} }
+      }, 1200);
+    }
     listEl.append(e); return;
   }
   let i = 0;
@@ -715,11 +810,13 @@ function sync(){
 /* ---- deep links ---- */
 function openFromHash(){
   const h = (location.hash || "").replace("#","");
-  if(!/^\d\d$/.test(h) || !byId[h]) return;
+  if(!/^\d{2,3}$/.test(h) || !byId[h]) return;
   activePb = null; activeFam = "All"; query = ""; qEl.value = "";
   sync();
   const el = document.getElementById("p"+h);
   if(!el) return;
+  const tb = document.querySelector(".toolbar");
+  if(tb) el.style.scrollMarginTop = Math.ceil(tb.getBoundingClientRect().height) + 16 + "px";
   el.classList.add("open","flash");
   const v = el.querySelector(".view");
   if(v) v.setAttribute("aria-expanded","true");
@@ -769,6 +866,10 @@ sync();
 syncSeqUi();
 window.addEventListener("hashchange", openFromHash);
 if(location.hash) openFromHash();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
+}
 </script>
 </body>
 </html>

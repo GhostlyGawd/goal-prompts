@@ -100,6 +100,13 @@ class LintTests(unittest.TestCase):
         v = build.lint(brief(output="notes.txt"))
         self.assertTrue(any("REPORT.md" in x for x in v), v)
 
+    def test_body_must_name_its_report(self):
+        # The report grammar's anchor: Phase 4 names the file it writes,
+        # so the Studio, the Fixer, and conductors can rely on it.
+        body = GOOD_BODY.replace("Create `X.md` at repo root:", "Write a file:")
+        v = build.lint(brief(body))
+        self.assertTrue(any("at repo root" in x for x in v), v)
+
     def test_overlong_tagline_fails(self):
         v = build.lint(brief(tagline="x" * 171))
         self.assertTrue(any("tagline" in x for x in v), v)

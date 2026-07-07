@@ -1,8 +1,26 @@
 {
   "name": "goal-prompts",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Audit briefs for coding agents — MCP server exposing the goal-prompts catalog",
   "bin": { "goal-prompts": "mcp/server.cjs" },
+  "files": [
+    "mcp/",
+    "raw/",
+    "catalog.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": { "node": ">=14" },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "claude-code",
+    "coding-agent",
+    "code-audit",
+    "prompts"
+  ],
   "license": "MIT",
-  "repository": "github:GhostlyGawd/goal-prompts"
+  "repository": "github:GhostlyGawd/goal-prompts",
+  "homepage": "https://goal-prompts.vercel.app"
 }
