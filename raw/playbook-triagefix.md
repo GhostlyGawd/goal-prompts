@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **Triage & Fix** playbook — 2 audit briefs in sequence, each producing one report file at this repo's root.
 
-The full loop: scout the repo, run what it needs, then implement the findings. Between stage 1 and 3, run whichever briefs Triage recommends.
+Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

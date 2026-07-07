@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **All Growth briefs** playbook — 4 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every brief in the Growth family, run in sequence.
+Every Growth brief in the catalog, in order — 09 through 12, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

@@ -4,41 +4,41 @@ title: Config & Environment Audit
 family: Ops
 question: does it run?
 output: CONFIG.md
-tagline: Env-var sprawl, prod/dev drift, magic values, and settings with no safe default — mapped so the config stops being a source of outages.
+tagline: Every knob, var, and magic value — where config sprawls, where environments drift, what explodes at boot versus at 3am, and which secrets hide in plain sight.
 ---
 # Goal: Config & Environment Audit
 
-You are working inside this repo. Mission: map how this system is configured across environments — every variable, flag, and magic value — and find where config causes drift, breakage, or 3am confusion.
+You are working inside this repo. Mission: inventory every way this system is configured — env vars, files, flags, constants — and find the sprawl, the drift, and the values that will take production down.
 
 Read-only pass. Your only write is the report file.
 
-## Phase 1 — Inventory the configuration
-- Find every source: env vars the code reads, config files, feature flags, hardcoded constants that behave like config, build-time vs runtime settings.
-- Cross-check: which env vars does the code actually read vs which are documented (an example env file, README)? Note both directions of mismatch.
-- Note how config differs across local, staging, and production, as far as the repo reveals.
+## Phase 1 — Inventory the knobs
+- Collect every config surface: env vars read anywhere, config files, feature flags, CLI args, per-environment overrides. Grep the access patterns — process.env, os.environ, getenv, config.get.
+- For each value: where defined, where read, the default if missing, documented or not.
+- Compare `.env.example` (or its equivalent) against what the code actually reads — in both directions.
 
-## Phase 2 — Audit through 7 lenses
-1. **Undocumented vars** — settings the code reads that no example file or doc mentions: landmines for a new deploy (ties to 14, 16)
-2. **Missing safe defaults** — required config with no fallback, where absence crashes at runtime instead of failing loudly at startup
-3. **No validation** — config read and trusted without checking presence, type, or range; a typo'd number silently changing behavior
-4. **Environment drift** — behavior that differs between dev and prod because of config, in ways that cause works-locally-fails-in-prod (ties to 23)
-5. **Magic values** — hardcoded URLs, timeouts, limits, and keys buried in code that should be surfaced as named config
-6. **Secret hygiene** — secrets mixed into general config, committed example files carrying real-looking values, secrets read where they might get logged (ties to 06)
-7. **Startup honesty** — does the system validate its config on boot and fail fast with a clear message, or discover missing config lazily when a user hits the feature
+## Phase 2 — Audit through 8 lenses
+1. **Sprawl** — the same value defined in N places; which one wins, and does anyone know
+2. **Drift** — dev versus staging versus prod: every difference, and whether it is intentional, documented, or archaeological
+3. **Magic values** — hardcoded URLs, model names, limits, and timeouts that belong in config; the number 30 with no name and no story
+4. **Boot validation** — missing or malformed config: refuses to start with a named error, or explodes at 3am on first use
+5. **Secrets hygiene** — secrets in code, git history, logs, or client bundles; how rotation would work, if it would
+6. **Defaults** — safe-for-production or convenient-for-dev; which dev default is silently applying in prod today
+7. **Runtime mutability** — what can change without a deploy, who can change it, and whether changes leave a trail
+8. **Dead config** — vars set everywhere and read nowhere; the .env.example entries from three refactors ago
 
 ## Phase 3 — Curate
-- Rank by blast radius: config that silently changes behavior outranks a missing nice-to-have
-- Every finding names the fix: document, add default, validate at startup, or promote a magic value to config
+- Rank by outage potential: (chance it is wrong or missing) × (what breaks when it is).
+- Flag the free wins: dead config and duplicate definitions are deletions, not projects.
 
 ## Phase 4 — Report
 Create `CONFIG.md` at repo root:
-1. **Config inventory** — variable/setting · read where · documented? · default? · environments it varies across
-2. **Findings** — each: issue · lens · evidence · fix · risk
-3. **Startup validation plan** — the config to check on boot, and what a clear failure message looks like
-4. **The canonical example file** — the complete, accurate list of what a deployer must set
-5. **Quick wins** — undocumented vars to document and magic values to surface today
+1. **Config map** — value · sources · readers · default · documented?
+2. **Drift table** — environment-by-environment differences, intentional versus suspicious
+3. **Findings** — ranked by outage potential, with evidence
+4. **Fixes** — boot validation and secret moves usually first
 
 ## Rules
-- Config should fail loudly at startup, never silently at runtime
-- The example env file is documentation an agent and a human both trust — make it complete and true
+- Trace reads in code — a var in .env.example is a claim, not a fact
+- Never print a discovered secret's value in the report; name it and locate it only
 - Report only — end by asking which fixes to make

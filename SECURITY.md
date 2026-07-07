@@ -12,8 +12,8 @@ Location: `template.html` empty-state rendering. Risk: user-typed query flowed i
 **2. Installer had no integrity check — Medium · FIXED in 0.4**
 Location: `install`. Risk: curl-pipe-sh delivers whatever the CDN serves; users had no way to detect tampering or corruption. Fix shipped: `build.py` publishes `checksums.txt` (sha256 of both archives); the installer downloads to a temp file and verifies before extracting when `sha256sum` exists, hard-failing on mismatch.
 
-**3. No security headers — Medium · open**
-Location: `vercel.json` (absent `headers` block). Risk: no `X-Content-Type-Options`, `Referrer-Policy`, or frame-ancestors control; a strict CSP is complicated by the inline script and Google Fonts but a baseline is free. Fix: add nosniff, `Referrer-Policy: strict-origin-when-cross-origin`, and `frame-ancestors 'self'` via a headers block. Effort S.
+**3. No security headers — Medium · FIXED in 0.5**
+Location: `vercel.json` (absent `headers` block). Risk: no `X-Content-Type-Options`, `Referrer-Policy`, or frame-ancestors control; a strict CSP is complicated by the inline script and Google Fonts but a baseline is free. Fix: add nosniff, `Referrer-Policy: strict-origin-when-cross-origin`, and `frame-ancestors 'self'` via a headers block. Fix shipped: `vercel.json` now sends `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Content-Security-Policy: frame-ancestors 'self'` on every route.
 
 **4. Runtime third-party dependency: Google Fonts — Low · open**
 Location: `template.html` head. Risk: availability and a request leak to a third party on every visit. Fix: self-host both families as woff2 (also an IMPROVEMENTS.md item). Effort M.
@@ -22,7 +22,7 @@ Location: `template.html` head. Risk: availability and a request leak to a third
 `mcp/server.cjs` reads only its own package files, takes no network or filesystem input beyond tool arguments, and executes nothing. The meaningful trust decision is `npx github:` itself — users execute this repo's code; the linter and CI keep the diff surface reviewable.
 
 ## Fix-this-week
-Finding 3 (headers) — one config block.
+Finding 3 shipped in 0.5 (the headers block below). Finding 4 (self-hosting fonts) is the remaining open item.
 
 ## Defaults to adopt
 User input renders via `textContent` only; anything piped to a shell ships a published checksum; new runtime third-party dependencies require a reason in the PR.

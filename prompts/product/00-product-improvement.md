@@ -4,6 +4,7 @@ title: Product Improvement Discovery
 family: Product
 question: what could this be?
 output: IMPROVEMENTS.md
+example: /IMPROVEMENTS.md
 tagline: The flagship. Understand the whole product, then surface prioritized opportunities across UI, UX, retention, engagement, community, and beauty.
 ---
 # Goal: Product Improvement Discovery

@@ -4,6 +4,7 @@ title: Security & Privacy Audit
 family: Trust
 question: is it safe?
 output: SECURITY.md
+example: /SECURITY.md
 tagline: A defensive review of your own codebase — auth gaps, injection surfaces, exposed secrets, and data leaks, ranked by exploitability.
 ---
 # Goal: Security & Privacy Audit
