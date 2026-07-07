@@ -4,6 +4,7 @@ title: Venture Verdict
 family: Venture
 question: is it worth building?
 output: VERDICT.md
+example: /examples/venture/VERDICT.md
 tagline: The decider. Reads every venture report at this root, scores the candidate against bars set before scoring, and rules go, pivot, or kill — reasoning shown.
 ---
 # Goal: Venture Verdict
