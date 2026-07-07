@@ -368,25 +368,7 @@
 <script>
 const DATA = __PROMPTS_JSON__;
 
-const FAMILIES = [
-  ["Venture","is it worth building?"],
-  ["Product","what could this be?"],
-  ["Quality","does it work?"],
-  ["Speed","does it scale?"],
-  ["Trust","is it safe?"],
-  ["Growth","does it grow?"],
-  ["Team","can others build on it?"],
-  ["Clarity","is it understood?"],
-  ["Design","is it beautiful?"],
-  ["Data","is it sound?"],
-  ["Ops","does it run?"],
-  ["Subtract","what should go?"],
-  ["Meta","do the reports compose?"],
-  ["Act","does anything change?"],
-  ["Agent","does the agent deliver?"],
-  ["Automation","does the process hold?"],
-  ["AI-UX","does the human trust it?"]
-];
+const FAMILIES = __FAMILIES_JSON__; /* [name, question] pairs, injected by build.py from the briefs' own front matter */
 const PLAYBOOKS = __PLAYBOOKS_JSON__;
 const fkey = f => "f-" + f.toLowerCase();
 const byId = {};

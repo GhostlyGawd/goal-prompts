@@ -224,16 +224,20 @@ def main() -> None:
                       for p in prompts]
     pb_payload = [{k: pb[k] for k in ("key", "name", "desc", "ids", "conductor")}
                   for pb in playbooks]
+    fam_payload = [[fam, next(p["question"] for p in prompts if p["family"] == fam)]
+                   for fam in FAMILY_ORDER
+                   if any(p["family"] == fam for p in prompts)]
     template = (ROOT / "template.html").read_text(encoding="utf-8")
     if BASE != DEFAULT_BASE:
         template = template.replace(DEFAULT_BASE, BASE)
-    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__"):
+    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
     (ROOT / "index.html").write_text(
         template.replace("__PROMPTS_JSON__", esc(prompt_payload))
-                .replace("__PLAYBOOKS_JSON__", esc(pb_payload)),
+                .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
+                .replace("__FAMILIES_JSON__", esc(fam_payload)),
         encoding="utf-8")
 
     # ---- raw endpoints + brief pages ----
