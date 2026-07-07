@@ -248,6 +248,72 @@
    "title": "API Contract Review"
   },
   {
+   "chars": 2609,
+   "family": "Design",
+   "id": "54",
+   "output": "HIERARCHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/54.md",
+   "slug": "visual-hierarchy-audit",
+   "tagline": "Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once.",
+   "title": "Visual Hierarchy Audit"
+  },
+  {
+   "chars": 2525,
+   "family": "Design",
+   "id": "55",
+   "output": "TYPOGRAPHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/55.md",
+   "slug": "typography-audit",
+   "tagline": "The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size.",
+   "title": "Typography Audit"
+  },
+  {
+   "chars": 2525,
+   "family": "Design",
+   "id": "56",
+   "output": "COLOR.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/56.md",
+   "slug": "color-contrast-audit",
+   "tagline": "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.",
+   "title": "Color & Contrast Audit"
+  },
+  {
+   "chars": 2435,
+   "family": "Design",
+   "id": "57",
+   "output": "LAYOUT.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/57.md",
+   "slug": "spacing-layout-audit",
+   "tagline": "The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen.",
+   "title": "Spacing & Layout Audit"
+  },
+  {
+   "chars": 2602,
+   "family": "Design",
+   "id": "58",
+   "output": "STATES.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/58.md",
+   "slug": "interaction-states-motion",
+   "tagline": "The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle.",
+   "title": "Interaction States & Motion Audit"
+  },
+  {
+   "chars": 2678,
+   "family": "Design",
+   "id": "59",
+   "output": "BRAND.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/59.md",
+   "slug": "brand-coherence-audit",
+   "tagline": "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.",
+   "title": "Brand Coherence Audit"
+  },
+  {
    "chars": 2297,
    "family": "Data",
    "id": "19",
@@ -380,7 +446,7 @@
    "title": "Recurring Health Check"
   },
   {
-   "chars": 2657,
+   "chars": 2783,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -609,6 +675,7 @@
   "Growth",
   "Team",
   "Clarity",
+  "Design",
   "Data",
   "Ops",
   "Subtract",
@@ -625,6 +692,7 @@
   "Automation": "https://goal-prompts.vercel.app/raw/family-automation.md",
   "Clarity": "https://goal-prompts.vercel.app/raw/family-clarity.md",
   "Data": "https://goal-prompts.vercel.app/raw/family-data.md",
+  "Design": "https://goal-prompts.vercel.app/raw/family-design.md",
   "Growth": "https://goal-prompts.vercel.app/raw/family-growth.md",
   "Meta": "https://goal-prompts.vercel.app/raw/family-meta.md",
   "Ops": "https://goal-prompts.vercel.app/raw/family-ops.md",
@@ -718,6 +786,18 @@
    ],
    "key": "retrievaltune",
    "name": "Retrieval Tune-Up"
+  },
+  {
+   "desc": "The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.",
+   "ids": [
+    "54",
+    "57",
+    "55",
+    "56",
+    "47"
+   ],
+   "key": "facelift",
+   "name": "Face-Lift"
   }
  ]
 }

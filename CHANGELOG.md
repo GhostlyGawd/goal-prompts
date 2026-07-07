@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0 — 2026-07-06
+- Design family (is it beautiful?): six briefs for UI, web, and graphic
+  design — 54 Visual Hierarchy, 55 Typography, 56 Color & Contrast,
+  57 Spacing & Layout, 58 Interaction States & Motion, 59 Brand Coherence.
+  Evidence rules of the house: every visual claim cites a selector, token,
+  or computed ratio
+- Face-Lift playbook: 54 → 57 → 55 → 56 → 47 — audit the visuals, then the
+  Fixer turns the findings into commits
+- Audit Triage (46) learns the Design signal; run-all-6 family conductor at
+  /raw/family-design.md. 60 briefs, 9 playbooks
+
 ## 0.5.0 — 2026-07-06
 - Act family (does anything change?): 46 Audit Triage routes a repo to the
   briefs it needs; 47 The Fixer turns audit reports into verified commits,

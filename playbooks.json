@@ -6,5 +6,6 @@
   {"key":"agentday1","name":"Agent Day-1","desc":"First contact with an agent codebase: read its mind, its hands, its loops, its traces.","ids":["30","31","32","37"]},
   {"key":"shipcheck","name":"Agent Ship-Check","desc":"Before an agent touches real users: guarded, evaluated, supervised, affordable.","ids":["35","34","43","38"]},
   {"key":"triagefix","name":"Triage & Fix","desc":"Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.","ids":["46","47"]},
-  {"key":"retrievaltune","name":"Retrieval Tune-Up","desc":"For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.","ids":["33","49","34"]}
+  {"key":"retrievaltune","name":"Retrieval Tune-Up","desc":"For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.","ids":["33","49","34"]},
+  {"key":"facelift","name":"Face-Lift","desc":"The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.","ids":["54","57","55","56","47"]}
 ]
