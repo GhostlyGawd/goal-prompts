@@ -70,6 +70,8 @@ def lint(p: dict) -> list:
         v.append("missing the ask-first ending ('Report only — end by asking …')")
     if not re.fullmatch(r"[A-Z0-9-]+\.md", p["output"]):
         v.append(f"output '{p['output']}' must look like REPORT.md")
+    if f"`{p['output']}` at repo root" not in body:
+        v.append(f"body must name its report ('… `{p['output']}` at repo root')")
     if len(p["tagline"]) > 170:
         v.append(f"tagline is {len(p['tagline'])} chars (max 170)")
     phase2 = re.search(r"## Phase 2.*?(?=## Phase 3|\Z)", body, re.S)
