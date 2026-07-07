@@ -791,7 +791,7 @@ function sync(){
 /* ---- deep links ---- */
 function openFromHash(){
   const h = (location.hash || "").replace("#","");
-  if(!/^\d\d$/.test(h) || !byId[h]) return;
+  if(!/^\d{2,3}$/.test(h) || !byId[h]) return;
   activePb = null; activeFam = "All"; query = ""; qEl.value = "";
   sync();
   const el = document.getElementById("p"+h);
