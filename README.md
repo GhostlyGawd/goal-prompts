@@ -1,6 +1,6 @@
 # Goal Prompts
 
-Seventy-five mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+Eighty-one mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
@@ -91,6 +91,7 @@ Curated sequences on the site, for when you don't want to choose:
 | Face-Lift | 54 → 57 → 55 → 56 → 47 | the visual overhaul, ending in commits |
 | Founder Funnel | 61 → 62 → 63 → 64 → 65 → 66 → 67 | one niche, end to end, ruled on |
 | Gut Check | 62 → 63 → 67 | 72 hours of truth for one idea |
+| Experience Optimization | 76 → 77 → 75 → 79 → 80 → 78 → 47 | optimize every surface: comprehension → conversion → retention, ending in commits |
 
 ## Use
 
@@ -108,10 +109,10 @@ Curated sequences on the site, for when you don't want to choose:
 | Quality | does it work? | 01–03 |
 | Speed | does it scale? | 04–05, 51 |
 | Trust | is it safe? | 06–08 |
-| Growth | does it grow? | 09–12 |
+| Growth | does it grow? | 09–12, 70, 75, 78–80 |
 | Team | can others build on it? | 13–15, 52 |
-| Clarity | is it understood? | 16–18 |
-| Design | is it beautiful? | 54–59 |
+| Clarity | is it understood? | 16–18, 76 |
+| Design | is it beautiful? | 54–59, 77 |
 | Data | is it sound? | 19–22 |
 | Ops | does it run? | 23–25, 53 |
 | Subtract | what should go? | 26–27 |

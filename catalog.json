@@ -305,6 +305,39 @@
    "title": "Conversion Rate Optimization"
   },
   {
+   "chars": 2882,
+   "family": "Growth",
+   "id": "78",
+   "output": "RETENTION.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/78.md",
+   "slug": "retention-lifecycle-audit",
+   "tagline": "The return trip: the saved state, resurfaced value, and well-timed nudges that earn a second visit — and the churn cliffs that quietly lose it.",
+   "title": "Retention & Lifecycle Audit"
+  },
+  {
+   "chars": 3137,
+   "family": "Growth",
+   "id": "79",
+   "output": "PROOF.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/79.md",
+   "slug": "social-proof-credibility",
+   "tagline": "Testimonials, logos, counts, reviews, and guarantees — the evidence that turns a skeptical stranger into a believer, and the credibility gaps where doubt wins.",
+   "title": "Social Proof & Credibility"
+  },
+  {
+   "chars": 3063,
+   "family": "Growth",
+   "id": "80",
+   "output": "ACTIVATION.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/80.md",
+   "slug": "activation-first-win-audit",
+   "tagline": "The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing.",
+   "title": "Activation & First-Win Audit"
+  },
+  {
    "chars": 2146,
    "family": "Team",
    "id": "13",
@@ -394,6 +427,17 @@
    "title": "API Contract Review"
   },
   {
+   "chars": 3014,
+   "family": "Clarity",
+   "id": "76",
+   "output": "COMPREHENSION.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/76.md",
+   "slug": "comprehension-audit",
+   "tagline": "Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing?",
+   "title": "Comprehension Audit"
+  },
+  {
    "chars": 2609,
    "family": "Design",
    "id": "54",
@@ -458,6 +502,17 @@
    "slug": "brand-coherence-audit",
    "tagline": "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.",
    "title": "Brand Coherence Audit"
+  },
+  {
+   "chars": 2948,
+   "family": "Design",
+   "id": "77",
+   "output": "SHOWCASE.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/77.md",
+   "slug": "show-dont-tell",
+   "tagline": "Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith?",
+   "title": "Show, Don't Tell"
   },
   {
    "chars": 2297,
@@ -1087,6 +1142,25 @@
    "name": "eCommerce Optimization",
    "page": "https://goal-prompts.vercel.app/p/ecommerce",
    "tagline": "Audit every conversion surface for a newcomer, then ship the biggest lifts as commits.",
+   "type": "standard"
+  },
+  {
+   "badge": "Every surface",
+   "desc": "Get it, want it, keep it — walk every surface a visitor meets and optimize the whole experience: does a newcomer understand it, are the benefits shown not told, do the conversion surfaces and their proof earn the yes, does the first session land a win, and does anything bring them back — then the Fixer ships the biggest lifts as commits.",
+   "featured": true,
+   "ids": [
+    "76",
+    "77",
+    "75",
+    "79",
+    "80",
+    "78",
+    "47"
+   ],
+   "key": "experience",
+   "name": "Experience Optimization",
+   "page": "https://goal-prompts.vercel.app/p/experience",
+   "tagline": "Comprehension to conversion to retention — audit every surface a visitor meets, then ship the biggest lifts as commits.",
    "type": "standard"
   },
   {

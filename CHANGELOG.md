@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.10.0 — 2026-07-08
+- Five briefs that optimize the whole visitor experience — comprehension,
+  visual proof, conversion credibility, retention, and activation — each
+  the standard read-only 4-phase audit that leaves one evidence-backed
+  report:
+  - 76 Comprehension Audit (Clarity): does a newcomer form the right
+    mental model — what it is, who it's for, how it works — from the first
+    screen, or does the curse of knowledge win — writes COMPREHENSION.md
+  - 77 Show, Don't Tell (Design): are benefits and mechanics shown —
+    screenshots, demos, diagrams, before/after — or asserted in prose the
+    visitor must take on faith — writes SHOWCASE.md
+  - 78 Retention & Lifecycle Audit (Growth): the return trip — saved
+    state, resurfaced value, well-timed nudges, and the churn cliffs that
+    quietly lose users — writes RETENTION.md
+  - 79 Social Proof & Credibility (Growth): the testimonials, logos,
+    counts, and guarantees that turn a skeptical stranger into a believer,
+    placed where the decision is made — writes PROOF.md
+  - 80 Activation & First-Win Audit (Growth): the first session from empty
+    account to first win, and the inspiring next step that seeds a habit —
+    writes ACTIVATION.md
+- One playbook: Experience Optimization (76 → 77 → 75 → 79 → 80 → 78 → 47),
+  the get-it/want-it/keep-it arc that audits every surface a visitor meets
+  for comprehension, conversion, and retention, then ships the biggest
+  lifts as commits. 81 briefs, 17 playbooks
+
 ## 0.9.0 — 2026-07-07
 - Seven briefs closing the biggest coverage gaps, each the standard
   read-only 4-phase audit that leaves one evidence-backed report:
