@@ -1,0 +1,46 @@
+---
+id: "132"
+title: Dashboard & Density Audit
+family: Design
+question: is it beautiful?
+output: DASHBOARD.md
+tagline: Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental.
+---
+# Goal: Dashboard & Density Audit
+
+You are working inside this repo. Mission: judge whether each dashboard and data-dense screen answers its core question at a glance — or forces the reader to hunt, scroll, and interpret before they learn anything.
+
+Read-only pass. Walk the dashboards in the running app or read their layouts, widgets, and queries; your only write is the report file.
+
+## Phase 1 — Frame each dashboard
+- List the dashboards and dense screens (overviews, admin panels, reports, big tables).
+- For each, write the one question it exists to answer and who reads it, before auditing — so the audit can disagree.
+- Inventory the widgets, the reading order, and what sits above the fold.
+
+## Phase 2 — Audit through 8 lenses
+Cite the screen and widget for every finding.
+1. **One-glance answer** — does the primary question resolve in the first few seconds and the top-left, or is it buried among peers
+2. **Signal ranking** — widget prominence matches importance; the vanity metric outsizing the one people act on
+3. **Earns its place** — every tile pays rent in decisions; the widget nobody uses taking prime space
+4. **Density fit** — dense where scanning rewards it (ops, tables), airy where focus does; density chosen, not accidental
+5. **Comparability** — consistent units, time ranges, and scales across tiles so numbers can be compared, not just displayed
+6. **Context for numbers** — a value with its trend, target, or baseline, versus a bare figure with no "good or bad"
+7. **Scan pattern** — layout guiding the eye in a deliberate order; the grid that reads as noise with no path
+8. **Load & empty** — partial-data, still-loading, and no-data states; the dashboard that is useless until every query returns
+
+## Phase 3 — Curate
+- Rank by decisions-per-screen: fixing the primary question's visibility beats rearranging secondary tiles.
+- Separate "wrong priority", "over/under-dense", and "no context"; fix priority first.
+- For each, name the screen and the move — promote, demote, merge, or cut.
+
+## Phase 4 — Report
+Create `DASHBOARD.md` at repo root:
+1. **Dashboard table** — screen · the question it answers · read in one glance? · what wins the eye
+2. **Findings** — each: lens · screen/widget · what the reader cannot learn fast · the fix
+3. **Cut list** — the tiles that do not earn their space
+4. **The one rule** — the density and layout convention this codebase should adopt
+
+## Rules
+- Every finding names the screen and widget, with the query or data behind it where it matters
+- A number without a baseline is decoration; context is what makes it a signal
+- Report only — end by asking which dashboard fixes to make
