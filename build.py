@@ -310,7 +310,7 @@ BRAND_MARK = (
 # echoes the header logo instead of an unrelated "GP" monogram (B1).
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' "
-           "fill='%2314181E'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E"
+           "fill='%23131417'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E"
            "%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E"
            "%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E"
            "%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E"
