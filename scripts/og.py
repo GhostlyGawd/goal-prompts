@@ -3,7 +3,8 @@
 
 Usage:
     python3 scripts/og.py            # generate cards missing from og/
-    python3 scripts/og.py --all      # regenerate every card
+    python3 scripts/og.py --all      # regenerate every card + the home card (og.png)
+    python3 scripts/og.py --home     # just the home card (og.png)
     python3 scripts/og.py 46 47      # specific ids
 
 Needs Pillow and fontTools (`pip install Pillow fonttools brotli`). The cards
@@ -30,9 +31,9 @@ import build  # noqa: E402  (reuses the brief parser + family colors; stdlib-onl
 FAMILY_COLORS = build.FAMILY_COLORS
 
 W, H = 1200, 630
-INK = "#14181E"
-TEXT = "#E2E6EC"
-DIM = "#8B96A5"
+INK = "#131417"
+TEXT = "#F1F1F3"
+DIM = "#B7B8BE"
 BAR_W = 17
 LEFT = 78
 DOMAIN = "goal-prompts.vercel.app"
@@ -118,10 +119,35 @@ def render(brief):
     return im
 
 
+def render_home(briefs):
+    """The catalog's own share card: wordmark, the family spectrum, tagline."""
+    im = Image.new("RGB", (W, H), INK)
+    d = ImageDraw.Draw(im)
+    fams = [FAMILY_COLORS[k] for k in build.FAMILY_ORDER]
+    span = W - LEFT - 60
+    bw = span / len(fams)
+    for i, c in enumerate(fams):
+        d.rounded_rectangle([LEFT + i * bw, 300, LEFT + (i + 1) * bw - 4, 330], radius=4, fill=c)
+    d.text((LEFT, 96), "Goal Prompts", font=font(DISPLAY, 108, 800), fill=TEXT)
+    sf = font(DISPLAY, 42, 500)
+    y = 374
+    for line in wrap(d, "Turn your coding agent into a senior code auditor.", sf, span)[:2]:
+        d.text((LEFT, y), line, font=sf, fill=TEXT)
+        y += 52
+    foot = f"{len(briefs)} briefs / {len(fams)} families / {DOMAIN}"
+    d.text((LEFT, 548), foot, font=font(MONO, 24), fill=DIM)
+    return im
+
+
 def main():
     briefs = [build.parse(f) for f in sorted((ROOT / "prompts").rglob("*.md"))]
     by_id = {b["id"]: b for b in briefs}
-    args = [a for a in sys.argv[1:] if a != "--all"]
+    if "--home" in sys.argv or "--all" in sys.argv:
+        render_home(briefs).save(str(ROOT / "og.png"), optimize=True)
+        print("og.png  home card")
+        if "--home" in sys.argv:
+            return
+    args = [a for a in sys.argv[1:] if a not in ("--all", "--home")]
     if args:
         ids = [a.zfill(2) for a in args]
         unknown = [i for i in ids if i not in by_id]

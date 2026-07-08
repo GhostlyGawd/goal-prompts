@@ -13,7 +13,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent.parent
-INK = "#14181E"
+INK = "#131417"
 # bars: (x, y, w, h) in the logo's 24-unit viewBox; shared corner radius RX
 BARS = [
     (1.0, 7.0, 3.4, 11.0, "#E8B44C"),
