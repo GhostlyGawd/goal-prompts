@@ -238,6 +238,15 @@
   .copy:hover{filter:brightness(1.1)}.copy:active{transform:scale(.96)}
   .copy.done{background:var(--text);color:var(--ink)}
   .card-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  /* C8: family name in text (colour is a second signal, not the only one) */
+  .famtag{color:var(--fc);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  /* F4: power-user actions hide behind the "more" toggle */
+  .metamore{display:none;align-items:center;gap:10px}
+  .card.moreopen .metamore{display:inline-flex;flex-wrap:wrap}
+  .morebtn{background:none;border:0;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:2px 0;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent}
+  .morebtn:hover{color:var(--text)}
+  .morebtn .chev{transition:transform .2s;display:inline-block}
+  .card.moreopen .morebtn .chev{transform:rotate(90deg)}
   .out{color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
   .out::before{content:"→ ";color:var(--fc)}
   .detail{color:var(--fc);font-weight:600;display:inline-flex;align-items:center;gap:4px}
@@ -898,8 +907,23 @@ function card(p, idx, stepNo){
     ex.textContent = "sample report"; ex.href = p.example;
     ex.setAttribute("aria-label", "Real report produced by " + p.title);
   }
-  meta.append(out, info, det, view, run, sq, share);
-  if(ex) meta.append(ex);
+  // C8: family as readable text, not only the left-border colour
+  const famtag = document.createElement("span"); famtag.className = "famtag";
+  famtag.textContent = p.family;
+  // F4: fold the power-user controls behind one "more" toggle so the row has
+  // one clear secondary (Details) instead of 7–8 equal-weight chips
+  const moreWrap = document.createElement("span"); moreWrap.className = "metamore";
+  moreWrap.append(run, sq, share);
+  if(ex) moreWrap.append(ex);
+  const more = document.createElement("button"); more.className = "morebtn";
+  more.innerHTML = '<span class="chev">▸</span> more';
+  more.setAttribute("aria-expanded","false");
+  more.setAttribute("aria-label","More actions for "+p.title);
+  more.onclick = ()=>{
+    const open = c.classList.toggle("moreopen");
+    more.setAttribute("aria-expanded", open);
+  };
+  meta.append(famtag, out, info, det, view, more, moreWrap);
 
   const body = document.createElement("div"); body.className="body";
   const pre = document.createElement("pre"); pre.textContent = p.body;
