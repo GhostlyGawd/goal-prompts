@@ -78,6 +78,7 @@
   }
   /* outline:0 above outranks the shared input:focus-visible by source order — restore it (S3) */
   .pastebox input:focus-visible,.pastebox textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .pastebox input.is-error{border-color:var(--danger)}   /* S4: failed GitHub load */
   .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--act);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
 
   /* ---------- loaded reports ---------- */
@@ -165,7 +166,7 @@
 
   footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
-  .buildnote a{color:var(--dim)}
+  .buildnote a{color:var(--dim);text-decoration:underline;text-underline-offset:2px}  /* S7 */
 
   @media (max-width:560px){
     header{padding-top:40px}
@@ -600,16 +601,19 @@ document.getElementById("ghbtn").onclick = () => {
   if(!box.hidden) document.getElementById("ghref").focus();
 };
 document.getElementById("ghload").onclick = async function(){
-  const ref = document.getElementById("ghref").value;
+  const gh = document.getElementById("ghref");
+  const ref = gh.value;
   this.disabled = true; this.textContent = "loading…";
   const n = await loadFromGitHub(ref);
   this.disabled = false;
   this.textContent = n ? "loaded " + n + " ✓" : "load its reports";
+  gh.classList.toggle("is-error", !n);   /* S4: flag the input when nothing loaded */
   if(n){ document.getElementById("ghbox").hidden = true; this.textContent = "load its reports"; }
 };
 document.getElementById("ghref").addEventListener("keydown", e => {
   if(e.key === "Enter"){ e.preventDefault(); document.getElementById("ghload").click(); }
 });
+document.getElementById("ghref").addEventListener("input", function(){ this.classList.remove("is-error"); });
 
 document.getElementById("demobtn").onclick = async function(){
   const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "DX.md"];
