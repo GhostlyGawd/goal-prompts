@@ -812,6 +812,72 @@
    "title": "Design-Token Adoption Audit"
   },
   {
+   "chars": 2567,
+   "family": "Design",
+   "id": "129",
+   "output": "NAVIGATION.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/129.md",
+   "slug": "navigation-wayfinding",
+   "tagline": "The three questions every screen owes a user — where am I, where can I go, how do I get back — plus the nav that hides, the dead ends, and the jargon labels.",
+   "title": "Navigation & Wayfinding Audit"
+  },
+  {
+   "chars": 2734,
+   "family": "Design",
+   "id": "130",
+   "output": "MENUS.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/130.md",
+   "slug": "menu-command-surface",
+   "tagline": "Menus, dropdowns, context menus, and command palettes — do they reveal what is inside, work by keyboard and thumb, and still find things as the list grows?",
+   "title": "Menu & Command Surface Audit"
+  },
+  {
+   "chars": 2815,
+   "family": "Design",
+   "id": "131",
+   "output": "DATAVIZ.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/131.md",
+   "slug": "data-visualization",
+   "tagline": "Every chart, graph, and metric put to the truth test — right form, honest axes, labeled and legible, accessible beyond color, and numbers that match their source.",
+   "title": "Data Visualization Audit"
+  },
+  {
+   "chars": 2653,
+   "family": "Design",
+   "id": "132",
+   "output": "DASHBOARD.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/132.md",
+   "slug": "dashboard-density",
+   "tagline": "Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental.",
+   "title": "Dashboard & Density Audit"
+  },
+  {
+   "chars": 2762,
+   "family": "Design",
+   "id": "133",
+   "output": "EMPTYSTATES.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/133.md",
+   "slug": "empty-zero-data-states",
+   "tagline": "The screens users meet with nothing yet — first run, no results, cleared, deleted, error-empty — and whether each teaches the next step or just shows a blank and a shrug.",
+   "title": "Empty & Zero-Data States Audit"
+  },
+  {
+   "chars": 2655,
+   "family": "Design",
+   "id": "134",
+   "output": "ICONOGRAPHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/134.md",
+   "slug": "iconography-visual-language",
+   "tagline": "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check.",
+   "title": "Iconography & Visual Language Audit"
+  },
+  {
    "chars": 2609,
    "family": "Design",
    "id": "54",
@@ -1602,6 +1668,52 @@
    "name": "Face-Lift",
    "page": "https://goal-prompts.vercel.app/p/facelift",
    "tagline": "A guided visual overhaul that ends in real commits.",
+   "type": "standard"
+  },
+  {
+   "desc": "Can a user find their way around? Map the navigation and menus, check what wins the eye on every screen, and confirm it all still works on a phone.",
+   "ids": [
+    "129",
+    "130",
+    "54",
+    "104"
+   ],
+   "key": "wayfinding",
+   "name": "Wayfinding",
+   "page": "https://goal-prompts.vercel.app/p/wayfinding",
+   "tagline": "Can users find their way around — on desktop and on a phone?",
+   "type": "standard"
+  },
+  {
+   "desc": "The visualization pass: make every chart tell the truth, every dashboard answer its question at a glance, the number that matters win the eye, and the palette stay readable for everyone.",
+   "ids": [
+    "131",
+    "132",
+    "54",
+    "56"
+   ],
+   "key": "datalegible",
+   "name": "Make Data Legible",
+   "page": "https://goal-prompts.vercel.app/p/datalegible",
+   "tagline": "Make every chart and dashboard tell the truth at a glance.",
+   "type": "standard"
+  },
+  {
+   "badge": "Ends in commits",
+   "desc": "The interaction-and-UI sweep: navigation, menus, every interactive state, the empty screens, and the icon language — then the Fixer turns the findings into verified commits.",
+   "featured": true,
+   "ids": [
+    "129",
+    "130",
+    "58",
+    "133",
+    "134",
+    "47"
+   ],
+   "key": "uioverhaul",
+   "name": "Total UI Overhaul",
+   "page": "https://goal-prompts.vercel.app/p/uioverhaul",
+   "tagline": "Overhaul the whole UI layer — then ship the fixes as commits.",
    "type": "standard"
   },
   {
