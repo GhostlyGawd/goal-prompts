@@ -44,10 +44,18 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
 - Brief bodies must stay under 4,000 characters.
 - Family order and questions have one source: `FAMILY_ORDER` in `build.py`
   plus the briefs' front matter, injected into the site as
-  `__FAMILIES_JSON__`. Family *colors* live in `build.FAMILY_COLORS` (the
-  Python source of truth — `scripts/og.py` and the generated detail pages
-  import it) and, once more, in `template.html`'s `.f-*` CSS rules for the
-  JS-rendered catalog. Update both when adding a family.
+  `__FAMILIES_JSON__`. Family *colors* also have one source now:
+  `build.FAMILY_COLORS` — `scripts/og.py` imports it, and `build.py` emits the
+  `.f-*` rules into `tokens.css` from it (they used to be duplicated in
+  `template.html`). Add a family in `FAMILY_ORDER` + `FAMILY_COLORS`; nothing
+  else needs editing.
+- Icons & marks: the UI icon language is deliberately a small Unicode set in
+  the mono font — `→` (leads a report filename), `▸` (expander chevrons),
+  `✓` (done/success), `×` (remove), `↗` (external link). Don't add an icon
+  library; if a new glyph is needed, pick one the mono stack renders and add it
+  here. The brand mark is the 4-bar equalizer (`build.BRAND_MARK`); the favicon,
+  `icons/*.png` (via `scripts/icons.py`), and each OG card's left bar all derive
+  from it — keep them in step.
 - Playbooks in `playbooks.json` may carry optional merchandising fields —
   `type` (standard | themed | collab | sponsored), `featured`, `badge`,
   `window`, `accent`, `partner`, `preview`, `tagline`. They drive the
