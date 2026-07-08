@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+- Mobile landing-page pass. The page ran ~8 phone-screens of marketing
+  before the catalog, and the filter bar overflowed on phones:
+  - **Hero** drops the briefs-per-family chart on phones (it only scrolled
+    sideways and delayed the value) and leads with the promise + one
+    primary action; the nav "Get started" is demoted to an outline so a
+    single filled CTA wins per viewport (Hierarchy audit F1).
+  - **Catalog filter bar** is now opaque when pinned — cards no longer
+    bleed through its transparent lower edge — and the 21 family + 30
+    playbook chips collapse into single swipeable rows instead of ~8
+    stacked rows.
+  - **Funnel:** the playbook storefront moves below the catalog, so the
+    catalog is reachable in roughly half the scroll. Its entry points
+    still live in the catalog's "start with a goal" chips and filter row.
+  - **Catalog cards** demote the brief id and promote the title (Hierarchy
+    audit F2), and the footer drops the how-to-use steps and second
+    install box that duplicated "Three ways in".
+
 ## 0.11.0 — 2026-07-08
 - Forty-eight briefs and four new families, taking the catalog to 129
   briefs across 21 families — each the standard read-only 4-phase audit
