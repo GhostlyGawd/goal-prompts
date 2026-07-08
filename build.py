@@ -304,11 +304,16 @@ BRAND_MARK = (
     '<rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/>'
     '<rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>')
 
+# Favicon = the bar mark (same geometry as BRAND_MARK), so the browser tab
+# echoes the header logo instead of an unrelated "GP" monogram (B1).
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' "
-           "fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' "
-           "font-size='32' font-weight='700' text-anchor='middle' "
-           "fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E")
+           "fill='%2314181E'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E"
+           "%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E"
+           "%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E"
+           "%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E"
+           "%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E"
+           "%3C/g%3E%3C/svg%3E")
 
 FAMILY_CSS = "".join(f".f-{k.lower()}{{--fc:{v}}}" for k, v in FAMILY_COLORS.items())
 
