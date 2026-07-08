@@ -15,33 +15,12 @@
 <meta name="theme-color" content="#131417">
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="https://goal-prompts.vercel.app/b/59">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='32' font-weight='700' text-anchor='middle' fill='%23E8B44C'%3EGP%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2314181E'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/tokens.css">
 <style>
-@font-face{font-family:'Schib';font-style:normal;font-weight:400 800;font-display:swap;src:url(/fonts/schibstedgrotesk-latin-var.woff2) format('woff2')}
-@font-face{font-family:'PSans';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexsans-latin-400.woff2) format('woff2')}
-@font-face{font-family:'PSans';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexsans-latin-600.woff2) format('woff2')}
-@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexmono-latin-400.woff2) format('woff2')}
-@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexmono-latin-600.woff2) format('woff2')}
-:root{
-  color-scheme:dark;
-  --ink:#131417;--ink-2:#0E0F11;--panel:#1B1C20;--panel-2:#212329;--panel-3:#2A2C33;
-  --line:#26272C;--line-2:#33353B;--line-3:#45474E;--text:#F1F1F3;--dim:#B7B8BE;--faint:#83858D;
-  --btn:#F1F1F3;--btn-fg:#141518;--good:#52C280;--sev:#F0806A;
-  --amber:#E8B44C;--amber-2:#F2CE7C;--fc:#8B7CF8;--radius:8px;
-  --sans:'PSans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --disp:'Schib','PSans',system-ui,-apple-system,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-  --rainbow:linear-gradient(90deg,#E8B44C,#E8705F,#4D9FFF,#52C280,#A98CF5,#9AD4E8,#5CE8A0,#F0904A,#B4C64A,#3FC1C9,#E87FB0,#C4CBD8,#E84C3D,#8B7CF8,#E8DE5A,#F06FD8,#C878F0);
-}
-:root[data-theme="light"]{color-scheme:light;
-  --ink:#F4F3EF;--ink-2:#EBEAE2;--panel:#FCFBF9;--panel-2:#EFEEE7;--panel-3:#E7E6DE;
-  --line:#E5E4DE;--line-2:#D5D4CD;--line-3:#BEBDB4;--text:#191A1C;--dim:#4C4E53;--faint:#7C7E85;
-  --btn:#191A1C;--btn-fg:#F5F4F0;--good:#2E9E5B;--sev:#C4402E;--amber:#9C6E2A;--amber-2:#B8863B;--fc:#7C5CE0;
-}
-.f-venture{--fc:#C878F0}.f-product{--fc:#E8B44C}.f-quality{--fc:#E8705F}.f-speed{--fc:#4D9FFF}.f-trust{--fc:#52C280}.f-growth{--fc:#A98CF5}.f-team{--fc:#3FC1C9}.f-clarity{--fc:#9AD4E8}.f-design{--fc:#5CE8A0}.f-data{--fc:#F0904A}.f-ops{--fc:#B4C64A}.f-subtract{--fc:#E87FB0}.f-meta{--fc:#C4CBD8}.f-act{--fc:#E84C3D}.f-agent{--fc:#8B7CF8}.f-automation{--fc:#E8DE5A}.f-ai-ux{--fc:#F06FD8}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
@@ -65,6 +44,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .themetog .ic{width:17px;height:17px}
 .themetog .moon{display:none}.themetog .sun{display:block}
 :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
+@media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
 .nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13.5px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
 .nav-cta:hover{filter:brightness(1.12)}
 @media(max-width:680px){.nav-links{display:none}}

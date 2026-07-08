@@ -4,8 +4,8 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-266958e02e9f";
-var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-500.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
+var CACHE = "goal-prompts-03eb70327283";
+var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
     return Promise.all(PRECACHE.map(function (u) {
