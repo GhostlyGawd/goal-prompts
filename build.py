@@ -1028,7 +1028,8 @@ def main() -> None:
     # ---- service worker (offline shell; version stamped from content) ----
     import hashlib as _hl
     ver_src = b"".join((ROOT / f).read_bytes() for f in
-                       ("index.html", "studio.html", "vitals.html", "tokens.css"))
+                       ("index.html", "studio.html", "vitals.html", "tokens.css",
+                        "icons/icon-192.png", "icons/icon-512.png"))
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
                 "/tokens.css",
