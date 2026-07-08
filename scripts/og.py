@@ -18,17 +18,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-import build  # noqa: E402  (reuses the brief parser; stdlib-only itself)
+import build  # noqa: E402  (reuses the brief parser + family colors; stdlib-only)
 
-# family colors — keep in sync with template.html's .f-* rules
-FAMILY_COLORS = {
-    "Product": "#E8B44C", "Quality": "#E8705F", "Speed": "#4D9FFF",
-    "Trust": "#52C280", "Growth": "#A98CF5", "Team": "#3FC1C9",
-    "Clarity": "#9AD4E8", "Data": "#F0904A", "Ops": "#B4C64A",
-    "Subtract": "#E87FB0", "Meta": "#C4CBD8", "Act": "#E84C3D",
-    "Design": "#5CE8A0", "Venture": "#C878F0", "Agent": "#8B7CF8",
-    "Automation": "#E8DE5A", "AI-UX": "#F06FD8",
-}
+# family colors live in build.FAMILY_COLORS (one source of truth for Python);
+# template.html's .f-* CSS rules must carry the same values for the JS catalog.
+FAMILY_COLORS = build.FAMILY_COLORS
 
 W, H = 1200, 630
 INK = "#14181E"
