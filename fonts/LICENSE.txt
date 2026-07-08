@@ -1,9 +1,13 @@
 The font files in this directory are redistributed under the SIL Open Font
 License, Version 1.1, reproduced in full below.
 
-archivo-latin-var.woff2 (variable font, latin subset)
-  Copyright 2019 The Archivo Project Authors
-  (https://github.com/Omnibus-Type/archivo)
+schibstedgrotesk-latin-var.woff2 (variable font, latin subset)
+  Copyright 2021 The Schibsted Grotesk Project Authors
+  (https://github.com/skovhoej/schibsted-grotesk)
+
+plexsans-latin-400.woff2 / plexsans-latin-600.woff2
+  Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+  (https://github.com/IBM/plex)
 
 plexmono-latin-400.woff2 / plexmono-latin-500.woff2 / plexmono-latin-600.woff2
   Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
