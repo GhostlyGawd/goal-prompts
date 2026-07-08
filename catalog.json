@@ -294,6 +294,17 @@
    "title": "SEO & Discoverability"
   },
   {
+   "chars": 3017,
+   "family": "Growth",
+   "id": "75",
+   "output": "CRO.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/75.md",
+   "slug": "conversion-rate-optimization",
+   "tagline": "Audit every conversion surface — hero, pricing, signup, checkout — against eCommerce best practices, and rank the highest-leverage lifts for a first-time visitor.",
+   "title": "Conversion Rate Optimization"
+  },
+  {
    "chars": 2146,
    "family": "Team",
    "id": "13",
@@ -1058,6 +1069,24 @@
    "name": "OSS Release-Ready",
    "page": "https://goal-prompts.vercel.app/p/release",
    "tagline": "Everything to check before a repo goes public.",
+   "type": "standard"
+  },
+  {
+   "badge": "Conversion",
+   "desc": "Optimize the whole funnel for a first-time visitor: audit every conversion surface, then cut friction, sharpen the visual hierarchy, tighten the copy, and make it findable — and the Fixer ships the highest-leverage lifts as commits.",
+   "featured": true,
+   "ids": [
+    "75",
+    "09",
+    "54",
+    "17",
+    "70",
+    "47"
+   ],
+   "key": "ecommerce",
+   "name": "eCommerce Optimization",
+   "page": "https://goal-prompts.vercel.app/p/ecommerce",
+   "tagline": "Audit every conversion surface for a newcomer, then ship the biggest lifts as commits.",
    "type": "standard"
   },
   {
