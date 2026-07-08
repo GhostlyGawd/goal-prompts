@@ -1,6 +1,6 @@
 # Playbook: All Product briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Product briefs** playbook — 2 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Product briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
 
 Every Product brief in the catalog, in order — 00 through 45, one report each.
 
@@ -12,7 +12,10 @@ Every Product brief in the catalog, in order — 00 through 45, one report each.
 
 ## Stages
 1. **00 · Product Improvement Discovery** — fetch https://goal-prompts.vercel.app/raw/00.md → writes `IMPROVEMENTS.md`
-2. **45 · Feedback Loop Audit** — fetch https://goal-prompts.vercel.app/raw/45.md → writes `FEEDBACK.md`
+2. **106 · Notification & Email Audit** — fetch https://goal-prompts.vercel.app/raw/106.md → writes `NOTIFICATIONS.md`
+3. **107 · In-App Search Audit** — fetch https://goal-prompts.vercel.app/raw/107.md → writes `SEARCH.md`
+4. **108 · Account Lifecycle Audit** — fetch https://goal-prompts.vercel.app/raw/108.md → writes `LIFECYCLE.md`
+5. **45 · Feedback Loop Audit** — fetch https://goal-prompts.vercel.app/raw/45.md → writes `FEEDBACK.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

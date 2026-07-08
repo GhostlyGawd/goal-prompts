@@ -1,0 +1,44 @@
+---
+id: "128"
+title: Audit-Trail Audit
+family: Compliance
+question: does it respect the user?
+output: AUDITLOG.md
+tagline: Whether the system keeps a trustworthy record of who did what — the audit trail that compliance, incident response, and forensics all depend on.
+---
+# Goal: Audit-Trail Audit
+
+You are working inside this repo. Mission: judge whether the system records the sensitive things people do to it, in a way you could actually trust and use — because when there's an incident or an audit, "who changed this, and when" needs a real answer.
+
+Read-only pass. Read the logging of sensitive actions, its storage, and access to it; change nothing but the report file.
+
+## Phase 1 — Find what is recorded
+- Identify the sensitive actions: authentication, permission changes, data access, admin actions, deletion, money movement.
+- For each, find whether it is logged, and what the log entry captures.
+- Note where audit records are stored and who can read or alter them.
+
+## Phase 2 — Audit through 7 lenses
+1. **Coverage** — are the sensitive actions logged: auth, permission changes, data access, admin, deletion, money
+2. **Content** — does each entry capture who, what, when, from where, and the before and after
+3. **Tamper resistance** — can the logs be altered or deleted by the people they record; append-only, off-box
+4. **Access & privacy** — who can read the audit log, and does it over-collect sensitive data
+5. **Retention** — kept long enough for compliance and investigations, and no longer than allowed
+6. **Usability** — can you actually answer "who changed this and when" quickly from the trail
+7. **Distinct from debug logs** — a real audit trail, not application logs pressed into service
+
+## Phase 3 — Curate
+- Rank by what a missing record would cost in an incident or audit: unlogged permission changes top the list.
+- For each gap, name the event to log and the field to capture.
+- Separate "not logged" from "logged but untrustworthy"; a tamperable trail is not evidence.
+
+## Phase 4 — Report
+Create `AUDITLOG.md` at repo root:
+1. **Coverage matrix** — sensitive action × logged? · with what content?
+2. **Findings** — each: gap · action · what is missing · the fix
+3. **Trust & retention** — the tamper-resistance and retention changes needed
+4. **Priority** — the events and protections to add first
+
+## Rules
+- A log the actor can edit is a story, not an audit trail
+- Capture who, what, when, and the before/after, or it will not answer the question
+- Report only — end by asking which audit-trail gaps to close first

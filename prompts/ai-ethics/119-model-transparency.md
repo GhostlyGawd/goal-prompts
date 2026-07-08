@@ -1,0 +1,44 @@
+---
+id: "119"
+title: Model Transparency Audit
+family: AI-Ethics
+question: is the AI responsible?
+output: TRANSPARENCY.md
+tagline: Whether users know when they are dealing with AI, understand its limits, and are told enough to trust it appropriately — not too much, not too little.
+---
+# Goal: Model Transparency Audit
+
+You are working inside this repo. Mission: judge whether the product is honest about its AI — whether users know when it's AI, understand what it can and can't do, see its uncertainty, and have a way to reach a human when it's wrong.
+
+Read-only pass. Read the AI-facing UI, disclosures, and data handling; change nothing but the report file.
+
+## Phase 1 — See what the user is told
+- Find where AI produces content or decisions the user experiences.
+- Note what disclosure, framing, and uncertainty the interface shows at each point.
+- Look for the path to a human and for what users are told about data use.
+
+## Phase 2 — Audit through 7 lenses
+1. **AI disclosure** — is it clear when content or a decision is AI-generated
+2. **Capability framing** — honest expectations, or an interface that implies more than it can do
+3. **Uncertainty surfacing** — is the model's uncertainty shown, or is everything equally confident
+4. **Reasoning visibility** — can a user see why the AI said or did what it did
+5. **Data-use transparency** — is the user told what of their input is retained or used to train
+6. **Model & version disclosure** — is it clear what powers it, and that behavior can change
+7. **Human fallback** — a clear path to a person when the AI is wrong or stuck
+
+## Phase 3 — Curate
+- Rank by trust risk: undisclosed AI in a high-stakes decision outranks a missing model name.
+- For each, name the disclosure, cue, or path to add.
+- Distinguish under-disclosure (users trust it too much) from over-warning (noise that gets ignored).
+
+## Phase 4 — Report
+Create `TRANSPARENCY.md` at repo root:
+1. **Disclosure map** — where AI acts, and what the user is told at each point
+2. **Findings** — each: lens · location · the trust risk · the fix
+3. **Uncertainty & recourse** — where to surface confidence and offer a human fallback
+4. **Priority** — the disclosures that most correct mis-calibrated trust
+
+## Rules
+- Honest limits build more trust than a confident interface that overpromises
+- Disclosure must land where the user acts, not buried in a policy page
+- Report only — end by asking which transparency gaps to close first

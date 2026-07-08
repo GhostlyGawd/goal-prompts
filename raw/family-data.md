@@ -1,8 +1,8 @@
 # Playbook: All Data briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Data briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Data briefs** playbook — 7 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Data brief in the catalog, in order — 19 through 71, one report each.
+Every Data brief in the catalog, in order — 19 through 90, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -16,6 +16,8 @@ Every Data brief in the catalog, in order — 19 through 71, one report each.
 3. **21 · PII & Retention Map** — fetch https://goal-prompts.vercel.app/raw/21.md → writes `PRIVACY.md`
 4. **22 · Git Hotspot Mining** — fetch https://goal-prompts.vercel.app/raw/22.md → writes `HOTSPOTS.md`
 5. **71 · Migration Safety** — fetch https://goal-prompts.vercel.app/raw/71.md → writes `MIGRATIONS.md`
+6. **89 · Data Integrity Audit** — fetch https://goal-prompts.vercel.app/raw/89.md → writes `INTEGRITY.md`
+7. **90 · Metric Definition Consistency** — fetch https://goal-prompts.vercel.app/raw/90.md → writes `METRICS.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.
