@@ -1,10 +1,22 @@
 # Goal Prompts
 
-Sixty-eight mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+Seventy-five mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
 **Live:** https://goal-prompts.vercel.app · **Source:** https://github.com/GhostlyGawd/goal-prompts · MIT licensed
+
+## The site
+
+The catalog is a conversion-shaped storefront: a landing page that explains the
+idea to a newcomer (the problem, the four-phase method, the report you get),
+then the shop floor — every brief searchable and filterable, colored by family.
+Each brief has its own page at **`/b/<id>`** — a visual walkthrough of its
+method, its audit lenses, and the report it writes — and every playbook has one
+at **`/p/<key>`** with a step-by-step sequence map. Playbooks can also be
+merchandised: `playbooks.json` supports themed/limited, co-branded **collab**,
+and **sponsored** playbooks (see the partner section on the site and the
+`/p/codereview-collab` template).
 
 ## Install as slash commands
 

@@ -129,5 +129,112 @@ class ParseTests(unittest.TestCase):
                 build.parse(p)
 
 
+# The detail pages (b/<id>, p/<key>) are generated from the same brief bodies
+# the linter guards, so their structure can never drift from the prompts. These
+# pin the parser that feeds them.
+BODY = """# Goal: Demo
+
+Intro one, the mission.
+
+Intro two, the constraint.
+
+## Phase 1 — Explore
+- look around
+
+## Phase 2 — Audit through 3 lenses
+1. **Alpha** — the first lens
+2. **Beta** — the second lens
+3. **Gamma** — the third lens
+
+## Phase 3 — Curate
+- rank things
+
+## Phase 4 — Report
+Create `X.md` at repo root:
+1. **Summary** — a report section
+2. **Findings** — another one
+
+## Rules
+- Evidence or it doesn't exist
+- Report only — end by asking which fixes to make
+"""
+
+
+class BriefPartsTests(unittest.TestCase):
+    def setUp(self):
+        self.parts = build.brief_parts(BODY)
+
+    def test_intro_drops_goal_header(self):
+        self.assertIn("Intro one", self.parts["intro"])
+        self.assertIn("Intro two", self.parts["intro"])
+        self.assertNotIn("# Goal", self.parts["intro"])
+
+    def test_four_phases_in_order_with_names(self):
+        self.assertEqual([p["n"] for p in self.parts["phases"]], [1, 2, 3, 4])
+        self.assertEqual(self.parts["phases"][0]["name"], "Explore")
+        self.assertTrue(self.parts["phases"][0]["gist"])
+
+    def test_phase_2_lenses_extracted(self):
+        self.assertEqual([n for n, _ in self.parts["lenses"]],
+                         ["Alpha", "Beta", "Gamma"])
+        self.assertEqual(self.parts["lenses"][0][1], "the first lens")
+
+    def test_phase_4_report_sections_extracted(self):
+        self.assertEqual([n for n, _ in self.parts["report"]],
+                         ["Summary", "Findings"])
+
+    def test_rules_extracted(self):
+        self.assertTrue(any("Report only" in r for r in self.parts["rules"]))
+
+    def test_prose_phase_2_yields_no_lenses(self):
+        prose = BODY.replace(
+            "1. **Alpha** — the first lens\n2. **Beta** — the second lens\n"
+            "3. **Gamma** — the third lens",
+            "- Present findings as prose, then stop.")
+        self.assertEqual(build.brief_parts(prose)["lenses"], [])
+
+
+class RenderHelperTests(unittest.TestCase):
+    def test_esc(self):
+        self.assertEqual(build.esc("a<b>&c"), "a&lt;b&gt;&amp;c")
+
+    def test_md_inline_bold_and_code(self):
+        self.assertEqual(build.md_inline("a **b** `c`"),
+                         "a <strong>b</strong> <code>c</code>")
+
+    def test_md_block_paragraphs_and_lists(self):
+        html = build.md_block("A para.\n\n- one\n- two")
+        self.assertIn("<p>A para.</p>", html)
+        self.assertIn("<li>one</li>", html)
+        self.assertIn("<ul>", html)
+
+    def test_cmd_html_id_is_deterministic(self):
+        # the copy-source id must be stable across runs (deterministic build)
+        self.assertEqual(build.cmd_html("npm test"), build.cmd_html("npm test"))
+
+
+class DetailPageTests(unittest.TestCase):
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_brief_detail_renders(self):
+        p = self._prompts()[0]
+        html = build.brief_detail(p, [], [])
+        self.assertIn("<title>", html)
+        self.assertIn(p["title"], html)
+        self.assertIn(f'/b/{p["id"]}', html)          # canonical
+        self.assertIn("rawbody", html)                # the copy source
+
+    def test_playbook_detail_renders(self):
+        prompts = self._prompts()
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "the conductor text"}
+        html = build.playbook_detail(pb, by_id)
+        self.assertIn("Copy the conductor", html)
+        self.assertIn("the conductor text", html)     # embedded for copy
+
+
 if __name__ == "__main__":
     unittest.main()

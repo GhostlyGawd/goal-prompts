@@ -876,7 +876,9 @@
  "name": "goal-prompts",
  "playbooks": [
   {
+   "badge": "Most popular",
    "desc": "First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.",
+   "featured": true,
    "ids": [
     "00",
     "01",
@@ -884,7 +886,10 @@
     "14"
    ],
    "key": "day1",
-   "name": "Day-1 New Repo"
+   "name": "Day-1 New Repo",
+   "page": "https://goal-prompts.vercel.app/p/day1",
+   "tagline": "The four questions to ask any repo you just cloned.",
+   "type": "standard"
   },
   {
    "desc": "The night-before checks: safe, accessible, deployable, ready for a bad day.",
@@ -895,7 +900,10 @@
     "25"
    ],
    "key": "prelaunch",
-   "name": "Pre-Launch"
+   "name": "Pre-Launch",
+   "page": "https://goal-prompts.vercel.app/p/prelaunch",
+   "tagline": "Everything you should check before you press deploy.",
+   "type": "standard"
   },
   {
    "desc": "Make it smaller and clearer: delete, simplify, then map what debt remains.",
@@ -906,7 +914,10 @@
     "22"
    ],
    "key": "cleaning",
-   "name": "Spring Cleaning"
+   "name": "Spring Cleaning",
+   "page": "https://goal-prompts.vercel.app/p/cleaning",
+   "tagline": "Cut the dead weight, then see what's really left.",
+   "type": "standard"
   },
   {
    "desc": "Ten minutes, trend arrows. Re-run every week.",
@@ -914,7 +925,10 @@
     "29"
    ],
    "key": "vitals",
-   "name": "Weekly Vitals"
+   "name": "Weekly Vitals",
+   "page": "https://goal-prompts.vercel.app/p/vitals",
+   "tagline": "A ten-minute weekly health read with trend arrows.",
+   "type": "standard"
   },
   {
    "desc": "First contact with an agent codebase: read its mind, its hands, its loops, its traces.",
@@ -925,7 +939,10 @@
     "37"
    ],
    "key": "agentday1",
-   "name": "Agent Day-1"
+   "name": "Agent Day-1",
+   "page": "https://goal-prompts.vercel.app/p/agentday1",
+   "tagline": "Understand an AI-agent codebase before you touch it.",
+   "type": "standard"
   },
   {
    "desc": "Before an agent touches real users: guarded, evaluated, supervised, affordable.",
@@ -936,16 +953,24 @@
     "38"
    ],
    "key": "shipcheck",
-   "name": "Agent Ship-Check"
+   "name": "Agent Ship-Check",
+   "page": "https://goal-prompts.vercel.app/p/shipcheck",
+   "tagline": "Is your agent safe to put in front of real users?",
+   "type": "standard"
   },
   {
+   "badge": "Ends in commits",
    "desc": "Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.",
+   "featured": true,
    "ids": [
     "46",
     "47"
    ],
    "key": "triagefix",
-   "name": "Triage & Fix"
+   "name": "Triage & Fix",
+   "page": "https://goal-prompts.vercel.app/p/triagefix",
+   "tagline": "From “what's wrong?” to shipped fixes, one loop.",
+   "type": "standard"
   },
   {
    "desc": "For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.",
@@ -955,10 +980,15 @@
     "34"
    ],
    "key": "retrievaltune",
-   "name": "Retrieval Tune-Up"
+   "name": "Retrieval Tune-Up",
+   "page": "https://goal-prompts.vercel.app/p/retrievaltune",
+   "tagline": "Make your RAG agent retrieve the right things.",
+   "type": "standard"
   },
   {
+   "badge": "Ends in commits",
    "desc": "The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.",
+   "featured": true,
    "ids": [
     "54",
     "57",
@@ -967,10 +997,15 @@
     "47"
    ],
    "key": "facelift",
-   "name": "Face-Lift"
+   "name": "Face-Lift",
+   "page": "https://goal-prompts.vercel.app/p/facelift",
+   "tagline": "A guided visual overhaul that ends in real commits.",
+   "type": "standard"
   },
   {
+   "badge": "Before you build",
    "desc": "One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.",
+   "featured": true,
    "ids": [
     "61",
     "62",
@@ -981,7 +1016,10 @@
     "67"
    ],
    "key": "founderfunnel",
-   "name": "Founder Funnel"
+   "name": "Founder Funnel",
+   "page": "https://goal-prompts.vercel.app/p/founderfunnel",
+   "tagline": "Pressure-test a startup idea before you write a line.",
+   "type": "standard"
   },
   {
    "desc": "Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.",
@@ -991,7 +1029,10 @@
     "67"
    ],
    "key": "gutcheck",
-   "name": "Gut Check"
+   "name": "Gut Check",
+   "page": "https://goal-prompts.vercel.app/p/gutcheck",
+   "tagline": "72 hours of truth for one idea: go or no.",
+   "type": "standard"
   },
   {
    "desc": "Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.",
@@ -1001,7 +1042,10 @@
     "70"
    ],
    "key": "world",
-   "name": "Ship to the World"
+   "name": "Ship to the World",
+   "page": "https://goal-prompts.vercel.app/p/world",
+   "tagline": "Make it usable, accessible, and findable everywhere.",
+   "type": "standard"
   },
   {
    "desc": "Before the repo goes public: safe to expose, dependencies sound, and every license accounted for.",
@@ -1011,7 +1055,43 @@
     "69"
    ],
    "key": "release",
-   "name": "OSS Release-Ready"
+   "name": "OSS Release-Ready",
+   "page": "https://goal-prompts.vercel.app/p/release",
+   "tagline": "Everything to check before a repo goes public.",
+   "type": "standard"
+  },
+  {
+   "badge": "Seasonal",
+   "desc": "A limited, themed sprint for launch season — hunt the bugs, lock the doors, make it fast, rehearse the bad day, and get found. One themed bundle, five reports, ready to ship.",
+   "featured": true,
+   "ids": [
+    "01",
+    "06",
+    "04",
+    "25",
+    "70"
+   ],
+   "key": "shipit",
+   "name": "Ship-It Week",
+   "page": "https://goal-prompts.vercel.app/p/shipit",
+   "tagline": "Launch season, in one themed bundle of five audits.",
+   "type": "themed",
+   "window": "Featured this season"
+  },
+  {
+   "badge": "Collab",
+   "desc": "A worked example of a co-branded playbook: pair change-risk review with a full bug hunt, then turn the findings into verified commits. This is the template a partner tool or creator drops their brand into — the content and cut are shared.",
+   "ids": [
+    "74",
+    "01",
+    "47"
+   ],
+   "key": "codereview-collab",
+   "name": "Deep Code Review",
+   "page": "https://goal-prompts.vercel.app/p/codereview-collab",
+   "preview": true,
+   "tagline": "Example co-branded review sequence — how partner playbooks look.",
+   "type": "collab"
   }
  ]
 }
