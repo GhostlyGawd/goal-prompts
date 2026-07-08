@@ -373,7 +373,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 /* nav */
 .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:18px;height:60px}
-.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.01em;font-size:16px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.01em;font-size:16px}
 .brand .mark{flex:none}
 .nav-links{display:flex;gap:20px;margin-left:8px;font-size:14px;color:var(--dim)}
 .nav-links a:hover{color:var(--text)}
@@ -397,7 +397,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 
 /* chips + badges */
-.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
 .chip .dot{width:8px;height:8px;border-radius:50%;background:var(--fc);flex:none}
 .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#12161c;background:var(--fc);border-radius:999px;padding:4px 10px}
 .badge.soft{background:color-mix(in srgb,var(--fc) 16%,var(--panel));color:var(--fc);border:1px solid color-mix(in srgb,var(--fc) 40%,transparent)}
@@ -411,8 +411,8 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .dhero .id{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--fc)}
 .dhero h1{font-size:clamp(30px,5.6vw,50px);font-weight:900;letter-spacing:-.02em;line-height:1.03;margin:12px 0 14px}
 .dhero .lede{font-size:clamp(16px,2.4vw,20px);color:#C6CEDA;max-width:60ch;line-height:1.5}
-.dhero .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
-.dhero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.dhero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.dhero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 
 /* section scaffolding */
 section.blk{padding:40px 0;border-bottom:1px solid var(--line)}
@@ -437,7 +437,7 @@ section.blk{padding:40px 0;border-bottom:1px solid var(--line)}
 
 /* lenses */
 .lenses{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}
-.lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:13px;transition:border-color .15s,transform .15s}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:12px;transition:border-color .15s,transform .15s}
 .lens:hover{border-color:color-mix(in srgb,var(--fc) 55%,var(--line));transform:translateY(-2px)}
 .lens .i{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--fc);flex:none;width:26px;height:26px;border-radius:7px;background:color-mix(in srgb,var(--fc) 14%,var(--panel-2));display:flex;align-items:center;justify-content:center}
 .lens h4{font-size:15px;font-weight:700;margin-bottom:3px;letter-spacing:-.01em}
@@ -451,7 +451,7 @@ section.blk{padding:40px 0;border-bottom:1px solid var(--line)}
 .report .fname{font-family:var(--mono);font-size:13px;color:var(--text);margin-left:4px}
 .report .fname::before{content:"→ ";color:var(--fc)}
 .report .doc{padding:8px 8px 14px}
-.report .row{display:flex;gap:13px;padding:12px 14px;border-radius:9px}
+.report .row{display:flex;gap:12px;padding:12px 14px;border-radius:9px}
 .report .row:hover{background:color-mix(in srgb,var(--fc) 6%,transparent)}
 .report .rn{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none;width:22px;text-align:right}
 .report .rt{font-weight:700;font-size:15px}
@@ -473,7 +473,7 @@ section.blk{padding:40px 0;border-bottom:1px solid var(--line)}
 
 /* full brief + rules */
 .full{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
-.full summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:9px}
+.full summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:8px}
 .full summary::-webkit-details-marker{display:none}
 .full summary .chev{transition:transform .2s}.full[open] summary .chev{transform:rotate(90deg)}
 .full pre{font-family:var(--mono);font-size:12px;line-height:1.65;color:#C7CEDA;background:var(--ink-2);border-top:1px solid var(--line);padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
@@ -491,7 +491,7 @@ section.blk{padding:40px 0;border-bottom:1px solid var(--line)}
 .pcard h4{font-size:15px;font-weight:700;margin:3px 0 5px;letter-spacing:-.01em}
 .pcard p{font-size:13px;color:var(--dim);line-height:1.45}
 @media(max-width:640px){.cards{grid-template-columns:1fr}}
-.pblinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.pblinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .pblink{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px dashed var(--line-2);border-radius:999px;padding:8px 13px}
 .pblink:hover{color:var(--text);border-color:var(--fc)}
 .pblink .len{color:var(--faint)}
@@ -522,7 +522,7 @@ footer.foot{padding:40px 0 60px;color:var(--dim)}
 .foot .cta-band{background:linear-gradient(120deg,var(--panel),var(--panel-2));border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
 .foot .cta-band h3{font-size:clamp(20px,3vw,26px);font-weight:800;letter-spacing:-.015em;color:var(--text);margin-bottom:8px}
 .foot .cta-band p{font-size:15px;max-width:52ch;margin:0 auto 18px}
-.foot .cta-band .row{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.foot .cta-band .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .foot .links{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
 .foot .links a:hover{color:var(--text)}
 .foot .fine{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
