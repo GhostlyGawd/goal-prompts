@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.11.0 — 2026-07-08
+- Forty-eight briefs and four new families, taking the catalog to 129
+  briefs across 21 families — each the standard read-only 4-phase audit
+  that leaves one evidence-backed report:
+  - Security suite (Trust): 81 Secrets & Credential Hygiene, 82 Access-
+    Control & Authorization, 83 Input & Injection, 84 Threat Model &
+    Abuse Cases; plus 85 Dependency Currency and 86 Keyboard & Screen-
+    Reader Flow
+  - Speed: 87 Query Performance & N+1, 88 Bundle & Asset Weight
+  - Data: 89 Data Integrity, 90 Metric Definition Consistency
+  - Ops: 91 Backup & Recovery, 92 Feature-Flag & Rollback Readiness,
+    93 Vendor Lock-In
+  - DX suite (Team): 94 Inner-Loop Speed, 95 Debuggability, 96 CI
+    Feedback-Loop; plus 97 Decision-Record
+  - Quality: 98 Concurrency & Race-Condition, 99 Type-Safety, 100 Test-
+    Quality, 101 Flaky-Test, 102 Test-Pyramid Balance
+  - 103 Error-Message (Clarity); 104 Mobile & Responsive and 105 Design-
+    Token Adoption (Design); 106 Notification & Email, 107 In-App Search,
+    108 Account Lifecycle (Product); 109 Forms & Validation, 110 Checkout
+    & Payment (Growth)
+  - API (new family): 111 Webhook Design, 112 SDK Ergonomics, 113 API
+    Versioning & Deprecation, 114 Rate-Limit & Quota Design, 115 Developer
+    Portal & Onboarding
+  - AI-Ethics (new family): 116 Bias & Fairness, 117 Hallucination &
+    Grounding, 118 Prompt-Injection Red-Team, 119 Model Transparency,
+    120 Training-Data Provenance
+  - Reliability (new family): 121 Graceful Degradation, 122 Failure-
+    Injection Readiness, 123 Capacity & Scalability, 124 Abuse & Overload
+    Protection
+  - Compliance (new family): 125 Consent & Cookie, 126 Data-Subject-
+    Rights, 127 Encryption & Key Management, 128 Audit-Trail
+- Fifteen playbooks: Harden Before Ship, Data-Layer Tune-Up, DX Tune-Up,
+  Test Confidence, Ship a Public API, Responsible AI Review, Production
+  Resilience, Privacy & Compliance, Make It Fast, Inherit a Codebase,
+  Refactor Safely, Cost Down, Agent Cost Control, plus a themed (New-Year
+  Reset) and a sponsored (Sponsored Speed Bundle) merchandising example.
+  129 briefs, 32 playbooks
+
 ## 0.10.0 — 2026-07-08
 - Five briefs that optimize the whole visitor experience — comprehension,
   visual proof, conversion credibility, retention, and activation — each

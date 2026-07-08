@@ -1,0 +1,44 @@
+---
+id: "84"
+title: Threat Model & Abuse Cases
+family: Trust
+question: is it safe?
+output: THREATS.md
+tagline: An attacker's-eye map — the assets worth stealing, the surfaces that reach them, and the abuse cases the product does not yet defend.
+---
+# Goal: Threat Model & Abuse Cases
+
+You are working inside this repo. Mission: think like an attacker. Map what is worth taking, how they would reach it, and which ways this product can be turned against its users or its owner — before someone else does.
+
+Read-only pass. Read the architecture, routes, and data model; change nothing. Your only write is the report file.
+
+## Phase 1 — Frame the system
+- Name the assets worth attacking: sensitive data, money, compute, credentials, reputation.
+- Draw the attack surface: every externally reachable entry point and who can reach it.
+- Mark the trust boundaries: where data crosses from untrusted to trusted, and what each side assumes.
+
+## Phase 2 — Audit through 7 lenses
+1. **Crown jewels** — the assets whose loss hurts most, and every path that touches them
+2. **Entry points** — routes, webhooks, uploads, queues, and integrations exposed to the outside
+3. **Trust boundaries** — the assumptions made about data that crossed from outside
+4. **Abuse cases** — the feature as a weapon: spam, scraping, enumeration, fraud, resource exhaustion
+5. **Rate & quota gaps** — actions with no ceiling: login, signup, send, expensive compute
+6. **Confused deputy** — where the system acts on a user's behalf and could be tricked into over-reaching
+7. **Detection & response** — would an attack be noticed; what is logged, alerted, and recoverable
+
+## Phase 3 — Curate
+- Rank threats by likelihood × impact; be honest about which are theoretical and which are one script away.
+- For each top threat, name the single mitigation that most reduces it.
+- Separate "add a control" from "the design invites this"; flag the structural ones.
+
+## Phase 4 — Report
+Create `THREATS.md` at repo root:
+1. **Asset & surface map** — what is worth taking and how it is reached
+2. **Threat table** — threat · entry point · likelihood · impact · current defense · gap
+3. **Abuse-case findings** — the misuse the product enables, with the mitigation each needs
+4. **Top mitigations** — the highest-leverage defenses, ordered by risk reduced per unit effort
+
+## Rules
+- Model the attacker's incentives, not just the code's happy path
+- A control you cannot detect being bypassed is not a control
+- Report only — end by asking which threats to mitigate first

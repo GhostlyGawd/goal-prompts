@@ -1,8 +1,8 @@
 # Playbook: All Ops briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Ops briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Ops briefs** playbook — 8 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Ops brief in the catalog, in order — 23 through 73, one report each.
+Every Ops brief in the catalog, in order — 23 through 93, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -16,6 +16,9 @@ Every Ops brief in the catalog, in order — 23 through 73, one report each.
 3. **25 · Incident Readiness Review** — fetch https://goal-prompts.vercel.app/raw/25.md → writes `RELIABILITY.md`
 4. **53 · Config & Environment Audit** — fetch https://goal-prompts.vercel.app/raw/53.md → writes `CONFIG.md`
 5. **73 · Telemetry & SLOs** — fetch https://goal-prompts.vercel.app/raw/73.md → writes `TELEMETRY.md`
+6. **91 · Backup & Recovery Audit** — fetch https://goal-prompts.vercel.app/raw/91.md → writes `RECOVERY.md`
+7. **92 · Feature-Flag & Rollback Readiness** — fetch https://goal-prompts.vercel.app/raw/92.md → writes `ROLLBACK.md`
+8. **93 · Vendor Lock-In Audit** — fetch https://goal-prompts.vercel.app/raw/93.md → writes `LOCKIN.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

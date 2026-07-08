@@ -1,0 +1,44 @@
+---
+id: "96"
+title: CI Feedback-Loop Audit
+family: Team
+question: can others build on it?
+output: CIFEEDBACK.md
+tagline: CI as a feedback loop — how fast, trustworthy, and clear the signal is between pushing code and knowing it is safe to merge.
+---
+# Goal: CI Feedback-Loop Audit
+
+You are working inside this repo. Mission: judge the CI pipeline as a feedback loop — speed, reliability, and clarity of the signal between a push and a confident merge — because slow or flaky CI trains people to ignore it.
+
+Read-only pass. Read the pipeline config and recent run history; change nothing but the report file.
+
+## Phase 1 — Map the pipeline
+- List every stage from push to green: what runs, in what order, and how long each takes.
+- Note which checks block merge and which are advisory.
+- Skim recent runs for failures: real breakages versus flakes and infra hiccups.
+
+## Phase 2 — Audit through 7 lenses
+1. **Duration** — total time from push to green, and the long pole in the pipeline
+2. **Parallelism & caching** — jobs that could run concurrently; missing dependency or build caches
+3. **Flaky gates** — steps that fail intermittently and erode trust in the signal
+4. **Signal clarity** — on failure, is the cause obvious or a log-diving expedition
+5. **Redundancy** — the same check run in several places; stages that add time but not confidence
+6. **Fast-fail ordering** — cheap checks (lint, typecheck) before slow ones (e2e), or everything at once
+7. **Required vs advisory** — which checks block merge, and whether that matches their reliability
+
+## Phase 3 — Curate
+- Rank by time or trust reclaimed: the long pole and the flakiest gate usually top the list.
+- For each, name the fix — cache, parallelize, reorder, split, or quarantine.
+- Separate "make it faster" from "make it trustworthy"; both change behavior.
+
+## Phase 4 — Report
+Create `CIFEEDBACK.md` at repo root:
+1. **The pipeline, timed** — each stage, its duration, and its blocking status
+2. **Slow & flaky** — the offenders ranked by time cost and by failure noise
+3. **Fixes** — each: stage · change · time saved or trust gained · effort
+4. **Target pipeline** — the reordered, cached, parallelized shape and its expected time-to-signal
+
+## Rules
+- A flaky gate is worse than a slow one; it teaches people to ignore red
+- Order checks cheap-to-expensive so failures surface fast
+- Report only — end by asking which pipeline fixes to make first

@@ -1,8 +1,8 @@
 # Playbook: All Quality briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Quality briefs** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Quality briefs** playbook — 8 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Quality brief in the catalog, in order — 01 through 03, one report each.
+Every Quality brief in the catalog, in order — 01 through 99, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -14,6 +14,11 @@ Every Quality brief in the catalog, in order — 01 through 03, one report each.
 1. **01 · Bug Hunt** — fetch https://goal-prompts.vercel.app/raw/01.md → writes `BUGS.md`
 2. **02 · Test Gap Audit** — fetch https://goal-prompts.vercel.app/raw/02.md → writes `TESTING.md`
 3. **03 · Silent Failure Audit** — fetch https://goal-prompts.vercel.app/raw/03.md → writes `OBSERVABILITY.md`
+4. **100 · Test-Quality Audit** — fetch https://goal-prompts.vercel.app/raw/100.md → writes `TESTQUALITY.md`
+5. **101 · Flaky-Test Audit** — fetch https://goal-prompts.vercel.app/raw/101.md → writes `FLAKY.md`
+6. **102 · Test-Pyramid Balance** — fetch https://goal-prompts.vercel.app/raw/102.md → writes `PYRAMID.md`
+7. **98 · Concurrency & Race-Condition Audit** — fetch https://goal-prompts.vercel.app/raw/98.md → writes `CONCURRENCY.md`
+8. **99 · Type-Safety Audit** — fetch https://goal-prompts.vercel.app/raw/99.md → writes `TYPES.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

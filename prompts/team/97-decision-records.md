@@ -1,0 +1,44 @@
+---
+id: "97"
+title: Decision-Record Audit
+family: Team
+question: can others build on it?
+output: DECISIONS.md
+tagline: Whether the consequential technical decisions are written down — or whether the why lives only in people's heads and git archaeology.
+---
+# Goal: Decision-Record Audit
+
+You are working inside this repo. Mission: find the load-bearing technical decisions that shaped this codebase and check whether their reasoning is recorded — so a new engineer can learn why, not just what, without interrogating whoever remembers.
+
+Read-only pass. Read docs, comments, commit history, and any ADRs; change nothing but the report file.
+
+## Phase 1 — Surface the decisions
+- Identify the choices that shape everything downstream: architecture, framework, data model, key trade-offs.
+- For each, look for where the reasoning is recorded — a doc, an ADR, a PR description, or nowhere.
+- Note the "everyone just knows" rules that guide the code but live in no file.
+
+## Phase 2 — Audit through 7 lenses
+1. **Load-bearing choices** — the decisions that constrain everything else; are they recorded at all
+2. **The why** — do records capture reasoning and alternatives, not just the final choice
+3. **Discoverability** — can a newcomer find why X was chosen without asking a person
+4. **Currency** — records that describe a past the code no longer matches
+5. **Reversibility signals** — do decisions note what would trigger revisiting them
+6. **Tribal knowledge** — the unwritten conventions that everyone is assumed to know
+7. **Habit & format** — is there a lightweight practice for recording decisions, or none
+
+## Phase 3 — Curate
+- Rank by cost-of-losing: the decisions whose rationale, if forgotten, would cause the most damage or rework.
+- For the top few, reconstruct the likely reasoning from the code and history.
+- Recommend a format light enough to actually get used.
+
+## Phase 4 — Report
+Create `DECISIONS.md` at repo root:
+1. **Undocumented decisions** — ranked by cost-of-losing the rationale
+2. **Backfilled records** — a short ADR for the top few: context, choice, alternatives, consequences
+3. **Tribal knowledge** — the unwritten rules that need a home
+4. **The habit** — a lightweight ADR practice to adopt, with where records should live
+
+## Rules
+- Record the why and the alternatives; the what is already in the code
+- A decision only one person can explain is a bus-factor risk
+- Report only — end by asking which decisions to document first

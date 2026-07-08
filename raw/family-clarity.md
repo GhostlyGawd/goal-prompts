@@ -1,8 +1,8 @@
 # Playbook: All Clarity briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Clarity briefs** playbook — 4 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Clarity briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Clarity brief in the catalog, in order — 16 through 76, one report each.
+Every Clarity brief in the catalog, in order — 103 through 76, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -11,10 +11,11 @@ Every Clarity brief in the catalog, in order — 16 through 76, one report each.
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **16 · Documentation Audit** — fetch https://goal-prompts.vercel.app/raw/16.md → writes `DOCS.md`
-2. **17 · Copy & Voice Audit** — fetch https://goal-prompts.vercel.app/raw/17.md → writes `COPY.md`
-3. **18 · API Contract Review** — fetch https://goal-prompts.vercel.app/raw/18.md → writes `API.md`
-4. **76 · Comprehension Audit** — fetch https://goal-prompts.vercel.app/raw/76.md → writes `COMPREHENSION.md`
+1. **103 · Error-Message Audit** — fetch https://goal-prompts.vercel.app/raw/103.md → writes `ERRORS.md`
+2. **16 · Documentation Audit** — fetch https://goal-prompts.vercel.app/raw/16.md → writes `DOCS.md`
+3. **17 · Copy & Voice Audit** — fetch https://goal-prompts.vercel.app/raw/17.md → writes `COPY.md`
+4. **18 · API Contract Review** — fetch https://goal-prompts.vercel.app/raw/18.md → writes `API.md`
+5. **76 · Comprehension Audit** — fetch https://goal-prompts.vercel.app/raw/76.md → writes `COMPREHENSION.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

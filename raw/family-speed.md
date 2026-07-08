@@ -1,8 +1,8 @@
 # Playbook: All Speed briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Speed briefs** playbook — 3 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Speed briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Speed brief in the catalog, in order — 04 through 51, one report each.
+Every Speed brief in the catalog, in order — 04 through 88, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -14,6 +14,8 @@ Every Speed brief in the catalog, in order — 04 through 51, one report each.
 1. **04 · Performance Audit** — fetch https://goal-prompts.vercel.app/raw/04.md → writes `PERF.md`
 2. **05 · 10x Stress Review** — fetch https://goal-prompts.vercel.app/raw/05.md → writes `SCALE.md`
 3. **51 · Latency Budget Audit** — fetch https://goal-prompts.vercel.app/raw/51.md → writes `LATENCY.md`
+4. **87 · Query Performance & N+1 Audit** — fetch https://goal-prompts.vercel.app/raw/87.md → writes `QUERIES.md`
+5. **88 · Bundle & Asset Weight Audit** — fetch https://goal-prompts.vercel.app/raw/88.md → writes `BUNDLE.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

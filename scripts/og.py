@@ -7,7 +7,7 @@ Usage:
     python3 scripts/og.py 46 47      # specific ids
 
 Needs Pillow and fontTools (`pip install Pillow fonttools brotli`). The cards
-render in the site's own brand fonts — Archivo (variable) and IBM Plex Mono —
+render in the site's own brand fonts — Schibsted Grotesk (variable), IBM Plex Sans, Plex Mono —
 decompressed from the shipped woff2 at runtime, so the share image matches the
 live site instead of a DejaVu stand-in. build.py fails when a brief has no
 og/<id>.png, so run this after adding a brief. Cards are 1200x630:
@@ -54,14 +54,15 @@ def _ttf(woff2_name):
 
 def font(woff2_name, size, weight=None):
     fnt = ImageFont.truetype(str(_ttf(woff2_name)), size)
-    if weight is not None:  # Archivo is variable — pin the wght axis
+    if weight is not None:  # Schibsted Grotesk is variable — pin the wght axis
         try:
             fnt.set_variation_by_axes([weight])
         except Exception:
             pass
     return fnt
 
-ARCHIVO = "archivo-latin-var.woff2"
+DISPLAY = "schibstedgrotesk-latin-var.woff2"
+SANS = "plexsans-latin-400.woff2"
 MONO = "plexmono-latin-400.woff2"
 MONO_SB = "plexmono-latin-600.woff2"
 
@@ -88,16 +89,16 @@ def render(brief):
     d.rectangle([0, 0, BAR_W - 1, H], fill=accent)
 
     f_num = font(MONO_SB, 100)
-    f_tag = font(ARCHIVO, 30, 400)
+    f_tag = font(SANS, 30)
     f_foot_b = font(MONO_SB, 22)
     f_foot = font(MONO, 22)
 
     d.text((LEFT, 62), brief["id"], font=f_num, fill=accent)
 
     title = brief["title"]
-    tf = font(ARCHIVO, 58, 800)
+    tf = font(DISPLAY, 58, 800)
     while d.textlength(title, font=tf) > W - LEFT - 60 and tf.size > 40:
-        tf = font(ARCHIVO, tf.size - 4, 800)
+        tf = font(DISPLAY, tf.size - 4, 800)
     d.text((LEFT, 198), title, font=tf, fill=TEXT)
 
     y = 285
