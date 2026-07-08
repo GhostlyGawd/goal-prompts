@@ -6,14 +6,19 @@ Usage:
     python3 scripts/og.py --all      # regenerate every card
     python3 scripts/og.py 46 47      # specific ids
 
-Needs Pillow (`pip install Pillow`) and the DejaVu fonts most Linux images
-ship. build.py fails when a brief has no og/<id>.png, so run this after
-adding a brief. Cards are 1200x630: family-colored bar and id, title,
-wrapped tagline, and a family -> OUTPUT.md footer.
+Needs Pillow and fontTools (`pip install Pillow fonttools brotli`). The cards
+render in the site's own brand fonts — Archivo (variable) and IBM Plex Mono —
+decompressed from the shipped woff2 at runtime, so the share image matches the
+live site instead of a DejaVu stand-in. build.py fails when a brief has no
+og/<id>.png, so run this after adding a brief. Cards are 1200x630:
+family-colored bar and id, title, wrapped tagline, and a family → OUTPUT.md
+footer.
 """
 import sys
+import tempfile
 from pathlib import Path
 
+from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,11 +37,33 @@ BAR_W = 17
 LEFT = 78
 DOMAIN = "goal-prompts.vercel.app"
 
-FONT_DIR = Path("/usr/share/fonts/truetype/dejavu")
+FONTS = ROOT / "fonts"
+_TTF_CACHE = {}
 
 
-def font(name, size):
-    return ImageFont.truetype(str(FONT_DIR / name), size)
+def _ttf(woff2_name):
+    """Decompress a shipped woff2 to a temp ttf once; Pillow can't read woff2."""
+    if woff2_name not in _TTF_CACHE:
+        f = TTFont(str(FONTS / woff2_name))  # brotli-decompresses the woff2
+        f.flavor = None
+        out = Path(tempfile.gettempdir()) / (Path(woff2_name).stem + ".ttf")
+        f.save(str(out))
+        _TTF_CACHE[woff2_name] = out
+    return _TTF_CACHE[woff2_name]
+
+
+def font(woff2_name, size, weight=None):
+    fnt = ImageFont.truetype(str(_ttf(woff2_name)), size)
+    if weight is not None:  # Archivo is variable — pin the wght axis
+        try:
+            fnt.set_variation_by_axes([weight])
+        except Exception:
+            pass
+    return fnt
+
+ARCHIVO = "archivo-latin-var.woff2"
+MONO = "plexmono-latin-400.woff2"
+MONO_SB = "plexmono-latin-600.woff2"
 
 
 def wrap(draw, text, fnt, max_w):
@@ -60,17 +87,17 @@ def render(brief):
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, BAR_W - 1, H], fill=accent)
 
-    f_num = font("DejaVuSansMono.ttf", 100)
-    f_tag = font("DejaVuSans.ttf", 30)
-    f_foot_b = font("DejaVuSansMono-Bold.ttf", 22)
-    f_foot = font("DejaVuSansMono.ttf", 22)
+    f_num = font(MONO_SB, 100)
+    f_tag = font(ARCHIVO, 30, 400)
+    f_foot_b = font(MONO_SB, 22)
+    f_foot = font(MONO, 22)
 
     d.text((LEFT, 62), brief["id"], font=f_num, fill=accent)
 
     title = brief["title"]
-    tf = font("DejaVuSans-Bold.ttf", 58)
+    tf = font(ARCHIVO, 58, 800)
     while d.textlength(title, font=tf) > W - LEFT - 60 and tf.size > 40:
-        tf = font("DejaVuSans-Bold.ttf", tf.size - 4)
+        tf = font(ARCHIVO, tf.size - 4, 800)
     d.text((LEFT, 198), title, font=tf, fill=TEXT)
 
     y = 285
@@ -83,7 +110,7 @@ def render(brief):
     fam = brief["family"].upper()
     d.text((x, fy), fam, font=f_foot_b, fill=accent)
     x += d.textlength(fam, font=f_foot_b) + 32
-    out = "-> " + brief["output"]
+    out = "-> " + brief["output"]  # ASCII: the latin-subset mono woff2 has no U+2192 glyph
     d.text((x, fy), out, font=f_foot, fill=DIM)
     x += d.textlength(out, font=f_foot) + 42
     d.text((x, fy), DOMAIN, font=f_foot, fill=DIM)
