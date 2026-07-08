@@ -34,7 +34,19 @@
   body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px}
   a{color:var(--amber)}
-  header{padding:56px 0 8px}
+  /* shared top nav — matches the redesigned catalog & detail pages */
+  .topnav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topnav a{text-decoration:none}
+  .topnav-in{display:flex;align-items:center;gap:18px;height:58px;max-width:760px;margin:0 auto;padding:0 20px}
+  .topnav .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15.5px;letter-spacing:-.01em;color:var(--text)}
+  .topnav .brand svg{flex:none}
+  .topnav .lk{display:flex;gap:18px;margin-left:6px;font-size:14px}
+  .topnav .lk a{color:var(--dim)}
+  .topnav .lk a:hover{color:var(--text)}
+  .topnav .cta{margin-left:auto;background:var(--amber);color:#1a1205;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;font-family:var(--mono)}
+  .topnav .cta:hover{filter:brightness(1.08)}
+  @media(max-width:640px){.topnav .lk{display:none}}
+  header{padding:34px 0 8px}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
@@ -78,6 +90,17 @@
 </style>
 </head>
 <body>
+
+<div class="topnav"><div class="topnav-in">
+  <a class="brand" href="/"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
+  <nav class="lk">
+    <a href="/#how">How it works</a>
+    <a href="/#playbooks">Playbooks</a>
+    <a href="/#catalog">Catalog</a>
+    <a href="/studio">Studio</a>
+  </nav>
+  <a class="cta" href="/#start">Get started</a>
+</div></div>
 
 <header class="wrap">
   <div class="eyebrow"><a href="/">← goal prompts</a> · <b>see the drift</b></div>
