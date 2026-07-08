@@ -20,6 +20,6 @@
 4. One line in CONTRIBUTING: Node needed only for `mcp/` and site-script checks. SHIPPED in 0.5.
 
 ## The one-hour fix
-Fix 1 shipped in 0.5: a single `scripts/check` command collapses the entire contribution ritual into one step and is now the CI body — every future contributor saves the discovery cost this audit paid. Remaining open: self-hosting fonts, j/k navigation.
+Fix 1 shipped in 0.5: a single `scripts/check` command collapses the entire contribution ritual into one step and is now the CI body — every future contributor saves the discovery cost this audit paid. Remaining open: `j/k` keyboard navigation (self-hosting fonts shipped in 0.8).
 
 *Report only — which fixes should be made?*
