@@ -294,6 +294,24 @@
   .empty b{color:var(--dim);font-weight:500}
   .empty .nearrow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
+  /* ---------- question-led finder ---------- */
+  .finder{margin-top:24px}
+  .finder .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+  .finder .goallab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .finder .goal{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}
+  .finder .goal:hover{border-color:var(--fc);color:var(--text)}
+  .finder .goal .gd{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
+  .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(20px,4vw,44px)}
+  @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
+  .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:13px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+  .qrow:hover{padding-left:9px;border-bottom-color:var(--line-2)}
+  .qrow .qic{width:21px;height:21px;color:var(--fc)}
+  .qrow .qq{font-family:var(--disp);font-weight:600;font-size:clamp(16px,2vw,19px);letter-spacing:-.015em;color:var(--text);line-height:1.15;display:block}
+  .qrow .qm{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qrow .qm b{color:var(--fc);font-weight:600}
+  .qrow .qn{font-family:var(--mono);font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .finder-refine{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
   /* ---------- custom conductor bar ---------- */
   .seqbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:color-mix(in srgb,var(--ink) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
   .seqbar-in{display:flex;align-items:center;gap:10px;padding-top:11px;padding-bottom:max(11px,env(safe-area-inset-bottom))}
@@ -495,8 +513,10 @@
 <main>
 <section class="blk" id="catalog"><div class="wrap">
   <div class="kicker" style="--fc:#4D9FFF">The catalog</div>
-  <h2 class="h2">Browse every audit.</h2>
+  <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">Seventeen families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent.</p>
+  <div class="finder" id="finder"></div>
+  <div class="finder-refine">or search &amp; filter every brief ↓</div>
 
   <details class="ctx" id="ctxbox">
     <summary><span class="chev">▸</span> aim the briefs at your repo <span class="on" id="ctxon" hidden>· applied to every copy</span></summary>
@@ -1169,6 +1189,33 @@ function renderFamChart(){
   host.innerHTML=bars.join("")+labs.join("");
 }
 renderFamChart();
+
+/* ---- question-led finder ---- */
+function buildFinder(){
+  const host=document.getElementById("finder"); if(!host) return;
+  const goals=PLAYBOOKS.filter(pb=>!pb.preview).slice(0,4);
+  let g='<div class="goals"><span class="goallab">start with a goal</span>';
+  goals.forEach(pb=>{
+    const c=pb.accent||(byId[pb.ids[0]]?famColor(byId[pb.ids[0]].family):"var(--fc)");
+    g+='<button class="goal" type="button" style="--fc:'+c+'" data-pb="'+pb.key+'"><span class="gd"></span>'+pb.name+'</button>';
+  });
+  g+='</div>';
+  let rows='';
+  for(const [name,q] of FAMILIES){
+    const briefs=DATA.filter(p=>p.family===name);
+    if(!briefs.length) continue;
+    const c=famColor(name), sym=FAM_ICON[name]||"i-meta", top=briefs[0];
+    rows+='<button class="qrow" type="button" style="--fc:'+c+'" data-fam="'+name+'">'
+      +'<svg class="qic"><use href="#'+sym+'"></use></svg>'
+      +'<span><span class="qq">'+q+'</span><span class="qm">'+name+' \u00b7 e.g. <b>'+top.title+'</b> \u2192 '+top.output+'</span></span>'
+      +'<span class="qn">'+briefs.length+'</span></button>';
+  }
+  host.innerHTML=g+'<div class="qgrid">'+rows+'</div>';
+  function jump(){ var l=document.getElementById("list"); if(l) l.scrollIntoView({block:"start"}); }
+  host.querySelectorAll("[data-fam]").forEach(b=>b.onclick=()=>{activeFam=b.getAttribute("data-fam");activePb=null;sync();jump();});
+  host.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{activePb=b.getAttribute("data-pb");activeFam="All";sync();jump();});
+}
+buildFinder();
 
 </script>
 </body>

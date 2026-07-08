@@ -752,7 +752,9 @@ def brief_detail(p, siblings, in_playbooks) -> str:
                '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
                '<a class="btn btn-ghost" href="/#start">Install everything</a>')
 
-    body = hero + whatis + method + lenses + report + ways + full + rel + ftr
+    # payoff-first order: what it does -> what it catches (lenses) -> what you
+    # get (the report) -> then the method, ways, and the full prompt.
+    body = hero + whatis + lenses + report + method + ways + full + rel + ftr
     title = f'{p["id"]} · {p["title"]} — Goal Prompts'
     return page(title, p["tagline"], f"{BASE}/b/{p['id']}", body,
                 f"{BASE}/og/{p['id']}.png", "article", fc)
