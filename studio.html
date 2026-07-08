@@ -36,7 +36,7 @@
   .topnav .lk{display:flex;gap:18px;margin-left:6px;font-size:14px}
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
-  .topnav .cta{margin-left:auto;background:var(--amber);color:#1a1205;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;font-family:var(--mono)}
+  .topnav .cta{margin-left:auto;background:var(--amber);color:#1a1205;font-weight:600;font-size:13px;padding:8px 14px;border-radius:9px;font-family:var(--mono)}
   .topnav .cta:hover{filter:brightness(1.08)}
   @media(max-width:640px){.topnav .lk{display:none}}
   header{padding:34px 0 8px}
@@ -76,6 +76,8 @@
     width:100%;background:var(--ink);border:1px solid var(--line);border-radius:8px;
     color:var(--text);font-family:var(--mono);font-size:12.5px;padding:9px 11px;outline:0;resize:vertical;
   }
+  /* outline:0 above outranks the shared input:focus-visible by source order — restore it (S3) */
+  .pastebox input:focus-visible,.pastebox textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--act);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
 
   /* ---------- loaded reports ---------- */
