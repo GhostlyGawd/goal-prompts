@@ -680,7 +680,7 @@
    "title": "Audit Triage"
   },
   {
-   "chars": 2423,
+   "chars": 3282,
    "example": "https://goal-prompts.vercel.app/FIXLOG.md",
    "family": "Act",
    "id": "47",
@@ -688,7 +688,7 @@
    "question": "does anything change?",
    "raw": "https://goal-prompts.vercel.app/raw/47.md",
    "slug": "the-fixer",
-   "tagline": "Turns the reports at your root into commits. Presents every finding, asks which to implement, then executes safely — branch, one finding per commit, verify after each.",
+   "tagline": "Turns your root reports into commits. Asks the scope — all, high-priority, or its pick — then builds them in dependency order, one verified commit each.",
    "title": "The Fixer"
   },
   {
