@@ -1,8 +1,8 @@
-# Playbook: All Growth briefs (conductor)
+# Playbook: eCommerce Optimization (conductor)
 
-You are working inside this repo. Mission: execute the **All Growth briefs** playbook — 6 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **eCommerce Optimization** playbook — 6 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Growth brief in the catalog, in order — 09 through 75, one report each.
+Optimize the whole funnel for a first-time visitor: audit every conversion surface, then cut friction, sharpen the visual hierarchy, tighten the copy, and make it findable — and the Fixer ships the highest-leverage lifts as commits.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -11,12 +11,12 @@ Every Growth brief in the catalog, in order — 09 through 75, one report each.
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **09 · Funnel Friction Audit** — fetch https://goal-prompts.vercel.app/raw/09.md → writes `FUNNEL.md`
-2. **10 · Competitive Gap Scan** — fetch https://goal-prompts.vercel.app/raw/10.md → writes `COMPETITIVE.md`
-3. **11 · Monetization Map** — fetch https://goal-prompts.vercel.app/raw/11.md → writes `REVENUE.md`
-4. **12 · AI Opportunity Scan** — fetch https://goal-prompts.vercel.app/raw/12.md → writes `AI-IDEAS.md`
+1. **75 · Conversion Rate Optimization** — fetch https://goal-prompts.vercel.app/raw/75.md → writes `CRO.md`
+2. **09 · Funnel Friction Audit** — fetch https://goal-prompts.vercel.app/raw/09.md → writes `FUNNEL.md`
+3. **54 · Visual Hierarchy Audit** — fetch https://goal-prompts.vercel.app/raw/54.md → writes `HIERARCHY.md`
+4. **17 · Copy & Voice Audit** — fetch https://goal-prompts.vercel.app/raw/17.md → writes `COPY.md`
 5. **70 · SEO & Discoverability** — fetch https://goal-prompts.vercel.app/raw/70.md → writes `SEO.md`
-6. **75 · Conversion Rate Optimization** — fetch https://goal-prompts.vercel.app/raw/75.md → writes `CRO.md`
+6. **47 · The Fixer** — fetch https://goal-prompts.vercel.app/raw/47.md → writes `FIXLOG.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.
