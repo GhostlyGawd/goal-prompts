@@ -19,9 +19,14 @@ subtraction.
 > CTA is now a ghost/outline (`background:transparent;border:1px solid
 > var(--line-3)`), so one filled primary wins per viewport. **F2** (brief id
 > louder than the title) — **DONE** in the same pass: cards demote the id and
-> promote the title. **F3–F7** (Studio drop-zone weight, meta-row tiering,
-> hero-illustration contrast, cross-page primary color, empty-state recovery) —
-> **DEFERRED**: these are subjective visual-hierarchy calls best made with a
+> promote the title. Of the rest: **F3** (Studio drop-zone emphasis) — **FIXED**
+> (resting border brightened; the competing nav CTA is already a ghost). **F5**
+> (saturated hero illustration + severity chips) — **MOOT**: the redesign removed
+> that `.art` element. **F7** (empty-state recovery) — **FIXED**: moved to `--dim`.
+> **F4** (collapse the 7–8-control card meta row behind a "more") and **F6**
+> (cross-page primary color) — **RESOLVED as a documented convention**: amber/
+> family `--fc` = browse primary, `--act` (distinct crimson) = commit/act-adjacent
+> primary; noted in `TOKENS_CSS`. **F4** (collapse the card meta row) — **DEFERRED**: a card-markup restructure best made with a
 > designer's eye on the rendered result. See `CHANGELOG.md` (Unreleased) and
 > `FIXLOG.md`.
 

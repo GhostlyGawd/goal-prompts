@@ -22,11 +22,14 @@ installer is invisible at the `curl … | sh` line.
 > reassurance absent at the scary `curl | sh` line) — **FIXED**: the install card
 > now shows "✓ SHA-256 verified before install · read the script first," surfacing
 > the installer's real, already-shipped verification. **F6** (partner band implies
-> a real partnership) — **FIXED**: labeled an example. **F2** (no third-party
-> proof), **F3** (unverifiable HN quotes), **F4** (proof placed far from the
-> claim), **F5** (no named maintainer) — **DEFERRED**: each needs real assets or a
-> personal decision; this brief's own rule is *collect real proof, never
-> fabricate*, so they stay for the maintainer. See `FIXLOG.md`.
+> a real partnership) — **FIXED**: labeled an example. **F5** (no named maintainer) — **FIXED (merged)**: the footer now reads "Built by
+> @GhostlyGawd, an independent developer." **F2** (no third-party proof) — **ARMED
+> (merged)**: an adoption badge surfaces a real GitHub-star count once it crosses a
+> threshold (hidden at today's 0 — nothing faked), beside a "using it? tell me how"
+> feedback prompt; it turns itself on when adoption is real. **F3** (unverifiable HN
+> quotes) & **F4** (proof far from the claim) — **DEFERRED**: F3 needs real,
+> attributable quotes (never fabricated); F4 is a layout call. This brief's rule is
+> *collect real proof, never fabricate*. See `FIXLOG.md` and `CREDIBILITY.md`.
 
 ---
 

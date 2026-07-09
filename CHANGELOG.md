@@ -1,6 +1,36 @@
 # Changelog
 
 ## Unreleased
+- Open-items backlog pass — accessibility, activation, and anti-staleness fixes
+  drawn from the self-audit report gallery:
+  - **Accessibility:** keyboard focus rings restored on every text input; the
+    `--faint` text tier lifted to WCAG AA in both themes; mono/sans faux-bold
+    eliminated; a real text alternative for the schematic report mock; the
+    Studio's GitHub-repo input now shows an error state on a failed load.
+  - **Activation & clarity:** copying a brief now shows a guided next-step hint
+    naming the report file it writes; the hero names the artifact ("a
+    ready-made, copy-paste prompt") and leads with the free / no-signup / local
+    offer; "MCP" and "conductor" are glossed; the partner band is labeled an
+    example; the installer's SHA-256 verification is surfaced at the install line.
+  - **Anti-staleness:** every public brief/playbook/family count is injected from
+    the catalog (meta, OG, hero, chart, and the `og.png` share card), and the
+    build now fails if the README, family taxonomy, or `og.png` count drift.
+  - **Also:** a mobile horizontal-overflow fix in the catalog finder; canonical
+    URL + `SoftwareApplication` JSON-LD; shared disabled/press states; and a
+    per-finding disposition recorded in every design/experience report.
+  - **Design-system systematization:** a 4pt spacing scale (`--s1..--s9`,
+    `--section`/`--section-tight`) added to the token source; every half-pixel
+    font size folded to its nearest integer and the biggest off-grid gaps/margins
+    snapped to the grid (all imperceptible — TYPO T3/T5, LAYOUT L2/L4/L6); and the
+    Proof section gains an honest animated *walk-through* of one real `bug-hunt`
+    run ending on the real `BUGS.md` finding — reduced-motion-safe and explicitly
+    labeled "not a screen capture" (SHOWCASE F1).
+  - **Product proof & credibility (integrated):** a real Report Studio screenshot
+    captured from the live tool, a real finding→commit before/after, a mobile hero
+    stat-block, retention (copy-marks-a-run, welcome-back banner, export/import,
+    opt-in weekly reminder), a maintainer credit, and an armed adoption badge that
+    turns on only once GitHub stars are real (SHOWCASE F2/F3/F5, PROOF F2/F5,
+    RETENTION R1–R4). No social proof is fabricated.
 - Mobile landing-page pass. The page ran ~8 phone-screens of marketing
   before the catalog, and the filter bar overflowed on phones:
   - **Hero** drops the briefs-per-family chart on phones (it only scrolled

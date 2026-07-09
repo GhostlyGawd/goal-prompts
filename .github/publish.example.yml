@@ -1,0 +1,42 @@
+# Publish the goal-prompts MCP package to npm on a GitHub Release.
+#
+# This is the automation half of IMPROVEMENTS 11 ("npm publish + MCP registry").
+# The package is already publish-ready (root package.json: `files` allowlist,
+# `bin`, keywords). The one manual step is authentication, which this workflow
+# expects as a repository secret — so a maintainer only has to:
+#
+#   1. Create an npm automation token (npmjs.com → Access Tokens → Automation).
+#   2. Add it as the repo secret NPM_TOKEN
+#      (Settings → Secrets and variables → Actions → New repository secret).
+#   3. Copy this file to .github/workflows/publish.yml.
+#   4. Publish a GitHub Release whose tag matches the package.json version.
+#
+# `scripts/check` runs first, so a broken build can never publish. `npm publish`
+# is idempotent per version — re-running for an already-published version fails
+# loudly rather than double-publishing.
+
+name: Publish MCP package
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: Verify the build gate
+        run: scripts/check
+      - name: Confirm the release tag matches package.json
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          TAG="${GITHUB_REF_NAME#v}"
+          test "$PKG" = "$TAG" || { echo "release tag ($TAG) != package.json version ($PKG)"; exit 1; }
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

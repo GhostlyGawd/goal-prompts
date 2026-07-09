@@ -20,9 +20,17 @@ who never mark a run get **no nudges ever** — the engine runs dark. On top of
 that, retention is **unmeasurable** today (anonymous events only), and any
 new device is a **cold start**.
 
-> **Backlog reconciliation (2026-07-09).** Dispositions: **R1–R5** (feed the
-> run-tracker from copy; opt-in PWA weekly reminder; export/import state; resurface
-> Operator context; retention instrumentation) — **DEFERRED**. These are product
+> **Backlog reconciliation (2026-07-09).** Dispositions: **R1** (feed the run-tracker from copy) — **FIXED**: the post-copy hint carries a
+> "✓ mark it run" button that records the run at the moment of action. **R4**
+> (resurface Operator context) — **FIXED**: the context badge now reads "· tuned to
+> <stack>". **R3** (export/import state) — **FIXED**:
+> footer "export setup"/"import setup" round-trips all local state as a JSON file,
+> no backend. **R2** (opt-in PWA reminder) — **FIXED**: a footer "🔔 remind me weekly" toggle
+> requests Notification permission and registers a periodicSync for a weekly Vitals
+> reminder (best-effort; installed-PWA/Chrome for background delivery). **R5**
+> (retention instrumentation) — **FIXED**: an anonymous, non-PII cohort id +
+> first-seen-week rides the already-anonymous analytics events, plus
+> nudge_shown/clicked — gp-runs stays local. All five R-findings now addressed. These are product
 > features, and R2/R3/R5 deliberately brush the "nothing leaves your machine"
 > promise, which the report flags as needing the maintainer's call before building.
 > Out of scope for a correctness-and-a11y backlog pass; captured here as the

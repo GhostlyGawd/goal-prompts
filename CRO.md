@@ -18,13 +18,18 @@ actual revenue path), and that funnel currently has no closing action.
 > **Backlog reconciliation (2026-07-09).** Dispositions: **F3** (stale meta/OG
 > counts) — **FIXED**: counts injected from source. **F4** (no JSON-LD/canonical)
 > — **FIXED**: `SoftwareApplication` JSON-LD + canonical URL added. **F8** (jargon
-> in the scan path) — **FIXED**: "MCP" and "conductor" glossed. **F5** (partner
-> funnel has no closing action) — **PARTIAL**: the band is labeled an example; a
-> "Partner with us" contact CTA needs a real contact route (deferred). **F1**
-> (promote the free/no-signup offer), **F2** (default way-in), **F6** (two "start"
-> CTAs), **F7** (copyable brief near the hero) — **DEFERRED**: hero/CTA copy and
-> layout the report itself scopes as ship-your-wording / A/B, i.e. the maintainer's
-> call. See `FIXLOG.md`.
+> in the scan path) — **FIXED**: "MCP" and "conductor" glossed. **F5** (partner funnel has no closing action) — **FIXED**: added a primary
+> "Partner with us →" CTA (routed to the repo's GitHub, the honest channel without
+> exposing a personal email). **F1**
+> (promote the free/no-signup offer) — **FIXED**: the hero offer line leads with
+> "free & open · no signup · nothing leaves your machine." **F6** (two "start"
+> CTAs) — **FIXED**: the nav "Get started" CTA now points at `#catalog`, the same
+> primary destination as the hero. **F2** (default way-in) — **FIXED**: the copy-paste
+> way is badged "Start here" with a primary CTA + accent border. **F7** (copyable
+> brief near the hero) — **FIXED**: a hero quickstart copies a starter brief right
+> there (shipped as the default with `src:hero` analytics). Every CRO finding is
+> now addressed.
+> See `FIXLOG.md`.
 
 ---
 

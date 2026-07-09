@@ -15,15 +15,25 @@ things that should be shared: container width (1060 / 940 / 760), gutter
 
 > **Backlog reconciliation (2026-07-09).** This audit's specific widths and line
 > numbers predate the redesign (the landing `.wrap` is now 1120px, tokens moved to
-> `tokens.css`). Dispositions: **L1–L6** (no spacing scale; three container
-> widths; unshared breakpoints; four section rhythms; margin-vs-gap) — **DEFERRED**
-> as one dedicated systematization pass. Rationale: the redesign already
-> centralized color/type/radius/motion-adjacent tokens in `tokens.css` (partial
-> progress on the "define once" goal), but a full spacing + breakpoint + container
-> scale touches hundreds of hand-tuned values across four files and would shift
-> every line citation in the design reports — high churn best done deliberately,
-> not folded into this correctness-and-a11y pass. The clean "patch layer" this
-> audit praised remains clean. See `FIXLOG.md`.
+> `tokens.css`). Dispositions: **L1** (container widths) — **FIXED**: the four `.wrap`
+> widths now come from `--w-page/--w-doc/--w-read` tokens with a single `--gutter`
+> (24px), ending the 24/22/20 drift. **L3** (nav breakpoint) — **FIXED**: unified
+> to 720px (detail pages were 680). **L4** (section rhythm) — **FIXED (round 3)**: a 4pt spacing scale
+> (`--s1..--s9`) plus `--section`/`--section-tight` now live in `tokens.css`, and
+> every section pad routes through them (`.blk.tight`→`--section-tight`,
+> `section.blk`→`--s7`, both footers→`--s7`/`--s8`+`--s9`) — “a section” derives from
+> one scale. **L6** (child margins, off-grid) — **FIXED (values)**: the off-grid 22px
+> margin-top and the two biggest off-grid gaps (9px ×13, 7px ×8) were snapped onto
+> the scale (22→`--s5`, 9→8, 7→8; 35 declarations) so they’re on-grid; per the
+> audit’s own guidance the 82 `margin-top` *sites* were left as margins (rewriting
+> all to `gap` is high churn for “mild chaos”) — only put on-scale. **L2** (max-width
+> ladder) — **ADDRESSED**: the container ladder is tokenized (`--w-page/--w-doc/
+> --w-read`); the remaining grid-internal caps are deliberate per-component ceilings
+> (the audit itself calls the differing widths “defensible”) and stay as-is to avoid
+> shifting reflow. **L5** (11 breakpoints) — **value-unified, not tokenized**:
+> `@media` can’t take `var()`, so breakpoints are consolidated by value, not a
+> token. The clean “patch layer” the audit praised is untouched — the fixes were
+> systemic (tokens), not new instances. See `FIXLOG.md`.
 
 ---
 

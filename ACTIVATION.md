@@ -21,7 +21,7 @@ between them and the win.
 
 > **Backlog reconciliation (2026-07-09).** Dispositions: **A1–A5** (next-step hint
 > on copy; a recommended "start here" brief; a hero quickstart; a real report
-> excerpt near the finder; post-win momentum) — **DEFERRED**. These are UX/product
+> excerpt near the finder; post-win momentum) — **A1 is now FIXED** (the copy→paste next-step hint shipped, naming the brief's output file); **A2 is now FIXED** (a "New here? Start with the Day-1 playbook →" starter leads the finder); **A5** (post-win momentum) — **FIXED**: the copy hint tees up step 2 with a Report Studio link. **A4** (real report excerpt near the finder) — **FIXED**: a "See a real report one wrote →" link sits by the finder. **A3** (hero quickstart) — **FIXED**: a "New here? Copy your first brief" button in the hero copies a starter brief (shipped as the default with analytics so it can be measured). These are UX/product
 > additions; A2 needs a decision on *which* default starter and A3 is explicitly an
 > A/B hypothesis, not a blind change. (The choice-overload framing cites 129
 > briefs; the catalog is now 135.) Captured as the activation roadmap. See

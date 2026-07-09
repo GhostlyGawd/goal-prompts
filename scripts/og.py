@@ -143,7 +143,12 @@ def main():
     briefs = [build.parse(f) for f in sorted((ROOT / "prompts").rglob("*.md"))]
     by_id = {b["id"]: b for b in briefs}
     if "--home" in sys.argv or "--all" in sys.argv:
-        render_home(briefs).save(str(ROOT / "og.png"), optimize=True)
+        # Embed the brief count as PNG metadata so the (stdlib-only) build can
+        # guard this raster's baked-in "N briefs" against the live catalog.
+        from PIL.PngImagePlugin import PngInfo
+        meta = PngInfo()
+        meta.add_text("gp-briefs", str(len(briefs)))
+        render_home(briefs).save(str(ROOT / "og.png"), optimize=True, pnginfo=meta)
         print("og.png  home card")
         if "--home" in sys.argv:
             return

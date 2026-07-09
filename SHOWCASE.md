@@ -21,15 +21,35 @@ promise ("turn your agent into a senior code auditor") because they never get to
 
 > **Backlog reconciliation (2026-07-09).** Dispositions: **F6** (partner
 > placeholder reads as unfinished) — **FIXED**: the band is now labeled an example
-> with "no real partnership implied." **F1** (a run, captured), **F2** (the Studio,
-> pictured), **F3** (finding → commit before/after) — **BLOCKED**: each needs a
-> real screen recording / screenshot that can't be produced in this environment;
-> the markup slots + captions are the follow-up once assets exist. **F4**
-> (schematic vs real report excerpt) & **F5** (mobile hero has no visual) —
-> **DEFERRED**: content/design additions. **F7** (static `og.png` can drift) —
-> **DEFERRED**: the text counts it could misstate are now build-injected
-> everywhere else; regenerating the raster from live data needs Pillow + a build
-> step. See `FIXLOG.md`.
+> with "no real partnership implied." **F3** (finding → commit before/after) — **FIXED**: a real inline before/after (a real
+> finding → the linked commit that fixed it) sits in the Proof section — real
+> artifacts, no faked mock, can't drift. **F2**
+> (the Studio, pictured) — **FIXED (via the merged product-visuals work)**: a real
+> Report Studio screenshot (`img/studio.png`, captured from the *live* tool by
+> `scripts/studio-shot.cjs` in headless Chromium) now sits in the Proof card. It's a
+> screenshot of the **tool's UI**, not a faked report, so it doesn't cut against
+> "Real reports, not screenshots" — and it's build-checked, not a hand-made asset. **F1** (the product never seen
+> working) — **ADDRESSED (round 3, honestly)**: the Proof section now carries an
+> animated *walk-through* of one real run — the `/goal:bug-hunt` command, the four
+> phases completing, and the real `BUGS.md` S2 self-XSS finding it produces — built
+> only from real content and labeled “walk-through, not a screen capture” in both
+> the header and caption. It plays once when scrolled into view and falls back to a
+> static final frame under `prefers-reduced-motion`/no-JS (verified: all lines
+> opacity 1). This is *not* the captured screen recording F1 ideally wants — a real
+> capture can’t be recorded in this environment, and a staged one would cut against
+> “Real reports, not screenshots” — it’s the honest, non-fabricated proxy: it shows
+> the loop working using only real artifacts. A true recording stays a nice-to-have
+> for a maintainer with capture tooling. **F4**
+> (schematic report mock) — **FIXED**: the mock now carries a real text
+> alternative (`role=img` + `aria-label`) and a visible "the shape of every
+> report" caption instead of `aria-hidden`. **F5** (mobile hero has no visual) —
+> **FIXED (via the merged product-visuals work)**: the mobile hero now carries a real
+> stat-block (**briefs · families · playbooks**, injected live from the catalog) in
+> place of the desktop-only chart, alongside the offer line and the quickstart — so
+> the phone hero shows real scope, not pure prose. **F7** (static `og.png` can
+> drift) — **FIXED**: `og.png` was regenerated to the live 135/21 counts,
+> `scripts/og.py` embeds the brief count as PNG metadata, and the build now fails
+> if it drifts. See `FIXLOG.md`.
 
 ---
 

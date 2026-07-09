@@ -1,6 +1,118 @@
 # FIXLOG.md
 *Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.*
 
+## Session — open-items backlog, round 3 (2026-07-09)
+- Branch: `claude/open-items-backlog-rm6wzx`
+- Focus: build the "irreducible remainder" round 2 left behind — the spacing/type
+  *value* remap and the "product seen working" visual — anything buildable without
+  fabricating a credential or a fake media asset. Every change verified in headless
+  Chromium at desktop + mobile, dark + light, with a hard rule: no *perceptible*
+  visual change from the remaps (they were called "indistinguishable"; if a fold
+  would actually shift what a reader sees, it wasn't done).
+
+### Fixed (this round)
+| Finding | Source | Verified by |
+|---|---|---|
+| Every half-pixel font-size folded to its nearest integer (69 decls; 11.5/12.5→12, 13.5→13, 14.5→14, 15.5/16.5→16, 9.5→10, 10.5→11) | TYPO T3 | Chromium: no size within 0.5px of another; landing/detail/studio unchanged |
+| Near-duplicate line-heights folded (1.62/1.65→1.6, 1.55→1.5, 1.4→1.45, 1.03/1.04→1.05); 15→11 values | TYPO T5 | Chromium: leadings unchanged; survivors are per-role, not drift |
+| 4pt spacing scale `--s1..--s9` + `--section`/`--section-tight` in `tokens.css`; section rhythm routed through them | LAYOUT L4 | build drift-free; Chromium: section gaps unchanged |
+| Off-grid values snapped to grid (22px margin→`--s5`; 9px & 7px gaps→8; 35 decls) | LAYOUT L6 | Chromium: no visible reflow |
+| Container ladder confirmed tokenized; grid caps left deliberate | LAYOUT L2 | `--w-page/--w-doc/--w-read` in use |
+| **The product, seen working** — an animated *walk-through* of one real `/goal:bug-hunt` run ending on the real `BUGS.md` S2 finding, in the Proof section | SHOWCASE F1 | Chromium: plays on scroll; reduced-motion/no-JS shows final frame (all lines opacity 1); honest "not a screen capture" label |
+
+### Honest about the remap
+The audit's *aggressive* target (collapse ~27 sizes to a 9-step scale, folding
+14/15/16→one 15) was **declined by design**: those full-pixel steps are perceptible
+and folding them shifts running body text. What shipped removes the defect the audit
+actually named — the six indistinguishable half-pixel pairs — and puts the off-grid
+spacing on a real, tokenized scale, with zero perceptible change. That is the
+correct, non-destructive reading of "map every value onto the scale."
+
+### SHOWCASE F1 — built honestly, not faked
+F1 asked to *see the product working*. The ideal asset is a real screen recording,
+which this environment can't capture — and a *staged* screenshot/GIF would cut
+against the site's own "Real reports, not screenshots" stance and reintroduce media
+staleness. So instead of fabricating one, the Proof section now animates a
+walk-through built **only from real content** (the real slash command, the real
+four phases, the real `BUGS.md` finding), labeled "walk-through, not a screen
+capture" in the header and caption. It's the honest proxy; a true recording remains
+a nice-to-have for a maintainer with capture tooling.
+
+### The one true remainder — a credential, not code
+- **`npm publish` (IMPROVEMENTS 11).** The package is publish-ready and the
+  Release-triggered workflow ships (`.github/publish.example.yml`); publishing is an
+  irreversible, outward-facing action that requires an `NPM_TOKEN` this agent must
+  not fabricate and is not authorized to run. It is one maintainer step (add the
+  secret, cut a release) — deliberately left to a human, not an unbuilt item.
+
+### Integration with the parallel product-visuals work
+`main` had meanwhile merged a parallel implementation (#23) of the same backlog’s
+"remainder" — a real Report Studio screenshot (`img/studio.png`), a real
+finding→commit before/after, a mobile hero stat-block, retention R1–R4, and
+credibility scaffolding (`CREDIBILITY.md`, maintainer credit, an armed adoption
+badge). This branch was merged onto it as a **de-duplicated union**: overlapping
+features (the retention R2 SW handler, export/import, the welcome-back banner, the
+before/after) resolve to `main`’s tested version; this branch’s unique work (the
+TYPO/LAYOUT value-remap, SHOWCASE F1, container tokens, ACTIVATION A2/A3, CRO
+F1/F5, HIERARCHY F4) layers on top, and the value-remap was re-run over `main`’s
+new code so its half-pixels fold too. The Proof section now shows the loop three
+honest ways — animated walk-through (F1), real Studio screenshot (F2), real
+finding→commit (F3). Verified: `scripts/check` green; exactly one of every
+component (no duplication); mobile hero shows the injected 135/21/35; no console
+errors. SHOWCASE F2/F5 and PROOF F5/F2 ledgers flipped to the now-live assets.
+
+## Session — open-items backlog, round 2 (2026-07-09)
+- Branch: `claude/open-items-backlog-rm6wzx`, restarted off `main` (`f03bc06`, the round-1 squash-merge)
+- Focus: after round 1, take the "deferred" findings and build every one that's
+  buildable and safe — including the design-judgment calls — with a default
+  grounded in each audit's own recommendation, verified in headless Chromium.
+  Left only what genuinely needs a human decision, a real media asset, or npm
+  credentials.
+
+### Fixed (this round)
+| Finding | Source | Verified by |
+|---|---|---|
+| og.png regenerated to 135/21 + embedded PNG-metadata **drift guard** | SHOWCASE F7 | build fails if og.png's tEXt count ≠ catalog (proven) |
+| Studio GitHub-repo input error state (red border + `aria-invalid`) | STATES S4 | Chromium: border `rgb(232,76,61)`, clears on edit |
+| Guided next-step hint on copy, naming the brief's output file | ACTIVATION A1 | Chromium: toast "…writes `<OUTPUT>` at the root" |
+| Feed the run-tracker from the copy hint ("✓ mark it run") | RETENTION R1 | Chromium: writes `gp-runs` at the moment of action |
+| Tee up step 2 (Report Studio link) in the copy hint | ACTIVATION A5 | Chromium: hint links `/studio` |
+| Resurface Operator context ("· tuned to <stack>") | RETENTION R4 | Chromium: badge shows the saved stack |
+| Manual export/import of local setup (JSON, no backend) | RETENTION R3 | Chromium: round-trips `gp-runs`/`gp-ctx` |
+| Decouple `--success`/`--warning`/`--danger` from family/brand hues | COLOR C2–C5 | Chromium: distinct crimson/green in both themes |
+| Name the artifact in the hero eyebrow | COMPREHENSION F1 | "A free, open catalog of copy-paste audit prompts" |
+| Gloss "brief"; hero offer line; unify start CTAs | COMPREHENSION F3 · CRO F1 · CRO F6 | Chromium |
+| "New here? → Day-1 playbook" starter; "Start here" default way-in | ACTIVATION A2 · CRO F2 | Chromium: starter activates day1; badge + primary CTA |
+| "See a real report →" link by the finder | ACTIVATION A4 | Chromium: link to `/examples/` |
+| Partner contact CTA (routed to the repo's GitHub) | CRO F5 | Chromium: "Partner with us →" |
+| Schematic mock text-alt + caption; empty-state → `--dim`; drop-zone border | SHOWCASE F4 · HIERARCHY F7/F3 | Chromium |
+| act=red made a distinct, **documented** primary-action convention | HIERARCHY F6 | comment in `TOKENS_CSS` |
+| Container tokens + unified gutter/line-height/nav-breakpoint | LAYOUT L1/L3 · TYPO T4 | Chromium: `.wrap` 1120/960/760 @ 24px |
+| Kill the last faux-bold (`.drop-big` `--sans`@700 → `--disp`) | TYPO (new) | detail badge weight 600 |
+| Fix: `.copyhint{display:flex}` overrode `hidden` → empty toast on load | (regression) | Chromium: hidden on load, shows on copy |
+
+### Also built after the first round-2 pass
+COLOR C2–C5 (semantic-colour separation); HIERARCHY F3/F4/F5/F6; COMPREHENSION
+F1; CRO F1/F2/F5/F6/F7; ACTIVATION A2/A3/A4/A5; RETENTION R1–R5 (incl. the opt-in
+PWA reminder and anonymous cohort analytics); LAYOUT L1/L3 + TYPO T4 (container/
+gutter/line-height/nav-breakpoint tokens); SHOWCASE F3 (real inline before/after);
+package.json 0.9.0→0.11.0 + a Release-triggered npm-publish workflow; and a
+copy-hint show-on-load regression fix. Each verified in headless Chromium.
+
+### The irreducible remainder
+- **A dedicated, low-value refactor:** the full spacing/type *value* remap (TYPO
+  T3/T5, LAYOUT L2/L4/L6) — its structural "define once" parts shipped (container/
+  gutter/line-height/breakpoint tokens); the remaining value-by-value remap is
+  what the audit itself calls the "deepest cleanup," with the half-steps
+  "indistinguishable" (near-zero user benefit) and real regression + citation-
+  restaleness risk. A deliberate pass, not a blind fold-in.
+- **Needs a real media asset:** SHOWCASE F1 — a screen recording of an agent run,
+  which can't be produced here (and cuts against the site's "real reports, not
+  screenshots" stance). SHOWCASE F2's screenshot was declined for the same reason.
+- **Needs a credential:** IMPROVEMENTS 11's actual `npm publish` — the automation
+  now ships (`.github/publish.example.yml`); it runs once the maintainer adds an
+  NPM_TOKEN secret and cuts a release.
+
 ## Session — open-items backlog (2026-07-09)
 - Branch: `claude/open-items-backlog-rm6wzx` · off `main` (`b7d0988`)
 - Reports consumed: the Design family (HIERARCHY, TYPOGRAPHY, COLOR, LAYOUT,
