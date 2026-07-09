@@ -47,14 +47,18 @@ function isFixed(text) {
   return false;
 }
 
-function mkFinding(report, section, rawTitle, text) {
+/* mtext is the fence-masked twin of text: signals (severity, status, chips)
+ * are read from it so fenced sample lines can't grade or resolve a finding,
+ * while text — and therefore the localStorage key — keeps the original bytes. */
+function mkFinding(report, section, rawTitle, text, mtext) {
+  if (mtext == null) mtext = text;
   var title = firstWords(rawTitle.replace(/^\d+\.\s*/, ""));
-  var em = text.match(/effort\s*[:·—-]?\s*([SML])\b/i);
-  var im = text.match(/impact\s*[:·—-]?\s*([LMH])\b/i);
+  var em = mtext.match(/effort\s*[:·—-]?\s*([SML])\b/i);
+  var im = mtext.match(/impact\s*[:·—-]?\s*([LMH])\b/i);
   var tag = (rawTitle.match(/^(NEW|FIX|IMPROVE)\b/) || [])[1] || null;
   var key = "f" + hash(report + "|" + title + "|" + text.slice(0, 120));
   return { key: key, report: report, section: section, title: title, text: text,
-           sev: sevOf(text), fixed: isFixed(text), effort: em ? em[1].toUpperCase() : null,
+           sev: sevOf(mtext), fixed: isFixed(mtext), effort: em ? em[1].toUpperCase() : null,
            impact: im ? im[1].toUpperCase() : null, tag: tag };
 }
 
@@ -77,50 +81,77 @@ function parseReport(name, text) {
   var out = [];
   var skipped = 0;
   var lines = String(text).replace(/\r\n?/g, "\n").split("\n");
+  /* code-fence pre-pass: every line inside a ``` fence is masked to one inert
+   * glyph in a parallel copy. All STRUCTURE (sections, block splits, finding
+   * shapes) and all SIGNALS (severity, status) read the masked lines, so a
+   * fenced "### heading" can't mint a finding and a fenced "Severity: S1"
+   * can't grade one — while bodies keep the original fence text verbatim.
+   * Masking blank fence lines too keeps a whole fence inside one block. */
+  var masked = lines.slice();
+  var inFence = false;
+  for (var fi = 0; fi < lines.length; fi++) {
+    if (/^\s*```/.test(lines[fi])) inFence = !inFence;
+    else if (inFence) masked[fi] = "░";
+  }
   var sections = [];
-  var cur = { title: "", lines: [] };
+  var cur = { title: "", o: [], m: [] };
   for (var li = 0; li < lines.length; li++) {
-    var ln = lines[li];
-    var m = ln.match(/^##\s+(.+)/);
-    if (m && !/^###/.test(ln)) { sections.push(cur); cur = { title: m[1].trim(), lines: [] }; }
-    else cur.lines.push(ln);
+    var mh = masked[li].match(/^##\s+(.+)/);
+    if (mh && !/^###/.test(masked[li])) { sections.push(cur); cur = { title: mh[1].trim(), o: [], m: [] }; }
+    else { cur.o.push(lines[li]); cur.m.push(masked[li]); }
   }
   sections.push(cur);
   for (var si = 0; si < sections.length; si++) {
     var s = sections[si];
-    var blocks = s.lines.join("\n").split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean);
+    /* block-split on the masked lines; each block keeps its original lines so
+     * bodies (and the localStorage key hashes) stay byte-identical */
+    var blocks = [];
+    var bo = [], bm = [];
+    for (var gi = 0; gi <= s.m.length; gi++) {
+      if (gi === s.m.length || !s.m[gi].trim()) {
+        if (bm.length) blocks.push({ o: bo.join("\n").trim(), m: bm.join("\n").trim(), ol: bo });
+        bo = []; bm = [];
+      } else { bo.push(s.o[gi]); bm.push(s.m[gi]); }
+    }
     for (var bi = 0; bi < blocks.length; bi++) {
       var b = blocks[bi];
-      var hm = b.match(/^#{3,}\s+(\S[^\n]*)([\s\S]*)$/);
+      var hm = b.m.match(/^#{3,}\s+(\S[^\n]*)([\s\S]*)$/);
       if (hm) {
         /* a ###/#### finding: the heading titles it; heading-free blocks that
          * follow (evidence paragraphs, small bullets) fold into its body */
-        var chunk = [b];
-        while (bi + 1 < blocks.length && !/^#/.test(blocks[bi + 1]) &&
-               !findingShaped(blocks[bi + 1])) {
-          chunk.push(blocks[++bi]);
+        var chunk = [b.o], mchunk = [b.m];
+        while (bi + 1 < blocks.length && !/^#/.test(blocks[bi + 1].m) &&
+               !findingShaped(blocks[bi + 1].m)) {
+          bi++;
+          chunk.push(blocks[bi].o); mchunk.push(blocks[bi].m);
         }
         var body = chunk.join("\n\n");
-        if (body.length >= 30) out.push(mkFinding(name, s.title, hm[1].trim(), body));
+        if (body.length >= 30) out.push(mkFinding(name, s.title, hm[1].trim(), body, mchunk.join("\n\n")));
+        else skipped++;              // a titled stub is still content — keep "M unrecognized" honest
         continue;
       }
-      if (/^#/.test(b)) continue;                       // stray/degenerate headings
-      var bold = b.match(/^\*\*(.+?)\*\*/);
-      if (bold) { out.push(mkFinding(name, s.title, bold[1], b)); continue; }
-      if (/^(\d+\.|[-*])\s/.test(b)) {
-        var items = b.split(/\n(?=(?:\d+\.|[-*])\s)/);
-        for (var ii = 0; ii < items.length; ii++) {
-          var it = items[ii].trim();
-          var t = it.replace(/^(\d+\.|[-*])\s*/, "");
+      if (/^#/.test(b.m)) continue;                     // stray/degenerate headings
+      var bold = b.m.match(/^\*\*(.+?)\*\*/);
+      if (bold) { out.push(mkFinding(name, s.title, bold[1], b.o, b.m)); continue; }
+      if (/^(\d+\.|[-*])\s/.test(b.m)) {
+        var mItems = b.m.split(/\n(?=(?:\d+\.|[-*])\s)/);
+        var plain = b.o === b.m;                        // no fence in this block
+        var pos = 0;
+        for (var ii = 0; ii < mItems.length; ii++) {
+          var mIt = mItems[ii].trim();
+          var n = mItems[ii].split("\n").length;
+          var it = plain ? mIt : b.ol.slice(pos, pos + n).join("\n").trim();
+          pos += n;
+          var t = mIt.replace(/^(\d+\.|[-*])\s*/, "");
           if (t.length < 30 && !t.includes("**")) continue;   // nav / trivia lines
-          var bm = t.match(/^\*\*(.+?)\*\*/);
-          out.push(mkFinding(name, s.title, bm ? bm[1] : t, it));
+          var bm2 = t.match(/^\*\*(.+?)\*\*/);
+          out.push(mkFinding(name, s.title, bm2 ? bm2[1] : t, it, mIt));
         }
         continue;
       }
       /* plain prose blocks (summaries, sign-offs) are context, not findings —
        * but count the substantive ones so the Studio can say "M unrecognized" */
-      if (b.length >= 40) skipped++;
+      if (b.o.length >= 40) skipped++;
     }
   }
   return { findings: out, skipped: skipped };

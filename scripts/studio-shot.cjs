@@ -58,18 +58,19 @@ const server = http.createServer((req, res) => {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   const exec = findChromium();
   const browser = await chromium.launch(exec ? { executablePath: exec } : {});
-  const page = await browser.newPage({ viewport: { width: 1280, height: 860 }, deviceScaleFactor: 2 });
+  // colorScheme pinned: tokens.css now follows the OS, and the landing's proof
+  // card expects the house dark ink, not whatever the headless default is
+  const page = await browser.newPage({ viewport: { width: 1280, height: 1000 },
+                                       deviceScaleFactor: 2, colorScheme: "dark" });
   await page.goto(`http://127.0.0.1:${port}/studio.html`, { waitUntil: "networkidle" });
   await page.click("#demobtn");
-  await page.waitForSelector(".find", { timeout: 15000 });
-  const cbs = page.locator(".find input[type=checkbox]");
+  // the hidden "view raw" rows share .find — wait for and tick visible rows only
+  await page.waitForSelector(".find:visible", { timeout: 15000 });
+  const cbs = page.locator(".find:visible input[type=checkbox]");
   const n = await cbs.count();
   for (let i = 0; i < Math.min(3, n); i++) await cbs.nth(i).check();
-  await page.evaluate(() => {
-    const f = document.getElementById("repchips");
-    if (f) f.scrollIntoView({ block: "start" });
-    window.scrollBy(0, -90);
-  });
+  // shoot from the top: h1 + loader + report chips + checklist + the Fixer bar
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(400);
   await page.screenshot({ path: OUT });
   await browser.close();

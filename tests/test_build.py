@@ -320,6 +320,47 @@ class FamilyIconTests(unittest.TestCase):
         self.assertTrue(any("i-trust" in x and "symbol" in x for x in v), v)
 
 
+class TokensTests(unittest.TestCase):
+    # Light theme must darken every family accent: the raw hues sit at
+    # 1.3-1.9:1 on the light panels. These pin (a) that TOKENS_CSS carries a
+    # light-scoped color-mix override for every family, in both the
+    # data-theme and the prefers-color-scheme form, and (b) the arithmetic:
+    # the mix leaves every family at >= 3:1 against the lightest and darkest
+    # light-theme surfaces, so nobody can nudge the percentage below AA-large.
+    LIGHT_SURFACES = ("FCFBF9", "F4F3EF", "EFEEE7")  # --panel, --ink, --panel-2
+
+    @staticmethod
+    def _lum(rgb):
+        def lin(c):
+            c /= 255
+            return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+        r, g, b = rgb
+        return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+
+    @classmethod
+    def _ratio(cls, a, b):
+        la, lb = cls._lum(a), cls._lum(b)
+        return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+    def test_every_family_has_light_theme_overrides(self):
+        for fam in build.FAMILY_ORDER:
+            rule = (f".f-{fam.lower()}{{--fc:color-mix(in srgb,"
+                    f"{build.FAMILY_COLORS[fam]} {build.FAMILY_MIX_LIGHT}%,black)}}")
+            self.assertIn(f':root[data-theme="light"] {rule}', build.TOKENS_CSS, fam)
+            self.assertIn(f":root:not([data-theme]) {rule}", build.TOKENS_CSS, fam)
+
+    def test_light_mix_meets_3_to_1_on_every_light_surface(self):
+        p = build.FAMILY_MIX_LIGHT / 100
+        for fam, hexv in build.FAMILY_COLORS.items():
+            raw = tuple(int(hexv[i:i + 2], 16) for i in (1, 3, 5))
+            mixed = tuple(c * p for c in raw)  # color-mix(in srgb, C p%, black)
+            for surface in self.LIGHT_SURFACES:
+                bg = tuple(int(surface[i:i + 2], 16) for i in (0, 2, 4))
+                r = self._ratio(mixed, bg)
+                self.assertGreaterEqual(
+                    r, 3.0, f"{fam} at {build.FAMILY_MIX_LIGHT}% on #{surface}: {r:.2f}")
+
+
 class ParseTests(unittest.TestCase):
     def test_missing_front_matter_exits(self):
         import tempfile
@@ -475,6 +516,17 @@ class WorkflowFileTests(unittest.TestCase):
         ci = build.ROOT / ".github" / "workflows" / "ci.yml"
         self.assertTrue(ci.exists(), "CI must live at .github/workflows/ci.yml")
         self.assertIn("scripts/check", ci.read_text(encoding="utf-8"))
+
+    def test_ci_drift_check_is_airtight(self):
+        # The drift step must catch ANY modified tracked file (full git diff,
+        # not a file subset) AND any untracked new output (porcelain check) —
+        # a new brief's raw/NNN.md was invisible to the old subset diff.
+        text = (build.ROOT / ".github" / "workflows" /
+                "ci.yml").read_text(encoding="utf-8")
+        self.assertIn("git diff --exit-code", text)
+        self.assertIn('test -z "$(git status --porcelain)"', text)
+        self.assertNotIn("git diff --exit-code index.html", text,
+                         "file-subset drift diff is back; keep it full")
 
     def test_workflow_files_carry_the_skeleton(self):
         files = self._files()

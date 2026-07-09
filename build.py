@@ -459,6 +459,21 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
 
 FAMILY_CSS = "".join(f".f-{k.lower()}{{--fc:{v}}}" for k, v in FAMILY_COLORS.items())
 
+# Light theme darkens every family accent in place: the raw hues sit at
+# 1.3–1.9:1 on the light panels (unreadable as text). 62% toward black keeps
+# every hue recognizable and puts the worst (#E8DE5A Automation) at ≥3:1 on
+# the lightest and darkest light surfaces — TokensTests pins the arithmetic.
+FAMILY_MIX_LIGHT = 62
+FAMILY_CSS_LIGHT = (
+    "".join(f':root[data-theme="light"] .f-{k.lower()}'
+            f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
+            for k, v in FAMILY_COLORS.items())
+    + "@media (prefers-color-scheme:light){"
+    + "".join(f":root:not([data-theme]) .f-{k.lower()}"
+              f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
+              for k, v in FAMILY_COLORS.items())
+    + "}")
+
 # tokens.css — the single source of truth for design tokens on EVERY surface.
 # build.py writes it to /tokens.css and every page links it (index, the b//p/
 # detail pages, studio.html, vitals.html), so the token set can never drift
@@ -508,7 +523,7 @@ __FAMILY_CSS__
   --text:#191A1C;--dim:#4C4E53;--faint:#6A6C73;--body:#33353A;
   --btn:#191A1C;--btn-fg:#F5F4F0;--sev:#C4402E;--amber:#9C6E2A;--amber-2:#B8863B;--fc:#7C5CE0;
   --success:#1E9A5A;--warning:#B87A12;--danger:#C42E3E;--good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#6B6E74;
-""").replace("__FAMILY_CSS__", FAMILY_CSS)
+""").replace("__FAMILY_CSS__", FAMILY_CSS + "\n" + FAMILY_CSS_LIGHT)
 
 SITE_CSS = """
 *{margin:0;padding:0;box-sizing:border-box}

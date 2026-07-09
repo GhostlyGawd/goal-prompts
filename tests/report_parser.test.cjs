@@ -149,6 +149,71 @@ t("'shipped'/'fixed' in mid-sentence prose must NOT mark done", () => {
   assert.strictEqual(f[0].fixed, false, "prose mention marked it done");
 });
 
+// ---- code fences are inert structure --------------------------------------------
+t("a fenced ### heading does not mint a finding", () => {
+  const r = RP.parseReport("R.md", [
+    "## Findings", "",
+    "```",
+    "### not a finding, just a config sample",
+    "with a body line inside the fence",
+    "```",
+  ].join("\n"));
+  assert.strictEqual(r.findings.length, 0,
+    "fenced ### minted: " + r.findings.map(f => f.title).join(" | "));
+});
+t("a fence containing blank lines and a ### stays one inert region", () => {
+  const r = RP.parseReport("R.md", [
+    "## Findings", "",
+    "```",
+    "some output first", "",
+    "### 9. looks exactly like a finding heading", "",
+    "Severity: S1",
+    "```",
+  ].join("\n"));
+  assert.strictEqual(r.findings.length, 0,
+    "got " + r.findings.map(f => f.title).join(" | "));
+});
+t("a fenced 'Severity: S1' line does not grade the finding", () => {
+  const f = findings([
+    "## F", "",
+    "**Log format confuses the triage script** — the sample below trips it.",
+    "```",
+    "Severity: S1",
+    "```",
+    "The script greps for that literal string and misfires.",
+  ].join("\n"));
+  assert.strictEqual(f.length, 1);
+  assert.strictEqual(f[0].sev, null, "graded from inside a fence: " + f[0].sev);
+  assert(f[0].text.includes("Severity: S1"), "fence content must stay in the body");
+});
+t("### finding keeps its fenced example verbatim in the body", () => {
+  const f = findings([
+    "## F", "",
+    "### 1. Loader rejects its own documented sample", "",
+    "The config loader errors on the exact sample the docs ship:", "",
+    "```",
+    "### section header in the config format", "",
+    "retry = critical",
+    "```",
+  ].join("\n"));
+  assert.strictEqual(f.length, 1, "got " + f.map(x => x.title).join(" | "));
+  assert.strictEqual(f[0].title, "Loader rejects its own documented sample");
+  assert(f[0].text.includes("### section header in the config format"), "fenced heading lost");
+  assert(f[0].text.includes("retry = critical"), "fenced body line lost");
+  assert.strictEqual(f[0].sev, null, "graded from fenced 'critical': " + f[0].sev);
+});
+t("fenced 'Status: fixed' does not mark a finding done", () => {
+  const f = findings([
+    "## F", "",
+    "**Deploy log is misleading** — it prints a done line before the rollout.",
+    "```",
+    "Status: fixed",
+    "```",
+    "Operators read that and walk away mid-deploy.",
+  ].join("\n"));
+  assert.strictEqual(f[0].fixed, false, "fence content marked it done");
+});
+
 // ---- unrecognized-block accounting ---------------------------------------------
 t("parseReport reports skipped blocks so the Studio can say so", () => {
   const r = RP.parseReport("R.md", [
@@ -162,6 +227,11 @@ t("parseReport reports skipped blocks so the Studio can say so", () => {
 t("a fully recognized report has zero skipped blocks", () => {
   const r = RP.parseReport("R.md", "## F\n\n**Only finding** — body long enough to parse without residue.");
   assert.strictEqual(r.skipped, 0);
+});
+t("a dropped short ###-block counts as unrecognized", () => {
+  const r = RP.parseReport("R.md", "## F\n\n### Stub\ntiny");
+  assert.strictEqual(r.findings.length, 0);
+  assert.strictEqual(r.skipped, 1, "short ### block not counted, skipped=" + r.skipped);
 });
 
 // ---- the repo's own dogfood reports (real-world regression) ---------------------

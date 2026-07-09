@@ -16,8 +16,11 @@ jobs:
       - name: Full gate (build + lint tests + installer test + JS syntax + MCP smoke)
         run: scripts/check
       - name: Fail on drift between sources and generated files
+        # Airtight: ANY modified tracked file or ANY untracked new output
+        # (e.g. a new brief's raw/NNN.md) after the rebuild fails the job.
         run: |
-          git diff --exit-code index.html catalog.json commands.tar.gz commands.zip checksums.txt plugin || {
-            echo "::error::Generated files are out of date. Run 'scripts/check' (or 'python3 build.py') and commit."
+          git diff --exit-code && test -z "$(git status --porcelain)" || {
+            git status --porcelain
+            echo "::error::Generated files are out of date or uncommitted outputs exist. Run 'scripts/check' (or 'python3 build.py') and commit everything."
             exit 1
           }

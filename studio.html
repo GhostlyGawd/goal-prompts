@@ -24,6 +24,9 @@
 <link rel="stylesheet" href="/tokens.css">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  /* an author display (grid/flex on .pastebox etc.) would beat the UA's
+     [hidden] rule and show "hidden" panels — pin it once for the page */
+  [hidden]{display:none!important}
   body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
   .wrap{max-width:var(--w-read);margin:0 auto;padding:0 var(--gutter)}
   a{color:var(--amber)}
@@ -172,7 +175,6 @@
   body.hasbar main{padding-bottom:100px}
   /* post-copy hint — same pattern as the landing page's copyhint toast */
   .copyhint{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text)}
-  .copyhint[hidden]{display:none}
   .copyhint code{font-family:var(--mono);color:var(--amber)}
   .copyhint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
   .copyhint .x:hover{color:var(--text)}
