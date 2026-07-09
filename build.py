@@ -1031,10 +1031,22 @@ def main() -> None:
     if BASE != DEFAULT_BASE:
         template = template.replace(DEFAULT_BASE, BASE)
     for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
-                  "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__"):
+                  "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__", "__GH_STARS__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
+    # Armed-but-hidden GitHub adoption badge. The real star count lives in
+    # metrics.json (refreshed out-of-band by scripts/refresh-stars.py) so the
+    # build stays offline + deterministic. Shown only at/above the threshold, so
+    # a small or zero count never deflates — it turns itself on once adoption is
+    # real (PROOF F2, fit to a young project with 0 stars today).
+    STAR_THRESHOLD = 25
+    try:
+        stars = int(json.loads((ROOT / "metrics.json").read_text()).get("stars", 0))
+    except Exception:
+        stars = 0
+    gh_stars = (f' \u00b7 <a href="https://github.com/GhostlyGawd/goal-prompts/stargazers">'
+                f'{stars:,} stars on GitHub</a>') if stars >= STAR_THRESHOLD else ""
     # counts injected from source-of-truth so the static meta/OG tags and the
     # no-JS hero/chart fallbacks can never drift from the catalog again
     (ROOT / "index.html").write_text(
@@ -1043,7 +1055,8 @@ def main() -> None:
                 .replace("__FAMILIES_JSON__", esc(fam_payload))
                 .replace("__N_BRIEFS__", str(len(prompts)))
                 .replace("__N_PLAYBOOKS__", str(len(playbooks)))
-                .replace("__N_FAMILIES__", str(len(fam_payload))),
+                .replace("__N_FAMILIES__", str(len(fam_payload)))
+                .replace("__GH_STARS__", gh_stars),
         encoding="utf-8")
 
     # ---- raw endpoints + full detail pages (brief + playbook) ----
