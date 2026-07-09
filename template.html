@@ -570,6 +570,7 @@
   <div class="kicker" style="--fc:#4D9FFF">The catalog</div>
   <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">__N_FAMILIES__ families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent. <a href="/examples/" style="color:var(--fc)">See a real report one wrote →</a></p>
+  <div class="nudge" style="--fc:var(--act);margin:18px 0 0;max-width:760px">Not sure which? Run <a href="/b/46">46 · Audit Triage</a> — 15 minutes, and the agent names the audits this repo needs. <button class="iconbtn" id="triagecopy" type="button" style="margin-left:6px">copy the brief</button></div>
   <div class="ctxwarm" id="ctxwarm" hidden></div>
   <div class="finder" id="finder"></div>
   <div class="finder-refine">or search &amp; filter every brief ↓</div>
@@ -903,8 +904,10 @@ function renderFeatured(){
   const host = document.getElementById("featured");
   if(!host) return;
   host.textContent = "";
+  /* the storefront grid caps at 6 cards; overflow featured playbooks join the
+     "more sequences" pill row below instead of stacking a wall of cards */
   const feat = PLAYBOOKS.filter(pb => pb.featured);
-  for(const pb of feat){
+  for(const pb of feat.slice(0, 6)){
     const a = document.createElement("article");
     a.className = "storecard";
     const first = byId[pb.ids[0]];
@@ -927,7 +930,7 @@ function renderFeatured(){
   const more = document.getElementById("morepb");
   if(more){
     more.textContent = "";
-    const rest = PLAYBOOKS.filter(pb => !pb.featured);
+    const rest = feat.slice(6).concat(PLAYBOOKS.filter(pb => !pb.featured));
     if(rest.length){
       const lab = document.createElement("span");
       lab.className = "morelab"; lab.textContent = "more sequences";
@@ -985,14 +988,29 @@ function buildPbs(){
   const lab = document.createElement("span");
   lab.className = "pblabel"; lab.textContent = "playbooks";
   pbsEl.append(lab);
-  for(const pb of PLAYBOOKS){
-    if(pb.preview) continue;
+  /* toolbar diet: five curated pills (featured first) — the full storefront
+     lives at #playbooks. An active pick outside the five still shows, pressed. */
+  const pool = PLAYBOOKS.filter(pb => !pb.preview);
+  const curated = pool.filter(pb => pb.featured).concat(pool.filter(pb => !pb.featured)).slice(0, 5);
+  if(activePb && !curated.some(pb => pb.key === activePb)){
+    const cur = pool.find(pb => pb.key === activePb);
+    if(cur) curated.push(cur);
+  }
+  for(const pb of curated){
     const b = document.createElement("button");
     b.className = "pb";
     b.setAttribute("aria-pressed", activePb===pb.key);
     b.innerHTML = pb.name + ' <span class="len">'+pb.ids.length+"</span>";
     b.onclick = ()=>{ activePb = activePb===pb.key ? null : pb.key; activeFam="All"; sync(); };
     pbsEl.append(b);
+  }
+  const rest = pool.length - curated.length;
+  if(rest > 0){
+    const more = document.createElement("a");
+    more.className = "pb"; more.href = "#playbooks";
+    more.textContent = rest + " more ↓";
+    more.setAttribute("aria-label", "See all " + pool.length + " playbooks below");
+    pbsEl.append(more);
   }
 }
 
@@ -1138,6 +1156,26 @@ function render(){
   clearTimeout(zeroT);
   listEl.classList.toggle("anim", !entranced);
   entranced = true;
+  /* an active query with no family/playbook filter switches to ranked results —
+     the same scorer as the MCP server's suggest_briefs — instead of the family
+     grouping. Inside a family chip the query stays an AND-substring refinement. */
+  if(query && !activePb && activeFam === "All"){
+    const ranked = closest(query, 20);
+    if(ranked.length){
+      const fh = document.createElement("div"); fh.className = "famhead";
+      const nm = document.createElement("span"); nm.className = "name";
+      nm.style.color = "var(--amber)"; nm.textContent = "best matches";
+      const qq = document.createElement("span"); qq.className = "q";
+      qq.textContent = "top " + ranked.length + " for “" + query + "”, ranked — pick a family chip to group again";
+      const rl = document.createElement("span"); rl.className = "rule";
+      fh.append(nm, qq, rl);
+      listEl.append(fh);
+      let r = 0;
+      for(const p of ranked) listEl.append(card(p, r++));
+      return;
+    }
+    /* tokens too short/rare for the scorer fall through to substring filtering */
+  }
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
@@ -1249,8 +1287,15 @@ function wireCopy(id, srcId, evt){
   b.onclick = function(){ copyText(document.getElementById(srcId).textContent, this, "✓", evt); };
 }
 wireCopy("copyinstall", "installcmd", {name:"copy_install"});
-wireCopy("copyinstall2", "installcmd2", {name:"copy_install"});
 wireCopy("copymcp", "mcpcmd", {name:"copy_mcp"});
+(function(){
+  var b = document.getElementById("triagecopy"), p = byId["46"];
+  if(!b || !p) return;
+  b.onclick = function(){
+    copyText(withContext(p.body), b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}});
+    showCopyHint(p.output, "46");
+  };
+})();
 
 document.querySelectorAll("[data-ctx]").forEach(el=>{
   el.value = ctx[el.dataset.ctx] || "";
