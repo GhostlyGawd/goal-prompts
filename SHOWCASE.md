@@ -25,11 +25,13 @@ promise ("turn your agent into a senior code auditor") because they never get to
 > pictured), **F3** (finding → commit before/after) — **BLOCKED**: each needs a
 > real screen recording / screenshot that can't be produced in this environment;
 > the markup slots + captions are the follow-up once assets exist. **F4**
-> (schematic vs real report excerpt) & **F5** (mobile hero has no visual) —
-> **DEFERRED**: content/design additions. **F7** (static `og.png` can drift) —
-> **DEFERRED**: the text counts it could misstate are now build-injected
-> everywhere else; regenerating the raster from live data needs Pillow + a build
-> step. See `FIXLOG.md`.
+> (schematic report mock) — **FIXED**: the mock now carries a real text
+> alternative (`role=img` + `aria-label`) and a visible "the shape of every
+> report" caption instead of `aria-hidden`. **F5** (mobile hero has no visual) —
+> **DEFERRED**: needs a lightweight fallback visual. **F7** (static `og.png` can
+> drift) — **FIXED**: `og.png` was regenerated to the live 135/21 counts,
+> `scripts/og.py` embeds the brief count as PNG metadata, and the build now fails
+> if it drifts. See `FIXLOG.md`.
 
 ---
 

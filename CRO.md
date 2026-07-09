@@ -21,10 +21,12 @@ actual revenue path), and that funnel currently has no closing action.
 > in the scan path) — **FIXED**: "MCP" and "conductor" glossed. **F5** (partner
 > funnel has no closing action) — **PARTIAL**: the band is labeled an example; a
 > "Partner with us" contact CTA needs a real contact route (deferred). **F1**
-> (promote the free/no-signup offer), **F2** (default way-in), **F6** (two "start"
-> CTAs), **F7** (copyable brief near the hero) — **DEFERRED**: hero/CTA copy and
-> layout the report itself scopes as ship-your-wording / A/B, i.e. the maintainer's
-> call. See `FIXLOG.md`.
+> (promote the free/no-signup offer) — **FIXED**: the hero offer line leads with
+> "free & open · no signup · nothing leaves your machine." **F6** (two "start"
+> CTAs) — **FIXED**: the nav "Get started" CTA now points at `#catalog`, the same
+> primary destination as the hero. **F2** (default way-in) & **F7** (copyable
+> brief near the hero) — **DEFERRED**: A/B-scoped changes, the maintainer's call.
+> See `FIXLOG.md`.
 
 ---
 

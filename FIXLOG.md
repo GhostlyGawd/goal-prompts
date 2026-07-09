@@ -1,6 +1,30 @@
 # FIXLOG.md
 *Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.*
 
+## Session — open-items backlog, round 2 (2026-07-09)
+- Branch: `claude/open-items-backlog-rm6wzx`, restarted off `main` (`f03bc06`, the round-1 squash-merge)
+- Focus: ship the round-1 "deferred" findings that are genuinely buildable, and kill the last concrete staleness (og.png).
+
+### Fixed
+| # | Finding | Source | Commit | Verified by |
+|---|---|---|---|---|
+| 1 | og.png regenerated to 135/21 + embedded PNG-metadata drift guard | SHOWCASE F7 | `53b9ce8` | build fails if og.png's tEXt count ≠ catalog (proven); render reads "135 briefs / 21 families" |
+| 2 | Studio GitHub-repo input error state (red border + `aria-invalid`, clears on edit) | STATES S4 | `5eb61e1` | Chromium: border `rgb(232,76,61)` + `aria-invalid` on a bad ref |
+| 3 | Guided next-step hint on copy, naming the brief's output file | ACTIVATION A1 | `5eb61e1` | Chromium: toast reads "…writes `<OUTPUT>` at the root", dismissable |
+| 4 | Gloss "brief" on first use in the hero | COMPREHENSION F3 | `5eb61e1` | hero sub reads "a ready-made, copy-paste prompt" |
+| 5 | Schematic report mock: real text alternative + visible caption | SHOWCASE F4 | `5eb61e1` | `role=img` + `aria-label`; `.mockcap` caption present |
+| 6 | Zero-result empty state raised off `--faint` to `--dim` | HIERARCHY F7 | `5eb61e1` | computed color `rgb(183,184,190)` |
+| 7 | Hero offer line leads with free / no-signup / local | CRO F1 | `5eb61e1` | `.micro` contains "no signup · nothing leaves your machine" |
+| 8 | Nav "Get started" CTA unified onto `#catalog` | CRO F6 | (ledger commit) | both start affordances now lead to the catalog |
+
+### Still deferred (need a human decision or an external asset — recorded in each report)
+- Hero headline rewrite (COMPREHENSION F1); default-way-in and copyable-brief-near-hero (CRO F2/F7); partner contact CTA (CRO F5 — needs a real contact route); a "start here" default brief (ACTIVATION A2 — needs the maintainer's pick); retention features with local-first tradeoffs (RETENTION R1–R5); the hero A/B (ACTIVATION A3).
+- Subjective visual-hierarchy + color-meaning changes (HIERARCHY F3–F6, COLOR C2–C8) and the type/spacing-scale systematization (TYPO T3–T5, LAYOUT L1–L6) — these are dedicated design-refactor passes, not fold-ins; doing them blind would risk the regressions the reports themselves warn about.
+
+### Blocked (external, unchanged)
+- SHOWCASE F1–F3 (product-in-action GIF, Studio screenshot, finding→commit before/after) — need real screen captures.
+- IMPROVEMENTS 11 (npm publish + MCP-registry listing) — needs npm credentials.
+
 ## Session — open-items backlog (2026-07-09)
 - Branch: `claude/open-items-backlog-rm6wzx` · off `main` (`b7d0988`)
 - Reports consumed: the Design family (HIERARCHY, TYPOGRAPHY, COLOR, LAYOUT,

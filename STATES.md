@@ -22,8 +22,8 @@ Studio's paste/repo inputs. Focus visibility outranks all polish, so those lead.
 > mirrored both into the landing and the Studio/Vitals tools. **S7** (color-only
 > inline links) — **FIXED** for the color-only footer links (hover underline);
 > nav/crumb/footer links already had hovers. **S4** (no input error state) —
-> **DEFERRED**: a buildable follow-up (wire `.is-error` + `aria-invalid` to the
-> GitHub-loader failure path). Motion-token naming (§4) — **DEFERRED**: values are
+> **FIXED**: the Studio GitHub-repo input shows a red `.is-error` border +
+> `aria-invalid` on a failed load, cleared on edit. Motion-token naming (§4) — **DEFERRED**: values are
 > already one consistent vocabulary; naming them is additive only. See `FIXLOG.md`.
 
 ---

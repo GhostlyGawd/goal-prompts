@@ -1,6 +1,23 @@
 # Changelog
 
 ## Unreleased
+- Open-items backlog pass — accessibility, activation, and anti-staleness fixes
+  drawn from the self-audit report gallery:
+  - **Accessibility:** keyboard focus rings restored on every text input; the
+    `--faint` text tier lifted to WCAG AA in both themes; mono/sans faux-bold
+    eliminated; a real text alternative for the schematic report mock; the
+    Studio's GitHub-repo input now shows an error state on a failed load.
+  - **Activation & clarity:** copying a brief now shows a guided next-step hint
+    naming the report file it writes; the hero names the artifact ("a
+    ready-made, copy-paste prompt") and leads with the free / no-signup / local
+    offer; "MCP" and "conductor" are glossed; the partner band is labeled an
+    example; the installer's SHA-256 verification is surfaced at the install line.
+  - **Anti-staleness:** every public brief/playbook/family count is injected from
+    the catalog (meta, OG, hero, chart, and the `og.png` share card), and the
+    build now fails if the README, family taxonomy, or `og.png` count drift.
+  - **Also:** a mobile horizontal-overflow fix in the catalog finder; canonical
+    URL + `SoftwareApplication` JSON-LD; shared disabled/press states; and a
+    per-finding disposition recorded in every design/experience report.
 - Mobile landing-page pass. The page ran ~8 phone-screens of marketing
   before the catalog, and the filter bar overflowed on phones:
   - **Hero** drops the briefs-per-family chart on phones (it only scrolled

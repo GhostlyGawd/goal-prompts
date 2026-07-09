@@ -20,7 +20,7 @@ subtraction.
 > var(--line-3)`), so one filled primary wins per viewport. **F2** (brief id
 > louder than the title) — **DONE** in the same pass: cards demote the id and
 > promote the title. **F3–F7** (Studio drop-zone weight, meta-row tiering,
-> hero-illustration contrast, cross-page primary color, empty-state recovery) —
+> hero-illustration contrast, cross-page primary color; empty-state recovery is **F7 → FIXED**, moved to `--dim`) —
 > **DEFERRED**: these are subjective visual-hierarchy calls best made with a
 > designer's eye on the rendered result. See `CHANGELOG.md` (Unreleased) and
 > `FIXLOG.md`.

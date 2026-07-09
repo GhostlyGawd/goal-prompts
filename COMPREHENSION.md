@@ -24,10 +24,11 @@ four different ways, none of them the true number (129).
 > is now 135, not the 129 this audit measured — exactly the drift the injection
 > ends). **F4** ("conductor" unglossed) — **FIXED**: the custom-sequence bar's
 > copy button carries a one-line gloss. **F5** ("MCP" unexpanded) — **FIXED**:
-> expanded to "MCP (Model Context Protocol)" on first use. **F1** (hero never
-> names the artifact) & **F3** (gloss "brief") — **DEFERRED**: the hero rewrite is
-> a wording decision for the maintainer (the report asks "my wording or yours?").
-> See `FIXLOG.md`.
+> expanded to "MCP (Model Context Protocol)" on first use. **F3** (gloss "brief")
+> — **FIXED**: glossed as "a ready-made, copy-paste prompt" on first use in the
+> hero sub. **F1** (the full headline rewrite so the hero names the artifact) —
+> **DEFERRED**: the maintainer's wording call (the report asks "my wording or
+> yours?"). See `FIXLOG.md`.
 
 ---
 
