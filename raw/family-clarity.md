@@ -1,8 +1,8 @@
 # Playbook: All Clarity briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Clarity briefs** playbook — 5 audit briefs in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **All Clarity briefs** playbook — 6 audit briefs in sequence, each producing one report file at this repo's root.
 
-Every Clarity brief in the catalog, in order — 16 through 103, one report each.
+Every Clarity brief in the catalog, in order — 16 through 135, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -16,6 +16,7 @@ Every Clarity brief in the catalog, in order — 16 through 103, one report each
 3. **18 · API Contract Review** — fetch https://goal-prompts.vercel.app/raw/18.md → writes `API.md`
 4. **76 · Comprehension Audit** — fetch https://goal-prompts.vercel.app/raw/76.md → writes `COMPREHENSION.md`
 5. **103 · Error-Message Audit** — fetch https://goal-prompts.vercel.app/raw/103.md → writes `ERRORS.md`
+6. **135 · CLI Tool UX Audit** — fetch https://goal-prompts.vercel.app/raw/135.md → writes `CLI.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

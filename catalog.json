@@ -25,7 +25,7 @@
   },
   {
    "chars": 2925,
-   "example": "https://goal-prompts.vercel.app/examples/venture/DEMAND.md",
+   "example": "https://goal-prompts.vercel.app/DEMAND.md",
    "family": "Venture",
    "id": "62",
    "output": "DEMAND.md",
@@ -227,29 +227,29 @@
    "title": "Flaky-Test Audit"
   },
   {
-   "chars": 2421,
+   "chars": 3213,
    "family": "Quality",
    "id": "102",
    "output": "PYRAMID.md",
    "question": "does it work?",
    "raw": "https://goal-prompts.vercel.app/raw/102.md",
    "slug": "test-pyramid",
-   "tagline": "The shape of the suite — whether the mix of unit, integration, and end-to-end tests gives fast, reliable confidence or a slow, brittle inversion.",
+   "tagline": "Count and time the suite by layer, draw the shape it actually makes, and compute confidence-per-second — the number that says which tests earn their runtime.",
    "title": "Test-Pyramid Balance"
   },
   {
-   "chars": 2444,
+   "chars": 2564,
    "family": "Speed",
    "id": "04",
    "output": "PERF.md",
    "question": "does it scale?",
    "raw": "https://goal-prompts.vercel.app/raw/04.md",
    "slug": "performance-audit",
-   "tagline": "Bundle weight, slow queries, N+1s, wasted renders, and missing caches — ranked by latency the user actually feels.",
+   "tagline": "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls, missing caches — ranked by what the user actually feels on common paths.",
    "title": "Performance Audit"
   },
   {
-   "chars": 2640,
+   "chars": 2809,
    "family": "Speed",
    "id": "05",
    "output": "SCALE.md",
@@ -293,7 +293,18 @@
    "title": "Bundle & Asset Weight Audit"
   },
   {
-   "chars": 2750,
+   "chars": 3537,
+   "family": "Speed",
+   "id": "140",
+   "output": "CACHES.md",
+   "question": "does it scale?",
+   "raw": "https://goal-prompts.vercel.app/raw/140.md",
+   "slug": "caching-strategy",
+   "tagline": "Every cache from CDN headers to that module-level dict — keys, TTLs, who invalidates what — the stale read, the stampede, and the key that leaks between users.",
+   "title": "Caching Strategy Audit"
+  },
+  {
+   "chars": 2633,
    "example": "https://goal-prompts.vercel.app/SECURITY-AUDIT.md",
    "family": "Trust",
    "id": "06",
@@ -305,7 +316,7 @@
    "title": "Security & Privacy Audit"
   },
   {
-   "chars": 2404,
+   "chars": 2546,
    "family": "Trust",
    "id": "07",
    "output": "DEPS.md",
@@ -316,7 +327,7 @@
    "title": "Dependency Health Check"
   },
   {
-   "chars": 2563,
+   "chars": 2689,
    "family": "Trust",
    "id": "08",
    "output": "A11Y.md",
@@ -393,18 +404,18 @@
    "title": "Threat Model & Abuse Cases"
   },
   {
-   "chars": 2561,
+   "chars": 3236,
    "family": "Trust",
    "id": "85",
    "output": "UPGRADES.md",
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/85.md",
    "slug": "dependency-currency",
-   "tagline": "How far the dependency tree has drifted and how risky it is to catch up — the upgrade debt that compounds until a forced, painful jump.",
+   "tagline": "Run the outdated command and read the lockfile's birthdays — majors behind, EOL dates, the two packages pinning everything — and the forced jump the drift is scheduling.",
    "title": "Dependency Currency Audit"
   },
   {
-   "chars": 2668,
+   "chars": 2789,
    "family": "Trust",
    "id": "86",
    "output": "A11Y-DEEP.md",
@@ -426,7 +437,7 @@
    "title": "Consent & Cookie Audit"
   },
   {
-   "chars": 2660,
+   "chars": 2805,
    "family": "Compliance",
    "id": "126",
    "output": "DSAR.md",
@@ -459,7 +470,7 @@
    "title": "Audit-Trail Audit"
   },
   {
-   "chars": 2351,
+   "chars": 2506,
    "family": "Growth",
    "id": "09",
    "output": "FUNNEL.md",
@@ -514,7 +525,8 @@
    "title": "SEO & Discoverability"
   },
   {
-   "chars": 3367,
+   "chars": 3509,
+   "example": "https://goal-prompts.vercel.app/CRO.md",
    "family": "Growth",
    "id": "75",
    "output": "CRO.md",
@@ -526,6 +538,7 @@
   },
   {
    "chars": 3243,
+   "example": "https://goal-prompts.vercel.app/RETENTION.md",
    "family": "Growth",
    "id": "78",
    "output": "RETENTION.md",
@@ -537,6 +550,7 @@
   },
   {
    "chars": 3500,
+   "example": "https://goal-prompts.vercel.app/PROOF.md",
    "family": "Growth",
    "id": "79",
    "output": "PROOF.md",
@@ -547,7 +561,8 @@
    "title": "Social Proof & Credibility"
   },
   {
-   "chars": 3423,
+   "chars": 3566,
+   "example": "https://goal-prompts.vercel.app/ACTIVATION.md",
    "family": "Growth",
    "id": "80",
    "output": "ACTIVATION.md",
@@ -603,7 +618,7 @@
    "title": "New-Dev Onboarding Audit"
   },
   {
-   "chars": 2531,
+   "chars": 2719,
    "family": "Team",
    "id": "15",
    "output": "DESIGN-SYSTEM.md",
@@ -691,7 +706,7 @@
    "title": "Webhook Design Audit"
   },
   {
-   "chars": 2557,
+   "chars": 2681,
    "family": "API",
    "id": "112",
    "output": "SDK.md",
@@ -724,7 +739,7 @@
    "title": "Rate-Limit & Quota Design"
   },
   {
-   "chars": 2540,
+   "chars": 2650,
    "family": "API",
    "id": "115",
    "output": "DEVPORTAL.md",
@@ -733,6 +748,17 @@
    "slug": "developer-portal",
    "tagline": "The first hour a developer spends with this API — from landing on the docs to a working integration — and where they stall, guess, or give up.",
    "title": "Developer Portal & Onboarding"
+  },
+  {
+   "chars": 3429,
+   "family": "API",
+   "id": "136",
+   "output": "PACKAGE.md",
+   "question": "will developers adopt it?",
+   "raw": "https://goal-prompts.vercel.app/raw/136.md",
+   "slug": "package-api-design",
+   "tagline": "Read the package the way a stranger's bundler does — every export weighed, typed, and judged: the accidental API, the semver debt, and what the next major must break.",
+   "title": "Library & Package API Design"
   },
   {
    "chars": 2239,
@@ -769,6 +795,7 @@
   },
   {
    "chars": 3388,
+   "example": "https://goal-prompts.vercel.app/COMPREHENSION.md",
    "family": "Clarity",
    "id": "76",
    "output": "COMPREHENSION.md",
@@ -790,7 +817,19 @@
    "title": "Error-Message Audit"
   },
   {
+   "chars": 3376,
+   "family": "Clarity",
+   "id": "135",
+   "output": "CLI.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/135.md",
+   "slug": "cli-ux",
+   "tagline": "Run the binary like a stranger — help screens, wrong flags, bad input, exit codes, --json — an annotated transcript of where the CLI teaches and where it bites.",
+   "title": "CLI Tool UX Audit"
+  },
+  {
    "chars": 2962,
+   "example": "https://goal-prompts.vercel.app/HIERARCHY.md",
    "family": "Design",
    "id": "54",
    "output": "HIERARCHY.md",
@@ -802,6 +841,7 @@
   },
   {
    "chars": 2878,
+   "example": "https://goal-prompts.vercel.app/TYPOGRAPHY.md",
    "family": "Design",
    "id": "55",
    "output": "TYPOGRAPHY.md",
@@ -812,7 +852,8 @@
    "title": "Typography Audit"
   },
   {
-   "chars": 2876,
+   "chars": 3001,
+   "example": "https://goal-prompts.vercel.app/COLOR.md",
    "family": "Design",
    "id": "56",
    "output": "COLOR.md",
@@ -824,6 +865,7 @@
   },
   {
    "chars": 2780,
+   "example": "https://goal-prompts.vercel.app/LAYOUT.md",
    "family": "Design",
    "id": "57",
    "output": "LAYOUT.md",
@@ -835,6 +877,7 @@
   },
   {
    "chars": 2952,
+   "example": "https://goal-prompts.vercel.app/STATES.md",
    "family": "Design",
    "id": "58",
    "output": "STATES.md",
@@ -846,6 +889,7 @@
   },
   {
    "chars": 3026,
+   "example": "https://goal-prompts.vercel.app/BRAND.md",
    "family": "Design",
    "id": "59",
    "output": "BRAND.md",
@@ -857,6 +901,7 @@
   },
   {
    "chars": 3337,
+   "example": "https://goal-prompts.vercel.app/SHOWCASE.md",
    "family": "Design",
    "id": "77",
    "output": "SHOWCASE.md",
@@ -878,7 +923,7 @@
    "title": "Mobile & Responsive Audit"
   },
   {
-   "chars": 2673,
+   "chars": 2792,
    "family": "Design",
    "id": "105",
    "output": "TOKEN-ADOPTION.md",
@@ -977,7 +1022,7 @@
    "title": "Analytics Coverage Audit"
   },
   {
-   "chars": 2377,
+   "chars": 2528,
    "family": "Data",
    "id": "21",
    "output": "PRIVACY.md",
@@ -1030,6 +1075,28 @@
    "slug": "metric-definition-consistency",
    "tagline": "Whether the numbers the product reports mean the same thing everywhere — so active user, revenue, and signup are not defined three different ways.",
    "title": "Metric Definition Consistency"
+  },
+  {
+   "chars": 3337,
+   "family": "Data",
+   "id": "138",
+   "output": "EVENTS.md",
+   "question": "is it sound?",
+   "raw": "https://goal-prompts.vercel.app/raw/138.md",
+   "slug": "event-contracts",
+   "tagline": "Diff what producers write against what consumers assume — schema drift, ordering bets, missing idempotency keys — and find the message that breaks when a deploy staggers.",
+   "title": "Event & Message Contracts"
+  },
+  {
+   "chars": 3516,
+   "family": "Data",
+   "id": "139",
+   "output": "PIPELINES.md",
+   "question": "is it sound?",
+   "raw": "https://goal-prompts.vercel.app/raw/139.md",
+   "slug": "pipeline-quality",
+   "tagline": "Run every job twice on paper and yesterday once more — duplicates, half-written partitions, now() in a backfill — and a ledger of who notices stale data.",
+   "title": "Data Pipeline Quality"
   },
   {
    "chars": 2442,
@@ -1120,6 +1187,17 @@
    "title": "Vendor Lock-In Audit"
   },
   {
+   "chars": 3347,
+   "family": "Ops",
+   "id": "137",
+   "output": "INFRA.md",
+   "question": "does it run?",
+   "raw": "https://goal-prompts.vercel.app/raw/137.md",
+   "slug": "infra-as-code",
+   "tagline": "Read the Terraform, K8s, and Dockerfiles the way the machine will — :latest tags, plaintext secrets, copy-pasted stanzas — and map the blast radius of one bad apply.",
+   "title": "Infra-as-Code Audit"
+  },
+  {
    "chars": 2582,
    "family": "Reliability",
    "id": "121",
@@ -1131,25 +1209,25 @@
    "title": "Graceful Degradation Audit"
   },
   {
-   "chars": 2648,
+   "chars": 3334,
    "family": "Reliability",
    "id": "122",
    "output": "CHAOS.md",
    "question": "will it stay up?",
    "raw": "https://goal-prompts.vercel.app/raw/122.md",
    "slug": "failure-injection",
-   "tagline": "Whether the system is ready to be tested against failure — and what would actually happen if its key dependencies died — before a real incident runs the experiment.",
+   "tagline": "Kill every dependency on paper — trace the actual catch, timeout, and fallback code, or its absence — and script the game day before production improvises one.",
    "title": "Failure-Injection Readiness"
   },
   {
-   "chars": 2609,
+   "chars": 3501,
    "family": "Reliability",
    "id": "123",
    "output": "CAPACITY.md",
    "question": "will it stay up?",
    "raw": "https://goal-prompts.vercel.app/raw/123.md",
    "slug": "capacity-scalability",
-   "tagline": "Whether the system can absorb growth — more users, data, and load — and which bottleneck gives out first when traffic multiplies.",
+   "tagline": "Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today.",
    "title": "Capacity & Scalability Audit"
   },
   {
@@ -1190,7 +1268,7 @@
    "family": "Meta",
    "id": "28",
    "output": "ROADMAP.md",
-   "question": "do the reports compose?",
+   "question": "do the reports add up?",
    "raw": "https://goal-prompts.vercel.app/raw/28.md",
    "slug": "roadmap-synthesis",
    "tagline": "The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan.",
@@ -1201,14 +1279,14 @@
    "family": "Meta",
    "id": "29",
    "output": "HEALTH.md",
-   "question": "do the reports compose?",
+   "question": "do the reports add up?",
    "raw": "https://goal-prompts.vercel.app/raw/29.md",
    "slug": "health-check",
    "tagline": "A fast weekly vitals pass — tests, build, deps, TODOs — diffed against the last run so drift shows up as trend arrows.",
    "title": "Recurring Health Check"
   },
   {
-   "chars": 3270,
+   "chars": 3958,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -1231,7 +1309,7 @@
    "title": "The Fixer"
   },
   {
-   "chars": 3030,
+   "chars": 3146,
    "family": "Act",
    "id": "74",
    "output": "CHANGE-RISK.md",
@@ -1242,7 +1320,7 @@
    "title": "Change Risk Review"
   },
   {
-   "chars": 2686,
+   "chars": 2833,
    "family": "Agent",
    "id": "30",
    "output": "PROMPTS.md",
@@ -1297,7 +1375,7 @@
    "title": "Eval Coverage Audit"
   },
   {
-   "chars": 2686,
+   "chars": 2829,
    "family": "Agent",
    "id": "35",
    "output": "GUARDRAILS.md",
@@ -1440,14 +1518,14 @@
    "title": "Trust Calibration Audit"
   },
   {
-   "chars": 2612,
+   "chars": 3524,
    "family": "AI-Ethics",
    "id": "116",
    "output": "FAIRNESS.md",
    "question": "is the AI responsible?",
    "raw": "https://goal-prompts.vercel.app/raw/116.md",
    "slug": "bias-fairness",
-   "tagline": "Whether the product's AI or algorithmic decisions treat different groups fairly — or whether the data, features, or evaluation bake in bias that harms some users.",
+   "tagline": "Find the code that ranks, scores, or filters people, list the exact fields it consumes, and check whether any eval ever sliced results by group — suspicions labeled.",
    "title": "Bias & Fairness Audit"
   },
   {
@@ -1462,7 +1540,7 @@
    "title": "Hallucination & Grounding Audit"
   },
   {
-   "chars": 2759,
+   "chars": 2894,
    "family": "AI-Ethics",
    "id": "118",
    "output": "REDTEAM.md",
@@ -1473,14 +1551,14 @@
    "title": "Prompt-Injection Red-Team"
   },
   {
-   "chars": 2535,
+   "chars": 3397,
    "family": "AI-Ethics",
    "id": "119",
    "output": "TRANSPARENCY.md",
    "question": "is the AI responsible?",
    "raw": "https://goal-prompts.vercel.app/raw/119.md",
    "slug": "model-transparency",
-   "tagline": "Whether users know when they are dealing with AI, understand its limits, and are told enough to trust it appropriately — not too much, not too little.",
+   "tagline": "Diff what the UI says about the AI against what the code does — disclosure strings quoted, dropped confidence traced, retention claims checked against real payloads.",
    "title": "Model Transparency Audit"
   },
   {
