@@ -11,7 +11,7 @@ Before the repo goes public: safe to expose, dependencies sound, and every licen
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY.md`
+1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY-AUDIT.md`
 2. **07 · Dependency Health Check** — fetch https://goal-prompts.vercel.app/raw/07.md → writes `DEPS.md`
 3. **69 · License & Compliance** — fetch https://goal-prompts.vercel.app/raw/69.md → writes `LICENSES.md`
 

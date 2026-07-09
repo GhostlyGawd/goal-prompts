@@ -105,6 +105,17 @@
    "title": "Product Improvement Discovery"
   },
   {
+   "chars": 2261,
+   "family": "Product",
+   "id": "45",
+   "output": "FEEDBACK.md",
+   "question": "what could this be?",
+   "raw": "https://goal-prompts.vercel.app/raw/45.md",
+   "slug": "feedback-loop-audit",
+   "tagline": "How user signal re-enters the product — corrections captured or evaporating, thumbs nobody reads, and the complaint-to-fix path.",
+   "title": "Feedback Loop Audit"
+  },
+  {
    "chars": 2182,
    "family": "Product",
    "id": "106",
@@ -136,17 +147,6 @@
    "slug": "account-lifecycle",
    "tagline": "The whole arc of an account beyond signup — settings, export, plan changes, and deletion — and whether the product treats users with dignity, even leaving.",
    "title": "Account Lifecycle Audit"
-  },
-  {
-   "chars": 2261,
-   "family": "Product",
-   "id": "45",
-   "output": "FEEDBACK.md",
-   "question": "what could this be?",
-   "raw": "https://goal-prompts.vercel.app/raw/45.md",
-   "slug": "feedback-loop-audit",
-   "tagline": "How user signal re-enters the product — corrections captured or evaporating, thumbs nobody reads, and the complaint-to-fix path.",
-   "title": "Feedback Loop Audit"
   },
   {
    "chars": 2390,
@@ -183,6 +183,28 @@
    "title": "Silent Failure Audit"
   },
   {
+   "chars": 2365,
+   "family": "Quality",
+   "id": "98",
+   "output": "CONCURRENCY.md",
+   "question": "does it work?",
+   "raw": "https://goal-prompts.vercel.app/raw/98.md",
+   "slug": "concurrency-audit",
+   "tagline": "The bugs that only appear under load — races, shared mutable state, and ordering assumptions that hold on a quiet laptop and break in production.",
+   "title": "Concurrency & Race-Condition Audit"
+  },
+  {
+   "chars": 2313,
+   "family": "Quality",
+   "id": "99",
+   "output": "TYPES.md",
+   "question": "does it work?",
+   "raw": "https://goal-prompts.vercel.app/raw/99.md",
+   "slug": "type-safety",
+   "tagline": "Where the type system has been defeated or never engaged — the casts, anys, and untyped boundaries where the compiler stops protecting you.",
+   "title": "Type-Safety Audit"
+  },
+  {
    "chars": 2167,
    "family": "Quality",
    "id": "100",
@@ -214,28 +236,6 @@
    "slug": "test-pyramid",
    "tagline": "The shape of the suite — whether the mix of unit, integration, and end-to-end tests gives fast, reliable confidence or a slow, brittle inversion.",
    "title": "Test-Pyramid Balance"
-  },
-  {
-   "chars": 2365,
-   "family": "Quality",
-   "id": "98",
-   "output": "CONCURRENCY.md",
-   "question": "does it work?",
-   "raw": "https://goal-prompts.vercel.app/raw/98.md",
-   "slug": "concurrency-audit",
-   "tagline": "The bugs that only appear under load — races, shared mutable state, and ordering assumptions that hold on a quiet laptop and break in production.",
-   "title": "Concurrency & Race-Condition Audit"
-  },
-  {
-   "chars": 2313,
-   "family": "Quality",
-   "id": "99",
-   "output": "TYPES.md",
-   "question": "does it work?",
-   "raw": "https://goal-prompts.vercel.app/raw/99.md",
-   "slug": "type-safety",
-   "tagline": "Where the type system has been defeated or never engaged — the casts, anys, and untyped boundaries where the compiler stops protecting you.",
-   "title": "Type-Safety Audit"
   },
   {
    "chars": 2093,
@@ -293,11 +293,11 @@
    "title": "Bundle & Asset Weight Audit"
   },
   {
-   "chars": 2386,
-   "example": "https://goal-prompts.vercel.app/SECURITY.md",
+   "chars": 2392,
+   "example": "https://goal-prompts.vercel.app/SECURITY-AUDIT.md",
    "family": "Trust",
    "id": "06",
-   "output": "SECURITY.md",
+   "output": "SECURITY-AUDIT.md",
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/06.md",
    "slug": "security-privacy-audit",
@@ -481,17 +481,6 @@
    "title": "Competitive Gap Scan"
   },
   {
-   "chars": 2232,
-   "family": "Growth",
-   "id": "109",
-   "output": "FORMS.md",
-   "question": "does it grow?",
-   "raw": "https://goal-prompts.vercel.app/raw/109.md",
-   "slug": "forms-validation",
-   "tagline": "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something.",
-   "title": "Forms & Validation Audit"
-  },
-  {
    "chars": 2119,
    "family": "Growth",
    "id": "11",
@@ -501,17 +490,6 @@
    "slug": "monetization-map",
    "tagline": "Find the premium-worthy features, the natural upgrade moments, and the billing friction between users and paying you.",
    "title": "Monetization Map"
-  },
-  {
-   "chars": 2261,
-   "family": "Growth",
-   "id": "110",
-   "output": "CHECKOUT.md",
-   "question": "does it grow?",
-   "raw": "https://goal-prompts.vercel.app/raw/110.md",
-   "slug": "checkout-payment",
-   "tagline": "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery.",
-   "title": "Checkout & Payment Flow Audit"
   },
   {
    "chars": 2169,
@@ -580,6 +558,28 @@
    "title": "Activation & First-Win Audit"
   },
   {
+   "chars": 2232,
+   "family": "Growth",
+   "id": "109",
+   "output": "FORMS.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/109.md",
+   "slug": "forms-validation",
+   "tagline": "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something.",
+   "title": "Forms & Validation Audit"
+  },
+  {
+   "chars": 2261,
+   "family": "Growth",
+   "id": "110",
+   "output": "CHECKOUT.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/110.md",
+   "slug": "checkout-payment",
+   "tagline": "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery.",
+   "title": "Checkout & Payment Flow Audit"
+  },
+  {
    "chars": 2146,
    "family": "Team",
    "id": "13",
@@ -636,10 +636,10 @@
    "title": "Ownership & Bus Factor"
   },
   {
-   "chars": 2128,
+   "chars": 2135,
    "family": "Team",
    "id": "94",
-   "output": "DX.md",
+   "output": "INNERLOOP.md",
    "question": "can others build on it?",
    "raw": "https://goal-prompts.vercel.app/raw/94.md",
    "slug": "inner-loop-speed",
@@ -735,17 +735,6 @@
    "title": "Developer Portal & Onboarding"
   },
   {
-   "chars": 2168,
-   "family": "Clarity",
-   "id": "103",
-   "output": "ERRORS.md",
-   "question": "is it understood?",
-   "raw": "https://goal-prompts.vercel.app/raw/103.md",
-   "slug": "error-message-audit",
-   "tagline": "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck.",
-   "title": "Error-Message Audit"
-  },
-  {
    "chars": 2008,
    "family": "Clarity",
    "id": "16",
@@ -788,6 +777,94 @@
    "slug": "comprehension-audit",
    "tagline": "Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing?",
    "title": "Comprehension Audit"
+  },
+  {
+   "chars": 2168,
+   "family": "Clarity",
+   "id": "103",
+   "output": "ERRORS.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/103.md",
+   "slug": "error-message-audit",
+   "tagline": "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck.",
+   "title": "Error-Message Audit"
+  },
+  {
+   "chars": 2609,
+   "family": "Design",
+   "id": "54",
+   "output": "HIERARCHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/54.md",
+   "slug": "visual-hierarchy-audit",
+   "tagline": "Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once.",
+   "title": "Visual Hierarchy Audit"
+  },
+  {
+   "chars": 2525,
+   "family": "Design",
+   "id": "55",
+   "output": "TYPOGRAPHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/55.md",
+   "slug": "typography-audit",
+   "tagline": "The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size.",
+   "title": "Typography Audit"
+  },
+  {
+   "chars": 2525,
+   "family": "Design",
+   "id": "56",
+   "output": "COLOR.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/56.md",
+   "slug": "color-contrast-audit",
+   "tagline": "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.",
+   "title": "Color & Contrast Audit"
+  },
+  {
+   "chars": 2435,
+   "family": "Design",
+   "id": "57",
+   "output": "LAYOUT.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/57.md",
+   "slug": "spacing-layout-audit",
+   "tagline": "The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen.",
+   "title": "Spacing & Layout Audit"
+  },
+  {
+   "chars": 2602,
+   "family": "Design",
+   "id": "58",
+   "output": "STATES.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/58.md",
+   "slug": "interaction-states-motion",
+   "tagline": "The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle.",
+   "title": "Interaction States & Motion Audit"
+  },
+  {
+   "chars": 2678,
+   "family": "Design",
+   "id": "59",
+   "output": "BRAND.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/59.md",
+   "slug": "brand-coherence-audit",
+   "tagline": "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.",
+   "title": "Brand Coherence Audit"
+  },
+  {
+   "chars": 2948,
+   "family": "Design",
+   "id": "77",
+   "output": "SHOWCASE.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/77.md",
+   "slug": "show-dont-tell",
+   "tagline": "Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith?",
+   "title": "Show, Don't Tell"
   },
   {
    "chars": 2149,
@@ -876,83 +953,6 @@
    "slug": "iconography-visual-language",
    "tagline": "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check.",
    "title": "Iconography & Visual Language Audit"
-  },
-  {
-   "chars": 2609,
-   "family": "Design",
-   "id": "54",
-   "output": "HIERARCHY.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/54.md",
-   "slug": "visual-hierarchy-audit",
-   "tagline": "Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once.",
-   "title": "Visual Hierarchy Audit"
-  },
-  {
-   "chars": 2525,
-   "family": "Design",
-   "id": "55",
-   "output": "TYPOGRAPHY.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/55.md",
-   "slug": "typography-audit",
-   "tagline": "The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size.",
-   "title": "Typography Audit"
-  },
-  {
-   "chars": 2525,
-   "family": "Design",
-   "id": "56",
-   "output": "COLOR.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/56.md",
-   "slug": "color-contrast-audit",
-   "tagline": "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.",
-   "title": "Color & Contrast Audit"
-  },
-  {
-   "chars": 2435,
-   "family": "Design",
-   "id": "57",
-   "output": "LAYOUT.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/57.md",
-   "slug": "spacing-layout-audit",
-   "tagline": "The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen.",
-   "title": "Spacing & Layout Audit"
-  },
-  {
-   "chars": 2602,
-   "family": "Design",
-   "id": "58",
-   "output": "STATES.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/58.md",
-   "slug": "interaction-states-motion",
-   "tagline": "The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle.",
-   "title": "Interaction States & Motion Audit"
-  },
-  {
-   "chars": 2678,
-   "family": "Design",
-   "id": "59",
-   "output": "BRAND.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/59.md",
-   "slug": "brand-coherence-audit",
-   "tagline": "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.",
-   "title": "Brand Coherence Audit"
-  },
-  {
-   "chars": 2948,
-   "family": "Design",
-   "id": "77",
-   "output": "SHOWCASE.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/77.md",
-   "slug": "show-dont-tell",
-   "tagline": "Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith?",
-   "title": "Show, Don't Tell"
   },
   {
    "chars": 2297,
@@ -1186,7 +1186,7 @@
    "title": "Simplification Pass"
   },
   {
-   "chars": 2053,
+   "chars": 2059,
    "family": "Meta",
    "id": "28",
    "output": "ROADMAP.md",
@@ -1219,7 +1219,7 @@
    "title": "Audit Triage"
   },
   {
-   "chars": 3282,
+   "chars": 3288,
    "example": "https://goal-prompts.vercel.app/FIXLOG.md",
    "family": "Act",
    "id": "47",

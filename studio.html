@@ -201,7 +201,7 @@
 <header class="wrap">
   <div class="eyebrow"><a href="/">← goal prompts</a> · <b>act on it</b></div>
   <h1>Report<br>Studio<span class="tick">.</span></h1>
-  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
+  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY-AUDIT.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
 </header>
 
 <main class="wrap">
@@ -534,10 +534,10 @@ document.getElementById("pasteadd").onclick = () => {
 };
 /* ---------- load from a public GitHub repo (browser → GitHub, nothing through us) ---------- */
 const GH_SKIP = new Set(["README.MD", "LICENSE.MD", "CONTRIBUTING.MD", "CODE_OF_CONDUCT.MD",
-  "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "NOTICE.MD", "AUTHORS.MD",
+  "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "SECURITY.MD", "NOTICE.MD", "AUTHORS.MD",
   "MAINTAINERS.MD", "PULL_REQUEST_TEMPLATE.MD", "CLAUDE.MD", "AGENTS.MD"]);
-const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "PERF.md", "DX.md",
-  "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
+const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "PERF.md", "DX.md",
+  "INNERLOOP.md", "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
 function parseRepoRef(s){
   s = String(s || "").trim();
   let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
@@ -628,7 +628,7 @@ document.getElementById("ghref").addEventListener("input", function(){
 });
 
 document.getElementById("demobtn").onclick = async function(){
-  const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "DX.md"];
+  const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "DX.md"];
   this.disabled = true; this.textContent = "loading…";
   try{
     for(const n of names){

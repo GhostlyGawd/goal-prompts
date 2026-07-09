@@ -11,7 +11,7 @@ Every Trust brief in the catalog, in order — 06 through 86, one report each.
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY.md`
+1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY-AUDIT.md`
 2. **07 · Dependency Health Check** — fetch https://goal-prompts.vercel.app/raw/07.md → writes `DEPS.md`
 3. **08 · Accessibility Audit** — fetch https://goal-prompts.vercel.app/raw/08.md → writes `A11Y.md`
 4. **68 · Localization Readiness** — fetch https://goal-prompts.vercel.app/raw/68.md → writes `I18N.md`

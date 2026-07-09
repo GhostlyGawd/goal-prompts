@@ -11,7 +11,7 @@ Sharpen the developer inner loop: time the edit-to-feedback cycle, make failures
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **94 · Inner-Loop Speed Audit** — fetch https://goal-prompts.vercel.app/raw/94.md → writes `DX.md`
+1. **94 · Inner-Loop Speed Audit** — fetch https://goal-prompts.vercel.app/raw/94.md → writes `INNERLOOP.md`
 2. **95 · Debuggability Audit** — fetch https://goal-prompts.vercel.app/raw/95.md → writes `DEBUG.md`
 3. **96 · CI Feedback-Loop Audit** — fetch https://goal-prompts.vercel.app/raw/96.md → writes `CIFEEDBACK.md`
 

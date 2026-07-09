@@ -13,7 +13,7 @@ First contact with an unfamiliar codebase: what is it, is it broken, is it safe,
 ## Stages
 1. **00 · Product Improvement Discovery** — fetch https://goal-prompts.vercel.app/raw/00.md → writes `IMPROVEMENTS.md`
 2. **01 · Bug Hunt** — fetch https://goal-prompts.vercel.app/raw/01.md → writes `BUGS.md`
-3. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY.md`
+3. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY-AUDIT.md`
 4. **14 · New-Dev Onboarding Audit** — fetch https://goal-prompts.vercel.app/raw/14.md → writes `DX.md`
 
 ## After the final stage

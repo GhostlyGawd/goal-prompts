@@ -38,6 +38,16 @@ FAMILY_COLORS = {
     "API": "#2CB5C4", "Reliability": "#5FC08A", "AI-Ethics": "#6E8AF0",
 }
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
+# Filenames that mean something else on GitHub — a brief writing one would
+# shadow the repo's own community files, so the linter forbids them as outputs.
+RESERVED_OUTPUTS = {"SECURITY.md", "README.md", "LICENSE.md", "CONTRIBUTING.md",
+                    "CODE_OF_CONDUCT.md", "SUPPORT.md", "GOVERNANCE.md",
+                    "CHANGELOG.md"}
+
+
+def sort_key(p: dict) -> tuple:
+    """Catalog order: family (curated), then id — numerically, so 45 < 106."""
+    return (FAMILY_ORDER.index(p["family"]), int(p["id"]))
 
 
 def fail(msg: str) -> None:
@@ -93,8 +103,48 @@ def lint(p: dict) -> list:
         v.append(f"{len(lenses)} lenses (want 4–12)")
     if p["chars"] > LIMIT:
         v.append(f"body is {p['chars']} chars (max {LIMIT})")
+    if p["output"] in RESERVED_OUTPUTS:
+        v.append(f"output '{p['output']}' is a reserved GitHub/community "
+                 f"filename — pick one that can't shadow it")
+    if p.get("_path"):
+        fname = Path(p["_path"]).name
+        if not fname.startswith(p["id"] + "-"):
+            v.append(f"filename '{fname}' must be prefixed with id '{p['id']}'")
     if p.get("example") and not p["example"].startswith("/"):
         v.append(f"example '{p['example']}' must be a root-relative path like /BUGS.md")
+    elif p.get("example") and not (ROOT / p["example"].lstrip("/")).exists():
+        v.append(f"example '{p['example']}' does not exist in the repo")
+    return v
+
+
+def lint_catalog(prompts: list) -> list:
+    """Cross-brief rules: every report filename must be unique — two briefs
+    writing the same file would silently clobber each other's reports."""
+    v, seen = [], {}
+    for p in prompts:
+        if p["output"] in seen:
+            v.append(f"briefs {seen[p['output']]} and {p['id']} both write "
+                     f"'{p['output']}' — outputs must be unique")
+        else:
+            seen[p["output"]] = p["id"]
+    return v
+
+
+def lint_family_icons(template: str) -> list:
+    """Every family in FAMILY_ORDER must have a FAM_ICON entry in template.html
+    AND a matching <symbol> — otherwise the hero chart and finder silently fall
+    back to the Meta icon (the 17-of-21 drift this guards against)."""
+    m = re.search(r"const FAM_ICON = \{(.*?)\};", template, re.S)
+    icons = dict(re.findall(r'"?([\w-]+)"?\s*:\s*"([\w-]+)"', m.group(1))) if m else {}
+    symbols = set(re.findall(r'<symbol id="([\w-]+)"', template))
+    v = []
+    for fam in FAMILY_ORDER:
+        sym = icons.get(fam)
+        if not sym:
+            v.append(f"family '{fam}' has no FAM_ICON entry in template.html")
+        elif sym not in symbols:
+            v.append(f"family '{fam}' maps to '{sym}' but template.html has "
+                     f"no <symbol id=\"{sym}\">")
     return v
 
 
@@ -970,7 +1020,7 @@ def main() -> None:
     if not files:
         fail("no prompt files found under prompts/")
     prompts = [parse(f) for f in files]
-    prompts.sort(key=lambda p: (FAMILY_ORDER.index(p["family"]), p["id"]))
+    prompts.sort(key=sort_key)
     by_id = {p["id"]: p for p in prompts}
 
     ids = [p["id"] for p in prompts]
@@ -978,6 +1028,9 @@ def main() -> None:
         fail("duplicate prompt ids")
     if len({p["slug"] for p in prompts}) != len(prompts):
         fail("duplicate prompt slugs")
+    cross = lint_catalog(prompts)
+    if cross:
+        fail("; ".join(cross))
 
     playbooks = json.loads((ROOT / "playbooks.json").read_text(encoding="utf-8"))
     for pb in playbooks:
@@ -1067,6 +1120,9 @@ def main() -> None:
                   "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__", "__GH_STARS__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
+    icon_gaps = lint_family_icons(template)
+    if icon_gaps:
+        fail("; ".join(icon_gaps))
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
     # Armed-but-hidden GitHub adoption badge. The real star count lives in
     # metrics.json (refreshed out-of-band by scripts/refresh-stars.py) so the

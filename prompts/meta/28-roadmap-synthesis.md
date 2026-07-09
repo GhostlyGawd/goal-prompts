@@ -13,7 +13,7 @@ You are working inside this repo. Mission: read every audit report at the repo r
 This is synthesis, not re-auditing: work from the reports, dipping into code only to resolve conflicts. Your only write is the report file.
 
 ## Phase 1 — Collect
-- Find the audit reports at repo root: IMPROVEMENTS.md, BUGS.md, PERF.md, SECURITY.md, TESTING.md, and any others matching this family.
+- Find the audit reports at repo root: IMPROVEMENTS.md, BUGS.md, PERF.md, SECURITY-AUDIT.md, TESTING.md, and any others matching this family.
 - List what exists and what's missing; note which absent audits would most change this roadmap.
 
 ## Phase 2 — Normalize

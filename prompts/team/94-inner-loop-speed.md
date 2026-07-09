@@ -3,7 +3,7 @@ id: "94"
 title: Inner-Loop Speed Audit
 family: Team
 question: can others build on it?
-output: DX.md
+output: INNERLOOP.md
 tagline: The edit to build to test to see-it-work cycle, timed — and the daily friction that taxes every change the team makes.
 ---
 # Goal: Inner-Loop Speed Audit
@@ -32,7 +32,7 @@ Read-only pass. Run the setup, build, and tests; time the loop; read the tooling
 - For each, name the concrete fix — a cache, a watch mode, a seed script, a doc.
 
 ## Phase 4 — Report
-Create `DX.md` at repo root:
+Create `INNERLOOP.md` at repo root:
 1. **The loop, timed** — each step from edit to feedback, with its duration
 2. **Friction ranked** — by daily cost, each with what a developer endures
 3. **Fixes** — each: friction · fix · time saved per day · effort

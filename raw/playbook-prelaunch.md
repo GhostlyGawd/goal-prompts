@@ -11,7 +11,7 @@ The night-before checks: safe, accessible, deployable, ready for a bad day.
 4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY.md`
+1. **06 · Security & Privacy Audit** — fetch https://goal-prompts.vercel.app/raw/06.md → writes `SECURITY-AUDIT.md`
 2. **08 · Accessibility Audit** — fetch https://goal-prompts.vercel.app/raw/08.md → writes `A11Y.md`
 3. **23 · Release Pipeline Audit** — fetch https://goal-prompts.vercel.app/raw/23.md → writes `RELEASE.md`
 4. **25 · Incident Readiness Review** — fetch https://goal-prompts.vercel.app/raw/25.md → writes `RELIABILITY.md`

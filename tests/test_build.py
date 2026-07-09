@@ -118,6 +118,78 @@ class LintTests(unittest.TestCase):
             [x for x in build.lint(brief(example="/BUGS.md"))
              if "root-relative" in x], [])
 
+    def test_reserved_output_filename_fails(self):
+        # SECURITY.md, README.md & co. mean something else on GitHub — a
+        # brief that writes one would shadow the repo's community files.
+        for name in ("SECURITY.md", "README.md", "CHANGELOG.md"):
+            v = build.lint(brief(
+                body=GOOD_BODY.replace("`X.md`", f"`{name}`"), output=name))
+            self.assertTrue(any("reserved" in x for x in v), (name, v))
+        self.assertEqual(
+            [x for x in build.lint(brief(
+                body=GOOD_BODY.replace("`X.md`", "`SECURITY-AUDIT.md`"),
+                output="SECURITY-AUDIT.md")) if "reserved" in x], [])
+
+    def test_filename_prefix_must_match_id(self):
+        v = build.lint(brief(_path="prompts/meta/98-example.md"))
+        self.assertTrue(any("filename" in x for x in v), v)
+        self.assertEqual(
+            [x for x in build.lint(brief(_path="prompts/meta/99-example.md"))
+             if "filename" in x], [])
+
+    def test_example_target_must_exist(self):
+        v = build.lint(brief(example="/NO-SUCH-REPORT-EVER.md"))
+        self.assertTrue(any("does not exist" in x for x in v), v)
+        self.assertEqual(
+            [x for x in build.lint(brief(example="/BUGS.md"))
+             if "does not exist" in x], [])
+
+
+class SortKeyTests(unittest.TestCase):
+    def test_ids_sort_numerically_within_a_family(self):
+        # String ids sort "106" < "45"; the catalog must order numerically.
+        a, b = brief(id="45"), brief(id="106")
+        self.assertEqual([p["id"] for p in sorted([b, a], key=build.sort_key)],
+                         ["45", "106"])
+
+    def test_family_order_still_wins(self):
+        v = brief(id="106", family="Venture")   # first family in FAMILY_ORDER
+        m = brief(id="45", family="Meta")
+        self.assertEqual([p["id"] for p in sorted([m, v], key=build.sort_key)],
+                         ["106", "45"])
+
+
+class CatalogLintTests(unittest.TestCase):
+    def test_two_briefs_sharing_an_output_fail(self):
+        v = build.lint_catalog([brief(id="14"), brief(id="94")])  # both X.md
+        self.assertTrue(any("X.md" in x and "14" in x and "94" in x
+                            for x in v), v)
+
+    def test_unique_outputs_pass(self):
+        self.assertEqual(build.lint_catalog(
+            [brief(id="14"), brief(id="94", output="Y.md")]), [])
+
+
+class FamilyIconTests(unittest.TestCase):
+    # Root fix for the family icon/chart drift: every family in FAMILY_ORDER
+    # must have a FAM_ICON entry AND a matching <symbol> in template.html,
+    # enforced at build time so a new family can't ship iconless again.
+    def setUp(self):
+        self.tpl = (build.ROOT / "template.html").read_text(encoding="utf-8")
+
+    def test_live_template_covers_every_family(self):
+        self.assertEqual(build.lint_family_icons(self.tpl), [])
+
+    def test_missing_fam_icon_entry_is_reported(self):
+        broken = self.tpl.replace('Trust:"i-trust",', "")
+        v = build.lint_family_icons(broken)
+        self.assertTrue(any("Trust" in x and "FAM_ICON" in x for x in v), v)
+
+    def test_missing_symbol_is_reported(self):
+        broken = self.tpl.replace('<symbol id="i-trust"', '<symbol id="i-trustx"')
+        v = build.lint_family_icons(broken)
+        self.assertTrue(any("i-trust" in x and "symbol" in x for x in v), v)
+
 
 class ParseTests(unittest.TestCase):
     def test_missing_front_matter_exits(self):

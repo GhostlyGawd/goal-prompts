@@ -16,7 +16,7 @@ Every Team brief in the catalog, in order — 13 through 97, one report each.
 3. **15 · Design System Consolidation** — fetch https://goal-prompts.vercel.app/raw/15.md → writes `DESIGN-SYSTEM.md`
 4. **52 · Agent Readiness Audit** — fetch https://goal-prompts.vercel.app/raw/52.md → writes `AGENT-READINESS.md`
 5. **72 · Ownership & Bus Factor** — fetch https://goal-prompts.vercel.app/raw/72.md → writes `OWNERSHIP.md`
-6. **94 · Inner-Loop Speed Audit** — fetch https://goal-prompts.vercel.app/raw/94.md → writes `DX.md`
+6. **94 · Inner-Loop Speed Audit** — fetch https://goal-prompts.vercel.app/raw/94.md → writes `INNERLOOP.md`
 7. **95 · Debuggability Audit** — fetch https://goal-prompts.vercel.app/raw/95.md → writes `DEBUG.md`
 8. **96 · CI Feedback-Loop Audit** — fetch https://goal-prompts.vercel.app/raw/96.md → writes `CIFEEDBACK.md`
 9. **97 · Decision-Record Audit** — fetch https://goal-prompts.vercel.app/raw/97.md → writes `DECISIONS.md`
