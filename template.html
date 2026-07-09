@@ -210,6 +210,10 @@
 
   /* ---------- catalog ---------- */
   #catalog .lead{margin-bottom:0}
+  .ctxwarm{margin-top:18px;padding:12px 15px;border:1px solid var(--line-2);border-left:2px solid var(--good);border-radius:var(--radius);background:color-mix(in srgb,var(--good) 7%,var(--panel));font-size:14px;color:var(--dim);line-height:1.5}
+  .ctxwarm b{color:var(--text);font-weight:600}
+  .ctxwarm-edit{background:none;border:0;color:var(--fc);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0}
+  .ctxwarm-edit:hover{text-decoration:underline}
   .ctx{margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);max-width:760px}
   .ctx summary{cursor:pointer;padding:12px 14px;font-family:var(--mono);font-size:12.5px;color:var(--dim);list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .ctx summary::-webkit-details-marker{display:none}
@@ -537,6 +541,8 @@
   <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">__FAMILY_COUNT__ families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent.</p>
 
+  <div class="ctxwarm" id="ctxwarm" hidden></div>
+
   <div class="starter" id="starter">
     <div class="starter-main">
       <span class="badge">New here? Run this first</span>
@@ -698,6 +704,7 @@
     </nav>
   </div>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
+  <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
 <script>
@@ -728,6 +735,26 @@ function runLabel(id){
   if(!runs[id]) return "mark run";
   const a = ago(runs[id]);
   return a ? "✓ run · " + a : "✓ run";
+}
+function refreshRunBtn(id, runBtn){
+  if(!runBtn) return;
+  runBtn.className = "iconbtn" + (runs[id] ? " on" : "");
+  runBtn.textContent = runLabel(id);
+  runBtn.setAttribute("aria-pressed", !!runs[id]);
+}
+/* record/undo a run — the nudges key off gp-runs, so copying optimistically
+   fuels them (with an easy undo) instead of leaving the engine dark (R1). */
+function markRun(id, runBtn){
+  if(runs[id]) return false;
+  runs[id] = Date.now(); saveRuns();
+  refreshRunBtn(id, runBtn); renderStats(); renderNudge();
+  try{ window.va("event", {name:"mark_run", data:{id:id}}); }catch(e){}
+  return true;
+}
+function unmarkRun(id, runBtn){
+  if(!runs[id]) return;
+  delete runs[id]; saveRuns();
+  refreshRunBtn(id, runBtn); renderStats(); renderNudge();
 }
 
 /* ---- custom conductor sequence ---- */
@@ -793,7 +820,22 @@ function withContext(body){
   if(ctx.notes) L.push("- Watch out for: " + ctx.notes);
   return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
 }
-function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); }
+function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); renderCtxWarm(); }
+/* On a return with saved Operator context, surface it warmly instead of leaving
+   it collapsed in the <details> — the returning user feels the accrued value (R4). */
+function renderCtxWarm(){
+  const el = document.getElementById("ctxwarm");
+  if(!el) return;
+  if(!ctxActive()){ el.hidden = true; el.textContent = ""; return; }
+  el.hidden = false; el.textContent = "";
+  const bits = [ctx.stack, ctx.product, ctx.stage].filter(v => v && String(v).trim());
+  el.append("Welcome back — your briefs are tuned to ");
+  const b = document.createElement("b"); b.textContent = bits.slice(0, 2).join(" · ") || "your repo";
+  el.append(b, ", applied to every brief you copy. ");
+  const edit = document.createElement("button"); edit.className = "ctxwarm-edit"; edit.textContent = "change →";
+  edit.onclick = ()=>{ const box = document.getElementById("ctxbox"); if(box){ box.open = true; box.scrollIntoView({block:"center"}); const f = box.querySelector("input"); if(f) f.focus(); } };
+  el.append(edit);
+}
 
 /* ---- copy ---- */
 function feedback(btn, ok){
@@ -821,7 +863,7 @@ function copyText(txt, btn, ok, evt){
 
 /* ---- post-copy next-step hint: name the paste target + output, tee up step 2 ----
    Built with textContent for the dynamic parts (never innerHTML — see BUGS.md #2). */
-function showCopyHint(host, p){
+function showCopyHint(host, p, opts){
   if(!host) return;
   const old = document.getElementById("copyhint");
   if(old) old.remove();
@@ -834,6 +876,13 @@ function showCopyHint(host, p){
   txt.append(", or run the ");
   const a2 = document.createElement("a"); a2.href = "/p/day1"; a2.textContent = "Day-1 playbook"; txt.append(a2);
   txt.append(" for the full sweep.");
+  if(opts && opts.onUndo){
+    const marked = document.createElement("span");
+    marked.textContent = " · Marked as run — "; marked.style.color = "var(--faint)";
+    const undo = document.createElement("button"); undo.className = "undo"; undo.textContent = "undo";
+    undo.onclick = () => { opts.onUndo(); marked.remove(); undo.remove(); };
+    txt.append(marked, undo);
+  }
   const x = document.createElement("button"); x.className = "x"; x.textContent = "×";
   x.setAttribute("aria-label", "Dismiss this hint"); x.onclick = () => h.remove();
   h.append(txt, x);
@@ -1063,18 +1112,13 @@ function card(p, idx, stepNo){
   run.setAttribute("aria-pressed", !!runs[p.id]);
   run.setAttribute("aria-label","Mark "+p.title+" as run");
   run.onclick = ()=>{
-    if(runs[p.id]) delete runs[p.id]; else runs[p.id] = Date.now();
-    saveRuns(); renderStats();
-    run.className = "iconbtn" + (runs[p.id] ? " on" : "");
-    run.textContent = runLabel(p.id);
-    run.setAttribute("aria-pressed", !!runs[p.id]);
-    renderNudge();
+    if(runs[p.id]) unmarkRun(p.id, run); else markRun(p.id, run);
   };
   btn.onclick = e=>{
     e.stopPropagation();
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
-    showCopyHint(c, p);
-    if(!runs[p.id]) run.textContent = "ran it? mark it";
+    const newlyRun = markRun(p.id, run);
+    showCopyHint(c, p, newlyRun ? {onUndo: ()=>unmarkRun(p.id, run)} : null);
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -1096,24 +1140,29 @@ function card(p, idx, stepNo){
   c.append(top, meta, body);
   return c;
 }
+const _nudgeSeen = {};
 function renderNudge(){
   const old = document.getElementById("nudge");
   if(old) old.remove();
   if(activePb || query || activeFam!=="All") return;
   const n = runCount();
+  const d = document.createElement("div");
+  d.className = "nudge"; d.id = "nudge";
+  let kind = null;
   if(n >= 5 && !runs["28"]){
-    const d = document.createElement("div");
-    d.className = "nudge"; d.id = "nudge";
+    kind = "roadmap";
     d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
-    listEl.prepend(d);
-    return;
-  }
-  if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
-    const d = document.createElement("div");
-    d.className = "nudge"; d.id = "nudge";
+  } else if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
+    kind = "vitals";
     d.innerHTML = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
-    listEl.prepend(d);
-  }
+  } else return;
+  const a = d.querySelector("a");
+  if(a) a.addEventListener("click", ()=>{ try{ window.va("event", {name:"nudge_clicked", data:{kind:kind}}); }catch(e){} });
+  listEl.prepend(d);
+  /* anonymous, like the existing action events — no client id (see RETENTION R5,
+     flagged: attaching a cross-session id is in tension with "nothing leaves
+     your machine"). Deduped per page load so it counts a real impression once. */
+  if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; try{ window.va("event", {name:"nudge_shown", data:{kind:kind}}); }catch(e){} }
 }
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
@@ -1246,6 +1295,75 @@ document.getElementById("reset").onclick = ()=>{
   }
 };
 
+/* ---- export / import local setup — portable backup, no backend (R3) ---- */
+function exportState(){
+  const data = {};
+  for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(k && k.indexOf("gp-")===0) data[k] = localStorage.getItem(k); }
+  const payload = JSON.stringify({app:"goal-prompts", version:1, exported:new Date().toISOString(), state:data}, null, 2);
+  const a = document.createElement("a");
+  a.href = "data:application/json;charset=utf-8," + encodeURIComponent(payload);
+  a.download = "goal-prompts-backup.json";
+  document.body.append(a); a.click(); a.remove();
+}
+function importState(file){
+  const r = new FileReader();
+  r.onload = ()=>{
+    let state;
+    try{ const parsed = JSON.parse(r.result); state = parsed && parsed.state ? parsed.state : parsed; }catch(e){ state = null; }
+    if(!state || typeof state !== "object"){ alert("That doesn't look like a goal-prompts backup file."); return; }
+    let n = 0;
+    for(const k in state){ if(k.indexOf("gp-")===0 && typeof state[k]==="string"){ localStorage.setItem(k, state[k]); n++; } }
+    if(!n){ alert("No goal-prompts settings found in that file."); return; }
+    alert("Restored " + n + " setting" + (n===1?"":"s") + ". Reloading to apply.");
+    location.reload();
+  };
+  r.readAsText(file);
+}
+(function(){
+  const ex = document.getElementById("exportstate"); if(ex) ex.onclick = exportState;
+  const im = document.getElementById("importstate"), imf = document.getElementById("importfile");
+  if(im && imf){ im.onclick = ()=> imf.click(); imf.onchange = ()=>{ if(imf.files && imf.files[0]) importState(imf.files[0]); imf.value = ""; }; }
+})();
+
+/* ---- opt-in weekly Vitals reminder — OFF by default, consented, fully local (R2).
+   Uses the installed PWA's periodic background sync where supported (Chromium);
+   otherwise the existing in-page stale-Vitals nudge covers the return. ---- */
+let remind = {};
+try{ remind = JSON.parse(localStorage.getItem("gp-remind")||"{}")||{}; }catch(e){ remind = {}; }
+function saveRemind(){ try{ localStorage.setItem("gp-remind", JSON.stringify(remind)); }catch(e){} }
+function remindLabel(){ return "🔔 weekly Vitals reminder: " + (remind.on ? "on" : "off"); }
+async function toggleRemind(btn){
+  if(remind.on){
+    remind.on = false; saveRemind(); btn.textContent = remindLabel();
+    try{ const reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("vitals-weekly"); }catch(e){}
+    return;
+  }
+  if(!("Notification" in window)){ alert("This browser can't show notifications, so the reminder can't run."); return; }
+  let perm = Notification.permission;
+  if(perm !== "granted") perm = await Notification.requestPermission();
+  if(perm !== "granted"){ alert("Notifications are blocked for this site, so the reminder can't run. Enable them and try again."); return; }
+  remind.on = true; saveRemind(); btn.textContent = remindLabel();
+  try{ window.va("event", {name:"reminder_opt_in"}); }catch(e){}
+  let bg = false;
+  try{
+    const reg = await navigator.serviceWorker.ready;
+    if(reg.periodicSync){
+      const tags = await reg.periodicSync.getTags();
+      if(!tags.includes("vitals-weekly")) await reg.periodicSync.register("vitals-weekly", {minInterval: 7*DAY});
+      bg = true;
+    }
+  }catch(e){}
+  alert(bg
+    ? "Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."
+    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account.");
+}
+(function(){
+  const rb = document.getElementById("remindtog");
+  if(!rb) return;
+  rb.textContent = remindLabel();
+  rb.onclick = ()=> toggleRemind(rb);
+})();
+
 document.getElementById("seqcopy").onclick = function(){
   if(!seq.length) return;
   copyText(makeConductor("Custom sequence",
@@ -1261,7 +1379,8 @@ document.getElementById("seqclear").onclick = () => { seq = []; saveSeq(); syncS
   const first = byId["01"] || DATA[0];
   b.onclick = ()=>{
     copyText(withContext(first.body), b, "Copied ✓", {name:"copy_prompt", data:{id:first.id, from:"starter"}});
-    showCopyHint(document.getElementById("starter"), first);
+    const newlyRun = markRun(first.id, null);
+    showCopyHint(document.getElementById("starter"), first, newlyRun ? {onUndo: ()=>unmarkRun(first.id, null)} : null);
   };
 })();
 
