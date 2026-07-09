@@ -156,6 +156,10 @@
   .report .rn{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none;width:18px;font-weight:600}
   .report .rt{font-family:var(--disp);font-weight:640;font-size:14.5px;color:var(--text)}
   .report .rd{font-size:12.5px;color:var(--dim);margin-top:2px;line-height:1.4}
+  .reportcap{margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--faint);text-align:center;line-height:1.5}
+  .reportcap a{color:var(--fc)}
+  .val .proofline{margin-top:18px;font-size:14px;color:var(--dim)}
+  .val .proofline a{color:var(--fc);font-family:var(--mono);font-size:13px}
   @media(max-width:820px){.val{grid-template-columns:1fr;gap:26px}}
 
   /* ---------- playbook storefront ---------- */
@@ -275,6 +279,24 @@
   .empty{text-align:center;color:var(--faint);font-family:var(--mono);font-size:13px;padding:56px 0}
   .empty b{color:var(--dim);font-weight:500}
   .empty .nearrow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+
+  /* ---------- newcomer starter + post-copy hint ---------- */
+  .starter{margin:22px 0 4px;display:grid;grid-template-columns:1.6fr 1fr;gap:16px;background:var(--panel);border:1px solid var(--line-2);border-left:2px solid var(--good);border-radius:var(--radius);padding:20px}
+  .starter h3{font-family:var(--disp);font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--text);margin:10px 0 6px}
+  .starter p{font-size:14px;color:var(--dim);line-height:1.5;max-width:56ch}
+  .starter p b{color:var(--text);font-weight:600}
+  .starter .starter-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .starter-proof{align-self:center;display:block;font-family:var(--mono);font-size:13px;color:var(--fc);border-left:1px solid var(--line);padding-left:16px}
+  .starter-proof:hover{color:var(--text)}
+  .starter-proof .pf{display:block;color:var(--faint);font-size:11.5px;margin-top:6px;line-height:1.4}
+  @media(max-width:760px){.starter{grid-template-columns:1fr}.starter-proof{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:14px}}
+  .copyhint{margin-top:12px;padding:11px 13px;border:1px solid var(--good);border-left:2px solid var(--good);border-radius:var(--radius);background:color-mix(in srgb,var(--good) 8%,var(--panel));font-size:13px;color:var(--dim);display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+  .copyhint .txt{flex:1}
+  .copyhint code{color:var(--text);font-family:var(--mono);font-size:12px}
+  .copyhint a{color:var(--fc);font-family:var(--mono);font-size:12.5px}
+  .copyhint .undo{background:none;border:0;color:var(--fc);cursor:pointer;font-family:var(--mono);font-size:12.5px;padding:0;text-decoration:underline}
+  .copyhint .x{background:none;border:0;color:var(--faint);cursor:pointer;font-size:15px;line-height:1;padding:0 2px;flex:none}
+  .copyhint .x:hover{color:var(--text)}
 
   /* ---------- question-led finder ---------- */
   .finder{margin-top:24px}
@@ -457,15 +479,19 @@
         <li><b>Fix sketches included</b> — a two-line plan and an effort estimate per finding.</li>
         <li><b>One clean file per audit</b> — ready for a teammate, the Report Studio, or the Fixer.</li>
       </ul>
+      <p class="proofline">Don’t take our word for it — <a href="/examples/">see the reports it wrote about its own code →</a></p>
     </div>
-    <div class="report" aria-hidden="true">
-      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><span class="fname">BUGS.md</span></div>
-      <div class="doc">
-        <div class="row"><div class="rn">1</div><div><div class="rt">Summary</div><div class="rd">Count by severity, and the single scariest finding.</div></div></div>
-        <div class="row"><div class="rn">2</div><div><div class="rt">Findings</div><div class="rd">Name · severity + confidence · location · trigger · fix sketch · effort.</div></div></div>
-        <div class="row"><div class="rn">3</div><div><div class="rt">Verification plan</div><div class="rd">The fastest way to confirm each worth-verifying item.</div></div></div>
-        <div class="row"><div class="rn">4</div><div><div class="rt">Top 3 to fix first</div><div class="rd">And exactly why they lead the list.</div></div></div>
+    <div>
+      <div class="report" aria-hidden="true">
+        <div class="bar"><div class="dots"><i></i><i></i><i></i></div><span class="fname">BUGS.md</span></div>
+        <div class="doc">
+          <div class="row"><div class="rn">1</div><div><div class="rt">Summary</div><div class="rd">Count by severity, and the single scariest finding.</div></div></div>
+          <div class="row"><div class="rn">2</div><div><div class="rt">Findings</div><div class="rd">Name · severity + confidence · location · trigger · fix sketch · effort.</div></div></div>
+          <div class="row"><div class="rn">3</div><div><div class="rt">Verification plan</div><div class="rd">The fastest way to confirm each worth-verifying item.</div></div></div>
+          <div class="row"><div class="rn">4</div><div><div class="rt">Top 3 to fix first</div><div class="rd">And exactly why they lead the list.</div></div></div>
+        </div>
       </div>
+      <p class="reportcap">The <em>shape</em> of every report — see a real one it wrote: <a href="/BUGS.md">BUGS.md →</a></p>
     </div>
   </div>
 </div></section>
@@ -476,6 +502,20 @@
   <div class="kicker" style="--fc:#4D9FFF">The catalog</div>
   <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">__FAMILY_COUNT__ families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent.</p>
+
+  <div class="starter" id="starter">
+    <div class="starter-main">
+      <span class="badge">New here? Run this first</span>
+      <h3>Your first audit, in two minutes</h3>
+      <p>Copy one broadly-useful brief — <b>01 · Bug Hunt</b> — paste it into your agent inside any repo, and it writes <code>BUGS.md</code> with real, cited findings. Want the guided sweep instead? Run the Day-1 playbook.</p>
+      <div class="starter-cta">
+        <button class="btn btn-primary" id="startercopy" type="button">Copy your first brief</button>
+        <a class="btn btn-ghost" href="/p/day1">Or run the Day-1 playbook →</a>
+      </div>
+    </div>
+    <a class="starter-proof" href="/examples/">See a real report this wrote →<span class="pf">BUGS.md — 5 findings, every one citing file &amp; line</span></a>
+  </div>
+
   <div class="finder" id="finder"></div>
   <div class="finder-refine">or search &amp; filter every brief ↓</div>
 
@@ -722,6 +762,28 @@ function copyText(txt, btn, ok, evt){
   }
 }
 
+/* ---- post-copy next-step hint: name the paste target + output, tee up step 2 ----
+   Built with textContent for the dynamic parts (never innerHTML — see BUGS.md #2). */
+function showCopyHint(host, p){
+  if(!host) return;
+  const old = document.getElementById("copyhint");
+  if(old) old.remove();
+  const h = document.createElement("div"); h.className = "copyhint"; h.id = "copyhint";
+  const txt = document.createElement("div"); txt.className = "txt";
+  txt.append("Paste into Claude Code or Cursor inside your repo — it'll write ");
+  const code = document.createElement("code"); code.textContent = p.output; txt.append(code);
+  txt.append(" at the root. Next: drop that report into the ");
+  const a1 = document.createElement("a"); a1.href = "/studio"; a1.textContent = "Report Studio"; txt.append(a1);
+  txt.append(", or run the ");
+  const a2 = document.createElement("a"); a2.href = "/p/day1"; a2.textContent = "Day-1 playbook"; txt.append(a2);
+  txt.append(" for the full sweep.");
+  const x = document.createElement("button"); x.className = "x"; x.textContent = "×";
+  x.setAttribute("aria-label", "Dismiss this hint"); x.onclick = () => h.remove();
+  h.append(txt, x);
+  host.append(h);
+  return h;
+}
+
 /* ---- featured playbook storefront ---- */
 const _famColor = {};
 function famColor(fam){                       /* read the .f-* --fc; one source of truth */
@@ -954,6 +1016,7 @@ function card(p, idx, stepNo){
   btn.onclick = e=>{
     e.stopPropagation();
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
+    showCopyHint(c, p);
     if(!runs[p.id]) run.textContent = "ran it? mark it";
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
@@ -1133,6 +1196,17 @@ document.getElementById("seqcopy").onclick = function(){
     seq.slice()), this, "✓ copied", {name:"copy_custom_conductor", data:{n:seq.length}});
 };
 document.getElementById("seqclear").onclick = () => { seq = []; saveSeq(); syncSeqUi(); };
+
+/* ---- newcomer starter: copy the first brief, then show the next-step hint ---- */
+(function(){
+  const b = document.getElementById("startercopy");
+  if(!b) return;
+  const first = byId["01"] || DATA[0];
+  b.onclick = ()=>{
+    copyText(withContext(first.body), b, "Copied ✓", {name:"copy_prompt", data:{id:first.id, from:"starter"}});
+    showCopyHint(document.getElementById("starter"), first);
+  };
+})();
 
 renderFeatured();
 renderStats();
