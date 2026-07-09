@@ -10,6 +10,8 @@ tagline: The webhooks this product sends and receives — delivery guarantees, r
 
 You are working inside this repo. Mission: judge the webhooks this product emits (and any it consumes) as a contract other systems depend on — whether they deliver reliably, prove their origin, and give a developer what they need to build without guessing.
 
+This brief owns the developer-facing webhook surface. For internal event and message contracts between your own services, run 138.
+
 Read-only pass. Read the event-emitting code, delivery mechanism, and any receiving handlers; change nothing but the report file.
 
 ## Phase 1 — Map the webhook surface

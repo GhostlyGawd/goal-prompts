@@ -238,14 +238,14 @@
    "title": "Test-Pyramid Balance"
   },
   {
-   "chars": 2564,
+   "chars": 2586,
    "family": "Speed",
    "id": "04",
    "output": "PERF.md",
    "question": "does it scale?",
    "raw": "https://goal-prompts.vercel.app/raw/04.md",
    "slug": "performance-audit",
-   "tagline": "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls, missing caches — ranked by what the user actually feels on common paths.",
+   "tagline": "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths.",
    "title": "Performance Audit"
   },
   {
@@ -323,7 +323,7 @@
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/07.md",
    "slug": "dependency-health",
-   "tagline": "Vulnerable, abandoned, oversized, or duplicated packages — with a safe upgrade order and removal candidates.",
+   "tagline": "Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named.",
    "title": "Dependency Health Check"
   },
   {
@@ -695,7 +695,7 @@
    "title": "Decision-Record Audit"
   },
   {
-   "chars": 2621,
+   "chars": 2753,
    "family": "API",
    "id": "111",
    "output": "WEBHOOKS.md",
@@ -1077,7 +1077,7 @@
    "title": "Metric Definition Consistency"
   },
   {
-   "chars": 3337,
+   "chars": 3478,
    "family": "Data",
    "id": "138",
    "output": "EVENTS.md",
@@ -1286,7 +1286,7 @@
    "title": "Recurring Health Check"
   },
   {
-   "chars": 3958,
+   "chars": 3964,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
