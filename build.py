@@ -1293,10 +1293,11 @@ def main() -> None:
     import hashlib as _hl
     ver_src = b"".join((ROOT / f).read_bytes() for f in
                        ("index.html", "studio.html", "vitals.html", "tokens.css",
+                        "js/catalog-core.js",
                         "icons/icon-192.png", "icons/icon-512.png"))
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
-                "/tokens.css",
+                "/tokens.css", "/js/catalog-core.js",
                 "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2",
                 "/fonts/plexmono-latin-600.woff2",
                 "/icons/icon-192.png", "/icons/icon-512.png"]

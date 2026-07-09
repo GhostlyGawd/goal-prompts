@@ -26,9 +26,10 @@ function top3(msg) {
 
 // ---- conductor parity guard -------------------------------------------------
 // The conductor text lives in three places: build.py's template (raw/ +
-// catalog.json), server.cjs's make_conductor, and template.html's client-side
-// makeConductor(). These canonical sentences must appear verbatim in all
-// three, so the copies can't drift silently. Each must stay on one source line.
+// catalog.json), server.cjs's make_conductor, and js/catalog-core.js's
+// client-side makeConductor(). These canonical sentences must appear verbatim
+// in all three, so the copies can't drift silently. Each must stay on one
+// source line.
 const CANONICAL = [
   "If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.",
   "If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.",
@@ -36,7 +37,7 @@ const CANONICAL = [
   "If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.",
   "A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.",
 ];
-["build.py", "mcp/server.cjs", "template.html"].forEach(function (f) {
+["build.py", "mcp/server.cjs", "js/catalog-core.js"].forEach(function (f) {
   const src = fs.readFileSync(path.join(ROOT, f), "utf8");
   CANONICAL.forEach(function (s, i) {
     check("conductor parity: sentence " + (i + 1) + " in " + f, src.indexOf(s) !== -1);

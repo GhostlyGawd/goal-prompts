@@ -731,10 +731,12 @@
   <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
+<script src="/js/catalog-core.js"></script>
 <script>
 const DATA = __PROMPTS_JSON__;
 const FAMILIES = __FAMILIES_JSON__; /* [name, question] pairs, injected by build.py from the briefs' own front matter */
 const PLAYBOOKS = __PLAYBOOKS_JSON__;
+const CC = window.GPCatalogCore; /* pure logic lives in /js/catalog-core.js (Node-tested) */
 const fkey = f => "f-" + f.toLowerCase();
 const byId = {};
 DATA.forEach(p => byId[p.id] = p);
@@ -772,30 +774,7 @@ function toggleSeq(id){
   saveSeq(); syncSeqUi();
 }
 function makeConductor(name, desc, ids){
-  const stages = ids.map((id, i) => {
-    const p = byId[id];
-    return (i+1) + ". **" + id + " · " + p.title + "** — fetch " + RAW_BASE + "/raw/" + id + ".md" +
-           " → writes `" + p.output + "`";
-  });
-  const plural = ids.length > 1 ? "briefs" : "brief";
-  return "# Playbook: " + name + " (conductor)\n\n" +
-"You are working inside this repo. Mission: execute the **" + name + "** playbook — " + ids.length + " audit " + plural + " in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).\n\n" +
-desc + "\n\n" +
-"## How to run each stage, in order\n" +
-"1. Fetch the brief with a read-only web request (for example: curl -s <url>).\n" +
-"2. If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.\n" +
-"3. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.\n" +
-"4. Confirm the report file exists (at the repo root or in `reports/`) before moving on.\n" +
-"5. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.\n\n" +
-"## Stages\n" + stages.join("\n") + "\n\n" +
-"## After the final stage\n" +
-"- List every report created, with a one-line takeaway each.\n" +
-"- Suggest the natural next step: fetch " + RAW_BASE + "/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.\n\n" +
-"## Rules\n" +
-"- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.\n" +
-"- Honor each brief's own rules, including ending by asking before any changes.\n" +
-"- If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.\n" +
-"- A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.\n";
+  return CC.makeConductor(name, desc, ids, byId, RAW_BASE);
 }
 function syncSeqUi(){
   for(const id in seqBtns){
@@ -1016,62 +995,13 @@ function buildPbs(){
 }
 
 /* ---- closest matches — same scoring as the MCP server's suggest_briefs ---- */
-function stemWord(w){
-  if(w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
-  if(w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
-  if(w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
-  return w;
-}
-const hay = {};
-DATA.forEach(p => hay[p.id] = {
-  title: p.title.toLowerCase(),
-  fam: (p.family + " " + p.question).toLowerCase(),
-  tag: p.tagline.toLowerCase(),
-  body: p.body.toLowerCase()
-});
-const dfCache = {};
-function rarity(w){
-  if(dfCache[w] !== undefined) return dfCache[w];
-  let df = 0;
-  for(const p of DATA){
-    const h = hay[p.id];
-    if(h.title.includes(w) || h.fam.includes(w) || h.tag.includes(w) || h.body.includes(w)) df++;
-  }
-  dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
-  return dfCache[w];
-}
-function closest(q, n){
-  const words = q.toLowerCase().split(/[^a-z0-9]+/)
-    .filter(w => w.length > 2).map(stemWord)
-    .filter((w, i, a) => a.indexOf(w) === i);
-  if(!words.length) return [];
-  return DATA.map(p => {
-    const h = hay[p.id];
-    let s = 0;
-    for(const w of words){
-      let m = 0;
-      if(h.title.includes(w)) m += 4;
-      if(h.fam.includes(w)) m += 3;
-      if(h.tag.includes(w)) m += 2;
-      if(h.body.includes(w)) m += 1;
-      s += m * rarity(w);
-    }
-    return {p, s};
-  }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, n).map(x => x.p);
-}
+function closest(q, n){ return CC.closest(DATA, q, n); }
 
 /* ---- render ---- */
 const listEl = document.getElementById("list");
 let zeroT;
 function matches(p){
-  if(activePb){
-    const pb = PLAYBOOKS.find(x=>x.key===activePb);
-    if(!pb.ids.includes(p.id)) return false;
-  }
-  if(activeFam!=="All" && p.family!==activeFam) return false;
-  if(!query) return true;
-  const h = (p.id+" "+p.title+" "+p.tagline+" "+p.family+" "+p.output+" "+p.body).toLowerCase();
-  return query.split(/\s+/).every(t=>h.includes(t));
+  return CC.matches(p, {family:activeFam, playbook:activePb, query:query}, PLAYBOOKS);
 }
 function lensCount(p){
   const m = p.body.match(/## Phase 2[\s\S]*?(?=## Phase 3|$)/);

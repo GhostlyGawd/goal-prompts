@@ -14,7 +14,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 step=0
-say() { step=$((step + 1)); printf '\n== %s/6  %s ==\n' "$step" "$1"; }
+say() { step=$((step + 1)); printf '\n== %s/7  %s ==\n' "$step" "$1"; }
 
 say "build (lints all briefs, regenerates every surface)"
 # Capture rather than `| tail -1`: a pipe masks build.py's exit code, so a
@@ -60,11 +60,15 @@ for (const file of ["index.html", "studio.html", "vitals.html"]) {
 }
 EOF
 
+  say "catalog core (js/catalog-core.js syntax + unit tests)"
+  node --check js/catalog-core.js
+  node tests/catalog_core.test.cjs
+
   say "mcp smoke (spawns the real server)"
   node scripts/mcp-smoke.cjs
 else
-  step=6
-  printf '\n== 4-6/6  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
+  step=7
+  printf '\n== 4-7/7  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
 fi
 
 printf '\nALL CHECKS PASSED\n'
