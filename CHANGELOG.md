@@ -1,6 +1,46 @@
 # Changelog
 
-## Unreleased
+## 0.12.0 — 2026-07-09
+- End-to-end remediation pass across every layer, driven by a full review:
+  - **Linter & contract guards:** numeric id ordering; new build-failing rules
+    for duplicate/reserved output filenames, id/filename drift, id format,
+    `example:` targets, `related:` ids, tagline quoting, and family icon
+    coverage. Brief contract hardened repo-wide: dated re-run-aware Phase 4,
+    an optional `reports/` directory for clean roots, and a null-report escape
+    for briefs whose subject can be absent — all linted, permanently.
+  - **Brief content:** 46 Audit Triage routes all 21 families; disambiguation
+    pointers across every confusion cluster (07↔85, 05↔123, 08↔86, …); the six
+    weakest briefs rewritten to the house standard; `example:` links to the
+    real dogfood reports; six new audits — 135 CLI Tool UX, 136 Library API
+    Design, 137 Infra-as-Code, 138 Event Contracts, 139 Data Pipeline Quality,
+    140 Caching Strategy. **141 briefs.**
+  - **MCP & conductors:** id normalization (`get_brief("6")` works), honest
+    error ranges, a `list_playbooks` tool, the MCP **prompts** capability
+    (every brief in your client's prompt picker as `goal-<slug>`), stemmer and
+    word-boundary matching fixes, and conductor stage-isolation + fetch-fallback
+    + reports/ awareness — kept identical across build.py, server.cjs, and the
+    site by a parity guard in the smoke test.
+  - **Distribution:** a Claude Code plugin as the primary install
+    (`/plugin marketplace add GhostlyGawd/goal-prompts` → real `/goal:bug-hunt`
+    names), generated from the briefs at build time; the curl installer gains a
+    checksum fallback chain, stale-file removal, a `.version` stamp, and a
+    hermetic test; CI workflow activated with an airtight rebuild-drift check;
+    a ready-to-copy scheduled run-brief workflow; usage-metrics design doc.
+  - **Landing page:** ranked live search, a 3-question picker, per-repo
+    recommendations from a public GitHub repo, honest dogfood evidence tiles
+    replacing paraphrased quotes, toolbar diet, Audit Triage callout, lazy
+    quick-views and client-composed conductors (smaller page), and an
+    a11y/mobile batch.
+  - **Studio, theme, detail pages:** the report parser extracted to
+    `js/report-parser.js` and made truthful under test — ###-titled findings
+    parse, severity/fixed read only from label positions, code fences are
+    inert, unrecognized blocks are counted and disclosed; bulk severity chips,
+    post-copy guidance, and share-selection permalinks; an OS-light default
+    theme with family accents darkened to ≥3:1 in light mode; detail pages get
+    saved-context copies, `related:` cross-links, and per-step playbook copy.
+  - **Tests:** the Python linter suite grew 25 → 65 tests, plus three Node
+    suites (catalog core, report parser, MCP smoke + parity) and the hermetic
+    installer test — all wired into `scripts/check` and CI.
 - Open-items backlog pass — accessibility, activation, and anti-staleness fixes
   drawn from the self-audit report gallery:
   - **Accessibility:** keyboard focus rings restored on every text input; the

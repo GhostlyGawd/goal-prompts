@@ -21,6 +21,31 @@ Brief-writing bar: every lens must be checkable against a real repo, every
 report section must have a defined shape, and the brief must end by asking
 before changing anything. Generic advice that fits any codebase gets cut.
 
+## The brief contract (linted)
+
+`build.py` fails the build unless every brief carries these, so write them
+in from the start:
+
+- **id format**: front-matter `id` is 2–3 digits (`"07"`, `"140"`) and must
+  match the filename prefix (`prompts/<family>/07-….md`).
+- **unique, non-reserved output**: no two briefs may write the same report
+  file, and `output:` may not shadow a community file (`README.md`,
+  `SECURITY.md`, `CHANGELOG.md`, …).
+- **dated re-run line**: Phase 4 tells the agent to date the report and, if
+  it *already exists* from a previous run, to read it first and lead with
+  what changed.
+- **reports/ bullet**: Rules include "If a `reports/` directory exists at
+  the repo root, write the report there instead of the root."
+- **null report**: unless the brief's subject is universal (the exemption
+  list lives in `build.py`), Rules name its surface and allow a
+  one-paragraph null report when the repo simply doesn't have one.
+
+## Optional `related:` front matter
+
+A brief may list ids that pair well with it (`related: 46 28`); they
+render as cross-links on its `/b/<id>` page. Every id must exist and differ
+from the brief's own — linted.
+
 ## Report format
 
 The reports briefs produce are consumed by machines as well as humans —
