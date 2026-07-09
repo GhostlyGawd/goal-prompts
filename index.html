@@ -352,6 +352,18 @@
   .proofcard p{font-size:14px;color:var(--dim);line-height:1.5}
   .proofcard a{color:var(--fc);font-family:var(--mono);font-size:13px;display:inline-block;margin-top:10px}
   @media(max-width:700px){.proof{grid-template-columns:1fr}}
+  .beforeafter{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin-top:14px}
+  .ba-col{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-width:0}
+  .ba-before{border-left:3px solid var(--sev)}
+  .ba-after{border-left:3px solid var(--good)}
+  .ba-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
+  .ba-lab .ba-file{color:var(--dim)}
+  .ba-body{font-size:13.5px;color:var(--dim);line-height:1.5}
+  .ba-body code{font-family:var(--mono);font-size:.9em;color:var(--text)}
+  .ba-sev{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:#141518;background:var(--sev);border-radius:5px;padding:1px 6px;margin-right:4px}
+  .ba-loc{display:block;margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .ba-arrow{display:flex;align-items:center;color:var(--good);font-family:var(--mono);font-size:20px}
+  @media(max-width:640px){.beforeafter{grid-template-columns:1fr}.ba-arrow{transform:rotate(90deg);justify-content:center}}
 
   footer.foot{padding:44px 0 66px;color:var(--dim)}
   .foot .fedge{height:3px;background:var(--rainbow);border-radius:3px;max-width:220px;margin-bottom:30px}
@@ -605,6 +617,18 @@
       <h4>Act on what you find</h4>
       <p>Audits leave reports; the Report Studio turns them into a checklist and one tap builds a targeted Fixer prompt. Everything runs in your browser — no upload, no backend.</p>
       <a href="/studio">Open the Report Studio →</a>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:26px;font-size:14px">One finding, start to finish:</p>
+  <div class="beforeafter">
+    <div class="ba-col ba-before">
+      <div class="ba-lab">the finding <span class="ba-file">BUGS.md</span></div>
+      <div class="ba-body"><span class="ba-sev">S2</span>Self-XSS in the empty state — a zero-result search query flowed into <code>innerHTML</code>.<span class="ba-loc">template.html · render() empty branch</span></div>
+    </div>
+    <div class="ba-arrow" aria-hidden="true">→</div>
+    <div class="ba-col ba-after">
+      <div class="ba-lab">the commit <span class="ba-file">FIXLOG.md</span></div>
+      <div class="ba-body">Rebuilt the empty state with <code>textContent</code> and adopted the rule <b>user input never meets <code>innerHTML</code></b>. Verified: <code>scripts/check</code> green.</div>
     </div>
   </div>
 </div></section>
