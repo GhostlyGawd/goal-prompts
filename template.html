@@ -342,6 +342,9 @@
   .cmd .iconbtn{flex:none}
   .way .more{display:block;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--dim)}
   .way .more:hover{color:var(--text)}
+  .way .reassure{margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.55}
+  .way .reassure a{color:var(--fc)}
+  .way .reassure .ok{color:var(--good);font-weight:700}
   @media(max-width:820px){.ways{grid-template-columns:1fr}}
 
   /* ---------- proof / footer ---------- */
@@ -438,10 +441,10 @@
 <section class="blk"><div class="wrap">
   <div class="kicker" style="--fc:#E8705F">The problem</div>
   <h2 class="h2">AI coding agents are powerful — and maddeningly inconsistent.</h2>
-  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time. Developers say it out loud:</p>
+  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time. Paraphrasing what developers keep running into:</p>
   <div class="quotes">
-    <div class="quote"><p class="q">About 50% of the time, the result is so messy that cleaning it up takes more time than just writing it.</p><div class="who">— a developer, Hacker News</div></div>
-    <div class="quote"><p class="q">Is it possible to develop an intuition where it does a decent job… or is the result always random?</p><div class="who">— a developer, Hacker News</div></div>
+    <div class="quote"><p class="q">About half the time, the result is so messy that cleaning it up takes longer than just writing it.</p><div class="who">— the reliability complaint, paraphrased</div></div>
+    <div class="quote"><p class="q">Can you build an intuition for when it does a decent job — or is the result always random?</p><div class="who">— the consistency question, paraphrased</div></div>
     <div class="quote"><p class="q">I keep a running doc of prompts that work well and bad habits to avoid.</p><div class="who">— the workaround everyone rebuilds by hand</div></div>
   </div>
   <p class="turn">The fix isn’t a bigger model — it’s <b>structure</b>. A brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind. That’s the whole idea here: a catalog of them, battle-tested, so you never write one from scratch again.</p>
@@ -564,8 +567,9 @@
       <a class="btn btn-primary" href="https://github.com/GhostlyGawd/goal-prompts/discussions/new?category=ideas&amp;title=Partner%20or%20sponsor%20a%20playbook" style="margin-top:16px">Partner with us / sponsor a playbook →</a>
     </div>
     <div class="side">
-      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts</div>
-      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">See how a co-branded playbook looks and reads, end to end.</p>
+      <span class="badge soft">Example · not a real partnership</span>
+      <div class="co" style="margin-top:12px"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts</div>
+      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">A mock lockup showing how a co-branded playbook looks and reads, end to end — “Partner Tool” is a placeholder, not a real collaborator.</p>
       <a href="/p/codereview-collab">View the collab template →</a>
     </div>
   </div>
@@ -598,6 +602,7 @@
       <h4>As slash commands</h4>
       <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
       <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p class="reassure"><span class="ok">✓</span> SHA-256 verified before install — <a href="/install">read the script first</a> · <a href="/checksums.txt">checksums.txt</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
@@ -605,6 +610,7 @@
       <h4>Call it from an agent</h4>
       <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
+      <p class="reassure">Runs from source on GitHub — <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/mcp/server.cjs">inspect the server</a></p>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
   </div>
