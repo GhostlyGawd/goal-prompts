@@ -295,7 +295,9 @@
   .seqbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:color-mix(in srgb,var(--ink) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
   .seqbar-in{display:flex;align-items:center;gap:10px;padding-top:11px;padding-bottom:max(11px,env(safe-area-inset-bottom))}
   .seqbar .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);flex:none}
+  .seqbar .seqhint{font-family:var(--sans);font-size:11.5px;color:var(--faint);flex:none}
   .seqbar .ord{font-family:var(--mono);font-size:12px;color:var(--text);flex:1;min-width:0;overflow-x:auto;white-space:nowrap}
+  @media(max-width:720px){.seqbar .seqhint{display:none}}
   .seqcopy{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:8px;padding:9px 12px;min-height:36px;cursor:pointer;transition:transform .1s,filter .15s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
   .seqcopy:hover{filter:brightness(1.12)}.seqcopy:active{transform:scale(.96)}
   .seqcopy.done{background:var(--good)}
@@ -381,11 +383,11 @@
 <section class="hero"><div class="wrap hero-in">
   <div class="hero-top">
     <div>
-      <div class="eyebrow">An open reference for code audits</div>
+      <div class="eyebrow">Free, open catalog of copy-paste audit prompts</div>
       <h1 class="title">Turn your coding agent into a <span class="hl">senior code auditor</span>.</h1>
     </div>
     <div>
-      <p class="sub">Point it at your repo. Every brief runs the same four-phase audit and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
+      <p class="sub">Copy a <b>brief</b> — a ready-made prompt — into Claude Code, Cursor, or any agent. It runs the same four-phase audit on your repo and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -520,6 +522,7 @@
 <div class="seqbar" id="seqbar" hidden>
   <div class="wrap seqbar-in">
     <span class="lab">conductor</span>
+    <span class="seqhint">one prompt that runs these briefs in order</span>
     <span class="ord" id="seqorder"></span>
     <button class="seqcopy" id="seqcopy">copy conductor</button>
     <button class="iconbtn" id="seqclear" aria-label="Clear the custom sequence">clear</button>
@@ -547,7 +550,7 @@
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
