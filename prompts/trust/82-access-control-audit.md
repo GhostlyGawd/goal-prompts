@@ -39,7 +39,11 @@ Create `ACCESS.md` at repo root:
 3. **Deny-by-default gaps** — resources that should be closed until explicitly opened
 4. **Proof cases** — the request each fix should now reject, ready to turn into a test
 
+Start the report with today's date. If `ACCESS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Identity is not permission; every sensitive path needs both
 - Enforce on the server; the client is a convenience, not a control
+- No authentication or authorization in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which authorization gaps to close first

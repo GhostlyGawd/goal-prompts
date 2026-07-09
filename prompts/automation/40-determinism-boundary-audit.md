@@ -36,7 +36,11 @@ Create `BOUNDARIES.md` at repo root:
 4. **Keep list** — judgment that has earned its tokens
 5. **The boundary principle** — one paragraph stating this codebase's rule
 
+Start the report with today's date. If `BOUNDARIES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Determinism is a feature: never spend variance where exactness is required
 - Judgment is a feature too: never fake it with a thousand rules
+- No automation mixing deterministic and model-driven steps in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which migrations to make

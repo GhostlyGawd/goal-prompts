@@ -4,11 +4,14 @@ title: PII & Retention Map
 family: Data
 question: is it sound?
 output: PRIVACY.md
+related: 126
 tagline: Trace where personal data enters, spreads, and lingers — then run the delete-request test: could you honor one today?
 ---
 # Goal: PII & Retention Map
 
 You are working inside this repo. Mission: trace where personal data enters this system, everywhere it spreads, how long it lingers — then run the delete-request test: could this product fully honor a deletion request today?
+
+This maps the engineering reality of where PII lives. For operational readiness to honor legal rights requests — export, correction, proof — run 126.
 
 Read-only pass. Your only write is the report file.
 
@@ -36,7 +39,11 @@ Create `PRIVACY.md` at repo root:
 4. **Minimization steps** — stop-collecting and mask-at-entry changes
 5. **Fix sequence** — quick scrubs first, deletion plumbing second
 
+Start the report with today's date. If `PRIVACY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Backups, logs, and third parties count — a copy is a copy
 - Collecting less beats protecting more
+- No PII in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

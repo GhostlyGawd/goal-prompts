@@ -24,6 +24,9 @@
 <link rel="stylesheet" href="/tokens.css">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
+  /* an author display (grid/flex on .pastebox etc.) would beat the UA's
+     [hidden] rule and show "hidden" panels — pin it once for the page */
+  [hidden]{display:none!important}
   body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
   .wrap{max-width:var(--w-read);margin:0 auto;padding:0 var(--gutter)}
   a{color:var(--amber)}
@@ -42,6 +45,7 @@
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .topnav .themetog .moon{display:none}
   :root[data-theme="light"] .topnav .themetog .moon{display:block}:root[data-theme="light"] .topnav .themetog .sun{display:none}
+  @media (prefers-color-scheme:light){:root:not([data-theme]) .topnav .themetog .moon{display:block}:root:not([data-theme]) .topnav .themetog .sun{display:none}}
   .topnav .cta:hover{filter:brightness(1.08)}
   @media(max-width:640px){.topnav .lk{display:none}}
   header{padding:34px 0 8px}
@@ -49,7 +53,7 @@
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
   .eyebrow b{color:var(--text);font-weight:500}
-  h1{font-family:var(--disp);font-weight:720;font-size:clamp(42px,8.4vw,66px);line-height:.98;letter-spacing:-.03em;text-transform:uppercase;margin:14px 0 16px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 16px}
   h1 .tick{color:var(--act)}
   .sub{color:var(--dim);max-width:58ch;font-size:15px}
   .sub a{color:var(--amber);text-decoration:none}
@@ -62,7 +66,7 @@
     background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;
     transition:border-color .15s,background .15s;
   }
-  .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,#E84C3D 6%,var(--panel))}
+  .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,var(--act) 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .drop-big{font-family:var(--disp);font-weight:700;font-size:17px}
   .drop-big b{color:var(--act);font-family:var(--mono);font-weight:600}
@@ -108,11 +112,12 @@
   .rephead .q{color:var(--faint);letter-spacing:.02em;font-family:var(--sans);font-size:12px;font-style:italic}
   .rephead .rule{flex:1;height:1px;background:var(--line)}
   .sechead{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+  .unrec{font-family:var(--mono);font-size:11px;color:var(--faint);margin:2px 0 8px}
   .find{
     background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--act);
     border-radius:var(--radius);padding:11px 12px;margin-bottom:8px;
   }
-  .find.checked{border-color:color-mix(in srgb,#E84C3D 55%,var(--line));background:color-mix(in srgb,#E84C3D 5%,var(--panel))}
+  .find.checked{border-color:color-mix(in srgb,var(--act) 55%,var(--line));background:color-mix(in srgb,var(--act) 5%,var(--panel))}
   .find-top{display:flex;align-items:flex-start;gap:10px}
   .find input[type=checkbox]{
     appearance:none;flex:none;width:19px;height:19px;margin-top:2px;cursor:pointer;
@@ -124,14 +129,14 @@
   .find input[type=checkbox]:checked::before{transform:scale(1)}
   .ft{flex:1;min-width:0}
   .ftitle{font-size:14px;font-weight:600;line-height:1.35;cursor:pointer;overflow-wrap:break-word}
-  .ftitle:hover{color:#fff}
+  .ftitle:hover{color:var(--amber)}
   .fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
   .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
-  .c-s1{color:#FF6B5C;border-color:#FF6B5C}
-  .c-s2{color:#F0904A;border-color:#F0904A}
-  .c-s3{color:#E8B44C;border-color:#E8B44C}
-  .c-low{color:#8B96A5;border-color:#3A4452}
-  .c-fixed{color:#52C280;border-color:#52C280}
+  .c-s1{color:var(--danger);border-color:var(--danger)}
+  .c-s2{color:var(--warning);border-color:var(--warning)}
+  .c-s3{color:var(--amber);border-color:var(--amber)}
+  .c-low{color:var(--faint);border-color:var(--line-2)}
+  .c-fixed{color:var(--success);border-color:var(--success)}
   .c-eff,.c-tag{color:var(--dim)}
   .view{
     background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);
@@ -143,7 +148,7 @@
   .fbody{display:none;margin-top:10px}
   .find.open .fbody{display:block}
   .fbody pre{
-    font-family:var(--mono);font-size:12px;line-height:1.6;color:#C7CEDA;background:var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--body);background:var(--ink);
     border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;
     white-space:pre-wrap;word-break:break-word;max-height:40vh;overflow-y:auto;
   }
@@ -166,8 +171,13 @@
   .fixbtn:hover{filter:brightness(1.1)}
   .fixbtn:active{transform:scale(.96)}
   .fixbtn:disabled{opacity:.45;cursor:not-allowed}
-  .fixbtn.done{background:var(--text)}
+  .fixbtn.done{background:var(--text);color:var(--ink)}
   body.hasbar main{padding-bottom:100px}
+  /* post-copy hint — same pattern as the landing page's copyhint toast */
+  .copyhint{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text)}
+  .copyhint code{font-family:var(--mono);color:var(--amber)}
+  .copyhint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+  .copyhint .x:hover{color:var(--text)}
 
   footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
@@ -200,8 +210,8 @@
 
 <header class="wrap">
   <div class="eyebrow"><a href="/">← goal prompts</a> · <b>act on it</b></div>
-  <h1>Report<br>Studio<span class="tick">.</span></h1>
-  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
+  <h1>Report Studio<span class="tick">.</span></h1>
+  <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY-AUDIT.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
 </header>
 
 <main class="wrap">
@@ -228,13 +238,16 @@
   </div>
   <div class="note" id="note" hidden></div>
   <div class="repchips" id="repchips"></div>
+  <div class="altrow" id="bulkrow" hidden></div>
   <div id="findings" aria-live="polite"></div>
   <div class="empty" id="empty">nothing loaded yet — findings will appear here, grouped by report and section</div>
 </main>
 
 <div class="selbar" id="selbar" hidden>
+  <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
   <div class="wrap selbar-in">
     <span class="selcount" id="selcount"></span>
+    <button class="iconbtn" id="sharesel" hidden>copy link to selection</button>
     <button class="fixbtn" id="fixbtn">Copy Fixer prompt</button>
     <button class="iconbtn" id="unsel">clear selection</button>
   </div>
@@ -246,6 +259,7 @@
   </div>
 </footer>
 
+<script src="/js/report-parser.js"></script>
 <script>
 "use strict";
 const RAW_BASE = /^https?:/.test(location.origin) ? location.origin : "https://goal-prompts.vercel.app";
@@ -255,62 +269,16 @@ function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return
 function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 let reports = load("gp-studio-reports", []);   // [{name, text}]
 let checks  = load("gp-studio-checks", {});    // {findingKey: 1}
-let parsed  = [];                              // [{name, findings:[…]}]
+let parsed  = [];                              // [{name, findings:[…], skipped}]
+/* share-selection permalink: #sel=<key,key,…> checks those findings on load */
+let pendingSel = new Set();
+try{
+  const selm = location.hash.match(/[#&]sel=([a-z0-9,]+)/i);
+  if(selm) pendingSel = new Set(selm[1].split(",").filter(Boolean));
+}catch(e){}
 
-/* ---------- parsing ---------- */
-function hash(s){ let h = 5381; for(let i = 0; i < s.length; i++){ h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; } return h.toString(36); }
-function firstWords(t){
-  const clean = t.replace(/[*_`>#]/g, "").replace(/\s+/g, " ").trim();
-  return clean.length > 88 ? clean.slice(0, 85).trimEnd() + "…" : clean;
-}
-function mkFinding(report, section, rawTitle, text){
-  const title = firstWords(rawTitle.replace(/^\d+\.\s*/, ""));
-  const sev =
-    /\bS1\b|\bcritical\b/i.test(text) ? "S1" :
-    /\bS2\b|\bhigh\b/i.test(text)     ? "S2" :
-    /\bS3\b|\bmedium\b/i.test(text)   ? "S3" :
-    /\blow\b/i.test(text)             ? "Low" : null;
-  const fixed = /\bFIXED\b|\bshipped\b/i.test(text);
-  const em = text.match(/effort\s*[:·—-]?\s*([SML])\b/i);
-  const im = text.match(/impact\s*[:·—-]?\s*([LMH])\b/i);
-  const tag = (rawTitle.match(/^(NEW|FIX|IMPROVE)\b/) || [])[1] || null;
-  const key = "f" + hash(report + "|" + title + "|" + text.slice(0, 120));
-  return { key: key, report: report, section: section, title: title, text: text,
-           sev: sev, fixed: fixed, effort: em ? em[1].toUpperCase() : null,
-           impact: im ? im[1].toUpperCase() : null, tag: tag };
-}
-function parseReport(name, text){
-  const out = [];
-  const lines = String(text).replace(/\r\n?/g, "\n").split("\n");
-  const sections = [];
-  let cur = { title: "", lines: [] };
-  for(const ln of lines){
-    const m = ln.match(/^##\s+(.+)/);
-    if(m && !ln.startsWith("###")){ sections.push(cur); cur = { title: m[1].trim(), lines: [] }; }
-    else cur.lines.push(ln);
-  }
-  sections.push(cur);
-  for(const s of sections){
-    const blocks = s.lines.join("\n").split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    for(const b of blocks){
-      if(/^#/.test(b)) continue;                       // stray headings
-      const bold = b.match(/^\*\*(.+?)\*\*/);
-      if(bold){ out.push(mkFinding(name, s.title, bold[1], b)); continue; }
-      if(/^(\d+\.|[-*])\s/.test(b)){
-        const items = b.split(/\n(?=(?:\d+\.|[-*])\s)/);
-        for(const raw of items){
-          const it = raw.trim();
-          const t = it.replace(/^(\d+\.|[-*])\s*/, "");
-          if(t.length < 30 && !t.includes("**")) continue;   // nav / trivia lines
-          const bm = t.match(/^\*\*(.+?)\*\*/);
-          out.push(mkFinding(name, s.title, bm ? bm[1] : t, it));
-        }
-      }
-      /* plain prose blocks (summaries, sign-offs) are context, not findings */
-    }
-  }
-  return out;
-}
+/* ---------- parsing — shared with Node tests via js/report-parser.js ---------- */
+const parseReport = window.GPReportParser.parseReport;
 
 /* ---------- clipboard ---------- */
 function feedback(btn, ok){
@@ -427,7 +395,19 @@ function findingRow(f){
   return row;
 }
 function render(){
-  parsed = reports.map(r => ({ name: r.name, findings: parseReport(r.name, r.text) }));
+  parsed = reports.map(r => {
+    const pr = parseReport(r.name, r.text);
+    return { name: r.name, findings: pr.findings, skipped: pr.skipped };
+  });
+
+  /* apply a shared-selection fragment to whichever findings are now loaded */
+  if(pendingSel.size){
+    let applied = 0;
+    for(const f of allFindings()){
+      if(pendingSel.has(f.key)){ checks[f.key] = 1; pendingSel.delete(f.key); applied++; }
+    }
+    if(applied) save("gp-studio-checks", checks);
+  }
 
   /* prune checks that no longer correspond to a loaded finding */
   const live = new Set(allFindings().map(f => f.key));
@@ -457,6 +437,26 @@ function render(){
     const rule = document.createElement("span"); rule.className = "rule";
     rh.append(nm, q, rule);
     findingsEl.append(rh);
+    if(r.findings.length && r.skipped){
+      /* honesty line: the parser is a heuristic — say what it couldn't read */
+      const un = document.createElement("div"); un.className = "unrec";
+      const btn = document.createElement("button"); btn.className = "view";
+      btn.setAttribute("aria-expanded", "false");
+      const chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "▸";
+      btn.append(chev, document.createTextNode(" view raw"));
+      un.append("parsed " + r.findings.length + " section" + (r.findings.length === 1 ? "" : "s") +
+                "; " + r.skipped + " unrecognized — ", btn);
+      const rawrow = document.createElement("div"); rawrow.className = "find"; rawrow.hidden = true;
+      const rbody = document.createElement("div"); rbody.className = "fbody";
+      const rpre = document.createElement("pre"); rpre.textContent = reports.find(x => x.name === r.name).text;
+      rbody.append(rpre); rawrow.append(rbody);
+      btn.onclick = () => {
+        const open = rawrow.classList.toggle("open");
+        rawrow.hidden = !open;
+        btn.setAttribute("aria-expanded", open);
+      };
+      findingsEl.append(un, rawrow);
+    }
     if(!r.findings.length){
       const row = document.createElement("div"); row.className = "find open";
       const body = document.createElement("div"); body.className = "fbody";
@@ -481,29 +481,62 @@ function render(){
   document.getElementById("clearall").hidden = reports.length === 0;
   syncBar();
 }
+function syncBulk(){
+  const row = document.getElementById("bulkrow");
+  row.textContent = "";
+  let shown = false;
+  for(const sev of ["S1", "S2"]){
+    const grp = allFindings().filter(f => f.sev === sev && !f.fixed);
+    if(!grp.length) continue;
+    const open = grp.filter(f => !checks[f.key]).length;
+    const b = document.createElement("button"); b.className = "iconbtn";
+    b.textContent = open ? "check all " + sev + " (" + grp.length + ")" : "✓ all " + sev + " checked";
+    b.disabled = !open;
+    b.onclick = () => {
+      for(const f of grp) checks[f.key] = 1;
+      save("gp-studio-checks", checks);
+      render();
+    };
+    row.append(b);
+    shown = true;
+  }
+  row.hidden = !shown;
+}
 function syncBar(){
   const total = allFindings().length;
   const sel = selected().length;
   selbarEl.hidden = total === 0;
   document.body.classList.toggle("hasbar", total > 0);
+  syncBulk();
   if(total === 0) return;
   selcountEl.textContent = "";
   const b = document.createElement("b"); b.textContent = sel;
   selcountEl.append(b, document.createTextNode(" of " + total + " findings selected"));
   fixbtnEl.disabled = sel === 0;
   document.getElementById("unsel").hidden = sel === 0;
+  document.getElementById("sharesel").hidden = sel === 0;
 }
 
 /* ---------- input wiring ---------- */
 function addReport(name, text){
   name = (name || "report.md").trim();
   if(!text || !text.trim()){ note("That file looked empty — nothing added."); return; }
+  const replacing = reports.some(r => r.name === name);
+  const before = Object.keys(checks).length;
   reports = reports.filter(r => r.name !== name);
   reports.push({ name: name, text: String(text) });
   save("gp-studio-reports", reports);
   note("");
   try{ window.va("event", { name: "studio_load_report" }); }catch(e){}
   render();
+  /* say so when re-adding a changed report dropped checked findings — the keys
+     are content hashes, so edited findings can't keep their old check state */
+  const lost = before - Object.keys(checks).length;
+  if(replacing && lost > 0){
+    note(lost + " previously checked finding" + (lost === 1 ? "" : "s") + " in " + name +
+         " changed in the new version, so the selection" + (lost === 1 ? "" : "s") +
+         " cleared — re-check what still applies.");
+  }
 }
 function readFiles(list){
   for(const f of list){
@@ -534,13 +567,13 @@ document.getElementById("pasteadd").onclick = () => {
 };
 /* ---------- load from a public GitHub repo (browser → GitHub, nothing through us) ---------- */
 const GH_SKIP = new Set(["README.MD", "LICENSE.MD", "CONTRIBUTING.MD", "CODE_OF_CONDUCT.MD",
-  "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "NOTICE.MD", "AUTHORS.MD",
+  "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "SECURITY.MD", "NOTICE.MD", "AUTHORS.MD",
   "MAINTAINERS.MD", "PULL_REQUEST_TEMPLATE.MD", "CLAUDE.MD", "AGENTS.MD"]);
-const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "PERF.md", "DX.md",
-  "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
+const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "PERF.md", "DX.md",
+  "INNERLOOP.md", "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
 function parseRepoRef(s){
   s = String(s || "").trim();
-  let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
+  let m = s.match(/github\.com\/([\w.-]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
   if(m) return { owner: m[1], repo: m[2].replace(/\.git$/, ""), branch: m[3] || null };
   m = s.match(/^([\w.-]+)\/([\w.-]+?)(?:@([\w.\/-]+))?$/);
   if(m) return { owner: m[1], repo: m[2], branch: m[3] || null };
@@ -628,7 +661,7 @@ document.getElementById("ghref").addEventListener("input", function(){
 });
 
 document.getElementById("demobtn").onclick = async function(){
-  const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY.md", "DX.md"];
+  const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "DX.md"];
   this.disabled = true; this.textContent = "loading…";
   try{
     for(const n of names){
@@ -651,19 +684,46 @@ document.getElementById("clearall").onclick = () => {
 document.getElementById("unsel").onclick = () => {
   checks = {}; save("gp-studio-checks", checks); render();
 };
+var _hintT;
+function showCopyHint(){
+  const el = document.getElementById("copyhint"), t = document.getElementById("copyhinttext");
+  if(!el || !t) return;
+  t.textContent = "";
+  const code = document.createElement("code"); code.textContent = "FIXLOG.md";
+  t.append("Paste into your agent — it implements the selection and writes ", code,
+           ". Reload the reports here afterwards to see ✓ fixed.");
+  el.hidden = false;
+  clearTimeout(_hintT);
+  _hintT = setTimeout(() => { el.hidden = true; }, 9000);
+}
+document.getElementById("copyhintx").onclick = () => {
+  document.getElementById("copyhint").hidden = true; clearTimeout(_hintT);
+};
 fixbtnEl.onclick = function(){
   const sel = selected();
   if(!sel.length) return;
-  copyText(buildFixer(sel), this, "Copied ✓ — paste into your agent", { name: "studio_copy_fixer", data: { n: sel.length } });
+  copyText(buildFixer(sel), this, "Copied ✓", { name: "studio_copy_fixer", data: { n: sel.length } });
+  showCopyHint();
+};
+document.getElementById("sharesel").onclick = function(){
+  const keys = selected().map(f => f.key);
+  if(!keys.length) return;
+  const url = location.origin + location.pathname + "#sel=" + keys.join(",");
+  copyText(url, this, "link copied ✓", { name: "studio_share_selection", data: { n: keys.length } });
 };
 
 render();
+if(pendingSel.size){
+  note("This link preselects " + pendingSel.size + " finding" + (pendingSel.size === 1 ? "" : "s") +
+       " that " + (pendingSel.size === 1 ? "isn't" : "aren't") + " loaded yet — add the same reports " +
+       "(drop, paste, or load from GitHub) and they'll check themselves.");
+}
 
 if("serviceWorker" in navigator){
   window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
 }
 </script>
 
-<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){return root.getAttribute("data-theme")==="light";}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
 </body>
 </html>

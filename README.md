@@ -1,6 +1,6 @@
 # Goal Prompts
 
-135 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+141 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
@@ -20,12 +20,27 @@ and **sponsored** playbooks (see the partner section on the site and the
 
 ## Install as slash commands
 
+The Claude Code plugin is the primary path — real namespaced commands:
+
+```
+/plugin marketplace add GhostlyGawd/goal-prompts
+```
+
+then install **goal** from the marketplace (`/plugin install goal@goal-prompts`).
+Every brief becomes `/goal:bug-hunt`, `/goal:prune-audit`,
+`/goal:roadmap-synthesis`… Update with `/plugin marketplace update
+goal-prompts`; uninstall with `/plugin uninstall goal`.
+
+No plugin support in your harness? The curl installer drops the same command
+files into `.claude/commands/goal/`:
+
 ```
 curl -fsSL https://goal-prompts.vercel.app/install | sh
 ```
 
-Run from a repo root. Every brief becomes a native Claude Code command:
-`/goal:bug-hunt`, `/goal:prune-audit`, `/goal:roadmap-synthesis`…
+Run from a repo root. These surface un-namespaced as `/goal-bug-hunt`,
+`/goal-prune-audit`… (a commands subdirectory does not namespace). Re-run the
+installer any time to update; `rm -rf .claude/commands/goal` uninstalls.
 Prefer a file? Grab `commands.zip` from the site and extract into
 `.claude/commands/`.
 
@@ -37,9 +52,11 @@ The catalog is agent-native — three ways in:
 claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts
 ```
 
-gives any MCP client `list_briefs`, `suggest_briefs`, `get_brief`,
-`get_playbook`, and `make_conductor` (compose a conductor from any list of
-brief ids). Every brief also lives at a stable URL (`/raw/30.md`), every
+gives any MCP client six tools — `list_briefs`, `suggest_briefs`, `get_brief`,
+`list_playbooks`, `get_playbook`, and `make_conductor` (compose a conductor
+from any list of brief ids) — and exposes every brief as an MCP prompt
+(`goal-<slug>`), so the whole catalog appears in your client's prompt picker.
+Every brief also lives at a stable URL (`/raw/30.md`), every
 playbook and every family ships a **conductor** — one prompt that fetches
 and runs the whole sequence (`/raw/playbook-day1.md`, `/raw/family-agent.md`)
 — and the machine-readable index is at `/catalog.json`.
@@ -74,6 +91,15 @@ targeted **47 · Fixer** prompt containing exactly those findings — paste it
 into your agent and it branches, implements one finding per commit, and
 verifies each. Everything runs in your browser: no upload, no backend.
 
+## Run it on a schedule
+
+`.github/run-brief.example.yml` is a ready-to-copy GitHub Actions workflow:
+every Monday (or on demand) it fetches a brief you pick from
+`/raw/<id>.md`, runs it against your repo with Claude Code, and files the
+report as an issue — audits as a standing appointment instead of a memory.
+Copy it into your repo as `.github/workflows/run-brief.yml` and set the
+`ANTHROPIC_API_KEY` secret; details are in the file's header.
+
 ## Playbooks
 
 Curated sequences on the site, for when you don't want to choose:
@@ -97,7 +123,7 @@ Curated sequences on the site, for when you don't want to choose:
 
 1. Open `index.html` — the catalog UI. Filter by family, tap **Copy**.
 2. Paste the prompt into Claude Code inside the repo you want audited.
-3. The agent writes its report (e.g. `BUGS.md`, `PERF.md`) at that repo's root.
+3. The agent writes its report (e.g. `BUGS.md`, `PERF.md`) at that repo's root. Prefer a clean root? `mkdir reports` once — every brief writes there instead, and the collectors (28, 29, 46, 47) look in both places.
 4. Run `28 · Roadmap Synthesis` to merge every report into one sequenced `ROADMAP.md`, or drop the reports into the **Report Studio** and let `47 · The Fixer` implement them.
 
 ## Families
@@ -107,19 +133,19 @@ Curated sequences on the site, for when you don't want to choose:
 | Venture | is it worth building? | 60–67 |
 | Product | what could this be? | 00, 45, 106–108 |
 | Quality | does it work? | 01–03, 98–102 |
-| Speed | does it scale? | 04, 05, 51, 87, 88 |
+| Speed | does it scale? | 04, 05, 51, 87, 88, 140 |
 | Trust | is it safe? | 06–08, 68, 69, 81–86 |
 | Compliance | does it respect the user? | 125–128 |
 | Growth | does it grow? | 09–12, 70, 75, 78–80, 109, 110 |
 | Team | can others build on it? | 13–15, 52, 72, 94–97 |
-| API | will developers adopt it? | 111–115 |
-| Clarity | is it understood? | 16–18, 76, 103 |
+| API | will developers adopt it? | 111–115, 136 |
+| Clarity | is it understood? | 16–18, 76, 103, 135 |
 | Design | is it beautiful? | 54–59, 77, 104, 105, 129–134 |
-| Data | is it sound? | 19–22, 71, 89, 90 |
-| Ops | does it run? | 23–25, 53, 73, 91–93 |
+| Data | is it sound? | 19–22, 71, 89, 90, 138, 139 |
+| Ops | does it run? | 23–25, 53, 73, 91–93, 137 |
 | Reliability | will it stay up? | 121–124 |
 | Subtract | what should go? | 26, 27 |
-| Meta | do the reports compose? | 28, 29 |
+| Meta | do the reports add up? | 28, 29 |
 | Act | does anything change? | 46, 47, 74 |
 | Agent | does the agent deliver? | 30–38, 48–50 |
 | Automation | does the process hold? | 39–41 |
@@ -165,9 +191,9 @@ GOAL_PROMPTS_BASE=https://audits.your-co.internal python3 build.py
 ```
 
 The site, `raw/` endpoints, conductors, `catalog.json`, and the URLs
-embedded in brief bodies all follow it. For the slash-command installer,
-edit the `BASE=` line at the top of `install` to match. Unset, the build
-produces the canonical public site.
+embedded in brief bodies all follow it. The slash-command installer takes
+the same idea as an env var: `BASE=https://audits.your-co.internal sh
+install`. Unset, the build produces the canonical public site.
 
 ## Add a prompt
 
@@ -178,13 +204,17 @@ produces the canonical public site.
 ## Contributing
 
 See `CONTRIBUTING.md`. Every push is built on Vercel with `build.py` as a
-hard gate — an oversized brief blocks the deploy. An optional GitHub
-Actions workflow lives at `.github/ci.example.yml` and runs `scripts/check`.
+hard gate — an oversized brief blocks the deploy — and CI
+(`.github/workflows/ci.yml`) runs `scripts/check` plus a generated-file
+drift check on every push and PR. Ready-to-copy examples (npm publish on
+release, scheduled brief runs) live at `.github/*.example.yml`.
 
 ## Project layout
 
 Sources you edit: `prompts/`, `playbooks.json`, `template.html`,
-`studio.html`, `build.py`, `install`, `mcp/`, `scripts/`, `tests/`.
-Generated by the build (never hand-edit): `index.html`, `raw/`, `b/`,
+`studio.html`, `build.py`, `install`, `mcp/`, `js/` (the site's tested
+modules — catalog core, report parser, detail-page helpers), `scripts/`,
+`tests/`, `docs/`, `.claude-plugin/marketplace.json`.
+Generated by the build (never hand-edit): `index.html`, `raw/`, `b/`, `p/`,
 `catalog.json`, `checksums.txt`, `commands.tar.gz`, `commands.zip`,
-`sitemap.xml`, `robots.txt`, `sw.js`.
+`plugin/`, `sitemap.xml`, `robots.txt`, `sw.js`, `tokens.css`.

@@ -6,7 +6,9 @@
  * directory, so it works offline and never drifts from the installed version.
  *
  * Install:  claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts
- * Tools:    list_briefs · suggest_briefs · get_brief · get_playbook · make_conductor
+ * Tools:    list_briefs · suggest_briefs · get_brief · list_playbooks ·
+ *           get_playbook · make_conductor
+ * Prompts:  every brief is also exposed as an MCP prompt (goal-<slug>).
  */
 "use strict";
 const fs = require("fs");
@@ -18,7 +20,17 @@ const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf
 const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
 const briefs = catalog.briefs;
 const byId = {};
-briefs.forEach(function (b) { byId[b.id] = b; });
+const bySlug = {};
+briefs.forEach(function (b) { byId[b.id] = b; bySlug[b.slug] = b; });
+const MAX_ID = briefs.reduce(function (m, b) {
+  return Math.max(m, parseInt(b.id, 10));
+}, 0);
+const ID_RANGE = "Ids run 00–" + MAX_ID;
+
+function normalizeId(x) {
+  var s = String(x).trim().replace(/^0+(?=\d)/, "");
+  return s.length === 1 ? "0" + s : s;
+}
 
 function readBody(id) {
   return fs.readFileSync(path.join(ROOT, "raw", id + ".md"), "utf8");
@@ -67,13 +79,14 @@ const TOOLS = [
   },
   {
     name: "get_brief",
-    description: "Fetch the full text of one brief by id (e.g. '30'). The " +
-      "returned prompt is self-contained: paste or execute it inside the " +
-      "target repo; it audits read-only and writes exactly one report file.",
+    description: "Fetch the full text of one brief by id (e.g. '30' or '6' — " +
+      "single digits are zero-padded). The returned prompt is self-contained: " +
+      "paste or execute it inside the target repo; it audits read-only and " +
+      "writes exactly one report file.",
     inputSchema: {
       type: "object",
       properties: {
-        id: { type: "string", description: "Brief id, two digits, e.g. '06'" }
+        id: { type: "string", description: "Brief id, e.g. '06' or '6'" }
       },
       required: ["id"]
     }
@@ -83,7 +96,8 @@ const TOOLS = [
     description: "Compose a conductor — one prompt that fetches and runs a " +
       "custom sequence of briefs in order — from any list of brief ids. " +
       "Your own playbook: e.g. ids ['46','47'] for triage-then-fix, or " +
-      "['33','49','34'] for a retrieval tune-up. Ids run in the order given.",
+      "['33','49','34'] for a retrieval tune-up. Ids run in the order given. " +
+      "Caps at 16 stages; split a longer campaign into two conductors.",
     inputSchema: {
       type: "object",
       properties: {
@@ -97,10 +111,17 @@ const TOOLS = [
     }
   },
   {
+    name: "list_playbooks",
+    description: "List every curated playbook: key, name, tagline, and the " +
+      "brief ids it runs in order. Use get_playbook with a key to fetch its " +
+      "conductor prompt.",
+    inputSchema: { type: "object", properties: {} }
+  },
+  {
     name: "get_playbook",
     description: "Fetch a playbook conductor — a single prompt that runs a " +
-      "curated sequence of briefs in order. Keys: " +
-      catalog.playbooks.map(function (p) { return p.key; }).join(", ") + ".",
+      "curated sequence of briefs in order. Use list_playbooks to browse " +
+      "the available keys.",
     inputSchema: {
       type: "object",
       properties: {
@@ -112,12 +133,23 @@ const TOOLS = [
 ];
 
 // Light stemming so "looping" matches "loop", "costs" matches "cost".
-// Substring matching does the rest: the stem is a prefix of every inflection.
+// Prefix matching at a word boundary does the rest: the stem starts every
+// inflection. Words ending in "eed"/"eeds" keep their "ed" ("speed" must not
+// become "spe"); "ies" folds to "y" so "queries" reaches "query".
 function stem(w) {
   if (w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
-  if (w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
+  if (w.length > 4 && w.slice(-3) === "ies") return w.slice(0, -3) + "y";
+  if (w.length > 4 && w.slice(-2) === "ed" && w.slice(-3) !== "eed") return w.slice(0, -2);
   if (w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
   return w;
+}
+
+// Match a stem only at the start of a word: "loop" hits "loops" and
+// "looping" but not "blooper". Stems arrive as [a-z0-9]+ so no escaping.
+var wordRe = {};
+function matchWord(hay, w) {
+  var re = wordRe[w] || (wordRe[w] = new RegExp("\\b" + w));
+  return re.test(hay);
 }
 
 // A word like "agent" matches half the catalog and says little; a word like
@@ -130,7 +162,7 @@ function rarity(w) {
   briefs.forEach(function (b) {
     var hay = (b.title + " " + b.family + " " + b.tagline).toLowerCase() +
       " " + bodyCache[b.id];
-    if (hay.indexOf(w) !== -1) df++;
+    if (matchWord(hay, w)) df++;
   });
   dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
   return dfCache[w];
@@ -144,10 +176,10 @@ function score(brief, words) {
   let s = 0;
   words.forEach(function (w) {
     var m = 0;
-    if (title.indexOf(w) !== -1) m += 4;
-    if (fam.indexOf(w) !== -1) m += 3;
-    if (tag.indexOf(w) !== -1) m += 2;
-    if (body.indexOf(w) !== -1) m += 1;
+    if (matchWord(title, w)) m += 4;
+    if (matchWord(fam, w)) m += 3;
+    if (matchWord(tag, w)) m += 2;
+    if (matchWord(body, w)) m += 1;
     s += m * rarity(w);
   });
   return s;
@@ -163,21 +195,23 @@ function conductorText(name, desc, ids) {
   var plural = ids.length > 1 ? "briefs" : "brief";
   return "# Playbook: " + name + " (conductor)\n\n" +
 "You are working inside this repo. Mission: execute the **" + name + "** playbook — " +
-ids.length + " audit " + plural + " in sequence, each producing one report file at this repo's root.\n\n" +
+ids.length + " audit " + plural + " in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).\n\n" +
 desc + "\n\n" +
 "## How to run each stage, in order\n" +
 "1. Fetch the brief with a read-only web request (for example: curl -s <url>).\n" +
-"2. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.\n" +
-"3. Confirm the report file exists at repo root before moving on.\n" +
-"4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.\n\n" +
+"2. If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.\n" +
+"3. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.\n" +
+"4. Confirm the report file exists (at the repo root or in `reports/`) before moving on.\n" +
+"5. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.\n\n" +
 "## Stages\n" + stages.join("\n") + "\n\n" +
 "## After the final stage\n" +
 "- List every report created, with a one-line takeaway each.\n" +
-"- Suggest the natural next step: fetch " + base + "/raw/28.md (Roadmap Synthesis) to merge all reports at this root into one sequenced plan.\n\n" +
+"- Suggest the natural next step: fetch " + base + "/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.\n\n" +
 "## Rules\n" +
-"- If a fetch fails, say so and stop — never improvise a brief from memory.\n" +
+"- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.\n" +
 "- Honor each brief's own rules, including ending by asking before any changes.\n" +
-"- If a stage's report already exists, ask whether to re-run or skip that stage.\n";
+"- If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.\n" +
+"- A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.\n";
 }
 
 function callTool(name, args) {
@@ -214,38 +248,44 @@ function callTool(name, args) {
       "\nUse get_brief with an id to fetch the full prompt.";
   }
   if (name === "get_brief") {
-    const b = byId[String(args.id)];
-    if (!b) return "No brief with id '" + args.id + "'. Ids run 00–" +
-      briefs[briefs.length - 1].id + "; try list_briefs.";
+    const b = byId[normalizeId(args.id)];
+    if (!b) return "No brief with id '" + args.id + "'. " + ID_RANGE +
+      "; try list_briefs.";
     return readBody(b.id);
   }
   if (name === "make_conductor") {
     var raw = args.ids;
-    if (typeof raw === "string") raw = raw.split(/[\s,]+/);
+    if (typeof raw === "string") raw = raw.split(/[\s,]+/).filter(Boolean);
     if (!Array.isArray(raw) || !raw.length) {
       return "Provide ids as an array of brief ids in run order, e.g. ['46','47']. " +
         "Use list_briefs to browse.";
     }
-    var ids = raw.map(function (x) {
-      var s = String(x).trim();
-      return s.length === 1 ? "0" + s : s;
-    });
+    var ids = raw.map(normalizeId);
     var unknown = ids.filter(function (id) { return !byId[id]; });
     if (unknown.length) {
-      return "Unknown brief id(s): " + unknown.join(", ") + ". Ids run 00–" +
-        briefs[briefs.length - 1].id + "; try list_briefs.";
+      return "Unknown brief id(s): " + unknown.join(", ") + ". " + ID_RANGE +
+        "; try list_briefs.";
     }
-    if (ids.length > 12) return "That's " + ids.length + " briefs — cap a conductor at 12; split the run.";
+    if (ids.length > 16) return "That's " + ids.length +
+      " briefs — a conductor caps at 16 stages; split it into two conductors and run them back-to-back.";
     var cname = args.name ? String(args.name) : "Custom sequence";
     var cdesc = "A custom sequence of " + ids.length + " brief" + (ids.length > 1 ? "s" : "") +
       ", composed via the goal-prompts MCP server.";
     return conductorText(cname, cdesc, ids);
   }
+  if (name === "list_playbooks") {
+    return catalog.playbooks.map(function (p) {
+      return p.key + " · " + p.name + "  [" + p.ids.join(" → ") + "]" +
+        "\n    " + (p.tagline || p.desc) +
+        (p.tagline && p.desc ? "\n    " + p.desc : "");
+    }).join("\n") +
+      "\n\nUse get_playbook with a key to fetch the conductor prompt.";
+  }
   if (name === "get_playbook") {
     const key = String(args.key);
     const pb = catalog.playbooks.filter(function (p) { return p.key === key; })[0];
-    if (!pb) return "No playbook '" + key + "'. Keys: " +
-      catalog.playbooks.map(function (p) { return p.key; }).join(", ");
+    if (!pb) return "No playbook '" + key + "'. Use list_playbooks to browse the " +
+      catalog.playbooks.length + " available keys.";
     return fs.readFileSync(path.join(ROOT, "raw", "playbook-" + key + ".md"), "utf8");
   }
   throw new Error("Unknown tool: " + name);
@@ -269,13 +309,32 @@ rl.on("line", function (line) {
     if (msg.method === "initialize") {
       result(id, {
         protocolVersion: (msg.params && msg.params.protocolVersion) || "2024-11-05",
-        capabilities: { tools: {} },
+        capabilities: { tools: {}, prompts: {} },
         serverInfo: { name: "goal-prompts", version: VERSION }
       });
     } else if (msg.method === "notifications/initialized") {
       // notification: no response
     } else if (msg.method === "ping") {
       result(id, {});
+    } else if (msg.method === "prompts/list") {
+      result(id, {
+        prompts: briefs.map(function (b) {
+          return { name: "goal-" + b.slug, description: b.tagline };
+        })
+      });
+    } else if (msg.method === "prompts/get") {
+      const pname = String((msg.params && msg.params.name) || "");
+      const pb = bySlug[pname.replace(/^goal-/, "")];
+      if (!pb || pname.indexOf("goal-") !== 0) {
+        rpcError(id, -32602, "Unknown prompt: " + pname +
+          ". Names are goal-<slug>; see prompts/list.");
+      } else {
+        result(id, {
+          description: pb.tagline,
+          messages: [{ role: "user",
+            content: { type: "text", text: readBody(pb.id) } }]
+        });
+      }
     } else if (msg.method === "tools/list") {
       result(id, { tools: TOOLS });
     } else if (msg.method === "tools/call") {

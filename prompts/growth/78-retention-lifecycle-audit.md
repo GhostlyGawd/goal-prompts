@@ -4,6 +4,7 @@ title: Retention & Lifecycle Audit
 family: Growth
 question: does it grow?
 output: RETENTION.md
+example: /RETENTION.md
 tagline: The return trip: the saved state, resurfaced value, and well-timed nudges that earn a second visit — and the churn cliffs that quietly lose it.
 ---
 # Goal: Retention & Lifecycle Audit
@@ -40,8 +41,12 @@ Create `RETENTION.md` at repo root:
 3. **The one hook to build** — the single highest-leverage reason-to-return, argued
 4. **Instrumentation gaps** — the events and cohorts needed to see retention at all
 
+Start the report with today's date. If `RETENTION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Retain by delivering value again, never by holding the exit hostage
 - Every nudge must be something the user would thank you for receiving
 - Count from real user rhythm, not from how often you wish they'd return
+- No returning-user surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

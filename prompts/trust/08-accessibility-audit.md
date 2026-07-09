@@ -4,11 +4,14 @@ title: Accessibility Audit
 family: Trust
 question: is it safe?
 output: A11Y.md
+related: 86
 tagline: Keyboard navigation, contrast, labels, and screen-reader flow — audited end-to-end along the core user journey.
 ---
 # Goal: Accessibility Audit
 
 You are working inside this repo. Mission: audit this product's accessibility end-to-end along its core user journey, and produce fixes ranked by who gets blocked.
+
+This is the broad end-to-end pass. For the deep assistive-tech walk — keyboard only, announcements traced — run 86 after it.
 
 Read-only pass. Your only write is the report file.
 
@@ -39,7 +42,11 @@ Create `A11Y.md` at repo root:
 3. **Component-level fixes** — single fixes that clear many findings at once
 4. **Quick wins** — labels, alt text, focus styles shippable today
 
+Start the report with today's date. If `A11Y.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Audit the rendered reality, not the intention — trace what actually reaches the DOM
 - Component fixes beat page-by-page patching
+- No user interface to make accessible in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

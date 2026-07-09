@@ -4,6 +4,7 @@ title: Retrieval Quality Audit
 family: Agent
 question: does the agent deliver?
 output: RETRIEVAL.md
+related: 33
 tagline: The RAG pipeline end to end — chunking that respects meaning, embeddings that don't drift, a relevance floor, and evals that catch regressions before users do.
 ---
 # Goal: Retrieval Quality Audit
@@ -37,7 +38,11 @@ Create `RETRIEVAL.md` at repo root:
 3. **Findings** — ranked, with evidence
 4. **Eval starter** — ten golden queries worth committing this week
 
+Start the report with today's date. If `RETRIEVAL.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Judge retrieval by what reaches the prompt, not by what the store contains
 - Every claim about quality needs a traced example behind it
+- No retrieval or RAG pipeline in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

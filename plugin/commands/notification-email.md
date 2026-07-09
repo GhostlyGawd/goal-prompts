@@ -1,0 +1,44 @@
+---
+description: "Every message the product sends out of the app — transactional email, push, in-app — for whether it is timely, wanted, clear, and controllable."
+---
+
+# Goal: Notification & Email Audit
+
+You are working inside this repo. Mission: inventory everything the product sends a user outside the app — email, push, in-app notifications — and judge whether each is timely, wanted, clear, and under the user's control, or noise that trains people to ignore you.
+
+Read-only pass. Read the sending code, templates, and triggers; change nothing but the report file.
+
+## Phase 1 — Inventory what gets sent
+- List every message the product can send, its trigger, and its channel.
+- Note which are transactional (receipts, resets) and which are lifecycle or marketing.
+- Find where preferences and unsubscribe are handled, if at all.
+
+## Phase 2 — Audit through 7 lenses
+1. **Coverage & timing** — the moments that should trigger a message, and the noisy ones that should not
+2. **Transactional clarity** — receipts, resets, confirmations: clear, branded, and actually useful
+3. **Deliverability** — SPF/DKIM/DMARC, sending reputation, links and content that dodge spam filters
+4. **Preference & control** — granular opt-outs, one-click unsubscribe, and honoring them
+5. **Frequency & fatigue** — batching, digests, and caps versus a stream users learn to ignore
+6. **Channel fit** — the right channel per message, not everything pushed everywhere
+7. **Content & action** — each message has a clear purpose and next step; no dead-end pings
+
+## Phase 3 — Curate
+- Rank by reach × harm or value: a broken password-reset email outranks a rare digest tweak.
+- For each, decide keep, cut, re-time, or move channel.
+- Flag anything that risks deliverability for the whole domain.
+
+## Phase 4 — Report
+Create `NOTIFICATIONS.md` at repo root:
+1. **Send inventory** — message · trigger · channel · transactional or lifecycle
+2. **Findings** — each: lens · message · the problem · the fix
+3. **Deliverability** — the domain-level risks and the setup to fix them
+4. **Control & cadence** — the preference and frequency changes that cut fatigue
+
+Start the report with today's date. If `NOTIFICATIONS.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Every send earns its place; the unsubscribe is a feature, not a loophole
+- A domain-level deliverability problem outranks any single template
+- No notifications or email in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which notifications to fix first

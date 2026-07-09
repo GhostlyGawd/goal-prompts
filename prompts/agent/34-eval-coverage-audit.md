@@ -4,6 +4,7 @@ title: Eval Coverage Audit
 family: Agent
 question: does the agent deliver?
 output: EVALS.md
+related: 33
 tagline: The test-gap audit for nondeterminism — golden sets, regression evals, judge quality, and the drift between eval and production.
 ---
 # Goal: Eval Coverage Audit
@@ -38,7 +39,11 @@ Create `EVALS.md` at repo root:
 3. **Eval plan** — each: capability · dataset source (mine the traces) · grader (assertion/judge/human) · size · run trigger
 4. **The first eval** — spelled out completely, buildable today
 
+Start the report with today's date. If `EVALS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - An eval that never blocks a ship is a dashboard, not a gate
 - Judge the judges: no LLM grader without a human-agreement check
+- No LLM behavior to evaluate in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which evals to build

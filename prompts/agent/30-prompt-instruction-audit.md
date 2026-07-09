@@ -4,11 +4,14 @@ title: Prompt & Instruction Audit
 family: Agent
 question: does the agent deliver?
 output: PROMPTS.md
+related: 35 118
 tagline: Every system prompt in the repo: contradictions, dead instructions, bloat, and injection surface — with a consolidation plan.
 ---
 # Goal: Prompt & Instruction Audit
 
 You are working inside this repo. Mission: audit every prompt this product sends to a model — system prompts, templates, few-shot examples, inline instructions — for contradictions, rot, bloat, and injection risk.
+
+This audits prompt quality. For the defensive guard architecture around the agent, run 35; to attack the product's AI like an adversary, run 118.
 
 Read-only pass. Your only write is the report file.
 
@@ -39,7 +42,11 @@ Create `PROMPTS.md` at repo root:
 3. **Consolidation plan** — shared rules extracted to one source, per-prompt deltas
 4. **First rewrite** — the worst prompt, before/after sketch, and how to eval the change before shipping (see 34)
 
+Start the report with today's date. If `PROMPTS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Prompt changes are behavior changes: every fix names its eval or rollback plan
 - Shorter and testable beats longer and reassuring
+- No prompts or agent instructions in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which rewrites to make

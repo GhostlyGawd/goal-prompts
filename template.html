@@ -53,7 +53,10 @@
   :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
     .nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
   .nav-cta:hover{border-color:var(--text)}
-  @media(max-width:720px){.nav-links{display:none}}
+  /* under 720px keep Playbooks + Studio reachable — only the anchors the hero
+     CTA already covers drop out; under 400px the CTA yields the room back */
+  @media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
+  @media(max-width:480px){.nav-cta{display:none}}
 
   /* ---------- buttons ---------- */
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s,color .15s;-webkit-tap-highlight-color:transparent}
@@ -91,14 +94,14 @@
   /* hero bar chart — briefs per family */
   .chartblock{margin-top:clamp(34px,4vw,52px)}
   .chartscroll{overflow-x:auto;overflow-y:hidden}
-  .famchart{display:grid;grid-template-columns:repeat(17,minmax(0,1fr));grid-template-rows:clamp(170px,22vw,236px) auto;gap:0 clamp(3px,.7vw,9px);align-items:end;min-width:680px}
+  .famchart{display:grid;grid-template-columns:repeat(__N_FAMILIES__,minmax(0,1fr));grid-template-rows:clamp(170px,22vw,236px) auto;gap:0 clamp(3px,.7vw,9px);align-items:end;min-width:680px}
   .bar-cell{grid-row:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative}
   .bar-cell .val{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:7px;font-variant-numeric:tabular-nums}
   .bar-cell .bar{width:100%;max-width:46px;border-radius:5px 5px 0 0;background:var(--fc);height:calc(16% + var(--h)*.84%);transition:filter .2s,transform .2s}
   .bar-cell:hover .bar{filter:brightness(1.1);transform:translateY(-2px)}
   .bar-cell .tip{position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--sans);font-size:12px;color:var(--btn-fg);background:var(--btn);padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
   .bar-cell .tip i{font-style:normal;opacity:.65}
-  .bar-cell:hover .tip{opacity:1}
+  .bar-cell:hover .tip,.bar-cell:focus .tip,.bar-cell:focus-within .tip{opacity:1}
   .lab-cell{grid-row:2;padding-top:12px;border-top:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:6px}
   .lab-cell .ic{width:17px;height:17px;color:var(--fc)}
   .lab-cell .nm{font-family:var(--sans);font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
@@ -129,7 +132,10 @@
   .quote{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
   .quote .q{font-size:16px;line-height:1.45;color:var(--text);font-weight:500}
   .quote .q::before{content:"“";color:var(--faint)}.quote .q::after{content:"”";color:var(--faint)}
+  .quote .ev{font-size:15px;line-height:1.5;color:var(--text);font-weight:500}
   .quote .who{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .quote .who a{color:var(--fc)}
+  .quote .who a:hover{text-decoration:underline}
   .turn{margin-top:30px;font-size:18px;color:var(--text);max-width:70ch;line-height:1.5}
   .turn b{color:var(--text);font-weight:600}
   @media(max-width:760px){.quotes{grid-template-columns:1fr}}
@@ -266,8 +272,10 @@
   .ctxwarm-edit{background:none;border:0;color:var(--fc);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0}
   .ctxwarm-edit:hover{text-decoration:underline}
 
-  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;animation:rise .4s cubic-bezier(.2,.7,.3,1) both;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
   .card:hover{border-color:var(--line-2);transform:translateY(-1px)}
+  /* entrance animation runs on the first render only (render() drops .anim after), so filtering doesn't re-stagger 141 cards */
+  .list.anim .card{animation:rise .4s cubic-bezier(.2,.7,.3,1) both}
   @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .card.flash{outline:2px solid var(--fc);outline-offset:2px}
   .card-top{display:flex;align-items:flex-start;gap:13px}
@@ -307,10 +315,12 @@
   .finder .starter b{font-weight:700}
   .finder .starter .sdot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
   .finder .starter .sarrow{color:var(--fc);font-family:var(--mono);flex:none}
-  .finder .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
-  .finder .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
-  .finder .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}
-  .finder .goal:hover{border-color:var(--fc);color:var(--text)}
+  .finder .goals,#picker .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+  #picker .goals{margin-bottom:10px}
+  .finder .goallab,#picker .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .finder .goal,#picker .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s}
+  .finder .goal:hover,#picker .goal:hover{border-color:var(--fc);color:var(--text)}
+  #picker .goal[aria-pressed="true"]{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 12%,var(--panel))}
   .finder .goal .gd{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
   .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(20px,4vw,44px)}
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
@@ -454,6 +464,10 @@
 <symbol id="i-automation" viewBox="0 0 24 24"><path d="M6.5 9.5 A6 6 0 0 1 18 8.2"/><path d="M17.5 14.5 A6 6 0 0 1 6 15.8"/><path d="M18.4 4.6 L18.4 8.6 L14.4 8.4 M5.6 19.4 L5.6 15.4 L9.6 15.6"/></symbol>
 <symbol id="i-aiux" viewBox="0 0 24 24"><path d="M12 20 C6.2 15.6 4 12.2 4 9 C4 6.5 6 4.9 8.3 4.9 C9.9 4.9 11.3 5.9 12 7.1 C12.7 5.9 14.1 4.9 15.7 4.9 C18 4.9 20 6.5 20 9 C20 12.2 17.8 15.6 12 20 Z"/></symbol>
 <symbol id="i-venture" viewBox="0 0 24 24"><path d="M12 2.6 C15.2 5 16.8 9.2 16.8 13 L14 16 H10 L7.2 13 C7.2 9.2 8.8 5 12 2.6 Z"/><circle cx="12" cy="10" r="1.7"/><path d="M10 16 L7.8 20.4 M14 16 L16.2 20.4 M12 16.4 V20.6"/></symbol>
+<symbol id="i-compliance" viewBox="0 0 24 24"><path d="M9 4.5 H7 C6.2 4.5 5.5 5.2 5.5 6 V19 C5.5 19.8 6.2 20.5 7 20.5 H17 C17.8 20.5 18.5 19.8 18.5 19 V6 C18.5 5.2 17.8 4.5 17 4.5 H15"/><rect x="9" y="3" width="6" height="3" rx="1.2"/><path d="M9 12.5 L11.2 14.7 L15.2 9.8"/></symbol>
+<symbol id="i-api" viewBox="0 0 24 24"><path d="M8.5 7.5 L4 12 L8.5 16.5 M15.5 7.5 L20 12 L15.5 16.5"/><circle cx="12" cy="12" r="1.3"/></symbol>
+<symbol id="i-reliability" viewBox="0 0 24 24"><path d="M3 12.5 H7.4 L9.6 7 L13 17.5 L15.2 12.5 H21"/></symbol>
+<symbol id="i-aiethics" viewBox="0 0 24 24"><path d="M12 6 V18.5 M8.5 18.5 H15.5 M6 7.5 H18"/><circle cx="12" cy="4.6" r="1.4"/><path d="M6 7.5 L3.6 12.4 M6 7.5 L8.4 12.4 M3.6 12.4 A2.4 2.4 0 0 0 8.4 12.4"/><path d="M18 7.5 L15.6 12.4 M18 7.5 L20.4 12.4 M15.6 12.4 A2.4 2.4 0 0 0 20.4 12.4"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5 M12 19V21.5 M2.5 12H5 M19 12H21.5 M5.2 5.2l1.8 1.8 M17 17l1.8 1.8 M18.8 5.2 17 7 M7 17l-1.8 1.8"/></symbol>
 <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5 A8 8 0 0 1 9.5 4 A7 7 0 1 0 20 14.5 Z"/></symbol>
 </defs></svg>
@@ -461,8 +475,8 @@
 <header class="nav"><div class="nav-in wrap">
   <a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
   <nav class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#catalog">Catalog</a>
+    <a href="#how" class="mh">How it works</a>
+    <a href="#catalog" class="mh">Catalog</a>
     <a href="#playbooks">Playbooks</a>
     <a href="/studio">Studio</a>
   </nav>
@@ -490,7 +504,7 @@
     </div>
   </div>
   <div class="chartblock">
-    <div class="chartscroll"><div class="famchart" id="famchart" role="img" aria-label="Bar chart of briefs per family"></div></div>
+    <div class="chartscroll"><div class="famchart" id="famchart" role="group" aria-label="Bar chart of briefs per family"></div></div>
     <div class="figcap"><b>Fig. 1</b> Briefs per family — __N_FAMILIES__ families, one question each. Hover a bar. <span class="rule"></span> <span id="chartcount">__N_BRIEFS__ briefs total</span></div>
   </div>
   <div class="herostat-m" aria-hidden="true">
@@ -504,11 +518,11 @@
 <section class="blk"><div class="wrap">
   <div class="kicker" style="--fc:#E8705F">The problem</div>
   <h2 class="h2">AI coding agents are powerful — and maddeningly inconsistent.</h2>
-  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time. Developers say it out loud:</p>
+  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time — a wall of vibes one run, a shrug the next. Structure fixes that, and this catalog holds itself to the proof:</p>
   <div class="quotes">
-    <div class="quote"><p class="q">About 50% of the time, the result is so messy that cleaning it up takes more time than just writing it.</p><div class="who">— a developer, Hacker News</div></div>
-    <div class="quote"><p class="q">Is it possible to develop an intuition where it does a decent job… or is the result always random?</p><div class="who">— a developer, Hacker News</div></div>
-    <div class="quote"><p class="q">I keep a running doc of prompts that work well and bad habits to avoid.</p><div class="who">— the workaround everyone rebuilds by hand</div></div>
+    <div class="quote"><p class="ev">Every brief is dogfooded on this repo before it ships — the reports the briefs wrote sit at the repo root, in the open, linked as live samples from their briefs.</p><div class="who"><a href="/examples/">see the sample reports →</a></div></div>
+    <div class="quote"><p class="ev">A structured Bug Hunt on this site’s own code found a real S2 self-XSS in the search empty state — cited to the function, fixed the same release.</p><div class="who">BUGS.md, finding 2 · <a href="https://github.com/GhostlyGawd/goal-prompts/commit/d041b3f">fixed in 0.4 ↗</a></div></div>
+    <div class="quote"><p class="ev">Findings become commits: the FIXLOG traces every shipped fix back to the report and finding that surfaced it — the acting half of the same dogfooding.</p><div class="who"><a href="/FIXLOG.md">read the FIXLOG →</a></div></div>
   </div>
   <p class="turn">The fix isn’t a bigger model — it’s <b>structure</b>. A brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind. That’s the whole idea here: a catalog of them, battle-tested, so you never write one from scratch again.</p>
 </div></section>
@@ -564,7 +578,22 @@
   <div class="kicker" style="--fc:#4D9FFF">The catalog</div>
   <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">__N_FAMILIES__ families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent. <a href="/examples/" style="color:var(--fc)">See a real report one wrote →</a></p>
+  <div class="nudge" style="--fc:var(--act);margin:18px 0 0;max-width:760px">Not sure which? Run <a href="/b/46">46 · Audit Triage</a> — 15 minutes, and the agent names the audits this repo needs. <button class="iconbtn" id="triagecopy" type="button" style="margin-left:6px">copy the brief</button></div>
   <div class="ctxwarm" id="ctxwarm" hidden></div>
+
+  <details class="ctx" id="picker">
+    <summary><span class="chev">▸</span> help me choose — three quick questions</summary>
+    <div class="ctxbody" id="pickerbody"></div>
+  </details>
+  <details class="ctx" id="reporec" style="margin-top:10px">
+    <summary><span class="chev">▸</span> recommend for my repo — point it at owner/repo</summary>
+    <div class="ctxbody">
+      <div><label for="rrin">github repo</label><input id="rrin" placeholder="e.g. vercel/next.js — or paste a GitHub URL" autocomplete="off"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="rrgo" type="button">analyze</button><span class="hint" id="rrhint">public repos only · one read-only call to the GitHub API · nothing else leaves this tab</span></div>
+      <div id="rrout"></div>
+    </div>
+  </details>
+
   <div class="finder" id="finder"></div>
   <div class="finder-refine">or search &amp; filter every brief ↓</div>
 
@@ -600,24 +629,6 @@
   <p class="lead">Curated sequences that run several briefs in the right order — one paste, a whole stack of reports. Each one is tuned for a moment: a fresh repo, launch night, a visual overhaul, a startup idea.</p>
   <div class="store" id="featured"></div>
   <div class="morepb" id="morepb"></div>
-
-  <div class="partnerband">
-    <div>
-      <h3>Partner &amp; themed playbooks</h3>
-      <p>Playbooks are also how the project sustains itself. Bring your own: a limited-run themed drop, a co-branded sequence with a tool your users already love, or a sponsored bundle — the content is shared and so is the revenue.</p>
-      <div class="modes">
-        <span class="mode">🗓 Themed &amp; limited-time</span>
-        <span class="mode">🤝 Creator collaborations</span>
-        <span class="mode">◆ Sponsored bundles</span>
-      </div>
-    </div>
-    <div class="side">
-      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
-      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
-      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
-      <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
-    </div>
-  </div>
 </div></section>
 
 <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
@@ -645,15 +656,15 @@
     <div class="way">
       <div class="num2">02 · INSTALL</div>
       <h4>As slash commands</h4>
-      <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
-      <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
-      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">✓ SHA-256 verified before install · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
+      <p>Add the plugin once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
+      <div class="cmd"><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">then install <b>goal</b> from the marketplace. No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every brief as a <code>goal-&lt;slug&gt;</code> prompt in your client's picker.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
@@ -691,7 +702,7 @@
   </div>
 
   <figure class="shotfig">
-    <a href="/studio" aria-label="Open the Report Studio"><img class="shot" src="/img/studio.png" width="1280" height="860" loading="lazy" decoding="async" alt="The Report Studio mid-use: this repo's own reports (IMPROVEMENTS.md, BUGS.md, SECURITY.md, DX.md) loaded as a findings checklist, three findings checked, and a 'Copy Fixer prompt' bar showing 3 of 40 findings selected."></a>
+    <a href="/studio" aria-label="Open the Report Studio"><img class="shot" src="/img/studio.png" width="1280" height="860" loading="lazy" decoding="async" alt="The Report Studio mid-use: this repo's own reports (IMPROVEMENTS.md, BUGS.md, SECURITY-AUDIT.md, DX.md) loaded as a findings checklist, three findings checked, and a 'Copy Fixer prompt' bar showing 3 of 40 findings selected."></a>
     <figcaption>The Report Studio, live: drop the reports an audit wrote, check the findings that matter, and one tap builds a targeted Fixer prompt — no upload, no backend. <a href="/studio">Open it →</a></figcaption>
   </figure>
 
@@ -707,6 +718,28 @@
       <div class="ba-h">The fix <span class="ba-src"><a href="https://github.com/GhostlyGawd/goal-prompts/commit/683dff5">commit 683dff5 ↗</a></span></div>
       <p class="ba-desc">Regex widened to three digits behind the existing guard, so ids 100–999 route.</p>
       <pre class="ba-code">openFromHash():  /^\d{2,3}$/.test(h)</pre>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ PARTNER ============ -->
+<section class="blk"><div class="wrap">
+  <div class="kicker">Partnerships</div>
+  <div class="partnerband" style="margin-top:16px">
+    <div>
+      <h3>Partner &amp; themed playbooks</h3>
+      <p>Playbooks are also how the project sustains itself. Bring your own: a limited-run themed drop, a co-branded sequence with a tool your users already love, or a sponsored bundle — the content is shared and so is the revenue.</p>
+      <div class="modes">
+        <span class="mode">🗓 Themed &amp; limited-time</span>
+        <span class="mode">🤝 Creator collaborations</span>
+        <span class="mode">◆ Sponsored bundles</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
+      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
+      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
+      <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
     </div>
   </div>
 </div></section>
@@ -727,10 +760,12 @@
   <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
+<script src="/js/catalog-core.js"></script>
 <script>
 const DATA = __PROMPTS_JSON__;
 const FAMILIES = __FAMILIES_JSON__; /* [name, question] pairs, injected by build.py from the briefs' own front matter */
 const PLAYBOOKS = __PLAYBOOKS_JSON__;
+const CC = window.GPCatalogCore; /* pure logic lives in /js/catalog-core.js (Node-tested) */
 const fkey = f => "f-" + f.toLowerCase();
 const byId = {};
 DATA.forEach(p => byId[p.id] = p);
@@ -759,44 +794,33 @@ function runLabel(id){
 
 /* ---- custom conductor sequence ---- */
 let seq = [];
-try{ seq = (JSON.parse(localStorage.getItem("gp-seq") || "[]") || []).filter(id => byId[id]); }catch(e){ seq = []; }
+try{ seq = (JSON.parse(localStorage.getItem("gp-seq") || "[]") || []).filter(id => byId[id]).slice(0, CC.SEQ_CAP); }catch(e){ seq = []; }
 const seqBtns = {};
+let seqUsed = false;
+try{ seqUsed = localStorage.getItem("gp-seqused") === "1"; }catch(e){}
 function saveSeq(){ try{ localStorage.setItem("gp-seq", JSON.stringify(seq)); }catch(e){} }
 function toggleSeq(id){
   const i = seq.indexOf(id);
-  if(i === -1) seq.push(id); else seq.splice(i, 1);
+  if(i === -1){
+    /* the conductor text promises a 16-stage cap — enforce it here too */
+    if(seq.length >= CC.SEQ_CAP){
+      toast(["A conductor caps at " + CC.SEQ_CAP + " stages — copy this sequence, clear it, and build part 2."]);
+      return;
+    }
+    seq.push(id);
+    if(!seqUsed){ seqUsed = true; try{ localStorage.setItem("gp-seqused", "1"); }catch(e){} }
+  } else seq.splice(i, 1);
   saveSeq(); syncSeqUi();
 }
 function makeConductor(name, desc, ids){
-  const stages = ids.map((id, i) => {
-    const p = byId[id];
-    return (i+1) + ". **" + id + " · " + p.title + "** — fetch " + RAW_BASE + "/raw/" + id + ".md" +
-           " → writes `" + p.output + "`";
-  });
-  const plural = ids.length > 1 ? "briefs" : "brief";
-  return "# Playbook: " + name + " (conductor)\n\n" +
-"You are working inside this repo. Mission: execute the **" + name + "** playbook — " + ids.length + " audit " + plural + " in sequence, each producing one report file at this repo's root.\n\n" +
-desc + "\n\n" +
-"## How to run each stage, in order\n" +
-"1. Fetch the brief with a read-only web request (for example: curl -s <url>).\n" +
-"2. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.\n" +
-"3. Confirm the report file exists at repo root before moving on.\n" +
-"4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.\n\n" +
-"## Stages\n" + stages.join("\n") + "\n\n" +
-"## After the final stage\n" +
-"- List every report created, with a one-line takeaway each.\n" +
-"- Suggest the natural next step: fetch " + RAW_BASE + "/raw/28.md (Roadmap Synthesis) to merge all reports at this root into one sequenced plan.\n\n" +
-"## Rules\n" +
-"- If a fetch fails, say so and stop — never improvise a brief from memory.\n" +
-"- Honor each brief's own rules, including ending by asking before any changes.\n" +
-"- If a stage's report already exists, ask whether to re-run or skip that stage.\n";
+  return CC.makeConductor(name, desc, ids, byId, RAW_BASE);
 }
 function syncSeqUi(){
   for(const id in seqBtns){
     const b = seqBtns[id];
     const i = seq.indexOf(id);
     b.className = "iconbtn" + (i !== -1 ? " on" : "");
-    b.textContent = i !== -1 ? "✓ seq " + (i + 1) : "+ seq";
+    b.textContent = i !== -1 ? "✓ seq " + (i + 1) : (seqUsed ? "+ seq" : "+ add to sequence");
     b.setAttribute("aria-pressed", i !== -1);
   }
   const bar = document.getElementById("seqbar");
@@ -858,15 +882,28 @@ function track(name, data){
   try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){}
 }
 var _copyhintT;
-function showCopyHint(output, id){
+/* one inline toast for hints + the ex-alert flows; content built via DOM, never innerHTML */
+function toast(parts){
   var el = document.getElementById("copyhint"); if(!el) return;
-  document.getElementById("copyhinttext").innerHTML =
-    'Paste into Claude Code, Cursor, or any agent <b>inside your repo</b> — it writes <code>' +
-    (output || 'the report') + '</code> at the root, then drop it in the <a href="/studio">Report Studio</a>.' +
-    (id ? ' <button type="button" class="markrun" data-id="' + id + '">✓ mark it run</button>' : '');
+  var t = document.getElementById("copyhinttext"); if(!t) return;
+  t.textContent = "";
+  (Array.isArray(parts) ? parts : [parts]).forEach(function(n){ t.append(n); });
   el.hidden = false;
   clearTimeout(_copyhintT);
   _copyhintT = setTimeout(function(){ el.hidden = true; }, 9000);
+}
+function showCopyHint(output, id){
+  var b = document.createElement("b"); b.textContent = "inside your repo";
+  var code = document.createElement("code"); code.textContent = output || "the report";
+  var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
+  var parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
+               " at the root, then drop it in the ", a, "."];
+  if(id){
+    var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
+    mr.setAttribute("data-id", id); mr.textContent = "✓ mark it run";
+    parts.push(" ", mr);
+  }
+  toast(parts);
 }
 (function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
 // Retention R1: let the post-copy hint feed the run-tracker at the moment of action.
@@ -916,8 +953,10 @@ function renderFeatured(){
   const host = document.getElementById("featured");
   if(!host) return;
   host.textContent = "";
+  /* the storefront grid caps at 6 cards; overflow featured playbooks join the
+     "more sequences" pill row below instead of stacking a wall of cards */
   const feat = PLAYBOOKS.filter(pb => pb.featured);
-  for(const pb of feat){
+  for(const pb of feat.slice(0, 6)){
     const a = document.createElement("article");
     a.className = "storecard";
     const first = byId[pb.ids[0]];
@@ -933,14 +972,14 @@ function renderFeatured(){
     const cc = document.createElement("button");
     cc.className = "cc"; cc.textContent = "⧉ conductor";
     cc.setAttribute("aria-label", "Copy the " + pb.name + " conductor");
-    cc.onclick = ()=>copyText(pb.conductor, cc, "✓", {name:"copy_conductor", data:{key:pb.key}});
+    cc.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cc, "✓", {name:"copy_conductor", data:{key:pb.key}});
     a.querySelector(".acts").append(cc);
     host.append(a);
   }
   const more = document.getElementById("morepb");
   if(more){
     more.textContent = "";
-    const rest = PLAYBOOKS.filter(pb => !pb.featured);
+    const rest = feat.slice(6).concat(PLAYBOOKS.filter(pb => !pb.featured));
     if(rest.length){
       const lab = document.createElement("span");
       lab.className = "morelab"; lab.textContent = "more sequences";
@@ -998,8 +1037,15 @@ function buildPbs(){
   const lab = document.createElement("span");
   lab.className = "pblabel"; lab.textContent = "playbooks";
   pbsEl.append(lab);
-  for(const pb of PLAYBOOKS){
-    if(pb.preview) continue;
+  /* toolbar diet: five curated pills (featured first) — the full storefront
+     lives at #playbooks. An active pick outside the five still shows, pressed. */
+  const pool = PLAYBOOKS.filter(pb => !pb.preview);
+  const curated = pool.filter(pb => pb.featured).concat(pool.filter(pb => !pb.featured)).slice(0, 5);
+  if(activePb && !curated.some(pb => pb.key === activePb)){
+    const cur = pool.find(pb => pb.key === activePb);
+    if(cur) curated.push(cur);
+  }
+  for(const pb of curated){
     const b = document.createElement("button");
     b.className = "pb";
     b.setAttribute("aria-pressed", activePb===pb.key);
@@ -1007,65 +1053,24 @@ function buildPbs(){
     b.onclick = ()=>{ activePb = activePb===pb.key ? null : pb.key; activeFam="All"; sync(); };
     pbsEl.append(b);
   }
+  const rest = pool.length - curated.length;
+  if(rest > 0){
+    const more = document.createElement("a");
+    more.className = "pb"; more.href = "#playbooks";
+    more.textContent = rest + " more ↓";
+    more.setAttribute("aria-label", "See all " + pool.length + " playbooks below");
+    pbsEl.append(more);
+  }
 }
 
 /* ---- closest matches — same scoring as the MCP server's suggest_briefs ---- */
-function stemWord(w){
-  if(w.length > 5 && w.slice(-3) === "ing") return w.slice(0, -3);
-  if(w.length > 4 && w.slice(-2) === "ed") return w.slice(0, -2);
-  if(w.length > 3 && w.slice(-1) === "s" && w.slice(-2) !== "ss") return w.slice(0, -1);
-  return w;
-}
-const hay = {};
-DATA.forEach(p => hay[p.id] = {
-  title: p.title.toLowerCase(),
-  fam: (p.family + " " + p.question).toLowerCase(),
-  tag: p.tagline.toLowerCase(),
-  body: p.body.toLowerCase()
-});
-const dfCache = {};
-function rarity(w){
-  if(dfCache[w] !== undefined) return dfCache[w];
-  let df = 0;
-  for(const p of DATA){
-    const h = hay[p.id];
-    if(h.title.includes(w) || h.fam.includes(w) || h.tag.includes(w) || h.body.includes(w)) df++;
-  }
-  dfCache[w] = 1 / Math.sqrt(Math.max(df, 5));
-  return dfCache[w];
-}
-function closest(q, n){
-  const words = q.toLowerCase().split(/[^a-z0-9]+/)
-    .filter(w => w.length > 2).map(stemWord)
-    .filter((w, i, a) => a.indexOf(w) === i);
-  if(!words.length) return [];
-  return DATA.map(p => {
-    const h = hay[p.id];
-    let s = 0;
-    for(const w of words){
-      let m = 0;
-      if(h.title.includes(w)) m += 4;
-      if(h.fam.includes(w)) m += 3;
-      if(h.tag.includes(w)) m += 2;
-      if(h.body.includes(w)) m += 1;
-      s += m * rarity(w);
-    }
-    return {p, s};
-  }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, n).map(x => x.p);
-}
+function closest(q, n){ return CC.closest(DATA, q, n); }
 
 /* ---- render ---- */
 const listEl = document.getElementById("list");
 let zeroT;
 function matches(p){
-  if(activePb){
-    const pb = PLAYBOOKS.find(x=>x.key===activePb);
-    if(!pb.ids.includes(p.id)) return false;
-  }
-  if(activeFam!=="All" && p.family!==activeFam) return false;
-  if(!query) return true;
-  const h = (p.id+" "+p.title+" "+p.tagline+" "+p.family+" "+p.output+" "+p.body).toLowerCase();
-  return query.split(/\s+/).every(t=>h.includes(t));
+  return CC.matches(p, {family:activeFam, playbook:activePb, query:query}, PLAYBOOKS);
 }
 function lensCount(p){
   const m = p.body.match(/## Phase 2[\s\S]*?(?=## Phase 3|$)/);
@@ -1107,6 +1112,7 @@ function card(p, idx, stepNo){
   view.onclick = ()=>{
     const open = c.classList.toggle("open");
     view.setAttribute("aria-expanded", open);
+    if(open) fillQuick(c);
   };
   const share = document.createElement("button"); share.className="iconbtn";
   share.textContent = "link";
@@ -1152,16 +1158,37 @@ function card(p, idx, stepNo){
   morewrap.append(run, sq, share); if(ex) morewrap.append(ex);
   const more = document.createElement("button"); more.className = "iconbtn cardmore-t";
   more.textContent = "⋯"; more.setAttribute("aria-label", "More actions for " + p.title); more.setAttribute("aria-expanded", "false");
-  more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
+  more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; if(open) closeMoreRows(); morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
   meta.append(out, info, det, view, more, morewrap);
 
+  /* the 141 quick-view <pre>s are the heaviest DOM on the page — build each
+     lazily on first open instead of up front on every render */
   const body = document.createElement("div"); body.className="body";
-  const pre = document.createElement("pre"); pre.textContent = p.body;
-  body.append(pre);
 
   c.append(top, meta, body);
   return c;
 }
+function fillQuick(cardEl){
+  const b = cardEl.querySelector(".body");
+  if(!b || b.firstChild) return;
+  const p = byId[cardEl.id.slice(1)];
+  if(!p) return;
+  const pre = document.createElement("pre"); pre.textContent = p.body;
+  b.append(pre);
+}
+/* the "⋯" more rows close on outside click or Escape, like any disclosure */
+function closeMoreRows(){
+  document.querySelectorAll(".cardmore:not([hidden])").forEach(function(m){
+    m.hidden = true;
+    var t = m.parentElement && m.parentElement.querySelector(".cardmore-t");
+    if(t) t.setAttribute("aria-expanded", "false");
+  });
+}
+document.addEventListener("click", function(e){
+  if(e.target.closest && e.target.closest(".cardmore")) return;
+  closeMoreRows();
+});
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMoreRows(); });
 const _nudgeSeen = {};
 function renderNudge(){
   const old = document.getElementById("nudge");
@@ -1184,10 +1211,33 @@ function renderNudge(){
   listEl.prepend(d);
   if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; try{ window.va("event", {name:"nudge_shown", data:{kind:kind}}); }catch(e){} }
 }
+let entranced = false;
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
   listEl.textContent = "";
   clearTimeout(zeroT);
+  listEl.classList.toggle("anim", !entranced);
+  entranced = true;
+  /* an active query with no family/playbook filter switches to ranked results —
+     the same scorer as the MCP server's suggest_briefs — instead of the family
+     grouping. Inside a family chip the query stays an AND-substring refinement. */
+  if(query && !activePb && activeFam === "All"){
+    const ranked = closest(query, 20);
+    if(ranked.length){
+      const fh = document.createElement("div"); fh.className = "famhead";
+      const nm = document.createElement("span"); nm.className = "name";
+      nm.style.color = "var(--amber)"; nm.textContent = "best matches";
+      const qq = document.createElement("span"); qq.className = "q";
+      qq.textContent = "top " + ranked.length + " for “" + query + "”, ranked — pick a family chip to group again";
+      const rl = document.createElement("span"); rl.className = "rule";
+      fh.append(nm, qq, rl);
+      listEl.append(fh);
+      let r = 0;
+      for(const p of ranked) listEl.append(card(p, r++));
+      return;
+    }
+    /* tokens too short/rare for the scorer fall through to substring filtering */
+  }
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
@@ -1228,7 +1278,7 @@ function render(){
     cbar.append("Run the whole playbook with one paste — the conductor fetches each brief in order and writes every report. ");
     const cbtn = document.createElement("button"); cbtn.className = "iconbtn";
     cbtn.textContent = "copy conductor";
-    cbtn.onclick = ()=>copyText(pb.conductor, cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
+    cbtn.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
     cbar.append(cbtn);
     const plink = document.createElement("a"); plink.className = "iconbtn"; plink.href = "/p/" + pb.key;
     plink.textContent = "open playbook page →"; plink.style.marginLeft = "8px";
@@ -1278,6 +1328,7 @@ function openFromHash(){
   const el = document.getElementById("p"+h);
   if(!el) return;
   el.classList.add("open","flash");
+  fillQuick(el);
   const v = el.querySelector(".view");
   if(v) v.setAttribute("aria-expanded","true");
   el.scrollIntoView({block:"start"});
@@ -1298,8 +1349,15 @@ function wireCopy(id, srcId, evt){
   b.onclick = function(){ copyText(document.getElementById(srcId).textContent, this, "✓", evt); };
 }
 wireCopy("copyinstall", "installcmd", {name:"copy_install"});
-wireCopy("copyinstall2", "installcmd2", {name:"copy_install"});
 wireCopy("copymcp", "mcpcmd", {name:"copy_mcp"});
+(function(){
+  var b = document.getElementById("triagecopy"), p = byId["46"];
+  if(!b || !p) return;
+  b.onclick = function(){
+    copyText(withContext(p.body), b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}});
+    showCopyHint(p.output, "46");
+  };
+})();
 
 document.querySelectorAll("[data-ctx]").forEach(el=>{
   el.value = ctx[el.dataset.ctx] || "";
@@ -1308,11 +1366,21 @@ document.querySelectorAll("[data-ctx]").forEach(el=>{
 document.getElementById("ctxclear").onclick = ()=>{ ctx = {}; saveCtx();
   document.querySelectorAll("[data-ctx]").forEach(el=>{ el.value = ""; }); };
 syncCtxUi();
-document.getElementById("reset").onclick = ()=>{
-  if(!runCount()) return;
-  if(confirm("Clear all "+runCount()+" run marks?")){
+/* two-step confirm on the button itself, instead of a native confirm() */
+document.getElementById("reset").onclick = function(){
+  const btn = this;
+  if(!runCount()){ return; }
+  if(btn.dataset.arm){
+    delete btn.dataset.arm;
     runs = {}; saveRuns(); renderStats(); render();
+    btn.textContent = "reset run tracker";
+    return;
   }
+  btn.dataset.arm = "1";
+  btn.textContent = "clear " + runCount() + " run mark" + (runCount() === 1 ? "" : "s") + "? click again";
+  setTimeout(function(){
+    if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = "reset run tracker"; }
+  }, 4000);
 };
 /* ---- export / import local setup — portable backup, no backend (R3) ---- */
 function exportState(){
@@ -1329,12 +1397,19 @@ function importState(file){
   r.onload = ()=>{
     let state;
     try{ const parsed = JSON.parse(r.result); state = parsed && parsed.state ? parsed.state : parsed; }catch(e){ state = null; }
-    if(!state || typeof state !== "object"){ alert("That doesn't look like a goal-prompts backup file."); return; }
+    if(!state || typeof state !== "object"){ toast(["That doesn't look like a goal-prompts backup file."]); return; }
     let n = 0;
-    for(const k in state){ if(k.indexOf("gp-")===0 && typeof state[k]==="string"){ localStorage.setItem(k, state[k]); n++; } }
-    if(!n){ alert("No goal-prompts settings found in that file."); return; }
-    alert("Restored " + n + " setting" + (n===1?"":"s") + ". Reloading to apply.");
-    location.reload();
+    for(const k in state){
+      if(k.indexOf("gp-")!==0 || typeof state[k]!=="string") continue;
+      let v = state[k];
+      if(k === "gp-seq"){
+        try{ v = JSON.stringify((JSON.parse(v) || []).filter(id => byId[id]).slice(0, CC.SEQ_CAP)); }catch(e){ continue; }
+      }
+      localStorage.setItem(k, v); n++;
+    }
+    if(!n){ toast(["No goal-prompts settings found in that file."]); return; }
+    toast(["Restored " + n + " setting" + (n===1?"":"s") + " — reloading to apply…"]);
+    setTimeout(function(){ location.reload(); }, 900);
   };
   r.readAsText(file);
 }
@@ -1357,10 +1432,10 @@ async function toggleRemind(btn){
     try{ const reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("vitals-weekly"); }catch(e){}
     return;
   }
-  if(!("Notification" in window)){ alert("This browser can't show notifications, so the reminder can't run."); return; }
+  if(!("Notification" in window)){ toast(["This browser can't show notifications, so the reminder can't run."]); return; }
   let perm = Notification.permission;
   if(perm !== "granted") perm = await Notification.requestPermission();
-  if(perm !== "granted"){ alert("Notifications are blocked for this site, so the reminder can't run. Enable them and try again."); return; }
+  if(perm !== "granted"){ toast(["Notifications are blocked for this site, so the reminder can't run. Enable them and try again."]); return; }
   remind.on = true; saveRemind(); btn.textContent = remindLabel();
   try{ window.va("event", {name:"reminder_opt_in"}); }catch(e){}
   let bg = false;
@@ -1372,9 +1447,9 @@ async function toggleRemind(btn){
       bg = true;
     }
   }catch(e){}
-  alert(bg
+  toast([bg
     ? "Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."
-    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account.");
+    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account."]);
 }
 (function(){
   const rb = document.getElementById("remindtog");
@@ -1405,7 +1480,11 @@ if("serviceWorker" in navigator){
 /* ---- theme toggle ---- */
 (function(){
   var KEY="gp-theme", root=document.documentElement, btn=document.getElementById("themetog");
-  function isLight(){return root.getAttribute("data-theme")==="light";}
+  function isLight(){
+    var t=root.getAttribute("data-theme");
+    if(t==="light"||t==="dark") return t==="light";
+    try{ return window.matchMedia("(prefers-color-scheme: light)").matches; }catch(e){ return false; }
+  }
   function paint(){ var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content", isLight()?"#F4F3EF":"#131417"); }
   paint();
   if(btn) btn.onclick=function(){ var next=isLight()?"dark":"light";
@@ -1416,7 +1495,8 @@ if("serviceWorker" in navigator){
 const FAM_ICON = {Product:"i-product",Quality:"i-quality",Speed:"i-speed",Trust:"i-trust",
   Growth:"i-growth",Clarity:"i-clarity",Design:"i-design",Data:"i-data",Ops:"i-ops",Team:"i-team",
   Subtract:"i-subtract",Meta:"i-meta",Act:"i-act",Agent:"i-agent",Automation:"i-automation",
-  "AI-UX":"i-aiux",Venture:"i-venture"};
+  "AI-UX":"i-aiux",Venture:"i-venture",Compliance:"i-compliance",API:"i-api",
+  Reliability:"i-reliability","AI-Ethics":"i-aiethics"};
 function shortFam(n){ return n==="Automation" ? "Auto" : n; }
 function renderFamChart(){
   const host=document.getElementById("famchart"); if(!host) return;
@@ -1427,11 +1507,13 @@ function renderFamChart(){
   for(const name of fams){
     const q=(FAMILIES.find(f=>f[0]===name)||["",""])[1];
     const c=famColor(name), n=counts[name], h=Math.round(n/max*100);
-    bars.push('<div class="bar-cell" style="--fc:'+c+';--h:'+h+'"><span class="val">'+n+
+    bars.push('<div class="bar-cell" style="--fc:'+c+';--h:'+h+'" tabindex="0" aria-label="'+
+      (name+": "+n+" briefs — "+q).replace(/"/g,"&quot;")+'"><span class="val">'+n+
       '</span><span class="bar"></span><span class="tip"><b>'+name+'</b> · <i>'+q+'</i></span></div>');
     labs.push('<div class="lab-cell" style="--fc:'+c+'"><svg class="ic"><use href="#'+
       (FAM_ICON[name]||"i-meta")+'"></use></svg><span class="nm">'+shortFam(name)+'</span></div>');
   }
+  host.style.gridTemplateColumns="repeat("+fams.length+",minmax(0,1fr))";
   host.innerHTML=bars.join("")+labs.join("");
   var _cc=document.getElementById("chartcount");if(_cc)_cc.textContent=DATA.length+" briefs total";
 }
@@ -1465,6 +1547,135 @@ function buildFinder(){
   host.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{activePb=b.getAttribute("data-pb");activeFam="All";sync();jump();});
 }
 buildFinder();
+
+/* ---- 3-question picker — answers map through CC.pickerPlan (Node-tested) ---- */
+(function(){
+  const host = document.getElementById("pickerbody"); if(!host) return;
+  const QS = [
+    {k:"situation", lab:"1 · where are you?", opts:[["new","brand-new repo"],["inherited","inherited a codebase"],["prelaunch","about to launch"],["slow","users say it's slow"],["ai","building an AI feature"],["idea","idea stage, little code"]]},
+    {k:"hurt", lab:"2 · what hurts most?", opts:[["breaks","it breaks"],["slow","it drags"],["security","security worries"],["conversion","users drop off"],["design","the UI feels off"],["data","the data layer"],["agent","my AI agent"],["unsure","not sure"]]},
+    {k:"time", lab:"3 · how much time?", opts:[["brief","~15 min — one brief"],["playbook","an afternoon — a playbook"]]}
+  ];
+  const ans = {};
+  const out = document.createElement("div");
+  for(const q of QS){
+    const row = document.createElement("div"); row.className = "goals";
+    const lab = document.createElement("span"); lab.className = "goallab"; lab.textContent = q.lab;
+    row.append(lab);
+    for(const opt of q.opts){
+      const b = document.createElement("button"); b.type = "button"; b.className = "goal";
+      b.textContent = opt[1]; b.setAttribute("aria-pressed", "false");
+      b.onclick = ()=>{
+        ans[q.k] = ans[q.k] === opt[0] ? undefined : opt[0];
+        row.querySelectorAll(".goal").forEach(x=>x.setAttribute("aria-pressed", "false"));
+        if(ans[q.k]) b.setAttribute("aria-pressed", "true");
+        paint();
+      };
+      row.append(b);
+    }
+    host.append(row);
+  }
+  host.append(out);
+  function paint(){
+    out.textContent = "";
+    if(!ans.situation && !ans.hurt) return;
+    const plan = CC.pickerPlan(ans, DATA, PLAYBOOKS);
+    const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 4px";
+    if(plan.kind === "playbook"){
+      const pb = PLAYBOOKS.find(x=>x.key===plan.key);
+      const a = document.createElement("a"); a.href = "/p/" + pb.key; a.textContent = pb.name;
+      d.append("Run the ", a, " playbook — " + (pb.tagline || pb.desc) + " (" + pb.ids.length + " briefs, one paste). ");
+      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy conductor";
+      cb.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cb, "✓ copied", {name:"copy_conductor", data:{key:pb.key, src:"picker"}});
+      d.append(cb);
+    } else {
+      const p = byId[plan.id];
+      const a = document.createElement("a"); a.href = "/b/" + p.id; a.textContent = p.id + " · " + p.title;
+      d.append("Run ", a, " — " + p.tagline + " → " + p.output + " ");
+      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy the brief";
+      cb.onclick = ()=>{ copyText(withContext(p.body), cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}}); showCopyHint(p.output, p.id); };
+      d.append(cb);
+    }
+    if(!(plan.kind === "brief" && plan.id === plan.alt) && byId[plan.alt]){
+      const aa = document.createElement("a"); aa.href = "/b/" + plan.alt;
+      aa.textContent = plan.alt + " · " + byId[plan.alt].title;
+      d.append(" · or let the agent decide: ", aa);
+    }
+    out.append(d);
+    try{ track("picker_plan", {kind:plan.kind, pick:plan.key || plan.id}); }catch(e){}
+  }
+})();
+
+/* ---- per-repo recommendation — same public-GitHub loader pattern as the Studio ---- */
+(function(){
+  const btn = document.getElementById("rrgo"), input = document.getElementById("rrin"),
+        hint = document.getElementById("rrhint"), out = document.getElementById("rrout");
+  if(!btn || !input || !hint || !out) return;
+  const HINT0 = hint.textContent;
+  function parseRepoRef(s){
+    s = String(s || "").trim();
+    let m = s.match(/github\.com\/([\w.-]+)\/([^\/\s#?]+)/);
+    if(m) return {owner: m[1], repo: m[2].replace(/\.git$/, "")};
+    m = s.match(/^([\w.-]+)\/([\w.-]+)$/);
+    if(m) return {owner: m[1], repo: m[2]};
+    return null;
+  }
+  function note(msg){ hint.textContent = msg; hint.style.color = "var(--act)"; }
+  async function analyze(){
+    out.textContent = ""; hint.textContent = HINT0; hint.style.color = "";
+    const r = parseRepoRef(input.value);
+    if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return; }
+    btn.disabled = true; btn.textContent = "analyzing…";
+    try{
+      const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo + "/contents");
+      if(res.status === 404){ note("GitHub can't find " + r.owner + "/" + r.repo + " — private repos can't be read from here."); return; }
+      if(res.status === 403){ note("GitHub's API rate limit is in the way — try again in a few minutes."); return; }
+      if(!res.ok) throw new Error("http " + res.status);
+      const list = await res.json();
+      if(!Array.isArray(list)) throw new Error("shape");
+      let pkg = null;
+      const pj = list.find(f => f.name === "package.json" && f.download_url);
+      if(pj){ try{ pkg = await (await fetch(pj.download_url)).json(); }catch(e){} }
+      paint(r, CC.repoRecommend(list.map(f => f.name), pkg, DATA));
+    }catch(e){
+      note("Couldn't reach GitHub (offline or blocked) — browse the catalog below, or run 46 · Audit Triage in the repo instead.");
+    }finally{
+      btn.disabled = false; btn.textContent = "analyze";
+    }
+  }
+  function paint(r, rec){
+    out.textContent = "";
+    const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 0";
+    const bb = document.createElement("b"); bb.style.color = "var(--text)"; bb.textContent = r.owner + "/" + r.repo;
+    d.append(bb, rec.stack.length ? " looks like " + rec.stack.join(" + ") + " — start with:" : " — start with:");
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-top:8px";
+    for(const id of rec.ids){
+      const p = byId[id]; if(!p) continue;
+      const a = document.createElement("a"); a.className = "iconbtn"; a.href = "/b/" + p.id;
+      a.textContent = p.id + " · " + p.title;
+      row.append(a);
+    }
+    d.append(row);
+    if(rec.stack.length){
+      const fine = document.createElement("div"); fine.className = "hint"; fine.style.marginTop = "8px";
+      if(!ctx.stack){
+        ctx.stack = rec.stack.join(" + "); saveCtx();
+        const cs = document.getElementById("cstack"); if(cs) cs.value = ctx.stack;
+        fine.textContent = "✓ saved as your Operator-context stack — every brief you copy is now aimed at it";
+      } else {
+        fine.textContent = "your saved Operator context was left untouched — edit it under “aim the briefs at your repo”";
+      }
+      d.append(fine);
+    }
+    out.append(d);
+    track("repo_recommend", {n: rec.ids.length});
+  }
+  btn.onclick = analyze;
+  input.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); analyze(); } });
+  input.addEventListener("input", () => { hint.textContent = HINT0; hint.style.color = ""; });
+})();
+
 // ACTIVATION A3 / CRO F7: a copyable starter brief in the hero, for the ready-to-act newcomer.
 (function(){
   var qb = document.getElementById("quickstart"); if(!qb) return;

@@ -4,6 +4,7 @@ title: Visual Hierarchy Audit
 family: Design
 question: is it beautiful?
 output: HIERARCHY.md
+example: /HIERARCHY.md
 tagline: Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once.
 ---
 # Goal: Visual Hierarchy Audit
@@ -38,7 +39,11 @@ Create `HIERARCHY.md` at repo root:
 3. **Fixes** — usually demotions; the fastest hierarchy fix is quieting what shouts
 4. **The one rule** — the emphasis convention this codebase should adopt
 
+Start the report with today's date. If `HIERARCHY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every claim cites a selector, token, or measured value — no vibes without the pixels that cause them
 - Prefer demoting noise over promoting signal; hierarchy is subtraction first
+- No user interface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

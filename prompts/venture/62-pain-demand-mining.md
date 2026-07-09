@@ -4,7 +4,7 @@ title: Pain & Demand Mining
 family: Venture
 question: is it worth building?
 output: DEMAND.md
-example: /examples/venture/DEMAND.md
+example: /DEMAND.md
 tagline: Proof people actually hurt — verbatim complaints mined from reviews and forums, search and hiring signals, and what they already pay to make the pain stop.
 ---
 # Goal: Pain & Demand Mining
@@ -37,7 +37,11 @@ Create `DEMAND.md` at repo root:
 3. **The verdict** — graded, with the disconfirming read given equal column inches
 4. **The ten people** — where to find ten sufferers to actually talk to this week
 
+Start the report with today's date. If `DEMAND.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Real quotes with links; paraphrase is contamination
 - The disconfirming read is mandatory, not decorative
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking whether to proceed, pivot the pain, or drop it

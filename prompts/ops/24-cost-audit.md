@@ -38,7 +38,11 @@ Create `COSTS.md` at repo root:
 4. **Lifecycle policies to add** — retention/archival rules for the unbounded growth
 5. **Verification plan** — how to confirm each saving after the change
 
+Start the report with today's date. If `COSTS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Show the arithmetic behind every estimate
 - Never save money by making failures more likely — flag those tradeoffs
+- No traceable infrastructure or service spend in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which savings to take

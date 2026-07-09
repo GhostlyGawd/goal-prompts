@@ -38,7 +38,11 @@ Create `CONFIG.md` at repo root:
 3. **Findings** — ranked by outage potential, with evidence
 4. **Fixes** — boot validation and secret moves usually first
 
+Start the report with today's date. If `CONFIG.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Trace reads in code — a var in .env.example is a claim, not a fact
 - Never print a discovered secret's value in the report; name it and locate it only
+- No configuration or environments in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

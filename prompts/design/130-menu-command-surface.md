@@ -40,7 +40,11 @@ Create `MENUS.md` at repo root:
 3. **Promote list** — actions that should leave a menu for a visible control
 4. **The one rule** — the menu convention this codebase should standardize on
 
+Start the report with today's date. If `MENUS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every finding names the menu component and how it is triggered
 - An action nobody can find is an action that does not exist
+- No menus or command surfaces in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which menu fixes to make

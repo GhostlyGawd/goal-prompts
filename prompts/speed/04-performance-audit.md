@@ -4,11 +4,14 @@ title: Performance Audit
 family: Speed
 question: does it scale?
 output: PERF.md
-tagline: Bundle weight, slow queries, N+1s, wasted renders, and missing caches — ranked by latency the user actually feels.
+related: 87 88 140
+tagline: The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths.
 ---
 # Goal: Performance Audit
 
 You are working inside this repo. Mission: find where this product wastes time and bytes, and rank the wins by latency the user actually feels on common paths.
+
+This is the broad pass across every layer. When the database is the suspect, go deep with 87; when the payload is, 88; when caching is, 140.
 
 Read-only pass: build, measure, profile — but change nothing. Your only write is the report file.
 
@@ -39,7 +42,11 @@ Create `PERF.md` at repo root:
 3. **Quick wins vs deep work** — the split, with the top quick win spelled out
 4. **Measurement plan** — how to verify each gain after fixing
 
+Start the report with today's date. If `PERF.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A perf claim needs a number or a mechanism — no vibes
 - Optimize the common path before the edge case
+- No runtime hot paths in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which wins to take

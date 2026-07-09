@@ -1,0 +1,26 @@
+# The full gate on every push and PR — the same steps as `scripts/check`
+# locally and the Vercel build (where a failing build.py blocks the deploy).
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Full gate (build + lint tests + installer test + JS syntax + MCP smoke)
+        run: scripts/check
+      - name: Fail on drift between sources and generated files
+        # Airtight: ANY modified tracked file or ANY untracked new output
+        # (e.g. a new brief's raw/NNN.md) after the rebuild fails the job.
+        run: |
+          git diff --exit-code && test -z "$(git status --porcelain)" || {
+            git status --porcelain
+            echo "::error::Generated files are out of date or uncommitted outputs exist. Run 'scripts/check' (or 'python3 build.py') and commit everything."
+            exit 1
+          }

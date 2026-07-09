@@ -39,7 +39,11 @@ Create `INJECTION.md` at repo root:
 3. **Systemic fixes** — the shared helpers or patterns that would close whole classes at once
 4. **Validation strategy** — where trust boundaries should be drawn going forward
 
+Start the report with today's date. If `INJECTION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Follow the data; a sink is only a bug if untrusted input reaches it
 - Fix at the right layer — escaping output beats sanitizing input beats hoping
+- No untrusted input in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which injection paths to close first

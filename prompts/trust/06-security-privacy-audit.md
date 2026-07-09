@@ -3,8 +3,8 @@ id: "06"
 title: Security & Privacy Audit
 family: Trust
 question: is it safe?
-output: SECURITY.md
-example: /SECURITY.md
+output: SECURITY-AUDIT.md
+example: /SECURITY-AUDIT.md
 tagline: A defensive review of your own codebase — auth gaps, injection surfaces, exposed secrets, and data leaks, ranked by exploitability.
 ---
 # Goal: Security & Privacy Audit
@@ -35,13 +35,16 @@ Cite file and line for every finding.
 - Skip theoretical findings with no realistic path
 
 ## Phase 4 — Report
-Create `SECURITY.md` at repo root:
+Create `SECURITY-AUDIT.md` at repo root:
 1. **Posture summary** — the honest three-sentence version
 2. **Findings** — each: Name · Severity (critical/high/med/low) · Location · Risk scenario (1–2 lines) · Fix · Effort
 3. **Fix-this-week list** — the top 3
 4. **Defaults to adopt** — patterns that prevent whole classes (central authz, parameterized queries, secret scanning)
 
+Start the report with today's date. If `SECURITY-AUDIT.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Their own severity labels must survive scrutiny — justify critical/high
 - One systemic fix beats ten spot patches; say when that's the case
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

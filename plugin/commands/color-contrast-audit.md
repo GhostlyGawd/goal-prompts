@@ -1,0 +1,46 @@
+---
+description: "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology."
+---
+
+# Goal: Color & Contrast Audit
+
+You are working inside this repo. Mission: extract the palette this product actually ships — every color in the code, not the brand deck — and audit it for coherence, contrast, meaning, and dark-mode integrity.
+
+Color only, ratios computed. For drift across the whole style system, 15 proposes the tokens and 105 audits their adoption.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Extract the real palette
+- Grep every color out: hex, rgb and hsl, named colors, tokens and variables — across CSS, components, inline styles, SVGs, and chart configs.
+- Count unique values and cluster the near-duplicates (the four almost-identical grays).
+- Map each cluster to its role where discernible: text, surface, border, brand, state (success, warning, error), data viz.
+
+## Phase 2 — Audit through 8 lenses
+1. **Palette sprawl** — unique values versus tokens; hardcoded hexes bypassing the system; the #333 living next to the #343434
+2. **Contrast compliance** — compute ratios for the real text-on-background pairs (4.5:1 body, 3:1 large text and UI); name the failures and where they appear
+3. **Semantic integrity** — does red always mean danger; success green colliding with brand green; one hue carrying unrelated meanings
+4. **Color as sole signal** — states communicated only by hue: error borders, chart lines, required fields; what a colorblind user loses
+5. **Hierarchy of grays** — how many grays exist and whether they encode elevation and emphasis consistently
+6. **Dark mode integrity** — a real inverted system with adjusted saturation, or filtered and forgotten; hardcoded values that ignore the theme
+7. **Interactive-state color** — hover, focus, active, and disabled derived from the base systematically, or hand-picked mutations
+8. **Data-viz palette** — categorical colors distinguishable, sequential ramps actually ordered, consistent across charts
+
+## Phase 3 — Curate
+- Propose the token set — surfaces, text tiers, borders, brand, states — and the mapping from today's sprawl.
+- Rank contrast failures by user harm: body text first, decorative last.
+
+## Phase 4 — Report
+Create `COLOR.md` at repo root:
+1. **The real palette** — every value, clustered, with counts and roles
+2. **Contrast table** — pair · computed ratio · pass or fail · where it appears
+3. **Findings** — ranked, with files
+4. **The token proposal** — the smallest palette that covers today's uses
+
+Start the report with today's date. If `COLOR.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Every color claim carries the value and its file; every contrast claim carries the computed ratio
+- Meaning first — fixing semantics beats adding shades
+- No UI color choices in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which fixes to make

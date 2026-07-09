@@ -4,11 +4,14 @@ title: Keyboard & Screen-Reader Flow
 family: Trust
 question: is it safe?
 output: A11Y-DEEP.md
+related: 08
 tagline: Walk the product the way assistive-tech users do — keyboard only, then with a screen reader — and find every place that path breaks.
 ---
 # Goal: Keyboard & Screen-Reader Flow
 
 You are working inside this repo. Mission: go past the automated accessibility checks and walk the real interaction paths — operate everything by keyboard, then trace what a screen reader would announce — and find where a non-mouse, non-sighted user gets stuck.
+
+This is the deep assistive-tech walk. For the broad end-to-end accessibility pass along the core journey, run 08 first.
 
 Read-only pass. Drive the UI, read the components and markup; change nothing. Your only write is the report file.
 
@@ -39,7 +42,11 @@ Create `A11Y-DEEP.md` at repo root:
 3. **Findings** — each: WCAG criterion · location · who it blocks · the fix
 4. **Highest-impact fixes** — the handful that unblock the most real AT users
 
+Start the report with today's date. If `A11Y-DEEP.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Test the path, not just the snapshot; automated scans miss the flow
 - Native semantics first; ARIA is a patch, not a foundation
+- No keyboard-operable UI in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which accessibility fixes to make first

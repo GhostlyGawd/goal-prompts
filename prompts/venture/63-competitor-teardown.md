@@ -38,7 +38,11 @@ Create `COMPETITORS.md` at repo root:
 3. **Gap analysis** — gap · evidence it is real · why it is open · graveyard check
 4. **The wedge shortlist** — the 2–3 entries a newcomer could actually win
 
+Start the report with today's date. If `COMPETITORS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Their pages and their customers' words — never marketing-versus-marketing speculation
 - Every gap must survive the why-is-this-open question in writing
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which gap to build positioning around

@@ -4,11 +4,14 @@ title: Developer Portal & Onboarding
 family: API
 question: will developers adopt it?
 output: DEVPORTAL.md
+related: 112
 tagline: The first hour a developer spends with this API — from landing on the docs to a working integration — and where they stall, guess, or give up.
 ---
 # Goal: Developer Portal & Onboarding
 
 You are working inside this repo. Mission: judge the developer's first hour — from finding the docs to making a real call work — because adoption is won or lost before they ever build the actual integration.
+
+This judges the portal and docs — the path to a working call. For the ergonomics of the SDK itself, run 112.
 
 Read-only pass. Read the docs, quickstart, reference, and auth setup; follow them yourself if you can. Change nothing but the report file.
 
@@ -38,7 +41,11 @@ Create `DEVPORTAL.md` at repo root:
 3. **Time-to-integration** — the reality today and the achievable target
 4. **Highest leverage** — the fixes that most shorten the path from docs to done
 
+Start the report with today's date. If `DEVPORTAL.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Judge the path to a working call, not the prettiness of the docs
 - A quickstart that does not run is worse than none; it burns trust
+- No developer portal or public API docs in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which onboarding fixes to make first

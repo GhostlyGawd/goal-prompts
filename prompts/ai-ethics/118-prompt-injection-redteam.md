@@ -4,11 +4,14 @@ title: Prompt-Injection Red-Team
 family: AI-Ethics
 question: is the AI responsible?
 output: REDTEAM.md
+related: 30 35
 tagline: Attack the product's own AI like an adversary — make it ignore instructions, leak secrets, or misuse tools — and find where untrusted input can hijack it.
 ---
 # Goal: Prompt-Injection Red-Team
 
 You are working inside this repo — an authorized red-team of this product's own AI. Mission: try to subvert it the way an attacker would, and find where untrusted input can override its instructions, extract its secrets, or turn its tools against the user.
+
+This is the offensive pass — attack and report what works. For the defensive architecture review, run 35; for prompt hygiene, run 30.
 
 Read-only pass. Read the prompts, tool wiring, and where external content enters the model; reason through attacks; change nothing but the report file.
 
@@ -38,7 +41,11 @@ Create `REDTEAM.md` at repo root:
 3. **Systemic defenses** — input isolation, output filtering, and least-privilege tool design
 4. **Priority** — the injections to close first, by damage and ease
 
+Start the report with today's date. If `REDTEAM.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Treat everything the model reads as attacker-controlled, including retrieved content
 - The fix is rarely a better prompt; it is least privilege and isolation
+- No LLM attack surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which injection risks to close first

@@ -4,6 +4,7 @@ title: Bundle & Asset Weight Audit
 family: Speed
 question: does it scale?
 output: BUNDLE.md
+related: 04 87
 tagline: What the browser actually downloads — oversized bundles, unsplit code, heavy dependencies, and unoptimized assets that slow first paint.
 ---
 # Goal: Bundle & Asset Weight Audit
@@ -38,7 +39,11 @@ Create `BUNDLE.md` at repo root:
 3. **Findings** — each: lens · location · current cost · fix · savings
 4. **The budget to hold** — the per-route ceiling and the check that enforces it
 
+Start the report with today's date. If `BUNDLE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Bytes on the critical path cost more than bytes loaded lazily
 - Measure against a budget; a cleanup with no ceiling drifts back
+- No frontend bundle in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which weight to cut first

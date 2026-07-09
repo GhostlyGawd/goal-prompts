@@ -38,7 +38,11 @@ Create `MODELS.md` at repo root:
 4. **Pinning policy** — one paragraph the team can adopt
 5. **Quick wins** — parameter and caching fixes shippable today
 
+Start the report with today's date. If `MODELS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - No model swap without an eval gate; cost savings that ship regressions are debts
 - Match the model to the step, not the brand to the product
+- No model calls in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which changes to make

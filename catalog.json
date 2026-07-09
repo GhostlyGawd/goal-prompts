@@ -2,7 +2,7 @@
  "base": "https://goal-prompts.vercel.app",
  "briefs": [
   {
-   "chars": 2851,
+   "chars": 3233,
    "family": "Venture",
    "id": "60",
    "output": "OPPORTUNITIES.md",
@@ -13,7 +13,7 @@
    "title": "Opportunity Scan"
   },
   {
-   "chars": 2597,
+   "chars": 2971,
    "family": "Venture",
    "id": "61",
    "output": "NICHE.md",
@@ -24,8 +24,8 @@
    "title": "Niche Map"
   },
   {
-   "chars": 2550,
-   "example": "https://goal-prompts.vercel.app/examples/venture/DEMAND.md",
+   "chars": 2925,
+   "example": "https://goal-prompts.vercel.app/DEMAND.md",
    "family": "Venture",
    "id": "62",
    "output": "DEMAND.md",
@@ -36,7 +36,7 @@
    "title": "Pain & Demand Mining"
   },
   {
-   "chars": 2755,
+   "chars": 3135,
    "example": "https://goal-prompts.vercel.app/examples/venture/COMPETITORS.md",
    "family": "Venture",
    "id": "63",
@@ -48,7 +48,7 @@
    "title": "Competitor Teardown"
   },
   {
-   "chars": 2608,
+   "chars": 2983,
    "family": "Venture",
    "id": "64",
    "output": "MARKET.md",
@@ -59,7 +59,7 @@
    "title": "Market Size & Timing"
   },
   {
-   "chars": 2597,
+   "chars": 2977,
    "family": "Venture",
    "id": "65",
    "output": "POSITIONING.md",
@@ -70,7 +70,7 @@
    "title": "Positioning & Wedge"
   },
   {
-   "chars": 2568,
+   "chars": 2941,
    "family": "Venture",
    "id": "66",
    "output": "MOAT.md",
@@ -81,7 +81,7 @@
    "title": "Moat & Model Check"
   },
   {
-   "chars": 2546,
+   "chars": 2918,
    "example": "https://goal-prompts.vercel.app/examples/venture/VERDICT.md",
    "family": "Venture",
    "id": "67",
@@ -93,7 +93,7 @@
    "title": "Venture Verdict"
   },
   {
-   "chars": 3224,
+   "chars": 3463,
    "example": "https://goal-prompts.vercel.app/IMPROVEMENTS.md",
    "family": "Product",
    "id": "00",
@@ -105,40 +105,7 @@
    "title": "Product Improvement Discovery"
   },
   {
-   "chars": 2182,
-   "family": "Product",
-   "id": "106",
-   "output": "NOTIFICATIONS.md",
-   "question": "what could this be?",
-   "raw": "https://goal-prompts.vercel.app/raw/106.md",
-   "slug": "notification-email",
-   "tagline": "Every message the product sends out of the app — transactional email, push, in-app — for whether it is timely, wanted, clear, and controllable.",
-   "title": "Notification & Email Audit"
-  },
-  {
-   "chars": 2137,
-   "family": "Product",
-   "id": "107",
-   "output": "SEARCH.md",
-   "question": "what could this be?",
-   "raw": "https://goal-prompts.vercel.app/raw/107.md",
-   "slug": "in-app-search",
-   "tagline": "The product's own search — whether users can find what they are looking for: relevance, recall, forgiveness, and what happens on zero results.",
-   "title": "In-App Search Audit"
-  },
-  {
-   "chars": 2223,
-   "family": "Product",
-   "id": "108",
-   "output": "LIFECYCLE.md",
-   "question": "what could this be?",
-   "raw": "https://goal-prompts.vercel.app/raw/108.md",
-   "slug": "account-lifecycle",
-   "tagline": "The whole arc of an account beyond signup — settings, export, plan changes, and deletion — and whether the product treats users with dignity, even leaving.",
-   "title": "Account Lifecycle Audit"
-  },
-  {
-   "chars": 2261,
+   "chars": 2621,
    "family": "Product",
    "id": "45",
    "output": "FEEDBACK.md",
@@ -149,7 +116,40 @@
    "title": "Feedback Loop Audit"
   },
   {
-   "chars": 2390,
+   "chars": 2547,
+   "family": "Product",
+   "id": "106",
+   "output": "NOTIFICATIONS.md",
+   "question": "what could this be?",
+   "raw": "https://goal-prompts.vercel.app/raw/106.md",
+   "slug": "notification-email",
+   "tagline": "Every message the product sends out of the app — transactional email, push, in-app — for whether it is timely, wanted, clear, and controllable.",
+   "title": "Notification & Email Audit"
+  },
+  {
+   "chars": 2486,
+   "family": "Product",
+   "id": "107",
+   "output": "SEARCH.md",
+   "question": "what could this be?",
+   "raw": "https://goal-prompts.vercel.app/raw/107.md",
+   "slug": "in-app-search",
+   "tagline": "The product's own search — whether users can find what they are looking for: relevance, recall, forgiveness, and what happens on zero results.",
+   "title": "In-App Search Audit"
+  },
+  {
+   "chars": 2575,
+   "family": "Product",
+   "id": "108",
+   "output": "LIFECYCLE.md",
+   "question": "what could this be?",
+   "raw": "https://goal-prompts.vercel.app/raw/108.md",
+   "slug": "account-lifecycle",
+   "tagline": "The whole arc of an account beyond signup — settings, export, plan changes, and deletion — and whether the product treats users with dignity, even leaving.",
+   "title": "Account Lifecycle Audit"
+  },
+  {
+   "chars": 2621,
    "example": "https://goal-prompts.vercel.app/BUGS.md",
    "family": "Quality",
    "id": "01",
@@ -161,7 +161,7 @@
    "title": "Bug Hunt"
   },
   {
-   "chars": 2212,
+   "chars": 2446,
    "family": "Quality",
    "id": "02",
    "output": "TESTING.md",
@@ -172,7 +172,7 @@
    "title": "Test Gap Audit"
   },
   {
-   "chars": 2185,
+   "chars": 2547,
    "family": "Quality",
    "id": "03",
    "output": "OBSERVABILITY.md",
@@ -183,40 +183,7 @@
    "title": "Silent Failure Audit"
   },
   {
-   "chars": 2167,
-   "family": "Quality",
-   "id": "100",
-   "output": "TESTQUALITY.md",
-   "question": "does it work?",
-   "raw": "https://goal-prompts.vercel.app/raw/100.md",
-   "slug": "test-quality",
-   "tagline": "Whether the tests actually protect the code — asserting meaningful behavior, or merely executing lines and passing no matter what.",
-   "title": "Test-Quality Audit"
-  },
-  {
-   "chars": 2191,
-   "family": "Quality",
-   "id": "101",
-   "output": "FLAKY.md",
-   "question": "does it work?",
-   "raw": "https://goal-prompts.vercel.app/raw/101.md",
-   "slug": "flaky-test",
-   "tagline": "The tests that fail intermittently — the ones eroding trust in the suite until a red build stops meaning anything.",
-   "title": "Flaky-Test Audit"
-  },
-  {
-   "chars": 2063,
-   "family": "Quality",
-   "id": "102",
-   "output": "PYRAMID.md",
-   "question": "does it work?",
-   "raw": "https://goal-prompts.vercel.app/raw/102.md",
-   "slug": "test-pyramid",
-   "tagline": "The shape of the suite — whether the mix of unit, integration, and end-to-end tests gives fast, reliable confidence or a slow, brittle inversion.",
-   "title": "Test-Pyramid Balance"
-  },
-  {
-   "chars": 2365,
+   "chars": 2721,
    "family": "Quality",
    "id": "98",
    "output": "CONCURRENCY.md",
@@ -227,7 +194,7 @@
    "title": "Concurrency & Race-Condition Audit"
   },
   {
-   "chars": 2313,
+   "chars": 2670,
    "family": "Quality",
    "id": "99",
    "output": "TYPES.md",
@@ -238,18 +205,51 @@
    "title": "Type-Safety Audit"
   },
   {
-   "chars": 2093,
+   "chars": 2522,
+   "family": "Quality",
+   "id": "100",
+   "output": "TESTQUALITY.md",
+   "question": "does it work?",
+   "raw": "https://goal-prompts.vercel.app/raw/100.md",
+   "slug": "test-quality",
+   "tagline": "Whether the tests actually protect the code — asserting meaningful behavior, or merely executing lines and passing no matter what.",
+   "title": "Test-Quality Audit"
+  },
+  {
+   "chars": 2536,
+   "family": "Quality",
+   "id": "101",
+   "output": "FLAKY.md",
+   "question": "does it work?",
+   "raw": "https://goal-prompts.vercel.app/raw/101.md",
+   "slug": "flaky-test",
+   "tagline": "The tests that fail intermittently — the ones eroding trust in the suite until a red build stops meaning anything.",
+   "title": "Flaky-Test Audit"
+  },
+  {
+   "chars": 3213,
+   "family": "Quality",
+   "id": "102",
+   "output": "PYRAMID.md",
+   "question": "does it work?",
+   "raw": "https://goal-prompts.vercel.app/raw/102.md",
+   "slug": "test-pyramid",
+   "tagline": "Count and time the suite by layer, draw the shape it actually makes, and compute confidence-per-second — the number that says which tests earn their runtime.",
+   "title": "Test-Pyramid Balance"
+  },
+  {
+   "chars": 2586,
    "family": "Speed",
    "id": "04",
    "output": "PERF.md",
    "question": "does it scale?",
    "raw": "https://goal-prompts.vercel.app/raw/04.md",
    "slug": "performance-audit",
-   "tagline": "Bundle weight, slow queries, N+1s, wasted renders, and missing caches — ranked by latency the user actually feels.",
+   "tagline": "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths.",
    "title": "Performance Audit"
   },
   {
-   "chars": 2286,
+   "chars": 2809,
    "family": "Speed",
    "id": "05",
    "output": "SCALE.md",
@@ -260,7 +260,7 @@
    "title": "10x Stress Review"
   },
   {
-   "chars": 2477,
+   "chars": 2838,
    "family": "Speed",
    "id": "51",
    "output": "LATENCY.md",
@@ -271,7 +271,7 @@
    "title": "Latency Budget Audit"
   },
   {
-   "chars": 2142,
+   "chars": 2495,
    "family": "Speed",
    "id": "87",
    "output": "QUERIES.md",
@@ -282,7 +282,7 @@
    "title": "Query Performance & N+1 Audit"
   },
   {
-   "chars": 2097,
+   "chars": 2448,
    "family": "Speed",
    "id": "88",
    "output": "BUNDLE.md",
@@ -293,11 +293,22 @@
    "title": "Bundle & Asset Weight Audit"
   },
   {
-   "chars": 2386,
-   "example": "https://goal-prompts.vercel.app/SECURITY.md",
+   "chars": 3537,
+   "family": "Speed",
+   "id": "140",
+   "output": "CACHES.md",
+   "question": "does it scale?",
+   "raw": "https://goal-prompts.vercel.app/raw/140.md",
+   "slug": "caching-strategy",
+   "tagline": "Every cache from CDN headers to that module-level dict — keys, TTLs, who invalidates what — the stale read, the stampede, and the key that leaks between users.",
+   "title": "Caching Strategy Audit"
+  },
+  {
+   "chars": 2633,
+   "example": "https://goal-prompts.vercel.app/SECURITY-AUDIT.md",
    "family": "Trust",
    "id": "06",
-   "output": "SECURITY.md",
+   "output": "SECURITY-AUDIT.md",
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/06.md",
    "slug": "security-privacy-audit",
@@ -305,18 +316,18 @@
    "title": "Security & Privacy Audit"
   },
   {
-   "chars": 2046,
+   "chars": 2546,
    "family": "Trust",
    "id": "07",
    "output": "DEPS.md",
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/07.md",
    "slug": "dependency-health",
-   "tagline": "Vulnerable, abandoned, oversized, or duplicated packages — with a safe upgrade order and removal candidates.",
+   "tagline": "Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named.",
    "title": "Dependency Health Check"
   },
   {
-   "chars": 2196,
+   "chars": 2689,
    "family": "Trust",
    "id": "08",
    "output": "A11Y.md",
@@ -327,7 +338,7 @@
    "title": "Accessibility Audit"
   },
   {
-   "chars": 2660,
+   "chars": 3013,
    "family": "Trust",
    "id": "68",
    "output": "I18N.md",
@@ -338,7 +349,7 @@
    "title": "Localization Readiness"
   },
   {
-   "chars": 2611,
+   "chars": 2989,
    "family": "Trust",
    "id": "69",
    "output": "LICENSES.md",
@@ -349,7 +360,7 @@
    "title": "License & Compliance"
   },
   {
-   "chars": 2609,
+   "chars": 2983,
    "family": "Trust",
    "id": "81",
    "output": "SECRETS.md",
@@ -360,7 +371,7 @@
    "title": "Secrets & Credential Hygiene"
   },
   {
-   "chars": 2359,
+   "chars": 2726,
    "family": "Trust",
    "id": "82",
    "output": "ACCESS.md",
@@ -371,7 +382,7 @@
    "title": "Access-Control & Authorization Audit"
   },
   {
-   "chars": 2423,
+   "chars": 2777,
    "family": "Trust",
    "id": "83",
    "output": "INJECTION.md",
@@ -382,7 +393,7 @@
    "title": "Input & Injection Audit"
   },
   {
-   "chars": 2279,
+   "chars": 2638,
    "family": "Trust",
    "id": "84",
    "output": "THREATS.md",
@@ -393,18 +404,18 @@
    "title": "Threat Model & Abuse Cases"
   },
   {
-   "chars": 2204,
+   "chars": 3236,
    "family": "Trust",
    "id": "85",
    "output": "UPGRADES.md",
    "question": "is it safe?",
    "raw": "https://goal-prompts.vercel.app/raw/85.md",
    "slug": "dependency-currency",
-   "tagline": "How far the dependency tree has drifted and how risky it is to catch up — the upgrade debt that compounds until a forced, painful jump.",
+   "tagline": "Run the outdated command and read the lockfile's birthdays — majors behind, EOL dates, the two packages pinning everything — and the forced jump the drift is scheduling.",
    "title": "Dependency Currency Audit"
   },
   {
-   "chars": 2309,
+   "chars": 2789,
    "family": "Trust",
    "id": "86",
    "output": "A11Y-DEEP.md",
@@ -415,7 +426,7 @@
    "title": "Keyboard & Screen-Reader Flow"
   },
   {
-   "chars": 2171,
+   "chars": 2534,
    "family": "Compliance",
    "id": "125",
    "output": "CONSENT.md",
@@ -426,7 +437,7 @@
    "title": "Consent & Cookie Audit"
   },
   {
-   "chars": 2306,
+   "chars": 2805,
    "family": "Compliance",
    "id": "126",
    "output": "DSAR.md",
@@ -437,7 +448,7 @@
    "title": "Data-Subject-Rights Readiness"
   },
   {
-   "chars": 2165,
+   "chars": 2530,
    "family": "Compliance",
    "id": "127",
    "output": "ENCRYPTION.md",
@@ -448,7 +459,7 @@
    "title": "Encryption & Key Management"
   },
   {
-   "chars": 2281,
+   "chars": 2647,
    "family": "Compliance",
    "id": "128",
    "output": "AUDITLOG.md",
@@ -459,7 +470,7 @@
    "title": "Audit-Trail Audit"
   },
   {
-   "chars": 2004,
+   "chars": 2506,
    "family": "Growth",
    "id": "09",
    "output": "FUNNEL.md",
@@ -470,7 +481,7 @@
    "title": "Funnel Friction Audit"
   },
   {
-   "chars": 1990,
+   "chars": 2362,
    "family": "Growth",
    "id": "10",
    "output": "COMPETITIVE.md",
@@ -481,18 +492,7 @@
    "title": "Competitive Gap Scan"
   },
   {
-   "chars": 2232,
-   "family": "Growth",
-   "id": "109",
-   "output": "FORMS.md",
-   "question": "does it grow?",
-   "raw": "https://goal-prompts.vercel.app/raw/109.md",
-   "slug": "forms-validation",
-   "tagline": "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something.",
-   "title": "Forms & Validation Audit"
-  },
-  {
-   "chars": 2119,
+   "chars": 2483,
    "family": "Growth",
    "id": "11",
    "output": "REVENUE.md",
@@ -503,18 +503,7 @@
    "title": "Monetization Map"
   },
   {
-   "chars": 2261,
-   "family": "Growth",
-   "id": "110",
-   "output": "CHECKOUT.md",
-   "question": "does it grow?",
-   "raw": "https://goal-prompts.vercel.app/raw/110.md",
-   "slug": "checkout-payment",
-   "tagline": "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery.",
-   "title": "Checkout & Payment Flow Audit"
-  },
-  {
-   "chars": 2169,
+   "chars": 2551,
    "family": "Growth",
    "id": "12",
    "output": "AI-IDEAS.md",
@@ -525,7 +514,7 @@
    "title": "AI Opportunity Scan"
   },
   {
-   "chars": 2474,
+   "chars": 2823,
    "family": "Growth",
    "id": "70",
    "output": "SEO.md",
@@ -536,7 +525,8 @@
    "title": "SEO & Discoverability"
   },
   {
-   "chars": 3017,
+   "chars": 3509,
+   "example": "https://goal-prompts.vercel.app/CRO.md",
    "family": "Growth",
    "id": "75",
    "output": "CRO.md",
@@ -547,7 +537,8 @@
    "title": "Conversion Rate Optimization"
   },
   {
-   "chars": 2882,
+   "chars": 3243,
+   "example": "https://goal-prompts.vercel.app/RETENTION.md",
    "family": "Growth",
    "id": "78",
    "output": "RETENTION.md",
@@ -558,7 +549,8 @@
    "title": "Retention & Lifecycle Audit"
   },
   {
-   "chars": 3137,
+   "chars": 3500,
+   "example": "https://goal-prompts.vercel.app/PROOF.md",
    "family": "Growth",
    "id": "79",
    "output": "PROOF.md",
@@ -569,7 +561,8 @@
    "title": "Social Proof & Credibility"
   },
   {
-   "chars": 3063,
+   "chars": 3566,
+   "example": "https://goal-prompts.vercel.app/ACTIVATION.md",
    "family": "Growth",
    "id": "80",
    "output": "ACTIVATION.md",
@@ -580,7 +573,29 @@
    "title": "Activation & First-Win Audit"
   },
   {
-   "chars": 2146,
+   "chars": 2572,
+   "family": "Growth",
+   "id": "109",
+   "output": "FORMS.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/109.md",
+   "slug": "forms-validation",
+   "tagline": "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something.",
+   "title": "Forms & Validation Audit"
+  },
+  {
+   "chars": 2612,
+   "family": "Growth",
+   "id": "110",
+   "output": "CHECKOUT.md",
+   "question": "does it grow?",
+   "raw": "https://goal-prompts.vercel.app/raw/110.md",
+   "slug": "checkout-payment",
+   "tagline": "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery.",
+   "title": "Checkout & Payment Flow Audit"
+  },
+  {
+   "chars": 2377,
    "family": "Team",
    "id": "13",
    "output": "DEBT.md",
@@ -591,7 +606,7 @@
    "title": "Tech Debt Map"
   },
   {
-   "chars": 2095,
+   "chars": 2466,
    "example": "https://goal-prompts.vercel.app/DX.md",
    "family": "Team",
    "id": "14",
@@ -603,7 +618,7 @@
    "title": "New-Dev Onboarding Audit"
   },
   {
-   "chars": 2151,
+   "chars": 2719,
    "family": "Team",
    "id": "15",
    "output": "DESIGN-SYSTEM.md",
@@ -614,7 +629,7 @@
    "title": "Design System Consolidation"
   },
   {
-   "chars": 2522,
+   "chars": 2900,
    "family": "Team",
    "id": "52",
    "output": "AGENT-READINESS.md",
@@ -625,7 +640,7 @@
    "title": "Agent Readiness Audit"
   },
   {
-   "chars": 2525,
+   "chars": 2889,
    "family": "Team",
    "id": "72",
    "output": "OWNERSHIP.md",
@@ -636,10 +651,10 @@
    "title": "Ownership & Bus Factor"
   },
   {
-   "chars": 2128,
+   "chars": 2492,
    "family": "Team",
    "id": "94",
-   "output": "DX.md",
+   "output": "INNERLOOP.md",
    "question": "can others build on it?",
    "raw": "https://goal-prompts.vercel.app/raw/94.md",
    "slug": "inner-loop-speed",
@@ -647,7 +662,7 @@
    "title": "Inner-Loop Speed Audit"
   },
   {
-   "chars": 2229,
+   "chars": 2585,
    "family": "Team",
    "id": "95",
    "output": "DEBUG.md",
@@ -658,7 +673,7 @@
    "title": "Debuggability Audit"
   },
   {
-   "chars": 2167,
+   "chars": 2509,
    "family": "Team",
    "id": "96",
    "output": "CIFEEDBACK.md",
@@ -669,7 +684,7 @@
    "title": "CI Feedback-Loop Audit"
   },
   {
-   "chars": 2206,
+   "chars": 2570,
    "family": "Team",
    "id": "97",
    "output": "DECISIONS.md",
@@ -680,7 +695,7 @@
    "title": "Decision-Record Audit"
   },
   {
-   "chars": 2275,
+   "chars": 2753,
    "family": "API",
    "id": "111",
    "output": "WEBHOOKS.md",
@@ -691,7 +706,7 @@
    "title": "Webhook Design Audit"
   },
   {
-   "chars": 2203,
+   "chars": 2681,
    "family": "API",
    "id": "112",
    "output": "SDK.md",
@@ -702,7 +717,7 @@
    "title": "SDK Ergonomics Audit"
   },
   {
-   "chars": 2292,
+   "chars": 2650,
    "family": "API",
    "id": "113",
    "output": "VERSIONING.md",
@@ -713,7 +728,7 @@
    "title": "API Versioning & Deprecation"
   },
   {
-   "chars": 2236,
+   "chars": 2596,
    "family": "API",
    "id": "114",
    "output": "QUOTAS.md",
@@ -724,7 +739,7 @@
    "title": "Rate-Limit & Quota Design"
   },
   {
-   "chars": 2166,
+   "chars": 2650,
    "family": "API",
    "id": "115",
    "output": "DEVPORTAL.md",
@@ -735,18 +750,18 @@
    "title": "Developer Portal & Onboarding"
   },
   {
-   "chars": 2168,
-   "family": "Clarity",
-   "id": "103",
-   "output": "ERRORS.md",
-   "question": "is it understood?",
-   "raw": "https://goal-prompts.vercel.app/raw/103.md",
-   "slug": "error-message-audit",
-   "tagline": "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck.",
-   "title": "Error-Message Audit"
+   "chars": 3429,
+   "family": "API",
+   "id": "136",
+   "output": "PACKAGE.md",
+   "question": "will developers adopt it?",
+   "raw": "https://goal-prompts.vercel.app/raw/136.md",
+   "slug": "package-api-design",
+   "tagline": "Read the package the way a stranger's bundler does — every export weighed, typed, and judged: the accidental API, the semver debt, and what the next major must break.",
+   "title": "Library & Package API Design"
   },
   {
-   "chars": 2008,
+   "chars": 2239,
    "family": "Clarity",
    "id": "16",
    "output": "DOCS.md",
@@ -757,7 +772,7 @@
    "title": "Documentation Audit"
   },
   {
-   "chars": 2064,
+   "chars": 2414,
    "family": "Clarity",
    "id": "17",
    "output": "COPY.md",
@@ -768,7 +783,7 @@
    "title": "Copy & Voice Audit"
   },
   {
-   "chars": 2253,
+   "chars": 2599,
    "family": "Clarity",
    "id": "18",
    "output": "API.md",
@@ -779,7 +794,8 @@
    "title": "API Contract Review"
   },
   {
-   "chars": 3014,
+   "chars": 3388,
+   "example": "https://goal-prompts.vercel.app/COMPREHENSION.md",
    "family": "Clarity",
    "id": "76",
    "output": "COMPREHENSION.md",
@@ -790,95 +806,30 @@
    "title": "Comprehension Audit"
   },
   {
-   "chars": 2149,
-   "family": "Design",
-   "id": "104",
-   "output": "MOBILE.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/104.md",
-   "slug": "mobile-responsive",
-   "tagline": "The product on a phone — whether layouts, touch targets, and performance hold up on small screens and real devices, or quietly assume a desktop.",
-   "title": "Mobile & Responsive Audit"
+   "chars": 2530,
+   "family": "Clarity",
+   "id": "103",
+   "output": "ERRORS.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/103.md",
+   "slug": "error-message-audit",
+   "tagline": "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck.",
+   "title": "Error-Message Audit"
   },
   {
-   "chars": 2320,
-   "family": "Design",
-   "id": "105",
-   "output": "TOKEN-ADOPTION.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/105.md",
-   "slug": "design-token-adoption",
-   "tagline": "Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync.",
-   "title": "Design-Token Adoption Audit"
+   "chars": 3376,
+   "family": "Clarity",
+   "id": "135",
+   "output": "CLI.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/135.md",
+   "slug": "cli-ux",
+   "tagline": "Run the binary like a stranger — help screens, wrong flags, bad input, exit codes, --json — an annotated transcript of where the CLI teaches and where it bites.",
+   "title": "CLI Tool UX Audit"
   },
   {
-   "chars": 2567,
-   "family": "Design",
-   "id": "129",
-   "output": "NAVIGATION.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/129.md",
-   "slug": "navigation-wayfinding",
-   "tagline": "The three questions every screen owes a user — where am I, where can I go, how do I get back — plus the nav that hides, the dead ends, and the jargon labels.",
-   "title": "Navigation & Wayfinding Audit"
-  },
-  {
-   "chars": 2734,
-   "family": "Design",
-   "id": "130",
-   "output": "MENUS.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/130.md",
-   "slug": "menu-command-surface",
-   "tagline": "Menus, dropdowns, context menus, and command palettes — do they reveal what is inside, work by keyboard and thumb, and still find things as the list grows?",
-   "title": "Menu & Command Surface Audit"
-  },
-  {
-   "chars": 2815,
-   "family": "Design",
-   "id": "131",
-   "output": "DATAVIZ.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/131.md",
-   "slug": "data-visualization",
-   "tagline": "Every chart, graph, and metric put to the truth test — right form, honest axes, labeled and legible, accessible beyond color, and numbers that match their source.",
-   "title": "Data Visualization Audit"
-  },
-  {
-   "chars": 2653,
-   "family": "Design",
-   "id": "132",
-   "output": "DASHBOARD.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/132.md",
-   "slug": "dashboard-density",
-   "tagline": "Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental.",
-   "title": "Dashboard & Density Audit"
-  },
-  {
-   "chars": 2762,
-   "family": "Design",
-   "id": "133",
-   "output": "EMPTYSTATES.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/133.md",
-   "slug": "empty-zero-data-states",
-   "tagline": "The screens users meet with nothing yet — first run, no results, cleared, deleted, error-empty — and whether each teaches the next step or just shows a blank and a shrug.",
-   "title": "Empty & Zero-Data States Audit"
-  },
-  {
-   "chars": 2655,
-   "family": "Design",
-   "id": "134",
-   "output": "ICONOGRAPHY.md",
-   "question": "is it beautiful?",
-   "raw": "https://goal-prompts.vercel.app/raw/134.md",
-   "slug": "iconography-visual-language",
-   "tagline": "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check.",
-   "title": "Iconography & Visual Language Audit"
-  },
-  {
-   "chars": 2609,
+   "chars": 2962,
+   "example": "https://goal-prompts.vercel.app/HIERARCHY.md",
    "family": "Design",
    "id": "54",
    "output": "HIERARCHY.md",
@@ -889,7 +840,8 @@
    "title": "Visual Hierarchy Audit"
   },
   {
-   "chars": 2525,
+   "chars": 2878,
+   "example": "https://goal-prompts.vercel.app/TYPOGRAPHY.md",
    "family": "Design",
    "id": "55",
    "output": "TYPOGRAPHY.md",
@@ -900,7 +852,8 @@
    "title": "Typography Audit"
   },
   {
-   "chars": 2525,
+   "chars": 3001,
+   "example": "https://goal-prompts.vercel.app/COLOR.md",
    "family": "Design",
    "id": "56",
    "output": "COLOR.md",
@@ -911,7 +864,8 @@
    "title": "Color & Contrast Audit"
   },
   {
-   "chars": 2435,
+   "chars": 2780,
+   "example": "https://goal-prompts.vercel.app/LAYOUT.md",
    "family": "Design",
    "id": "57",
    "output": "LAYOUT.md",
@@ -922,7 +876,8 @@
    "title": "Spacing & Layout Audit"
   },
   {
-   "chars": 2602,
+   "chars": 2952,
+   "example": "https://goal-prompts.vercel.app/STATES.md",
    "family": "Design",
    "id": "58",
    "output": "STATES.md",
@@ -933,7 +888,8 @@
    "title": "Interaction States & Motion Audit"
   },
   {
-   "chars": 2678,
+   "chars": 3026,
+   "example": "https://goal-prompts.vercel.app/BRAND.md",
    "family": "Design",
    "id": "59",
    "output": "BRAND.md",
@@ -944,7 +900,8 @@
    "title": "Brand Coherence Audit"
   },
   {
-   "chars": 2948,
+   "chars": 3337,
+   "example": "https://goal-prompts.vercel.app/SHOWCASE.md",
    "family": "Design",
    "id": "77",
    "output": "SHOWCASE.md",
@@ -955,7 +912,95 @@
    "title": "Show, Don't Tell"
   },
   {
-   "chars": 2297,
+   "chars": 2499,
+   "family": "Design",
+   "id": "104",
+   "output": "MOBILE.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/104.md",
+   "slug": "mobile-responsive",
+   "tagline": "The product on a phone — whether layouts, touch targets, and performance hold up on small screens and real devices, or quietly assume a desktop.",
+   "title": "Mobile & Responsive Audit"
+  },
+  {
+   "chars": 2792,
+   "family": "Design",
+   "id": "105",
+   "output": "TOKEN-ADOPTION.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/105.md",
+   "slug": "design-token-adoption",
+   "tagline": "Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync.",
+   "title": "Design-Token Adoption Audit"
+  },
+  {
+   "chars": 2925,
+   "family": "Design",
+   "id": "129",
+   "output": "NAVIGATION.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/129.md",
+   "slug": "navigation-wayfinding",
+   "tagline": "The three questions every screen owes a user — where am I, where can I go, how do I get back — plus the nav that hides, the dead ends, and the jargon labels.",
+   "title": "Navigation & Wayfinding Audit"
+  },
+  {
+   "chars": 3094,
+   "family": "Design",
+   "id": "130",
+   "output": "MENUS.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/130.md",
+   "slug": "menu-command-surface",
+   "tagline": "Menus, dropdowns, context menus, and command palettes — do they reveal what is inside, work by keyboard and thumb, and still find things as the list grows?",
+   "title": "Menu & Command Surface Audit"
+  },
+  {
+   "chars": 3181,
+   "family": "Design",
+   "id": "131",
+   "output": "DATAVIZ.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/131.md",
+   "slug": "data-visualization",
+   "tagline": "Every chart, graph, and metric put to the truth test — right form, honest axes, labeled and legible, accessible beyond color, and numbers that match their source.",
+   "title": "Data Visualization Audit"
+  },
+  {
+   "chars": 3002,
+   "family": "Design",
+   "id": "132",
+   "output": "DASHBOARD.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/132.md",
+   "slug": "dashboard-density",
+   "tagline": "Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental.",
+   "title": "Dashboard & Density Audit"
+  },
+  {
+   "chars": 3136,
+   "family": "Design",
+   "id": "133",
+   "output": "EMPTYSTATES.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/133.md",
+   "slug": "empty-zero-data-states",
+   "tagline": "The screens users meet with nothing yet — first run, no results, cleared, deleted, error-empty — and whether each teaches the next step or just shows a blank and a shrug.",
+   "title": "Empty & Zero-Data States Audit"
+  },
+  {
+   "chars": 3001,
+   "family": "Design",
+   "id": "134",
+   "output": "ICONOGRAPHY.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/134.md",
+   "slug": "iconography-visual-language",
+   "tagline": "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check.",
+   "title": "Iconography & Visual Language Audit"
+  },
+  {
+   "chars": 2648,
    "family": "Data",
    "id": "19",
    "output": "SCHEMA.md",
@@ -966,7 +1011,7 @@
    "title": "Schema Review"
   },
   {
-   "chars": 2139,
+   "chars": 2506,
    "family": "Data",
    "id": "20",
    "output": "ANALYTICS.md",
@@ -977,7 +1022,7 @@
    "title": "Analytics Coverage Audit"
   },
   {
-   "chars": 2037,
+   "chars": 2528,
    "family": "Data",
    "id": "21",
    "output": "PRIVACY.md",
@@ -988,7 +1033,7 @@
    "title": "PII & Retention Map"
   },
   {
-   "chars": 2072,
+   "chars": 2457,
    "family": "Data",
    "id": "22",
    "output": "HOTSPOTS.md",
@@ -999,7 +1044,7 @@
    "title": "Git Hotspot Mining"
   },
   {
-   "chars": 2728,
+   "chars": 3085,
    "family": "Data",
    "id": "71",
    "output": "MIGRATIONS.md",
@@ -1010,7 +1055,7 @@
    "title": "Migration Safety"
   },
   {
-   "chars": 2335,
+   "chars": 2704,
    "family": "Data",
    "id": "89",
    "output": "INTEGRITY.md",
@@ -1021,7 +1066,7 @@
    "title": "Data Integrity Audit"
   },
   {
-   "chars": 2295,
+   "chars": 2648,
    "family": "Data",
    "id": "90",
    "output": "METRICS.md",
@@ -1032,7 +1077,29 @@
    "title": "Metric Definition Consistency"
   },
   {
-   "chars": 2089,
+   "chars": 3478,
+   "family": "Data",
+   "id": "138",
+   "output": "EVENTS.md",
+   "question": "is it sound?",
+   "raw": "https://goal-prompts.vercel.app/raw/138.md",
+   "slug": "event-contracts",
+   "tagline": "Diff what producers write against what consumers assume — schema drift, ordering bets, missing idempotency keys — and find the message that breaks when a deploy staggers.",
+   "title": "Event & Message Contracts"
+  },
+  {
+   "chars": 3516,
+   "family": "Data",
+   "id": "139",
+   "output": "PIPELINES.md",
+   "question": "is it sound?",
+   "raw": "https://goal-prompts.vercel.app/raw/139.md",
+   "slug": "pipeline-quality",
+   "tagline": "Run every job twice on paper and yesterday once more — duplicates, half-written partitions, now() in a backfill — and a ledger of who notices stale data.",
+   "title": "Data Pipeline Quality"
+  },
+  {
+   "chars": 2442,
    "family": "Ops",
    "id": "23",
    "output": "RELEASE.md",
@@ -1043,7 +1110,7 @@
    "title": "Release Pipeline Audit"
   },
   {
-   "chars": 2097,
+   "chars": 2473,
    "family": "Ops",
    "id": "24",
    "output": "COSTS.md",
@@ -1054,7 +1121,7 @@
    "title": "Cost Audit"
   },
   {
-   "chars": 2167,
+   "chars": 2529,
    "family": "Ops",
    "id": "25",
    "output": "RELIABILITY.md",
@@ -1065,7 +1132,7 @@
    "title": "Incident Readiness Review"
   },
   {
-   "chars": 2427,
+   "chars": 2792,
    "family": "Ops",
    "id": "53",
    "output": "CONFIG.md",
@@ -1076,7 +1143,7 @@
    "title": "Config & Environment Audit"
   },
   {
-   "chars": 2698,
+   "chars": 3063,
    "family": "Ops",
    "id": "73",
    "output": "TELEMETRY.md",
@@ -1087,7 +1154,7 @@
    "title": "Telemetry & SLOs"
   },
   {
-   "chars": 2231,
+   "chars": 2584,
    "family": "Ops",
    "id": "91",
    "output": "RECOVERY.md",
@@ -1098,7 +1165,7 @@
    "title": "Backup & Recovery Audit"
   },
   {
-   "chars": 2306,
+   "chars": 2664,
    "family": "Ops",
    "id": "92",
    "output": "ROLLBACK.md",
@@ -1109,7 +1176,7 @@
    "title": "Feature-Flag & Rollback Readiness"
   },
   {
-   "chars": 2319,
+   "chars": 2674,
    "family": "Ops",
    "id": "93",
    "output": "LOCKIN.md",
@@ -1120,7 +1187,18 @@
    "title": "Vendor Lock-In Audit"
   },
   {
-   "chars": 2211,
+   "chars": 3347,
+   "family": "Ops",
+   "id": "137",
+   "output": "INFRA.md",
+   "question": "does it run?",
+   "raw": "https://goal-prompts.vercel.app/raw/137.md",
+   "slug": "infra-as-code",
+   "tagline": "Read the Terraform, K8s, and Dockerfiles the way the machine will — :latest tags, plaintext secrets, copy-pasted stanzas — and map the blast radius of one bad apply.",
+   "title": "Infra-as-Code Audit"
+  },
+  {
+   "chars": 2582,
    "family": "Reliability",
    "id": "121",
    "output": "DEGRADE.md",
@@ -1131,29 +1209,29 @@
    "title": "Graceful Degradation Audit"
   },
   {
-   "chars": 2272,
+   "chars": 3334,
    "family": "Reliability",
    "id": "122",
    "output": "CHAOS.md",
    "question": "will it stay up?",
    "raw": "https://goal-prompts.vercel.app/raw/122.md",
    "slug": "failure-injection",
-   "tagline": "Whether the system is ready to be tested against failure — and what would actually happen if its key dependencies died — before a real incident runs the experiment.",
+   "tagline": "Kill every dependency on paper — trace the actual catch, timeout, and fallback code, or its absence — and script the game day before production improvises one.",
    "title": "Failure-Injection Readiness"
   },
   {
-   "chars": 2243,
+   "chars": 3501,
    "family": "Reliability",
    "id": "123",
    "output": "CAPACITY.md",
    "question": "will it stay up?",
    "raw": "https://goal-prompts.vercel.app/raw/123.md",
    "slug": "capacity-scalability",
-   "tagline": "Whether the system can absorb growth — more users, data, and load — and which bottleneck gives out first when traffic multiplies.",
+   "tagline": "Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today.",
    "title": "Capacity & Scalability Audit"
   },
   {
-   "chars": 2337,
+   "chars": 2695,
    "family": "Reliability",
    "id": "124",
    "output": "ABUSE.md",
@@ -1164,7 +1242,7 @@
    "title": "Abuse & Overload Protection"
   },
   {
-   "chars": 2154,
+   "chars": 2386,
    "family": "Subtract",
    "id": "26",
    "output": "PRUNE.md",
@@ -1175,7 +1253,7 @@
    "title": "Prune Audit"
   },
   {
-   "chars": 2186,
+   "chars": 2421,
    "family": "Subtract",
    "id": "27",
    "output": "SIMPLIFY.md",
@@ -1186,29 +1264,29 @@
    "title": "Simplification Pass"
   },
   {
-   "chars": 2053,
+   "chars": 2333,
    "family": "Meta",
    "id": "28",
    "output": "ROADMAP.md",
-   "question": "do the reports compose?",
+   "question": "do the reports add up?",
    "raw": "https://goal-prompts.vercel.app/raw/28.md",
    "slug": "roadmap-synthesis",
    "tagline": "The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan.",
    "title": "Roadmap Synthesis"
   },
   {
-   "chars": 1830,
+   "chars": 2112,
    "family": "Meta",
    "id": "29",
    "output": "HEALTH.md",
-   "question": "do the reports compose?",
+   "question": "do the reports add up?",
    "raw": "https://goal-prompts.vercel.app/raw/29.md",
    "slug": "health-check",
    "tagline": "A fast weekly vitals pass — tests, build, deps, TODOs — diffed against the last run so drift shows up as trend arrows.",
    "title": "Recurring Health Check"
   },
   {
-   "chars": 2937,
+   "chars": 3964,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -1219,7 +1297,7 @@
    "title": "Audit Triage"
   },
   {
-   "chars": 3282,
+   "chars": 3408,
    "example": "https://goal-prompts.vercel.app/FIXLOG.md",
    "family": "Act",
    "id": "47",
@@ -1231,7 +1309,7 @@
    "title": "The Fixer"
   },
   {
-   "chars": 2655,
+   "chars": 3146,
    "family": "Act",
    "id": "74",
    "output": "CHANGE-RISK.md",
@@ -1242,7 +1320,7 @@
    "title": "Change Risk Review"
   },
   {
-   "chars": 2320,
+   "chars": 2833,
    "family": "Agent",
    "id": "30",
    "output": "PROMPTS.md",
@@ -1253,7 +1331,7 @@
    "title": "Prompt & Instruction Audit"
   },
   {
-   "chars": 2235,
+   "chars": 2592,
    "family": "Agent",
    "id": "31",
    "output": "TOOLS.md",
@@ -1264,7 +1342,7 @@
    "title": "Tool Design Review"
   },
   {
-   "chars": 2122,
+   "chars": 2468,
    "family": "Agent",
    "id": "32",
    "output": "LOOPS.md",
@@ -1275,7 +1353,7 @@
    "title": "Loop & Termination Audit"
   },
   {
-   "chars": 2232,
+   "chars": 2589,
    "family": "Agent",
    "id": "33",
    "output": "CONTEXT.md",
@@ -1286,7 +1364,7 @@
    "title": "Context Engineering Audit"
   },
   {
-   "chars": 2201,
+   "chars": 2560,
    "family": "Agent",
    "id": "34",
    "output": "EVALS.md",
@@ -1297,7 +1375,7 @@
    "title": "Eval Coverage Audit"
   },
   {
-   "chars": 2316,
+   "chars": 2829,
    "family": "Agent",
    "id": "35",
    "output": "GUARDRAILS.md",
@@ -1308,7 +1386,7 @@
    "title": "Guardrails Audit"
   },
   {
-   "chars": 2295,
+   "chars": 2642,
    "family": "Agent",
    "id": "36",
    "output": "MODELS.md",
@@ -1319,7 +1397,7 @@
    "title": "Model Strategy Review"
   },
   {
-   "chars": 2243,
+   "chars": 2598,
    "family": "Agent",
    "id": "37",
    "output": "TRACES.md",
@@ -1330,7 +1408,7 @@
    "title": "Trace & Replay Audit"
   },
   {
-   "chars": 2187,
+   "chars": 2534,
    "family": "Agent",
    "id": "38",
    "output": "TOKENS.md",
@@ -1341,7 +1419,7 @@
    "title": "Token Economics Audit"
   },
   {
-   "chars": 2619,
+   "chars": 2984,
    "family": "Agent",
    "id": "48",
    "output": "MEMORY.md",
@@ -1352,7 +1430,7 @@
    "title": "Memory & State Audit"
   },
   {
-   "chars": 2532,
+   "chars": 2896,
    "family": "Agent",
    "id": "49",
    "output": "RETRIEVAL.md",
@@ -1363,7 +1441,7 @@
    "title": "Retrieval Quality Audit"
   },
   {
-   "chars": 2468,
+   "chars": 2824,
    "family": "Agent",
    "id": "50",
    "output": "TOPOLOGY.md",
@@ -1374,7 +1452,7 @@
    "title": "Multi-Agent Topology Review"
   },
   {
-   "chars": 2337,
+   "chars": 2695,
    "family": "Automation",
    "id": "39",
    "output": "WORKFLOWS.md",
@@ -1385,7 +1463,7 @@
    "title": "Workflow Resilience Audit"
   },
   {
-   "chars": 2349,
+   "chars": 2743,
    "family": "Automation",
    "id": "40",
    "output": "BOUNDARIES.md",
@@ -1396,7 +1474,7 @@
    "title": "Determinism Boundary Audit"
   },
   {
-   "chars": 2307,
+   "chars": 2688,
    "family": "Automation",
    "id": "41",
    "output": "HANDOFFS.md",
@@ -1407,7 +1485,7 @@
    "title": "Handoff Audit"
   },
   {
-   "chars": 2236,
+   "chars": 2605,
    "family": "AI-UX",
    "id": "42",
    "output": "AGENT-UX.md",
@@ -1418,7 +1496,7 @@
    "title": "Agent Experience Audit"
   },
   {
-   "chars": 2283,
+   "chars": 2660,
    "family": "AI-UX",
    "id": "43",
    "output": "HITL.md",
@@ -1429,7 +1507,7 @@
    "title": "Human-in-the-Loop Placement"
   },
   {
-   "chars": 2343,
+   "chars": 2702,
    "family": "AI-UX",
    "id": "44",
    "output": "TRUST.md",
@@ -1440,18 +1518,18 @@
    "title": "Trust Calibration Audit"
   },
   {
-   "chars": 2252,
+   "chars": 3524,
    "family": "AI-Ethics",
    "id": "116",
    "output": "FAIRNESS.md",
    "question": "is the AI responsible?",
    "raw": "https://goal-prompts.vercel.app/raw/116.md",
    "slug": "bias-fairness",
-   "tagline": "Whether the product's AI or algorithmic decisions treat different groups fairly — or whether the data, features, or evaluation bake in bias that harms some users.",
+   "tagline": "Find the code that ranks, scores, or filters people, list the exact fields it consumes, and check whether any eval ever sliced results by group — suspicions labeled.",
    "title": "Bias & Fairness Audit"
   },
   {
-   "chars": 2303,
+   "chars": 2665,
    "family": "AI-Ethics",
    "id": "117",
    "output": "GROUNDING.md",
@@ -1462,7 +1540,7 @@
    "title": "Hallucination & Grounding Audit"
   },
   {
-   "chars": 2404,
+   "chars": 2894,
    "family": "AI-Ethics",
    "id": "118",
    "output": "REDTEAM.md",
@@ -1473,18 +1551,18 @@
    "title": "Prompt-Injection Red-Team"
   },
   {
-   "chars": 2170,
+   "chars": 3397,
    "family": "AI-Ethics",
    "id": "119",
    "output": "TRANSPARENCY.md",
    "question": "is the AI responsible?",
    "raw": "https://goal-prompts.vercel.app/raw/119.md",
    "slug": "model-transparency",
-   "tagline": "Whether users know when they are dealing with AI, understand its limits, and are told enough to trust it appropriately — not too much, not too little.",
+   "tagline": "Diff what the UI says about the AI against what the code does — disclosure strings quoted, dropped confidence traced, retention claims checked against real payloads.",
    "title": "Model Transparency Audit"
   },
   {
-   "chars": 2287,
+   "chars": 2655,
    "family": "AI-Ethics",
    "id": "120",
    "output": "PROVENANCE.md",
@@ -1545,6 +1623,7 @@
  "playbooks": [
   {
    "badge": "Most popular",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-day1.md",
    "desc": "First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.",
    "featured": true,
    "ids": [
@@ -1560,6 +1639,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-prelaunch.md",
    "desc": "The night-before checks: safe, accessible, deployable, ready for a bad day.",
    "ids": [
     "06",
@@ -1574,6 +1654,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-cleaning.md",
    "desc": "Make it smaller and clearer: delete, simplify, then map what debt remains.",
    "ids": [
     "26",
@@ -1588,6 +1669,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-vitals.md",
    "desc": "Ten minutes, trend arrows. Re-run every week.",
    "ids": [
     "29"
@@ -1599,6 +1681,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-agentday1.md",
    "desc": "First contact with an agent codebase: read its mind, its hands, its loops, its traces.",
    "ids": [
     "30",
@@ -1613,6 +1696,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipcheck.md",
    "desc": "Before an agent touches real users: guarded, evaluated, supervised, affordable.",
    "ids": [
     "35",
@@ -1628,6 +1712,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-triagefix.md",
    "desc": "Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1641,6 +1726,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-retrievaltune.md",
    "desc": "For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.",
    "ids": [
     "33",
@@ -1655,6 +1741,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-facelift.md",
    "desc": "The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.",
    "featured": true,
    "ids": [
@@ -1671,6 +1758,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-wayfinding.md",
    "desc": "Can a user find their way around? Map the navigation and menus, check what wins the eye on every screen, and confirm it all still works on a phone.",
    "ids": [
     "129",
@@ -1685,6 +1773,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-datalegible.md",
    "desc": "The visualization pass: make every chart tell the truth, every dashboard answer its question at a glance, the number that matters win the eye, and the palette stay readable for everyone.",
    "ids": [
     "131",
@@ -1700,6 +1789,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-uioverhaul.md",
    "desc": "The interaction-and-UI sweep: navigation, menus, every interactive state, the empty screens, and the icon language — then the Fixer turns the findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1718,6 +1808,7 @@
   },
   {
    "badge": "Before you build",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-founderfunnel.md",
    "desc": "One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.",
    "featured": true,
    "ids": [
@@ -1736,6 +1827,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-gutcheck.md",
    "desc": "Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.",
    "ids": [
     "62",
@@ -1749,6 +1841,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-world.md",
    "desc": "Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.",
    "ids": [
     "68",
@@ -1762,6 +1855,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-release.md",
    "desc": "Before the repo goes public: safe to expose, dependencies sound, and every license accounted for.",
    "ids": [
     "06",
@@ -1776,6 +1870,7 @@
   },
   {
    "badge": "Conversion",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-ecommerce.md",
    "desc": "Optimize the whole funnel for a first-time visitor: audit every conversion surface, then cut friction, sharpen the visual hierarchy, tighten the copy, and make it findable — and the Fixer ships the highest-leverage lifts as commits.",
    "featured": true,
    "ids": [
@@ -1794,6 +1889,7 @@
   },
   {
    "badge": "Every surface",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-experience.md",
    "desc": "Get it, want it, keep it — walk every surface a visitor meets and optimize the whole experience: does a newcomer understand it, are the benefits shown not told, do the conversion surfaces and their proof earn the yes, does the first session land a win, and does anything bring them back — then the Fixer ships the biggest lifts as commits.",
    "featured": true,
    "ids": [
@@ -1813,6 +1909,7 @@
   },
   {
    "badge": "Seasonal",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipit.md",
    "desc": "A limited, themed sprint for launch season — hunt the bugs, lock the doors, make it fast, rehearse the bad day, and get found. One themed bundle, five reports, ready to ship.",
    "featured": true,
    "ids": [
@@ -1831,6 +1928,7 @@
   },
   {
    "badge": "Collab",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-codereview-collab.md",
    "desc": "A worked example of a co-branded playbook: pair change-risk review with a full bug hunt, then turn the findings into verified commits. This is the template a partner tool or creator drops their brand into — the content and cut are shared.",
    "ids": [
     "74",
@@ -1846,6 +1944,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-harden.md",
    "desc": "The security pass before you expose anything: secrets, access control, injection paths, and an attacker's-eye threat model — then the Fixer turns the findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1862,6 +1961,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-datalayer.md",
    "desc": "The runtime data layer, end to end: the queries that will not scale, the integrity the schema does not enforce, and whether you could actually recover from data loss.",
    "ids": [
     "87",
@@ -1875,6 +1975,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-dxtuneup.md",
    "desc": "Sharpen the developer inner loop: time the edit-to-feedback cycle, make failures easy to diagnose, and shorten the wait between a push and a trustworthy CI signal.",
    "ids": [
     "94",
@@ -1888,6 +1989,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-testconfidence.md",
    "desc": "Earn a green suite you can trust: find the coverage gaps, strengthen the tests that assert nothing, kill the flakes, and rebalance a top-heavy pyramid.",
    "ids": [
     "02",
@@ -1903,6 +2005,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipapi.md",
    "desc": "Everything a developer meets when they build on you: webhooks, the SDK, versioning, rate limits, and the first-hour docs — then the Fixer ships the fixes as commits.",
    "featured": true,
    "ids": [
@@ -1921,6 +2024,7 @@
   },
   {
    "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-responsibleai.md",
    "desc": "The responsibility pass for an AI product: fairness across users, grounded and honest outputs, prompt-injection resistance, transparency, and the provenance of the data behind the model.",
    "ids": [
     "116",
@@ -1936,6 +2040,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-resilience.md",
    "desc": "Whether it survives a bad day: graceful degradation when a dependency dies, the failure experiments worth running, the first bottleneck under load, abuse defenses, and incident readiness.",
    "ids": [
     "121",
@@ -1951,6 +2056,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-privacycompliance.md",
    "desc": "The operational-privacy layer regulators actually check: honest consent, real data-subject rights, encryption and key management, and a trustworthy audit trail.",
    "ids": [
     "125",
@@ -1965,6 +2071,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-makefast.md",
    "desc": "A speed-only sweep: profile the hot paths, hold a latency budget, fix the queries that will not scale, cut the bundle the browser downloads, and mine the churny hotspots.",
    "ids": [
     "04",
@@ -1980,6 +2087,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-inherit.md",
    "desc": "Taking over an unfamiliar or orphaned project: get onboarded, read its health, map the debt, and find where the knowledge is dangerously concentrated.",
    "ids": [
     "14",
@@ -1995,6 +2103,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-refactor.md",
    "desc": "Change with a net: assess the risk of the change, shore up the tests around it, simplify, and let the Fixer land the cleanup as verified commits.",
    "ids": [
     "74",
@@ -2009,6 +2118,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-costdown.md",
    "desc": "Take money off the bill: audit infrastructure spend, the token economics of any AI, dead weight to prune, and the latency budget that right-sizes resources.",
    "ids": [
     "24",
@@ -2023,6 +2133,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-agentcost.md",
    "desc": "For AI-agent teams: the token economics of the loop, whether the model tier fits the job, and the context engineering that stops you paying for tokens you do not need.",
    "ids": [
     "38",
@@ -2036,6 +2147,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-newyear.md",
    "desc": "A themed start-of-year sweep: read the vitals, prune the dead weight, simplify what remains, and synthesize next year's roadmap — one seasonal bundle.",
    "ids": [
     "29",
@@ -2052,6 +2164,7 @@
   },
   {
    "badge": "Sponsored",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-sponsored-example.md",
    "desc": "A worked example of a sponsored playbook: a curated performance sequence a sponsor's brand wraps — logo, name, and voice around shared content, with the placement paid. Swap in a real sponsor to ship one.",
    "ids": [
     "04",

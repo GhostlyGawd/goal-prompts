@@ -3,6 +3,9 @@
   "outputDirectory": ".",
   "installCommand": "",
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/SECURITY.md", "destination": "/SECURITY-AUDIT.md", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

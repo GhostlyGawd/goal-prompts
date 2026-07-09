@@ -4,11 +4,14 @@ title: Dependency Health Check
 family: Trust
 question: is it safe?
 output: DEPS.md
-tagline: Vulnerable, abandoned, oversized, or duplicated packages — with a safe upgrade order and removal candidates.
+related: 85
+tagline: Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named.
 ---
 # Goal: Dependency Health Check
 
 You are working inside this repo. Mission: assess every dependency this project stands on — vulnerable, abandoned, oversized, duplicated — and produce a safe upgrade and removal plan.
+
+This is the full health check — vulnerabilities, abandonware, weight, duplication. For pure version-lag and the cost of catching up, run 85.
 
 Read-only pass: inspect manifests and lockfiles, run audit/outdated tooling. Your only write is the report file.
 
@@ -39,7 +42,11 @@ Create `DEPS.md` at repo root:
 4. **One-command wins** — safe fixes runnable today
 5. **Watch list** — fine now, risky later
 
+Start the report with today's date. If `DEPS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Reachability matters: a vuln in an unused code path is lower priority — say so
 - Never recommend a major upgrade without naming its breaking changes
+- No third-party dependencies in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which changes to apply

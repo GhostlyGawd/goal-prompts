@@ -39,7 +39,11 @@ Create `INTEGRITY.md` at repo root:
 3. **Constraint plan** — the constraints and checks to add, ordered by safety
 4. **Cleanup** — the existing bad data to reconcile before enforcing
 
+Start the report with today's date. If `INTEGRITY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - An invariant enforced in code but not the schema will be violated eventually
 - Every finding names a query that surfaces the rows already breaking it
+- No stored data to keep consistent in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which constraints to enforce first

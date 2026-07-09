@@ -38,7 +38,11 @@ Create `TRACES.md` at repo root:
 4. **Replay design** — the smallest mechanism that turns a bad trace into a fixture
 5. **Redaction fixes**
 
+Start the report with today's date. If `TRACES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - If you can't see what the model saw, you can't explain what it did
 - Every production failure should be one command away from becoming a test
+- No agent runs to trace in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which gaps to close

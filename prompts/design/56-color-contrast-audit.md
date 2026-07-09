@@ -4,11 +4,15 @@ title: Color & Contrast Audit
 family: Design
 question: is it beautiful?
 output: COLOR.md
+example: /COLOR.md
+related: 105 15
 tagline: The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.
 ---
 # Goal: Color & Contrast Audit
 
 You are working inside this repo. Mission: extract the palette this product actually ships — every color in the code, not the brand deck — and audit it for coherence, contrast, meaning, and dark-mode integrity.
+
+Color only, ratios computed. For drift across the whole style system, 15 proposes the tokens and 105 audits their adoption.
 
 Read-only pass. Your only write is the report file.
 
@@ -38,7 +42,11 @@ Create `COLOR.md` at repo root:
 3. **Findings** — ranked, with files
 4. **The token proposal** — the smallest palette that covers today's uses
 
+Start the report with today's date. If `COLOR.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every color claim carries the value and its file; every contrast claim carries the computed ratio
 - Meaning first — fixing semantics beats adding shades
+- No UI color choices in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

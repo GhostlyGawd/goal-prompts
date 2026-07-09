@@ -39,7 +39,11 @@ Create `METRICS.md` at repo root:
 3. **Canonical choices** — the definition to standardize on, and why
 4. **Consolidation plan** — the duplicate computations to retire or align
 
+Start the report with today's date. If `METRICS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - One metric, one definition, one source of truth
 - A number shown to a decision-maker with no written definition is a liability
+- No computed metrics in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which definitions to standardize first

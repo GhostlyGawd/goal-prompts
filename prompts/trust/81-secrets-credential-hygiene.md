@@ -39,7 +39,11 @@ Create `SECRETS.md` at repo root:
 3. **Rotation & storage plan** — where these secrets should live instead, and how they should reach runtime
 4. **Prevention** — the pre-commit hook, scanner, or ignore rule that stops the next leak
 
+Start the report with today's date. If `SECRETS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Mask every value; a report that leaks a secret is the vulnerability
 - Assume anything ever committed is compromised and must rotate
+- No credentials, keys, or secrets in play in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which exposures to rotate and remediate first

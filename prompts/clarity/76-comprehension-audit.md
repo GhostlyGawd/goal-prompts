@@ -4,6 +4,7 @@ title: Comprehension Audit
 family: Clarity
 question: is it understood?
 output: COMPREHENSION.md
+example: /COMPREHENSION.md
 tagline: Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing?
 ---
 # Goal: Comprehension Audit
@@ -40,8 +41,12 @@ Create `COMPREHENSION.md` at repo root:
 3. **First-screen rewrite** — what the hero or opening must say so a stranger gets it in one glance
 4. **Explain-it-back script** — the three sentences a newcomer should be able to repeat, and where each is taught today
 
+Start the report with today's date. If `COMPREHENSION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Speak for someone who has never seen this product or its category
 - Comprehension before persuasion: they can't want what they don't understand
 - Every finding cites the exact words or element that misleads — no vague "unclear"
+- No public surface a newcomer meets in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

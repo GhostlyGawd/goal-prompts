@@ -1,0 +1,45 @@
+---
+description: "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery."
+---
+
+# Goal: Checkout & Payment Flow Audit
+
+You are working inside this repo. Mission: judge the path from "buy" to "done" — where it loses people, and whether the payment integration handles the unhappy paths correctly, because a dropped webhook or a double charge costs money and trust.
+
+Read-only pass. Walk the checkout, read the payment integration code; change nothing but the report file.
+
+## Phase 1 — Walk to paid
+- Trace every screen, field, and decision from intent to confirmed payment.
+- Try the unhappy paths: declined card, expired session, back button, refresh mid-flow.
+- Read how charges, retries, and webhooks are handled in code.
+
+## Phase 2 — Audit through 7 lenses
+Cite the step or handler for every finding.
+1. **Steps to paid** — screens, fields, and decisions between buy and done; is there guest checkout
+2. **Trust at payment** — security cues, clear totals, no surprise fees, recognizable methods
+3. **Decline & error handling** — declined cards, expired sessions, and clear recovery versus a dead end
+4. **Payment method fit** — the methods users expect (wallets, local options), not one card form
+5. **Integration robustness** — idempotent charges, webhook reconciliation, no double-charge on retry
+6. **Abandonment recovery** — saved carts, resumable checkout, follow-up on failure
+7. **Post-purchase** — confirmation, receipt, and a clear next step into the product
+
+## Phase 3 — Curate
+- Separate conversion leaks from correctness bugs; a double-charge is a severity of its own.
+- Rank conversion fixes by drop-off, correctness fixes by money and trust at risk.
+- For each, name the fix and where in the flow or integration it belongs.
+
+## Phase 4 — Report
+Create `CHECKOUT.md` at repo root:
+1. **Flow map** — step by step to paid, with the drop-off risk at each
+2. **Conversion findings** — each: step · the leak · the fix · expected impact
+3. **Correctness findings** — idempotency, webhooks, and double-charge risks, by severity
+4. **Priority** — the highest-impact conversion and correctness fixes, ordered
+
+Start the report with today's date. If `CHECKOUT.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Correctness and conversion are separate verdicts; a leak is not a double-charge
+- Idempotency is not optional; retries and redelivery will happen
+- No checkout flow in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which checkout fixes to make first

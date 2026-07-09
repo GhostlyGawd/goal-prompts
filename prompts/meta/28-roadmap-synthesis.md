@@ -2,18 +2,19 @@
 id: "28"
 title: Roadmap Synthesis
 family: Meta
-question: do the reports compose?
+question: do the reports add up?
 output: ROADMAP.md
+related: 47
 tagline: The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan.
 ---
 # Goal: Roadmap Synthesis
 
-You are working inside this repo. Mission: read every audit report at the repo root — the outputs of prior goal prompts — and merge them into one deduplicated, dependency-aware, sequenced roadmap.
+You are working inside this repo. Mission: read every audit report at the repo root and in `reports/` — the outputs of prior goal prompts — and merge them into one deduplicated, dependency-aware, sequenced roadmap.
 
 This is synthesis, not re-auditing: work from the reports, dipping into code only to resolve conflicts. Your only write is the report file.
 
 ## Phase 1 — Collect
-- Find the audit reports at repo root: IMPROVEMENTS.md, BUGS.md, PERF.md, SECURITY.md, TESTING.md, and any others matching this family.
+- Find the audit reports at the repo root and in `reports/`: IMPROVEMENTS.md, BUGS.md, PERF.md, SECURITY-AUDIT.md, TESTING.md, and any others matching this family.
 - List what exists and what's missing; note which absent audits would most change this roadmap.
 
 ## Phase 2 — Normalize
@@ -34,7 +35,10 @@ Create `ROADMAP.md` at repo root:
 4. **Three milestones** — Now (1–2 weeks) · Next (a month) · Later — each with its items and the one-line story of why this order
 5. **Merge log** — what was deduplicated, so nothing looks lost
 
+Start the report with today's date. If `ROADMAP.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every roadmap item traces to a source report — no new findings smuggled in
 - When reports disagree on priority, say so and rule with reasoning
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking whether to adjust the sequence

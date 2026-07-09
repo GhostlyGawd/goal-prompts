@@ -4,6 +4,7 @@ title: Brand Coherence Audit
 family: Design
 question: is it beautiful?
 output: BRAND.md
+example: /BRAND.md
 tagline: Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.
 ---
 # Goal: Brand Coherence Audit
@@ -38,7 +39,11 @@ Create `BRAND.md` at repo root:
 3. **Findings** — ranked by visibility
 4. **The coherence kit** — the 5–10 decisions (radius, icon set, image treatment…) that would make it one thing
 
+Start the report with today's date. If `BRAND.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Judge what ships, not what the brand deck intended — cite files and surfaces
 - Consistency beats beauty; one okay style everywhere outranks three good ones
+- No brand surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

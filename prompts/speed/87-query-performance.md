@@ -4,6 +4,7 @@ title: Query Performance & N+1 Audit
 family: Speed
 question: does it scale?
 output: QUERIES.md
+related: 04 88
 tagline: The database access patterns that fall over as data and traffic grow — N+1s, missing indexes, unbounded reads, and lock contention.
 ---
 # Goal: Query Performance & N+1 Audit
@@ -39,7 +40,11 @@ Create `QUERIES.md` at repo root:
 3. **Index plan** — the indexes to add, and the queries each serves
 4. **How to confirm** — the measurement that proves each fix worked
 
+Start the report with today's date. If `QUERIES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Rank by cost × frequency, not raw query time
 - An index is not free; justify each by the queries it serves
+- No database queries in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which queries to optimize first

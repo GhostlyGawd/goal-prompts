@@ -4,11 +4,15 @@ title: Activation & First-Win Audit
 family: Growth
 question: does it grow?
 output: ACTIVATION.md
+example: /ACTIVATION.md
+related: 09 75
 tagline: The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing.
 ---
 # Goal: Activation & First-Win Audit
 
 You are working inside this repo. Mission: judge the first session — from empty account to first real win — and whether it leaves a newcomer able and inspired to do the next thing. Signup is not activation; the first win is. This is where approachable is won or lost.
+
+This audits the first session, after signup. For the funnel's structure end to end, run 09; for the persuasion that earns the signup, run 75.
 
 Read-only pass. Run the app as a brand-new user if you can, or trace the first-run screens, empty states, and seed logic; your only write is the report file.
 
@@ -40,8 +44,12 @@ Create `ACTIVATION.md` at repo root:
 3. **Findings** — each: lens · location · what a newcomer feels · the fix · effort
 4. **The one change** — the single fix that gets the most new users to their first win, and the second step it should tee up
 
+Start the report with today's date. If `ACTIVATION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - The first win is the goal; everything before it is tax to minimize
 - A guided first step beats an empty canvas; sample data beats a blank one
 - Inspire the next action — activation that ends at one win leaks tomorrow's habit
+- No first-run experience in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

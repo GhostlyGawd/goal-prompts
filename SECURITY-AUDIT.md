@@ -1,4 +1,4 @@
-# SECURITY.md
+# SECURITY-AUDIT.md
 *Produced by brief 06 · Security & Privacy Audit, run against this repo (goal-prompts, v0.4). Part of the sample-report gallery.*
 
 ## Posture summary

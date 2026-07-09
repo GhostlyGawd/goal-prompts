@@ -38,7 +38,10 @@ Create `DOCS.md` at repo root:
 4. **Proposed doc map** — what should exist, one line each, nothing aspirational
 5. **The first doc to write** — outlined in 5 bullets
 
+Start the report with today's date. If `DOCS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Test docs by following them, not by reading them
 - Fewer, accurate docs beat many stale ones
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which docs to fix first

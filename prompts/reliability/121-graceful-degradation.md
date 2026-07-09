@@ -38,7 +38,11 @@ Create `DEGRADE.md` at repo root:
 3. **Cascade risks** — the single failures that take down more than themselves
 4. **Priority** — the timeouts, breakers, and fallbacks to add first
 
+Start the report with today's date. If `DEGRADE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A call with no timeout is an outage waiting for a slow dependency
 - Isolate blast radius; one sick dependency should not sink the ship
+- No runtime dependencies that can fail in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which degradation gaps to close first

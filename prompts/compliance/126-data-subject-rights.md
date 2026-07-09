@@ -4,11 +4,14 @@ title: Data-Subject-Rights Readiness
 family: Compliance
 question: does it respect the user?
 output: DSAR.md
+related: 21
 tagline: Whether the product can honor the rights users have over their data — access, export, correction, and deletion — operationally, not just in the privacy policy.
 ---
 # Goal: Data-Subject-Rights Readiness
 
 You are working inside this repo. Mission: judge whether the product could actually fulfill a user's data rights request — show me my data, export it, correct it, delete me — across every place their data lives, within the legal window, and prove it did.
+
+This judges operational readiness for rights requests. For the engineering map of where personal data actually lives and spreads, run 21 first.
 
 Read-only pass. Read the data model, storage, third-party integrations, and any request tooling; change nothing but the report file.
 
@@ -38,7 +41,11 @@ Create `DSAR.md` at repo root:
 3. **Findings** — each: right · gap · exposure · the fix
 4. **Priority** — the capabilities to build first, deletion and the data map foremost
 
+Start the report with today's date. If `DSAR.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - You cannot delete what you cannot find; the data map comes first
 - Deletion that skips backups, logs, and vendors is not deletion
+- No stored personal data in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which rights-readiness gaps to close first

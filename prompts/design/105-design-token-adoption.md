@@ -4,11 +4,14 @@ title: Design-Token Adoption Audit
 family: Design
 question: is it beautiful?
 output: TOKEN-ADOPTION.md
+related: 15 56
 tagline: Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync.
 ---
 # Goal: Design-Token Adoption Audit
 
 You are working inside this repo. Mission: check whether the design tokens are the single source of truth they claim to be — or whether hardcoded values have crept in, quietly drifting the interface out of alignment one one-off at a time.
+
+This assumes a token system exists and audits whether it is used. No system yet? Run 15 to derive one from the drift.
 
 Read-only pass. Read the token definitions and the styles that should consume them; change nothing but the report file.
 
@@ -39,7 +42,11 @@ Create `TOKEN-ADOPTION.md` at repo root:
 3. **Missing tokens** — the surfaces with no token, so improvisation is inevitable
 4. **Enforcement** — the lint rule or check that keeps hardcoded values from returning
 
+Start the report with today's date. If `TOKEN-ADOPTION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - One value, one token, one definition; a copied value will drift
 - A missing token is a cause of creep, not just the literal that fills it
+- No styled UI in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which drift to correct first

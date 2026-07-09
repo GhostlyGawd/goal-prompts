@@ -39,7 +39,11 @@ Create `OBSERVABILITY.md` at repo root:
 3. **Instrumentation plan** — each: what to instrument · where (path) · signal type (log/metric/alert) · effort
 4. **Quick wins** — swallowed catches to fix this week
 
+Start the report with today's date. If `OBSERVABILITY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - "It logs to console" is not observability
 - Prefer a few high-signal alerts over noisy logging everywhere
+- No runtime error paths in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which gaps to close first

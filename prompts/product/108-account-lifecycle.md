@@ -39,7 +39,11 @@ Create `LIFECYCLE.md` at repo root:
 3. **Dark patterns** — the deliberate friction to remove, called out
 4. **Priority fixes** — ranked by trust and exposure, deletion and export first
 
+Start the report with today's date. If `LIFECYCLE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A product with no self-serve delete or export is holding users hostage
 - Make leaving as easy as joining; that is what gets you recommended
+- No user accounts in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which lifecycle fixes to make first

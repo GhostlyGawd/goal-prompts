@@ -4,11 +4,14 @@ title: Funnel Friction Audit
 family: Growth
 question: does it grow?
 output: FUNNEL.md
+related: 75 80
 tagline: Reconstruct the signup → activation → habit funnel from code, count the steps, and rank every drop-off point.
 ---
 # Goal: Funnel Friction Audit
 
 You are working inside this repo. Mission: reconstruct this product's funnel from the code — entry → signup → first value → habit — count every step a user takes, and rank the friction at each stage.
+
+This audits the funnel's structure — steps, stalls, drop-offs. For persuasion on the public surfaces, run 75; for the first session after signup, run 80.
 
 Read-only pass. Your only write is the report file.
 
@@ -37,7 +40,11 @@ Create `FUNNEL.md` at repo root:
 3. **Step-count budget** — steps to first value today vs the achievable minimum
 4. **Instrumentation gaps** — events needed to measure this funnel for real
 
+Start the report with today's date. If `FUNNEL.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Count from the user's fingers: taps, fields, waits — not abstractions
 - Removing a step beats improving a step
+- No user funnel in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to build

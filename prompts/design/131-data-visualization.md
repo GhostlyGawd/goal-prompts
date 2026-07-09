@@ -40,7 +40,11 @@ Create `DATAVIZ.md` at repo root:
 3. **Misleading-now** — the distortions to correct first, with the honest version
 4. **The palette & defaults** — the shared chart colors, scales, and label rules this codebase should adopt
 
+Start the report with today's date. If `DATAVIZ.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every finding names the chart and the config or data behind it
 - A chart that misleads is worse than no chart — correctness before beauty
+- No charts or data visualizations in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which charts to fix first

@@ -39,7 +39,11 @@ Create `CONCURRENCY.md` at repo root:
 3. **Systemic fixes** — the idempotency keys, locks, or transaction patterns that close whole classes
 4. **How to reproduce** — the concurrency the tests should now exercise
 
+Start the report with today's date. If `CONCURRENCY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Describe the interleaving; a race with no scenario is a guess
 - The dangerous races are the silent ones that corrupt without throwing
+- No concurrent code in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which races to fix first

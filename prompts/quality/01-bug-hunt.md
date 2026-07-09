@@ -42,8 +42,11 @@ Create `BUGS.md` at repo root:
 3. **Verification plan** — fastest way to confirm each worth-verifying item
 4. **Top 3 to fix first** — and why
 
+Start the report with today's date. If `BUGS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Evidence or it doesn't exist: every finding cites code
 - A trigger scenario is required — "this looks wrong" isn't a bug report
 - Depth on real defects beats volume of nitpicks
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which bugs to fix

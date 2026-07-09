@@ -8,6 +8,7 @@ Outputs (all committed, all deterministic, stdlib only — this also runs on Ver
   b/<id>.html           per-brief pages with their own OG tags (unfurl + redirect)
   catalog.json          machine-readable index (consumed by the MCP server)
   commands.tar.gz/.zip  Claude Code slash commands, used by /install
+  plugin/               the Claude Code plugin (manifest + commands/)
 
 The linter enforces the house rules on every brief: front matter complete,
 4-phase skeleton, a Rules section, the ask-first ending, and body < 4,000 chars.
@@ -38,6 +39,28 @@ FAMILY_COLORS = {
     "API": "#2CB5C4", "Reliability": "#5FC08A", "AI-Ethics": "#6E8AF0",
 }
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
+# Filenames that mean something else on GitHub — a brief writing one would
+# shadow the repo's own community files, so the linter forbids them as outputs.
+RESERVED_OUTPUTS = {"SECURITY.md", "README.md", "LICENSE.md", "CONTRIBUTING.md",
+                    "CODE_OF_CONDUCT.md", "SUPPORT.md", "GOVERNANCE.md",
+                    "CHANGELOG.md"}
+# 47 · The Fixer is exempt from the dated re-run rule: FIXLOG.md is
+# append-only history and every session entry is already dated, so a
+# "lead with what changed" header would fight its own format.
+DATED_REPORT_EXEMPT = {"47"}
+# Briefs where a "no <surface> here" null report could never legitimately
+# fire: subjects every repo has (quality, debt, pruning, the Meta/Act layers
+# that operate on the repo itself) and audits whose subject's absence IS the
+# primary finding (02 missing tests, 16 missing docs). 06 belongs here too:
+# every repo has an attack surface — its own supply chain, secrets in git,
+# config — so a "no attack surface" escape could never truthfully fire.
+NULL_REPORT_EXEMPT = {"00", "01", "02", "06", "13", "16", "26", "27", "28",
+                      "29", "46", "47"}
+
+
+def sort_key(p: dict) -> tuple:
+    """Catalog order: family (curated), then id — numerically, so 45 < 106."""
+    return (FAMILY_ORDER.index(p["family"]), int(p["id"]))
 
 
 def fail(msg: str) -> None:
@@ -58,10 +81,15 @@ def parse(path: Path) -> dict:
     for k in REQUIRED:
         if not meta.get(k):
             fail(f"{path}: front matter missing '{k}'")
+    if not re.fullmatch(r"\d{2,3}", meta["id"]):
+        fail(f'{path}: id "{meta["id"]}" must be 2–3 digits, zero-padded and '
+             f'quoted (like id: "07") — it orders the catalog numerically')
     if meta["family"] not in FAMILY_ORDER:
         fail(f"{path}: unknown family '{meta['family']}'")
     if '"' in meta["tagline"]:
         fail(f"{path}: tagline may not contain double quotes")
+    if meta.get("related"):
+        meta["related"] = [t for t in re.split(r"[,\s]+", meta["related"]) if t]
     meta["body"] = parts[2].strip()
     if BASE != DEFAULT_BASE:
         meta["body"] = meta["body"].replace(DEFAULT_BASE, BASE)
@@ -91,15 +119,88 @@ def lint(p: dict) -> list:
     lenses = re.findall(r"(?m)^\d+\. \*\*", phase2.group(0)) if phase2 else []
     if lenses and not 4 <= len(lenses) <= 12:
         v.append(f"{len(lenses)} lenses (want 4–12)")
+    phase4 = re.search(r"## Phase 4.*?(?=\n## |\Z)", body, re.S)
+    if (p["id"] not in DATED_REPORT_EXEMPT
+            and "already exists" not in (phase4.group(0) if phase4 else "")):
+        v.append("Phase 4 must date the report and handle re-runs "
+                 "('… already exists from a previous run …')")
+    rules = re.search(r"## Rules.*?(?=\n## |\Z)", body, re.S)
+    rules_txt = rules.group(0) if rules else ""
+    if "reports/` directory" not in rules_txt:
+        v.append("Rules must offer the reports/ directory option "
+                 "('If a `reports/` directory exists at the repo root …')")
+    if p["id"] not in NULL_REPORT_EXEMPT and "null report" not in rules_txt:
+        v.append("Rules must carry the null-report escape ('… null report …') "
+                 "or the id joins NULL_REPORT_EXEMPT in build.py")
     if p["chars"] > LIMIT:
         v.append(f"body is {p['chars']} chars (max {LIMIT})")
+    if p["output"] in RESERVED_OUTPUTS:
+        v.append(f"output '{p['output']}' is a reserved GitHub/community "
+                 f"filename — pick one that can't shadow it")
+    if p.get("_path"):
+        fname = Path(p["_path"]).name
+        if not fname.startswith(p["id"] + "-"):
+            v.append(f"filename '{fname}' must be prefixed with id '{p['id']}'")
     if p.get("example") and not p["example"].startswith("/"):
         v.append(f"example '{p['example']}' must be a root-relative path like /BUGS.md")
+    elif p.get("example") and not (ROOT / p["example"].lstrip("/")).exists():
+        v.append(f"example '{p['example']}' does not exist in the repo")
+    return v
+
+
+def lint_catalog(prompts: list) -> list:
+    """Cross-brief rules: every report filename must be unique — two briefs
+    writing the same file would silently clobber each other's reports — and
+    every `related:` reference must point at a real, different brief (the
+    "pairs well with" cards on b/ pages render straight from it)."""
+    v, seen = [], {}
+    ids = {p["id"] for p in prompts}
+    for p in prompts:
+        if p["output"] in seen:
+            v.append(f"briefs {seen[p['output']]} and {p['id']} both write "
+                     f"'{p['output']}' — outputs must be unique")
+        else:
+            seen[p["output"]] = p["id"]
+        for r in p.get("related", []):
+            if r == p["id"]:
+                v.append(f"brief {p['id']} lists itself as related")
+            elif r not in ids:
+                v.append(f"brief {p['id']}: related id '{r}' does not exist "
+                         f"in the catalog")
+    return v
+
+
+def lint_family_icons(template: str) -> list:
+    """Every family in FAMILY_ORDER must have a FAM_ICON entry in template.html
+    AND a matching <symbol> — otherwise the hero chart and finder silently fall
+    back to the Meta icon (the 17-of-21 drift this guards against)."""
+    m = re.search(r"const FAM_ICON = \{(.*?)\};", template, re.S)
+    icons = dict(re.findall(r'"?([\w-]+)"?\s*:\s*"([\w-]+)"', m.group(1))) if m else {}
+    symbols = set(re.findall(r'<symbol id="([\w-]+)"', template))
+    v = []
+    for fam in FAMILY_ORDER:
+        sym = icons.get(fam)
+        if not sym:
+            v.append(f"family '{fam}' has no FAM_ICON entry in template.html")
+        elif sym not in symbols:
+            v.append(f"family '{fam}' maps to '{sym}' but template.html has "
+                     f"no <symbol id=\"{sym}\">")
     return v
 
 
 def conductor(pb: dict, by_id: dict) -> str:
-    """A meta-prompt that runs every brief in a playbook, in order."""
+    """A meta-prompt that runs every brief in a playbook, in order.
+
+    The instruction text has siblings in mcp/server.cjs (conductorText) and
+    template.html (makeConductor); scripts/mcp-smoke.cjs asserts the canonical
+    sentences match across all three, so edit them together. The 16-stage cap
+    is the same policy make_conductor enforces — a family growing past 16
+    briefs must fail here loudly, not drift past what the server will compose.
+    """
+    if len(pb["ids"]) > 16:
+        sys.exit(f"FAIL conductor '{pb['name']}' has {len(pb['ids'])} stages — "
+                 f"the cap is 16 (mcp/server.cjs make_conductor enforces the "
+                 f"same); split it into two conductors")
     stages = []
     for n, pid in enumerate(pb["ids"], 1):
         p = by_id[pid]
@@ -108,27 +209,29 @@ def conductor(pb: dict, by_id: dict) -> str:
     plural = "briefs" if len(pb["ids"]) > 1 else "brief"
     return f"""# Playbook: {pb['name']} (conductor)
 
-You are working inside this repo. Mission: execute the **{pb['name']}** playbook — {len(pb['ids'])} audit {plural} in sequence, each producing one report file at this repo's root.
+You are working inside this repo. Mission: execute the **{pb['name']}** playbook — {len(pb['ids'])} audit {plural} in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
 
 {pb['desc']}
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
-2. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.
-3. Confirm the report file exists at repo root before moving on.
-4. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
+2. If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.
+3. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.
+4. Confirm the report file exists (at the repo root or in `reports/`) before moving on.
+5. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
 {chr(10).join(stages)}
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.
-- Suggest the natural next step: fetch {BASE}/raw/28.md (Roadmap Synthesis) to merge all reports at this root into one sequenced plan.
+- Suggest the natural next step: fetch {BASE}/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.
 
 ## Rules
-- If a fetch fails, say so and stop — never improvise a brief from memory.
+- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.
 - Honor each brief's own rules, including ending by asking before any changes.
-- If a stage's report already exists, ask whether to re-run or skip that stage.
+- If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.
+- A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.
 """
 
 
@@ -157,6 +260,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // never touch cross-origin (GitHub, analytics)
+  if (url.pathname.indexOf("/raw/") === 0) return;   // raw briefs stay network-only — their fetch counts are the usage metric (docs/usage-metrics.md)
   var isHTML = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
   if (isHTML) {
@@ -265,16 +369,25 @@ def _numbered_bold(chunk: str) -> list:
 
 
 def _gist(chunk: str) -> str:
-    """One-line essence of a phase: its first bullet or sentence, trimmed."""
+    """One-line essence of a phase, in editorial voice: its first descriptive
+    sentence, cleaned — no dangling colons, no pasted operator-gate lines."""
     for line in chunk.splitlines():
         st = line.strip()
         if not st:
             continue
+        if "end by asking" in st.lower():
+            continue  # the ask-first gate is a rule, not a description
         st = re.sub(r"^(?:[-*]|\d+\.)\s+", "", st)
         st = re.sub(r"\*\*(.+?)\*\*", r"\1", st)
         st = st.replace("`", "")
         st = re.split(r"(?<=[a-z0-9])[.;:]\s", st)[0]
-        return st[:118].rstrip(" ,") + ("…" if len(st) > 118 else "")
+        st = st.rstrip(" ,;:—–-")
+        if not st:
+            continue
+        if len(st) > 118:
+            return st[:118].rstrip(" ,") + "…"
+        st = st[0].upper() + st[1:]
+        return st + ("" if st.endswith((".", "!", "?", "…")) else ".")
     return ""
 
 
@@ -308,7 +421,12 @@ def brief_parts(body: str) -> dict:
                 lenses = _numbered_bold(chunk)
                 if not lenses:
                     lenses = []  # prose Phase 2 (e.g. 47 · The Fixer)
-                    phases[-1]["prose"] = md_block(chunk)
+                    # descriptive area only — the operator gate stays in the
+                    # full verbatim brief, not the "how the pass runs" summary
+                    prose_src = "\n".join(
+                        l for l in chunk.splitlines()
+                        if "end by asking" not in l.lower())
+                    phases[-1]["prose"] = md_block(prose_src)
             if n == 4:
                 report = _numbered_bold(chunk)
         elif head.lower().startswith("rules"):
@@ -340,6 +458,21 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
            "%3C/g%3E%3C/svg%3E")
 
 FAMILY_CSS = "".join(f".f-{k.lower()}{{--fc:{v}}}" for k, v in FAMILY_COLORS.items())
+
+# Light theme darkens every family accent in place: the raw hues sit at
+# 1.3–1.9:1 on the light panels (unreadable as text). 62% toward black keeps
+# every hue recognizable and puts the worst (#E8DE5A Automation) at ≥3:1 on
+# the lightest and darkest light surfaces — TokensTests pins the arithmetic.
+FAMILY_MIX_LIGHT = 62
+FAMILY_CSS_LIGHT = (
+    "".join(f':root[data-theme="light"] .f-{k.lower()}'
+            f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
+            for k, v in FAMILY_COLORS.items())
+    + "@media (prefers-color-scheme:light){"
+    + "".join(f":root:not([data-theme]) .f-{k.lower()}"
+              f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
+              for k, v in FAMILY_COLORS.items())
+    + "}")
 
 # tokens.css — the single source of truth for design tokens on EVERY surface.
 # build.py writes it to /tokens.css and every page links it (index, the b//p/
@@ -376,18 +509,21 @@ TOKENS_CSS = """/* tokens.css — GENERATED by build.py; do not hand-edit. Edit 
   --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
   --rainbow:linear-gradient(90deg,#E8B44C,#E8705F,#4D9FFF,#52C280,#A98CF5,#9AD4E8,#5CE8A0,#F0904A,#B4C64A,#3FC1C9,#E87FB0,#C4CBD8,#E84C3D,#8B7CF8,#E8DE5A,#F06FD8,#C878F0);
 }
-:root[data-theme="light"]{
+:root[data-theme="light"]{__LIGHT__}
+/* OS-light users without a stored choice get the light theme by default;
+   an explicit data-theme (set by the toggle) always wins, both directions. */
+@media (prefers-color-scheme:light){:root:not([data-theme]){__LIGHT__}}
+button:active{transform:scale(.97)}
+button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+__FAMILY_CSS__
+""".replace("__LIGHT__", """
   color-scheme:light;
   --ink:#F4F3EF;--ink-2:#EBEAE2;--panel:#FCFBF9;--panel-2:#EFEEE7;
   --line:#E5E4DE;--line-2:#D5D4CD;--line-3:#BEBDB4;
   --text:#191A1C;--dim:#4C4E53;--faint:#6A6C73;--body:#33353A;
   --btn:#191A1C;--btn-fg:#F5F4F0;--sev:#C4402E;--amber:#9C6E2A;--amber-2:#B8863B;--fc:#7C5CE0;
   --success:#1E9A5A;--warning:#B87A12;--danger:#C42E3E;--good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#6B6E74;
-}
-button:active{transform:scale(.97)}
-button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
-__FAMILY_CSS__
-""".replace("__FAMILY_CSS__", FAMILY_CSS)
+""").replace("__FAMILY_CSS__", FAMILY_CSS + "\n" + FAMILY_CSS_LIGHT)
 
 SITE_CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
@@ -416,7 +552,8 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
 .nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
 .nav-cta:hover{filter:brightness(1.12)}
-@media(max-width:720px){.nav-links{display:none}}
+/* under 720px keep Playbooks + Studio reachable — same treatment as the landing page */
+@media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
@@ -552,6 +689,21 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .partner p{font-size:14px;color:var(--dim);margin:12px 0 14px;max-width:64ch;line-height:1.5}
 .note{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
 
+/* per-step copy on playbook sequence maps */
+.seqstep .stepcopy{flex:none;align-self:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;cursor:pointer;text-decoration:none}
+.seqstep .stepcopy:hover{color:var(--text);border-color:var(--line-3)}
+.seqstep .stepcopy.done{color:var(--good);border-color:var(--good)}
+
+/* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
+.gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+.gp-hint[hidden]{display:none}
+.gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint b{color:var(--text)}
+.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun:disabled{opacity:.6;cursor:default}
+.gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+.gp-hint .x:hover{color:var(--text)}
+
 /* footer */
 footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 .foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
@@ -567,8 +719,8 @@ footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 NAV_HTML = ('<header class="nav"><div class="nav-in wrap">'
             f'<a class="brand" href="/">{BRAND_MARK}Goal Prompts</a>'
             '<nav class="nav-links">'
-            '<a href="/#how">How it works</a>'
-            '<a href="/#catalog">Catalog</a>'
+            '<a href="/#how" class="mh">How it works</a>'
+            '<a href="/#catalog" class="mh">Catalog</a>'
             '<a href="/#playbooks">Playbooks</a>'
             '<a href="/studio">Studio</a></nav>'
             '<div class="nav-right">'
@@ -576,15 +728,6 @@ NAV_HTML = ('<header class="nav"><div class="nav-in wrap">'
             '<a class="nav-cta" href="/#start">Get started</a></div>'
             '</div></header>')
 
-DETAIL_JS = """
-(function(){
-  function flash(b,m){if(!b.dataset.label)b.dataset.label=b.textContent;clearTimeout(b._t);b.textContent=m;b.classList.add('done');b._t=setTimeout(function(){b.textContent=b.dataset.label;b.classList.remove('done');},1600);}
-  function copy(t,b){function ok(){flash(b,b.classList.contains('cp')?'✓':'Copied ✓');}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb);}else fb();
-    function fb(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='copy failed';}a.remove();}}
-  document.addEventListener('click',function(e){var b=e.target.closest('[data-copy]');if(!b)return;var s=document.querySelector(b.getAttribute('data-copy'));if(!s)return;copy(s.value!==undefined?s.value:s.textContent,b);});
-})();
-"""
 
 
 SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -609,7 +752,7 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5 A8 8 0 0 1 9.5 4 A7 7 0 1 0 20 14.5 Z"/></symbol>
 </defs></svg>'''
 THEME_INLINE = '<script>try{var _t=localStorage.getItem("gp-theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>\n'
-THEME_JS = '''(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){return root.getAttribute("data-theme")==="light";}function paint(){var m=document.querySelector('meta[name=\"theme-color\"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();'''
+THEME_JS = '''(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name=\"theme-color\"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();'''
 
 
 def page(title, desc, canon, body_html, og_image, og_type="website",
@@ -636,7 +779,8 @@ def page(title, desc, canon, body_html, og_image, og_type="website",
             '<link rel="stylesheet" href="/tokens.css">\n'
             f"<style>{SITE_CSS}</style>\n" + THEME_INLINE + "</head>\n"
             f'<body class="{body_class}">\n' + SPRITE + f'\n{NAV_HTML}\n{body_html}\n'
-            f"<script>{DETAIL_JS}{THEME_JS}</script>\n</body>\n</html>\n")
+            '<script src="/js/gp-detail.js"></script>\n'
+            f"<script>{THEME_JS}</script>\n</body>\n</html>\n")
 
 
 def foot(head, sub, buttons_html) -> str:
@@ -661,11 +805,13 @@ def cmd_html(text: str) -> str:
             f'<textarea id="{cid}" hidden>{esc(text)}</textarea></div>')
 
 
-def brief_detail(p, siblings, in_playbooks) -> str:
+def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     parts = brief_parts(p["body"])
     fc = "f-" + p["family"].lower()
     slug = p["slug"]
     lens_word = "lens" if len(parts["lenses"]) == 1 else "lenses"
+    copy_attrs = (f'data-copy="#rawbody" data-ctx="1" data-brief="{p["id"]}" '
+                  f'data-output="{attr(p["output"])}"')
 
     # hero
     meta = [f'<span class="out">{esc(p["output"])}</span>',
@@ -674,7 +820,7 @@ def brief_detail(p, siblings, in_playbooks) -> str:
         meta.append(f'<span class="chip">{len(parts["lenses"])} audit {lens_word}</span>')
     meta.append(f'<span class="chip">~{p["chars"]/1000:.1f}k chars</span>')
 
-    cta = [f'<button class="btn btn-primary" data-copy="#rawbody">Copy this prompt</button>',
+    cta = [f'<button class="btn btn-primary" {copy_attrs}>Copy this prompt</button>',
            f'<a class="btn btn-ghost" href="#use">How to run it</a>']
     if p.get("example"):
         ex = p["example"] if p["example"].startswith("/") else p["example"]
@@ -743,7 +889,8 @@ def brief_detail(p, siblings, in_playbooks) -> str:
     report = (f'<section class="blk"><div class="wrap">'
               f'<div class="kicker">The deliverable</div>'
               f'<h2 class="h2">What lands in your repo</h2>'
-              f'<p class="lead">One structured report at your repo root — the same shape every time, '
+              f'<p class="lead">One structured report at the repo root — or in <code>reports/</code>, '
+              f'if you keep one — the same shape every time, '
               f'ready for the Report Studio or a teammate to act on.</p>'
               f'<div class="report"><div class="bar"><div class="dots"><i></i><i></i><i></i></div>'
               f'<span class="fname">{esc(p["output"])}</span></div>'
@@ -757,10 +904,11 @@ def brief_detail(p, siblings, in_playbooks) -> str:
             f'<div class="ways">'
             f'<div class="way"><div class="num">01 · COPY</div><h4>Paste it in</h4>'
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
-            f'<button class="btn btn-primary" style="width:100%;justify-content:center" data-copy="#rawbody">Copy this prompt</button></div>'
+            f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h4>As a slash command</h4>'
-            f'<p>Install every brief once, then just type <code>/goal:{esc(slug)}</code>.</p>'
-            f'{cmd_html("curl -fsSL " + BASE + "/install | sh")}</div>'
+            f'<p>Install the <b>goal</b> plugin once, then just type <code>/goal:{esc(slug)}</code> '
+            f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
+            f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts")}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h4>From an agent (MCP)</h4>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md")}</div>'
@@ -783,19 +931,35 @@ def brief_detail(p, siblings, in_playbooks) -> str:
             f'{rules}</div></section>')
 
     # related
+    def _pcard(s):
+        return (f'<a class="pcard {"f-"+s["family"].lower()}" href="/b/{s["id"]}">'
+                f'<div class="pid">{esc(s["id"])} · {esc(s["family"])}</div>'
+                f'<h4>{esc(s["title"])}</h4><p>{esc(s["tagline"])}</p></a>')
     rel = ""
-    sib_cards = "".join(
-        f'<a class="pcard {"f-"+s["family"].lower()}" href="/b/{s["id"]}">'
-        f'<div class="pid">{esc(s["id"])} · {esc(s["family"])}</div>'
-        f'<h4>{esc(s["title"])}</h4><p>{esc(s["tagline"])}</p></a>'
-        for s in siblings[:4])
+    rel_cards = "".join(_pcard(r) for r in related)
+    if p["id"] == "47":
+        # the Fixer's natural neighbor isn't a brief — it's the Studio, where
+        # checked findings become this brief's targeted form
+        rel_cards += ('<a class="pcard" href="/studio">'
+                      '<div class="pid">Studio · Act</div>'
+                      '<h4>Report Studio</h4>'
+                      '<p>Drop the reports your audits produced — findings become a '
+                      'checklist, and checked findings become a targeted Fixer run.</p></a>')
+    sib_cards = "".join(_pcard(s) for s in siblings[:4])
     pb_links = "".join(
         f'<a class="pblink" href="/p/{pb["key"]}">{esc(pb["name"])} '
         f'<span class="len">{len(pb["ids"])}</span></a>' for pb in in_playbooks)
-    if sib_cards or pb_links:
+    if rel_cards or sib_cards or pb_links:
         rel = '<section class="blk"><div class="wrap"><div class="kicker">Keep exploring</div>'
+        if rel_cards:
+            rel += (f'<h2 class="h2">Pairs well with</h2>'
+                    f'<p class="lead">Curated neighbors — briefs that answer the adjacent '
+                    f'question, worth running in the same session.</p>'
+                    f'<div class="cards">{rel_cards}</div>')
         if sib_cards:
-            rel += (f'<h2 class="h2">More {esc(p["family"])} briefs</h2>'
+            gap = ' style="margin-top:30px"' if rel_cards else ""
+            rel += (f'<h2 class="h2"{gap}>'
+                    f'More {esc(p["family"])} briefs</h2>'
                     f'<div class="cards">{sib_cards}</div>')
         if pb_links:
             rel += ('<p class="lead" style="margin-top:26px">Runs inside these playbooks — '
@@ -867,19 +1031,24 @@ def playbook_detail(pb, by_id) -> str:
             f'<span class="sid">{esc(pid)}</span>'
             f'<span class="st">{esc(b["title"])}</span>'
             f'<span class="out">{esc(b["output"])}</span>'
-            f'<span class="sq">{esc(b["family"])}</span></a></div>')
+            f'<span class="sq">{esc(b["family"])}</span></a>'
+            f'<button class="stepcopy" type="button" data-fetch="/raw/{pid}.md" '
+            f'data-raw="{BASE}/raw/{pid}.md" data-brief="{pid}" '
+            f'data-output="{attr(b["output"])}" '
+            f'aria-label="Copy brief {pid} · {attr(b["title"])}">copy</button></div>')
     outputs = ", ".join(by_id[i]["output"] for i in pb["ids"])
     seq = (f'<section class="blk" id="seq" {style}><div class="wrap">'
            f'<div class="kicker">The map</div>'
            f'<h2 class="h2">Run it in order</h2>'
            f'<p class="lead">The conductor fetches each brief in turn and writes its report before '
-           f'moving on — later briefs can build on earlier findings.</p>'
+           f'moving on — later briefs can build on earlier findings. Or copy any single '
+           f'stage to run it alone.</p>'
            f'<div class="seq">{"".join(steps)}</div>'
            f'<div class="report" style="margin-top:26px"><div class="bar">'
            f'<div class="dots"><i></i><i></i><i></i></div>'
            f'<span class="fname mono" style="color:var(--dim)">what you\'ll have at the end</span></div>'
            f'<div class="doc" style="padding:16px"><div class="prose">'
-           f'<p><strong>{n} report{"s" if n>1 else ""}</strong> at your repo root: '
+           f'<p><strong>{n} report{"s" if n>1 else ""}</strong> at the repo root (or in <code>reports/</code>): '
            f'<span class="mono" style="font-size:13px;color:var(--dim)">{esc(outputs)}</span>. '
            f'Feed them to <a href="/studio" style="color:var(--fc)">Report Studio</a> to turn findings '
            f'into commits, or run <a href="/b/28" style="color:var(--fc)">28 · Roadmap Synthesis</a> '
@@ -937,12 +1106,57 @@ def playbook_detail(pb, by_id) -> str:
                 body, f"{BASE}/og.png", "website", body_class)
 
 
-def write_archives(prompts: list) -> None:
-    entries = []
+def command_md(p: dict) -> str:
+    """One brief as a Claude Code command file — the same content ships in the
+    tar/zip archives (curl installer) and the plugin's commands/ directory."""
+    return f'---\ndescription: "{p["tagline"]}"\n---\n\n{p["body"]}\n'
+
+
+def write_plugin(prompts: list) -> None:
+    """The Claude Code plugin (plugin/), listed by .claude-plugin/marketplace.json.
+
+    /plugin marketplace add GhostlyGawd/goal-prompts, install "goal", and every
+    brief is a real namespaced /goal:<slug> command. The whole directory is a
+    build output: commands/ regenerates from the briefs and plugin.json's
+    version tracks package.json, so neither can drift (tests/test_build.py
+    PluginTests pins both; CI diffs the committed copy)."""
+    version = json.loads(
+        (ROOT / "package.json").read_text(encoding="utf-8"))["version"]
+    shutil.rmtree(ROOT / "plugin", ignore_errors=True)
+    (ROOT / "plugin" / ".claude-plugin").mkdir(parents=True)
+    (ROOT / "plugin" / "commands").mkdir()
     for p in prompts:
-        content = (f'---\ndescription: "{p["tagline"]}"\n---\n\n'
-                   f'{p["body"]}\n').encode("utf-8")
-        entries.append((f'goal/{p["slug"]}.md', content))
+        (ROOT / "plugin" / "commands" / f'{p["slug"]}.md').write_text(
+            command_md(p), encoding="utf-8")
+    manifest = {
+        "name": "goal",
+        "displayName": "Goal Prompts",
+        "version": version,
+        "description": "The goal-prompts audit catalog as native /goal:<slug> "
+                       "commands — each brief points your agent at the repo "
+                       "and writes one evidence-backed report.",
+        "author": {"name": "GhostlyGawd"},
+        "homepage": BASE,
+        "repository": "https://github.com/GhostlyGawd/goal-prompts",
+        "license": "MIT",
+        "keywords": ["audit", "code-audit", "claude-code", "prompts"],
+    }
+    (ROOT / "plugin" / ".claude-plugin" / "plugin.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
+
+
+def write_archives(prompts: list) -> None:
+    # Entries live under goal/ (one rm -rf uninstalls) but carry the goal-
+    # prefix in the filename, because a commands subdirectory does not
+    # namespace: the installed commands really are /goal-<slug>. The plugin
+    # (write_plugin) is where the /goal:<slug> namespace comes from.
+    version = json.loads(
+        (ROOT / "package.json").read_text(encoding="utf-8"))["version"]
+    entries = [("goal/.version", version.encode("utf-8"))]
+    for p in prompts:
+        content = command_md(p).encode("utf-8")
+        entries.append((f'goal/goal-{p["slug"]}.md', content))
     raw = io.BytesIO()
     with tarfile.open(fileobj=raw, mode="w", format=tarfile.GNU_FORMAT) as tf:
         for name, data in entries:
@@ -970,7 +1184,7 @@ def main() -> None:
     if not files:
         fail("no prompt files found under prompts/")
     prompts = [parse(f) for f in files]
-    prompts.sort(key=lambda p: (FAMILY_ORDER.index(p["family"]), p["id"]))
+    prompts.sort(key=sort_key)
     by_id = {p["id"]: p for p in prompts}
 
     ids = [p["id"] for p in prompts]
@@ -978,6 +1192,9 @@ def main() -> None:
         fail("duplicate prompt ids")
     if len({p["slug"] for p in prompts}) != len(prompts):
         fail("duplicate prompt slugs")
+    cross = lint_catalog(prompts)
+    if cross:
+        fail("; ".join(cross))
 
     playbooks = json.loads((ROOT / "playbooks.json").read_text(encoding="utf-8"))
     for pb in playbooks:
@@ -1054,7 +1271,9 @@ def main() -> None:
                       for p in prompts]
     pb_opt = ("type", "badge", "featured", "window", "accent", "partner",
               "preview", "tagline")
-    pb_payload = [{**{k: pb[k] for k in ("key", "name", "desc", "ids", "conductor")},
+    # no "conductor" in the injected payload: the client composes it with
+    # makeConductor() (js/catalog-core.js); machines get raw/playbook-<key>.md
+    pb_payload = [{**{k: pb[k] for k in ("key", "name", "desc", "ids")},
                    **{k: pb[k] for k in pb_opt if k in pb}}
                   for pb in playbooks]
     fam_payload = [[fam, next(p["question"] for p in prompts if p["family"] == fam)]
@@ -1067,6 +1286,9 @@ def main() -> None:
                   "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__", "__GH_STARS__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
+    icon_gaps = lint_family_icons(template)
+    if icon_gaps:
+        fail("; ".join(icon_gaps))
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
     # Armed-but-hidden GitHub adoption badge. The real star count lives in
     # metrics.json (refreshed out-of-band by scripts/refresh-stars.py) so the
@@ -1102,8 +1324,9 @@ def main() -> None:
                     if s["family"] == p["family"] and s["id"] != p["id"]]
         in_pb = [pb for pb in playbooks
                  if p["id"] in pb["ids"] and not pb.get("preview")]
+        related = [by_id[r] for r in p.get("related", [])]
         (ROOT / "b" / f'{p["id"]}.html').write_text(
-            brief_detail(p, siblings, in_pb), encoding="utf-8")
+            brief_detail(p, siblings, in_pb, related), encoding="utf-8")
     for pb in playbooks:
         (ROOT / "raw" / f'playbook-{pb["key"]}.md').write_text(
             pb["conductor"], encoding="utf-8")
@@ -1131,6 +1354,7 @@ def main() -> None:
         "families": FAMILY_ORDER,
         "playbooks": [{**{k: pb[k] for k in ("key", "name", "desc", "ids")},
                        "page": f"{BASE}/p/{pb['key']}",
+                       "conductor": f"{BASE}/raw/playbook-{pb['key']}.md",
                        **{k: pb[k] for k in
                           ("type", "badge", "featured", "window", "tagline", "preview")
                           if k in pb}}
@@ -1149,10 +1373,11 @@ def main() -> None:
     import hashlib as _hl
     ver_src = b"".join((ROOT / f).read_bytes() for f in
                        ("index.html", "studio.html", "vitals.html", "tokens.css",
+                        "js/catalog-core.js", "js/report-parser.js", "js/gp-detail.js",
                         "icons/icon-192.png", "icons/icon-512.png"))
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
-                "/tokens.css",
+                "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js",
                 "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2",
                 "/fonts/plexmono-latin-600.woff2",
                 "/icons/icon-192.png", "/icons/icon-512.png"]
@@ -1174,10 +1399,11 @@ def main() -> None:
         f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n", encoding="utf-8")
 
     write_archives(prompts)
+    write_plugin(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
           f"raw/, b/, catalog.json, sitemap.xml, robots.txt, "
-          f"commands.tar.gz, commands.zip")
+          f"commands.tar.gz, commands.zip, plugin/")
 
 
 if __name__ == "__main__":

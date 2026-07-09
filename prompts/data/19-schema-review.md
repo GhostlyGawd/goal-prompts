@@ -39,7 +39,11 @@ Create `SCHEMA.md` at repo root:
 4. **Migration sequence** — ordered, each step safe and reversible where possible; backfill notes
 5. **First migration** — written out
 
+Start the report with today's date. If `SCHEMA.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Index for queries that exist, not queries you imagine
 - The database should enforce what the app assumes
+- No database schema in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which migrations to write

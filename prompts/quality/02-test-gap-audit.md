@@ -40,7 +40,10 @@ Create `TESTING.md` at repo root:
 4. **Suite health fixes** — flakes to kill, speed wins
 5. **First test to write today** — spelled out completely
 
+Start the report with today's date. If `TESTING.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Judge tests by the failures they would catch, not by coverage percentage
 - Prefer a few integration tests on critical seams over many trivial units
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which tests to write

@@ -1,0 +1,45 @@
+---
+description: "Where the type system has been defeated or never engaged — the casts, anys, and untyped boundaries where the compiler stops protecting you."
+---
+
+# Goal: Type-Safety Audit
+
+You are working inside this repo. Mission: find the places the type system has been switched off or was never turned on — the escape hatches and untyped boundaries where a whole class of bugs walks in unchecked. In dynamically typed code, read this as runtime validation at boundaries.
+
+Read-only pass. Read the type/strictness config and the boundaries where external data enters; change nothing but the report file.
+
+## Phase 1 — Learn the type posture
+- Note the language's type strictness settings and which are relaxed.
+- Find the boundaries where untyped data enters: API responses, JSON, env vars, database rows.
+- Scan for the escape hatches the codebase leans on.
+
+## Phase 2 — Audit through 7 lenses
+Cite file and line for every finding.
+1. **Escape hatches** — `any`, unchecked casts, `as`, ignore comments, reflection that drops types
+2. **Untyped boundaries** — API responses, JSON, env, and DB rows trusted without validation
+3. **Nullability** — optionals unwrapped without handling the null/undefined case
+4. **Weak modeling** — primitives where a type would prevent misuse (stringly-typed ids, magic strings)
+5. **Unsafe generics** — over-broad type params; casts inside generic code that lie to callers
+6. **Config strictness** — compiler or linter strictness disabled; warnings that should be errors
+7. **Runtime validation** — where a schema check is needed because types cannot reach the data
+
+## Phase 3 — Curate
+- Rank by the bug each invites and how hot the path is: an unvalidated payment payload outranks a test cast.
+- For each, give the safer type or the validation to add at the boundary.
+- Separate "turn on strictness" from "model this better"; both reduce whole classes.
+
+## Phase 4 — Report
+Create `TYPES.md` at repo root:
+1. **Posture** — current strictness and the biggest holes it leaves
+2. **Findings** — each: location · the defeated check · the bug it invites · the fix
+3. **Boundary validation** — where to add schema checks so external data is typed on arrival
+4. **Strictness plan** — the settings to enable and the order to adopt them without a flood
+
+Start the report with today's date. If `TYPES.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- A type asserted with a cast is a comment, not a guarantee
+- Validate at the boundary; inside it, let types do the work
+- No typed language surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which type holes to close first

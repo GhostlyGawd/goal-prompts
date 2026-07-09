@@ -37,7 +37,11 @@ Create `AGENT-READINESS.md` at repo root:
 3. **Fixes** — ranked; the entry file and one-command checks usually first
 4. **The one-hour fix** — the single change that removes the most stumbles
 
+Start the report with today's date. If `AGENT-READINESS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Your own confusion during this audit is admissible evidence — cite it
 - Judge what the repo communicates, not what its authors intended
+- No codebase for an agent to build on in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

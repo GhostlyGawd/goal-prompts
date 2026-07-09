@@ -4,11 +4,14 @@ title: 10x Stress Review
 family: Speed
 question: does it scale?
 output: SCALE.md
+related: 123
 tagline: Simulate 10x users, data, and traffic on paper — find what breaks first, at what threshold, and the cheapest mitigation.
 ---
 # Goal: 10x Stress Review
 
 You are working inside this repo. Mission: put tomorrow's load on today's architecture — 10x the users, 10x the data, 10x the traffic — and find what breaks first, in what order, and what each fix costs.
+
+This is a thought experiment on tomorrow's load, the whole product included — cost, ops, third parties. For today's configured ceilings, measured from config, run 123.
 
 Read-only pass, thinking on paper. Your only write is the report file.
 
@@ -40,7 +43,11 @@ Create `SCALE.md` at repo root:
 4. **Do-not-fix-yet list** — premature optimizations to consciously skip
 5. **The one change** — biggest headroom per unit of effort
 
+Start the report with today's date. If `SCALE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every bottleneck needs a mechanism — "might be slow" doesn't count
 - Respect today's simplicity: recommend the least architecture that survives 10x
+- No load-bearing system in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which mitigations to build

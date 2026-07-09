@@ -4,6 +4,7 @@ title: Show, Don't Tell
 family: Design
 question: is it beautiful?
 output: SHOWCASE.md
+example: /SHOWCASE.md
 tagline: Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith?
 ---
 # Goal: Show, Don't Tell
@@ -39,8 +40,12 @@ Create `SHOWCASE.md` at repo root:
 3. **Top 3 visuals to make** — the highest-leverage things to picture, in order
 4. **Media hygiene** — what to annotate, caption, compress, or retire
 
+Start the report with today's date. If `SHOWCASE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A benefit the visitor can see beats one they have to believe
 - Every finding names the passage that should be shown or the asset that fails
 - Prefer one honest screenshot over a paragraph of adjectives
+- No marketing or product surface to show the product on in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which visuals to make

@@ -39,7 +39,11 @@ Create `FORMS.md` at repo root:
 3. **Cuts** — the fields to remove, defer, or infer, highest-leverage first
 4. **Priority** — the fixes on the highest-traffic forms, ordered by drop-off risk
 
+Start the report with today's date. If `FORMS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - The shortest form that does the job wins; cut before you polish
 - Never make a user retype what an error threw away
+- No forms in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which form fixes to make first

@@ -36,7 +36,11 @@ Create `POSITIONING.md` at repo root:
 3. **Message drafts** — a homepage one-liner and three supporting claims per option, each traceable to research
 4. **Flip conditions** — the new facts that would change the pick
 
+Start the report with today's date. If `POSITIONING.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every differentiation claim is checked against competitors' live pages and quoted
 - Positioning that requires educating the market is a cost, not a cleverness
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which option to carry into the verdict
