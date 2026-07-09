@@ -53,7 +53,10 @@
   :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
     .nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
   .nav-cta:hover{border-color:var(--text)}
-  @media(max-width:720px){.nav-links{display:none}}
+  /* under 720px keep Playbooks + Studio reachable — only the anchors the hero
+     CTA already covers drop out; under 400px the CTA yields the room back */
+  @media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
+  @media(max-width:480px){.nav-cta{display:none}}
 
   /* ---------- buttons ---------- */
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s,color .15s;-webkit-tap-highlight-color:transparent}
@@ -98,7 +101,7 @@
   .bar-cell:hover .bar{filter:brightness(1.1);transform:translateY(-2px)}
   .bar-cell .tip{position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--sans);font-size:12px;color:var(--btn-fg);background:var(--btn);padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
   .bar-cell .tip i{font-style:normal;opacity:.65}
-  .bar-cell:hover .tip{opacity:1}
+  .bar-cell:hover .tip,.bar-cell:focus .tip,.bar-cell:focus-within .tip{opacity:1}
   .lab-cell{grid-row:2;padding-top:12px;border-top:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:6px}
   .lab-cell .ic{width:17px;height:17px;color:var(--fc)}
   .lab-cell .nm{font-family:var(--sans);font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center}
@@ -470,8 +473,8 @@
 <header class="nav"><div class="nav-in wrap">
   <a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
   <nav class="nav-links">
-    <a href="#how">How it works</a>
-    <a href="#catalog">Catalog</a>
+    <a href="#how" class="mh">How it works</a>
+    <a href="#catalog" class="mh">Catalog</a>
     <a href="#playbooks">Playbooks</a>
     <a href="/studio">Studio</a>
   </nav>
@@ -499,7 +502,7 @@
     </div>
   </div>
   <div class="chartblock">
-    <div class="chartscroll"><div class="famchart" id="famchart" role="img" aria-label="Bar chart of briefs per family"></div></div>
+    <div class="chartscroll"><div class="famchart" id="famchart" role="group" aria-label="Bar chart of briefs per family"></div></div>
     <div class="figcap"><b>Fig. 1</b> Briefs per family — 21 families, one question each. Hover a bar. <span class="rule"></span> <span id="chartcount">141 briefs total</span></div>
   </div>
   <div class="herostat-m" aria-hidden="true">
@@ -777,10 +780,20 @@ function runLabel(id){
 let seq = [];
 try{ seq = (JSON.parse(localStorage.getItem("gp-seq") || "[]") || []).filter(id => byId[id]); }catch(e){ seq = []; }
 const seqBtns = {};
+let seqUsed = false;
+try{ seqUsed = localStorage.getItem("gp-seqused") === "1"; }catch(e){}
 function saveSeq(){ try{ localStorage.setItem("gp-seq", JSON.stringify(seq)); }catch(e){} }
 function toggleSeq(id){
   const i = seq.indexOf(id);
-  if(i === -1) seq.push(id); else seq.splice(i, 1);
+  if(i === -1){
+    /* the conductor text promises a 16-stage cap — enforce it here too */
+    if(seq.length >= CC.SEQ_CAP){
+      toast(["A conductor caps at " + CC.SEQ_CAP + " stages — copy this sequence, clear it, and build part 2."]);
+      return;
+    }
+    seq.push(id);
+    if(!seqUsed){ seqUsed = true; try{ localStorage.setItem("gp-seqused", "1"); }catch(e){} }
+  } else seq.splice(i, 1);
   saveSeq(); syncSeqUi();
 }
 function makeConductor(name, desc, ids){
@@ -791,7 +804,7 @@ function syncSeqUi(){
     const b = seqBtns[id];
     const i = seq.indexOf(id);
     b.className = "iconbtn" + (i !== -1 ? " on" : "");
-    b.textContent = i !== -1 ? "✓ seq " + (i + 1) : "+ seq";
+    b.textContent = i !== -1 ? "✓ seq " + (i + 1) : (seqUsed ? "+ seq" : "+ add to sequence");
     b.setAttribute("aria-pressed", i !== -1);
   }
   const bar = document.getElementById("seqbar");
@@ -853,15 +866,28 @@ function track(name, data){
   try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){}
 }
 var _copyhintT;
-function showCopyHint(output, id){
+/* one inline toast for hints + the ex-alert flows; content built via DOM, never innerHTML */
+function toast(parts){
   var el = document.getElementById("copyhint"); if(!el) return;
-  document.getElementById("copyhinttext").innerHTML =
-    'Paste into Claude Code, Cursor, or any agent <b>inside your repo</b> — it writes <code>' +
-    (output || 'the report') + '</code> at the root, then drop it in the <a href="/studio">Report Studio</a>.' +
-    (id ? ' <button type="button" class="markrun" data-id="' + id + '">✓ mark it run</button>' : '');
+  var t = document.getElementById("copyhinttext"); if(!t) return;
+  t.textContent = "";
+  (Array.isArray(parts) ? parts : [parts]).forEach(function(n){ t.append(n); });
   el.hidden = false;
   clearTimeout(_copyhintT);
   _copyhintT = setTimeout(function(){ el.hidden = true; }, 9000);
+}
+function showCopyHint(output, id){
+  var b = document.createElement("b"); b.textContent = "inside your repo";
+  var code = document.createElement("code"); code.textContent = output || "the report";
+  var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
+  var parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
+               " at the root, then drop it in the ", a, "."];
+  if(id){
+    var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
+    mr.setAttribute("data-id", id); mr.textContent = "✓ mark it run";
+    parts.push(" ", mr);
+  }
+  toast(parts);
 }
 (function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
 // Retention R1: let the post-copy hint feed the run-tracker at the moment of action.
@@ -1116,7 +1142,7 @@ function card(p, idx, stepNo){
   morewrap.append(run, sq, share); if(ex) morewrap.append(ex);
   const more = document.createElement("button"); more.className = "iconbtn cardmore-t";
   more.textContent = "⋯"; more.setAttribute("aria-label", "More actions for " + p.title); more.setAttribute("aria-expanded", "false");
-  more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
+  more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; if(open) closeMoreRows(); morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
   meta.append(out, info, det, view, more, morewrap);
 
   /* the 141 quick-view <pre>s are the heaviest DOM on the page — build each
@@ -1134,6 +1160,19 @@ function fillQuick(cardEl){
   const pre = document.createElement("pre"); pre.textContent = p.body;
   b.append(pre);
 }
+/* the "⋯" more rows close on outside click or Escape, like any disclosure */
+function closeMoreRows(){
+  document.querySelectorAll(".cardmore:not([hidden])").forEach(function(m){
+    m.hidden = true;
+    var t = m.parentElement && m.parentElement.querySelector(".cardmore-t");
+    if(t) t.setAttribute("aria-expanded", "false");
+  });
+}
+document.addEventListener("click", function(e){
+  if(e.target.closest && e.target.closest(".cardmore")) return;
+  closeMoreRows();
+});
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMoreRows(); });
 const _nudgeSeen = {};
 function renderNudge(){
   const old = document.getElementById("nudge");
@@ -1311,11 +1350,21 @@ document.querySelectorAll("[data-ctx]").forEach(el=>{
 document.getElementById("ctxclear").onclick = ()=>{ ctx = {}; saveCtx();
   document.querySelectorAll("[data-ctx]").forEach(el=>{ el.value = ""; }); };
 syncCtxUi();
-document.getElementById("reset").onclick = ()=>{
-  if(!runCount()) return;
-  if(confirm("Clear all "+runCount()+" run marks?")){
+/* two-step confirm on the button itself, instead of a native confirm() */
+document.getElementById("reset").onclick = function(){
+  const btn = this;
+  if(!runCount()){ return; }
+  if(btn.dataset.arm){
+    delete btn.dataset.arm;
     runs = {}; saveRuns(); renderStats(); render();
+    btn.textContent = "reset run tracker";
+    return;
   }
+  btn.dataset.arm = "1";
+  btn.textContent = "clear " + runCount() + " run mark" + (runCount() === 1 ? "" : "s") + "? click again";
+  setTimeout(function(){
+    if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = "reset run tracker"; }
+  }, 4000);
 };
 /* ---- export / import local setup — portable backup, no backend (R3) ---- */
 function exportState(){
@@ -1332,12 +1381,12 @@ function importState(file){
   r.onload = ()=>{
     let state;
     try{ const parsed = JSON.parse(r.result); state = parsed && parsed.state ? parsed.state : parsed; }catch(e){ state = null; }
-    if(!state || typeof state !== "object"){ alert("That doesn't look like a goal-prompts backup file."); return; }
+    if(!state || typeof state !== "object"){ toast(["That doesn't look like a goal-prompts backup file."]); return; }
     let n = 0;
     for(const k in state){ if(k.indexOf("gp-")===0 && typeof state[k]==="string"){ localStorage.setItem(k, state[k]); n++; } }
-    if(!n){ alert("No goal-prompts settings found in that file."); return; }
-    alert("Restored " + n + " setting" + (n===1?"":"s") + ". Reloading to apply.");
-    location.reload();
+    if(!n){ toast(["No goal-prompts settings found in that file."]); return; }
+    toast(["Restored " + n + " setting" + (n===1?"":"s") + " — reloading to apply…"]);
+    setTimeout(function(){ location.reload(); }, 900);
   };
   r.readAsText(file);
 }
@@ -1360,10 +1409,10 @@ async function toggleRemind(btn){
     try{ const reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("vitals-weekly"); }catch(e){}
     return;
   }
-  if(!("Notification" in window)){ alert("This browser can't show notifications, so the reminder can't run."); return; }
+  if(!("Notification" in window)){ toast(["This browser can't show notifications, so the reminder can't run."]); return; }
   let perm = Notification.permission;
   if(perm !== "granted") perm = await Notification.requestPermission();
-  if(perm !== "granted"){ alert("Notifications are blocked for this site, so the reminder can't run. Enable them and try again."); return; }
+  if(perm !== "granted"){ toast(["Notifications are blocked for this site, so the reminder can't run. Enable them and try again."]); return; }
   remind.on = true; saveRemind(); btn.textContent = remindLabel();
   try{ window.va("event", {name:"reminder_opt_in"}); }catch(e){}
   let bg = false;
@@ -1375,9 +1424,9 @@ async function toggleRemind(btn){
       bg = true;
     }
   }catch(e){}
-  alert(bg
+  toast([bg
     ? "Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."
-    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account.");
+    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account."]);
 }
 (function(){
   const rb = document.getElementById("remindtog");
@@ -1431,7 +1480,8 @@ function renderFamChart(){
   for(const name of fams){
     const q=(FAMILIES.find(f=>f[0]===name)||["",""])[1];
     const c=famColor(name), n=counts[name], h=Math.round(n/max*100);
-    bars.push('<div class="bar-cell" style="--fc:'+c+';--h:'+h+'"><span class="val">'+n+
+    bars.push('<div class="bar-cell" style="--fc:'+c+';--h:'+h+'" tabindex="0" aria-label="'+
+      (name+": "+n+" briefs — "+q).replace(/"/g,"&quot;")+'"><span class="val">'+n+
       '</span><span class="bar"></span><span class="tip"><b>'+name+'</b> · <i>'+q+'</i></span></div>');
     labs.push('<div class="lab-cell" style="--fc:'+c+'"><svg class="ic"><use href="#'+
       (FAM_ICON[name]||"i-meta")+'"></use></svg><span class="nm">'+shortFam(name)+'</span></div>');
