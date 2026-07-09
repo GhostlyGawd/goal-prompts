@@ -142,6 +142,20 @@ def render_home(briefs):
 def main():
     briefs = [build.parse(f) for f in sorted((ROOT / "prompts").rglob("*.md"))]
     by_id = {b["id"]: b for b in briefs}
+    if "--check" in sys.argv:
+        # Freshness gate for scripts/check: the committed og.png must still
+        # match the live catalog. Compare raw pixels (not the PNG bytes) so a
+        # re-encode alone doesn't trip it — only real drift (e.g. a stale
+        # brief/family count) does.
+        target = ROOT / "og.png"
+        if not target.exists():
+            sys.exit("FAIL  og.png missing — generate: python3 scripts/og.py --home")
+        want = render_home(briefs)
+        have = Image.open(target).convert("RGB")
+        if want.size != have.size or want.tobytes() != have.tobytes():
+            sys.exit("FAIL  og.png is stale — regenerate: python3 scripts/og.py --home")
+        print("OK  og.png reflects the current catalog")
+        return
     if "--home" in sys.argv or "--all" in sys.argv:
         render_home(briefs).save(str(ROOT / "og.png"), optimize=True)
         print("og.png  home card")

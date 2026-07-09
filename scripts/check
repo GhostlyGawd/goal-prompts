@@ -14,7 +14,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 step=0
-say() { step=$((step + 1)); printf '\n== %s/5  %s ==\n' "$step" "$1"; }
+say() { step=$((step + 1)); printf '\n== %s/6  %s ==\n' "$step" "$1"; }
 
 say "build (lints all briefs, regenerates every surface)"
 # Capture rather than `| tail -1`: a pipe masks build.py's exit code, so a
@@ -28,6 +28,17 @@ printf '%s\n' "$build_out" | tail -1
 
 say "linter tests"
 python3 -m unittest discover -s tests -q
+
+say "og home-card freshness"
+# The site-wide share card (og.png) is a generate-time asset (needs Pillow +
+# fontTools, heavier than the stdlib-only build). Check it reflects the live
+# catalog when those deps are present; skip loudly otherwise, like the Node
+# steps below.
+if python3 -c "import PIL, fontTools" >/dev/null 2>&1; then
+  python3 scripts/og.py --check
+else
+  echo "SKIPPED — Pillow/fontTools not installed (og.png is a generate-time asset)"
+fi
 
 if command -v node >/dev/null 2>&1; then
   say "mcp server syntax"
@@ -56,8 +67,8 @@ EOF
   say "mcp smoke (spawns the real server)"
   node scripts/mcp-smoke.cjs
 else
-  step=5
-  printf '\n== 3-5/5  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
+  step=6
+  printf '\n== 4-6/6  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
 fi
 
 printf '\nALL CHECKS PASSED\n'

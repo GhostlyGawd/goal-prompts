@@ -1,6 +1,9 @@
 # Goal Prompts
 
-Eighty-one mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+<!--counts-->135 mission briefs<!--/counts--> for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+
+<!-- The brief count above is stamped by `python3 build.py` (between the counts markers); don't hand-edit it. -->
+
 
 Every prompt body is under 4,000 characters.
 

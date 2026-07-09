@@ -906,6 +906,56 @@ def playbook_detail(pb, by_id) -> str:
                 body, f"{BASE}/og.png", "website", body_class)
 
 
+def landing_jsonld(briefs: int, playbooks: int, families: int) -> dict:
+    """Structured data for the landing page: what the product is (a free, open
+    developer tool) plus a FAQ built only from facts already stated on the page.
+    Counts come straight from the build, so the rich result can't go stale.
+    Injected into template.html at __JSONLD__ (b/ and p/ pages get their own)."""
+    faq = [
+        ("Is Goal Prompts free?",
+         "Yes — every brief is free and open source under the MIT license. "
+         "There is no signup, no account, and no paid tier."),
+        ("Do I have to install anything?",
+         "No. Copy any brief and paste it into your coding agent — nothing to "
+         "install. Installing the briefs as slash commands or adding the MCP "
+         "server are optional alternatives."),
+        ("Will it change or upload my code?",
+         "No. Every audit brief is read-only by default and its only write is "
+         "its own report file; each one ends by asking before anything is "
+         "touched. Prompts run in your repo, in your agent — nothing is "
+         "uploaded and there is no backend."),
+        ("What do I get out of it?",
+         "One evidence-backed report file at your repo root: every finding "
+         "cites file and line, ranked by severity and confidence, with a fix "
+         "sketch — ready for a teammate, the Report Studio, or the Fixer."),
+        ("Which coding agents does it work with?",
+         "Any coding agent — Claude Code, Cursor, GitHub Copilot, and others."),
+    ]
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/",
+             "name": "Goal Prompts",
+             "description": f"A free, open catalog of {briefs} copy-paste audit "
+                            f"briefs for AI coding agents, across {families} families."},
+            {"@type": "SoftwareApplication", "@id": f"{BASE}/#app",
+             "name": "Goal Prompts", "url": f"{BASE}/",
+             "applicationCategory": "DeveloperApplication", "operatingSystem": "Any",
+             "description": f"Turn your coding agent into a senior code auditor. "
+                            f"{briefs} copy-paste audit briefs and {playbooks} curated "
+                            f"playbooks; each brief runs the same four-phase audit and "
+                            f"writes one evidence-backed report you can act on.",
+             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+             "license": "https://opensource.org/licenses/MIT",
+             "isAccessibleForFree": True},
+            {"@type": "FAQPage", "@id": f"{BASE}/#faq",
+             "mainEntity": [{"@type": "Question", "name": q,
+                             "acceptedAnswer": {"@type": "Answer", "text": a}}
+                            for q, a in faq]},
+        ],
+    }
+
+
 def write_archives(prompts: list) -> None:
     entries = []
     for p in prompts:
@@ -972,6 +1022,12 @@ def main() -> None:
     if missing_og:
         fail(f"briefs missing share cards: og/{{{','.join(missing_og)}}}.png"
              " — generate with scripts/og.py (needs Pillow)")
+    # The site-wide share card is gated like the per-brief ones. build.py is
+    # stdlib-only so it can only check the file exists; scripts/check runs
+    # `scripts/og.py --check` (Pillow-guarded) to catch a stale one.
+    if not (ROOT / "og.png").exists():
+        fail("home share card og.png missing — generate with "
+             "`python3 scripts/og.py --home` (needs Pillow)")
 
     # ---- shared design tokens (single source of truth, linked by every page) ----
     (ROOT / "tokens.css").write_text(TOKENS_CSS, encoding="utf-8")
@@ -990,18 +1046,41 @@ def main() -> None:
     fam_payload = [[fam, next(p["question"] for p in prompts if p["family"] == fam)]
                    for fam in FAMILY_ORDER
                    if any(p["family"] == fam for p in prompts)]
+    # One source of truth for the catalog's size: build.py computes it and
+    # stamps it into every static surface (meta/OG tags, hero micro line, chart
+    # caption, the finder lead, and README) so no number is ever hand-typed and
+    # they can't drift out of sync again. (The runtime JS still self-heals the
+    # rendered hero/chart; these tokens fix the no-JS first paint, the crawler
+    # snippet, and the social unfurl.)
+    brief_count, pb_count, fam_count = len(prompts), len(playbooks), len(fam_payload)
+    counts = {"__BRIEF_COUNT__": str(brief_count),
+              "__PLAYBOOK_COUNT__": str(pb_count),
+              "__FAMILY_COUNT__": str(fam_count)}
+    jsonld = json.dumps(landing_jsonld(brief_count, pb_count, fam_count),
+                        ensure_ascii=False).replace("</", "<\\/")
     template = (ROOT / "template.html").read_text(encoding="utf-8")
     if BASE != DEFAULT_BASE:
         template = template.replace(DEFAULT_BASE, BASE)
-    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__"):
+    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
+                  "__JSONLD__", *counts):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
-    (ROOT / "index.html").write_text(
-        template.replace("__PROMPTS_JSON__", esc(prompt_payload))
-                .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
-                .replace("__FAMILIES_JSON__", esc(fam_payload)),
-        encoding="utf-8")
+    html = (template.replace("__PROMPTS_JSON__", esc(prompt_payload))
+                    .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
+                    .replace("__FAMILIES_JSON__", esc(fam_payload))
+                    .replace("__JSONLD__", jsonld))
+    for token, value in counts.items():
+        html = html.replace(token, value)
+    (ROOT / "index.html").write_text(html, encoding="utf-8")
+
+    # ---- stamp the human count in README (same single source of truth) ----
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    stamped = re.sub(r"<!--counts-->.*?<!--/counts-->",
+                     f"<!--counts-->{brief_count} mission briefs<!--/counts-->",
+                     readme, flags=re.S)
+    if stamped != readme:
+        (ROOT / "README.md").write_text(stamped, encoding="utf-8")
 
     # ---- raw endpoints + full detail pages (brief + playbook) ----
     for d in ("raw", "b", "p"):
