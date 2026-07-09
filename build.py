@@ -179,6 +179,28 @@ self.addEventListener("fetch", function (e) {
     }).catch(function () { return m; });
   }));
 });
+/* Opt-in weekly Vitals reminder (see the landing's reminder toggle). Fires only
+ * when the user explicitly enabled it and the browser supports periodicSync
+ * (Chromium, installed PWA) — nothing is auto-enabled and nothing leaves the
+ * device. */
+self.addEventListener("periodicsync", function (e) {
+  if (e.tag !== "vitals-weekly") return;
+  e.waitUntil(self.registration.showNotification("Weekly Vitals is due", {
+    body: "Ten minutes for fresh trend arrows on your repo.",
+    icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+    tag: "vitals-weekly", data: { url: "/#29" }
+  }));
+});
+self.addEventListener("notificationclick", function (e) {
+  e.notification.close();
+  var url = (e.notification.data && e.notification.data.url) || "/";
+  e.waitUntil(clients.matchAll({ type: "window" }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) {
+      if (cs[i].url.indexOf(url) !== -1 && "focus" in cs[i]) return cs[i].focus();
+    }
+    if (clients.openWindow) return clients.openWindow(url);
+  }));
+});
 """
 
 

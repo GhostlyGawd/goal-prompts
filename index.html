@@ -102,8 +102,16 @@
   .figcap{display:flex;align-items:center;gap:12px;margin-top:15px;font-family:var(--mono);font-size:11px;color:var(--faint)}
   .figcap b{color:var(--text);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
   .figcap .rule{flex:1;height:1px;background:var(--line)}
-  /* the chart is a desktop flourish; on phones it only scrolls sideways and delays the value — drop it */
-  @media(max-width:820px){.chartblock{display:none}.hero-in{padding:34px 0 30px}}
+  /* the chart is a desktop flourish; on phones it only scrolls sideways and delays the value — drop it,
+     but keep a lightweight scope visual (stat block) so the mobile hero isn't pure prose */
+  .herostat-m{display:none}
+  @media(max-width:820px){
+    .chartblock{display:none}.hero-in{padding:34px 0 30px}
+    .herostat-m{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+    .herostat-m .hs{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:var(--radius);padding:14px 8px;text-align:center}
+    .herostat-m .hs b{display:block;font-family:var(--disp);font-size:26px;font-weight:720;color:var(--text);letter-spacing:-.02em;line-height:1}
+    .herostat-m .hs span{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:5px;display:block}
+  }
 
   /* ---------- generic section ---------- */
   .blk{padding:clamp(48px,6vw,80px) 0;border-bottom:1px solid var(--line)}
@@ -245,6 +253,10 @@
   .nudge{margin:20px 0 4px;padding:12px 14px;border:1px solid var(--line);border-left:2px solid var(--fc,#C4CBD8);border-radius:var(--radius);background:var(--panel);font-size:13.5px;color:var(--dim)}
   .nudge a{color:var(--fc);font-family:var(--mono);text-decoration:none}
   .nudge a:hover{text-decoration:underline}
+  .ctxwarm{margin:0 0 20px;padding:12px 15px;border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);background:var(--panel);font-size:14px;color:var(--dim);line-height:1.5;max-width:760px}
+  .ctxwarm b{color:var(--text);font-weight:600}
+  .ctxwarm-edit{background:none;border:0;color:var(--fc);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0}
+  .ctxwarm-edit:hover{text-decoration:underline}
 
   .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;animation:rise .4s cubic-bezier(.2,.7,.3,1) both;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
   .card:hover{border-color:var(--line-2);transform:translateY(-1px)}
@@ -326,6 +338,24 @@
   .proofcard p{font-size:14px;color:var(--dim);line-height:1.5}
   .proofcard a{color:var(--fc);font-family:var(--mono);font-size:13px;display:inline-block;margin-top:10px}
   @media(max-width:700px){.proof{grid-template-columns:1fr}}
+  /* real Report Studio screenshot */
+  .shotfig{margin-top:20px}
+  .shotfig .shot{display:block;width:100%;height:auto;border:1px solid var(--line-2);border-radius:10px}
+  .shotfig figcaption{margin-top:10px;font-size:13.5px;color:var(--dim);line-height:1.5}
+  .shotfig figcaption a{color:var(--fc);font-family:var(--mono);font-size:12.5px}
+  /* before/after: a real finding beside the commit that fixed it */
+  .ba-lead{margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .beforeafter{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin-top:14px}
+  .ba-col{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .ba-before{border-left:2px solid var(--down)}
+  .ba-after{border-left:2px solid var(--good)}
+  .ba-h{font-family:var(--disp);font-weight:660;font-size:14.5px;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .ba-src{font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:400}
+  .ba-src a{color:var(--fc)}
+  .ba-desc{font-size:13px;color:var(--dim);margin:8px 0 10px;line-height:1.45}
+  .ba-code{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+  .ba-arrow{align-self:center;font-family:var(--mono);color:var(--faint);font-size:20px}
+  @media(max-width:700px){.beforeafter{grid-template-columns:1fr}.ba-arrow{transform:rotate(90deg)}}
 
   footer.foot{padding:44px 0 66px;color:var(--dim)}
   .foot .fedge{height:3px;background:var(--rainbow);border-radius:3px;max-width:220px;margin-bottom:30px}
@@ -402,6 +432,11 @@
     <div class="chartscroll"><div class="famchart" id="famchart" role="img" aria-label="Bar chart of briefs per family"></div></div>
     <div class="figcap"><b>Fig. 1</b> Briefs per family — 21 families, one question each. Hover a bar. <span class="rule"></span> <span id="chartcount">135 briefs total</span></div>
   </div>
+  <div class="herostat-m" aria-hidden="true">
+    <div class="hs"><b>__BRIEF_COUNT__</b><span>briefs</span></div>
+    <div class="hs"><b>__FAMILY_COUNT__</b><span>families</span></div>
+    <div class="hs"><b>__PLAYBOOK_COUNT__</b><span>playbooks</span></div>
+  </div>
 </div></section>
 
 <!-- ============ PROBLEM ============ -->
@@ -468,6 +503,7 @@
   <div class="kicker" style="--fc:#4D9FFF">The catalog</div>
   <h2 class="h2">What do you want to know about your code?</h2>
   <p class="lead">Seventeen families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent.</p>
+  <div class="ctxwarm" id="ctxwarm" hidden></div>
   <div class="finder" id="finder"></div>
   <div class="finder-refine">or search &amp; filter every brief ↓</div>
 
@@ -577,6 +613,26 @@
       <a href="/studio">Open the Report Studio →</a>
     </div>
   </div>
+
+  <figure class="shotfig">
+    <a href="/studio" aria-label="Open the Report Studio"><img class="shot" src="/img/studio.png" width="1280" height="860" loading="lazy" decoding="async" alt="The Report Studio mid-use: this repo's own reports (IMPROVEMENTS.md, BUGS.md, SECURITY.md, DX.md) loaded as a findings checklist, three findings checked, and a 'Copy Fixer prompt' bar showing 3 of 40 findings selected."></a>
+    <figcaption>The Report Studio, live: drop the reports an audit wrote, check the findings that matter, and one tap builds a targeted Fixer prompt — no upload, no backend. <a href="/studio">Open it →</a></figcaption>
+  </figure>
+
+  <div class="ba-lead">One finding, from report to commit</div>
+  <div class="beforeafter">
+    <div class="ba-col ba-before">
+      <div class="ba-h">The finding <span class="ba-src">BUGS.md · 01 · Bug Hunt</span></div>
+      <p class="ba-desc">Hash router caps at two-digit ids — a deep link to brief 100+ would silently fail to open.</p>
+      <pre class="ba-code">openFromHash():  /^\d\d$/.test(h)</pre>
+    </div>
+    <div class="ba-arrow" aria-hidden="true">→</div>
+    <div class="ba-col ba-after">
+      <div class="ba-h">The fix <span class="ba-src"><a href="https://github.com/GhostlyGawd/goal-prompts/commit/683dff5">commit 683dff5 ↗</a></span></div>
+      <p class="ba-desc">Regex widened to three digits behind the existing guard, so ids 100–999 route.</p>
+      <pre class="ba-code">openFromHash():  /^\d{2,3}$/.test(h)</pre>
+    </div>
+  </div>
 </div></section>
 
 <footer class="foot"><div class="wrap">
@@ -591,6 +647,7 @@
     </nav>
   </div>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
+  <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
 <script>
@@ -686,7 +743,22 @@ function withContext(body){
   if(ctx.notes) L.push("- Watch out for: " + ctx.notes);
   return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
 }
-function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); }
+function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); renderCtxWarm(); }
+/* On a return with saved Operator context, surface it warmly instead of leaving
+   it collapsed in the <details> — the returning user feels the accrued value (R4). */
+function renderCtxWarm(){
+  const el = document.getElementById("ctxwarm");
+  if(!el) return;
+  if(!ctxActive()){ el.hidden = true; el.textContent = ""; return; }
+  el.hidden = false; el.textContent = "";
+  const bits = [ctx.stack, ctx.product, ctx.stage].filter(v => v && String(v).trim());
+  el.append("Welcome back \u2014 your briefs are tuned to ");
+  const b = document.createElement("b"); b.textContent = bits.slice(0, 2).join(" \u00b7 ") || "your repo";
+  el.append(b, ", applied to every brief you copy. ");
+  const edit = document.createElement("button"); edit.className = "ctxwarm-edit"; edit.textContent = "change \u2192";
+  edit.onclick = ()=>{ const box = document.getElementById("ctxbox"); if(box){ box.open = true; box.scrollIntoView({block:"center"}); const f = box.querySelector("input"); if(f) f.focus(); } };
+  el.append(edit);
+}
 
 /* ---- copy ---- */
 function feedback(btn, ok){
@@ -944,7 +1016,14 @@ function card(p, idx, stepNo){
   btn.onclick = e=>{
     e.stopPropagation();
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
-    if(!runs[p.id]) run.textContent = "ran it? mark it";
+    /* optimistically record the run so the nudges stop running dark; the run
+       button (which toggles) is the undo (R1). No cross-session id (R5 stays off). */
+    if(!runs[p.id]){
+      runs[p.id] = Date.now(); saveRuns(); renderStats();
+      run.className = "iconbtn on"; run.textContent = runLabel(p.id); run.setAttribute("aria-pressed", "true");
+      renderNudge();
+      try{ window.va("event", {name:"mark_run", data:{id:p.id, from:"copy"}}); }catch(e){}
+    }
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -966,24 +1045,27 @@ function card(p, idx, stepNo){
   c.append(top, meta, body);
   return c;
 }
+const _nudgeSeen = {};
 function renderNudge(){
   const old = document.getElementById("nudge");
   if(old) old.remove();
   if(activePb || query || activeFam!=="All") return;
   const n = runCount();
+  let kind = null, html = null;
   if(n >= 5 && !runs["28"]){
-    const d = document.createElement("div");
-    d.className = "nudge"; d.id = "nudge";
-    d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
-    listEl.prepend(d);
-    return;
-  }
-  if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
-    const d = document.createElement("div");
-    d.className = "nudge"; d.id = "nudge";
-    d.innerHTML = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
-    listEl.prepend(d);
-  }
+    kind = "roadmap";
+    html = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
+  } else if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
+    kind = "vitals";
+    html = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
+  } else return;
+  const d = document.createElement("div");
+  d.className = "nudge"; d.id = "nudge"; d.innerHTML = html;
+  const a = d.querySelector("a");
+  /* anonymous, like the existing action events — no client id (R5, flagged). */
+  if(a) a.addEventListener("click", ()=>{ try{ window.va("event", {name:"nudge_clicked", data:{kind:kind}}); }catch(e){} });
+  listEl.prepend(d);
+  if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; try{ window.va("event", {name:"nudge_shown", data:{kind:kind}}); }catch(e){} }
 }
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
@@ -1115,6 +1197,75 @@ document.getElementById("reset").onclick = ()=>{
     runs = {}; saveRuns(); renderStats(); render();
   }
 };
+
+/* ---- export / import local setup — portable backup, no backend (R3) ---- */
+function exportState(){
+  const data = {};
+  for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(k && k.indexOf("gp-")===0) data[k] = localStorage.getItem(k); }
+  const payload = JSON.stringify({app:"goal-prompts", version:1, exported:new Date().toISOString(), state:data}, null, 2);
+  const a = document.createElement("a");
+  a.href = "data:application/json;charset=utf-8," + encodeURIComponent(payload);
+  a.download = "goal-prompts-backup.json";
+  document.body.append(a); a.click(); a.remove();
+}
+function importState(file){
+  const r = new FileReader();
+  r.onload = ()=>{
+    let state;
+    try{ const parsed = JSON.parse(r.result); state = parsed && parsed.state ? parsed.state : parsed; }catch(e){ state = null; }
+    if(!state || typeof state !== "object"){ alert("That doesn't look like a goal-prompts backup file."); return; }
+    let n = 0;
+    for(const k in state){ if(k.indexOf("gp-")===0 && typeof state[k]==="string"){ localStorage.setItem(k, state[k]); n++; } }
+    if(!n){ alert("No goal-prompts settings found in that file."); return; }
+    alert("Restored " + n + " setting" + (n===1?"":"s") + ". Reloading to apply.");
+    location.reload();
+  };
+  r.readAsText(file);
+}
+(function(){
+  const ex = document.getElementById("exportstate"); if(ex) ex.onclick = exportState;
+  const im = document.getElementById("importstate"), imf = document.getElementById("importfile");
+  if(im && imf){ im.onclick = ()=> imf.click(); imf.onchange = ()=>{ if(imf.files && imf.files[0]) importState(imf.files[0]); imf.value = ""; }; }
+})();
+
+/* ---- opt-in weekly Vitals reminder — OFF by default, consented, fully local (R2).
+   Uses the installed PWA's periodic background sync where supported (Chromium);
+   otherwise the existing in-page stale-Vitals nudge covers the return. ---- */
+let remind = {};
+try{ remind = JSON.parse(localStorage.getItem("gp-remind")||"{}")||{}; }catch(e){ remind = {}; }
+function saveRemind(){ try{ localStorage.setItem("gp-remind", JSON.stringify(remind)); }catch(e){} }
+function remindLabel(){ return "🔔 weekly Vitals reminder: " + (remind.on ? "on" : "off"); }
+async function toggleRemind(btn){
+  if(remind.on){
+    remind.on = false; saveRemind(); btn.textContent = remindLabel();
+    try{ const reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("vitals-weekly"); }catch(e){}
+    return;
+  }
+  if(!("Notification" in window)){ alert("This browser can't show notifications, so the reminder can't run."); return; }
+  let perm = Notification.permission;
+  if(perm !== "granted") perm = await Notification.requestPermission();
+  if(perm !== "granted"){ alert("Notifications are blocked for this site, so the reminder can't run. Enable them and try again."); return; }
+  remind.on = true; saveRemind(); btn.textContent = remindLabel();
+  try{ window.va("event", {name:"reminder_opt_in"}); }catch(e){}
+  let bg = false;
+  try{
+    const reg = await navigator.serviceWorker.ready;
+    if(reg.periodicSync){
+      const tags = await reg.periodicSync.getTags();
+      if(!tags.includes("vitals-weekly")) await reg.periodicSync.register("vitals-weekly", {minInterval: 7*DAY});
+      bg = true;
+    }
+  }catch(e){}
+  alert(bg
+    ? "Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."
+    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account.");
+}
+(function(){
+  const rb = document.getElementById("remindtog");
+  if(!rb) return;
+  rb.textContent = remindLabel();
+  rb.onclick = ()=> toggleRemind(rb);
+})();
 
 document.getElementById("seqcopy").onclick = function(){
   if(!seq.length) return;

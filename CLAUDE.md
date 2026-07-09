@@ -28,6 +28,9 @@ detail pages), `catalog.json`, `checksums.txt`, `commands.tar.gz`,
 (The service worker's body lives in `build.py` as `SERVICE_WORKER`; edit
 it there. Its cache version is a content hash, so a deploy self-invalidates.)
 (`studio.html` is a source page; Vercel's `cleanUrls` serves it at `/studio`.)
+(`img/studio.png` is a real Report Studio screenshot regenerated with `node
+scripts/studio-shot.cjs` — needs the global `playwright` package + the pre-installed
+Chromium. It's an ungated asset, so re-run it when the Studio UI changes.)
 (Design tokens are one source of truth: `TOKENS_CSS` in `build.py` → written to
 `tokens.css`, which every surface links — `template.html`, the `b/`/`p/` detail
 pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.
