@@ -79,6 +79,9 @@
   .hero p.sub{color:var(--dim);font-size:clamp(16px,2.2vw,18px);max-width:46ch;line-height:1.55;margin:0}
   .hero p.sub b{color:var(--text);font-weight:600}
   .hero .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
+  .herobadges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .hb{font-family:var(--mono);font-size:11.5px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 11px;display:inline-flex;align-items:center;gap:6px}
+  .hb::before{content:"✓";color:var(--good);font-weight:700}
   .hero .micro{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .hero .micro b{color:var(--dim);font-weight:500}
 
@@ -306,7 +309,10 @@
   /* ---------- ways ---------- */
   .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
   .way{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
-  .way .num2{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
+  .way-primary{border-color:var(--fc);box-shadow:0 0 0 1px var(--fc) inset}
+  .way .num2{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .way .num2 .badge{letter-spacing:.05em}
+  .way .num2 .alt{color:var(--faint);letter-spacing:.02em;font-weight:400}
   .way h4{font-family:var(--disp);font-size:16px;font-weight:680;margin:6px 0 4px;color:var(--text)}
   .way p{font-size:13.5px;color:var(--dim);margin-bottom:14px;line-height:1.5}
   .cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;overflow-x:auto;min-width:0}
@@ -375,7 +381,7 @@
   </nav>
   <div class="nav-right">
     <button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button>
-    <a class="nav-cta" href="#start">Get started</a>
+    <a class="nav-cta" href="#catalog">Get started</a>
   </div>
 </div></header>
 
@@ -388,6 +394,11 @@
     </div>
     <div>
       <p class="sub">Copy a <b>brief</b> — a ready-made prompt — into Claude Code, Cursor, or any agent. It runs the same four-phase audit on your repo and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
+      <div class="herobadges">
+        <span class="hb">Free &amp; open</span>
+        <span class="hb">No signup</span>
+        <span class="hb">Nothing leaves your machine</span>
+      </div>
       <div class="cta">
         <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -510,6 +521,7 @@
         <span class="mode">🤝 Creator collaborations</span>
         <span class="mode">◆ Sponsored bundles</span>
       </div>
+      <a class="btn btn-primary" href="https://github.com/GhostlyGawd/goal-prompts/discussions/new?category=ideas&amp;title=Partner%20or%20sponsor%20a%20playbook" style="margin-top:16px">Partner with us / sponsor a playbook →</a>
     </div>
     <div class="side">
       <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts</div>
@@ -532,23 +544,24 @@
 <!-- ============ WAYS IN ============ -->
 <section class="blk" id="start"><div class="wrap">
   <div class="kicker">Bring it into your workflow</div>
-  <h2 class="h2">Three ways in.</h2>
+  <h2 class="h2">Start by copying a brief.</h2>
+  <p class="lead">The fastest way in needs nothing installed — copy and paste. Prefer native slash commands or an agent integration? Those are here too.</p>
   <div class="ways">
-    <div class="way">
-      <div class="num2">01 · COPY</div>
+    <div class="way way-primary">
+      <div class="num2">01 · COPY <span class="badge">Start here</span></div>
       <h4>Copy &amp; paste</h4>
       <p>Tap Copy on any brief and paste it into your agent inside the repo you want audited. Nothing to install.</p>
-      <a class="btn btn-ghost" href="#catalog" style="width:100%;justify-content:center">Browse the catalog</a>
+      <a class="btn btn-primary" href="#catalog" style="width:100%;justify-content:center">Browse the catalog</a>
     </div>
     <div class="way">
-      <div class="num2">02 · INSTALL</div>
+      <div class="num2">02 · INSTALL <span class="alt">· also available</span></div>
       <h4>As slash commands</h4>
       <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
       <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
-      <div class="num2">03 · AGENT</div>
+      <div class="num2">03 · AGENT <span class="alt">· also available</span></div>
       <h4>Call it from an agent</h4>
       <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
