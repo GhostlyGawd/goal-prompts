@@ -4,6 +4,7 @@ title: Developer Portal & Onboarding
 family: API
 question: will developers adopt it?
 output: DEVPORTAL.md
+related: 112
 tagline: The first hour a developer spends with this API — from landing on the docs to a working integration — and where they stall, guess, or give up.
 ---
 # Goal: Developer Portal & Onboarding

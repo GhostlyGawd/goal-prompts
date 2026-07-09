@@ -4,6 +4,7 @@ title: Prompt-Injection Red-Team
 family: AI-Ethics
 question: is the AI responsible?
 output: REDTEAM.md
+related: 30 35
 tagline: Attack the product's own AI like an adversary — make it ignore instructions, leak secrets, or misuse tools — and find where untrusted input can hijack it.
 ---
 # Goal: Prompt-Injection Red-Team

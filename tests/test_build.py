@@ -219,6 +219,53 @@ class CatalogLintTests(unittest.TestCase):
             [brief(id="14"), brief(id="94", output="Y.md")]), [])
 
 
+class RelatedTests(unittest.TestCase):
+    # `related:` front matter drives the cross-family "pairs well with" cards
+    # on b/ pages; a dead id there would render a broken card, so the catalog
+    # linter validates every reference.
+    def test_related_ids_must_exist(self):
+        v = build.lint_catalog([brief(id="07", related=["999"])])
+        self.assertTrue(any("related" in x and "999" in x for x in v), v)
+
+    def test_valid_related_ids_pass(self):
+        v = build.lint_catalog([brief(id="07", related=["85"]),
+                                brief(id="85", output="Y.md")])
+        self.assertEqual([x for x in v if "related" in x], [])
+
+    def test_self_reference_fails(self):
+        v = build.lint_catalog([brief(id="07", related=["07"])])
+        self.assertTrue(any("related" in x and "itself" in x for x in v), v)
+
+    def test_parse_splits_the_related_list(self):
+        import tempfile
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as d:
+            p = Path(d) / "07-x.md"
+            p.write_text('---\nid: "07"\ntitle: T\nfamily: Meta\nquestion: q\n'
+                         'output: X.md\ntagline: t\nrelated: 85, 123\n---\nbody\n',
+                         encoding="utf-8")
+            self.assertEqual(build.parse(p)["related"], ["85", "123"])
+
+
+class TaglineQuoteTests(unittest.TestCase):
+    # command_md writes `description: "{tagline}"` into the plugin/installer
+    # command front matter — a double quote in a tagline would break that
+    # YAML, so parse() must reject it at the source.
+    def test_tagline_with_double_quote_fails_at_parse(self):
+        import tempfile
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as d:
+            p = Path(d) / "07-x.md"
+            p.write_text('---\nid: "07"\ntitle: T\nfamily: Meta\nquestion: q\n'
+                         'output: X.md\ntagline: says "quoted" things\n---\nbody\n',
+                         encoding="utf-8")
+            with self.assertRaises(SystemExit) as cm:
+                build.parse(p)
+            self.assertIn("tagline", str(cm.exception))
+
+    def test_command_md_yaml_stays_intact(self):
+        cmd = build.command_md(brief())
+        self.assertIn('description: "An example brief."', cmd)
+
+
 class ConductorTests(unittest.TestCase):
     # The 16-stage cap is one policy in three places (build.py, mcp/server.cjs,
     # template.html — scripts/mcp-smoke.cjs guards the text parity). Here we
@@ -373,6 +420,28 @@ class BriefPartsTests(unittest.TestCase):
             "- Present findings as prose, then stop.")
         self.assertEqual(build.brief_parts(prose)["lenses"], [])
 
+    def test_gist_is_a_clean_sentence(self):
+        # editorial voice: no dangling colon, capitalized, ends like a sentence
+        self.assertEqual(build._gist("Create `X.md` at repo root:"),
+                         "Create X.md at repo root.")
+        self.assertEqual(build._gist("- look around"), "Look around.")
+
+    def test_gist_skips_the_operator_gate_line(self):
+        gist = build._gist("Report only — end by asking which to fix.\n"
+                           "Show the findings menu.")
+        self.assertEqual(gist, "Show the findings menu.")
+
+    def test_prose_phase_2_drops_the_operator_gate_line(self):
+        prose = BODY.replace(
+            "1. **Alpha** — the first lens\n2. **Beta** — the second lens\n"
+            "3. **Gamma** — the third lens",
+            "Present findings as prose.\n\n"
+            "Report only — end by asking which selection to build.")
+        parts = build.brief_parts(prose)
+        p2 = next(ph for ph in parts["phases"] if ph["n"] == 2)
+        self.assertIn("Present findings as prose.", p2["prose"])
+        self.assertNotIn("end by asking", p2["prose"])
+
 
 class RenderHelperTests(unittest.TestCase):
     def test_esc(self):
@@ -463,6 +532,25 @@ class DetailPageTests(unittest.TestCase):
         self.assertIn(p["title"], html)
         self.assertIn(f'/b/{p["id"]}', html)          # canonical
         self.assertIn("rawbody", html)                # the copy source
+        self.assertIn("js/gp-detail.js", html)        # shared detail behavior
+        self.assertIn('data-ctx="1"', html)           # Operator context rides along
+
+    def test_brief_detail_renders_related_cards(self):
+        prompts = self._prompts()
+        p, r = prompts[0], prompts[1]
+        html = build.brief_detail(p, [], [], related=[r])
+        self.assertIn("Pairs well with", html)
+        self.assertIn(f'/b/{r["id"]}', html)
+        self.assertNotIn("Pairs well with", build.brief_detail(p, [], []))
+
+    def test_playbook_detail_has_per_step_copy(self):
+        prompts = self._prompts()
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "c"}
+        html = build.playbook_detail(pb, by_id)
+        self.assertIn(f'data-fetch="/raw/{prompts[0]["id"]}.md"', html)
+        self.assertIn("stepcopy", html)
 
     def test_playbook_detail_renders(self):
         prompts = self._prompts()

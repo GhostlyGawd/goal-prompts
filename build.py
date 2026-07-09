@@ -88,6 +88,8 @@ def parse(path: Path) -> dict:
         fail(f"{path}: unknown family '{meta['family']}'")
     if '"' in meta["tagline"]:
         fail(f"{path}: tagline may not contain double quotes")
+    if meta.get("related"):
+        meta["related"] = [t for t in re.split(r"[,\s]+", meta["related"]) if t]
     meta["body"] = parts[2].strip()
     if BASE != DEFAULT_BASE:
         meta["body"] = meta["body"].replace(DEFAULT_BASE, BASE)
@@ -148,14 +150,23 @@ def lint(p: dict) -> list:
 
 def lint_catalog(prompts: list) -> list:
     """Cross-brief rules: every report filename must be unique — two briefs
-    writing the same file would silently clobber each other's reports."""
+    writing the same file would silently clobber each other's reports — and
+    every `related:` reference must point at a real, different brief (the
+    "pairs well with" cards on b/ pages render straight from it)."""
     v, seen = [], {}
+    ids = {p["id"] for p in prompts}
     for p in prompts:
         if p["output"] in seen:
             v.append(f"briefs {seen[p['output']]} and {p['id']} both write "
                      f"'{p['output']}' — outputs must be unique")
         else:
             seen[p["output"]] = p["id"]
+        for r in p.get("related", []):
+            if r == p["id"]:
+                v.append(f"brief {p['id']} lists itself as related")
+            elif r not in ids:
+                v.append(f"brief {p['id']}: related id '{r}' does not exist "
+                         f"in the catalog")
     return v
 
 
@@ -249,6 +260,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // never touch cross-origin (GitHub, analytics)
+  if (url.pathname.indexOf("/raw/") === 0) return;   // raw briefs stay network-only — their fetch counts are the usage metric (docs/usage-metrics.md)
   var isHTML = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
   if (isHTML) {
@@ -357,16 +369,25 @@ def _numbered_bold(chunk: str) -> list:
 
 
 def _gist(chunk: str) -> str:
-    """One-line essence of a phase: its first bullet or sentence, trimmed."""
+    """One-line essence of a phase, in editorial voice: its first descriptive
+    sentence, cleaned — no dangling colons, no pasted operator-gate lines."""
     for line in chunk.splitlines():
         st = line.strip()
         if not st:
             continue
+        if "end by asking" in st.lower():
+            continue  # the ask-first gate is a rule, not a description
         st = re.sub(r"^(?:[-*]|\d+\.)\s+", "", st)
         st = re.sub(r"\*\*(.+?)\*\*", r"\1", st)
         st = st.replace("`", "")
         st = re.split(r"(?<=[a-z0-9])[.;:]\s", st)[0]
-        return st[:118].rstrip(" ,") + ("…" if len(st) > 118 else "")
+        st = st.rstrip(" ,;:—–-")
+        if not st:
+            continue
+        if len(st) > 118:
+            return st[:118].rstrip(" ,") + "…"
+        st = st[0].upper() + st[1:]
+        return st + ("" if st.endswith((".", "!", "?", "…")) else ".")
     return ""
 
 
@@ -400,7 +421,12 @@ def brief_parts(body: str) -> dict:
                 lenses = _numbered_bold(chunk)
                 if not lenses:
                     lenses = []  # prose Phase 2 (e.g. 47 · The Fixer)
-                    phases[-1]["prose"] = md_block(chunk)
+                    # descriptive area only — the operator gate stays in the
+                    # full verbatim brief, not the "how the pass runs" summary
+                    prose_src = "\n".join(
+                        l for l in chunk.splitlines()
+                        if "end by asking" not in l.lower())
+                    phases[-1]["prose"] = md_block(prose_src)
             if n == 4:
                 report = _numbered_bold(chunk)
         elif head.lower().startswith("rules"):
@@ -511,7 +537,8 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
 .nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
 .nav-cta:hover{filter:brightness(1.12)}
-@media(max-width:720px){.nav-links{display:none}}
+/* under 720px keep Playbooks + Studio reachable — same treatment as the landing page */
+@media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
@@ -647,6 +674,21 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .partner p{font-size:14px;color:var(--dim);margin:12px 0 14px;max-width:64ch;line-height:1.5}
 .note{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
 
+/* per-step copy on playbook sequence maps */
+.seqstep .stepcopy{flex:none;align-self:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;cursor:pointer;text-decoration:none}
+.seqstep .stepcopy:hover{color:var(--text);border-color:var(--line-3)}
+.seqstep .stepcopy.done{color:var(--good);border-color:var(--good)}
+
+/* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
+.gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+.gp-hint[hidden]{display:none}
+.gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint b{color:var(--text)}
+.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun:disabled{opacity:.6;cursor:default}
+.gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+.gp-hint .x:hover{color:var(--text)}
+
 /* footer */
 footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 .foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
@@ -662,8 +704,8 @@ footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 NAV_HTML = ('<header class="nav"><div class="nav-in wrap">'
             f'<a class="brand" href="/">{BRAND_MARK}Goal Prompts</a>'
             '<nav class="nav-links">'
-            '<a href="/#how">How it works</a>'
-            '<a href="/#catalog">Catalog</a>'
+            '<a href="/#how" class="mh">How it works</a>'
+            '<a href="/#catalog" class="mh">Catalog</a>'
             '<a href="/#playbooks">Playbooks</a>'
             '<a href="/studio">Studio</a></nav>'
             '<div class="nav-right">'
@@ -671,15 +713,6 @@ NAV_HTML = ('<header class="nav"><div class="nav-in wrap">'
             '<a class="nav-cta" href="/#start">Get started</a></div>'
             '</div></header>')
 
-DETAIL_JS = """
-(function(){
-  function flash(b,m){if(!b.dataset.label)b.dataset.label=b.textContent;clearTimeout(b._t);b.textContent=m;b.classList.add('done');b._t=setTimeout(function(){b.textContent=b.dataset.label;b.classList.remove('done');},1600);}
-  function copy(t,b){function ok(){flash(b,b.classList.contains('cp')?'✓':'Copied ✓');}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb);}else fb();
-    function fb(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){b.textContent='copy failed';}a.remove();}}
-  document.addEventListener('click',function(e){var b=e.target.closest('[data-copy]');if(!b)return;var s=document.querySelector(b.getAttribute('data-copy'));if(!s)return;copy(s.value!==undefined?s.value:s.textContent,b);});
-})();
-"""
 
 
 SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -731,7 +764,8 @@ def page(title, desc, canon, body_html, og_image, og_type="website",
             '<link rel="stylesheet" href="/tokens.css">\n'
             f"<style>{SITE_CSS}</style>\n" + THEME_INLINE + "</head>\n"
             f'<body class="{body_class}">\n' + SPRITE + f'\n{NAV_HTML}\n{body_html}\n'
-            f"<script>{DETAIL_JS}{THEME_JS}</script>\n</body>\n</html>\n")
+            '<script src="/js/gp-detail.js"></script>\n'
+            f"<script>{THEME_JS}</script>\n</body>\n</html>\n")
 
 
 def foot(head, sub, buttons_html) -> str:
@@ -756,11 +790,13 @@ def cmd_html(text: str) -> str:
             f'<textarea id="{cid}" hidden>{esc(text)}</textarea></div>')
 
 
-def brief_detail(p, siblings, in_playbooks) -> str:
+def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     parts = brief_parts(p["body"])
     fc = "f-" + p["family"].lower()
     slug = p["slug"]
     lens_word = "lens" if len(parts["lenses"]) == 1 else "lenses"
+    copy_attrs = (f'data-copy="#rawbody" data-ctx="1" data-brief="{p["id"]}" '
+                  f'data-output="{attr(p["output"])}"')
 
     # hero
     meta = [f'<span class="out">{esc(p["output"])}</span>',
@@ -769,7 +805,7 @@ def brief_detail(p, siblings, in_playbooks) -> str:
         meta.append(f'<span class="chip">{len(parts["lenses"])} audit {lens_word}</span>')
     meta.append(f'<span class="chip">~{p["chars"]/1000:.1f}k chars</span>')
 
-    cta = [f'<button class="btn btn-primary" data-copy="#rawbody">Copy this prompt</button>',
+    cta = [f'<button class="btn btn-primary" {copy_attrs}>Copy this prompt</button>',
            f'<a class="btn btn-ghost" href="#use">How to run it</a>']
     if p.get("example"):
         ex = p["example"] if p["example"].startswith("/") else p["example"]
@@ -838,7 +874,8 @@ def brief_detail(p, siblings, in_playbooks) -> str:
     report = (f'<section class="blk"><div class="wrap">'
               f'<div class="kicker">The deliverable</div>'
               f'<h2 class="h2">What lands in your repo</h2>'
-              f'<p class="lead">One structured report at your repo root — the same shape every time, '
+              f'<p class="lead">One structured report at the repo root — or in <code>reports/</code>, '
+              f'if you keep one — the same shape every time, '
               f'ready for the Report Studio or a teammate to act on.</p>'
               f'<div class="report"><div class="bar"><div class="dots"><i></i><i></i><i></i></div>'
               f'<span class="fname">{esc(p["output"])}</span></div>'
@@ -852,7 +889,7 @@ def brief_detail(p, siblings, in_playbooks) -> str:
             f'<div class="ways">'
             f'<div class="way"><div class="num">01 · COPY</div><h4>Paste it in</h4>'
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
-            f'<button class="btn btn-primary" style="width:100%;justify-content:center" data-copy="#rawbody">Copy this prompt</button></div>'
+            f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h4>As a slash command</h4>'
             f'<p>Install the <b>goal</b> plugin once, then just type <code>/goal:{esc(slug)}</code> '
             f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
@@ -879,19 +916,35 @@ def brief_detail(p, siblings, in_playbooks) -> str:
             f'{rules}</div></section>')
 
     # related
+    def _pcard(s):
+        return (f'<a class="pcard {"f-"+s["family"].lower()}" href="/b/{s["id"]}">'
+                f'<div class="pid">{esc(s["id"])} · {esc(s["family"])}</div>'
+                f'<h4>{esc(s["title"])}</h4><p>{esc(s["tagline"])}</p></a>')
     rel = ""
-    sib_cards = "".join(
-        f'<a class="pcard {"f-"+s["family"].lower()}" href="/b/{s["id"]}">'
-        f'<div class="pid">{esc(s["id"])} · {esc(s["family"])}</div>'
-        f'<h4>{esc(s["title"])}</h4><p>{esc(s["tagline"])}</p></a>'
-        for s in siblings[:4])
+    rel_cards = "".join(_pcard(r) for r in related)
+    if p["id"] == "47":
+        # the Fixer's natural neighbor isn't a brief — it's the Studio, where
+        # checked findings become this brief's targeted form
+        rel_cards += ('<a class="pcard" href="/studio">'
+                      '<div class="pid">Studio · Act</div>'
+                      '<h4>Report Studio</h4>'
+                      '<p>Drop the reports your audits produced — findings become a '
+                      'checklist, and checked findings become a targeted Fixer run.</p></a>')
+    sib_cards = "".join(_pcard(s) for s in siblings[:4])
     pb_links = "".join(
         f'<a class="pblink" href="/p/{pb["key"]}">{esc(pb["name"])} '
         f'<span class="len">{len(pb["ids"])}</span></a>' for pb in in_playbooks)
-    if sib_cards or pb_links:
+    if rel_cards or sib_cards or pb_links:
         rel = '<section class="blk"><div class="wrap"><div class="kicker">Keep exploring</div>'
+        if rel_cards:
+            rel += (f'<h2 class="h2">Pairs well with</h2>'
+                    f'<p class="lead">Curated neighbors — briefs that answer the adjacent '
+                    f'question, worth running in the same session.</p>'
+                    f'<div class="cards">{rel_cards}</div>')
         if sib_cards:
-            rel += (f'<h2 class="h2">More {esc(p["family"])} briefs</h2>'
+            gap = ' style="margin-top:30px"' if rel_cards else ""
+            rel += (f'<h2 class="h2"{gap}>'
+                    f'More {esc(p["family"])} briefs</h2>'
                     f'<div class="cards">{sib_cards}</div>')
         if pb_links:
             rel += ('<p class="lead" style="margin-top:26px">Runs inside these playbooks — '
@@ -963,19 +1016,24 @@ def playbook_detail(pb, by_id) -> str:
             f'<span class="sid">{esc(pid)}</span>'
             f'<span class="st">{esc(b["title"])}</span>'
             f'<span class="out">{esc(b["output"])}</span>'
-            f'<span class="sq">{esc(b["family"])}</span></a></div>')
+            f'<span class="sq">{esc(b["family"])}</span></a>'
+            f'<button class="stepcopy" type="button" data-fetch="/raw/{pid}.md" '
+            f'data-raw="{BASE}/raw/{pid}.md" data-brief="{pid}" '
+            f'data-output="{attr(b["output"])}" '
+            f'aria-label="Copy brief {pid} · {attr(b["title"])}">copy</button></div>')
     outputs = ", ".join(by_id[i]["output"] for i in pb["ids"])
     seq = (f'<section class="blk" id="seq" {style}><div class="wrap">'
            f'<div class="kicker">The map</div>'
            f'<h2 class="h2">Run it in order</h2>'
            f'<p class="lead">The conductor fetches each brief in turn and writes its report before '
-           f'moving on — later briefs can build on earlier findings.</p>'
+           f'moving on — later briefs can build on earlier findings. Or copy any single '
+           f'stage to run it alone.</p>'
            f'<div class="seq">{"".join(steps)}</div>'
            f'<div class="report" style="margin-top:26px"><div class="bar">'
            f'<div class="dots"><i></i><i></i><i></i></div>'
            f'<span class="fname mono" style="color:var(--dim)">what you\'ll have at the end</span></div>'
            f'<div class="doc" style="padding:16px"><div class="prose">'
-           f'<p><strong>{n} report{"s" if n>1 else ""}</strong> at your repo root: '
+           f'<p><strong>{n} report{"s" if n>1 else ""}</strong> at the repo root (or in <code>reports/</code>): '
            f'<span class="mono" style="font-size:13px;color:var(--dim)">{esc(outputs)}</span>. '
            f'Feed them to <a href="/studio" style="color:var(--fc)">Report Studio</a> to turn findings '
            f'into commits, or run <a href="/b/28" style="color:var(--fc)">28 · Roadmap Synthesis</a> '
@@ -1251,8 +1309,9 @@ def main() -> None:
                     if s["family"] == p["family"] and s["id"] != p["id"]]
         in_pb = [pb for pb in playbooks
                  if p["id"] in pb["ids"] and not pb.get("preview")]
+        related = [by_id[r] for r in p.get("related", [])]
         (ROOT / "b" / f'{p["id"]}.html').write_text(
-            brief_detail(p, siblings, in_pb), encoding="utf-8")
+            brief_detail(p, siblings, in_pb, related), encoding="utf-8")
     for pb in playbooks:
         (ROOT / "raw" / f'playbook-{pb["key"]}.md').write_text(
             pb["conductor"], encoding="utf-8")
@@ -1299,11 +1358,11 @@ def main() -> None:
     import hashlib as _hl
     ver_src = b"".join((ROOT / f).read_bytes() for f in
                        ("index.html", "studio.html", "vitals.html", "tokens.css",
-                        "js/catalog-core.js", "js/report-parser.js",
+                        "js/catalog-core.js", "js/report-parser.js", "js/gp-detail.js",
                         "icons/icon-192.png", "icons/icon-512.png"))
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
-                "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js",
+                "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js",
                 "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2",
                 "/fonts/plexmono-latin-600.woff2",
                 "/icons/icon-192.png", "/icons/icon-512.png"]

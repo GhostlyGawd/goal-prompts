@@ -4,6 +4,7 @@ title: Query Performance & N+1 Audit
 family: Speed
 question: does it scale?
 output: QUERIES.md
+related: 04 88
 tagline: The database access patterns that fall over as data and traffic grow — N+1s, missing indexes, unbounded reads, and lock contention.
 ---
 # Goal: Query Performance & N+1 Audit

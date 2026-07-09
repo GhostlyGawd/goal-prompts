@@ -4,6 +4,7 @@ title: Bundle & Asset Weight Audit
 family: Speed
 question: does it scale?
 output: BUNDLE.md
+related: 04 87
 tagline: What the browser actually downloads — oversized bundles, unsplit code, heavy dependencies, and unoptimized assets that slow first paint.
 ---
 # Goal: Bundle & Asset Weight Audit

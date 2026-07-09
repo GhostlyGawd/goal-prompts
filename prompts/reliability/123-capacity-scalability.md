@@ -4,6 +4,7 @@ title: Capacity & Scalability Audit
 family: Reliability
 question: will it stay up?
 output: CAPACITY.md
+related: 05
 tagline: Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today.
 ---
 # Goal: Capacity & Scalability Audit

@@ -5,6 +5,7 @@ family: Act
 question: does anything change?
 output: FIXLOG.md
 example: /FIXLOG.md
+related: 46 28
 tagline: Turns your root reports into commits. Asks the scope — all, high-priority, or its pick — then builds them in dependency order, one verified commit each.
 ---
 # Goal: The Fixer

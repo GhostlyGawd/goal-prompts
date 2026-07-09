@@ -4,6 +4,7 @@ title: Dependency Health Check
 family: Trust
 question: is it safe?
 output: DEPS.md
+related: 85
 tagline: Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named.
 ---
 # Goal: Dependency Health Check

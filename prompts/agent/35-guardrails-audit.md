@@ -4,6 +4,7 @@ title: Guardrails Audit
 family: Agent
 question: does the agent deliver?
 output: GUARDRAILS.md
+related: 30 118
 tagline: A defensive review of your agent's blast radius — injection paths, unvalidated outputs, over-broad permissions, ungated irreversible actions.
 ---
 # Goal: Guardrails Audit

@@ -4,6 +4,7 @@ title: Dependency Currency Audit
 family: Trust
 question: is it safe?
 output: UPGRADES.md
+related: 07
 tagline: Run the outdated command and read the lockfile's birthdays — majors behind, EOL dates, the two packages pinning everything — and the forced jump the drift is scheduling.
 ---
 # Goal: Dependency Currency Audit

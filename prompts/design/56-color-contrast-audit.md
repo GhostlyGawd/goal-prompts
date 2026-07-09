@@ -5,6 +5,7 @@ family: Design
 question: is it beautiful?
 output: COLOR.md
 example: /COLOR.md
+related: 105 15
 tagline: The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.
 ---
 # Goal: Color & Contrast Audit

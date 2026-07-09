@@ -4,6 +4,7 @@ title: Audit Triage
 family: Act
 question: does anything change?
 output: TRIAGE.md
+related: 47
 tagline: The router. Fifteen minutes of recon that names which briefs this repo actually needs, in what order, and which families it can skip with a clear conscience.
 ---
 # Goal: Audit Triage

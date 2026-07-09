@@ -4,6 +4,7 @@ title: Design-Token Adoption Audit
 family: Design
 question: is it beautiful?
 output: TOKEN-ADOPTION.md
+related: 15 56
 tagline: Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync.
 ---
 # Goal: Design-Token Adoption Audit

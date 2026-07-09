@@ -4,6 +4,7 @@ title: PII & Retention Map
 family: Data
 question: is it sound?
 output: PRIVACY.md
+related: 126
 tagline: Trace where personal data enters, spreads, and lingers — then run the delete-request test: could you honor one today?
 ---
 # Goal: PII & Retention Map

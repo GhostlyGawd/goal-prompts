@@ -4,6 +4,7 @@ title: Retrieval Quality Audit
 family: Agent
 question: does the agent deliver?
 output: RETRIEVAL.md
+related: 33
 tagline: The RAG pipeline end to end — chunking that respects meaning, embeddings that don't drift, a relevance floor, and evals that catch regressions before users do.
 ---
 # Goal: Retrieval Quality Audit

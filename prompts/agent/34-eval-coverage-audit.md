@@ -4,6 +4,7 @@ title: Eval Coverage Audit
 family: Agent
 question: does the agent deliver?
 output: EVALS.md
+related: 33
 tagline: The test-gap audit for nondeterminism — golden sets, regression evals, judge quality, and the drift between eval and production.
 ---
 # Goal: Eval Coverage Audit

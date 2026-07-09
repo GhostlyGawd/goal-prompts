@@ -4,6 +4,7 @@ title: Caching Strategy Audit
 family: Speed
 question: does it scale?
 output: CACHES.md
+related: 04 87
 tagline: Every cache from CDN headers to that module-level dict — keys, TTLs, who invalidates what — the stale read, the stampede, and the key that leaks between users.
 ---
 # Goal: Caching Strategy Audit

@@ -4,6 +4,7 @@ title: Context Engineering Audit
 family: Agent
 question: does the agent deliver?
 output: CONTEXT.md
+related: 49 34
 tagline: Reconstruct what actually enters the model's window each step — stale payloads, token hogs, retrieval junk, and buried instructions.
 ---
 # Goal: Context Engineering Audit

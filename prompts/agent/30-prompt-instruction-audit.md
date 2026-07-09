@@ -4,6 +4,7 @@ title: Prompt & Instruction Audit
 family: Agent
 question: does the agent deliver?
 output: PROMPTS.md
+related: 35 118
 tagline: Every system prompt in the repo: contradictions, dead instructions, bloat, and injection surface — with a consolidation plan.
 ---
 # Goal: Prompt & Instruction Audit

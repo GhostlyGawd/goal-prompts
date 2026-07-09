@@ -4,6 +4,7 @@ title: Event & Message Contracts
 family: Data
 question: is it sound?
 output: EVENTS.md
+related: 111
 tagline: Diff what producers write against what consumers assume — schema drift, ordering bets, missing idempotency keys — and find the message that breaks when a deploy staggers.
 ---
 # Goal: Event & Message Contracts

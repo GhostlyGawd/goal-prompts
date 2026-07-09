@@ -4,6 +4,7 @@ title: Keyboard & Screen-Reader Flow
 family: Trust
 question: is it safe?
 output: A11Y-DEEP.md
+related: 08
 tagline: Walk the product the way assistive-tech users do — keyboard only, then with a screen reader — and find every place that path breaks.
 ---
 # Goal: Keyboard & Screen-Reader Flow

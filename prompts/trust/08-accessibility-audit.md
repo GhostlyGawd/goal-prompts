@@ -4,6 +4,7 @@ title: Accessibility Audit
 family: Trust
 question: is it safe?
 output: A11Y.md
+related: 86
 tagline: Keyboard navigation, contrast, labels, and screen-reader flow — audited end-to-end along the core user journey.
 ---
 # Goal: Accessibility Audit

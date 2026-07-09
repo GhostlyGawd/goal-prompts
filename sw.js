@@ -4,8 +4,8 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-947fe936e3cc";
-var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
+var CACHE = "goal-prompts-7ba462fcaf01";
+var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
     return Promise.all(PRECACHE.map(function (u) {
@@ -23,6 +23,7 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // never touch cross-origin (GitHub, analytics)
+  if (url.pathname.indexOf("/raw/") === 0) return;   // raw briefs stay network-only — their fetch counts are the usage metric (docs/usage-metrics.md)
   var isHTML = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
   if (isHTML) {

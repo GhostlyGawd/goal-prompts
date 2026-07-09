@@ -4,6 +4,7 @@ title: SDK Ergonomics Audit
 family: API
 question: will developers adopt it?
 output: SDK.md
+related: 115
 tagline: The client libraries developers use to call this product — how fast they reach a first successful call, and how the SDK behaves when things go wrong.
 ---
 # Goal: SDK Ergonomics Audit

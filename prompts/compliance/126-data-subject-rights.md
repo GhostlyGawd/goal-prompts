@@ -4,6 +4,7 @@ title: Data-Subject-Rights Readiness
 family: Compliance
 question: does it respect the user?
 output: DSAR.md
+related: 21
 tagline: Whether the product can honor the rights users have over their data — access, export, correction, and deletion — operationally, not just in the privacy policy.
 ---
 # Goal: Data-Subject-Rights Readiness

@@ -4,6 +4,7 @@ title: Funnel Friction Audit
 family: Growth
 question: does it grow?
 output: FUNNEL.md
+related: 75 80
 tagline: Reconstruct the signup → activation → habit funnel from code, count the steps, and rank every drop-off point.
 ---
 # Goal: Funnel Friction Audit

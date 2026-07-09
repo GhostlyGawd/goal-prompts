@@ -5,6 +5,7 @@ family: Growth
 question: does it grow?
 output: ACTIVATION.md
 example: /ACTIVATION.md
+related: 09 75
 tagline: The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing.
 ---
 # Goal: Activation & First-Win Audit

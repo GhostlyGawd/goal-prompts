@@ -4,6 +4,7 @@ title: Design System Consolidation
 family: Team
 question: can others build on it?
 output: DESIGN-SYSTEM.md
+related: 105 56
 tagline: Census the drifted colors, spacing, and duplicate components; propose the token set and migration order to unify them.
 ---
 # Goal: Design System Consolidation

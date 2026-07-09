@@ -4,6 +4,7 @@ title: 10x Stress Review
 family: Speed
 question: does it scale?
 output: SCALE.md
+related: 123
 tagline: Simulate 10x users, data, and traffic on paper — find what breaks first, at what threshold, and the cheapest mitigation.
 ---
 # Goal: 10x Stress Review

@@ -4,6 +4,7 @@ title: Performance Audit
 family: Speed
 question: does it scale?
 output: PERF.md
+related: 87 88 140
 tagline: The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths.
 ---
 # Goal: Performance Audit
