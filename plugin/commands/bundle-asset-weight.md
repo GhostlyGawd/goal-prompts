@@ -1,0 +1,44 @@
+---
+description: "What the browser actually downloads — oversized bundles, unsplit code, heavy dependencies, and unoptimized assets that slow first paint."
+---
+
+# Goal: Bundle & Asset Weight Audit
+
+You are working inside this repo. Mission: weigh what a user's browser downloads before the product is usable, and find the payload that most delays first paint and interactivity.
+
+Read-only pass. Read the build config and dependency tree; inspect a production build if you can; change nothing. Your only write is the report file.
+
+## Phase 1 — Weigh the payload
+- Produce or read a production build; note total JS, CSS, image, and font bytes shipped.
+- Identify the largest modules and which dependencies dominate the bundle.
+- Note what loads on first paint versus what could wait.
+
+## Phase 2 — Audit through 7 lenses
+1. **Bundle size & composition** — total shipped, the biggest chunks, what dominates
+2. **Dead & duplicate code** — unused exports, duplicate libraries, multiple versions of one dep
+3. **Code splitting** — one monolithic chunk versus route- and feature-level lazy loading
+4. **Heavy dependencies** — large libraries pulled in for one function; lighter or native alternatives
+5. **Asset weight** — unoptimized images, uncompressed or unsubset fonts, missing modern formats
+6. **Loading strategy** — render-blocking scripts and styles, missing `preload`/`defer`, request waterfalls
+7. **Delivery** — missing gzip/brotli, weak cache headers, no CDN
+
+## Phase 3 — Curate
+- Rank by bytes saved × how early the asset loads: shrinking the critical path beats trimming a lazy chunk.
+- For each, name the fix and roughly the weight it removes.
+- Set a budget the team can hold, not just a one-time cleanup.
+
+## Phase 4 — Report
+Create `BUNDLE.md` at repo root:
+1. **Weight budget** — target vs actual for JS, CSS, images, fonts
+2. **Biggest wins** — ranked by KB saved × effort, with the fix for each
+3. **Findings** — each: lens · location · current cost · fix · savings
+4. **The budget to hold** — the per-route ceiling and the check that enforces it
+
+Start the report with today's date. If `BUNDLE.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Bytes on the critical path cost more than bytes loaded lazily
+- Measure against a budget; a cleanup with no ceiling drifts back
+- No frontend bundle in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which weight to cut first

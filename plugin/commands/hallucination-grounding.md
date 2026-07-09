@@ -1,0 +1,44 @@
+---
+description: "Whether the product's AI outputs are grounded in real sources or confidently invented — and whether it cites, hedges, and refuses when it should."
+---
+
+# Goal: Hallucination & Grounding Audit
+
+You are working inside this repo. Mission: judge whether the product's AI tells the truth about what it knows — whether outputs are grounded in real data, attributed so users can verify, and honest about uncertainty instead of confidently making things up.
+
+Read-only pass. Read the prompts, retrieval, and output-handling code; change nothing but the report file.
+
+## Phase 1 — Trace where answers come from
+- Find where the product generates content or answers with a model.
+- For each, see whether the output is grounded in retrieved sources or produced from the model's memory.
+- Note what the user is shown about sources and confidence.
+
+## Phase 2 — Audit through 7 lenses
+1. **Grounding** — are outputs tied to retrieved sources and data, or generated unmoored
+2. **Citation & attribution** — does it show where a claim came from so a user can verify
+3. **Confidence calibration** — does it hedge when unsure, or state everything with equal certainty
+4. **Refusal & "I don't know"** — will it decline when it lacks grounds, or always answer
+5. **Fabrication surfaces** — where it invents facts, figures, citations, or APIs
+6. **Verification guardrails** — checks that catch ungrounded claims before they reach the user
+7. **High-stakes handling** — extra care where a wrong answer causes real harm (medical, legal, financial)
+
+## Phase 3 — Curate
+- Rank by harm of a confident wrong answer × how often that surface is used.
+- For each, name the fix — ground it in retrieval, require citations, add a refusal path, gate high-stakes output.
+- Separate "sometimes wrong" from "wrong with authority"; the second erodes trust fastest.
+
+## Phase 4 — Report
+Create `GROUNDING.md` at repo root:
+1. **Grounding map** — where outputs are grounded, and where they are free-generated
+2. **Fabrication-prone surfaces** — the places most likely to invent, ranked by harm
+3. **Findings** — each: surface · the risk · the grounding, citation, or refusal fix
+4. **High-stakes gates** — the outputs that need verification before a user sees them
+
+Start the report with today's date. If `GROUNDING.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- A confident hallucination is more dangerous than an honest "I don't know"
+- Grounding without visible citation still leaves the user unable to verify
+- No model-generated content in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which grounding gaps to close first

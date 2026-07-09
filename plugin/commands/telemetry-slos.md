@@ -1,0 +1,45 @@
+---
+description: "The positive side of observability — whether metrics, traces, and SLOs let you answer any question about the running system, not just whether it crashed."
+---
+
+# Goal: Telemetry & SLOs
+
+You are working inside this repo. Mission: judge whether you could answer a new question about the running system tomorrow — not just "did it crash" (that is 03) but "how slow, for whom, since when, and why." Audit the three pillars — metrics, traces, logs — and the SLOs that give them meaning.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Inventory the telemetry
+- What is emitted today: metrics (what kind, what backend), traces (are spans propagated across services), structured logs (fields, correlation ids)?
+- Trace one real request end to end: what signal does it leave at each hop?
+- Find the SLOs, dashboards, and alert rules — or their absence.
+
+## Phase 2 — Audit through 8 lenses
+1. **Metric coverage** — the four golden signals (latency, traffic, errors, saturation) for each critical service, or scattered ad-hoc counters
+2. **Trace continuity** — a request traceable across service and async boundaries with context propagated, or traces that dead-end at the first hop
+3. **Log structure** — machine-parseable fields and correlation ids that join logs to traces, or free-text lines no query can group
+4. **Cardinality & cost** — labels that explode (user id, url) or sampling that quietly drops the signal you would need
+5. **SLOs & budgets** — objectives tied to user experience with error budgets, or uptime as a vibe
+6. **Dashboards** — a view that answers "is it healthy and why" per service, or graphs nobody reads
+7. **Alert quality** — alerts on user-facing symptoms with clear ownership, or noisy threshold alerts that page on nothing (see 25)
+8. **New-question latency** — a novel incident question ("which tenant, which version"): answerable from existing telemetry, or does it need a new deploy to learn
+
+## Phase 3 — Curate
+- Separate blind spots (a critical service with no latency metric) from noise (a dashboard nobody opens).
+- Pick two questions a real incident would ask and trace whether today's telemetry could answer them.
+- Rank by debugging leverage: what shortens time-to-understanding most.
+
+## Phase 4 — Report
+Create `TELEMETRY.md` at repo root:
+1. **Verdict** — could you debug a novel incident from what you emit today? the biggest blind spot named
+2. **Pillar coverage** — metrics / traces / logs · what exists · what is missing · per critical service
+3. **Two incident questions** — could current telemetry answer them, traced
+4. **SLO starter** — three objectives worth committing, with the signals that measure them
+
+Start the report with today's date. If `TELEMETRY.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Judge by questions you could answer, not tools installed
+- Every gap names a service and the signal it lacks
+- No running service to observe in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which instrumentation to add first

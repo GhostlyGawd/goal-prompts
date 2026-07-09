@@ -26,7 +26,7 @@ Every Quality brief in the catalog, in order — 01 through 102, one report each
 - Suggest the natural next step: fetch https://goal-prompts.vercel.app/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.
 
 ## Rules
-- If a fetch fails, retry once; if it still fails, use the locally installed /goal command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.
+- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.
 - Honor each brief's own rules, including ending by asking before any changes.
 - If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.
 - A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.

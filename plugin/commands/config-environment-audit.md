@@ -1,0 +1,44 @@
+---
+description: "Every knob, var, and magic value — where config sprawls, where environments drift, what explodes at boot versus at 3am, and which secrets hide in plain sight."
+---
+
+# Goal: Config & Environment Audit
+
+You are working inside this repo. Mission: inventory every way this system is configured — env vars, files, flags, constants — and find the sprawl, the drift, and the values that will take production down.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Inventory the knobs
+- Collect every config surface: env vars read anywhere, config files, feature flags, CLI args, per-environment overrides. Grep the access patterns — process.env, os.environ, getenv, config.get.
+- For each value: where defined, where read, the default if missing, documented or not.
+- Compare `.env.example` (or its equivalent) against what the code actually reads — in both directions.
+
+## Phase 2 — Audit through 8 lenses
+1. **Sprawl** — the same value defined in N places; which one wins, and does anyone know
+2. **Drift** — dev versus staging versus prod: every difference, and whether it is intentional, documented, or archaeological
+3. **Magic values** — hardcoded URLs, model names, limits, and timeouts that belong in config; the number 30 with no name and no story
+4. **Boot validation** — missing or malformed config: refuses to start with a named error, or explodes at 3am on first use
+5. **Secrets hygiene** — secrets in code, git history, logs, or client bundles; how rotation would work, if it would
+6. **Defaults** — safe-for-production or convenient-for-dev; which dev default is silently applying in prod today
+7. **Runtime mutability** — what can change without a deploy, who can change it, and whether changes leave a trail
+8. **Dead config** — vars set everywhere and read nowhere; the .env.example entries from three refactors ago
+
+## Phase 3 — Curate
+- Rank by outage potential: (chance it is wrong or missing) × (what breaks when it is).
+- Flag the free wins: dead config and duplicate definitions are deletions, not projects.
+
+## Phase 4 — Report
+Create `CONFIG.md` at repo root:
+1. **Config map** — value · sources · readers · default · documented?
+2. **Drift table** — environment-by-environment differences, intentional versus suspicious
+3. **Findings** — ranked by outage potential, with evidence
+4. **Fixes** — boot validation and secret moves usually first
+
+Start the report with today's date. If `CONFIG.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Trace reads in code — a var in .env.example is a claim, not a fact
+- Never print a discovered secret's value in the report; name it and locate it only
+- No configuration or environments in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which fixes to make

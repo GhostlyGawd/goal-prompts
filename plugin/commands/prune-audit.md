@@ -1,0 +1,44 @@
+---
+description: "Dead code, unreachable routes, stale flags, unused deps — a deletion list grouped by confidence. Git makes it reversible; bias to delete."
+---
+
+# Goal: Prune Audit
+
+You are working inside this repo. Mission: find everything that can be deleted — dead code, unreachable routes, stale flags, unused dependencies — and produce a deletion list grouped by confidence. Git makes deletion reversible; the bias is to delete.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Build the reachability picture
+- Map the entry points: routes, exported APIs, scheduled jobs, CLI commands, build entries.
+- From those roots, what is reachable? Everything else is a candidate.
+- Gather the low-hanging census: unused dependencies, unreferenced assets, commented-out blocks.
+
+## Phase 2 — Hunt through 7 lenses
+1. **Dead code** — unreferenced functions, components, and modules; exports nothing imports
+2. **Unreachable surface** — routes and pages no navigation or link reaches
+3. **Stale flags** — feature flags evaluating to one value forever; both the flag and the dead branch
+4. **Unused dependencies** — installed, never imported; or imported only by dead code
+5. **Fossils** — commented-out blocks, .bak/.old files, abandoned experiment directories
+6. **Orphaned config** — settings, env vars, and CI steps serving removed features
+7. **Duplicate losers** — where two implementations exist and one clearly won: delete the loser
+
+## Phase 3 — Curate by confidence
+- **Safe** — provably unreferenced; delete on sight
+- **Verify-first** — probably dead but with a dynamic-reference risk (string lookups, reflection, external callers); each gets a one-line verification step
+- Count the reclaim: lines, files, kilobytes, dependencies
+
+## Phase 4 — Report
+Create `PRUNE.md` at repo root:
+1. **Reclaim totals** — lines, files, deps that can go
+2. **Safe deletions** — grouped for one clean PR, ordered
+3. **Verify-first list** — item · risk · verification step
+4. **Flag retirements** — flag · winning branch · code to keep
+5. **The great deletion PR** — proposed scope for the first satisfying sweep
+
+Start the report with today's date. If `PRUNE.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Provably unreferenced or verifiably dead — no vibes-based deletion
+- Deleting code you might need later is what git history is for
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which deletions to make

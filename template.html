@@ -649,15 +649,15 @@
     <div class="way">
       <div class="num2">02 · INSTALL</div>
       <h4>As slash commands</h4>
-      <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
-      <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
-      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">✓ SHA-256 verified before install · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
+      <p>Add the plugin once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
+      <div class="cmd"><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">then install <b>goal</b> from the marketplace. No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every brief as a <code>goal-&lt;slug&gt;</code> prompt in your client's picker.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
@@ -792,7 +792,7 @@ desc + "\n\n" +
 "- List every report created, with a one-line takeaway each.\n" +
 "- Suggest the natural next step: fetch " + RAW_BASE + "/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.\n\n" +
 "## Rules\n" +
-"- If a fetch fails, retry once; if it still fails, use the locally installed /goal command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.\n" +
+"- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.\n" +
 "- Honor each brief's own rules, including ending by asking before any changes.\n" +
 "- If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.\n" +
 "- A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.\n";

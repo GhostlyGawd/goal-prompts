@@ -1,0 +1,44 @@
+---
+description: "The candidate field. Turns your edges, interests, and constraints plus live market signals into 10-15 scored venture candidates — divergence before any deep dive."
+---
+
+# Goal: Opportunity Scan
+
+You are working inside this repo — treat it as the research workspace for a venture that does not exist yet. Mission: generate and roughly score a field of venture candidates, combining the operator's unfair advantages with live market signals, so the deep-dive briefs have something worth aiming at.
+
+Research pass: read the web and any notes at this root; your only write is the report file. Every factual claim carries a source link and access date.
+
+## Phase 1 — Anchor the operator
+- Collect the raw material: the operator's skills, background, audience, capital, and time — from their message, a README or notes at this root. Constraints in means better ideas out.
+- If nothing is supplied, proceed under a stated persona assumption and flag every place it shaped the output.
+
+## Phase 2 — Scan through 8 lenses
+Each lens is a source of candidates. Cite where each candidate's pain shows up in the wild.
+1. **Complaint mining** — recurring gripes in reviews, forums, and communities: what people hate paying for or can't get done
+2. **Trend collision** — two rising curves crossing: a technology meeting a behavior, a regulation meeting an industry; name both curves with evidence
+3. **Unbundling and rebundling** — bloated horizontal tools whose one feature deserves a product; fragmented point tools begging for a bundle
+4. **Sophistication arbitrage** — practices standard in one industry, absent in an adjacent one
+5. **Picks and shovels** — wherever a gold rush is running, what every participant needs regardless of who wins
+6. **Regulation and platform shifts** — new rules, new APIs, new form factors creating fresh obligations or capabilities, with dates
+7. **The operator's unfair edge** — distribution, domain knowledge, or skill that makes a hard idea easy for this operator specifically
+8. **Dying incumbents** — products with rising complaints, stalled releases, or acquisition decay; their users are pre-qualified leads
+
+## Phase 3 — Curate
+- Dedupe to 10–15 candidates. Score each 1–5 on pain intensity, buyer reachability, operator fit, competitive heat, and why-now — one line of justification per score.
+- Kill the obvious losers and say what killed them; a scan that keeps everything chose nothing.
+
+## Phase 4 — Report
+Create `OPPORTUNITIES.md` at repo root:
+1. **Operator profile** — the edges and constraints this scan assumed
+2. **The field** — candidate · one-liner · who pays · pain evidence (linked) · scores
+3. **Top 3** — a paragraph each, including the strongest disconfirming fact found so far
+4. **Next** — which candidates to send through 61–66, and in what order
+
+Start the report with today's date. If `OPPORTUNITIES.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Every pain claim links to where real people expressed it — no invented personas
+- Each top candidate ships with its best reason to be a bad idea
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which candidates to research deeply

@@ -8,6 +8,7 @@ Outputs (all committed, all deterministic, stdlib only — this also runs on Ver
   b/<id>.html           per-brief pages with their own OG tags (unfurl + redirect)
   catalog.json          machine-readable index (consumed by the MCP server)
   commands.tar.gz/.zip  Claude Code slash commands, used by /install
+  plugin/               the Claude Code plugin (manifest + commands/)
 
 The linter enforces the house rules on every brief: front matter complete,
 4-phase skeleton, a Rules section, the ask-first ending, and body < 4,000 chars.
@@ -216,7 +217,7 @@ You are working inside this repo. Mission: execute the **{pb['name']}** playbook
 - Suggest the natural next step: fetch {BASE}/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.
 
 ## Rules
-- If a fetch fails, retry once; if it still fails, use the locally installed /goal command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.
+- If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.
 - Honor each brief's own rules, including ending by asking before any changes.
 - If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.
 - A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.
@@ -850,8 +851,9 @@ def brief_detail(p, siblings, in_playbooks) -> str:
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
             f'<button class="btn btn-primary" style="width:100%;justify-content:center" data-copy="#rawbody">Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h4>As a slash command</h4>'
-            f'<p>Install every brief once, then just type <code>/goal:{esc(slug)}</code>.</p>'
-            f'{cmd_html("curl -fsSL " + BASE + "/install | sh")}</div>'
+            f'<p>Install the <b>goal</b> plugin once, then just type <code>/goal:{esc(slug)}</code> '
+            f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
+            f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts")}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h4>From an agent (MCP)</h4>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md")}</div>'
@@ -1028,11 +1030,50 @@ def playbook_detail(pb, by_id) -> str:
                 body, f"{BASE}/og.png", "website", body_class)
 
 
+def command_md(p: dict) -> str:
+    """One brief as a Claude Code command file — the same content ships in the
+    tar/zip archives (curl installer) and the plugin's commands/ directory."""
+    return f'---\ndescription: "{p["tagline"]}"\n---\n\n{p["body"]}\n'
+
+
+def write_plugin(prompts: list) -> None:
+    """The Claude Code plugin (plugin/), listed by .claude-plugin/marketplace.json.
+
+    /plugin marketplace add GhostlyGawd/goal-prompts, install "goal", and every
+    brief is a real namespaced /goal:<slug> command. The whole directory is a
+    build output: commands/ regenerates from the briefs and plugin.json's
+    version tracks package.json, so neither can drift (tests/test_build.py
+    PluginTests pins both; CI diffs the committed copy)."""
+    version = json.loads(
+        (ROOT / "package.json").read_text(encoding="utf-8"))["version"]
+    shutil.rmtree(ROOT / "plugin", ignore_errors=True)
+    (ROOT / "plugin" / ".claude-plugin").mkdir(parents=True)
+    (ROOT / "plugin" / "commands").mkdir()
+    for p in prompts:
+        (ROOT / "plugin" / "commands" / f'{p["slug"]}.md').write_text(
+            command_md(p), encoding="utf-8")
+    manifest = {
+        "name": "goal",
+        "displayName": "Goal Prompts",
+        "version": version,
+        "description": "The goal-prompts audit catalog as native /goal:<slug> "
+                       "commands — each brief points your agent at the repo "
+                       "and writes one evidence-backed report.",
+        "author": {"name": "GhostlyGawd"},
+        "homepage": BASE,
+        "repository": "https://github.com/GhostlyGawd/goal-prompts",
+        "license": "MIT",
+        "keywords": ["audit", "code-audit", "claude-code", "prompts"],
+    }
+    (ROOT / "plugin" / ".claude-plugin" / "plugin.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
+
+
 def write_archives(prompts: list) -> None:
     entries = []
     for p in prompts:
-        content = (f'---\ndescription: "{p["tagline"]}"\n---\n\n'
-                   f'{p["body"]}\n').encode("utf-8")
+        content = command_md(p).encode("utf-8")
         entries.append((f'goal/{p["slug"]}.md', content))
     raw = io.BytesIO()
     with tarfile.open(fileobj=raw, mode="w", format=tarfile.GNU_FORMAT) as tf:
@@ -1271,10 +1312,11 @@ def main() -> None:
         f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n", encoding="utf-8")
 
     write_archives(prompts)
+    write_plugin(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
           f"raw/, b/, catalog.json, sitemap.xml, robots.txt, "
-          f"commands.tar.gz, commands.zip")
+          f"commands.tar.gz, commands.zip, plugin/")
 
 
 if __name__ == "__main__":

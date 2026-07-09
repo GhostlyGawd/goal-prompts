@@ -4,6 +4,7 @@ DX.md (brief 14) flagged that the linter had no tests of its own, right after
 its first version was caught counting Phase 4 report items as Phase 2 lenses.
 These tests pin the house rules: run `python3 -m unittest discover -s tests`.
 """
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -246,6 +247,9 @@ class ConductorTests(unittest.TestCase):
         self.assertIn("retry once", text)
         self.assertIn("subagents or fresh sessions", text)
         self.assertIn("at the repo root or in `reports/`", text)
+        # the local-command fallback names both real install shapes: the
+        # plugin's /goal:<slug> and the curl installer's /goal-<slug>
+        self.assertIn("/goal:<slug> (or /goal-<slug>) command", text)
 
 
 class FamilyIconTests(unittest.TestCase):
@@ -387,6 +391,40 @@ class RenderHelperTests(unittest.TestCase):
     def test_cmd_html_id_is_deterministic(self):
         # the copy-source id must be stable across runs (deterministic build)
         self.assertEqual(build.cmd_html("npm test"), build.cmd_html("npm test"))
+
+
+class PluginTests(unittest.TestCase):
+    # The Claude Code plugin (plugin/, listed by .claude-plugin/marketplace.json)
+    # is a build output: commands/ is generated from the same briefs as the
+    # command archives, and plugin.json's version tracks package.json — these
+    # pin that none of it can drift from the catalog.
+    def test_plugin_commands_cover_every_brief(self):
+        briefs = list((build.ROOT / "prompts").rglob("*.md"))
+        cmds = list((build.ROOT / "plugin" / "commands").glob("*.md"))
+        self.assertEqual(len(cmds), len(briefs))
+
+    def test_plugin_command_carries_the_raw_brief_body(self):
+        cmd = (build.ROOT / "plugin" / "commands" / "bug-hunt.md").read_text(
+            encoding="utf-8")
+        fm, body = cmd.split("---", 2)[1:]
+        self.assertIn("description:", fm)
+        raw = (build.ROOT / "raw" / "01.md").read_text(encoding="utf-8")
+        self.assertEqual(body.strip(), raw.strip())
+
+    def test_plugin_manifest_tracks_package_version(self):
+        manifest = json.loads((build.ROOT / "plugin" / ".claude-plugin" /
+                               "plugin.json").read_text(encoding="utf-8"))
+        pkg = json.loads((build.ROOT / "package.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["name"], "goal")
+        self.assertEqual(manifest["version"], pkg["version"])
+
+    def test_marketplace_lists_the_goal_plugin(self):
+        market = json.loads((build.ROOT / ".claude-plugin" /
+                             "marketplace.json").read_text(encoding="utf-8"))
+        self.assertEqual(market["name"], "goal-prompts")
+        self.assertEqual(market["owner"]["name"], "GhostlyGawd")
+        entry = [pl for pl in market["plugins"] if pl["name"] == "goal"][0]
+        self.assertEqual(entry["source"], "./plugin")
 
 
 class DetailPageTests(unittest.TestCase):

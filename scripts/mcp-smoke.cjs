@@ -31,7 +31,7 @@ function top3(msg) {
 // three, so the copies can't drift silently. Each must stay on one source line.
 const CANONICAL = [
   "If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.",
-  "If a fetch fails, retry once; if it still fails, use the locally installed /goal command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.",
+  "If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.",
   "Confirm the report file exists (at the repo root or in `reports/`) before moving on.",
   "If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.",
   "A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.",
