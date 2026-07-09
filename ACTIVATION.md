@@ -19,6 +19,14 @@ says *"now paste this into Claude Code or Cursor at your repo root — it will w
 **choose from 129 briefs and then guess the workflow** — the two costs standing
 between them and the win.
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **A1–A5** (next-step hint
+> on copy; a recommended "start here" brief; a hero quickstart; a real report
+> excerpt near the finder; post-win momentum) — **DEFERRED**. These are UX/product
+> additions; A2 needs a decision on *which* default starter and A3 is explicitly an
+> A/B hypothesis, not a blind change. (The choice-overload framing cites 129
+> briefs; the catalog is now 135.) Captured as the activation roadmap. See
+> `FIXLOG.md`.
+
 ---
 
 ## 1 · First-session walk (screen by screen to the first win)

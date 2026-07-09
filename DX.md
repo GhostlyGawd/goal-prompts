@@ -22,4 +22,6 @@
 ## The one-hour fix
 Fix 1 shipped in 0.5: a single `scripts/check` command collapses the entire contribution ritual into one step and is now the CI body — every future contributor saves the discovery cost this audit paid. Remaining open: `j/k` keyboard navigation (self-hosting fonts shipped in 0.8).
 
+**Backlog reconciliation (2026-07-09):** `j/k` keyboard navigation remains **DEFERRED** — it's purely additive and nothing in the catalog depends on it. Every other DX fix is shipped.
+
 *Report only — which fixes should be made?*

@@ -13,6 +13,18 @@ things that should be shared: container width (1060 / 940 / 760), gutter
 (22 / 20), section rhythm (60 / 46 / 40 / 34), and the nav breakpoint
 (720 / 680 / 640). Fix the system, not the instances.
 
+> **Backlog reconciliation (2026-07-09).** This audit's specific widths and line
+> numbers predate the redesign (the landing `.wrap` is now 1120px, tokens moved to
+> `tokens.css`). Dispositions: **L1–L6** (no spacing scale; three container
+> widths; unshared breakpoints; four section rhythms; margin-vs-gap) — **DEFERRED**
+> as one dedicated systematization pass. Rationale: the redesign already
+> centralized color/type/radius/motion-adjacent tokens in `tokens.css` (partial
+> progress on the "define once" goal), but a full spacing + breakpoint + container
+> scale touches hundreds of hand-tuned values across four files and would shift
+> every line citation in the design reports — high churn best done deliberately,
+> not folded into this correctness-and-a11y pass. The clean "patch layer" this
+> audit praised remains clean. See `FIXLOG.md`.
+
 ---
 
 ## 1 · The spacing census

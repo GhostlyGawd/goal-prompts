@@ -12,6 +12,20 @@ backwards: the build ships and precaches a mono weight **no rule uses**
 (`plexmono-500`, 14.9 KB) while **eleven selectors** request a mono weight that
 **isn't shipped** (700 → faux bold). The deliverable is a smaller system.
 
+> **Backlog reconciliation (2026-07-09).** This audit predates the font redesign
+> (Archivo → Schibsted Grotesk for display, IBM Plex Sans added for UI), so its
+> family names and per-size line numbers are stale. Dispositions: **T1** (mono
+> @700 faux-bold) — **FIXED**: the three surviving `--mono` @700 badges retargeted
+> to the shipped 600. **T2** (unused `plexmono-500`) — **ALREADY DONE**: the 500
+> face was dropped in the redesign; only 400/600 ship. **T3/T5** (size &
+> line-height sprawl) — **DEFERRED**: a type-scale collapse is a large,
+> citation-shifting systematization better done as its own pass against the new
+> fonts. **T4** (same role typed 3 ways) — **PARTIAL**: tokens are now centralized
+> in `tokens.css`, ending the cross-file token drift; per-component sizes remain.
+> New minor issue found: `.drop-big` and the Studio checkbox glyph request
+> `--sans` @700 where Plex Sans ships only 400/600 (a fresh faux-bold) — logged as
+> a follow-up. See `FIXLOG.md`.
+
 ---
 
 ## 1 · The inventory (measured)

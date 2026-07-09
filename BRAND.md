@@ -15,6 +15,18 @@ icon that shares nothing with the bar logo**, and **OG cards rendered in DejaVu
 instead of the site's Archivo/Plex**. Consistency beats beauty — these are
 unify/define fixes, not redesigns.
 
+> **Backlog reconciliation (2026-07-09).** Most of this audit was resolved by the
+> brand redesign that followed it. Dispositions: **B1** (tab icon ≠ bar mark) —
+> **DONE**: the favicon is now the 4-bar mark (same geometry as `BRAND_MARK`).
+> **B2** (`--radius` 12 vs 10 split) — **DONE**: radius is one token in
+> `tokens.css`, shared by all four surfaces. **B3** (OG cards in DejaVu) —
+> **DONE**: `scripts/og.py` now renders in Schibsted Grotesk + IBM Plex.
+> **B4** (radius sprawl) — **DONE**: a `--r-sm / --r-md / --r-pill` scale now
+> exists. **B5** (logo 24 vs 22 drift) — **FIXED** this pass: the Studio/Vitals
+> top-nav marks were bumped 22→24 to match nav/detail. **B6** (no chosen icon
+> set) — **DEFERRED**: the Unicode-glyph language is documented in `CLAUDE.md`;
+> blessing or replacing it is a design decision. See `FIXLOG.md`.
+
 ---
 
 ## 1 · The identity, as shipped (one honest paragraph)

@@ -13,6 +13,19 @@ the site's **highest-traffic input — the catalog search — has its focus ring
 suppressed** by `outline:0`, and the same bug hits the four context inputs and
 Studio's paste/repo inputs. Focus visibility outranks all polish, so those lead.
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **S1–S3** (suppressed
+> input focus rings) — **FIXED**: `:focus-visible` overrides added for the search
+> input, the four context inputs, and the Studio/Vitals paste + GitHub-repo inputs
+> (keyboard ring restored, mouse `outline:0` kept). **S5** (no shared disabled
+> style) & **S6** (inconsistent press feedback) — **FIXED**: the redesign added
+> shared `button:active` / `button:disabled` to the detail pages, and this pass
+> mirrored both into the landing and the Studio/Vitals tools. **S7** (color-only
+> inline links) — **FIXED** for the color-only footer links (hover underline);
+> nav/crumb/footer links already had hovers. **S4** (no input error state) —
+> **DEFERRED**: a buildable follow-up (wire `.is-error` + `aria-invalid` to the
+> GitHub-loader failure path). Motion-token naming (§4) — **DEFERRED**: values are
+> already one consistent vocabulary; naming them is additive only. See `FIXLOG.md`.
+
 ---
 
 ## 1 · The state matrix (species × states)

@@ -18,6 +18,16 @@ maintainer), and (2) the **real reassurance that already exists is placed away
 from the decisions where fear peaks** — most glaringly, the checksum-verified
 installer is invisible at the `curl … | sh` line.
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **F1** (checksum
+> reassurance absent at the scary `curl | sh` line) — **FIXED**: the install card
+> now shows "✓ SHA-256 verified before install · read the script first," surfacing
+> the installer's real, already-shipped verification. **F6** (partner band implies
+> a real partnership) — **FIXED**: labeled an example. **F2** (no third-party
+> proof), **F3** (unverifiable HN quotes), **F4** (proof placed far from the
+> claim), **F5** (no named maintainer) — **DEFERRED**: each needs real assets or a
+> personal decision; this brief's own rule is *collect real proof, never
+> fabricate*, so they stay for the maintainer. See `FIXLOG.md`.
+
 ---
 
 ## 1 · Proof inventory

@@ -1,6 +1,67 @@
 # FIXLOG.md
 *Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.*
 
+## Session — open-items backlog (2026-07-09)
+- Branch: `claude/open-items-backlog-rm6wzx` · off `main` (`b7d0988`)
+- Reports consumed: the Design family (HIERARCHY, TYPOGRAPHY, COLOR, LAYOUT,
+  STATES, BRAND) and the experience suite (COMPREHENSION, SHOWCASE, PROOF,
+  RETENTION, ACTIVATION, CRO), plus DX — every finding given a disposition
+  (FIXED / already-done / deferred / blocked) in its own report.
+- Protocol: one finding per commit, `scripts/check` green after each;
+  visual/interaction fixes verified in headless Chromium.
+- Theme: the biggest debt was **staleness** — the public counts and much of the
+  design backlog were already out of date, so this pass shipped the genuine
+  remainder and reconciled every ledger.
+
+### Fixed
+| # | Finding | Source | Commit | Verified by |
+|---|---|---|---|---|
+| 1 | Inject live counts into static meta/OG/hero/chart | COMPREHENSION F2 · CRO F3 | `c8e6840` | index.html shows 135/35/21; no `__N_*__` left; browser hero reads 135/35 |
+| 2 | README count + full 21-family taxonomy, build-guarded | COMPREHENSION F2 | `fb7ec0a` | build fails on a wrong count or missing family (proven) |
+| 3 | CHANGELOG records the 6 Design briefs + 3 playbooks | staleness | `f9043df` | 135 briefs / 35 playbooks entry added |
+| 4 | Keyboard focus rings restored on all text inputs | STATES S1–S3 | `7bbad5b` | Chromium: `.search input` shows a 2px ring on focus |
+| 5 | `--faint` lifted to AA in both themes | COLOR C1 | `c749c75` | computed ≥4.5:1 on ink/panel/panel-2; #8B8D95 / #6A6C73 |
+| 6 | Mono @700 faux-bold retargeted to shipped 600 | TYPO T1 | `63f35c1` | detail badge computed font-weight = 600 |
+| 7 | Dead `--panel-3` token removed | COLOR C9 | `3eb8044` | 0 occurrences in tokens.css |
+| 8 | Shared disabled/press states + link hover across landing+tools | STATES S5–S7 | `1d2498b` | Chromium: button:disabled opacity 0.5 |
+| 9 | Canonical URL + SoftwareApplication JSON-LD | CRO F4 | `a6d29ab` | JSON-LD parses with live count; canonical present |
+| 10 | Gloss MCP/conductor, label partner mock, surface checksum | COMPREHENSION F4/F5 · CRO F8 · PROOF F1/F6 | `56655aa` | Chromium: "example" label + "SHA-256 verified" present |
+| 11 | Studio/Vitals brand mark aligned 22→24 | BRAND B5 | (ledger) | matches nav/detail canonical mark |
+| 12 | Mobile horizontal overflow in the catalog finder | found in verify | `523f7b4` | Chromium: no page overflow at 390/360px |
+
+### Already resolved by the earlier redesign (reconciled, not re-fixed)
+- **TYPO T2** — unused `plexmono-500` was dropped in the font redesign (400/600 only).
+- **BRAND B1–B4** — favicon is now the bar mark; `--radius` is one shared token;
+  `og.py` renders in Schibsted/Plex; a `--r-sm/--r-md/--r-pill` scale exists.
+- **HIERARCHY F1/F2** — the nav CTA is a ghost and cards promote the title (mobile pass).
+- **COLOR C1 (dark)** — the palette redesign lifted dark faint most of the way; this
+  pass finished it (light mode + `--panel-2`).
+
+### Deferred (disposition recorded in each report)
+- Subjective visual-hierarchy / color-meaning changes (HIERARCHY F3–F7, COLOR
+  C2–C8) and type/spacing-scale systematization (TYPO T3–T5, LAYOUT L1–L6) —
+  large, citation-shifting, design-judgment work best done as dedicated passes.
+- Hero/CTA copy rewrites (COMPREHENSION F1/F3, CRO F1/F2/F6/F7) — wording is the
+  maintainer's call.
+- Product features with local-first tradeoffs (RETENTION R1–R5, ACTIVATION
+  A1–A5), STATES S4 input-error state, `j/k` nav (DX) — buildable follow-ups.
+- New minor issue found: `.drop-big` / Studio checkbox request `--sans` @700 where
+  Plex Sans ships only 400/600 (a fresh faux-bold).
+
+### Blocked (need assets/credentials this environment lacks)
+- **SHOWCASE F1–F3** — product-in-action GIF, Studio screenshot, finding→commit
+  before/after: need real screen captures.
+- **IMPROVEMENTS 11** — npm publish + MCP-registry listing: needs npm credentials
+  (unchanged from prior sessions).
+
+### Follow-ups the fixes revealed
+- With counts build-injected and README-guarded, `og.png` (a hand-made raster) is
+  the last surface that can still misstate the catalog size — a build-time
+  regeneration (Pillow) would close it.
+- A fresh Color and Typography audit against the *current* dark+light palette
+  would replace the pre-redesign COLOR/TYPO findings that now measure code that no
+  longer ships.
+
 ## Session — 0.8 cycle (2026-07-07)
 - Branch: `claude/product-improvement-discovery-7yhdyg` · off 0.7.0 (`97ad4fe`)
 - Reports consumed: IMPROVEMENTS.md (the v0.7 re-run), plus carried-forward BUGS.md and SECURITY.md findings

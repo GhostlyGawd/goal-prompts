@@ -14,6 +14,18 @@ is spread across three different reds; (3) the categorical system has **17
 hues**, well past the point of reliable distinction. This is a dark-only site
 (no `prefers-color-scheme` anywhere — `grep` = 0 hits).
 
+> **Backlog reconciliation (2026-07-09).** This audit predates the palette
+> redesign, so its specific hexes, the "dark-only / no `prefers-color-scheme`"
+> claim, and the "17 families" count are stale — the site now ships a dark **and**
+> a light theme across 21 families, tokenized once in `tokens.css`. Dispositions:
+> **C1** (`--faint` fails AA) — **FIXED**: `--faint` now clears 4.5:1 on ink,
+> panel, and panel-2 in both themes (dark `#8B8D95`, light `#6A6C73`).
+> **C9** (dead `--panel-3`) — **FIXED**: removed. **C2–C7** (green/amber/red
+> meaning overload, two severity ramps, 17 hues) — **RE-ASSESS**: measured against
+> the old palette that no longer ships; they warrant a fresh Color audit, not the
+> pre-redesign fixes. **C8** (color as sole family signal) — **DEFERRED** (a
+> per-card family tag is a design call). See `FIXLOG.md`.
+
 ---
 
 ## 1 · The real palette (clustered, with counts + roles)
