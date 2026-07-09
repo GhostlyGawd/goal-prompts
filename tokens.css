@@ -20,6 +20,9 @@
   --r-sm:8px;--r-md:12px;--r-pill:999px;--radius:8px;
   /* container + rhythm scale (LAYOUT L1/T4 — one source; @media can't take var() so breakpoints stay literal) */
   --w-page:1120px;--w-doc:960px;--w-read:760px;--gutter:24px;--lh-body:1.6;
+  /* spacing scale — 4pt base (LAYOUT L2/L4/L6); map off-grid values (9,7,22…) onto it */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:40px;--s8:48px;--s9:64px;
+  --section:64px;--section-tight:48px;
   --disp:'Schib','PSans',system-ui,-apple-system,sans-serif;
   --sans:'PSans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;

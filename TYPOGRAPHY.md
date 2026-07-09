@@ -20,8 +20,17 @@ backwards: the build ships and precaches a mono weight **no rule uses**
 > face was dropped in the redesign; only 400/600 ship. **T4** (same role typed 3
 > ways) — **FIXED**: body line-height unified to one `--lh-body` token (was
 > 1.6/1.62/1.5 across stylesheets). **T3/T5** (font-size + line-height value
-> sprawl) — **DEFERRED**: collapsing ~27 sizes to a 9-step scale is a large,
-> citation-shifting refactor best done as its own pass against the new fonts.
+> sprawl) — **FIXED (2026-07-09, round 3)**: every half-pixel size was folded to
+> its nearest integer across all four style sources (69 declarations — 11.5/12.5→12,
+> 13.5→13, 14.5→14, 15.5/16.5→16, 9.5→10, 10.5→11; each move ≤0.5px, imperceptible),
+> so no size sits a half-pixel from its neighbor — the exact accretion T3 named. Near-
+> duplicate line-heights were folded to their dominant neighbor (1.62/1.65→1.6,
+> 1.55→1.5, 1.4→1.45, 1.03/1.04→1.05), 15→11 values; the survivors are deliberate
+> per-role leadings (display .98/1.0, headings 1.05/1.15/1.22, sub 1.3/1.35, body
+> 1.45/1.5/1.6, notes 1.7), not drift. The aggressive 5-step collapse (14/15/16→one
+> 15) was declined: those full-pixel steps *are* perceptible and folding them would
+> shift running body text — the defect the audit named was the indistinguishable
+> half-steps, and those are gone.
 > New minor issue found & **FIXED**: `.drop-big` requested `--sans` @700 where
 > Plex Sans ships only 400/600 (a fresh faux-bold) — retargeted to `--disp`
 > (Schibsted Grotesk, real 700). The Studio checkbox `✓` glyph at 700 is left

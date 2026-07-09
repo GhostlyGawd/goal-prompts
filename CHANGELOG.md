@@ -18,6 +18,13 @@
   - **Also:** a mobile horizontal-overflow fix in the catalog finder; canonical
     URL + `SoftwareApplication` JSON-LD; shared disabled/press states; and a
     per-finding disposition recorded in every design/experience report.
+  - **Design-system systematization:** a 4pt spacing scale (`--s1..--s9`,
+    `--section`/`--section-tight`) added to the token source; every half-pixel
+    font size folded to its nearest integer and the biggest off-grid gaps/margins
+    snapped to the grid (all imperceptible — TYPO T3/T5, LAYOUT L2/L4/L6); and the
+    Proof section gains an honest animated *walk-through* of one real `bug-hunt`
+    run ending on the real `BUGS.md` finding — reduced-motion-safe and explicitly
+    labeled "not a screen capture" (SHOWCASE F1).
 - Mobile landing-page pass. The page ran ~8 phone-screens of marketing
   before the catalog, and the filter bar overflowed on phones:
   - **Hero** drops the briefs-per-family chart on phones (it only scrolled

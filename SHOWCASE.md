@@ -26,9 +26,18 @@ promise ("turn your agent into a senior code auditor") because they never get to
 > sits in the Proof section — real artifacts, no screenshot, can't drift. **F2**
 > (the Studio, pictured) — **DECLINED (by design)**: an embedded self-screenshot
 > would contradict the site's own "Real reports, not screenshots" stance and
-> reintroduce media-staleness (F7). **F1** (a captured agent run) — **NEEDS A REAL
-> ASSET**: a 10-15s screen recording of Claude Code running that can't be produced
-> in this environment (and also cuts against "real reports, not screenshots"). **F4**
+> reintroduce media-staleness (F7). **F1** (the product never seen
+> working) — **ADDRESSED (round 3, honestly)**: the Proof section now carries an
+> animated *walk-through* of one real run — the `/goal:bug-hunt` command, the four
+> phases completing, and the real `BUGS.md` S2 self-XSS finding it produces — built
+> only from real content and labeled “walk-through, not a screen capture” in both
+> the header and caption. It plays once when scrolled into view and falls back to a
+> static final frame under `prefers-reduced-motion`/no-JS (verified: all lines
+> opacity 1). This is *not* the captured screen recording F1 ideally wants — a real
+> capture can’t be recorded in this environment, and a staged one would cut against
+> “Real reports, not screenshots” — it’s the honest, non-fabricated proxy: it shows
+> the loop working using only real artifacts. A true recording stays a nice-to-have
+> for a maintainer with capture tooling. **F4**
 > (schematic report mock) — **FIXED**: the mock now carries a real text
 > alternative (`role=img` + `aria-label`) and a visible "the shape of every
 > report" caption instead of `aria-hidden`. **F5** (mobile hero has no visual) —
