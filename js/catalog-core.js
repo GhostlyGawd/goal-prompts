@@ -178,7 +178,7 @@ function repoRecommend(names, pkg, data) {
   if (has["cargo.toml"]) { stack.push("Rust"); }
   if (has["dockerfile"] || has["docker-compose.yml"] || has["docker-compose.yaml"] ||
       any(/\.tf$/i) || has.terraform || has.helm || has.k8s) { stack.push("Docker/IaC"); add("137"); }
-  if (any(/^(migrations|prisma|db)$/i) || has["schema.prisma"]) { stack.push("a database"); add("19"); }
+  if (any(/^(migrations|prisma|db)$/i) || has["schema.prisma"]) { stack.push("SQL database"); add("19"); }
   if (pkg && pkg.bin) { stack.push("a CLI"); add("135"); }
   else if (pkg && pkg.private !== true && (pkg.main || pkg.exports || pkg.module)) { add("136"); }
   ["01", "02", "16"].forEach(function (id) { if (ids.length < 3) add(id); });

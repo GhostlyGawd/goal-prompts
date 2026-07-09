@@ -315,10 +315,12 @@
   .finder .starter b{font-weight:700}
   .finder .starter .sdot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
   .finder .starter .sarrow{color:var(--fc);font-family:var(--mono);flex:none}
-  .finder .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
-  .finder .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
-  .finder .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}
-  .finder .goal:hover{border-color:var(--fc);color:var(--text)}
+  .finder .goals,#picker .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
+  #picker .goals{margin-bottom:10px}
+  .finder .goallab,#picker .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .finder .goal,#picker .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s}
+  .finder .goal:hover,#picker .goal:hover{border-color:var(--fc);color:var(--text)}
+  #picker .goal[aria-pressed="true"]{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 12%,var(--panel))}
   .finder .goal .gd{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
   .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(20px,4vw,44px)}
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
@@ -578,6 +580,20 @@
   <p class="lead">__N_FAMILIES__ families, one question each. Filter, search, and open any brief’s full page — or just tap Copy and paste it into your agent. <a href="/examples/" style="color:var(--fc)">See a real report one wrote →</a></p>
   <div class="nudge" style="--fc:var(--act);margin:18px 0 0;max-width:760px">Not sure which? Run <a href="/b/46">46 · Audit Triage</a> — 15 minutes, and the agent names the audits this repo needs. <button class="iconbtn" id="triagecopy" type="button" style="margin-left:6px">copy the brief</button></div>
   <div class="ctxwarm" id="ctxwarm" hidden></div>
+
+  <details class="ctx" id="picker">
+    <summary><span class="chev">▸</span> help me choose — three quick questions</summary>
+    <div class="ctxbody" id="pickerbody"></div>
+  </details>
+  <details class="ctx" id="reporec" style="margin-top:10px">
+    <summary><span class="chev">▸</span> recommend for my repo — point it at owner/repo</summary>
+    <div class="ctxbody">
+      <div><label for="rrin">github repo</label><input id="rrin" placeholder="e.g. vercel/next.js — or paste a GitHub URL" autocomplete="off"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="rrgo" type="button">analyze</button><span class="hint" id="rrhint">public repos only · one read-only call to the GitHub API · nothing else leaves this tab</span></div>
+      <div id="rrout"></div>
+    </div>
+  </details>
+
   <div class="finder" id="finder"></div>
   <div class="finder-refine">or search &amp; filter every brief ↓</div>
 
@@ -1520,6 +1536,135 @@ function buildFinder(){
   host.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{activePb=b.getAttribute("data-pb");activeFam="All";sync();jump();});
 }
 buildFinder();
+
+/* ---- 3-question picker — answers map through CC.pickerPlan (Node-tested) ---- */
+(function(){
+  const host = document.getElementById("pickerbody"); if(!host) return;
+  const QS = [
+    {k:"situation", lab:"1 · where are you?", opts:[["new","brand-new repo"],["inherited","inherited a codebase"],["prelaunch","about to launch"],["slow","users say it's slow"],["ai","building an AI feature"],["idea","idea stage, little code"]]},
+    {k:"hurt", lab:"2 · what hurts most?", opts:[["breaks","it breaks"],["slow","it drags"],["security","security worries"],["conversion","users drop off"],["design","the UI feels off"],["data","the data layer"],["agent","my AI agent"],["unsure","not sure"]]},
+    {k:"time", lab:"3 · how much time?", opts:[["brief","~15 min — one brief"],["playbook","an afternoon — a playbook"]]}
+  ];
+  const ans = {};
+  const out = document.createElement("div");
+  for(const q of QS){
+    const row = document.createElement("div"); row.className = "goals";
+    const lab = document.createElement("span"); lab.className = "goallab"; lab.textContent = q.lab;
+    row.append(lab);
+    for(const opt of q.opts){
+      const b = document.createElement("button"); b.type = "button"; b.className = "goal";
+      b.textContent = opt[1]; b.setAttribute("aria-pressed", "false");
+      b.onclick = ()=>{
+        ans[q.k] = ans[q.k] === opt[0] ? undefined : opt[0];
+        row.querySelectorAll(".goal").forEach(x=>x.setAttribute("aria-pressed", "false"));
+        if(ans[q.k]) b.setAttribute("aria-pressed", "true");
+        paint();
+      };
+      row.append(b);
+    }
+    host.append(row);
+  }
+  host.append(out);
+  function paint(){
+    out.textContent = "";
+    if(!ans.situation && !ans.hurt) return;
+    const plan = CC.pickerPlan(ans, DATA, PLAYBOOKS);
+    const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 4px";
+    if(plan.kind === "playbook"){
+      const pb = PLAYBOOKS.find(x=>x.key===plan.key);
+      const a = document.createElement("a"); a.href = "/p/" + pb.key; a.textContent = pb.name;
+      d.append("Run the ", a, " playbook — " + (pb.tagline || pb.desc) + " (" + pb.ids.length + " briefs, one paste). ");
+      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy conductor";
+      cb.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cb, "✓ copied", {name:"copy_conductor", data:{key:pb.key, src:"picker"}});
+      d.append(cb);
+    } else {
+      const p = byId[plan.id];
+      const a = document.createElement("a"); a.href = "/b/" + p.id; a.textContent = p.id + " · " + p.title;
+      d.append("Run ", a, " — " + p.tagline + " → " + p.output + " ");
+      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy the brief";
+      cb.onclick = ()=>{ copyText(withContext(p.body), cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}}); showCopyHint(p.output, p.id); };
+      d.append(cb);
+    }
+    if(!(plan.kind === "brief" && plan.id === plan.alt) && byId[plan.alt]){
+      const aa = document.createElement("a"); aa.href = "/b/" + plan.alt;
+      aa.textContent = plan.alt + " · " + byId[plan.alt].title;
+      d.append(" · or let the agent decide: ", aa);
+    }
+    out.append(d);
+    try{ track("picker_plan", {kind:plan.kind, pick:plan.key || plan.id}); }catch(e){}
+  }
+})();
+
+/* ---- per-repo recommendation — same public-GitHub loader pattern as the Studio ---- */
+(function(){
+  const btn = document.getElementById("rrgo"), input = document.getElementById("rrin"),
+        hint = document.getElementById("rrhint"), out = document.getElementById("rrout");
+  if(!btn || !input || !hint || !out) return;
+  const HINT0 = hint.textContent;
+  function parseRepoRef(s){
+    s = String(s || "").trim();
+    let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)/);
+    if(m) return {owner: m[1], repo: m[2].replace(/\.git$/, "")};
+    m = s.match(/^([\w.-]+)\/([\w.-]+)$/);
+    if(m) return {owner: m[1], repo: m[2]};
+    return null;
+  }
+  function note(msg){ hint.textContent = msg; hint.style.color = "var(--act)"; }
+  async function analyze(){
+    out.textContent = ""; hint.textContent = HINT0; hint.style.color = "";
+    const r = parseRepoRef(input.value);
+    if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return; }
+    btn.disabled = true; btn.textContent = "analyzing…";
+    try{
+      const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo + "/contents");
+      if(res.status === 404){ note("GitHub can't find " + r.owner + "/" + r.repo + " — private repos can't be read from here."); return; }
+      if(res.status === 403){ note("GitHub's API rate limit is in the way — try again in a few minutes."); return; }
+      if(!res.ok) throw new Error("http " + res.status);
+      const list = await res.json();
+      if(!Array.isArray(list)) throw new Error("shape");
+      let pkg = null;
+      const pj = list.find(f => f.name === "package.json" && f.download_url);
+      if(pj){ try{ pkg = await (await fetch(pj.download_url)).json(); }catch(e){} }
+      paint(r, CC.repoRecommend(list.map(f => f.name), pkg, DATA));
+    }catch(e){
+      note("Couldn't reach GitHub (offline or blocked) — browse the catalog below, or run 46 · Audit Triage in the repo instead.");
+    }finally{
+      btn.disabled = false; btn.textContent = "analyze";
+    }
+  }
+  function paint(r, rec){
+    out.textContent = "";
+    const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 0";
+    const bb = document.createElement("b"); bb.style.color = "var(--text)"; bb.textContent = r.owner + "/" + r.repo;
+    d.append(bb, rec.stack.length ? " looks like " + rec.stack.join(" + ") + " — start with:" : " — start with:");
+    const row = document.createElement("div");
+    row.style.cssText = "display:flex;flex-wrap:wrap;gap:8px;margin-top:8px";
+    for(const id of rec.ids){
+      const p = byId[id]; if(!p) continue;
+      const a = document.createElement("a"); a.className = "iconbtn"; a.href = "/b/" + p.id;
+      a.textContent = p.id + " · " + p.title;
+      row.append(a);
+    }
+    d.append(row);
+    if(rec.stack.length){
+      const fine = document.createElement("div"); fine.className = "hint"; fine.style.marginTop = "8px";
+      if(!ctx.stack){
+        ctx.stack = rec.stack.join(" + "); saveCtx();
+        const cs = document.getElementById("cstack"); if(cs) cs.value = ctx.stack;
+        fine.textContent = "✓ saved as your Operator-context stack — every brief you copy is now aimed at it";
+      } else {
+        fine.textContent = "your saved Operator context was left untouched — edit it under “aim the briefs at your repo”";
+      }
+      d.append(fine);
+    }
+    out.append(d);
+    track("repo_recommend", {n: rec.ids.length});
+  }
+  btn.onclick = analyze;
+  input.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); analyze(); } });
+  input.addEventListener("input", () => { hint.textContent = HINT0; hint.style.color = ""; });
+})();
+
 // ACTIVATION A3 / CRO F7: a copyable starter brief in the hero, for the ready-to-act newcomer.
 (function(){
   var qb = document.getElementById("quickstart"); if(!qb) return;
