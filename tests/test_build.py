@@ -218,6 +218,36 @@ class CatalogLintTests(unittest.TestCase):
             [brief(id="14"), brief(id="94", output="Y.md")]), [])
 
 
+class ConductorTests(unittest.TestCase):
+    # The 16-stage cap is one policy in three places (build.py, mcp/server.cjs,
+    # template.html — scripts/mcp-smoke.cjs guards the text parity). Here we
+    # pin that build.py itself refuses to emit a conductor over the cap, so a
+    # family growing past 16 briefs fails the build loudly instead of drifting
+    # past what make_conductor will compose.
+    def _pb(self, n):
+        ids = [f"{i:02d}" for i in range(n)]
+        by_id = {i: brief(id=i) for i in ids}
+        return {"name": "Big", "desc": "d", "ids": ids}, by_id
+
+    def test_sixteen_stages_pass(self):
+        pb, by_id = self._pb(16)
+        self.assertIn("# Playbook: Big (conductor)", build.conductor(pb, by_id))
+
+    def test_seventeen_stages_fail_the_build(self):
+        pb, by_id = self._pb(17)
+        with self.assertRaises(SystemExit) as cm:
+            build.conductor(pb, by_id)
+        self.assertIn("16", str(cm.exception))
+
+    def test_conductor_text_documents_the_cap_and_fallbacks(self):
+        pb, by_id = self._pb(2)
+        text = build.conductor(pb, by_id)
+        self.assertIn("A conductor caps at 16 stages", text)
+        self.assertIn("retry once", text)
+        self.assertIn("subagents or fresh sessions", text)
+        self.assertIn("at the repo root or in `reports/`", text)
+
+
 class FamilyIconTests(unittest.TestCase):
     # Root fix for the family icon/chart drift: every family in FAMILY_ORDER
     # must have a FAM_ICON entry AND a matching <symbol> in template.html,
