@@ -33,6 +33,17 @@ it there. Its cache version is a content hash, so a deploy self-invalidates.)
 pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.
 `SITE_CSS` and the `brief_detail`/`playbook_detail` builders hold the detail
 pages' component CSS; `template.html` holds the landing page's component CSS.)
+(Catalog counts are one source of truth: `build.py` stamps the real brief/
+playbook/family counts into `template.html`'s `__BRIEF_COUNT__` /
+`__PLAYBOOK_COUNT__` / `__FAMILY_COUNT__` tokens and into `README.md` between the
+`<!--counts-->…<!--/counts-->` markers — never hand-type a count in those spots.
+The landing head's JSON-LD is injected at `__JSONLD__` from `build.landing_jsonld`.)
+(`og.png` is the home share card: generate/refresh it with
+`python3 scripts/og.py --home`; `build.py` fails if it's missing and
+`scripts/check` runs `scripts/og.py --check` (Pillow-guarded) to catch a stale
+one. `img/studio.png` is a real Report Studio screenshot regenerated with
+`node scripts/studio-shot.cjs` (needs `playwright-core` + the pre-installed
+Chromium) — it's an ungated asset, so re-run it when the Studio UI changes.)
 
 ## Conventions
 - Every brief follows the 4-phase skeleton (Explore → Audit → Curate → Report)
