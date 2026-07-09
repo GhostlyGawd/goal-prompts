@@ -38,7 +38,11 @@ Create `LOCKIN.md` at repo root:
 3. **Cheap optionality** — the adapters or seams worth adding before you need them
 4. **Contingency** — for each load-bearing vendor, the rough plan if it had to change
 
+Start the report with today's date. If `LOCKIN.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Depending on a vendor is fine; being unable to leave one is the risk
 - Price the exit before you are forced to pay it
+- No third-party vendors in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which lock-in risks to address first

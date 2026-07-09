@@ -15,6 +15,7 @@ Read-only pass. Your only write is the report file.
 ## Phase 1 — Fingerprint the repo
 - What is it: product type, stack, rough size, age, activity (skim the last 90 days of git log)?
 - What exists: tests? CI? deploy config? docs? schema/migrations? auth? payments? LLM calls, agent loops, tool definitions, vector stores?
+- Prior audit reports at the repo root or in `reports/`? Note them — they change what to recommend.
 - Fetch the live catalog once for ids and taglines: `curl -s https://goal-prompts.vercel.app/catalog.json`. If offline, the signal map below carries the id ranges you need.
 
 ## Phase 2 — Score through 10 signals
@@ -43,7 +44,10 @@ Create `TRIAGE.md` at repo root:
 3. **Skipped** — family · why this repo doesn't need it (yet)
 4. **After the run** — 28 merges the reports into a roadmap; 47 turns findings into commits
 
+Start the report with today's date. If `TRIAGE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every recommendation cites this repo's evidence, never generic best practice
 - Fifteen minutes of recon; if a question needs deeper digging, that is what the recommended brief is for
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which of the recommended briefs to run

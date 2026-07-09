@@ -39,7 +39,11 @@ Create `ERRORS.md` at repo root:
 3. **Leakage** — the messages exposing internals, flagged for immediate fix
 4. **Voice guide** — the rules for error copy: cause, next step, own it, no jargon
 
+Start the report with today's date. If `ERRORS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every error names the cause and a next step; failure is not a next step
 - Never show a user a stack trace or an internal id
+- No user-facing error messages in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which messages to rewrite first

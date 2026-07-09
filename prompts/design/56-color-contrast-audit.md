@@ -38,7 +38,11 @@ Create `COLOR.md` at repo root:
 3. **Findings** — ranked, with files
 4. **The token proposal** — the smallest palette that covers today's uses
 
+Start the report with today's date. If `COLOR.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every color claim carries the value and its file; every contrast claim carries the computed ratio
 - Meaning first — fixing semantics beats adding shades
+- No UI color choices in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

@@ -38,7 +38,11 @@ Create `TYPOGRAPHY.md` at repo root:
 3. **Findings** — ranked, with the file and selector behind each
 4. **Font economics** — what is loaded versus used, and the bytes to reclaim
 
+Start the report with today's date. If `TYPOGRAPHY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Measured values only — cite the file and selector for every number
 - The best deliverable is a smaller system, not more rules
+- No UI typography in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

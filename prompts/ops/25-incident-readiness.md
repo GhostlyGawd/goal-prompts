@@ -38,7 +38,11 @@ Create `RELIABILITY.md` at repo root:
 4. **Cheapest resilience wins** — timeouts, alerts, and kill switches shippable this week
 5. **The nightmare scenario** — the worst plausible day, narrated, and what changes it
 
+Start the report with today's date. If `RELIABILITY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - An untested backup is a hypothesis; label it as one
 - Detection before prevention: knowing fast beats never failing
+- No production deployment in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which gaps to close

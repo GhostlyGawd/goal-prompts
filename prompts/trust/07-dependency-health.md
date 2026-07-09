@@ -39,7 +39,11 @@ Create `DEPS.md` at repo root:
 4. **One-command wins** — safe fixes runnable today
 5. **Watch list** — fine now, risky later
 
+Start the report with today's date. If `DEPS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Reachability matters: a vuln in an unused code path is lower priority — say so
 - Never recommend a major upgrade without naming its breaking changes
+- No third-party dependencies in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which changes to apply

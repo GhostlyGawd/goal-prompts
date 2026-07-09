@@ -37,7 +37,11 @@ Create `NICHE.md` at repo root:
 3. **The unwritten rules** — respect-these and exploit-these
 4. **Open questions** — what only real customer conversations can answer
 
+Start the report with today's date. If `NICHE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Primary sources first: pricing pages, job posts, forum threads, filings — reality, not summaries of summaries
 - Date everything; niches move
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which threads to pull next

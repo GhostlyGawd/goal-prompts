@@ -35,10 +35,21 @@ Create `X.md` at repo root:
 4. **Milestones** — as Phase 2 lenses
 5. **Merge log** — five of them, outside the 4-12 range alone
 
+Start the report with today's date. If `X.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Be good
+- No example surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make
 """
+
+DATED_LINE = ("Start the report with today's date. If `X.md` already exists "
+              "from a previous run, read it first and lead with what changed since.\n\n")
+REPORTS_DIR_LINE = ("- If a `reports/` directory exists at the repo root, "
+                    "write the report there instead of the root.\n")
+NULL_REPORT_LINE = ("- No example surface in this repo? Say so in a one-paragraph "
+                    "null report and stop — a null result is a valid finding.\n")
 
 
 def brief(body=GOOD_BODY, **overrides):
@@ -137,6 +148,43 @@ class LintTests(unittest.TestCase):
             [x for x in build.lint(brief(_path="prompts/meta/99-example.md"))
              if "filename" in x], [])
 
+    def test_phase_4_must_be_rerun_aware(self):
+        # Every report opens with today's date and diffs against a prior run.
+        body = GOOD_BODY.replace(DATED_LINE, "")
+        v = build.lint(brief(body))
+        self.assertTrue(any("already exists" in x for x in v), v)
+
+    def test_fixer_is_exempt_from_the_rerun_rule(self):
+        # 47's FIXLOG.md is append-only and each session entry is dated
+        # already, so the dated re-run header would be redundant there.
+        body = GOOD_BODY.replace(DATED_LINE, "")
+        self.assertIn("47", build.DATED_REPORT_EXEMPT)
+        self.assertEqual(
+            [x for x in build.lint(brief(body, id="47"))
+             if "already exists" in x], [])
+
+    def test_rules_must_offer_the_reports_directory(self):
+        # Root-pollution fix: a repo with a reports/ directory keeps its
+        # root clean, so every brief must offer to write there.
+        body = GOOD_BODY.replace(REPORTS_DIR_LINE, "")
+        v = build.lint(brief(body))
+        self.assertTrue(any("reports/" in x for x in v), v)
+
+    def test_rules_must_include_the_null_report_escape(self):
+        # A brief whose subject is absent must say so and stop, not invent
+        # findings — the escape hatch is mandatory unless the subject is
+        # universal (see NULL_REPORT_EXEMPT).
+        body = GOOD_BODY.replace(NULL_REPORT_LINE, "")
+        v = build.lint(brief(body))
+        self.assertTrue(any("null report" in x for x in v), v)
+
+    def test_universal_subjects_are_exempt_from_null_report(self):
+        body = GOOD_BODY.replace(NULL_REPORT_LINE, "")
+        for pid in sorted(build.NULL_REPORT_EXEMPT):
+            self.assertEqual(
+                [x for x in build.lint(brief(body, id=pid))
+                 if "null report" in x], [], pid)
+
     def test_example_target_must_exist(self):
         v = build.lint(brief(example="/NO-SUCH-REPORT-EVER.md"))
         self.assertTrue(any("does not exist" in x for x in v), v)
@@ -199,6 +247,32 @@ class ParseTests(unittest.TestCase):
             p.write_text("# no front matter here\n", encoding="utf-8")
             with self.assertRaises(SystemExit):
                 build.parse(p)
+
+    def _front_matter(self, pid):
+        return (f'---\nid: "{pid}"\ntitle: T\nfamily: Meta\nquestion: q\n'
+                f'output: X.md\ntagline: t\n---\nbody\n')
+
+    def test_malformed_id_fails_at_parse_time_with_a_friendly_message(self):
+        # A typoed id used to surface as a ValueError traceback from
+        # sort_key (the sort runs before the linter); parse must catch it.
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            for bad in ("4a", "7", "1024", "07 "):
+                p = Path(d) / "07-bad.md"
+                p.write_text(self._front_matter(bad), encoding="utf-8")
+                with self.assertRaises(SystemExit) as cm:
+                    build.parse(p)
+                self.assertIn("id", str(cm.exception), bad)
+                self.assertIn(bad.strip(), str(cm.exception), bad)
+
+    def test_well_formed_ids_parse(self):
+        import tempfile
+        # under ROOT: parse() records the path relative to the repo root
+        with tempfile.TemporaryDirectory(dir=build.ROOT) as d:
+            for good in ("07", "99", "135"):
+                p = Path(d) / f"{good}-good.md"
+                p.write_text(self._front_matter(good), encoding="utf-8")
+                self.assertEqual(build.parse(p)["id"], good)
 
 
 # The detail pages (b/<id>, p/<key>) are generated from the same brief bodies

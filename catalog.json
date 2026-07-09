@@ -2,7 +2,7 @@
  "base": "https://goal-prompts.vercel.app",
  "briefs": [
   {
-   "chars": 2851,
+   "chars": 3233,
    "family": "Venture",
    "id": "60",
    "output": "OPPORTUNITIES.md",
@@ -13,7 +13,7 @@
    "title": "Opportunity Scan"
   },
   {
-   "chars": 2597,
+   "chars": 2971,
    "family": "Venture",
    "id": "61",
    "output": "NICHE.md",
@@ -24,7 +24,7 @@
    "title": "Niche Map"
   },
   {
-   "chars": 2550,
+   "chars": 2925,
    "example": "https://goal-prompts.vercel.app/examples/venture/DEMAND.md",
    "family": "Venture",
    "id": "62",
@@ -36,7 +36,7 @@
    "title": "Pain & Demand Mining"
   },
   {
-   "chars": 2755,
+   "chars": 3135,
    "example": "https://goal-prompts.vercel.app/examples/venture/COMPETITORS.md",
    "family": "Venture",
    "id": "63",
@@ -48,7 +48,7 @@
    "title": "Competitor Teardown"
   },
   {
-   "chars": 2608,
+   "chars": 2983,
    "family": "Venture",
    "id": "64",
    "output": "MARKET.md",
@@ -59,7 +59,7 @@
    "title": "Market Size & Timing"
   },
   {
-   "chars": 2597,
+   "chars": 2977,
    "family": "Venture",
    "id": "65",
    "output": "POSITIONING.md",
@@ -70,7 +70,7 @@
    "title": "Positioning & Wedge"
   },
   {
-   "chars": 2568,
+   "chars": 2941,
    "family": "Venture",
    "id": "66",
    "output": "MOAT.md",
@@ -81,7 +81,7 @@
    "title": "Moat & Model Check"
   },
   {
-   "chars": 2546,
+   "chars": 2918,
    "example": "https://goal-prompts.vercel.app/examples/venture/VERDICT.md",
    "family": "Venture",
    "id": "67",
@@ -93,7 +93,7 @@
    "title": "Venture Verdict"
   },
   {
-   "chars": 3224,
+   "chars": 3463,
    "example": "https://goal-prompts.vercel.app/IMPROVEMENTS.md",
    "family": "Product",
    "id": "00",
@@ -105,7 +105,7 @@
    "title": "Product Improvement Discovery"
   },
   {
-   "chars": 2261,
+   "chars": 2621,
    "family": "Product",
    "id": "45",
    "output": "FEEDBACK.md",
@@ -116,7 +116,7 @@
    "title": "Feedback Loop Audit"
   },
   {
-   "chars": 2182,
+   "chars": 2547,
    "family": "Product",
    "id": "106",
    "output": "NOTIFICATIONS.md",
@@ -127,7 +127,7 @@
    "title": "Notification & Email Audit"
   },
   {
-   "chars": 2137,
+   "chars": 2486,
    "family": "Product",
    "id": "107",
    "output": "SEARCH.md",
@@ -138,7 +138,7 @@
    "title": "In-App Search Audit"
   },
   {
-   "chars": 2223,
+   "chars": 2575,
    "family": "Product",
    "id": "108",
    "output": "LIFECYCLE.md",
@@ -149,7 +149,7 @@
    "title": "Account Lifecycle Audit"
   },
   {
-   "chars": 2390,
+   "chars": 2621,
    "example": "https://goal-prompts.vercel.app/BUGS.md",
    "family": "Quality",
    "id": "01",
@@ -161,7 +161,7 @@
    "title": "Bug Hunt"
   },
   {
-   "chars": 2212,
+   "chars": 2446,
    "family": "Quality",
    "id": "02",
    "output": "TESTING.md",
@@ -172,7 +172,7 @@
    "title": "Test Gap Audit"
   },
   {
-   "chars": 2185,
+   "chars": 2547,
    "family": "Quality",
    "id": "03",
    "output": "OBSERVABILITY.md",
@@ -183,7 +183,7 @@
    "title": "Silent Failure Audit"
   },
   {
-   "chars": 2365,
+   "chars": 2721,
    "family": "Quality",
    "id": "98",
    "output": "CONCURRENCY.md",
@@ -194,7 +194,7 @@
    "title": "Concurrency & Race-Condition Audit"
   },
   {
-   "chars": 2313,
+   "chars": 2670,
    "family": "Quality",
    "id": "99",
    "output": "TYPES.md",
@@ -205,7 +205,7 @@
    "title": "Type-Safety Audit"
   },
   {
-   "chars": 2167,
+   "chars": 2522,
    "family": "Quality",
    "id": "100",
    "output": "TESTQUALITY.md",
@@ -216,7 +216,7 @@
    "title": "Test-Quality Audit"
   },
   {
-   "chars": 2191,
+   "chars": 2536,
    "family": "Quality",
    "id": "101",
    "output": "FLAKY.md",
@@ -227,7 +227,7 @@
    "title": "Flaky-Test Audit"
   },
   {
-   "chars": 2063,
+   "chars": 2421,
    "family": "Quality",
    "id": "102",
    "output": "PYRAMID.md",
@@ -238,7 +238,7 @@
    "title": "Test-Pyramid Balance"
   },
   {
-   "chars": 2093,
+   "chars": 2444,
    "family": "Speed",
    "id": "04",
    "output": "PERF.md",
@@ -249,7 +249,7 @@
    "title": "Performance Audit"
   },
   {
-   "chars": 2286,
+   "chars": 2640,
    "family": "Speed",
    "id": "05",
    "output": "SCALE.md",
@@ -260,7 +260,7 @@
    "title": "10x Stress Review"
   },
   {
-   "chars": 2477,
+   "chars": 2838,
    "family": "Speed",
    "id": "51",
    "output": "LATENCY.md",
@@ -271,7 +271,7 @@
    "title": "Latency Budget Audit"
   },
   {
-   "chars": 2142,
+   "chars": 2495,
    "family": "Speed",
    "id": "87",
    "output": "QUERIES.md",
@@ -282,7 +282,7 @@
    "title": "Query Performance & N+1 Audit"
   },
   {
-   "chars": 2097,
+   "chars": 2448,
    "family": "Speed",
    "id": "88",
    "output": "BUNDLE.md",
@@ -293,7 +293,7 @@
    "title": "Bundle & Asset Weight Audit"
   },
   {
-   "chars": 2392,
+   "chars": 2750,
    "example": "https://goal-prompts.vercel.app/SECURITY-AUDIT.md",
    "family": "Trust",
    "id": "06",
@@ -305,7 +305,7 @@
    "title": "Security & Privacy Audit"
   },
   {
-   "chars": 2046,
+   "chars": 2404,
    "family": "Trust",
    "id": "07",
    "output": "DEPS.md",
@@ -316,7 +316,7 @@
    "title": "Dependency Health Check"
   },
   {
-   "chars": 2196,
+   "chars": 2563,
    "family": "Trust",
    "id": "08",
    "output": "A11Y.md",
@@ -327,7 +327,7 @@
    "title": "Accessibility Audit"
   },
   {
-   "chars": 2660,
+   "chars": 3013,
    "family": "Trust",
    "id": "68",
    "output": "I18N.md",
@@ -338,7 +338,7 @@
    "title": "Localization Readiness"
   },
   {
-   "chars": 2611,
+   "chars": 2989,
    "family": "Trust",
    "id": "69",
    "output": "LICENSES.md",
@@ -349,7 +349,7 @@
    "title": "License & Compliance"
   },
   {
-   "chars": 2609,
+   "chars": 2983,
    "family": "Trust",
    "id": "81",
    "output": "SECRETS.md",
@@ -360,7 +360,7 @@
    "title": "Secrets & Credential Hygiene"
   },
   {
-   "chars": 2359,
+   "chars": 2726,
    "family": "Trust",
    "id": "82",
    "output": "ACCESS.md",
@@ -371,7 +371,7 @@
    "title": "Access-Control & Authorization Audit"
   },
   {
-   "chars": 2423,
+   "chars": 2777,
    "family": "Trust",
    "id": "83",
    "output": "INJECTION.md",
@@ -382,7 +382,7 @@
    "title": "Input & Injection Audit"
   },
   {
-   "chars": 2279,
+   "chars": 2638,
    "family": "Trust",
    "id": "84",
    "output": "THREATS.md",
@@ -393,7 +393,7 @@
    "title": "Threat Model & Abuse Cases"
   },
   {
-   "chars": 2204,
+   "chars": 2561,
    "family": "Trust",
    "id": "85",
    "output": "UPGRADES.md",
@@ -404,7 +404,7 @@
    "title": "Dependency Currency Audit"
   },
   {
-   "chars": 2309,
+   "chars": 2668,
    "family": "Trust",
    "id": "86",
    "output": "A11Y-DEEP.md",
@@ -415,7 +415,7 @@
    "title": "Keyboard & Screen-Reader Flow"
   },
   {
-   "chars": 2171,
+   "chars": 2534,
    "family": "Compliance",
    "id": "125",
    "output": "CONSENT.md",
@@ -426,7 +426,7 @@
    "title": "Consent & Cookie Audit"
   },
   {
-   "chars": 2306,
+   "chars": 2660,
    "family": "Compliance",
    "id": "126",
    "output": "DSAR.md",
@@ -437,7 +437,7 @@
    "title": "Data-Subject-Rights Readiness"
   },
   {
-   "chars": 2165,
+   "chars": 2530,
    "family": "Compliance",
    "id": "127",
    "output": "ENCRYPTION.md",
@@ -448,7 +448,7 @@
    "title": "Encryption & Key Management"
   },
   {
-   "chars": 2281,
+   "chars": 2647,
    "family": "Compliance",
    "id": "128",
    "output": "AUDITLOG.md",
@@ -459,7 +459,7 @@
    "title": "Audit-Trail Audit"
   },
   {
-   "chars": 2004,
+   "chars": 2351,
    "family": "Growth",
    "id": "09",
    "output": "FUNNEL.md",
@@ -470,7 +470,7 @@
    "title": "Funnel Friction Audit"
   },
   {
-   "chars": 1990,
+   "chars": 2362,
    "family": "Growth",
    "id": "10",
    "output": "COMPETITIVE.md",
@@ -481,7 +481,7 @@
    "title": "Competitive Gap Scan"
   },
   {
-   "chars": 2119,
+   "chars": 2483,
    "family": "Growth",
    "id": "11",
    "output": "REVENUE.md",
@@ -492,7 +492,7 @@
    "title": "Monetization Map"
   },
   {
-   "chars": 2169,
+   "chars": 2551,
    "family": "Growth",
    "id": "12",
    "output": "AI-IDEAS.md",
@@ -503,7 +503,7 @@
    "title": "AI Opportunity Scan"
   },
   {
-   "chars": 2474,
+   "chars": 2823,
    "family": "Growth",
    "id": "70",
    "output": "SEO.md",
@@ -514,7 +514,7 @@
    "title": "SEO & Discoverability"
   },
   {
-   "chars": 3017,
+   "chars": 3367,
    "family": "Growth",
    "id": "75",
    "output": "CRO.md",
@@ -525,7 +525,7 @@
    "title": "Conversion Rate Optimization"
   },
   {
-   "chars": 2882,
+   "chars": 3243,
    "family": "Growth",
    "id": "78",
    "output": "RETENTION.md",
@@ -536,7 +536,7 @@
    "title": "Retention & Lifecycle Audit"
   },
   {
-   "chars": 3137,
+   "chars": 3500,
    "family": "Growth",
    "id": "79",
    "output": "PROOF.md",
@@ -547,7 +547,7 @@
    "title": "Social Proof & Credibility"
   },
   {
-   "chars": 3063,
+   "chars": 3423,
    "family": "Growth",
    "id": "80",
    "output": "ACTIVATION.md",
@@ -558,7 +558,7 @@
    "title": "Activation & First-Win Audit"
   },
   {
-   "chars": 2232,
+   "chars": 2572,
    "family": "Growth",
    "id": "109",
    "output": "FORMS.md",
@@ -569,7 +569,7 @@
    "title": "Forms & Validation Audit"
   },
   {
-   "chars": 2261,
+   "chars": 2612,
    "family": "Growth",
    "id": "110",
    "output": "CHECKOUT.md",
@@ -580,7 +580,7 @@
    "title": "Checkout & Payment Flow Audit"
   },
   {
-   "chars": 2146,
+   "chars": 2377,
    "family": "Team",
    "id": "13",
    "output": "DEBT.md",
@@ -591,7 +591,7 @@
    "title": "Tech Debt Map"
   },
   {
-   "chars": 2095,
+   "chars": 2466,
    "example": "https://goal-prompts.vercel.app/DX.md",
    "family": "Team",
    "id": "14",
@@ -603,7 +603,7 @@
    "title": "New-Dev Onboarding Audit"
   },
   {
-   "chars": 2151,
+   "chars": 2531,
    "family": "Team",
    "id": "15",
    "output": "DESIGN-SYSTEM.md",
@@ -614,7 +614,7 @@
    "title": "Design System Consolidation"
   },
   {
-   "chars": 2522,
+   "chars": 2900,
    "family": "Team",
    "id": "52",
    "output": "AGENT-READINESS.md",
@@ -625,7 +625,7 @@
    "title": "Agent Readiness Audit"
   },
   {
-   "chars": 2525,
+   "chars": 2889,
    "family": "Team",
    "id": "72",
    "output": "OWNERSHIP.md",
@@ -636,7 +636,7 @@
    "title": "Ownership & Bus Factor"
   },
   {
-   "chars": 2135,
+   "chars": 2492,
    "family": "Team",
    "id": "94",
    "output": "INNERLOOP.md",
@@ -647,7 +647,7 @@
    "title": "Inner-Loop Speed Audit"
   },
   {
-   "chars": 2229,
+   "chars": 2585,
    "family": "Team",
    "id": "95",
    "output": "DEBUG.md",
@@ -658,7 +658,7 @@
    "title": "Debuggability Audit"
   },
   {
-   "chars": 2167,
+   "chars": 2509,
    "family": "Team",
    "id": "96",
    "output": "CIFEEDBACK.md",
@@ -669,7 +669,7 @@
    "title": "CI Feedback-Loop Audit"
   },
   {
-   "chars": 2206,
+   "chars": 2570,
    "family": "Team",
    "id": "97",
    "output": "DECISIONS.md",
@@ -680,7 +680,7 @@
    "title": "Decision-Record Audit"
   },
   {
-   "chars": 2275,
+   "chars": 2621,
    "family": "API",
    "id": "111",
    "output": "WEBHOOKS.md",
@@ -691,7 +691,7 @@
    "title": "Webhook Design Audit"
   },
   {
-   "chars": 2203,
+   "chars": 2557,
    "family": "API",
    "id": "112",
    "output": "SDK.md",
@@ -702,7 +702,7 @@
    "title": "SDK Ergonomics Audit"
   },
   {
-   "chars": 2292,
+   "chars": 2650,
    "family": "API",
    "id": "113",
    "output": "VERSIONING.md",
@@ -713,7 +713,7 @@
    "title": "API Versioning & Deprecation"
   },
   {
-   "chars": 2236,
+   "chars": 2596,
    "family": "API",
    "id": "114",
    "output": "QUOTAS.md",
@@ -724,7 +724,7 @@
    "title": "Rate-Limit & Quota Design"
   },
   {
-   "chars": 2166,
+   "chars": 2540,
    "family": "API",
    "id": "115",
    "output": "DEVPORTAL.md",
@@ -735,7 +735,7 @@
    "title": "Developer Portal & Onboarding"
   },
   {
-   "chars": 2008,
+   "chars": 2239,
    "family": "Clarity",
    "id": "16",
    "output": "DOCS.md",
@@ -746,7 +746,7 @@
    "title": "Documentation Audit"
   },
   {
-   "chars": 2064,
+   "chars": 2414,
    "family": "Clarity",
    "id": "17",
    "output": "COPY.md",
@@ -757,7 +757,7 @@
    "title": "Copy & Voice Audit"
   },
   {
-   "chars": 2253,
+   "chars": 2599,
    "family": "Clarity",
    "id": "18",
    "output": "API.md",
@@ -768,7 +768,7 @@
    "title": "API Contract Review"
   },
   {
-   "chars": 3014,
+   "chars": 3388,
    "family": "Clarity",
    "id": "76",
    "output": "COMPREHENSION.md",
@@ -779,7 +779,7 @@
    "title": "Comprehension Audit"
   },
   {
-   "chars": 2168,
+   "chars": 2530,
    "family": "Clarity",
    "id": "103",
    "output": "ERRORS.md",
@@ -790,7 +790,7 @@
    "title": "Error-Message Audit"
   },
   {
-   "chars": 2609,
+   "chars": 2962,
    "family": "Design",
    "id": "54",
    "output": "HIERARCHY.md",
@@ -801,7 +801,7 @@
    "title": "Visual Hierarchy Audit"
   },
   {
-   "chars": 2525,
+   "chars": 2878,
    "family": "Design",
    "id": "55",
    "output": "TYPOGRAPHY.md",
@@ -812,7 +812,7 @@
    "title": "Typography Audit"
   },
   {
-   "chars": 2525,
+   "chars": 2876,
    "family": "Design",
    "id": "56",
    "output": "COLOR.md",
@@ -823,7 +823,7 @@
    "title": "Color & Contrast Audit"
   },
   {
-   "chars": 2435,
+   "chars": 2780,
    "family": "Design",
    "id": "57",
    "output": "LAYOUT.md",
@@ -834,7 +834,7 @@
    "title": "Spacing & Layout Audit"
   },
   {
-   "chars": 2602,
+   "chars": 2952,
    "family": "Design",
    "id": "58",
    "output": "STATES.md",
@@ -845,7 +845,7 @@
    "title": "Interaction States & Motion Audit"
   },
   {
-   "chars": 2678,
+   "chars": 3026,
    "family": "Design",
    "id": "59",
    "output": "BRAND.md",
@@ -856,7 +856,7 @@
    "title": "Brand Coherence Audit"
   },
   {
-   "chars": 2948,
+   "chars": 3337,
    "family": "Design",
    "id": "77",
    "output": "SHOWCASE.md",
@@ -867,7 +867,7 @@
    "title": "Show, Don't Tell"
   },
   {
-   "chars": 2149,
+   "chars": 2499,
    "family": "Design",
    "id": "104",
    "output": "MOBILE.md",
@@ -878,7 +878,7 @@
    "title": "Mobile & Responsive Audit"
   },
   {
-   "chars": 2320,
+   "chars": 2673,
    "family": "Design",
    "id": "105",
    "output": "TOKEN-ADOPTION.md",
@@ -889,7 +889,7 @@
    "title": "Design-Token Adoption Audit"
   },
   {
-   "chars": 2567,
+   "chars": 2925,
    "family": "Design",
    "id": "129",
    "output": "NAVIGATION.md",
@@ -900,7 +900,7 @@
    "title": "Navigation & Wayfinding Audit"
   },
   {
-   "chars": 2734,
+   "chars": 3094,
    "family": "Design",
    "id": "130",
    "output": "MENUS.md",
@@ -911,7 +911,7 @@
    "title": "Menu & Command Surface Audit"
   },
   {
-   "chars": 2815,
+   "chars": 3181,
    "family": "Design",
    "id": "131",
    "output": "DATAVIZ.md",
@@ -922,7 +922,7 @@
    "title": "Data Visualization Audit"
   },
   {
-   "chars": 2653,
+   "chars": 3002,
    "family": "Design",
    "id": "132",
    "output": "DASHBOARD.md",
@@ -933,7 +933,7 @@
    "title": "Dashboard & Density Audit"
   },
   {
-   "chars": 2762,
+   "chars": 3136,
    "family": "Design",
    "id": "133",
    "output": "EMPTYSTATES.md",
@@ -944,7 +944,7 @@
    "title": "Empty & Zero-Data States Audit"
   },
   {
-   "chars": 2655,
+   "chars": 3001,
    "family": "Design",
    "id": "134",
    "output": "ICONOGRAPHY.md",
@@ -955,7 +955,7 @@
    "title": "Iconography & Visual Language Audit"
   },
   {
-   "chars": 2297,
+   "chars": 2648,
    "family": "Data",
    "id": "19",
    "output": "SCHEMA.md",
@@ -966,7 +966,7 @@
    "title": "Schema Review"
   },
   {
-   "chars": 2139,
+   "chars": 2506,
    "family": "Data",
    "id": "20",
    "output": "ANALYTICS.md",
@@ -977,7 +977,7 @@
    "title": "Analytics Coverage Audit"
   },
   {
-   "chars": 2037,
+   "chars": 2377,
    "family": "Data",
    "id": "21",
    "output": "PRIVACY.md",
@@ -988,7 +988,7 @@
    "title": "PII & Retention Map"
   },
   {
-   "chars": 2072,
+   "chars": 2457,
    "family": "Data",
    "id": "22",
    "output": "HOTSPOTS.md",
@@ -999,7 +999,7 @@
    "title": "Git Hotspot Mining"
   },
   {
-   "chars": 2728,
+   "chars": 3085,
    "family": "Data",
    "id": "71",
    "output": "MIGRATIONS.md",
@@ -1010,7 +1010,7 @@
    "title": "Migration Safety"
   },
   {
-   "chars": 2335,
+   "chars": 2704,
    "family": "Data",
    "id": "89",
    "output": "INTEGRITY.md",
@@ -1021,7 +1021,7 @@
    "title": "Data Integrity Audit"
   },
   {
-   "chars": 2295,
+   "chars": 2648,
    "family": "Data",
    "id": "90",
    "output": "METRICS.md",
@@ -1032,7 +1032,7 @@
    "title": "Metric Definition Consistency"
   },
   {
-   "chars": 2089,
+   "chars": 2442,
    "family": "Ops",
    "id": "23",
    "output": "RELEASE.md",
@@ -1043,7 +1043,7 @@
    "title": "Release Pipeline Audit"
   },
   {
-   "chars": 2097,
+   "chars": 2473,
    "family": "Ops",
    "id": "24",
    "output": "COSTS.md",
@@ -1054,7 +1054,7 @@
    "title": "Cost Audit"
   },
   {
-   "chars": 2167,
+   "chars": 2529,
    "family": "Ops",
    "id": "25",
    "output": "RELIABILITY.md",
@@ -1065,7 +1065,7 @@
    "title": "Incident Readiness Review"
   },
   {
-   "chars": 2427,
+   "chars": 2792,
    "family": "Ops",
    "id": "53",
    "output": "CONFIG.md",
@@ -1076,7 +1076,7 @@
    "title": "Config & Environment Audit"
   },
   {
-   "chars": 2698,
+   "chars": 3063,
    "family": "Ops",
    "id": "73",
    "output": "TELEMETRY.md",
@@ -1087,7 +1087,7 @@
    "title": "Telemetry & SLOs"
   },
   {
-   "chars": 2231,
+   "chars": 2584,
    "family": "Ops",
    "id": "91",
    "output": "RECOVERY.md",
@@ -1098,7 +1098,7 @@
    "title": "Backup & Recovery Audit"
   },
   {
-   "chars": 2306,
+   "chars": 2664,
    "family": "Ops",
    "id": "92",
    "output": "ROLLBACK.md",
@@ -1109,7 +1109,7 @@
    "title": "Feature-Flag & Rollback Readiness"
   },
   {
-   "chars": 2319,
+   "chars": 2674,
    "family": "Ops",
    "id": "93",
    "output": "LOCKIN.md",
@@ -1120,7 +1120,7 @@
    "title": "Vendor Lock-In Audit"
   },
   {
-   "chars": 2211,
+   "chars": 2582,
    "family": "Reliability",
    "id": "121",
    "output": "DEGRADE.md",
@@ -1131,7 +1131,7 @@
    "title": "Graceful Degradation Audit"
   },
   {
-   "chars": 2272,
+   "chars": 2648,
    "family": "Reliability",
    "id": "122",
    "output": "CHAOS.md",
@@ -1142,7 +1142,7 @@
    "title": "Failure-Injection Readiness"
   },
   {
-   "chars": 2243,
+   "chars": 2609,
    "family": "Reliability",
    "id": "123",
    "output": "CAPACITY.md",
@@ -1153,7 +1153,7 @@
    "title": "Capacity & Scalability Audit"
   },
   {
-   "chars": 2337,
+   "chars": 2695,
    "family": "Reliability",
    "id": "124",
    "output": "ABUSE.md",
@@ -1164,7 +1164,7 @@
    "title": "Abuse & Overload Protection"
   },
   {
-   "chars": 2154,
+   "chars": 2386,
    "family": "Subtract",
    "id": "26",
    "output": "PRUNE.md",
@@ -1175,7 +1175,7 @@
    "title": "Prune Audit"
   },
   {
-   "chars": 2186,
+   "chars": 2421,
    "family": "Subtract",
    "id": "27",
    "output": "SIMPLIFY.md",
@@ -1186,7 +1186,7 @@
    "title": "Simplification Pass"
   },
   {
-   "chars": 2059,
+   "chars": 2333,
    "family": "Meta",
    "id": "28",
    "output": "ROADMAP.md",
@@ -1197,7 +1197,7 @@
    "title": "Roadmap Synthesis"
   },
   {
-   "chars": 1830,
+   "chars": 2112,
    "family": "Meta",
    "id": "29",
    "output": "HEALTH.md",
@@ -1208,7 +1208,7 @@
    "title": "Recurring Health Check"
   },
   {
-   "chars": 2937,
+   "chars": 3270,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -1219,7 +1219,7 @@
    "title": "Audit Triage"
   },
   {
-   "chars": 3288,
+   "chars": 3408,
    "example": "https://goal-prompts.vercel.app/FIXLOG.md",
    "family": "Act",
    "id": "47",
@@ -1231,7 +1231,7 @@
    "title": "The Fixer"
   },
   {
-   "chars": 2655,
+   "chars": 3030,
    "family": "Act",
    "id": "74",
    "output": "CHANGE-RISK.md",
@@ -1242,7 +1242,7 @@
    "title": "Change Risk Review"
   },
   {
-   "chars": 2320,
+   "chars": 2686,
    "family": "Agent",
    "id": "30",
    "output": "PROMPTS.md",
@@ -1253,7 +1253,7 @@
    "title": "Prompt & Instruction Audit"
   },
   {
-   "chars": 2235,
+   "chars": 2592,
    "family": "Agent",
    "id": "31",
    "output": "TOOLS.md",
@@ -1264,7 +1264,7 @@
    "title": "Tool Design Review"
   },
   {
-   "chars": 2122,
+   "chars": 2468,
    "family": "Agent",
    "id": "32",
    "output": "LOOPS.md",
@@ -1275,7 +1275,7 @@
    "title": "Loop & Termination Audit"
   },
   {
-   "chars": 2232,
+   "chars": 2589,
    "family": "Agent",
    "id": "33",
    "output": "CONTEXT.md",
@@ -1286,7 +1286,7 @@
    "title": "Context Engineering Audit"
   },
   {
-   "chars": 2201,
+   "chars": 2560,
    "family": "Agent",
    "id": "34",
    "output": "EVALS.md",
@@ -1297,7 +1297,7 @@
    "title": "Eval Coverage Audit"
   },
   {
-   "chars": 2316,
+   "chars": 2686,
    "family": "Agent",
    "id": "35",
    "output": "GUARDRAILS.md",
@@ -1308,7 +1308,7 @@
    "title": "Guardrails Audit"
   },
   {
-   "chars": 2295,
+   "chars": 2642,
    "family": "Agent",
    "id": "36",
    "output": "MODELS.md",
@@ -1319,7 +1319,7 @@
    "title": "Model Strategy Review"
   },
   {
-   "chars": 2243,
+   "chars": 2598,
    "family": "Agent",
    "id": "37",
    "output": "TRACES.md",
@@ -1330,7 +1330,7 @@
    "title": "Trace & Replay Audit"
   },
   {
-   "chars": 2187,
+   "chars": 2534,
    "family": "Agent",
    "id": "38",
    "output": "TOKENS.md",
@@ -1341,7 +1341,7 @@
    "title": "Token Economics Audit"
   },
   {
-   "chars": 2619,
+   "chars": 2984,
    "family": "Agent",
    "id": "48",
    "output": "MEMORY.md",
@@ -1352,7 +1352,7 @@
    "title": "Memory & State Audit"
   },
   {
-   "chars": 2532,
+   "chars": 2896,
    "family": "Agent",
    "id": "49",
    "output": "RETRIEVAL.md",
@@ -1363,7 +1363,7 @@
    "title": "Retrieval Quality Audit"
   },
   {
-   "chars": 2468,
+   "chars": 2824,
    "family": "Agent",
    "id": "50",
    "output": "TOPOLOGY.md",
@@ -1374,7 +1374,7 @@
    "title": "Multi-Agent Topology Review"
   },
   {
-   "chars": 2337,
+   "chars": 2695,
    "family": "Automation",
    "id": "39",
    "output": "WORKFLOWS.md",
@@ -1385,7 +1385,7 @@
    "title": "Workflow Resilience Audit"
   },
   {
-   "chars": 2349,
+   "chars": 2743,
    "family": "Automation",
    "id": "40",
    "output": "BOUNDARIES.md",
@@ -1396,7 +1396,7 @@
    "title": "Determinism Boundary Audit"
   },
   {
-   "chars": 2307,
+   "chars": 2688,
    "family": "Automation",
    "id": "41",
    "output": "HANDOFFS.md",
@@ -1407,7 +1407,7 @@
    "title": "Handoff Audit"
   },
   {
-   "chars": 2236,
+   "chars": 2605,
    "family": "AI-UX",
    "id": "42",
    "output": "AGENT-UX.md",
@@ -1418,7 +1418,7 @@
    "title": "Agent Experience Audit"
   },
   {
-   "chars": 2283,
+   "chars": 2660,
    "family": "AI-UX",
    "id": "43",
    "output": "HITL.md",
@@ -1429,7 +1429,7 @@
    "title": "Human-in-the-Loop Placement"
   },
   {
-   "chars": 2343,
+   "chars": 2702,
    "family": "AI-UX",
    "id": "44",
    "output": "TRUST.md",
@@ -1440,7 +1440,7 @@
    "title": "Trust Calibration Audit"
   },
   {
-   "chars": 2252,
+   "chars": 2612,
    "family": "AI-Ethics",
    "id": "116",
    "output": "FAIRNESS.md",
@@ -1451,7 +1451,7 @@
    "title": "Bias & Fairness Audit"
   },
   {
-   "chars": 2303,
+   "chars": 2665,
    "family": "AI-Ethics",
    "id": "117",
    "output": "GROUNDING.md",
@@ -1462,7 +1462,7 @@
    "title": "Hallucination & Grounding Audit"
   },
   {
-   "chars": 2404,
+   "chars": 2759,
    "family": "AI-Ethics",
    "id": "118",
    "output": "REDTEAM.md",
@@ -1473,7 +1473,7 @@
    "title": "Prompt-Injection Red-Team"
   },
   {
-   "chars": 2170,
+   "chars": 2535,
    "family": "AI-Ethics",
    "id": "119",
    "output": "TRANSPARENCY.md",
@@ -1484,7 +1484,7 @@
    "title": "Model Transparency Audit"
   },
   {
-   "chars": 2287,
+   "chars": 2655,
    "family": "AI-Ethics",
    "id": "120",
    "output": "PROVENANCE.md",

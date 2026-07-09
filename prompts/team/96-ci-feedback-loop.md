@@ -38,7 +38,11 @@ Create `CIFEEDBACK.md` at repo root:
 3. **Fixes** — each: stage · change · time saved or trust gained · effort
 4. **Target pipeline** — the reordered, cached, parallelized shape and its expected time-to-signal
 
+Start the report with today's date. If `CIFEEDBACK.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A flaky gate is worse than a slow one; it teaches people to ignore red
 - Order checks cheap-to-expensive so failures surface fast
+- No CI in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which pipeline fixes to make first

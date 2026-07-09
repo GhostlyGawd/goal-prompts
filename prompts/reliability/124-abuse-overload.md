@@ -38,7 +38,11 @@ Create `ABUSE.md` at repo root:
 3. **Overload behavior** — what happens under flood today, and the shedding to add
 4. **Priority** — the defenses to add first, by ease of exploitation and blast radius
 
+Start the report with today's date. If `ABUSE.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - An unauthenticated expensive endpoint is a denial-of-wallet waiting to happen
 - Under overload, shed load deliberately; do not let everything fail together
+- No public-facing endpoints in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which abuse defenses to add first

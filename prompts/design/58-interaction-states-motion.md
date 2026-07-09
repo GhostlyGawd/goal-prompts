@@ -38,7 +38,11 @@ Create `STATES.md` at repo root:
 3. **Motion inventory** — animation · purpose · duration and easing · verdict (keep, tune, cut)
 4. **The motion tokens** — the durations and easings this codebase should standardize on
 
+Start the report with today's date. If `STATES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Trace real selectors and rendered behavior — a state that exists only in the design file does not exist
 - Focus visibility outranks all polish
+- No interactive UI in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

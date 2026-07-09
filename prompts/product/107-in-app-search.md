@@ -39,7 +39,11 @@ Create `SEARCH.md` at repo root:
 3. **Recall gaps** — the content that should be findable and is not
 4. **Zero-result design** — what the product should offer when nothing matches
 
+Start the report with today's date. If `SEARCH.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Judge by real queries and their results, not by the search box's looks
 - A confident wrong result is worse than an honest empty state
+- No in-app search in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which search fixes to make first

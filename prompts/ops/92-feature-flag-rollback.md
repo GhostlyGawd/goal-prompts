@@ -38,7 +38,11 @@ Create `ROLLBACK.md` at repo root:
 3. **Flag hygiene** — stale flags to remove and orphaned flags to assign
 4. **Add first** — the flags and kill switches worth introducing now
 
+Start the report with today's date. If `ROLLBACK.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A migration that cannot roll back turns a bad deploy into an incident
 - Every flag is debt; the ones without owners are the expensive kind
+- No deploys to roll back in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which rollback gaps to close first

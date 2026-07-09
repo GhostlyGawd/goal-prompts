@@ -38,7 +38,11 @@ Create `REDTEAM.md` at repo root:
 3. **Systemic defenses** — input isolation, output filtering, and least-privilege tool design
 4. **Priority** — the injections to close first, by damage and ease
 
+Start the report with today's date. If `REDTEAM.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Treat everything the model reads as attacker-controlled, including retrieved content
 - The fix is rarely a better prompt; it is least privilege and isolation
+- No LLM attack surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which injection risks to close first

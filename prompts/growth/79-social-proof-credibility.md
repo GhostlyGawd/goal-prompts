@@ -40,8 +40,12 @@ Create `PROOF.md` at repo root:
 3. **Proof at the decision** — what to place at each CTA, signup, and checkout, in order
 4. **Proof to earn** — the credibility this product should collect that it doesn't have yet
 
+Start the report with today's date. If `PROOF.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Real proof only — never fabricate, borrow, or imply trust the product hasn't earned
 - Specific and verifiable beats abundant and anonymous
 - Put the reassurance where the fear is: at the moment of decision
+- No marketing or landing surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

@@ -39,7 +39,11 @@ Create `TYPES.md` at repo root:
 3. **Boundary validation** — where to add schema checks so external data is typed on arrival
 4. **Strictness plan** — the settings to enable and the order to adopt them without a flood
 
+Start the report with today's date. If `TYPES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A type asserted with a cast is a comment, not a guarantee
 - Validate at the boundary; inside it, let types do the work
+- No typed language surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which type holes to close first

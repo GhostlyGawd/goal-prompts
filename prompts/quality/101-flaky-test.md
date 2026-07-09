@@ -39,7 +39,11 @@ Create `FLAKY.md` at repo root:
 3. **Quarantine list** — the flakes to isolate now versus fix now, and why
 4. **Prevention** — the patterns (fixed clock, seeded random, sanctioned mocks) to adopt
 
+Start the report with today's date. If `FLAKY.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Name the source of nondeterminism; "sometimes fails" is not a diagnosis
 - Quarantine to unblock, but quarantine is a debt, not a fix
+- No test suite in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which flaky tests to fix first

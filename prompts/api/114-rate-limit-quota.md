@@ -38,7 +38,11 @@ Create `QUOTAS.md` at repo root:
 3. **Consumer experience** — the headers and `Retry-After` behavior to make limits self-regulating
 4. **Tiering** — the quota-per-tier and overage design to adopt
 
+Start the report with today's date. If `QUOTAS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A limit the client cannot see is a trap; publish it in headers
 - Rate limiting is a product feature, not just a defense
+- No rate-limited API surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which limit changes to make first

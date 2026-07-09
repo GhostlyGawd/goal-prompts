@@ -97,7 +97,7 @@ Curated sequences on the site, for when you don't want to choose:
 
 1. Open `index.html` — the catalog UI. Filter by family, tap **Copy**.
 2. Paste the prompt into Claude Code inside the repo you want audited.
-3. The agent writes its report (e.g. `BUGS.md`, `PERF.md`) at that repo's root.
+3. The agent writes its report (e.g. `BUGS.md`, `PERF.md`) at that repo's root. Prefer a clean root? `mkdir reports` once — every brief writes there instead, and the collectors (28, 29, 46, 47) look in both places.
 4. Run `28 · Roadmap Synthesis` to merge every report into one sequenced `ROADMAP.md`, or drop the reports into the **Report Studio** and let `47 · The Fixer` implement them.
 
 ## Families

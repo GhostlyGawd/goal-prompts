@@ -38,7 +38,11 @@ Create `LAYOUT.md` at repo root:
 3. **Density verdicts** — per key screen, with reasoning
 4. **Fixes** — the scale, the container rule, and the patches to delete
 
+Start the report with today's date. If `LAYOUT.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Cite values and selectors — a cramped feeling needs the pixels behind it
 - Fix systems, not instances; one token beats forty edits
+- No UI layout in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

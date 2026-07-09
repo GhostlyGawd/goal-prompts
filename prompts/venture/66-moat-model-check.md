@@ -36,7 +36,11 @@ Create `MOAT.md` at repo root:
 3. **Moat and response** — what compounds, who reacts, and how fast
 4. **Kill list** — ranked, with tripwires and pre-tests
 
+Start the report with today's date. If `MOAT.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Optimism is allowed in the plan, never in the arithmetic
 - Every moat claim states its compounding mechanism and timeline, or gets demoted to head start
+- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which risks to pre-test before the verdict

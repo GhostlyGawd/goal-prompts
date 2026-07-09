@@ -37,7 +37,11 @@ Create `FUNNEL.md` at repo root:
 3. **Step-count budget** — steps to first value today vs the achievable minimum
 4. **Instrumentation gaps** — events needed to measure this funnel for real
 
+Start the report with today's date. If `FUNNEL.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Count from the user's fingers: taps, fields, waits — not abstractions
 - Removing a step beats improving a step
+- No user funnel in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to build

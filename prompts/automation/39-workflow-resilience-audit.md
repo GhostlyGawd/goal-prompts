@@ -39,7 +39,11 @@ Create `WORKFLOWS.md` at repo root:
 4. **Dead-letter design** — where failures land and who sees them
 5. **The nightmare replay** — the worst plausible failure, narrated in five sentences
 
+Start the report with today's date. If `WORKFLOWS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Assume every step can die twice: once mid-write, once mid-retry
 - Side effects are forever; design for at-least-once delivery or prove exactly-once
+- No automated workflows in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to build

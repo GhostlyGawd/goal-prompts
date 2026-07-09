@@ -40,7 +40,11 @@ Create `NAVIGATION.md` at repo root:
 3. **Findings** — each: lens · route/component · what the user cannot answer · the fix
 4. **The one rule** — the wayfinding convention this codebase should adopt
 
+Start the report with today's date. If `NAVIGATION.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every finding names a route, component, or label — not a vibe
 - A dead end on a core journey is a bug, not a nicety
+- No navigation surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which wayfinding fixes to make

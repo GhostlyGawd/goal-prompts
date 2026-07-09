@@ -38,7 +38,11 @@ Create `API.md` at repo root:
 4. **Fix sequence** — non-breaking now; breaking changes with their deprecation path
 5. **The worst offender** — one endpoint fully redesigned as the exemplar
 
+Start the report with today's date. If `API.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Consistency beats elegance: converge on what most endpoints already do
 - Never propose a breaking change without its migration path
+- No API contracts in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

@@ -43,6 +43,16 @@ REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
 RESERVED_OUTPUTS = {"SECURITY.md", "README.md", "LICENSE.md", "CONTRIBUTING.md",
                     "CODE_OF_CONDUCT.md", "SUPPORT.md", "GOVERNANCE.md",
                     "CHANGELOG.md"}
+# 47 · The Fixer is exempt from the dated re-run rule: FIXLOG.md is
+# append-only history and every session entry is already dated, so a
+# "lead with what changed" header would fight its own format.
+DATED_REPORT_EXEMPT = {"47"}
+# Briefs where a "no <surface> here" null report could never legitimately
+# fire: subjects every repo has (quality, debt, pruning, the Meta/Act layers
+# that operate on the repo itself) and audits whose subject's absence IS the
+# primary finding (02 missing tests, 16 missing docs).
+NULL_REPORT_EXEMPT = {"00", "01", "02", "13", "16", "26", "27", "28", "29",
+                      "46", "47"}
 
 
 def sort_key(p: dict) -> tuple:
@@ -68,6 +78,9 @@ def parse(path: Path) -> dict:
     for k in REQUIRED:
         if not meta.get(k):
             fail(f"{path}: front matter missing '{k}'")
+    if not re.fullmatch(r"\d{2,3}", meta["id"]):
+        fail(f'{path}: id "{meta["id"]}" must be 2–3 digits, zero-padded and '
+             f'quoted (like id: "07") — it orders the catalog numerically')
     if meta["family"] not in FAMILY_ORDER:
         fail(f"{path}: unknown family '{meta['family']}'")
     if '"' in meta["tagline"]:
@@ -101,6 +114,19 @@ def lint(p: dict) -> list:
     lenses = re.findall(r"(?m)^\d+\. \*\*", phase2.group(0)) if phase2 else []
     if lenses and not 4 <= len(lenses) <= 12:
         v.append(f"{len(lenses)} lenses (want 4–12)")
+    phase4 = re.search(r"## Phase 4.*?(?=\n## |\Z)", body, re.S)
+    if (p["id"] not in DATED_REPORT_EXEMPT
+            and "already exists" not in (phase4.group(0) if phase4 else "")):
+        v.append("Phase 4 must date the report and handle re-runs "
+                 "('… already exists from a previous run …')")
+    rules = re.search(r"## Rules.*?(?=\n## |\Z)", body, re.S)
+    rules_txt = rules.group(0) if rules else ""
+    if "reports/` directory" not in rules_txt:
+        v.append("Rules must offer the reports/ directory option "
+                 "('If a `reports/` directory exists at the repo root …')")
+    if p["id"] not in NULL_REPORT_EXEMPT and "null report" not in rules_txt:
+        v.append("Rules must carry the null-report escape ('… null report …') "
+                 "or the id joins NULL_REPORT_EXEMPT in build.py")
     if p["chars"] > LIMIT:
         v.append(f"body is {p['chars']} chars (max {LIMIT})")
     if p["output"] in RESERVED_OUTPUTS:

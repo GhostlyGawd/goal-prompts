@@ -38,7 +38,11 @@ Create `WEBHOOKS.md` at repo root:
 3. **Reliability plan** — the retry, dead-letter, and idempotency changes to make delivery trustworthy
 4. **Security plan** — the signing and verification a consumer can rely on
 
+Start the report with today's date. If `WEBHOOKS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A webhook with no retry and no signature is a best-effort rumor
 - Design for the consumer whose endpoint was down for five minutes
+- No webhooks in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which webhook fixes to make first

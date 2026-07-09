@@ -39,7 +39,11 @@ Create `CONTEXT.md` at repo root:
 4. **Target budget** — the proposed window layout, section by section
 5. **Eval note** — how to verify quality holds after each cut (see 34)
 
+Start the report with today's date. If `CONTEXT.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every token in the window should earn its place on the current step
 - Never ship a context cut without an eval or rollback plan
+- No LLM context assembly in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which changes to make

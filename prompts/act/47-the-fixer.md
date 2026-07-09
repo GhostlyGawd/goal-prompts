@@ -14,7 +14,7 @@ You are working inside this repo. Mission: turn the audit reports sitting at thi
 This is the acting half of the catalog: every other brief reports; this one implements. Nothing in the codebase changes until the operator picks a scope.
 
 ## Phase 1 — Collect
-- Find every audit report at repo root: IMPROVEMENTS.md, BUGS.md, SECURITY-AUDIT.md, PERF.md, TRIAGE.md, ROADMAP.md, and kin. List what you found.
+- Find every audit report at the repo root and in `reports/`: IMPROVEMENTS.md, BUGS.md, SECURITY-AUDIT.md, PERF.md, TRIAGE.md, ROADMAP.md, and kin. List what you found.
 - Extract every actionable finding into one pool: source report · finding · severity or impact · effort · the code it cites.
 - Set aside items already marked fixed or shipped; note them as done.
 
@@ -51,3 +51,4 @@ Close by summarizing the branch and asking whether to open a PR, merge, or run t
 - Build in dependency order: nothing lands before the finding it depends on
 - Every fix is verified by the repo's own checks before the next one begins
 - FIXLOG.md is append-only history; never rewrite past sessions
+- If a `reports/` directory exists at the repo root, `FIXLOG.md` lives there instead of the root.

@@ -38,7 +38,11 @@ Create `GUARDRAILS.md` at repo root:
 3. **Systemic guards to adopt** — the three that eliminate classes
 4. **Fix-this-week list**
 
+Start the report with today's date. If `GUARDRAILS.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Assume any content the agent reads may be adversarial; design for it
 - A guard nobody can see firing is a guard nobody maintains
+- No LLM inputs or outputs to guard in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which guards to build

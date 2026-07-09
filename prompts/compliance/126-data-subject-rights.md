@@ -38,7 +38,11 @@ Create `DSAR.md` at repo root:
 3. **Findings** — each: right · gap · exposure · the fix
 4. **Priority** — the capabilities to build first, deletion and the data map foremost
 
+Start the report with today's date. If `DSAR.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - You cannot delete what you cannot find; the data map comes first
 - Deletion that skips backups, logs, and vendors is not deletion
+- No stored personal data in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which rights-readiness gaps to close first

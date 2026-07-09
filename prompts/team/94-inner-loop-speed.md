@@ -38,7 +38,11 @@ Create `INNERLOOP.md` at repo root:
 3. **Fixes** — each: friction · fix · time saved per day · effort
 4. **Target loop** — what the cycle should feel like, and the two changes that get closest
 
+Start the report with today's date. If `INNERLOOP.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Rank by daily cost, not one-time pain
 - A fast loop is a feature; measure it in seconds, not vibes
+- No build or test loop in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which friction to remove first

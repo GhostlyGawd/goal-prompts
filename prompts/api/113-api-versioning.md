@@ -38,7 +38,11 @@ Create `VERSIONING.md` at repo root:
 3. **Policy** — the versioning scheme, compatibility rules, and deprecation timeline to adopt
 4. **Signals** — the headers, changelog, and notices that keep consumers informed
 
+Start the report with today's date. If `VERSIONING.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every consumer is code you cannot see; break it and you break trust silently
 - A deprecation without a date and a migration path is just a warning nobody acts on
+- No public API surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which versioning changes to make first

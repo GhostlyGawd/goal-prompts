@@ -38,7 +38,11 @@ Create `AUDITLOG.md` at repo root:
 3. **Trust & retention** — the tamper-resistance and retention changes needed
 4. **Priority** — the events and protections to add first
 
+Start the report with today's date. If `AUDITLOG.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A log the actor can edit is a story, not an audit trail
 - Capture who, what, when, and the before/after, or it will not answer the question
+- No actions worth an audit trail in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which audit-trail gaps to close first

@@ -39,7 +39,11 @@ Create `PERF.md` at repo root:
 3. **Quick wins vs deep work** — the split, with the top quick win spelled out
 4. **Measurement plan** — how to verify each gain after fixing
 
+Start the report with today's date. If `PERF.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - A perf claim needs a number or a mechanism — no vibes
 - Optimize the common path before the edge case
+- No runtime hot paths in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which wins to take

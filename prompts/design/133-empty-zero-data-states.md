@@ -39,7 +39,11 @@ Create `EMPTYSTATES.md` at repo root:
 3. **First-run priorities** — the onboarding empties to fix first, since they shape the first impression
 4. **The pattern** — the empty-state template (headline · reason · action · art) this codebase should reuse
 
+Start the report with today's date. If `EMPTYSTATES.md` already exists from a previous run, read it first and lead with what changed since.
+
 ## Rules
 - Every finding names the component and the empty branch that renders it
 - An empty state is a teaching moment, not an error; it should always offer a next step
+- No UI with empty or zero-data states in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which empty states to fix first
