@@ -4,11 +4,14 @@ title: Conversion Rate Optimization
 family: Growth
 question: does it grow?
 output: CRO.md
+example: /CRO.md
 tagline: Audit every conversion surface — hero, pricing, signup, checkout — against eCommerce best practices, and rank the highest-leverage lifts for a first-time visitor.
 ---
 # Goal: Conversion Rate Optimization
 
 You are working inside this repo. Mission: audit the product's public surfaces — landing, pricing, signup, checkout, the key funnels — against conversion and eCommerce best practices, and rank the highest-leverage lifts. Judge everything through the eyes of a first-time visitor who knows nothing about the product or the niche.
+
+This audits persuasion — whether the pages convince. For the funnel's step-by-step structure, run 09; for what happens after signup, run 80.
 
 Read-only pass. Run the app or read the templates and components that render these surfaces; your only write is the report file.
 

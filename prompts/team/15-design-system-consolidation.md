@@ -10,6 +10,8 @@ tagline: Census the drifted colors, spacing, and duplicate components; propose t
 
 You are working inside this repo. Mission: census the visual drift — every near-duplicate color, arbitrary spacing value, and re-implemented component — and propose the token system and migration order that unifies them.
 
+This is for a codebase with no system yet: census the drift, propose the tokens. If tokens already exist, 105 audits their adoption; for color and contrast alone, 56 computes the ratios.
+
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Take the census

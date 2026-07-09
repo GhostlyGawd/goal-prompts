@@ -10,6 +10,8 @@ tagline: Whether the product can honor the rights users have over their data —
 
 You are working inside this repo. Mission: judge whether the product could actually fulfill a user's data rights request — show me my data, export it, correct it, delete me — across every place their data lives, within the legal window, and prove it did.
 
+This judges operational readiness for rights requests. For the engineering map of where personal data actually lives and spreads, run 21 first.
+
 Read-only pass. Read the data model, storage, third-party integrations, and any request tooling; change nothing but the report file.
 
 ## Phase 1 — Map where personal data lives

@@ -10,6 +10,8 @@ tagline: The client libraries developers use to call this product — how fast t
 
 You are working inside this repo. Mission: judge the client library a developer installs to use this product — whether it gets them to a working call quickly, reads the way they think, and fails in ways they can handle.
 
+This judges the SDK itself — the library in the developer's editor. For the docs-and-portal first hour around it, run 115.
+
 Read-only pass. Read the SDK surface, its examples, and its error handling; try the quickstart if you can. Change nothing but the report file.
 
 ## Phase 1 — Take the first call

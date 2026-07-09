@@ -4,11 +4,14 @@ title: Color & Contrast Audit
 family: Design
 question: is it beautiful?
 output: COLOR.md
+example: /COLOR.md
 tagline: The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology.
 ---
 # Goal: Color & Contrast Audit
 
 You are working inside this repo. Mission: extract the palette this product actually ships — every color in the code, not the brand deck — and audit it for coherence, contrast, meaning, and dark-mode integrity.
+
+Color only, ratios computed. For drift across the whole style system, 15 proposes the tokens and 105 audits their adoption.
 
 Read-only pass. Your only write is the report file.
 

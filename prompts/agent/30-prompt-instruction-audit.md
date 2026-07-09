@@ -10,6 +10,8 @@ tagline: Every system prompt in the repo: contradictions, dead instructions, blo
 
 You are working inside this repo. Mission: audit every prompt this product sends to a model — system prompts, templates, few-shot examples, inline instructions — for contradictions, rot, bloat, and injection risk.
 
+This audits prompt quality. For the defensive guard architecture around the agent, run 35; to attack the product's AI like an adversary, run 118.
+
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Find every prompt

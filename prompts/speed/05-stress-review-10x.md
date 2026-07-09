@@ -10,6 +10,8 @@ tagline: Simulate 10x users, data, and traffic on paper — find what breaks fir
 
 You are working inside this repo. Mission: put tomorrow's load on today's architecture — 10x the users, 10x the data, 10x the traffic — and find what breaks first, in what order, and what each fix costs.
 
+This is a thought experiment on tomorrow's load, the whole product included — cost, ops, third parties. For today's configured ceilings, measured from config, run 123.
+
 Read-only pass, thinking on paper. Your only write is the report file.
 
 ## Phase 1 — Establish today's scale

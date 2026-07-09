@@ -4,11 +4,13 @@ title: Performance Audit
 family: Speed
 question: does it scale?
 output: PERF.md
-tagline: Bundle weight, slow queries, N+1s, wasted renders, and missing caches — ranked by latency the user actually feels.
+tagline: The broad latency pass — wasted renders, main-thread stalls, startup waterfalls, missing caches — ranked by what the user actually feels on common paths.
 ---
 # Goal: Performance Audit
 
 You are working inside this repo. Mission: find where this product wastes time and bytes, and rank the wins by latency the user actually feels on common paths.
+
+This is the broad pass across every layer. When the database is the suspect, go deep with 87; when the payload is, 88.
 
 Read-only pass: build, measure, profile — but change nothing. Your only write is the report file.
 

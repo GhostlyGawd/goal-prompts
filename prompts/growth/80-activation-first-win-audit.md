@@ -4,11 +4,14 @@ title: Activation & First-Win Audit
 family: Growth
 question: does it grow?
 output: ACTIVATION.md
+example: /ACTIVATION.md
 tagline: The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing.
 ---
 # Goal: Activation & First-Win Audit
 
 You are working inside this repo. Mission: judge the first session — from empty account to first real win — and whether it leaves a newcomer able and inspired to do the next thing. Signup is not activation; the first win is. This is where approachable is won or lost.
+
+This audits the first session, after signup. For the funnel's structure end to end, run 09; for the persuasion that earns the signup, run 75.
 
 Read-only pass. Run the app as a brand-new user if you can, or trace the first-run screens, empty states, and seed logic; your only write is the report file.
 

@@ -10,6 +10,8 @@ tagline: A defensive review of your agent's blast radius — injection paths, un
 
 You are working inside this repo. Mission: a defensive review of your own agent system — map what untrusted content can reach the model, what the model can do to the world, and where the gap between those two is unguarded.
 
+This is the defensive architecture review. To actively attack the same surface like an adversary, run 118; for prompt hygiene itself, run 30.
+
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Map the two surfaces

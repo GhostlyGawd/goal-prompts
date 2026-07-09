@@ -10,6 +10,8 @@ tagline: Keyboard navigation, contrast, labels, and screen-reader flow — audit
 
 You are working inside this repo. Mission: audit this product's accessibility end-to-end along its core user journey, and produce fixes ranked by who gets blocked.
 
+This is the broad end-to-end pass. For the deep assistive-tech walk — keyboard only, announcements traced — run 86 after it.
+
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Pick the journey

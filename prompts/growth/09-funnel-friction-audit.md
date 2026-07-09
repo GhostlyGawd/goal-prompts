@@ -10,6 +10,8 @@ tagline: Reconstruct the signup → activation → habit funnel from code, count
 
 You are working inside this repo. Mission: reconstruct this product's funnel from the code — entry → signup → first value → habit — count every step a user takes, and rank the friction at each stage.
 
+This audits the funnel's structure — steps, stalls, drop-offs. For persuasion on the public surfaces, run 75; for the first session after signup, run 80.
+
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Reconstruct the funnel

@@ -10,6 +10,8 @@ tagline: Attack the product's own AI like an adversary — make it ignore instru
 
 You are working inside this repo — an authorized red-team of this product's own AI. Mission: try to subvert it the way an attacker would, and find where untrusted input can override its instructions, extract its secrets, or turn its tools against the user.
 
+This is the offensive pass — attack and report what works. For the defensive architecture review, run 35; for prompt hygiene, run 30.
+
 Read-only pass. Read the prompts, tool wiring, and where external content enters the model; reason through attacks; change nothing but the report file.
 
 ## Phase 1 — Map the attack surface
