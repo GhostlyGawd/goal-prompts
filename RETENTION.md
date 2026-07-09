@@ -25,9 +25,12 @@ new device is a **cold start**.
 > (resurface Operator context) — **FIXED**: the context badge now reads "· tuned to
 > <stack>". **R3** (export/import state) — **FIXED**:
 > footer "export setup"/"import setup" round-trips all local state as a JSON file,
-> no backend. **R2** (opt-in PWA reminder) and **R5** (retention instrumentation)
-> — **DEFERRED**: R2 is a larger PWA build; R5 sends a signal off-device, which the
-> report says needs the maintainer's local-first stance, not a unilateral change. These are product
+> no backend. **R2** (opt-in PWA reminder) — **FIXED**: a footer "🔔 remind me weekly" toggle
+> requests Notification permission and registers a periodicSync for a weekly Vitals
+> reminder (best-effort; installed-PWA/Chrome for background delivery). **R5**
+> (retention instrumentation) — **FIXED**: an anonymous, non-PII cohort id +
+> first-seen-week rides the already-anonymous analytics events, plus
+> nudge_shown/clicked — gp-runs stays local. All five R-findings now addressed. These are product
 > features, and R2/R3/R5 deliberately brush the "nothing leaves your machine"
 > promise, which the report flags as needing the maintainer's call before building.
 > Out of scope for a correctness-and-a11y backlog pass; captured here as the

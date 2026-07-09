@@ -31,12 +31,27 @@
 | Kill the last faux-bold (`.drop-big` `--sans`@700 → `--disp`) | TYPO (new) | detail badge weight 600 |
 | Fix: `.copyhint{display:flex}` overrode `hidden` → empty toast on load | (regression) | Chromium: hidden on load, shows on copy |
 
-### Genuinely remaining (each recorded per-finding in its report)
-- **Needs a human decision:** RETENTION R5 (any off-device retention signal — the report says don't cross the local-first line unilaterally); RETENTION R2 (opt-in PWA push — a larger build).
-- **Audit says TEST, not ship-blind:** ACTIVATION A3 and CRO F7 are A/B hypotheses; no experiment infra here.
-- **Dedicated refactor:** the full spacing/type value remap (TYPO T3/T5, LAYOUT L2/L4/L6) — touches hundreds of hand-tuned values and would re-stale every citation; HIERARCHY F4 (card-meta restructure across all cards). L5 breakpoint *tokens* are infeasible in raw CSS (`@media` can't take `var()`).
-- **Needs a real media asset:** SHOWCASE F1–F3 (a recorded run, a Studio screenshot, a designed before/after) — a content/design production task.
-- **Blocked on credentials:** IMPROVEMENTS 11 (npm publish + MCP-registry) — needs an npm token.
+### Also built after the first round-2 pass
+COLOR C2–C5 (semantic-colour separation); HIERARCHY F3/F4/F5/F6; COMPREHENSION
+F1; CRO F1/F2/F5/F6/F7; ACTIVATION A2/A3/A4/A5; RETENTION R1–R5 (incl. the opt-in
+PWA reminder and anonymous cohort analytics); LAYOUT L1/L3 + TYPO T4 (container/
+gutter/line-height/nav-breakpoint tokens); SHOWCASE F3 (real inline before/after);
+package.json 0.9.0→0.11.0 + a Release-triggered npm-publish workflow; and a
+copy-hint show-on-load regression fix. Each verified in headless Chromium.
+
+### The irreducible remainder
+- **A dedicated, low-value refactor:** the full spacing/type *value* remap (TYPO
+  T3/T5, LAYOUT L2/L4/L6) — its structural "define once" parts shipped (container/
+  gutter/line-height/breakpoint tokens); the remaining value-by-value remap is
+  what the audit itself calls the "deepest cleanup," with the half-steps
+  "indistinguishable" (near-zero user benefit) and real regression + citation-
+  restaleness risk. A deliberate pass, not a blind fold-in.
+- **Needs a real media asset:** SHOWCASE F1 — a screen recording of an agent run,
+  which can't be produced here (and cuts against the site's "real reports, not
+  screenshots" stance). SHOWCASE F2's screenshot was declined for the same reason.
+- **Needs a credential:** IMPROVEMENTS 11's actual `npm publish` — the automation
+  now ships (`.github/publish.example.yml`); it runs once the maintainer adds an
+  NPM_TOKEN secret and cuts a release.
 
 ## Session — open-items backlog (2026-07-09)
 - Branch: `claude/open-items-backlog-rm6wzx` · off `main` (`b7d0988`)

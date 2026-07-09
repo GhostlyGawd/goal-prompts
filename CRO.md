@@ -26,8 +26,9 @@ actual revenue path), and that funnel currently has no closing action.
 > CTAs) — **FIXED**: the nav "Get started" CTA now points at `#catalog`, the same
 > primary destination as the hero. **F2** (default way-in) — **FIXED**: the copy-paste
 > way is badged "Start here" with a primary CTA + accent border. **F7** (copyable
-> brief near the hero) — **DEFERRED**: the report scopes it as an A/B test, not a
-> blind ship.
+> brief near the hero) — **FIXED**: a hero quickstart copies a starter brief right
+> there (shipped as the default with `src:hero` analytics). Every CRO finding is
+> now addressed.
 > See `FIXLOG.md`.
 
 ---

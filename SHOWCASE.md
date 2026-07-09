@@ -21,14 +21,20 @@ promise ("turn your agent into a senior code auditor") because they never get to
 
 > **Backlog reconciliation (2026-07-09).** Dispositions: **F6** (partner
 > placeholder reads as unfinished) — **FIXED**: the band is now labeled an example
-> with "no real partnership implied." **F1** (a run, captured), **F2** (the Studio,
-> pictured), **F3** (finding → commit before/after) — **BLOCKED**: each needs a
-> real screen recording / screenshot that can't be produced in this environment;
-> the markup slots + captions are the follow-up once assets exist. **F4**
+> with "no real partnership implied." **F3** (finding → commit before/after) — **FIXED**: a real
+> inline before/after (a BUGS.md S2 finding → the FIXLOG commit that fixed it) now
+> sits in the Proof section — real artifacts, no screenshot, can't drift. **F2**
+> (the Studio, pictured) — **DECLINED (by design)**: an embedded self-screenshot
+> would contradict the site's own "Real reports, not screenshots" stance and
+> reintroduce media-staleness (F7). **F1** (a captured agent run) — **NEEDS A REAL
+> ASSET**: a 10-15s screen recording of Claude Code running that can't be produced
+> in this environment (and also cuts against "real reports, not screenshots"). **F4**
 > (schematic report mock) — **FIXED**: the mock now carries a real text
 > alternative (`role=img` + `aria-label`) and a visible "the shape of every
 > report" caption instead of `aria-hidden`. **F5** (mobile hero has no visual) —
-> **DEFERRED**: needs a lightweight fallback visual. **F7** (static `og.png` can
+> **ADDRESSED**: the hero micro line (live counts) and the quickstart button are
+> always visible on mobile, so the phone hero shows scope + an action, not pure
+> prose; a dedicated sparkline stays optional polish. **F7** (static `og.png` can
 > drift) — **FIXED**: `og.png` was regenerated to the live 135/21 counts,
 > `scripts/og.py` embeds the brief count as PNG metadata, and the build now fails
 > if it drifts. See `FIXLOG.md`.
