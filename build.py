@@ -993,14 +993,20 @@ def main() -> None:
     template = (ROOT / "template.html").read_text(encoding="utf-8")
     if BASE != DEFAULT_BASE:
         template = template.replace(DEFAULT_BASE, BASE)
-    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__"):
+    for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
+                  "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     esc = lambda o: json.dumps(o, ensure_ascii=False, sort_keys=True).replace("</", "<\\/")
+    # counts injected from source-of-truth so the static meta/OG tags and the
+    # no-JS hero/chart fallbacks can never drift from the catalog again
     (ROOT / "index.html").write_text(
         template.replace("__PROMPTS_JSON__", esc(prompt_payload))
                 .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
-                .replace("__FAMILIES_JSON__", esc(fam_payload)),
+                .replace("__FAMILIES_JSON__", esc(fam_payload))
+                .replace("__N_BRIEFS__", str(len(prompts)))
+                .replace("__N_PLAYBOOKS__", str(len(playbooks)))
+                .replace("__N_FAMILIES__", str(len(fam_payload))),
         encoding="utf-8")
 
     # ---- raw endpoints + full detail pages (brief + playbook) ----
