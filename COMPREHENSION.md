@@ -26,9 +26,8 @@ four different ways, none of them the true number (129).
 > copy button carries a one-line gloss. **F5** ("MCP" unexpanded) — **FIXED**:
 > expanded to "MCP (Model Context Protocol)" on first use. **F3** (gloss "brief")
 > — **FIXED**: glossed as "a ready-made, copy-paste prompt" on first use in the
-> hero sub. **F1** (the full headline rewrite so the hero names the artifact) —
-> **DEFERRED**: the maintainer's wording call (the report asks "my wording or
-> yours?"). See `FIXLOG.md`.
+> hero sub. **F1** (hero names the artifact) — **FIXED**: the eyebrow now reads "A free, open
+> catalog of copy-paste audit prompts," naming the category + artifact. See `FIXLOG.md`.
 
 ---
 
