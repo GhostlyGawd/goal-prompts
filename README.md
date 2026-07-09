@@ -91,6 +91,15 @@ targeted **47 · Fixer** prompt containing exactly those findings — paste it
 into your agent and it branches, implements one finding per commit, and
 verifies each. Everything runs in your browser: no upload, no backend.
 
+## Run it on a schedule
+
+`.github/run-brief.example.yml` is a ready-to-copy GitHub Actions workflow:
+every Monday (or on demand) it fetches a brief you pick from
+`/raw/<id>.md`, runs it against your repo with Claude Code, and files the
+report as an issue — audits as a standing appointment instead of a memory.
+Copy it into your repo as `.github/workflows/run-brief.yml` and set the
+`ANTHROPIC_API_KEY` secret; details are in the file's header.
+
 ## Playbooks
 
 Curated sequences on the site, for when you don't want to choose:
@@ -195,8 +204,10 @@ install`. Unset, the build produces the canonical public site.
 ## Contributing
 
 See `CONTRIBUTING.md`. Every push is built on Vercel with `build.py` as a
-hard gate — an oversized brief blocks the deploy. An optional GitHub
-Actions workflow lives at `.github/ci.example.yml` and runs `scripts/check`.
+hard gate — an oversized brief blocks the deploy — and CI
+(`.github/workflows/ci.yml`) runs `scripts/check` plus a generated-file
+drift check on every push and PR. Ready-to-copy examples (npm publish on
+release, scheduled brief runs) live at `.github/*.example.yml`.
 
 ## Project layout
 

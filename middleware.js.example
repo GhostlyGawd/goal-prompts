@@ -1,0 +1,28 @@
+/* Vercel Edge Middleware — per-brief fetch counters. INERT ON PURPOSE:
+ * Vercel only executes a root file named exactly `middleware.js`, so this
+ * `.example` deploys as a plain static asset. Activation steps (KV store,
+ * rename) are in docs/usage-metrics.md — do not rename without the store,
+ * or every request will run a middleware whose env vars don't exist.
+ *
+ * Design: count GET /raw/<id>.md per path per UTC day. No cookies, no IPs,
+ * no user identifiers — the whole schema is {path, day} -> integer.
+ * Counting is fire-and-forget: a KV failure never blocks or slows the
+ * response, so the catalog stays up even if the store is down.
+ */
+export const config = { matcher: "/raw/:file*" };
+
+export default function middleware(request) {
+  try {
+    const url = new URL(request.url);
+    if (request.method === "GET" && /^\/raw\/[\w-]+\.md$/.test(url.pathname)) {
+      const day = new Date().toISOString().slice(0, 10);
+      const key = "fetches:" + day + ":" + url.pathname;
+      // Upstash REST API (env vars injected by linking the store in Vercel).
+      fetch(process.env.KV_REST_API_URL + "/incr/" + encodeURIComponent(key), {
+        method: "POST",
+        headers: { Authorization: "Bearer " + process.env.KV_REST_API_TOKEN },
+      }).catch(function () {});
+    }
+  } catch (e) { /* never let telemetry break a request */ }
+  // No response returned: the request continues to the static file untouched.
+}

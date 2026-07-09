@@ -1,0 +1,66 @@
+# Run one goal-prompts audit brief against YOUR repo on a schedule, and file
+# the report as a GitHub issue. Ships as .example because it needs a secret:
+#
+#   1. Copy this file into your repo as .github/workflows/run-brief.yml
+#   2. Add your API key as the repo secret ANTHROPIC_API_KEY
+#      (Settings → Secrets and variables → Actions → New repository secret)
+#   3. Pick a brief id below (BRIEF) — browse ids at
+#      https://goal-prompts.vercel.app/catalog.json (or the site itself)
+#
+# Every brief is read-only toward your code and writes exactly one report
+# file; this workflow never commits it — the report travels as an issue.
+# Trigger it manually from the Actions tab (workflow_dispatch) to test.
+
+name: run-audit-brief
+on:
+  schedule:
+    - cron: "0 6 * * 1"        # Mondays 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      brief:
+        description: "Brief id (e.g. 01 = Bug Hunt, 46 = Audit Triage)"
+        default: "01"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    env:
+      BRIEF: ${{ github.event.inputs.brief || '01' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the brief
+        run: |
+          curl -fsSL "https://goal-prompts.vercel.app/raw/${BRIEF}.md" -o /tmp/brief.md
+          echo "Brief ${BRIEF}:" && head -3 /tmp/brief.md
+
+      - name: Run the audit with Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: >
+            Read /tmp/brief.md and execute it exactly as written. It is a
+            read-only audit of this repository that ends by writing one
+            report file at the repo root. Do not modify any other file, and
+            when the brief ends by asking which fixes to make, stop there —
+            the report is the deliverable.
+
+      - name: File the report as an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          REPORT=$(git status --porcelain | awk '$1 == "??" && $2 ~ /\.md$/ { print $2; exit }')
+          if [ -z "$REPORT" ]; then
+            echo "No report file was produced — check the run log above."
+            exit 1
+          fi
+          TITLE="Audit report: $REPORT (brief $BRIEF)"
+          EXISTING=$(gh issue list --search "in:title \"$TITLE\"" --state open --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file "$REPORT"
+          else
+            gh issue create --title "$TITLE" --body-file "$REPORT"
+          fi

@@ -1,8 +1,5 @@
-# Optional GitHub Actions CI. To enable: move this file to
-# .github/workflows/ci.yml (pushing workflow files needs the 'workflow'
-# OAuth scope, so do it via github.com or a token that has it).
-# The live gate already runs on Vercel: every push executes build.py
-# and a failing build blocks the deploy.
+# The full gate on every push and PR — the same steps as `scripts/check`
+# locally and the Vercel build (where a failing build.py blocks the deploy).
 name: check
 on: [push, pull_request]
 jobs:
@@ -16,11 +13,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Full gate (build + lint tests + JS syntax + MCP smoke)
+      - name: Full gate (build + lint tests + installer test + JS syntax + MCP smoke)
         run: scripts/check
       - name: Fail on drift between sources and generated files
         run: |
-          git diff --exit-code index.html catalog.json commands.tar.gz commands.zip checksums.txt || {
+          git diff --exit-code index.html catalog.json commands.tar.gz commands.zip checksums.txt plugin || {
             echo "::error::Generated files are out of date. Run 'scripts/check' (or 'python3 build.py') and commit."
             exit 1
           }

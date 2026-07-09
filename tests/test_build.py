@@ -393,6 +393,30 @@ class RenderHelperTests(unittest.TestCase):
         self.assertEqual(build.cmd_html("npm test"), build.cmd_html("npm test"))
 
 
+class WorkflowFileTests(unittest.TestCase):
+    # The stdlib has no YAML parser, so this is a smoke check, not validation:
+    # the CI workflow must exist and run the real gate, and every workflow
+    # file (live or .example) must be non-empty with the skeleton keys.
+    def _files(self):
+        gh = build.ROOT / ".github"
+        return sorted(list(gh.glob("*.yml")) +
+                      list((gh / "workflows").glob("*.yml")))
+
+    def test_ci_workflow_is_active_and_runs_the_gate(self):
+        ci = build.ROOT / ".github" / "workflows" / "ci.yml"
+        self.assertTrue(ci.exists(), "CI must live at .github/workflows/ci.yml")
+        self.assertIn("scripts/check", ci.read_text(encoding="utf-8"))
+
+    def test_workflow_files_carry_the_skeleton(self):
+        files = self._files()
+        self.assertTrue(files, "no workflow files found under .github/")
+        for f in files:
+            text = f.read_text(encoding="utf-8")
+            self.assertTrue(text.strip(), f.name)
+            for key in ("on:", "jobs:", "steps:"):
+                self.assertIn(key, text, f.name)
+
+
 class PluginTests(unittest.TestCase):
     # The Claude Code plugin (plugin/, listed by .claude-plugin/marketplace.json)
     # is a build output: commands/ is generated from the same briefs as the
