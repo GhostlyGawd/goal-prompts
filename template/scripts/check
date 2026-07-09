@@ -1,0 +1,42 @@
+#!/bin/sh
+# The one gate. Spec lint -> tests -> evals; any red exits non-zero.
+# The PostToolUse hook, the pre-commit hook, and CI all run exactly this,
+# so passing here means passing everywhere.
+#
+#   sh scripts/check              # the gate
+#   sh scripts/check --prove-red  # prove the gate can fail (141 and 144 run this)
+set -e
+cd "$(dirname "$0")/.."
+
+if [ "$1" = "--prove-red" ]; then
+  # Plant a failing canary test, assert the gate goes red, clean up.
+  # A gate that cannot fail is not a gate.
+  canary=tests/test_canary_prove_red.py
+  cat > "$canary" <<'EOF'
+import unittest
+
+
+class TestCanaryProveRed(unittest.TestCase):
+    def test_canary_must_fail(self):
+        self.fail("prove-red canary: the gate must catch this")
+EOF
+  if sh scripts/check >/dev/null 2>&1; then
+    rm -f "$canary"
+    echo "PROVE-RED FAILED: the gate passed with a failing test planted — the harness is broken" >&2
+    exit 1
+  fi
+  rm -f "$canary"
+  echo "PROVE-RED OK: the gate goes red when a test fails"
+  exit 0
+fi
+
+echo "== 1/3 spec lint =="
+python3 scripts/spec_lint.py
+
+echo "== 2/3 tests =="
+python3 -m unittest discover -s tests -t . -q
+
+echo "== 3/3 evals =="
+python3 evals/run.py
+
+echo "ALL CHECKS PASSED"

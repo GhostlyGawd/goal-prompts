@@ -20,6 +20,13 @@ Edit these (source of truth):
 - `build.py` — the build + linter
 - `mcp/server.cjs` — the MCP server (zero deps)
 - `install` — the slash-command installer
+- `template/` — the golden-path product-repo template the Build family
+  (141–144) instantiates; its spec is `template/README.md` and it travels
+  with every instantiation. build.py never touches it; its own harness
+  tests live inside it (`template/tests/harness/`).
+- `HARNESS_PLAN.md`, `DECISIONS.md`, `FABLE_BUILD_QUEUE.md`, `specs/` — the
+  build-harness design layer: plan, ADR log, remaining frontier-only work,
+  and component specs. DECISIONS.md is append-only.
 - `js/` — the site's pure-logic modules, each with a zero-dep Node suite:
   `catalog-core.js` (search/conductors — `tests/catalog_core.test.cjs`),
   `report-parser.js` (Studio parsing — `tests/report_parser.test.cjs`),
@@ -54,6 +61,9 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
 - Audit briefs are read-only and write one report file. The one exception is
   47 The Fixer, which modifies code but gates on an explicit selection first —
   its ask-first gate sits at the end of Phase 2, before any edit happens.
+  The Build family (141–144) extends the same pattern: 141 and 143 write
+  code behind an identical Phase-2 scope gate, 142's only write is SPEC.md
+  (its report *is* the spec), and 144 is read-only.
 - Brief bodies must stay under 4,000 characters.
 - Front matter may carry `related:` (a list of brief ids) — rendered as
   "pairs well with" cards on the brief's `/b/<id>` page. The linter fails on
@@ -63,8 +73,9 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
   `__FAMILIES_JSON__`. Family *colors* also have one source now:
   `build.FAMILY_COLORS` — `scripts/og.py` imports it, and `build.py` emits the
   `.f-*` rules into `tokens.css` from it (they used to be duplicated in
-  `template.html`). Add a family in `FAMILY_ORDER` + `FAMILY_COLORS`; nothing
-  else needs editing.
+  `template.html`). Add a family in `FAMILY_ORDER` + `FAMILY_COLORS`, plus a
+  `FAM_ICON` entry and a matching `<symbol>` in `template.html` —
+  `lint_family_icons` fails the build without them.
 - Icons & marks: the UI icon language is deliberately a small Unicode set in
   the mono font — `→` (leads a report filename), `▸` (expander chevrons),
   `✓` (done/success), `×` (remove), `↗` (external link). Don't add an icon
