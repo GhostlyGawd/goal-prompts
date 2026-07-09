@@ -615,7 +615,7 @@
       <a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a>
     </nav>
   </div>
-  <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
+  <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button> · <button class="reset" id="exportsetup">export setup</button> · <button class="reset" id="importsetup">import setup</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
 <script>
@@ -1169,6 +1169,33 @@ document.getElementById("reset").onclick = ()=>{
     runs = {}; saveRuns(); renderStats(); render();
   }
 };
+// Retention R3: manual export/import of local setup — portable, no backend, keeps "nothing leaves your machine".
+(function(){
+  var KEYS = ["gp-runs","gp-seq","gp-ctx","gp-theme","gp-studio-reports","gp-studio-checks"];
+  var ex = document.getElementById("exportsetup");
+  if(ex) ex.onclick = function(){
+    var data = {}; KEYS.forEach(function(k){ var v = localStorage.getItem(k); if(v != null) data[k] = v; });
+    var blob = new Blob([JSON.stringify({goalprompts:1, saved:data}, null, 2)], {type:"application/json"});
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "goal-prompts-setup.json"; document.body.appendChild(a); a.click();
+    a.remove(); URL.revokeObjectURL(a.href);
+  };
+  var imp = document.getElementById("importsetup"), f = document.getElementById("importfile");
+  if(imp && f){
+    imp.onclick = function(){ f.click(); };
+    f.onchange = function(){
+      var file = f.files && f.files[0]; if(!file) return;
+      var r = new FileReader();
+      r.onload = function(){
+        try{ var d = JSON.parse(r.result); var s = d.saved || d;
+          KEYS.forEach(function(k){ if(typeof s[k] === "string") localStorage.setItem(k, s[k]); });
+          location.reload();
+        }catch(e){ alert("That doesn't look like a Goal Prompts setup file."); }
+      };
+      r.readAsText(file);
+    };
+  }
+})();
 
 document.getElementById("seqcopy").onclick = function(){
   if(!seq.length) return;
