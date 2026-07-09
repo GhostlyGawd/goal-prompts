@@ -540,7 +540,7 @@ const GH_COMMON = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "PERF.md",
   "INNERLOOP.md", "ROADMAP.md", "TRIAGE.md", "HEALTH.md", "FIXLOG.md", "DEPS.md"];
 function parseRepoRef(s){
   s = String(s || "").trim();
-  let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
+  let m = s.match(/github\.com\/([\w.-]+)\/([^\/\s#?]+)(?:\/tree\/([^\s#?]+))?/);
   if(m) return { owner: m[1], repo: m[2].replace(/\.git$/, ""), branch: m[3] || null };
   m = s.match(/^([\w.-]+)\/([\w.-]+?)(?:@([\w.\/-]+))?$/);
   if(m) return { owner: m[1], repo: m[2], branch: m[3] || null };

@@ -77,10 +77,12 @@ t("conductor: text contains every stage id and output", () => {
   }
   assert(text.includes("A conductor caps at 16 stages"));
 });
-t("conductor: matches build.py's committed raw/playbook-*.md byte for byte", () => {
-  const pb = PLAYBOOKS.find(p => p.key === "day1");
-  const built = fs.readFileSync(path.join(ROOT, "raw", "playbook-day1.md"), "utf8");
-  assert.strictEqual(CC.makeConductor(pb.name, pb.desc, pb.ids, BY_ID, BASE), built);
+t("conductor: matches build.py's committed raw/playbook-*.md byte for byte, all " + PLAYBOOKS.length + " playbooks", () => {
+  for (const pb of PLAYBOOKS) {
+    const built = fs.readFileSync(path.join(ROOT, "raw", "playbook-" + pb.key + ".md"), "utf8");
+    assert.strictEqual(CC.makeConductor(pb.name, pb.desc, pb.ids, BY_ID, BASE), built,
+      "conductor drift for playbook " + pb.key);
+  }
 });
 t("conductor: SEQ_CAP is the documented 16", () => {
   assert.strictEqual(CC.SEQ_CAP, 16);
@@ -94,6 +96,16 @@ t("picker: situation=new repo → the day1 playbook", () => {
 t("picker: hurt=breaks + time=brief → 01 · Bug Hunt", () => {
   const plan = CC.pickerPlan({ situation: "new", hurt: "breaks", time: "brief" }, DATA, PLAYBOOKS);
   assert.deepStrictEqual(plan, { kind: "brief", id: "01", alt: "46" });
+});
+t("picker: an explicit 'not sure' answer → the 46 · Audit Triage escape, never day1", () => {
+  assert.deepStrictEqual(CC.pickerPlan({ hurt: "unsure" }, DATA, PLAYBOOKS),
+    { kind: "brief", id: "46", alt: "46" });
+  assert.deepStrictEqual(CC.pickerPlan({ hurt: "unsure", time: "playbook" }, DATA, PLAYBOOKS),
+    { kind: "brief", id: "46", alt: "46" });
+});
+t("picker: 'not sure' defers to a real situation answer", () => {
+  assert.deepStrictEqual(CC.pickerPlan({ situation: "new", hurt: "unsure" }, DATA, PLAYBOOKS),
+    { kind: "playbook", key: "day1", alt: "46" });
 });
 t("picker: nothing answered → 46 · Audit Triage as the fallback", () => {
   const plan = CC.pickerPlan({ time: "brief" }, DATA, PLAYBOOKS);

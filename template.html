@@ -794,7 +794,7 @@ function runLabel(id){
 
 /* ---- custom conductor sequence ---- */
 let seq = [];
-try{ seq = (JSON.parse(localStorage.getItem("gp-seq") || "[]") || []).filter(id => byId[id]); }catch(e){ seq = []; }
+try{ seq = (JSON.parse(localStorage.getItem("gp-seq") || "[]") || []).filter(id => byId[id]).slice(0, CC.SEQ_CAP); }catch(e){ seq = []; }
 const seqBtns = {};
 let seqUsed = false;
 try{ seqUsed = localStorage.getItem("gp-seqused") === "1"; }catch(e){}
@@ -1399,7 +1399,14 @@ function importState(file){
     try{ const parsed = JSON.parse(r.result); state = parsed && parsed.state ? parsed.state : parsed; }catch(e){ state = null; }
     if(!state || typeof state !== "object"){ toast(["That doesn't look like a goal-prompts backup file."]); return; }
     let n = 0;
-    for(const k in state){ if(k.indexOf("gp-")===0 && typeof state[k]==="string"){ localStorage.setItem(k, state[k]); n++; } }
+    for(const k in state){
+      if(k.indexOf("gp-")!==0 || typeof state[k]!=="string") continue;
+      let v = state[k];
+      if(k === "gp-seq"){
+        try{ v = JSON.stringify((JSON.parse(v) || []).filter(id => byId[id]).slice(0, CC.SEQ_CAP)); }catch(e){ continue; }
+      }
+      localStorage.setItem(k, v); n++;
+    }
     if(!n){ toast(["No goal-prompts settings found in that file."]); return; }
     toast(["Restored " + n + " setting" + (n===1?"":"s") + " — reloading to apply…"]);
     setTimeout(function(){ location.reload(); }, 900);
@@ -1603,7 +1610,7 @@ buildFinder();
   const HINT0 = hint.textContent;
   function parseRepoRef(s){
     s = String(s || "").trim();
-    let m = s.match(/github\.com\/([^\/\s]+)\/([^\/\s#?]+)/);
+    let m = s.match(/github\.com\/([\w.-]+)\/([^\/\s#?]+)/);
     if(m) return {owner: m[1], repo: m[2].replace(/\.git$/, "")};
     m = s.match(/^([\w.-]+)\/([\w.-]+)$/);
     if(m) return {owner: m[1], repo: m[2]};

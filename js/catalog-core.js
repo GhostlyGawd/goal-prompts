@@ -139,6 +139,11 @@ function pickerPlan(a, data, playbooks) {
   var pbs = {};
   (playbooks || []).forEach(function (pb) { pbs[pb.key] = pb; });
   var hurt = HURT[a.hurt] || null;
+  /* an explicit "not sure" is an answer, not an omission — without a situation
+     to route on, hand off to 46 · Audit Triage instead of defaulting to day1 */
+  if (a.hurt === "unsure" && !SIT_PB[a.situation] && !SIT_BRIEF[a.situation]) {
+    return { kind: "brief", id: byId["46"] ? "46" : (data && data[0] && data[0].id), alt: "46" };
+  }
   var time = a.time || (hurt && !SIT_PB[a.situation] ? "brief" : "playbook");
   if (time === "playbook") {
     var key = SIT_PB[a.situation] || (hurt && hurt.pb) || "day1";
