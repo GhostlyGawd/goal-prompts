@@ -4,45 +4,48 @@ title: Capacity & Scalability Audit
 family: Reliability
 question: will it stay up?
 output: CAPACITY.md
-tagline: Whether the system can absorb growth — more users, data, and load — and which bottleneck gives out first when traffic multiplies.
+tagline: Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today.
 ---
 # Goal: Capacity & Scalability Audit
 
-You are working inside this repo. Mission: find the part of the system that gives out first as it grows — the bottleneck that is comfortable today and saturated at 10x — and judge whether the architecture can scale to meet it.
+You are working inside this repo. Mission: read the ceilings this system has actually configured — every pool size, worker count, memory limit, and queue bound — and compute the headroom ledger: how much growth each absorbs before it saturates, and which gives out first.
 
-Read-only pass. Read the architecture, data-access patterns, and resource limits; change nothing but the report file.
+This is the measured pass: today's ceilings, from config. For the on-paper 10x thought experiment across the whole product — cost, ops, third parties — run 05.
 
-## Phase 1 — Trace the load path
-- Follow a typical request and a heavy job through the system; note every resource each consumes.
-- Identify the shared, finite resources: the database, connection pools, queues, memory, CPU.
-- Note how close to their limits they run today.
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Read the ceilings out of the config
+- Grep the limits that exist: DB pool size, worker and thread counts, memory limits, queue depths, rate limits, autoscale min/max, file handles. Cite each value and its file.
+- Find the ceilings nobody set: an unconfigured pool has a number too — name the library default you're inheriting.
+- Identify the shared, finite resources several components contend for.
 
 ## Phase 2 — Audit through 7 lenses
-1. **The first bottleneck** — under 10x load, what saturates first: CPU, database, a pool, a queue
-2. **Statefulness & scaling** — can the app scale horizontally, or does shared state pin it to one node
-3. **Connection & pool limits** — database connections, worker pools, file descriptors that cap throughput
-4. **Data growth** — queries and jobs that degrade as tables grow; missing archiving
-5. **Queue & backpressure** — what happens when work arrives faster than it is processed
-6. **Resource headroom** — how close to limits the system runs now; the margin before trouble
-7. **Elasticity & cost** — does scaling happen automatically, and what does 10x cost
+Every ceiling in a finding is a number with a file, or a named library default.
+1. **The arithmetic** — requests per second × queries per request against pool size; workers × job time against arrival rate: which inequality fails first as load grows
+2. **Statefulness** — what pins the app to one node: local files, in-memory sessions, sticky state; could a second instance run today, provably
+3. **Inherited defaults** — the load-bearing ceilings nobody chose: the default pool of 10, the unbounded default queue, the default heap
+4. **Data growth** — queries whose cost grows with table size: missing LIMITs, unindexed scans — cite the query; today's fast is tomorrow's timeout
+5. **Queue math** — arrival rate vs drain rate; where work can arrive faster than it drains, what bounds the backlog — memory is not a bound
+6. **Saturation behavior** — at each ceiling: queue, shed, or collapse? Find the code that decides, or note that nothing does
+7. **Elasticity** — what scales automatically vs what needs a human and a deploy, with the config that proves it
 
 ## Phase 3 — Curate
-- Rank by how soon growth hits each: the resource nearest its ceiling at expected growth comes first.
-- For each, name the fix — an index, horizontal scaling, a bigger pool, backpressure, archiving.
-- Separate "raise the ceiling" from "change the architecture"; size each honestly.
+- Build the saturation ladder: order the ceilings by which is hit first at steady growth, arithmetic shown.
+- For each rung, name the fix — raise the number, add an index, add a bound, evict the state — and whether it is a config change or an architecture change.
+- Flag every ceiling that turns out to be an accident.
 
 ## Phase 4 — Report
 Create `CAPACITY.md` at repo root:
-1. **Load path** — the resources a request and a heavy job consume, and their headroom
-2. **First bottleneck** — what saturates first under growth, with the evidence
-3. **Findings** — each: resource · limit · when growth hits it · the fix
-4. **Scaling plan** — the changes ordered by when they will be needed
+1. **Headroom ledger** — resource · configured ceiling (file:line, or named default) · estimated consumption today · multiple of today's load until saturation
+2. **The saturation ladder** — the order things give out, with the arithmetic
+3. **Findings** — each: ceiling · what hits it · behavior at saturation · fix · config vs architecture
+4. **The cheapest headroom** — the one config change that buys the most runway
 
 Start the report with today's date. If `CAPACITY.md` already exists from a previous run, read it first and lead with what changed since.
 
 ## Rules
-- Scalability is about the first thing to break, not average utilization
-- A stateful node that cannot be cloned is a ceiling, not a server
-- No capacity-constrained service in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- A ceiling is a number with a file, never a vibe; unconfigured means the library default, which you name
+- The first bottleneck is the audit; average utilization is trivia
+- No long-running service in this repo — nothing with pools, workers, or queues to saturate? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Report only — end by asking which capacity limits to raise first
+- Report only — end by asking which ceilings to raise first
