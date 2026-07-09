@@ -1623,6 +1623,7 @@
  "playbooks": [
   {
    "badge": "Most popular",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-day1.md",
    "desc": "First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.",
    "featured": true,
    "ids": [
@@ -1638,6 +1639,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-prelaunch.md",
    "desc": "The night-before checks: safe, accessible, deployable, ready for a bad day.",
    "ids": [
     "06",
@@ -1652,6 +1654,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-cleaning.md",
    "desc": "Make it smaller and clearer: delete, simplify, then map what debt remains.",
    "ids": [
     "26",
@@ -1666,6 +1669,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-vitals.md",
    "desc": "Ten minutes, trend arrows. Re-run every week.",
    "ids": [
     "29"
@@ -1677,6 +1681,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-agentday1.md",
    "desc": "First contact with an agent codebase: read its mind, its hands, its loops, its traces.",
    "ids": [
     "30",
@@ -1691,6 +1696,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipcheck.md",
    "desc": "Before an agent touches real users: guarded, evaluated, supervised, affordable.",
    "ids": [
     "35",
@@ -1706,6 +1712,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-triagefix.md",
    "desc": "Close the loop: recon names the audits this repo needs, you run your picks, then the Fixer turns their findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1719,6 +1726,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-retrievaltune.md",
    "desc": "For RAG-shaped agents: how context gets built, whether retrieval returns the right things, and the evals that keep it that way.",
    "ids": [
     "33",
@@ -1733,6 +1741,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-facelift.md",
    "desc": "The visual overhaul: hierarchy first, then layout, type, and color — and the Fixer turns the findings into commits.",
    "featured": true,
    "ids": [
@@ -1749,6 +1758,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-wayfinding.md",
    "desc": "Can a user find their way around? Map the navigation and menus, check what wins the eye on every screen, and confirm it all still works on a phone.",
    "ids": [
     "129",
@@ -1763,6 +1773,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-datalegible.md",
    "desc": "The visualization pass: make every chart tell the truth, every dashboard answer its question at a glance, the number that matters win the eye, and the palette stay readable for everyone.",
    "ids": [
     "131",
@@ -1778,6 +1789,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-uioverhaul.md",
    "desc": "The interaction-and-UI sweep: navigation, menus, every interactive state, the empty screens, and the icon language — then the Fixer turns the findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1796,6 +1808,7 @@
   },
   {
    "badge": "Before you build",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-founderfunnel.md",
    "desc": "One niche, end to end: map it, prove the pain, tear down the field, size it, position the entry, stress the model, then rule.",
    "featured": true,
    "ids": [
@@ -1814,6 +1827,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-gutcheck.md",
    "desc": "Seventy-two hours of truth for one idea: is the pain real, who already fights for the money, go or no.",
    "ids": [
     "62",
@@ -1827,6 +1841,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-world.md",
    "desc": "Reach every user: usable in any language, accessible to everyone, and findable by search and shared links.",
    "ids": [
     "68",
@@ -1840,6 +1855,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-release.md",
    "desc": "Before the repo goes public: safe to expose, dependencies sound, and every license accounted for.",
    "ids": [
     "06",
@@ -1854,6 +1870,7 @@
   },
   {
    "badge": "Conversion",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-ecommerce.md",
    "desc": "Optimize the whole funnel for a first-time visitor: audit every conversion surface, then cut friction, sharpen the visual hierarchy, tighten the copy, and make it findable — and the Fixer ships the highest-leverage lifts as commits.",
    "featured": true,
    "ids": [
@@ -1872,6 +1889,7 @@
   },
   {
    "badge": "Every surface",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-experience.md",
    "desc": "Get it, want it, keep it — walk every surface a visitor meets and optimize the whole experience: does a newcomer understand it, are the benefits shown not told, do the conversion surfaces and their proof earn the yes, does the first session land a win, and does anything bring them back — then the Fixer ships the biggest lifts as commits.",
    "featured": true,
    "ids": [
@@ -1891,6 +1909,7 @@
   },
   {
    "badge": "Seasonal",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipit.md",
    "desc": "A limited, themed sprint for launch season — hunt the bugs, lock the doors, make it fast, rehearse the bad day, and get found. One themed bundle, five reports, ready to ship.",
    "featured": true,
    "ids": [
@@ -1909,6 +1928,7 @@
   },
   {
    "badge": "Collab",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-codereview-collab.md",
    "desc": "A worked example of a co-branded playbook: pair change-risk review with a full bug hunt, then turn the findings into verified commits. This is the template a partner tool or creator drops their brand into — the content and cut are shared.",
    "ids": [
     "74",
@@ -1924,6 +1944,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-harden.md",
    "desc": "The security pass before you expose anything: secrets, access control, injection paths, and an attacker's-eye threat model — then the Fixer turns the findings into verified commits.",
    "featured": true,
    "ids": [
@@ -1940,6 +1961,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-datalayer.md",
    "desc": "The runtime data layer, end to end: the queries that will not scale, the integrity the schema does not enforce, and whether you could actually recover from data loss.",
    "ids": [
     "87",
@@ -1953,6 +1975,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-dxtuneup.md",
    "desc": "Sharpen the developer inner loop: time the edit-to-feedback cycle, make failures easy to diagnose, and shorten the wait between a push and a trustworthy CI signal.",
    "ids": [
     "94",
@@ -1966,6 +1989,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-testconfidence.md",
    "desc": "Earn a green suite you can trust: find the coverage gaps, strengthen the tests that assert nothing, kill the flakes, and rebalance a top-heavy pyramid.",
    "ids": [
     "02",
@@ -1981,6 +2005,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipapi.md",
    "desc": "Everything a developer meets when they build on you: webhooks, the SDK, versioning, rate limits, and the first-hour docs — then the Fixer ships the fixes as commits.",
    "featured": true,
    "ids": [
@@ -1999,6 +2024,7 @@
   },
   {
    "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-responsibleai.md",
    "desc": "The responsibility pass for an AI product: fairness across users, grounded and honest outputs, prompt-injection resistance, transparency, and the provenance of the data behind the model.",
    "ids": [
     "116",
@@ -2014,6 +2040,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-resilience.md",
    "desc": "Whether it survives a bad day: graceful degradation when a dependency dies, the failure experiments worth running, the first bottleneck under load, abuse defenses, and incident readiness.",
    "ids": [
     "121",
@@ -2029,6 +2056,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-privacycompliance.md",
    "desc": "The operational-privacy layer regulators actually check: honest consent, real data-subject rights, encryption and key management, and a trustworthy audit trail.",
    "ids": [
     "125",
@@ -2043,6 +2071,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-makefast.md",
    "desc": "A speed-only sweep: profile the hot paths, hold a latency budget, fix the queries that will not scale, cut the bundle the browser downloads, and mine the churny hotspots.",
    "ids": [
     "04",
@@ -2058,6 +2087,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-inherit.md",
    "desc": "Taking over an unfamiliar or orphaned project: get onboarded, read its health, map the debt, and find where the knowledge is dangerously concentrated.",
    "ids": [
     "14",
@@ -2073,6 +2103,7 @@
   },
   {
    "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-refactor.md",
    "desc": "Change with a net: assess the risk of the change, shore up the tests around it, simplify, and let the Fixer land the cleanup as verified commits.",
    "ids": [
     "74",
@@ -2087,6 +2118,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-costdown.md",
    "desc": "Take money off the bill: audit infrastructure spend, the token economics of any AI, dead weight to prune, and the latency budget that right-sizes resources.",
    "ids": [
     "24",
@@ -2101,6 +2133,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-agentcost.md",
    "desc": "For AI-agent teams: the token economics of the loop, whether the model tier fits the job, and the context engineering that stops you paying for tokens you do not need.",
    "ids": [
     "38",
@@ -2114,6 +2147,7 @@
    "type": "standard"
   },
   {
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-newyear.md",
    "desc": "A themed start-of-year sweep: read the vitals, prune the dead weight, simplify what remains, and synthesize next year's roadmap — one seasonal bundle.",
    "ids": [
     "29",
@@ -2130,6 +2164,7 @@
   },
   {
    "badge": "Sponsored",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-sponsored-example.md",
    "desc": "A worked example of a sponsored playbook: a curated performance sequence a sponsor's brand wraps — logo, name, and voice around shared content, with the placement paid. Swap in a real sponsor to ship one.",
    "ids": [
     "04",

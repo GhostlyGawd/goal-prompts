@@ -1195,7 +1195,9 @@ def main() -> None:
                       for p in prompts]
     pb_opt = ("type", "badge", "featured", "window", "accent", "partner",
               "preview", "tagline")
-    pb_payload = [{**{k: pb[k] for k in ("key", "name", "desc", "ids", "conductor")},
+    # no "conductor" in the injected payload: the client composes it with
+    # makeConductor() (js/catalog-core.js); machines get raw/playbook-<key>.md
+    pb_payload = [{**{k: pb[k] for k in ("key", "name", "desc", "ids")},
                    **{k: pb[k] for k in pb_opt if k in pb}}
                   for pb in playbooks]
     fam_payload = [[fam, next(p["question"] for p in prompts if p["family"] == fam)]
@@ -1275,6 +1277,7 @@ def main() -> None:
         "families": FAMILY_ORDER,
         "playbooks": [{**{k: pb[k] for k in ("key", "name", "desc", "ids")},
                        "page": f"{BASE}/p/{pb['key']}",
+                       "conductor": f"{BASE}/raw/playbook-{pb['key']}.md",
                        **{k: pb[k] for k in
                           ("type", "badge", "featured", "window", "tagline", "preview")
                           if k in pb}}

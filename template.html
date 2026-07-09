@@ -266,8 +266,10 @@
   .ctxwarm-edit{background:none;border:0;color:var(--fc);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0}
   .ctxwarm-edit:hover{text-decoration:underline}
 
-  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;animation:rise .4s cubic-bezier(.2,.7,.3,1) both;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
   .card:hover{border-color:var(--line-2);transform:translateY(-1px)}
+  /* entrance animation runs on the first render only (render() drops .anim after), so filtering doesn't re-stagger 141 cards */
+  .list.anim .card{animation:rise .4s cubic-bezier(.2,.7,.3,1) both}
   @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .card.flash{outline:2px solid var(--fc);outline-offset:2px}
   .card-top{display:flex;align-items:flex-start;gap:13px}
@@ -918,7 +920,7 @@ function renderFeatured(){
     const cc = document.createElement("button");
     cc.className = "cc"; cc.textContent = "⧉ conductor";
     cc.setAttribute("aria-label", "Copy the " + pb.name + " conductor");
-    cc.onclick = ()=>copyText(pb.conductor, cc, "✓", {name:"copy_conductor", data:{key:pb.key}});
+    cc.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cc, "✓", {name:"copy_conductor", data:{key:pb.key}});
     a.querySelector(".acts").append(cc);
     host.append(a);
   }
@@ -1043,6 +1045,7 @@ function card(p, idx, stepNo){
   view.onclick = ()=>{
     const open = c.classList.toggle("open");
     view.setAttribute("aria-expanded", open);
+    if(open) fillQuick(c);
   };
   const share = document.createElement("button"); share.className="iconbtn";
   share.textContent = "link";
@@ -1091,12 +1094,20 @@ function card(p, idx, stepNo){
   more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
   meta.append(out, info, det, view, more, morewrap);
 
+  /* the 141 quick-view <pre>s are the heaviest DOM on the page — build each
+     lazily on first open instead of up front on every render */
   const body = document.createElement("div"); body.className="body";
-  const pre = document.createElement("pre"); pre.textContent = p.body;
-  body.append(pre);
 
   c.append(top, meta, body);
   return c;
+}
+function fillQuick(cardEl){
+  const b = cardEl.querySelector(".body");
+  if(!b || b.firstChild) return;
+  const p = byId[cardEl.id.slice(1)];
+  if(!p) return;
+  const pre = document.createElement("pre"); pre.textContent = p.body;
+  b.append(pre);
 }
 const _nudgeSeen = {};
 function renderNudge(){
@@ -1120,10 +1131,13 @@ function renderNudge(){
   listEl.prepend(d);
   if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; try{ window.va("event", {name:"nudge_shown", data:{kind:kind}}); }catch(e){} }
 }
+let entranced = false;
 function render(){
   for(const k in seqBtns) delete seqBtns[k];
   listEl.textContent = "";
   clearTimeout(zeroT);
+  listEl.classList.toggle("anim", !entranced);
+  entranced = true;
   let shown = DATA.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
@@ -1164,7 +1178,7 @@ function render(){
     cbar.append("Run the whole playbook with one paste — the conductor fetches each brief in order and writes every report. ");
     const cbtn = document.createElement("button"); cbtn.className = "iconbtn";
     cbtn.textContent = "copy conductor";
-    cbtn.onclick = ()=>copyText(pb.conductor, cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
+    cbtn.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
     cbar.append(cbtn);
     const plink = document.createElement("a"); plink.className = "iconbtn"; plink.href = "/p/" + pb.key;
     plink.textContent = "open playbook page →"; plink.style.marginLeft = "8px";
@@ -1214,6 +1228,7 @@ function openFromHash(){
   const el = document.getElementById("p"+h);
   if(!el) return;
   el.classList.add("open","flash");
+  fillQuick(el);
   const v = el.querySelector(".view");
   if(v) v.setAttribute("aria-expanded","true");
   el.scrollIntoView({block:"start"});
