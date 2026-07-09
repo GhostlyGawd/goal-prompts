@@ -92,6 +92,10 @@ const requests = [
     params: { name: "suggest_briefs", arguments: { goal: "checkout drop-off" } } },
   { jsonrpc: "2.0", id: 19, method: "tools/call",
     params: { name: "suggest_briefs", arguments: { goal: "dependency licenses" } } },
+  { jsonrpc: "2.0", id: 20, method: "tools/call",
+    params: { name: "get_brief", arguments: { id: "007" } } },
+  { jsonrpc: "2.0", id: 21, method: "tools/call",
+    params: { name: "make_conductor", arguments: { ids: " 46, 47" } } },
 ];
 requests.forEach(function (m) { server.stdin.write(JSON.stringify(m) + "\n"); });
 
@@ -227,6 +231,17 @@ server.stdout.on("data", function (d) {
     if (msg.id === 19) {
       check("suggest('dependency licenses') ranks 69 · License & Compliance in the top 3",
         top3(msg).indexOf("69 ·") !== -1);
+    }
+    if (msg.id === 20) {
+      check("get_brief('007') strips leading zeros before padding",
+        text(msg).indexOf("# Goal:") === 0 && text(msg).indexOf("No brief") === -1);
+    }
+    if (msg.id === 21) {
+      check("make_conductor(' 46, 47') drops empty tokens from a string id list",
+        text(msg).indexOf("# Playbook:") === 0 &&
+        text(msg).indexOf("46 · Audit Triage") !== -1 &&
+        text(msg).indexOf("47 · The Fixer") !== -1 &&
+        text(msg).indexOf("Unknown brief id") === -1);
     }
     if (seen === requests.length) finish();
   }

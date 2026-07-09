@@ -28,7 +28,7 @@ const MAX_ID = briefs.reduce(function (m, b) {
 const ID_RANGE = "Ids run 00–" + MAX_ID;
 
 function normalizeId(x) {
-  var s = String(x).trim();
+  var s = String(x).trim().replace(/^0+(?=\d)/, "");
   return s.length === 1 ? "0" + s : s;
 }
 
@@ -255,7 +255,7 @@ function callTool(name, args) {
   }
   if (name === "make_conductor") {
     var raw = args.ids;
-    if (typeof raw === "string") raw = raw.split(/[\s,]+/);
+    if (typeof raw === "string") raw = raw.split(/[\s,]+/).filter(Boolean);
     if (!Array.isArray(raw) || !raw.length) {
       return "Provide ids as an array of brief ids in run order, e.g. ['46','47']. " +
         "Use list_briefs to browse.";
