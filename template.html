@@ -288,6 +288,7 @@
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
   .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:13px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
   .qrow:hover{padding-left:9px;border-bottom-color:var(--line-2)}
+  .qrow>span{min-width:0}/* let the 1fr text column shrink so .qm can ellipsis instead of forcing mobile overflow */
   .qrow .qic{width:21px;height:21px;color:var(--fc)}
   .qrow .qq{font-family:var(--disp);font-weight:600;font-size:clamp(16px,2vw,19px);letter-spacing:-.015em;color:var(--text);line-height:1.15;display:block}
   .qrow .qm{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
