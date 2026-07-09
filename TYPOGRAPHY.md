@@ -22,9 +22,10 @@ backwards: the build ships and precaches a mono weight **no rule uses**
 > citation-shifting systematization better done as its own pass against the new
 > fonts. **T4** (same role typed 3 ways) — **PARTIAL**: tokens are now centralized
 > in `tokens.css`, ending the cross-file token drift; per-component sizes remain.
-> New minor issue found: `.drop-big` and the Studio checkbox glyph request
-> `--sans` @700 where Plex Sans ships only 400/600 (a fresh faux-bold) — logged as
-> a follow-up. See `FIXLOG.md`.
+> New minor issue found & **FIXED**: `.drop-big` requested `--sans` @700 where
+> Plex Sans ships only 400/600 (a fresh faux-bold) — retargeted to `--disp`
+> (Schibsted Grotesk, real 700). The Studio checkbox `✓` glyph at 700 is left
+> as-is (an imperceptible synthesized weight on one symbol). See `FIXLOG.md`.
 
 ---
 
