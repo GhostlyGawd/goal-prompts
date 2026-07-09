@@ -24,8 +24,11 @@ so specs/ stays a complete index.
   the PreToolUse block on harness edits.
 - The mechanically-enforced contract: AC grammar, built-needs-test,
   dependency-needs-ADR, zero deps by default.
-- Instantiation steps (what brief 141 runs) and the operator-only duties
-  (GitHub repo, required status check, CODEOWNERS handle).
+- Installation in both modes brief 141 runs — greenfield (copy the whole
+  template into an empty repo) and graft (install the harness layer into an
+  existing codebase, clobbering nothing, existing test commands wired into
+  the gate) — and the operator-only duties (GitHub repo, required status
+  check, CODEOWNERS handle).
 - The deviation rule: different stack = rewrite the harness layer keeping
   the same enforcement moments + an ADR (DECISIONS.md ADR-4).
 

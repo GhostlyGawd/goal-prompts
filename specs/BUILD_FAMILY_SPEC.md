@@ -15,7 +15,7 @@ intent, not memory. Design rationale: DECISIONS.md ADR-3.
 
 | id | title | output | writes code? | gate placement |
 |---|---|---|---|---|
-| 141 | Scaffold the Rails | SCAFFOLD.md | yes — creates the product repo | end of Phase 2 (Fixer pattern) |
+| 141 | Scaffold the Rails | SCAFFOLD.md | yes — installs the harness into this repo (greenfield or graft) | end of Phase 2 (Fixer pattern) |
 | 142 | Spec the Product | SPEC.md | no — its report *is* the spec | classic (end, in Rules) |
 | 143 | Implement to Spec | BUILDLOG.md | yes — the AC loop | end of Phase 2 (Fixer pattern) |
 | 144 | Ship Gate | SHIP-GATE.md | no — read-only, sabotage reverted | classic (end, in Rules) |
@@ -70,8 +70,8 @@ build / rule), Phase 4 = the report.
 Each brief's null report doubles as sequencing enforcement: 142/143 stop
 with a null report when there is no scaffold/spec ("run 141 first"), 144
 when there is nothing to judge, 141 when there is no verdict and no
-operator-named product. Running a Build brief out of order degrades to a
-pointer at the right one.
+operator ask to put the repo on rails. Running a Build brief out of order
+degrades to a pointer at the right one.
 
 ## Non-goals for this family
 

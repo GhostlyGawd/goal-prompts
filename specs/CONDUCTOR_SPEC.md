@@ -1,75 +1,72 @@
 # CONDUCTOR_SPEC — the master conductor, mapped to real brief numbers
 
-2026-07-09 · Status: designed; the two machine-facing conductors already
-exist as generated artifacts. Rationale for the shape (a deviation from the
-"one artifact" prior decision): DECISIONS.md ADR-5.
+2026-07-09 · Status: **implemented** as the generated conductor of the
+`zerotoship` playbook. Revision history: the first draft of this spec split
+the journey across a separate "research workspace" repo and the product
+repo (DECISIONS.md ADR-5); the operator corrected the premise — this whole
+system is used by people **on their actual repos** — which dissolved the
+repo boundary and restored the original "one artifact" decision
+(DECISIONS.md ADR-11).
 
-## Why not one conductor
+## The design
 
-The catalog's conductors are generated (`conductor()`, build.py:191), capped
-at 16 stages (build.py:200), parity-checked across build.py, mcp/server.cjs
-and js/catalog-core.js by the MCP smoke test — and they assume one repo for
-the whole run. The founder→operator journey crosses a repo boundary (the
-research workspace → the product repo that 141 creates) and passes two
-human decision points that are already ask-first gates inside briefs. So
-the master conductor is an operator runbook that chains two stock,
-generated conductors; the gates inside 67, 141, 142, 143 and 144 are the
-branch logic.
+Everything runs in the user's actual repo: the Venture briefs write their
+research reports at that repo's root (or `reports/`, per the standing
+convention every brief already honors), `141` installs the harness into
+that same repo — greenfield or grafted onto existing code — and the Build
+loop runs where the code lives.
 
-## The map, with real ids
+With one repo end to end, the master conductor is one generated artifact:
 
-| Leg | Artifact | Stages | Repo | Human gate at the end |
-|---|---|---|---|---|
-| Decide | `raw/playbook-founderfunnel.md` | 61 Niche Map → 62 Pain & Demand → 63 Competitor Teardown → 64 Market Size & Timing → 65 Positioning Wedge → 66 Moat & Model → 67 Venture Verdict | research workspace | 67 asks: accept go / pivot / kill |
-| Build | `raw/playbook-buildloop.md` | 141 Scaffold the Rails → 142 Spec the Product → 143 Implement to Spec → 144 Ship Gate | product repo (created by 141) | 141 asks before instantiating; 142 asks to ratify the spec; 143 asks the scope; 144 asks ship or hold |
-| Operate | standing loop, no conductor | 29 Weekly Vitals (weekly) · 46 Audit Triage → 47 The Fixer (on accumulated findings) · 144 re-run before releases | product repo | 29/46 end by asking; 47 gates on scope |
+| Artifact | Stages | Human gates along the way |
+|---|---|---|
+| `raw/playbook-zerotoship.md` | 61 Niche Map → 62 Pain & Demand → 63 Competitor Teardown → 64 Market Size & Timing → 65 Positioning Wedge → 66 Moat & Model → 67 Venture Verdict → 141 Scaffold the Rails → 142 Spec the Product → 143 Implement to Spec → 144 Ship Gate | 67 asks accept go / pivot / kill; 141 asks before installing anything; 142 asks to ratify the spec; 143 asks the scope; 144 asks ship or hold |
 
-Stage arithmetic: 7 + 4 = 11 conductor stages, both legs under the 16 cap.
-Playbook keys: `founderfunnel` (existing), `buildloop` (added this session).
+Stage arithmetic: 7 + 4 = 11 stages, under the 16-stage conductor cap
+(build.py:200). The go/no-go is not conductor logic: `67`'s own ask-first
+gate is the branch point, and the conductor's standing rule ("honor each
+brief's own rules, including ending by asking") pauses the run there. A
+kill or pivot simply means the operator stops or re-runs a stage instead
+of continuing — no conditional grammar needed.
 
-## The operator runbook (the "one artifact", operator-facing)
+Subset entry points, for repos that don't need the whole arc:
 
-Paste into Claude Code, one leg at a time:
+- `raw/playbook-founderfunnel.md` (61→67) — decide only; already existed.
+- `raw/playbook-buildloop.md` (141→144) — the operator already knows what
+  to build (or wrote a one-paragraph verdict by hand) and wants the rails,
+  the spec, the loop, and the gate.
+- `raw/family-build.md` — auto-generated family conductor, identical stages
+  to buildloop.
 
-**Leg 1 — in an empty research-workspace repo:**
-> Fetch https://goal-prompts.vercel.app/raw/playbook-founderfunnel.md and
-> execute it. The niche to research is: `<OPERATOR FILLS THIS IN>`.
+## The operate loop (recurring, so never a conductor)
 
-Stop condition: `VERDICT.md` rules. Kill → archive the workspace, keep what
-transfers. Pivot → re-run the named leg. Go → Leg 2.
+After `SHIP-GATE.md` rules ship, the repo enters the standing loop — same
+repo, no handoff:
 
-**Leg 2 — in the directory where the product repo should be created:**
-> Fetch https://goal-prompts.vercel.app/raw/playbook-buildloop.md and
-> execute it. The go verdict is in `<path-to-workspace>/VERDICT.md`; copy
-> the venture reports it cites into the new repo's `reports/` when 141
-> scaffolds it.
+- Weekly: `raw/29.md` (Weekly Vitals; its first watch-list is the Kill
+  criteria restated by 144's Phase 4).
+- On accumulated findings: `raw/playbook-triagefix.md` (46 → 47).
+- Before anything meaningful ships to users: re-run `144`.
 
-Operator duties surface at 141's gate (create the GitHub repo, make the
-`check` workflow a required status check, set CODEOWNERS) and 142's gate
-(ratify the spec). Stop condition: `SHIP-GATE.md` rules ship.
+Conductors model sequences with an end; the operate loop is a cadence.
+Scheduling it (cron → headless Claude Code) stays deferred until there is
+a shipped product to operate (HARNESS_PLAN §4).
 
-**Leg 3 — standing, weekly, in the product repo:**
-> Fetch https://goal-prompts.vercel.app/raw/29.md and execute it.
+## State contract
 
-Monthly or on accumulated findings:
-> Fetch https://goal-prompts.vercel.app/raw/playbook-triagefix.md and
-> execute it.
+All state is files at the repo root (or `reports/`): the venture reports
+feed 67; `VERDICT.md` is quoted by 141 and mined by 142 for the Job and
+Buyer sections; `SPEC.md` binds 143 and 144; `SHIP-GATE.md` seeds 29.
+No stage needs conversation memory — which is exactly the conductors' own
+rule ("a stage needs only the earlier report files").
 
-Re-run 144 before anything meaningful ships to users.
+## What the operator actually runs
 
-## Handoff contract between the legs
+In the actual repo, one line:
 
-- Leg 1 → Leg 2: `VERDICT.md` (plus the six reports it scores) is the only
-  carried state; 141 quotes the ruling, 142 reads POSITIONING/DEMAND/NICHE
-  from `reports/` for the Job and Buyer sections.
-- Leg 2 → Leg 3: `SPEC.md`'s Kill criteria section becomes 29's first
-  watch-list (144 Phase 4 writes exactly this restatement).
-- All state is files at a repo root — no conversation memory, matching the
-  conductors' own rule that a stage needs only earlier report files.
+> Fetch https://goal-prompts.vercel.app/raw/playbook-zerotoship.md and
+> execute it. The idea to pressure-test is: `<one sentence>`.
 
-## Deferred (recorded, not blocking)
-
-- A `/raw/`-served copy of this runbook (would need a build.py output; the
-  GitHub raw URL of this spec serves the purpose meanwhile).
-- Headless scheduling of Leg 3 (cron → Claude Code headless) — pointless
-  before a product exists (HARNESS_PLAN §4).
+Operator duties surface as gate questions when the run reaches them
+(GitHub push, required status check, CODEOWNERS handle, spec ratification,
+build scope, ship/hold).

@@ -1320,14 +1320,14 @@
    "title": "Change Risk Review"
   },
   {
-   "chars": 3409,
+   "chars": 3887,
    "family": "Build",
    "id": "141",
    "output": "SCAFFOLD.md",
    "question": "will it ship?",
    "raw": "https://goal-prompts.vercel.app/raw/141.md",
    "slug": "scaffold-the-rails",
-   "tagline": "Instantiates the golden-path template into a fresh product repo and proves the gate bites — red fails, green passes — before any product code exists.",
+   "tagline": "Installs the golden-path harness into this repo — greenfield or grafted onto existing code — and proves the gate bites, red fails, green passes, before more code lands.",
    "title": "Scaffold the Rails"
   },
   {
@@ -2181,7 +2181,7 @@
   {
    "badge": "New",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-buildloop.md",
-   "desc": "From go verdict to shipped product: scaffold the rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.",
+   "desc": "From go verdict to shipped product, in the repo you're standing in: put it on rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.",
    "featured": true,
    "ids": [
     "141",
@@ -2192,7 +2192,31 @@
    "key": "buildloop",
    "name": "Build Loop",
    "page": "https://goal-prompts.vercel.app/p/buildloop",
-   "tagline": "Scaffold, spec, build, gate — the supervised path from verdict to shipped product.",
+   "tagline": "Rails, spec, build, gate — the supervised path from verdict to shipped product.",
+   "type": "standard"
+  },
+  {
+   "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-zerotoship.md",
+   "desc": "The whole arc in your actual repo: prove the idea is worth building — pain, competitors, market, positioning, moat, verdict — then put the repo on rails, spec it, build it test-first, and face the ship gate.",
+   "featured": true,
+   "ids": [
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "67",
+    "141",
+    "142",
+    "143",
+    "144"
+   ],
+   "key": "zerotoship",
+   "name": "Zero to Shipped",
+   "page": "https://goal-prompts.vercel.app/p/zerotoship",
+   "tagline": "Eleven stages, one repo: from is-it-worth-building to shipped.",
    "type": "standard"
   },
   {

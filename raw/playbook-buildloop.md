@@ -2,7 +2,7 @@
 
 You are working inside this repo. Mission: execute the **Build Loop** playbook — 4 audit briefs in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
 
-From go verdict to shipped product: scaffold the rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.
+From go verdict to shipped product, in the repo you're standing in: put it on rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).

@@ -1,6 +1,7 @@
 # CLAUDE.md — working in this product repo
 
-This repo was instantiated from the goal-prompts golden-path template. The
+This repo runs on the goal-prompts golden-path harness, installed by brief
+141 — either as a full template copy or grafted onto existing code. The
 harness layer is operator-owned; you build the product inside it. README.md
 carries the full contract — this file is the working summary.
 
