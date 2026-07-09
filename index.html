@@ -82,6 +82,10 @@
   .hero p.sub b{color:var(--text);font-weight:600}
   .hero .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
   .hero .micro{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .quickstart{display:inline-flex;align-items:center;gap:9px;max-width:100%;margin-top:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:none;border:1px dashed var(--line-3);border-radius:999px;padding:8px 15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
+  .quickstart:hover{border-color:var(--amber)}
+  .quickstart b{font-weight:700}
+  .quickstart .qs-dot{width:7px;height:7px;border-radius:2px;background:var(--amber);flex:none}
   .hero .micro b{color:var(--dim);font-weight:500}
 
   /* hero bar chart — briefs per family */
@@ -418,6 +422,7 @@
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
       <div class="micro"><b id="herostat">135 briefs · 35 playbooks</b> · free &amp; open · no signup · nothing leaves your machine</div>
+      <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first brief</b> — paste it in your agent</button>
     </div>
   </div>
   <div class="chartblock">
@@ -1294,6 +1299,20 @@ function buildFinder(){
   host.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{activePb=b.getAttribute("data-pb");activeFam="All";sync();jump();});
 }
 buildFinder();
+// ACTIVATION A3 / CRO F7: a copyable starter brief in the hero, for the ready-to-act newcomer.
+(function(){
+  var qb = document.getElementById("quickstart"); if(!qb) return;
+  var starter = byId["01"] || DATA[0]; if(!starter) return;
+  var lbl = qb.querySelector("b"); if(lbl) lbl.textContent = "Copy the " + starter.title + " brief";
+  qb.hidden = false;
+  qb.onclick = function(){
+    var txt = withContext(starter.body);
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(function(){}); }
+    else { var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); }
+    track("copy_prompt", {id:starter.id, src:"hero"});
+    showCopyHint(starter.output, starter.id);
+  };
+})();
 
 </script>
 </body>
