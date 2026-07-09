@@ -129,7 +129,10 @@
   .quote{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
   .quote .q{font-size:16px;line-height:1.45;color:var(--text);font-weight:500}
   .quote .q::before{content:"“";color:var(--faint)}.quote .q::after{content:"”";color:var(--faint)}
+  .quote .ev{font-size:15px;line-height:1.5;color:var(--text);font-weight:500}
   .quote .who{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .quote .who a{color:var(--fc)}
+  .quote .who a:hover{text-decoration:underline}
   .turn{margin-top:30px;font-size:18px;color:var(--text);max-width:70ch;line-height:1.5}
   .turn b{color:var(--text);font-weight:600}
   @media(max-width:760px){.quotes{grid-template-columns:1fr}}
@@ -510,11 +513,11 @@
 <section class="blk"><div class="wrap">
   <div class="kicker" style="--fc:#E8705F">The problem</div>
   <h2 class="h2">AI coding agents are powerful — and maddeningly inconsistent.</h2>
-  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time. Developers say it out loud:</p>
+  <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time — a wall of vibes one run, a shrug the next. Structure fixes that, and this catalog holds itself to the proof:</p>
   <div class="quotes">
-    <div class="quote"><p class="q">About 50% of the time, the result is so messy that cleaning it up takes more time than just writing it.</p><div class="who">— a developer, Hacker News</div></div>
-    <div class="quote"><p class="q">Is it possible to develop an intuition where it does a decent job… or is the result always random?</p><div class="who">— a developer, Hacker News</div></div>
-    <div class="quote"><p class="q">I keep a running doc of prompts that work well and bad habits to avoid.</p><div class="who">— the workaround everyone rebuilds by hand</div></div>
+    <div class="quote"><p class="ev">Every brief is dogfooded on this repo before it ships — the reports the briefs wrote sit at the repo root, in the open, linked as live samples from their briefs.</p><div class="who"><a href="/examples/">see the sample reports →</a></div></div>
+    <div class="quote"><p class="ev">A structured Bug Hunt on this site’s own code found a real S2 self-XSS in the search empty state — cited to the function, fixed the same release.</p><div class="who">BUGS.md, finding 2 · <a href="https://github.com/GhostlyGawd/goal-prompts/commit/d041b3f">fixed in 0.4 ↗</a></div></div>
+    <div class="quote"><p class="ev">Findings become commits: the FIXLOG traces every shipped fix back to the report and finding that surfaced it — the acting half of the same dogfooding.</p><div class="who"><a href="/FIXLOG.md">read the FIXLOG →</a></div></div>
   </div>
   <p class="turn">The fix isn’t a bigger model — it’s <b>structure</b>. A brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind. That’s the whole idea here: a catalog of them, battle-tested, so you never write one from scratch again.</p>
 </div></section>
@@ -607,24 +610,6 @@
   <p class="lead">Curated sequences that run several briefs in the right order — one paste, a whole stack of reports. Each one is tuned for a moment: a fresh repo, launch night, a visual overhaul, a startup idea.</p>
   <div class="store" id="featured"></div>
   <div class="morepb" id="morepb"></div>
-
-  <div class="partnerband">
-    <div>
-      <h3>Partner &amp; themed playbooks</h3>
-      <p>Playbooks are also how the project sustains itself. Bring your own: a limited-run themed drop, a co-branded sequence with a tool your users already love, or a sponsored bundle — the content is shared and so is the revenue.</p>
-      <div class="modes">
-        <span class="mode">🗓 Themed &amp; limited-time</span>
-        <span class="mode">🤝 Creator collaborations</span>
-        <span class="mode">◆ Sponsored bundles</span>
-      </div>
-    </div>
-    <div class="side">
-      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
-      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
-      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
-      <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
-    </div>
-  </div>
 </div></section>
 
 <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
@@ -714,6 +699,28 @@
       <div class="ba-h">The fix <span class="ba-src"><a href="https://github.com/GhostlyGawd/goal-prompts/commit/683dff5">commit 683dff5 ↗</a></span></div>
       <p class="ba-desc">Regex widened to three digits behind the existing guard, so ids 100–999 route.</p>
       <pre class="ba-code">openFromHash():  /^\d{2,3}$/.test(h)</pre>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ PARTNER ============ -->
+<section class="blk"><div class="wrap">
+  <div class="kicker">Partnerships</div>
+  <div class="partnerband" style="margin-top:16px">
+    <div>
+      <h3>Partner &amp; themed playbooks</h3>
+      <p>Playbooks are also how the project sustains itself. Bring your own: a limited-run themed drop, a co-branded sequence with a tool your users already love, or a sponsored bundle — the content is shared and so is the revenue.</p>
+      <div class="modes">
+        <span class="mode">🗓 Themed &amp; limited-time</span>
+        <span class="mode">🤝 Creator collaborations</span>
+        <span class="mode">◆ Sponsored bundles</span>
+      </div>
+    </div>
+    <div class="side">
+      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
+      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
+      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
+      <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
     </div>
   </div>
 </div></section>
