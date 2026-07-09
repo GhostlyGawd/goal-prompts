@@ -4,17 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Goal Prompts — turn your coding agent into a senior code auditor</title>
-<meta name="description" content="Copy-paste audit briefs for Claude Code, Cursor, and any coding agent. Each runs the same four-phase audit — explore, audit, curate, report — and leaves one evidence-backed report in your repo. Free and open.">
+<meta name="description" content="Copy-paste audit briefs for Claude Code, Cursor, and any coding agent. Each runs the same four-phase audit — explore, audit, curate, report — and leaves one evidence-backed report in your repo. __N_BRIEFS__ briefs across __N_FAMILIES__ families. Free and open.">
 <meta property="og:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
-<meta property="og:description" content="Point your agent at your repo. Each brief runs a rigorous four-phase audit and leaves one evidence-backed report you can act on. 75 briefs, 15 playbooks, free and open.">
+<meta property="og:description" content="Point your agent at your repo. Each brief runs a rigorous four-phase audit and leaves one evidence-backed report you can act on. __N_BRIEFS__ briefs, __N_PLAYBOOKS__ playbooks, free and open.">
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
 <meta name="theme-color" content="#131417">
+<link rel="canonical" href="https://goal-prompts.vercel.app/">
 <link rel="manifest" href="/manifest.json">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Goal Prompts","url":"https://goal-prompts.vercel.app","applicationCategory":"DeveloperApplication","operatingSystem":"Any","description":"A free, open catalog of __N_BRIEFS__ copy-paste audit briefs for Claude Code, Cursor, and any coding agent — each runs the same four-phase audit and leaves one evidence-backed report at your repo root.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT"}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23131417'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -32,6 +34,8 @@
   .mono{font-family:var(--mono)}
   svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   :focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
+  button:active{transform:scale(.97)}
+  button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
   code{font-family:var(--mono);font-size:.88em}
 
   /* ---------- nav ---------- */
@@ -202,6 +206,7 @@
   .ctxbody{padding:2px 14px 14px;display:grid;gap:9px}
   .ctxbody label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px}
   .ctxbody input{width:100%;background:var(--ink);border:1px solid var(--line-2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 11px;outline:0}
+  .ctxbody input:focus-visible{outline:2px solid var(--fc);outline-offset:2px}
   .ctxbody .hint{font-size:11.5px;color:var(--faint);font-family:var(--mono)}
   .ctxbody .clearctx{justify-self:start}
 
@@ -210,6 +215,7 @@
   .search svg{flex:none;opacity:.5}
   .search input{flex:1;background:none;border:0;outline:0;color:var(--text);font-family:var(--sans);font-size:15px;min-width:0}
   .search input::placeholder{color:var(--faint)}
+  .search input:focus-visible{outline:2px solid var(--fc);outline-offset:2px}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
   .chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:border-color .15s,color .15s,background .15s;-webkit-tap-highlight-color:transparent}
   .chip .dot{width:7px;height:7px;border-radius:2px;background:var(--fc,var(--dim));flex:none}
@@ -222,7 +228,7 @@
   .pb .len{color:var(--faint)}
   .pb:hover{border-color:var(--dim);color:var(--text)}
   .pb[aria-pressed="true"]{border-style:solid;border-color:var(--text);color:var(--text);background:var(--panel)}
-  /* on phones the 19 family + 32 playbook chips wrapped into ~8 rows and, under a sticky
+  /* on phones the family + playbook chips wrapped into many rows and, under a sticky
      bar, cards bled through. Collapse each into one swipeable row; fade the right edge to hint it. */
   @media(max-width:640px){
     .chips,.pbs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
@@ -282,6 +288,7 @@
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
   .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:13px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
   .qrow:hover{padding-left:9px;border-bottom-color:var(--line-2)}
+  .qrow>span{min-width:0}/* let the 1fr text column shrink so .qm can ellipsis instead of forcing mobile overflow */
   .qrow .qic{width:21px;height:21px;color:var(--fc)}
   .qrow .qq{font-family:var(--disp);font-weight:600;font-size:clamp(16px,2vw,19px);letter-spacing:-.015em;color:var(--text);line-height:1.15;display:block}
   .qrow .qm{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -388,12 +395,12 @@
         <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <div class="micro"><b id="herostat">75 briefs · 15 playbooks</b> · install in one line · MIT licensed &amp; free</div>
+      <div class="micro"><b id="herostat">__N_BRIEFS__ briefs · __N_PLAYBOOKS__ playbooks</b> · install in one line · MIT licensed &amp; free</div>
     </div>
   </div>
   <div class="chartblock">
     <div class="chartscroll"><div class="famchart" id="famchart" role="img" aria-label="Bar chart of briefs per family"></div></div>
-    <div class="figcap"><b>Fig. 1</b> Briefs per family — 17 families, one question each. Hover a bar. <span class="rule"></span> <span id="chartcount">76 briefs total</span></div>
+    <div class="figcap"><b>Fig. 1</b> Briefs per family — __N_FAMILIES__ families, one question each. Hover a bar. <span class="rule"></span> <span id="chartcount">__N_BRIEFS__ briefs total</span></div>
   </div>
 </div></section>
 
@@ -508,8 +515,8 @@
       </div>
     </div>
     <div class="side">
-      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts</div>
-      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">See how a co-branded playbook looks and reads, end to end.</p>
+      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
+      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
       <a href="/p/codereview-collab">View the collab template →</a>
     </div>
   </div>
@@ -519,7 +526,7 @@
   <div class="wrap seqbar-in">
     <span class="lab">conductor</span>
     <span class="ord" id="seqorder"></span>
-    <button class="seqcopy" id="seqcopy">copy conductor</button>
+    <button class="seqcopy" id="seqcopy" title="A conductor is one prompt that runs these briefs in order — paste it into your agent and it fetches and runs each one.">copy conductor</button>
     <button class="iconbtn" id="seqclear" aria-label="Clear the custom sequence">clear</button>
   </div>
 </div>
@@ -540,12 +547,13 @@
       <h4>As slash commands</h4>
       <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
       <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p style="font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:8px">✓ SHA-256 verified before install · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>

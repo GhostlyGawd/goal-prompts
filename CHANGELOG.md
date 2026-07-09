@@ -17,6 +17,24 @@
   - **Catalog cards** demote the brief id and promote the title (Hierarchy
     audit F2), and the footer drops the how-to-use steps and second
     install box that duplicated "Three ways in".
+- Visual identity refresh: a **light theme** alongside the dark one (a header
+  toggle; the choice persists in `localStorage`), self-hosted full-coverage
+  Schibsted Grotesk (display) + IBM Plex Sans (UI) replacing Archivo, and every
+  brand asset — OG cards, home share card, PWA icons, manifest, favicons —
+  unified on the `#131417` ink and the 4-bar mark. Design tokens now live in one
+  source (`tokens.css`) linked by every surface. (An earlier build shipped the
+  webfonts accidentally ASCII-subset, so the live site fell back to system
+  fonts; the full subsets fix that.)
+- Six UI/UX Design briefs, each the standard read-only 4-phase audit:
+  129 Navigation & Wayfinding, 130 Menu & Command Surface, 131 Data
+  Visualization, 132 Dashboard & Density, 133 Empty & Zero-Data States,
+  134 Iconography & Visual Language — plus three design playbooks: Wayfinding
+  (129 → 130 → 54 → 104), Make Data Legible (131 → 132 → 54 → 56), and Total
+  UI Overhaul (129 → 130 → 58 → 133 → 134 → 47). 135 briefs, 35 playbooks
+- Self-audit sample-report gallery expanded: the Design family run against this
+  repo (HIERARCHY, TYPOGRAPHY, COLOR, LAYOUT, STATES, BRAND) and the experience
+  suite (COMPREHENSION, SHOWCASE, PROOF, RETENTION, ACTIVATION) — read-only
+  audits of goal-prompts' own surfaces, dogfooded.
 
 ## 0.11.0 — 2026-07-08
 - Forty-eight briefs and four new families, taking the catalog to 129

@@ -64,7 +64,7 @@
   }
   .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,#E84C3D 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-  .drop-big{font-weight:700;font-size:17px}
+  .drop-big{font-family:var(--disp);font-weight:700;font-size:17px}
   .drop-big b{color:var(--act);font-family:var(--mono);font-weight:600}
   .drop-small{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:6px}
   .altrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -81,6 +81,7 @@
     width:100%;background:var(--ink);border:1px solid var(--line);border-radius:8px;
     color:var(--text);font-family:var(--mono);font-size:12.5px;padding:9px 11px;outline:0;resize:vertical;
   }
+  .pastebox input:focus-visible,.pastebox textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--act);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
 
   /* ---------- loaded reports ---------- */
@@ -169,6 +170,9 @@
   footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
   .buildnote{font-family:var(--mono);font-size:11.5px;color:var(--faint);line-height:1.7}
   .buildnote a{color:var(--dim)}
+  .buildnote a:hover{text-decoration:underline}
+  button:active{transform:scale(.97)}
+  button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
 
   @media (max-width:560px){
     header{padding-top:40px}
@@ -181,7 +185,7 @@
 <body>
 
 <div class="topnav"><div class="topnav-in">
-  <a class="brand" href="/"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
+  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
   <nav class="lk">
     <a href="/#how">How it works</a>
     <a href="/#playbooks">Playbooks</a>

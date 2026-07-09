@@ -14,6 +14,17 @@ almost all *over*-emphasis — arbitrary tokens shouting, and two "primary"
 actions competing — not a lack of styling. Fixes are therefore mostly
 subtraction.
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **F1** (two competing
+> amber primaries) — **DONE** in the mobile landing pass: the nav "Get started"
+> CTA is now a ghost/outline (`background:transparent;border:1px solid
+> var(--line-3)`), so one filled primary wins per viewport. **F2** (brief id
+> louder than the title) — **DONE** in the same pass: cards demote the id and
+> promote the title. **F3–F7** (Studio drop-zone weight, meta-row tiering,
+> hero-illustration contrast, cross-page primary color, empty-state recovery) —
+> **DEFERRED**: these are subjective visual-hierarchy calls best made with a
+> designer's eye on the rendered result. See `CHANGELOG.md` (Unreleased) and
+> `FIXLOG.md`.
+
 ---
 
 ## 1 · Screen table

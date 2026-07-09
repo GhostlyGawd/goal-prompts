@@ -17,6 +17,18 @@ at a catalog of copy-paste text prompts*. Two core nouns — "brief" and
 "conductor" — are used before they are defined, and the catalog's size is stated
 four different ways, none of them the true number (129).
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **F2** (catalog size
+> stated four stale ways) — **FIXED**: `build.py` injects the live brief /
+> playbook / family counts into the meta + OG descriptions, hero, and chart, and a
+> build guard keeps the README count and family taxonomy in sync (the true number
+> is now 135, not the 129 this audit measured — exactly the drift the injection
+> ends). **F4** ("conductor" unglossed) — **FIXED**: the custom-sequence bar's
+> copy button carries a one-line gloss. **F5** ("MCP" unexpanded) — **FIXED**:
+> expanded to "MCP (Model Context Protocol)" on first use. **F1** (hero never
+> names the artifact) & **F3** (gloss "brief") — **DEFERRED**: the hero rewrite is
+> a wording decision for the maintainer (the report asks "my wording or yours?").
+> See `FIXLOG.md`.
+
 ---
 
 ## 1 · Mental-model gap (intended vs honest ten-second read)

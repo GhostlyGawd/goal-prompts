@@ -19,6 +19,18 @@ reason to show a visitor nothing at all. A stranger must *believe* the core
 promise ("turn your agent into a senior code auditor") because they never get to
 *watch* it happen.
 
+> **Backlog reconciliation (2026-07-09).** Dispositions: **F6** (partner
+> placeholder reads as unfinished) — **FIXED**: the band is now labeled an example
+> with "no real partnership implied." **F1** (a run, captured), **F2** (the Studio,
+> pictured), **F3** (finding → commit before/after) — **BLOCKED**: each needs a
+> real screen recording / screenshot that can't be produced in this environment;
+> the markup slots + captions are the follow-up once assets exist. **F4**
+> (schematic vs real report excerpt) & **F5** (mobile hero has no visual) —
+> **DEFERRED**: content/design additions. **F7** (static `og.png` can drift) —
+> **DEFERRED**: the text counts it could misstate are now build-injected
+> everywhere else; regenerating the raster from live data needs Pillow + a build
+> step. See `FIXLOG.md`.
+
 ---
 
 ## 1 · Show-vs-tell map
