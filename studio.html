@@ -168,8 +168,14 @@
   .fixbtn:hover{filter:brightness(1.1)}
   .fixbtn:active{transform:scale(.96)}
   .fixbtn:disabled{opacity:.45;cursor:not-allowed}
-  .fixbtn.done{background:var(--text)}
+  .fixbtn.done{background:var(--text);color:var(--ink)}
   body.hasbar main{padding-bottom:100px}
+  /* post-copy hint — same pattern as the landing page's copyhint toast */
+  .copyhint{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text)}
+  .copyhint[hidden]{display:none}
+  .copyhint code{font-family:var(--mono);color:var(--amber)}
+  .copyhint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+  .copyhint .x:hover{color:var(--text)}
 
   footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
@@ -230,13 +236,16 @@
   </div>
   <div class="note" id="note" hidden></div>
   <div class="repchips" id="repchips"></div>
+  <div class="altrow" id="bulkrow" hidden></div>
   <div id="findings" aria-live="polite"></div>
   <div class="empty" id="empty">nothing loaded yet — findings will appear here, grouped by report and section</div>
 </main>
 
 <div class="selbar" id="selbar" hidden>
+  <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
   <div class="wrap selbar-in">
     <span class="selcount" id="selcount"></span>
+    <button class="iconbtn" id="sharesel" hidden>copy link to selection</button>
     <button class="fixbtn" id="fixbtn">Copy Fixer prompt</button>
     <button class="iconbtn" id="unsel">clear selection</button>
   </div>
@@ -259,6 +268,12 @@ function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){
 let reports = load("gp-studio-reports", []);   // [{name, text}]
 let checks  = load("gp-studio-checks", {});    // {findingKey: 1}
 let parsed  = [];                              // [{name, findings:[…], skipped}]
+/* share-selection permalink: #sel=<key,key,…> checks those findings on load */
+let pendingSel = new Set();
+try{
+  const selm = location.hash.match(/[#&]sel=([a-z0-9,]+)/i);
+  if(selm) pendingSel = new Set(selm[1].split(",").filter(Boolean));
+}catch(e){}
 
 /* ---------- parsing — shared with Node tests via js/report-parser.js ---------- */
 const parseReport = window.GPReportParser.parseReport;
@@ -383,6 +398,15 @@ function render(){
     return { name: r.name, findings: pr.findings, skipped: pr.skipped };
   });
 
+  /* apply a shared-selection fragment to whichever findings are now loaded */
+  if(pendingSel.size){
+    let applied = 0;
+    for(const f of allFindings()){
+      if(pendingSel.has(f.key)){ checks[f.key] = 1; pendingSel.delete(f.key); applied++; }
+    }
+    if(applied) save("gp-studio-checks", checks);
+  }
+
   /* prune checks that no longer correspond to a loaded finding */
   const live = new Set(allFindings().map(f => f.key));
   let pruned = false;
@@ -455,29 +479,62 @@ function render(){
   document.getElementById("clearall").hidden = reports.length === 0;
   syncBar();
 }
+function syncBulk(){
+  const row = document.getElementById("bulkrow");
+  row.textContent = "";
+  let shown = false;
+  for(const sev of ["S1", "S2"]){
+    const grp = allFindings().filter(f => f.sev === sev && !f.fixed);
+    if(!grp.length) continue;
+    const open = grp.filter(f => !checks[f.key]).length;
+    const b = document.createElement("button"); b.className = "iconbtn";
+    b.textContent = open ? "check all " + sev + " (" + grp.length + ")" : "✓ all " + sev + " checked";
+    b.disabled = !open;
+    b.onclick = () => {
+      for(const f of grp) checks[f.key] = 1;
+      save("gp-studio-checks", checks);
+      render();
+    };
+    row.append(b);
+    shown = true;
+  }
+  row.hidden = !shown;
+}
 function syncBar(){
   const total = allFindings().length;
   const sel = selected().length;
   selbarEl.hidden = total === 0;
   document.body.classList.toggle("hasbar", total > 0);
+  syncBulk();
   if(total === 0) return;
   selcountEl.textContent = "";
   const b = document.createElement("b"); b.textContent = sel;
   selcountEl.append(b, document.createTextNode(" of " + total + " findings selected"));
   fixbtnEl.disabled = sel === 0;
   document.getElementById("unsel").hidden = sel === 0;
+  document.getElementById("sharesel").hidden = sel === 0;
 }
 
 /* ---------- input wiring ---------- */
 function addReport(name, text){
   name = (name || "report.md").trim();
   if(!text || !text.trim()){ note("That file looked empty — nothing added."); return; }
+  const replacing = reports.some(r => r.name === name);
+  const before = Object.keys(checks).length;
   reports = reports.filter(r => r.name !== name);
   reports.push({ name: name, text: String(text) });
   save("gp-studio-reports", reports);
   note("");
   try{ window.va("event", { name: "studio_load_report" }); }catch(e){}
   render();
+  /* say so when re-adding a changed report dropped checked findings — the keys
+     are content hashes, so edited findings can't keep their old check state */
+  const lost = before - Object.keys(checks).length;
+  if(replacing && lost > 0){
+    note(lost + " previously checked finding" + (lost === 1 ? "" : "s") + " in " + name +
+         " changed in the new version, so the selection" + (lost === 1 ? "" : "s") +
+         " cleared — re-check what still applies.");
+  }
 }
 function readFiles(list){
   for(const f of list){
@@ -625,13 +682,40 @@ document.getElementById("clearall").onclick = () => {
 document.getElementById("unsel").onclick = () => {
   checks = {}; save("gp-studio-checks", checks); render();
 };
+var _hintT;
+function showCopyHint(){
+  const el = document.getElementById("copyhint"), t = document.getElementById("copyhinttext");
+  if(!el || !t) return;
+  t.textContent = "";
+  const code = document.createElement("code"); code.textContent = "FIXLOG.md";
+  t.append("Paste into your agent — it implements the selection and writes ", code,
+           ". Reload the reports here afterwards to see ✓ fixed.");
+  el.hidden = false;
+  clearTimeout(_hintT);
+  _hintT = setTimeout(() => { el.hidden = true; }, 9000);
+}
+document.getElementById("copyhintx").onclick = () => {
+  document.getElementById("copyhint").hidden = true; clearTimeout(_hintT);
+};
 fixbtnEl.onclick = function(){
   const sel = selected();
   if(!sel.length) return;
-  copyText(buildFixer(sel), this, "Copied ✓ — paste into your agent", { name: "studio_copy_fixer", data: { n: sel.length } });
+  copyText(buildFixer(sel), this, "Copied ✓", { name: "studio_copy_fixer", data: { n: sel.length } });
+  showCopyHint();
+};
+document.getElementById("sharesel").onclick = function(){
+  const keys = selected().map(f => f.key);
+  if(!keys.length) return;
+  const url = location.origin + location.pathname + "#sel=" + keys.join(",");
+  copyText(url, this, "link copied ✓", { name: "studio_share_selection", data: { n: keys.length } });
 };
 
 render();
+if(pendingSel.size){
+  note("This link preselects " + pendingSel.size + " finding" + (pendingSel.size === 1 ? "" : "s") +
+       " that " + (pendingSel.size === 1 ? "isn't" : "aren't") + " loaded yet — add the same reports " +
+       "(drop, paste, or load from GitHub) and they'll check themselves.");
+}
 
 if("serviceWorker" in navigator){
   window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
