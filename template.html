@@ -194,6 +194,9 @@
   .partnerband .logo{width:32px;height:32px;border-radius:8px;background:#3FC1C9;color:#0c1510;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--disp)}
   .partnerband .co .x{color:var(--faint)}
   .partnerband .side a{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--fc)}
+  .partnerband .side .contact{background:var(--amber);color:#141518;font-family:var(--sans);font-size:13px;font-weight:700;border-radius:8px;padding:9px 15px;transition:filter .15s}
+  .partnerband .side .contact:hover{filter:brightness(1.1)}
+  .partnerband .side .collablink{display:block;margin-top:12px;font-size:12px;color:var(--faint)}
   @media(max-width:760px){.partnerband{grid-template-columns:1fr}}
 
   /* ---------- catalog ---------- */
@@ -399,7 +402,7 @@
 <section class="hero"><div class="wrap hero-in">
   <div class="hero-top">
     <div>
-      <div class="eyebrow">An open reference for code audits</div>
+      <div class="eyebrow">A free, open catalog of copy-paste audit prompts</div>
       <h1 class="title">Turn your coding agent into a <span class="hl">senior code auditor</span>.</h1>
     </div>
     <div>
@@ -530,7 +533,8 @@
     <div class="side">
       <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
       <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
-      <a href="/p/codereview-collab">View the collab template →</a>
+      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
+      <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
     </div>
   </div>
 </div></section>
