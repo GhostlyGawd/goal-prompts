@@ -4,7 +4,7 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-e098aa31544d";
+var CACHE = "goal-prompts-5b4ac87c052b";
 var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
@@ -45,22 +45,25 @@ self.addEventListener("fetch", function (e) {
     }).catch(function () { return m; });
   }));
 });
-/* Retention R2: opt-in weekly Vitals reminder from the installed PWA (best-effort
- * — periodicSync is installed-PWA/Chrome only; no backend, no server push). */
+/* Opt-in weekly Vitals reminder (see the landing's reminder toggle). Fires only
+ * when the user explicitly enabled it and the browser supports periodicSync
+ * (Chromium, installed PWA) — nothing is auto-enabled and nothing leaves the
+ * device. */
 self.addEventListener("periodicsync", function (e) {
-  if (e.tag === "gp-vitals-weekly") {
-    e.waitUntil(self.registration.showNotification("Weekly Vitals", {
-      body: "Ten minutes for fresh trend arrows — run brief 29 \u00b7 Recurring Health Check.",
-      tag: "gp-vitals", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
-      data: { url: "/#29" }
-    }));
-  }
+  if (e.tag !== "vitals-weekly") return;
+  e.waitUntil(self.registration.showNotification("Weekly Vitals is due", {
+    body: "Ten minutes for fresh trend arrows on your repo.",
+    icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+    tag: "vitals-weekly", data: { url: "/#29" }
+  }));
 });
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  var u = (e.notification.data && e.notification.data.url) || "/";
-  e.waitUntil(self.clients.matchAll({ type: "window" }).then(function (cs) {
-    for (var i = 0; i < cs.length; i++) { if (cs[i].url.indexOf(u) !== -1 && "focus" in cs[i]) return cs[i].focus(); }
-    return self.clients.openWindow(u);
+  var url = (e.notification.data && e.notification.data.url) || "/";
+  e.waitUntil(clients.matchAll({ type: "window" }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) {
+      if (cs[i].url.indexOf(url) !== -1 && "focus" in cs[i]) return cs[i].focus();
+    }
+    if (clients.openWindow) return clients.openWindow(url);
   }));
 });

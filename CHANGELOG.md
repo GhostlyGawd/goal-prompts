@@ -25,6 +25,12 @@
     Proof section gains an honest animated *walk-through* of one real `bug-hunt`
     run ending on the real `BUGS.md` finding — reduced-motion-safe and explicitly
     labeled "not a screen capture" (SHOWCASE F1).
+  - **Product proof & credibility (integrated):** a real Report Studio screenshot
+    captured from the live tool, a real finding→commit before/after, a mobile hero
+    stat-block, retention (copy-marks-a-run, welcome-back banner, export/import,
+    opt-in weekly reminder), a maintainer credit, and an armed adoption badge that
+    turns on only once GitHub stars are real (SHOWCASE F2/F3/F5, PROOF F2/F5,
+    RETENTION R1–R4). No social proof is fabricated.
 - Mobile landing-page pass. The page ran ~8 phone-screens of marketing
   before the catalog, and the filter bar overflowed on phones:
   - **Hero** drops the briefs-per-family chart on phones (it only scrolled

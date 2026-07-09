@@ -45,7 +45,24 @@ a nice-to-have for a maintainer with capture tooling.
   not fabricate and is not authorized to run. It is one maintainer step (add the
   secret, cut a release) — deliberately left to a human, not an unbuilt item.
 
+### Integration with the parallel product-visuals work
+`main` had meanwhile merged a parallel implementation (#23) of the same backlog’s
+"remainder" — a real Report Studio screenshot (`img/studio.png`), a real
+finding→commit before/after, a mobile hero stat-block, retention R1–R4, and
+credibility scaffolding (`CREDIBILITY.md`, maintainer credit, an armed adoption
+badge). This branch was merged onto it as a **de-duplicated union**: overlapping
+features (the retention R2 SW handler, export/import, the welcome-back banner, the
+before/after) resolve to `main`’s tested version; this branch’s unique work (the
+TYPO/LAYOUT value-remap, SHOWCASE F1, container tokens, ACTIVATION A2/A3, CRO
+F1/F5, HIERARCHY F4) layers on top, and the value-remap was re-run over `main`’s
+new code so its half-pixels fold too. The Proof section now shows the loop three
+honest ways — animated walk-through (F1), real Studio screenshot (F2), real
+finding→commit (F3). Verified: `scripts/check` green; exactly one of every
+component (no duplication); mobile hero shows the injected 135/21/35; no console
+errors. SHOWCASE F2/F5 and PROOF F5/F2 ledgers flipped to the now-live assets.
 
+## Session — open-items backlog, round 2 (2026-07-09)
+- Branch: `claude/open-items-backlog-rm6wzx`, restarted off `main` (`f03bc06`, the round-1 squash-merge)
 - Focus: after round 1, take the "deferred" findings and build every one that's
   buildable and safe — including the design-judgment calls — with a default
   grounded in each audit's own recommendation, verified in headless Chromium.

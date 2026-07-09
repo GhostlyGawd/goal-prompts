@@ -21,12 +21,14 @@ promise ("turn your agent into a senior code auditor") because they never get to
 
 > **Backlog reconciliation (2026-07-09).** Dispositions: **F6** (partner
 > placeholder reads as unfinished) — **FIXED**: the band is now labeled an example
-> with "no real partnership implied." **F3** (finding → commit before/after) — **FIXED**: a real
-> inline before/after (a BUGS.md S2 finding → the FIXLOG commit that fixed it) now
-> sits in the Proof section — real artifacts, no screenshot, can't drift. **F2**
-> (the Studio, pictured) — **DECLINED (by design)**: an embedded self-screenshot
-> would contradict the site's own "Real reports, not screenshots" stance and
-> reintroduce media-staleness (F7). **F1** (the product never seen
+> with "no real partnership implied." **F3** (finding → commit before/after) — **FIXED**: a real inline before/after (a real
+> finding → the linked commit that fixed it) sits in the Proof section — real
+> artifacts, no faked mock, can't drift. **F2**
+> (the Studio, pictured) — **FIXED (via the merged product-visuals work)**: a real
+> Report Studio screenshot (`img/studio.png`, captured from the *live* tool by
+> `scripts/studio-shot.cjs` in headless Chromium) now sits in the Proof card. It's a
+> screenshot of the **tool's UI**, not a faked report, so it doesn't cut against
+> "Real reports, not screenshots" — and it's build-checked, not a hand-made asset. **F1** (the product never seen
 > working) — **ADDRESSED (round 3, honestly)**: the Proof section now carries an
 > animated *walk-through* of one real run — the `/goal:bug-hunt` command, the four
 > phases completing, and the real `BUGS.md` S2 self-XSS finding it produces — built
@@ -41,9 +43,10 @@ promise ("turn your agent into a senior code auditor") because they never get to
 > (schematic report mock) — **FIXED**: the mock now carries a real text
 > alternative (`role=img` + `aria-label`) and a visible "the shape of every
 > report" caption instead of `aria-hidden`. **F5** (mobile hero has no visual) —
-> **ADDRESSED**: the hero micro line (live counts) and the quickstart button are
-> always visible on mobile, so the phone hero shows scope + an action, not pure
-> prose; a dedicated sparkline stays optional polish. **F7** (static `og.png` can
+> **FIXED (via the merged product-visuals work)**: the mobile hero now carries a real
+> stat-block (**briefs · families · playbooks**, injected live from the catalog) in
+> place of the desktop-only chart, alongside the offer line and the quickstart — so
+> the phone hero shows real scope, not pure prose. **F7** (static `og.png` can
 > drift) — **FIXED**: `og.png` was regenerated to the live 135/21 counts,
 > `scripts/og.py` embeds the brief count as PNG metadata, and the build now fails
 > if it drifts. See `FIXLOG.md`.
