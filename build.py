@@ -179,6 +179,25 @@ self.addEventListener("fetch", function (e) {
     }).catch(function () { return m; });
   }));
 });
+/* Retention R2: opt-in weekly Vitals reminder from the installed PWA (best-effort
+ * — periodicSync is installed-PWA/Chrome only; no backend, no server push). */
+self.addEventListener("periodicsync", function (e) {
+  if (e.tag === "gp-vitals-weekly") {
+    e.waitUntil(self.registration.showNotification("Weekly Vitals", {
+      body: "Ten minutes for fresh trend arrows — run brief 29 \\u00b7 Recurring Health Check.",
+      tag: "gp-vitals", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+      data: { url: "/#29" }
+    }));
+  }
+});
+self.addEventListener("notificationclick", function (e) {
+  e.notification.close();
+  var u = (e.notification.data && e.notification.data.url) || "/";
+  e.waitUntil(self.clients.matchAll({ type: "window" }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) { if (cs[i].url.indexOf(u) !== -1 && "focus" in cs[i]) return cs[i].focus(); }
+    return self.clients.openWindow(u);
+  }));
+});
 """
 
 

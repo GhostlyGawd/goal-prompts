@@ -4,7 +4,7 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-9c479e762317";
+var CACHE = "goal-prompts-2ea45284e416";
 var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
@@ -43,5 +43,24 @@ self.addEventListener("fetch", function (e) {
       }
       return res;
     }).catch(function () { return m; });
+  }));
+});
+/* Retention R2: opt-in weekly Vitals reminder from the installed PWA (best-effort
+ * — periodicSync is installed-PWA/Chrome only; no backend, no server push). */
+self.addEventListener("periodicsync", function (e) {
+  if (e.tag === "gp-vitals-weekly") {
+    e.waitUntil(self.registration.showNotification("Weekly Vitals", {
+      body: "Ten minutes for fresh trend arrows — run brief 29 \u00b7 Recurring Health Check.",
+      tag: "gp-vitals", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+      data: { url: "/#29" }
+    }));
+  }
+});
+self.addEventListener("notificationclick", function (e) {
+  e.notification.close();
+  var u = (e.notification.data && e.notification.data.url) || "/";
+  e.waitUntil(self.clients.matchAll({ type: "window" }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) { if (cs[i].url.indexOf(u) !== -1 && "focus" in cs[i]) return cs[i].focus(); }
+    return self.clients.openWindow(u);
   }));
 });

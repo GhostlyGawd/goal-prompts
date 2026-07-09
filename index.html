@@ -644,7 +644,7 @@
       <a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a>
     </nav>
   </div>
-  <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button> · <button class="reset" id="exportsetup">export setup</button> · <button class="reset" id="importsetup">import setup</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
+  <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button> · <button class="reset" id="exportsetup">export setup</button> · <button class="reset" id="importsetup">import setup</button> · <button class="reset" id="remindtoggle">🔔 remind me weekly</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
 </div></footer>
 
 <script>
@@ -1213,6 +1213,34 @@ document.getElementById("reset").onclick = ()=>{
     runs = {}; saveRuns(); renderStats(); render();
   }
 };
+// Retention R2: opt-in weekly Vitals reminder from the installed PWA. No backend;
+// background delivery is best-effort (periodicSync = installed-PWA/Chrome only).
+(function(){
+  var rt = document.getElementById("remindtoggle"); if(!rt) return;
+  function on(){ return localStorage.getItem("gp-remind") === "1"; }
+  function refresh(){ rt.textContent = on() ? "🔔 weekly reminder on" : "🔔 remind me weekly"; }
+  refresh();
+  rt.onclick = async function(){
+    if(on()){
+      localStorage.removeItem("gp-remind");
+      try{ var reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("gp-vitals-weekly"); }catch(e){}
+      refresh(); return;
+    }
+    if(!("Notification" in window)){ alert("This browser can't show reminders."); return; }
+    var perm; try{ perm = await Notification.requestPermission(); }catch(e){ perm = Notification.permission; }
+    if(perm !== "granted"){ return; }
+    localStorage.setItem("gp-remind", "1");
+    try{
+      var reg = await navigator.serviceWorker.ready;
+      if("periodicSync" in reg && navigator.permissions){
+        var st = await navigator.permissions.query({name:"periodic-background-sync"});
+        if(st.state === "granted") await reg.periodicSync.register("gp-vitals-weekly", {minInterval: 7*24*60*60*1000});
+      }
+    }catch(e){}
+    track("reminder_opt_in");
+    refresh();
+  };
+})();
 // Retention R3: manual export/import of local setup — portable, no backend, keeps "nothing leaves your machine".
 (function(){
   var KEYS = ["gp-runs","gp-seq","gp-ctx","gp-theme","gp-studio-reports","gp-studio-checks"];
