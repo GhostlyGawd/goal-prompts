@@ -988,6 +988,30 @@ def main() -> None:
     if missing_fams:
         fail("README.md Families table is missing: " + ", ".join(missing_fams))
 
+    # ---- og.png drift guard: the home share card bakes "N briefs" in as pixels,
+    # so scripts/og.py embeds the count as PNG metadata and the build (stdlib
+    # only — no Pillow) reads it back and compares to the live catalog ----
+    def _png_text(path, key):
+        b = path.read_bytes()
+        if b[:8] != b"\x89PNG\r\n\x1a\n":
+            return None
+        i = 8
+        while i + 8 <= len(b):
+            ln = int.from_bytes(b[i:i + 4], "big")
+            if b[i + 4:i + 8] == b"tEXt":
+                k, _, v = b[i + 8:i + 8 + ln].partition(b"\x00")
+                if k.decode("latin1") == key:
+                    return v.decode("latin1")
+            i += 12 + ln
+        return None
+    og_n = _png_text(ROOT / "og.png", "gp-briefs")
+    if og_n is None:
+        fail("og.png has no gp-briefs metadata — regenerate with "
+             "scripts/og.py --home")
+    if int(og_n) != len(prompts):
+        fail(f"og.png's baked-in count is {og_n} briefs but the catalog has "
+             f"{len(prompts)} — regenerate with scripts/og.py --home (needs Pillow)")
+
     # ---- shared design tokens (single source of truth, linked by every page) ----
     (ROOT / "tokens.css").write_text(TOKENS_CSS, encoding="utf-8")
 
