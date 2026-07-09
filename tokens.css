@@ -14,6 +14,8 @@
   --success:#2FAF73;--warning:#F59E2C;--danger:#E23B4B;
   --good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#C4CBD8;
   --r-sm:8px;--r-md:12px;--r-pill:999px;--radius:8px;
+  /* container + rhythm scale (LAYOUT L1/T4 — one source; @media can't take var() so breakpoints stay literal) */
+  --w-page:1120px;--w-doc:960px;--w-read:760px;--gutter:24px;--lh-body:1.6;
   --disp:'Schib','PSans',system-ui,-apple-system,sans-serif;
   --sans:'PSans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;

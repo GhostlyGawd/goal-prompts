@@ -28,9 +28,9 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:var(--w-page);margin:0 auto;padding:0 var(--gutter)}
   .mono{font-family:var(--mono)}
   svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   :focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
@@ -317,6 +317,7 @@
 
   /* ---------- guided next-step hint after a copy (Activation A1) ---------- */
   .copyhint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.75)}
+  .copyhint[hidden]{display:none}
   .copyhint code{font-family:var(--mono);color:var(--fc)}
   .copyhint a{color:var(--fc);text-decoration:underline}
   .copyhint .markrun{margin-left:6px;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}

@@ -23,9 +23,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+.wrap{max-width:var(--w-doc);margin:0 auto;padding:0 var(--gutter)}
 .mono{font-family:var(--mono)}
 svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
@@ -47,7 +47,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
 .nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13.5px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
 .nav-cta:hover{filter:brightness(1.12)}
-@media(max-width:680px){.nav-links{display:none}}
+@media(max-width:720px){.nav-links{display:none}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
