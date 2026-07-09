@@ -318,6 +318,9 @@
   /* ---------- guided next-step hint after a copy (Activation A1) ---------- */
   .copyhint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.75)}
   .copyhint code{font-family:var(--mono);color:var(--fc)}
+  .copyhint a{color:var(--fc);text-decoration:underline}
+  .copyhint .markrun{margin-left:6px;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+  .copyhint .markrun:disabled{opacity:.6;cursor:default}
   .copyhint .x{margin-left:2px;flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
   .copyhint .x:hover{color:var(--text)}
   body.hasseq .copyhint{bottom:96px}
@@ -705,7 +708,14 @@ function withContext(body){
   if(ctx.notes) L.push("- Watch out for: " + ctx.notes);
   return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
 }
-function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); }
+function syncCtxUi(){
+  const o = document.getElementById("ctxon"); if(!o) return;
+  const active = ctxActive(); o.hidden = !active;
+  if(active){ // Retention R4: surface the accrued value, not a generic label
+    const tag = ctx.stack || ctx.product || ctx.stage || "your repo";
+    o.textContent = "· tuned to " + (tag.length > 42 ? tag.slice(0, 40) + "…" : tag);
+  }
+}
 
 /* ---- copy ---- */
 function feedback(btn, ok){
@@ -715,16 +725,26 @@ function feedback(btn, ok){
   btn._t = setTimeout(()=>{btn.textContent = btn.dataset.label; btn.classList.remove("done");}, 1600);
 }
 var _copyhintT;
-function showCopyHint(output){
+function showCopyHint(output, id){
   var el = document.getElementById("copyhint"); if(!el) return;
   document.getElementById("copyhinttext").innerHTML =
     'Paste into Claude Code, Cursor, or any agent <b>inside your repo</b> — it writes <code>' +
-    (output || 'the report') + '</code> at the root.';
+    (output || 'the report') + '</code> at the root, then drop it in the <a href="/studio">Report Studio</a>.' +
+    (id ? ' <button type="button" class="markrun" data-id="' + id + '">✓ mark it run</button>' : '');
   el.hidden = false;
   clearTimeout(_copyhintT);
-  _copyhintT = setTimeout(function(){ el.hidden = true; }, 7000);
+  _copyhintT = setTimeout(function(){ el.hidden = true; }, 9000);
 }
 (function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
+// Retention R1: let the post-copy hint feed the run-tracker at the moment of action.
+document.addEventListener("click", function(e){
+  var t = e.target;
+  if(t && t.classList && t.classList.contains("markrun")){
+    var id = t.getAttribute("data-id");
+    if(id && !runs[id]){ runs[id] = Date.now(); saveRuns(); renderStats(); renderNudge(); }
+    t.textContent = "✓ marked"; t.disabled = true;
+  }
+});
 function copyText(txt, btn, ok, evt){
   const done = ()=>{
     feedback(btn, ok || "Copied ✓");
@@ -974,7 +994,7 @@ function card(p, idx, stepNo){
   btn.onclick = e=>{
     e.stopPropagation();
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
-    showCopyHint(p.output);
+    showCopyHint(p.output, p.id);
     if(!runs[p.id]) run.textContent = "ran it? mark it";
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
