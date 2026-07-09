@@ -42,6 +42,7 @@
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .topnav .themetog .moon{display:none}
   :root[data-theme="light"] .topnav .themetog .moon{display:block}:root[data-theme="light"] .topnav .themetog .sun{display:none}
+  @media (prefers-color-scheme:light){:root:not([data-theme]) .topnav .themetog .moon{display:block}:root:not([data-theme]) .topnav .themetog .sun{display:none}}
   .topnav .cta:hover{filter:brightness(1.08)}
   @media(max-width:640px){.topnav .lk{display:none}}
   header{padding:34px 0 8px}
@@ -49,7 +50,7 @@
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
   .eyebrow b{color:var(--text);font-weight:500}
-  h1{font-family:var(--disp);font-weight:720;font-size:clamp(42px,8.4vw,66px);line-height:.98;letter-spacing:-.03em;text-transform:uppercase;margin:14px 0 16px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 16px}
   h1 .tick{color:var(--act)}
   .sub{color:var(--dim);max-width:58ch;font-size:15px}
   .sub a{color:var(--amber);text-decoration:none}
@@ -62,7 +63,7 @@
     background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;
     transition:border-color .15s,background .15s;
   }
-  .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,#E84C3D 6%,var(--panel))}
+  .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,var(--act) 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .drop-big{font-family:var(--disp);font-weight:700;font-size:17px}
   .drop-big b{color:var(--act);font-family:var(--mono);font-weight:600}
@@ -113,7 +114,7 @@
     background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--act);
     border-radius:var(--radius);padding:11px 12px;margin-bottom:8px;
   }
-  .find.checked{border-color:color-mix(in srgb,#E84C3D 55%,var(--line));background:color-mix(in srgb,#E84C3D 5%,var(--panel))}
+  .find.checked{border-color:color-mix(in srgb,var(--act) 55%,var(--line));background:color-mix(in srgb,var(--act) 5%,var(--panel))}
   .find-top{display:flex;align-items:flex-start;gap:10px}
   .find input[type=checkbox]{
     appearance:none;flex:none;width:19px;height:19px;margin-top:2px;cursor:pointer;
@@ -125,14 +126,14 @@
   .find input[type=checkbox]:checked::before{transform:scale(1)}
   .ft{flex:1;min-width:0}
   .ftitle{font-size:14px;font-weight:600;line-height:1.35;cursor:pointer;overflow-wrap:break-word}
-  .ftitle:hover{color:#fff}
+  .ftitle:hover{color:var(--amber)}
   .fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
   .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
-  .c-s1{color:#FF6B5C;border-color:#FF6B5C}
-  .c-s2{color:#F0904A;border-color:#F0904A}
-  .c-s3{color:#E8B44C;border-color:#E8B44C}
-  .c-low{color:#8B96A5;border-color:#3A4452}
-  .c-fixed{color:#52C280;border-color:#52C280}
+  .c-s1{color:var(--danger);border-color:var(--danger)}
+  .c-s2{color:var(--warning);border-color:var(--warning)}
+  .c-s3{color:var(--amber);border-color:var(--amber)}
+  .c-low{color:var(--faint);border-color:var(--line-2)}
+  .c-fixed{color:var(--success);border-color:var(--success)}
   .c-eff,.c-tag{color:var(--dim)}
   .view{
     background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);
@@ -144,7 +145,7 @@
   .fbody{display:none;margin-top:10px}
   .find.open .fbody{display:block}
   .fbody pre{
-    font-family:var(--mono);font-size:12px;line-height:1.6;color:#C7CEDA;background:var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--body);background:var(--ink);
     border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;
     white-space:pre-wrap;word-break:break-word;max-height:40vh;overflow-y:auto;
   }
@@ -201,7 +202,7 @@
 
 <header class="wrap">
   <div class="eyebrow"><a href="/">← goal prompts</a> · <b>act on it</b></div>
-  <h1>Report<br>Studio<span class="tick">.</span></h1>
+  <h1>Report Studio<span class="tick">.</span></h1>
   <p class="sub">Drop the reports your audits produced — BUGS.md, SECURITY-AUDIT.md, IMPROVEMENTS.md… — or point it at a public GitHub repo and it fetches them itself. Findings become a checklist with severity chips; checked findings become one targeted <a href="/#47">Fixer</a> prompt for your agent. Everything stays in this tab: no upload, no backend, progress saved on this device.</p>
 </header>
 
@@ -637,6 +638,6 @@ if("serviceWorker" in navigator){
 }
 </script>
 
-<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){return root.getAttribute("data-theme")==="light";}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
 </body>
 </html>

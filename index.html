@@ -1480,7 +1480,11 @@ if("serviceWorker" in navigator){
 /* ---- theme toggle ---- */
 (function(){
   var KEY="gp-theme", root=document.documentElement, btn=document.getElementById("themetog");
-  function isLight(){return root.getAttribute("data-theme")==="light";}
+  function isLight(){
+    var t=root.getAttribute("data-theme");
+    if(t==="light"||t==="dark") return t==="light";
+    try{ return window.matchMedia("(prefers-color-scheme: light)").matches; }catch(e){ return false; }
+  }
   function paint(){ var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content", isLight()?"#F4F3EF":"#131417"); }
   paint();
   if(btn) btn.onclick=function(){ var next=isLight()?"dark":"light";
