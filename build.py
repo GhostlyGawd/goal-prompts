@@ -973,6 +973,21 @@ def main() -> None:
         fail(f"briefs missing share cards: og/{{{','.join(missing_og)}}}.png"
              " — generate with scripts/og.py (needs Pillow)")
 
+    # ---- README drift guard: its intro count and family taxonomy are
+    # source-derived, so make silent drift a loud build failure ----
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    m = re.search(r"(\d+) mission briefs", readme)
+    if not m:
+        fail("README.md: missing the '<N> mission briefs' intro count")
+    if int(m.group(1)) != len(prompts):
+        fail(f"README.md says {m.group(1)} mission briefs but the catalog has "
+             f"{len(prompts)} — update the intro line")
+    missing_fams = [f for f in FAMILY_ORDER
+                    if any(p["family"] == f for p in prompts)
+                    and f"| {f} |" not in readme]
+    if missing_fams:
+        fail("README.md Families table is missing: " + ", ".join(missing_fams))
+
     # ---- shared design tokens (single source of truth, linked by every page) ----
     (ROOT / "tokens.css").write_text(TOKENS_CSS, encoding="utf-8")
 
