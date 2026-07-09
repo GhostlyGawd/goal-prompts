@@ -12,6 +12,10 @@
   --btn:#F1F1F3;--btn-fg:#141518;--sev:#F0806A;
   --amber:#E8B44C;--amber-2:#F2CE7C;--fc:#8B7CF8;
   --success:#2FAF73;--warning:#F59E2C;--danger:#E23B4B;
+  /* Primary-action colour convention (HIERARCHY F6): amber / the family --fc is
+     the *browse/navigate* primary; --act (a distinct crimson) is the *commit /
+     act-adjacent* primary — the Studio Fixer button, the Act family. Deliberate,
+     not drift; kept distinct from every family hue (COLOR C2–C5). */
   --good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#C4CBD8;
   --r-sm:8px;--r-md:12px;--r-pill:999px;--radius:8px;
   /* container + rhythm scale (LAYOUT L1/T4 — one source; @media can't take var() so breakpoints stay literal) */

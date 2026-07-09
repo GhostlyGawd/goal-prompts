@@ -17,11 +17,11 @@ backwards: the build ships and precaches a mono weight **no rule uses**
 > family names and per-size line numbers are stale. Dispositions: **T1** (mono
 > @700 faux-bold) — **FIXED**: the three surviving `--mono` @700 badges retargeted
 > to the shipped 600. **T2** (unused `plexmono-500`) — **ALREADY DONE**: the 500
-> face was dropped in the redesign; only 400/600 ship. **T3/T5** (size &
-> line-height sprawl) — **DEFERRED**: a type-scale collapse is a large,
-> citation-shifting systematization better done as its own pass against the new
-> fonts. **T4** (same role typed 3 ways) — **PARTIAL**: tokens are now centralized
-> in `tokens.css`, ending the cross-file token drift; per-component sizes remain.
+> face was dropped in the redesign; only 400/600 ship. **T4** (same role typed 3
+> ways) — **FIXED**: body line-height unified to one `--lh-body` token (was
+> 1.6/1.62/1.5 across stylesheets). **T3/T5** (font-size + line-height value
+> sprawl) — **DEFERRED**: collapsing ~27 sizes to a 9-step scale is a large,
+> citation-shifting refactor best done as its own pass against the new fonts.
 > New minor issue found & **FIXED**: `.drop-big` requested `--sans` @700 where
 > Plex Sans ships only 400/600 (a fresh faux-bold) — retargeted to `--disp`
 > (Schibsted Grotesk, real 700). The Studio checkbox `✓` glyph at 700 is left

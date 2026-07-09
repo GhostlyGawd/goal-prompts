@@ -15,9 +15,13 @@ things that should be shared: container width (1060 / 940 / 760), gutter
 
 > **Backlog reconciliation (2026-07-09).** This audit's specific widths and line
 > numbers predate the redesign (the landing `.wrap` is now 1120px, tokens moved to
-> `tokens.css`). Dispositions: **L1–L6** (no spacing scale; three container
-> widths; unshared breakpoints; four section rhythms; margin-vs-gap) — **DEFERRED**
-> as one dedicated systematization pass. Rationale: the redesign already
+> `tokens.css`). Dispositions: **L1** (container widths) — **FIXED**: the four `.wrap`
+> widths now come from `--w-page/--w-doc/--w-read` tokens with a single `--gutter`
+> (24px), ending the 24/22/20 drift. **L3** (nav breakpoint) — **FIXED**: unified
+> to 720px (detail pages were 680). **L2/L4/L5/L6** (max-width ladder, section
+> rhythm, per-grid breakpoints, margin-vs-gap) — **DEFERRED** as one dedicated
+> systematization pass. Note: **L5** breakpoint *tokens* are infeasible in raw CSS
+> (`@media` can't take `var()`), so breakpoint values are unified, not tokenized. Rationale: the redesign already
 > centralized color/type/radius/motion-adjacent tokens in `tokens.css` (partial
 > progress on the "define once" goal), but a full spacing + breakpoint + container
 > scale touches hundreds of hand-tuned values across four files and would shift

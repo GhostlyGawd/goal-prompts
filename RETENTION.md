@@ -23,8 +23,11 @@ new device is a **cold start**.
 > **Backlog reconciliation (2026-07-09).** Dispositions: **R1** (feed the run-tracker from copy) — **FIXED**: the post-copy hint carries a
 > "✓ mark it run" button that records the run at the moment of action. **R4**
 > (resurface Operator context) — **FIXED**: the context badge now reads "· tuned to
-> <stack>". **R2** (opt-in PWA reminder), **R3** (export/import state), **R5**
-> (retention instrumentation) — **DEFERRED**. These are product
+> <stack>". **R3** (export/import state) — **FIXED**:
+> footer "export setup"/"import setup" round-trips all local state as a JSON file,
+> no backend. **R2** (opt-in PWA reminder) and **R5** (retention instrumentation)
+> — **DEFERRED**: R2 is a larger PWA build; R5 sends a signal off-device, which the
+> report says needs the maintainer's local-first stance, not a unilateral change. These are product
 > features, and R2/R3/R5 deliberately brush the "nothing leaves your machine"
 > promise, which the report flags as needing the maintainer's call before building.
 > Out of scope for a correctness-and-a11y backlog pass; captured here as the

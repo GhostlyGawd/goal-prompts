@@ -24,8 +24,10 @@ actual revenue path), and that funnel currently has no closing action.
 > (promote the free/no-signup offer) — **FIXED**: the hero offer line leads with
 > "free & open · no signup · nothing leaves your machine." **F6** (two "start"
 > CTAs) — **FIXED**: the nav "Get started" CTA now points at `#catalog`, the same
-> primary destination as the hero. **F2** (default way-in) & **F7** (copyable
-> brief near the hero) — **DEFERRED**: A/B-scoped changes, the maintainer's call.
+> primary destination as the hero. **F2** (default way-in) — **FIXED**: the copy-paste
+> way is badged "Start here" with a primary CTA + accent border. **F7** (copyable
+> brief near the hero) — **DEFERRED**: the report scopes it as an A/B test, not a
+> blind ship.
 > See `FIXLOG.md`.
 
 ---
