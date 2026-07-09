@@ -108,6 +108,7 @@
   .rephead .q{color:var(--faint);letter-spacing:.02em;font-family:var(--sans);font-size:12px;font-style:italic}
   .rephead .rule{flex:1;height:1px;background:var(--line)}
   .sechead{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+  .unrec{font-family:var(--mono);font-size:11px;color:var(--faint);margin:2px 0 8px}
   .find{
     background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--act);
     border-radius:var(--radius);padding:11px 12px;margin-bottom:8px;
@@ -246,6 +247,7 @@
   </div>
 </footer>
 
+<script src="/js/report-parser.js"></script>
 <script>
 "use strict";
 const RAW_BASE = /^https?:/.test(location.origin) ? location.origin : "https://goal-prompts.vercel.app";
@@ -255,62 +257,10 @@ function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return
 function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 let reports = load("gp-studio-reports", []);   // [{name, text}]
 let checks  = load("gp-studio-checks", {});    // {findingKey: 1}
-let parsed  = [];                              // [{name, findings:[…]}]
+let parsed  = [];                              // [{name, findings:[…], skipped}]
 
-/* ---------- parsing ---------- */
-function hash(s){ let h = 5381; for(let i = 0; i < s.length; i++){ h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; } return h.toString(36); }
-function firstWords(t){
-  const clean = t.replace(/[*_`>#]/g, "").replace(/\s+/g, " ").trim();
-  return clean.length > 88 ? clean.slice(0, 85).trimEnd() + "…" : clean;
-}
-function mkFinding(report, section, rawTitle, text){
-  const title = firstWords(rawTitle.replace(/^\d+\.\s*/, ""));
-  const sev =
-    /\bS1\b|\bcritical\b/i.test(text) ? "S1" :
-    /\bS2\b|\bhigh\b/i.test(text)     ? "S2" :
-    /\bS3\b|\bmedium\b/i.test(text)   ? "S3" :
-    /\blow\b/i.test(text)             ? "Low" : null;
-  const fixed = /\bFIXED\b|\bshipped\b/i.test(text);
-  const em = text.match(/effort\s*[:·—-]?\s*([SML])\b/i);
-  const im = text.match(/impact\s*[:·—-]?\s*([LMH])\b/i);
-  const tag = (rawTitle.match(/^(NEW|FIX|IMPROVE)\b/) || [])[1] || null;
-  const key = "f" + hash(report + "|" + title + "|" + text.slice(0, 120));
-  return { key: key, report: report, section: section, title: title, text: text,
-           sev: sev, fixed: fixed, effort: em ? em[1].toUpperCase() : null,
-           impact: im ? im[1].toUpperCase() : null, tag: tag };
-}
-function parseReport(name, text){
-  const out = [];
-  const lines = String(text).replace(/\r\n?/g, "\n").split("\n");
-  const sections = [];
-  let cur = { title: "", lines: [] };
-  for(const ln of lines){
-    const m = ln.match(/^##\s+(.+)/);
-    if(m && !ln.startsWith("###")){ sections.push(cur); cur = { title: m[1].trim(), lines: [] }; }
-    else cur.lines.push(ln);
-  }
-  sections.push(cur);
-  for(const s of sections){
-    const blocks = s.lines.join("\n").split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    for(const b of blocks){
-      if(/^#/.test(b)) continue;                       // stray headings
-      const bold = b.match(/^\*\*(.+?)\*\*/);
-      if(bold){ out.push(mkFinding(name, s.title, bold[1], b)); continue; }
-      if(/^(\d+\.|[-*])\s/.test(b)){
-        const items = b.split(/\n(?=(?:\d+\.|[-*])\s)/);
-        for(const raw of items){
-          const it = raw.trim();
-          const t = it.replace(/^(\d+\.|[-*])\s*/, "");
-          if(t.length < 30 && !t.includes("**")) continue;   // nav / trivia lines
-          const bm = t.match(/^\*\*(.+?)\*\*/);
-          out.push(mkFinding(name, s.title, bm ? bm[1] : t, it));
-        }
-      }
-      /* plain prose blocks (summaries, sign-offs) are context, not findings */
-    }
-  }
-  return out;
-}
+/* ---------- parsing — shared with Node tests via js/report-parser.js ---------- */
+const parseReport = window.GPReportParser.parseReport;
 
 /* ---------- clipboard ---------- */
 function feedback(btn, ok){
@@ -427,7 +377,10 @@ function findingRow(f){
   return row;
 }
 function render(){
-  parsed = reports.map(r => ({ name: r.name, findings: parseReport(r.name, r.text) }));
+  parsed = reports.map(r => {
+    const pr = parseReport(r.name, r.text);
+    return { name: r.name, findings: pr.findings, skipped: pr.skipped };
+  });
 
   /* prune checks that no longer correspond to a loaded finding */
   const live = new Set(allFindings().map(f => f.key));
@@ -457,6 +410,26 @@ function render(){
     const rule = document.createElement("span"); rule.className = "rule";
     rh.append(nm, q, rule);
     findingsEl.append(rh);
+    if(r.findings.length && r.skipped){
+      /* honesty line: the parser is a heuristic — say what it couldn't read */
+      const un = document.createElement("div"); un.className = "unrec";
+      const btn = document.createElement("button"); btn.className = "view";
+      btn.setAttribute("aria-expanded", "false");
+      const chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "▸";
+      btn.append(chev, document.createTextNode(" view raw"));
+      un.append("parsed " + r.findings.length + " section" + (r.findings.length === 1 ? "" : "s") +
+                "; " + r.skipped + " unrecognized — ", btn);
+      const rawrow = document.createElement("div"); rawrow.className = "find"; rawrow.hidden = true;
+      const rbody = document.createElement("div"); rbody.className = "fbody";
+      const rpre = document.createElement("pre"); rpre.textContent = reports.find(x => x.name === r.name).text;
+      rbody.append(rpre); rawrow.append(rbody);
+      btn.onclick = () => {
+        const open = rawrow.classList.toggle("open");
+        rawrow.hidden = !open;
+        btn.setAttribute("aria-expanded", open);
+      };
+      findingsEl.append(un, rawrow);
+    }
     if(!r.findings.length){
       const row = document.createElement("div"); row.className = "find open";
       const body = document.createElement("div"); body.className = "fbody";

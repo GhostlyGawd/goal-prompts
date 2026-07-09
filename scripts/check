@@ -60,9 +60,13 @@ for (const file of ["index.html", "studio.html", "vitals.html"]) {
 }
 EOF
 
-  say "catalog core (js/catalog-core.js syntax + unit tests)"
-  node --check js/catalog-core.js
+  say "site js modules (js/*.js syntax + unit tests)"
+  for f in js/*.js; do
+    node --check "$f"
+    echo "OK  $f"
+  done
   node tests/catalog_core.test.cjs
+  node tests/report_parser.test.cjs
 
   say "mcp smoke (spawns the real server)"
   node scripts/mcp-smoke.cjs
