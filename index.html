@@ -514,8 +514,8 @@
       </div>
     </div>
     <div class="side">
-      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts</div>
-      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">See how a co-branded playbook looks and reads, end to end.</p>
+      <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
+      <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
       <a href="/p/codereview-collab">View the collab template →</a>
     </div>
   </div>
@@ -525,7 +525,7 @@
   <div class="wrap seqbar-in">
     <span class="lab">conductor</span>
     <span class="ord" id="seqorder"></span>
-    <button class="seqcopy" id="seqcopy">copy conductor</button>
+    <button class="seqcopy" id="seqcopy" title="A conductor is one prompt that runs these briefs in order — paste it into your agent and it fetches and runs each one.">copy conductor</button>
     <button class="iconbtn" id="seqclear" aria-label="Clear the custom sequence">clear</button>
   </div>
 </div>
@@ -546,12 +546,13 @@
       <h4>As slash commands</h4>
       <p>Install once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
       <div class="cmd"><code id="installcmd">curl -fsSL https://goal-prompts.vercel.app/install | sh</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <p style="font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:8px">✓ SHA-256 verified before install · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent <code>list_briefs</code>, <code>suggest_briefs</code> &amp; <code>get_brief</code> mid-conversation.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
