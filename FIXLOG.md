@@ -18,7 +18,7 @@
 | 8 | Nav "Get started" CTA unified onto `#catalog` | CRO F6 | (ledger commit) | both start affordances now lead to the catalog |
 
 ### Still deferred (need a human decision or an external asset — recorded in each report)
-- Hero headline rewrite (COMPREHENSION F1); default-way-in and copyable-brief-near-hero (CRO F2/F7); partner contact CTA (CRO F5 — needs a real contact route); a "start here" default brief (ACTIVATION A2 — needs the maintainer's pick); retention features with local-first tradeoffs (RETENTION R1–R5); the hero A/B (ACTIVATION A3).
+- Hero headline rewrite (COMPREHENSION F1); default-way-in and copyable-brief-near-hero (CRO F2/F7); partner contact CTA (CRO F5 — needs a real contact route); retention features with local-first tradeoffs (RETENTION R1–R5); the hero A/B (ACTIVATION A3).
 - Subjective visual-hierarchy + color-meaning changes (HIERARCHY F3–F6, COLOR C2–C8) and the type/spacing-scale systematization (TYPO T3–T5, LAYOUT L1–L6) — these are dedicated design-refactor passes, not fold-ins; doing them blind would risk the regressions the reports themselves warn about.
 
 ### Blocked (external, unchanged)

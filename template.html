@@ -280,6 +280,11 @@
 
   /* ---------- question-led finder ---------- */
   .finder{margin-top:24px}
+  .finder .starter{display:inline-flex;align-items:center;gap:9px;max-width:100%;margin-bottom:16px;font-family:var(--sans);font-size:13.5px;color:var(--text);background:color-mix(in srgb,var(--fc) 9%,var(--panel));border:1px solid var(--line-2);border-radius:999px;padding:9px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+  .finder .starter:hover{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 14%,var(--panel))}
+  .finder .starter b{font-weight:700}
+  .finder .starter .sdot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
+  .finder .starter .sarrow{color:var(--fc);font-family:var(--mono);flex:none}
   .finder .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
   .finder .goallab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
   .finder .goal{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}
@@ -1196,7 +1201,9 @@ renderFamChart();
 function buildFinder(){
   const host=document.getElementById("finder"); if(!host) return;
   const goals=PLAYBOOKS.filter(pb=>!pb.preview).slice(0,4);
-  let g='<div class="goals"><span class="goallab">start with a goal</span>';
+  const day1=PLAYBOOKS.find(pb=>pb.key==="day1");
+  let g = day1 ? '<button class="starter" type="button" data-pb="day1"><span class="sdot"></span><b>New here?</b>&nbsp;Start with the <b>Day-1</b> playbook&nbsp;<span class="sarrow">→</span></button>' : '';
+  g+='<div class="goals"><span class="goallab">start with a goal</span>';
   goals.forEach(pb=>{
     const c=pb.accent||(byId[pb.ids[0]]?famColor(byId[pb.ids[0]].family):"var(--fc)");
     g+='<button class="goal" type="button" style="--fc:'+c+'" data-pb="'+pb.key+'"><span class="gd"></span>'+pb.name+'</button>';
