@@ -40,7 +40,7 @@ Create `CHANGE-RISK.md` at repo root:
 3. **Risks** — each: Concern · Lens · Hunk (file:line) · Failure mode · De-risk step · Blocker or not
 4. **Missing tests** — the specific cases worth adding before merge
 
-Start the report with today's date. If `CHANGE-RISK.md` already exists from a previous run, read it first and lead with what changed since.
+Start the report with today's date and name the change under review. If `CHANGE-RISK.md` already exists, it almost certainly reviewed a different change — note which change it covered, then replace it; only diff against it if it reviewed this same change.
 
 ## Rules
 - Judge only the change and what it touches, not the whole repo

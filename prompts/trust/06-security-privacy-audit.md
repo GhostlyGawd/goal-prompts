@@ -46,6 +46,5 @@ Start the report with today's date. If `SECURITY-AUDIT.md` already exists from a
 ## Rules
 - Their own severity labels must survive scrutiny — justify critical/high
 - One systemic fix beats ten spot patches; say when that's the case
-- No attack surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
 - Report only — end by asking which fixes to make

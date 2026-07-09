@@ -50,9 +50,11 @@ DATED_REPORT_EXEMPT = {"47"}
 # Briefs where a "no <surface> here" null report could never legitimately
 # fire: subjects every repo has (quality, debt, pruning, the Meta/Act layers
 # that operate on the repo itself) and audits whose subject's absence IS the
-# primary finding (02 missing tests, 16 missing docs).
-NULL_REPORT_EXEMPT = {"00", "01", "02", "13", "16", "26", "27", "28", "29",
-                      "46", "47"}
+# primary finding (02 missing tests, 16 missing docs). 06 belongs here too:
+# every repo has an attack surface — its own supply chain, secrets in git,
+# config — so a "no attack surface" escape could never truthfully fire.
+NULL_REPORT_EXEMPT = {"00", "01", "02", "06", "13", "16", "26", "27", "28",
+                      "29", "46", "47"}
 
 
 def sort_key(p: dict) -> tuple:
