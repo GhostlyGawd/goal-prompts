@@ -82,6 +82,8 @@
     color:var(--text);font-family:var(--mono);font-size:12.5px;padding:9px 11px;outline:0;resize:vertical;
   }
   .pastebox input:focus-visible,.pastebox textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .pastebox input.is-error,.pastebox textarea.is-error{border-color:var(--act)}
+  .pastebox input.is-error:focus-visible,.pastebox textarea.is-error:focus-visible{outline-color:var(--act)}
   .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--act);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
 
   /* ---------- loaded reports ---------- */
@@ -608,15 +610,21 @@ document.getElementById("ghbtn").onclick = () => {
   if(!box.hidden) document.getElementById("ghref").focus();
 };
 document.getElementById("ghload").onclick = async function(){
-  const ref = document.getElementById("ghref").value;
+  const ghref = document.getElementById("ghref");
+  const ref = ghref.value;
   this.disabled = true; this.textContent = "loading…";
   const n = await loadFromGitHub(ref);
   this.disabled = false;
+  ghref.classList.toggle("is-error", !n);
+  if(n){ ghref.removeAttribute("aria-invalid"); } else { ghref.setAttribute("aria-invalid", "true"); }
   this.textContent = n ? "loaded " + n + " ✓" : "load its reports";
   if(n){ document.getElementById("ghbox").hidden = true; this.textContent = "load its reports"; }
 };
 document.getElementById("ghref").addEventListener("keydown", e => {
   if(e.key === "Enter"){ e.preventDefault(); document.getElementById("ghload").click(); }
+});
+document.getElementById("ghref").addEventListener("input", function(){
+  this.classList.remove("is-error"); this.removeAttribute("aria-invalid");
 });
 
 document.getElementById("demobtn").onclick = async function(){

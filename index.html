@@ -149,6 +149,7 @@
   .report .bar{display:flex;align-items:center;gap:8px;padding:12px 15px;border-bottom:1px solid var(--line);background:var(--panel-2)}
   .report .fname{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:600}
   .report .fname::before{content:"▸ ";color:var(--faint)}
+  .report .mockcap{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.02em}
   .report .doc{padding:6px 10px 12px}
   .report .row{display:flex;gap:12px;padding:11px 6px;border-radius:8px}
   .report .row+.row{border-top:1px solid var(--line)}
@@ -273,7 +274,7 @@
   .body{display:none;margin-top:12px}
   .card.open .body{display:block}
   .body pre{font-family:var(--mono);font-size:12px;line-height:1.62;color:var(--text);background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow-y:auto}
-  .empty{text-align:center;color:var(--faint);font-family:var(--mono);font-size:13px;padding:56px 0}
+  .empty{text-align:center;color:var(--dim);font-family:var(--mono);font-size:13px;padding:56px 0}
   .empty b{color:var(--dim);font-weight:500}
   .empty .nearrow{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
@@ -305,6 +306,13 @@
   .seqcopy:hover{filter:brightness(1.12)}.seqcopy:active{transform:scale(.96)}
   .seqcopy.done{background:var(--good)}
   body.hasseq main{padding-bottom:92px}
+
+  /* ---------- guided next-step hint after a copy (Activation A1) ---------- */
+  .copyhint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.75)}
+  .copyhint code{font-family:var(--mono);color:var(--fc)}
+  .copyhint .x{margin-left:2px;flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+  .copyhint .x:hover{color:var(--text)}
+  body.hasseq .copyhint{bottom:96px}
 
   /* ---------- ways ---------- */
   .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
@@ -390,12 +398,12 @@
       <h1 class="title">Turn your coding agent into a <span class="hl">senior code auditor</span>.</h1>
     </div>
     <div>
-      <p class="sub">Point it at your repo. Every brief runs the same four-phase audit and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
+      <p class="sub">Point it at your repo. Every brief — a ready-made, copy-paste prompt — runs the same four-phase audit and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <div class="micro"><b id="herostat">135 briefs · 35 playbooks</b> · install in one line · MIT licensed &amp; free</div>
+      <div class="micro"><b id="herostat">135 briefs · 35 playbooks</b> · free &amp; open · no signup · nothing leaves your machine</div>
     </div>
   </div>
   <div class="chartblock">
@@ -450,8 +458,8 @@
         <li><b>One clean file per audit</b> — ready for a teammate, the Report Studio, or the Fixer.</li>
       </ul>
     </div>
-    <div class="report" aria-hidden="true">
-      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><span class="fname">BUGS.md</span></div>
+    <div class="report" role="img" aria-label="Schematic showing the shape of every report — 1 Summary, 2 Findings, 3 Verification plan, 4 Top 3 to fix first. Real reports are in the sample gallery.">
+      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><span class="fname">BUGS.md</span><span class="mockcap">the shape of every report</span></div>
       <div class="doc">
         <div class="row"><div class="rn">1</div><div><div class="rt">Summary</div><div class="rd">Count by severity, and the single scariest finding.</div></div></div>
         <div class="row"><div class="rn">2</div><div><div class="rt">Findings</div><div class="rd">Name · severity + confidence · location · trigger · fix sketch · effort.</div></div></div>
@@ -521,6 +529,8 @@
     </div>
   </div>
 </div></section>
+
+<div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
 
 <div class="seqbar" id="seqbar" hidden>
   <div class="wrap seqbar-in">
@@ -695,6 +705,17 @@ function feedback(btn, ok){
   btn.textContent = ok; btn.classList.add("done");
   btn._t = setTimeout(()=>{btn.textContent = btn.dataset.label; btn.classList.remove("done");}, 1600);
 }
+var _copyhintT;
+function showCopyHint(output){
+  var el = document.getElementById("copyhint"); if(!el) return;
+  document.getElementById("copyhinttext").innerHTML =
+    'Paste into Claude Code, Cursor, or any agent <b>inside your repo</b> — it writes <code>' +
+    (output || 'the report') + '</code> at the root.';
+  el.hidden = false;
+  clearTimeout(_copyhintT);
+  _copyhintT = setTimeout(function(){ el.hidden = true; }, 7000);
+}
+(function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
 function copyText(txt, btn, ok, evt){
   const done = ()=>{
     feedback(btn, ok || "Copied ✓");
@@ -944,6 +965,7 @@ function card(p, idx, stepNo){
   btn.onclick = e=>{
     e.stopPropagation();
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
+    showCopyHint(p.output);
     if(!runs[p.id]) run.textContent = "ran it? mark it";
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
