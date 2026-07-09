@@ -4,6 +4,7 @@ title: Typography Audit
 family: Design
 question: is it beautiful?
 output: TYPOGRAPHY.md
+example: /TYPOGRAPHY.md
 tagline: The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size.
 ---
 # Goal: Typography Audit

@@ -2,7 +2,7 @@
 id: "28"
 title: Roadmap Synthesis
 family: Meta
-question: do the reports compose?
+question: do the reports add up?
 output: ROADMAP.md
 tagline: The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan.
 ---

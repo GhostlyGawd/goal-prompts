@@ -4,7 +4,7 @@ title: Pain & Demand Mining
 family: Venture
 question: is it worth building?
 output: DEMAND.md
-example: /examples/venture/DEMAND.md
+example: /DEMAND.md
 tagline: Proof people actually hurt — verbatim complaints mined from reviews and forums, search and hiring signals, and what they already pay to make the pain stop.
 ---
 # Goal: Pain & Demand Mining

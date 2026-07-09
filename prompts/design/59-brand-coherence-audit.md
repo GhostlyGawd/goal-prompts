@@ -4,6 +4,7 @@ title: Brand Coherence Audit
 family: Design
 question: is it beautiful?
 output: BRAND.md
+example: /BRAND.md
 tagline: Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be.
 ---
 # Goal: Brand Coherence Audit

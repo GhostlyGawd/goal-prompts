@@ -1,6 +1,6 @@
 # Goal Prompts
 
-135 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+141 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
@@ -107,19 +107,19 @@ Curated sequences on the site, for when you don't want to choose:
 | Venture | is it worth building? | 60–67 |
 | Product | what could this be? | 00, 45, 106–108 |
 | Quality | does it work? | 01–03, 98–102 |
-| Speed | does it scale? | 04, 05, 51, 87, 88 |
+| Speed | does it scale? | 04, 05, 51, 87, 88, 140 |
 | Trust | is it safe? | 06–08, 68, 69, 81–86 |
 | Compliance | does it respect the user? | 125–128 |
 | Growth | does it grow? | 09–12, 70, 75, 78–80, 109, 110 |
 | Team | can others build on it? | 13–15, 52, 72, 94–97 |
-| API | will developers adopt it? | 111–115 |
-| Clarity | is it understood? | 16–18, 76, 103 |
+| API | will developers adopt it? | 111–115, 136 |
+| Clarity | is it understood? | 16–18, 76, 103, 135 |
 | Design | is it beautiful? | 54–59, 77, 104, 105, 129–134 |
-| Data | is it sound? | 19–22, 71, 89, 90 |
-| Ops | does it run? | 23–25, 53, 73, 91–93 |
+| Data | is it sound? | 19–22, 71, 89, 90, 138, 139 |
+| Ops | does it run? | 23–25, 53, 73, 91–93, 137 |
 | Reliability | will it stay up? | 121–124 |
 | Subtract | what should go? | 26, 27 |
-| Meta | do the reports compose? | 28, 29 |
+| Meta | do the reports add up? | 28, 29 |
 | Act | does anything change? | 46, 47, 74 |
 | Agent | does the agent deliver? | 30–38, 48–50 |
 | Automation | does the process hold? | 39–41 |

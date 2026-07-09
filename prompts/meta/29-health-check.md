@@ -2,7 +2,7 @@
 id: "29"
 title: Recurring Health Check
 family: Meta
-question: do the reports compose?
+question: do the reports add up?
 output: HEALTH.md
 tagline: A fast weekly vitals pass — tests, build, deps, TODOs — diffed against the last run so drift shows up as trend arrows.
 ---

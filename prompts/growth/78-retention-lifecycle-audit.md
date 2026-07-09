@@ -4,6 +4,7 @@ title: Retention & Lifecycle Audit
 family: Growth
 question: does it grow?
 output: RETENTION.md
+example: /RETENTION.md
 tagline: The return trip: the saved state, resurfaced value, and well-timed nudges that earn a second visit — and the churn cliffs that quietly lose it.
 ---
 # Goal: Retention & Lifecycle Audit

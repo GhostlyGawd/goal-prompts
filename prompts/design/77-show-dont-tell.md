@@ -4,6 +4,7 @@ title: Show, Don't Tell
 family: Design
 question: is it beautiful?
 output: SHOWCASE.md
+example: /SHOWCASE.md
 tagline: Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith?
 ---
 # Goal: Show, Don't Tell

@@ -4,6 +4,7 @@ title: Spacing & Layout Audit
 family: Design
 question: is it beautiful?
 output: LAYOUT.md
+example: /LAYOUT.md
 tagline: The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen.
 ---
 # Goal: Spacing & Layout Audit
