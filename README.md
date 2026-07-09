@@ -182,9 +182,9 @@ GOAL_PROMPTS_BASE=https://audits.your-co.internal python3 build.py
 ```
 
 The site, `raw/` endpoints, conductors, `catalog.json`, and the URLs
-embedded in brief bodies all follow it. For the slash-command installer,
-edit the `BASE=` line at the top of `install` to match. Unset, the build
-produces the canonical public site.
+embedded in brief bodies all follow it. The slash-command installer takes
+the same idea as an env var: `BASE=https://audits.your-co.internal sh
+install`. Unset, the build produces the canonical public site.
 
 ## Add a prompt
 

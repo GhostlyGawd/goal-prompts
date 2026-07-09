@@ -1,8 +1,17 @@
 #!/bin/sh
 # goal-prompts installer — https://goal-prompts.vercel.app
-# Installs the full goal-prompts catalog as Claude Code slash commands (/goal:*)
+#
+# Installs the full goal-prompts catalog as Claude Code slash commands.
+# Files land in .claude/commands/goal/ as goal-<slug>.md, so the commands
+# surface as /goal-bug-hunt, /goal-prune-audit, … (a commands subdirectory
+# does not namespace). Prefer real /goal:<slug> names? Install the plugin:
+#   /plugin marketplace add GhostlyGawd/goal-prompts   then install "goal"
+#
+# Re-run any time to update. Uninstall: rm -rf .claude/commands/goal
+# Forks/tests: BASE overrides the download origin, e.g.
+#   BASE=https://audits.your-co.internal sh install
 set -e
-BASE="https://goal-prompts.vercel.app"
+BASE="${BASE:-https://goal-prompts.vercel.app}"
 DEST=".claude/commands"
 
 if [ ! -d .git ]; then
@@ -14,25 +23,39 @@ trap 'rm -f "$TMP"' EXIT
 printf 'Downloading goal prompts…\n'
 curl -fsSL "$BASE/commands.tar.gz" -o "$TMP"
 
-if command -v sha256sum >/dev/null 2>&1; then
-  WANT=$(curl -fsSL "$BASE/checksums.txt" 2>/dev/null | grep ' commands.tar.gz' | cut -d' ' -f1 || true)
-  GOT=$(sha256sum "$TMP" | cut -d' ' -f1)
-  if [ -n "$WANT" ] && [ "$WANT" != "$GOT" ]; then
-    printf 'ERROR: checksum mismatch — refusing to install.\n' >&2
-    exit 1
+sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | cut -d' ' -f1
+  elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -d' ' -f1
+  elif command -v openssl >/dev/null 2>&1; then openssl dgst -sha256 "$1" | awk '{print $NF}'
   fi
+}
+GOT=$(sha256 "$TMP")
+WANT=$(curl -fsSL "$BASE/checksums.txt" 2>/dev/null | grep ' commands.tar.gz' | cut -d' ' -f1 || true)
+if [ -z "$GOT" ]; then
+  printf '⚠ NOT verified — no sha256sum, shasum, or openssl on this system; installing unverified.\n'
+elif [ -z "$WANT" ]; then
+  printf '⚠ NOT verified — could not fetch checksums.txt; installing unverified.\n'
+elif [ "$WANT" != "$GOT" ]; then
+  printf 'ERROR: checksum mismatch — refusing to install.\n' >&2
+  exit 1
+else
   printf 'Checksum verified.\n'
 fi
 
 if [ -d "$DEST/goal" ]; then
-  printf 'Existing %s/goal found — updating in place (local edits to those files will be overwritten).\n' "$DEST"
+  printf 'Existing %s/goal found — replacing it (local edits to those files will be lost).\n' "$DEST"
+  rm -rf "$DEST/goal"
 fi
 tar -xzf "$TMP" -C "$DEST"
-N=$(ls "$DEST/goal" | wc -l | tr -d ' ')
-printf 'Installed %s commands into %s/goal/\n\n' "$N" "$DEST"
+N=$(ls "$DEST/goal" | grep -c '\.md$')
+VER=$(cat "$DEST/goal/.version" 2>/dev/null || echo '?')
+printf 'Installed %s commands (goal-prompts v%s) into %s/goal/\n\n' "$N" "$VER" "$DEST"
 printf 'In Claude Code, try:\n'
-printf '  /goal:product-improvement   the flagship discovery audit\n'
-printf '  /goal:bug-hunt              find what is already broken\n'
-printf '  /goal:loop-termination-audit  how your agent runs end\n'
-printf '  /goal:roadmap-synthesis     run last — merges all reports\n\n'
+printf '  /goal-product-improvement  the flagship discovery audit\n'
+printf '  /goal-bug-hunt             find what is already broken\n'
+printf '  /goal-audit-triage         the agent names the audits this repo needs\n'
+printf '  /goal-roadmap-synthesis    run last — merges all reports\n\n'
+printf 'Prefer real /goal:<slug> names? Install the Claude Code plugin instead:\n'
+printf '  /plugin marketplace add GhostlyGawd/goal-prompts   then install "goal"\n\n'
+printf 'Update: re-run this installer.  Uninstall: rm -rf %s/goal\n' "$DEST"
 printf 'Catalog: %s\n' "$BASE"

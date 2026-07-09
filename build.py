@@ -1071,10 +1071,16 @@ def write_plugin(prompts: list) -> None:
 
 
 def write_archives(prompts: list) -> None:
-    entries = []
+    # Entries live under goal/ (one rm -rf uninstalls) but carry the goal-
+    # prefix in the filename, because a commands subdirectory does not
+    # namespace: the installed commands really are /goal-<slug>. The plugin
+    # (write_plugin) is where the /goal:<slug> namespace comes from.
+    version = json.loads(
+        (ROOT / "package.json").read_text(encoding="utf-8"))["version"]
+    entries = [("goal/.version", version.encode("utf-8"))]
     for p in prompts:
         content = command_md(p).encode("utf-8")
-        entries.append((f'goal/{p["slug"]}.md', content))
+        entries.append((f'goal/goal-{p["slug"]}.md', content))
     raw = io.BytesIO()
     with tarfile.open(fileobj=raw, mode="w", format=tarfile.GNU_FORMAT) as tf:
         for name, data in entries:
