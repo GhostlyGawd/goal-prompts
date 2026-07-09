@@ -727,6 +727,19 @@ function feedback(btn, ok){
   btn.textContent = ok; btn.classList.add("done");
   btn._t = setTimeout(()=>{btn.textContent = btn.dataset.label; btn.classList.remove("done");}, 1600);
 }
+// Retention R5: attach an anonymous, non-PII cohort id + first-seen-week bucket
+// to the (already anonymous) analytics events, so new-vs-returning and week-N
+// cohorts become measurable. gp-runs and the rest never leave the device.
+var _AID, _FSW;
+try{
+  _AID = localStorage.getItem("gp-aid") || Math.random().toString(36).slice(2, 10);
+  localStorage.setItem("gp-aid", _AID);
+  _FSW = localStorage.getItem("gp-fsw") || String(Math.floor(Date.now() / 6048e5));
+  localStorage.setItem("gp-fsw", _FSW);
+}catch(e){}
+function track(name, data){
+  try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){}
+}
 var _copyhintT;
 function showCopyHint(output, id){
   var el = document.getElementById("copyhint"); if(!el) return;
@@ -751,7 +764,7 @@ document.addEventListener("click", function(e){
 function copyText(txt, btn, ok, evt){
   const done = ()=>{
     feedback(btn, ok || "Copied ✓");
-    if(evt){ try{ window.va("event", evt); }catch(e){} }
+    if(evt){ track(evt.name, evt.data); }
   };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done).catch(()=>fallback());
@@ -1029,14 +1042,16 @@ function renderNudge(){
     const d = document.createElement("div");
     d.className = "nudge"; d.id = "nudge";
     d.innerHTML = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
-    listEl.prepend(d);
+    d.querySelector("a").addEventListener("click", function(){ track("nudge_clicked", {kind:"roadmap"}); });
+    listEl.prepend(d); track("nudge_shown", {kind:"roadmap"});
     return;
   }
   if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
     const d = document.createElement("div");
     d.className = "nudge"; d.id = "nudge";
     d.innerHTML = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
-    listEl.prepend(d);
+    d.querySelector("a").addEventListener("click", function(){ track("nudge_clicked", {kind:"vitals"}); });
+    listEl.prepend(d); track("nudge_shown", {kind:"vitals"});
   }
 }
 function render(){
@@ -1066,7 +1081,7 @@ function render(){
       }
       const q0 = query;
       zeroT = setTimeout(()=>{
-        if(query === q0){ try{ window.va("event", {name:"search_zero", data:{q:q0.slice(0,80)}}); }catch(err){} }
+        if(query === q0){ track("search_zero", {q:q0.slice(0,80)}); }
       }, 1200);
     }
     listEl.append(e); return;
