@@ -21,13 +21,11 @@ hues**, well past the point of reliable distinction. This is a dark-only site
 > **C1** (`--faint` fails AA) — **FIXED**: `--faint` now clears 4.5:1 on ink,
 > panel, and panel-2 in both themes (dark `#8B8D95`, light `#6A6C73`).
 > **C9** (dead `--panel-3`) — **FIXED**: removed. **C2–C5** (green/amber/red
-> meaning collides with family/brand hues) — **CONFIRMED against the current
-> palette, DEFERRED as a design call**: the collisions persist by hex —
-> `--success` still equals Trust `#52C280`, `--warning`/brand equals Product
-> `#E8B44C`, `--danger` equals Act `#E84C3D`. The redesign *did* name them
-> (`--success` / `--warning` / `--danger` in `tokens.css`), so they can now be
-> recolored independently of the families — but choosing distinct brand-safe hexes
-> is a designer's decision, not a mechanical fix. **C6** (two severity ramps),
+> meaning collides with family/brand hues) — **FIXED**: the semantic tokens were recolored distinct from every family hue —
+> `--success` `#2FAF73` (was Trust `#52C280`), `--warning` `#F59E2C` (was Product
+> `#E8B44C`), `--danger` `#E23B4B` (was Act `#E84C3D`), plus `--down` decoupled
+> from Quality, with light-theme equivalents — verified in Chromium in both
+> themes. "Green = success" and "green = Trust family" are no longer one pixel. **C6** (two severity ramps),
 > **C7** (now 21 categorical hues, was 17), **C8** (color as sole family signal) —
 > **DEFERRED** (design calls). See `FIXLOG.md`.
 
