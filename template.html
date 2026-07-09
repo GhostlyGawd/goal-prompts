@@ -222,7 +222,7 @@
   .pb .len{color:var(--faint)}
   .pb:hover{border-color:var(--dim);color:var(--text)}
   .pb[aria-pressed="true"]{border-style:solid;border-color:var(--text);color:var(--text);background:var(--panel)}
-  /* on phones the 19 family + 32 playbook chips wrapped into ~8 rows and, under a sticky
+  /* on phones the family + playbook chips wrapped into many rows and, under a sticky
      bar, cards bled through. Collapse each into one swipeable row; fade the right edge to hint it. */
   @media(max-width:640px){
     .chips,.pbs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
