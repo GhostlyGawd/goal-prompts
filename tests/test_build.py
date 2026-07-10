@@ -1548,24 +1548,35 @@ class ProofLoopTests(unittest.TestCase):
         end = html.index("<footer", start)
         return html[start:end]
 
+    @classmethod
+    def _pipe_block(cls):
+        # Just the new end-to-end walkthrough. Scoping here (not the whole
+        # Proof section) is what gives these tests teeth: the stage names also
+        # appear in the pre-existing proofcards/Studio figure, so a
+        # section-wide assertion would pass even if the walkthrough were
+        # deleted. If the block is gone, .index raises and the test fails.
+        proof = cls._proof_section()
+        start = proof.index('<div class="pipe">')
+        end = proof.index('<div class="proof">', start)
+        return proof[start:end]
+
     def test_proof_names_every_loop_stage(self):
-        proof = self._proof_section()
-        for stage in ("Studio", "Fixer", "FIXLOG"):
-            self.assertIn(stage, proof, stage)
+        pipe = self._pipe_block()
+        for stage in ("Brief", "Report", "Studio", "Fixer", "FIXLOG"):
+            self.assertIn("<h3>%s</h3>" % stage, pipe, stage)
 
     def test_proof_wires_the_loop_links(self):
-        proof = self._proof_section()
-        self.assertIn("/studio", proof)       # the Report Studio
-        self.assertIn("/examples", proof)      # the real reports
-        self.assertIn("FIXLOG.md", proof)      # the loop's endpoint
+        pipe = self._pipe_block()
+        for href in ("/studio", "/examples", "FIXLOG.md", "/b/47"):
+            self.assertIn(href, pipe, href)   # Studio, reports, FIXLOG, Fixer
 
     def test_proof_stages_appear_in_loop_order(self):
-        # property/invariant: the first mention of each stage runs in the
-        # order the loop actually flows, so the walkthrough can't be shuffled
-        # into something that reads out of sequence.
-        proof = self._proof_section()
-        order = [proof.index(s) for s in
-                 ("brief", "report", "Studio", "Fixer", "FIXLOG")]
+        # property/invariant: the five stage headings run in the order the loop
+        # actually flows, scoped to the walkthrough block so an innocent
+        # lead-copy rewrite elsewhere in Proof can't flip it.
+        pipe = self._pipe_block()
+        order = [pipe.index("<h3>%s</h3>" % s) for s in
+                 ("Brief", "Report", "Studio", "Fixer", "FIXLOG")]
         self.assertEqual(order, sorted(order), order)
 
 
