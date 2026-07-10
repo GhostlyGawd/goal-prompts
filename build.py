@@ -17,6 +17,14 @@ import datetime, gzip, io, json, os, re, shutil, sys, tarfile, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).parent
+
+# The design engine (design-engine/) is the single source of brand truth:
+# brand.json holds the palette, type, spacing, radii, motion, and mark
+# geometry; its stdlib-only tools compile them. build.py consumes the engine -
+# never the reverse - so the engine folder stays copy-portable (ADR-13).
+sys.path.insert(0, str(ROOT / "design-engine" / "tools"))
+import mark_render, tokens_build  # noqa: E402
+BRAND = json.loads((ROOT / "design-engine" / "brand.json").read_text(encoding="utf-8"))
 DEFAULT_BASE = "https://goal-prompts.vercel.app"
 # Forks: set GOAL_PROMPTS_BASE to your deployment URL — every generated
 # surface (site, raw/, conductors, catalog.json, brief bodies) follows it.
@@ -27,22 +35,14 @@ FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Compliance",
                 "Reliability", "Subtract", "Meta", "Act", "Build", "Agent",
                 "Automation", "AI-UX", "AI-Ethics"]
 # family colors — the structural signature: color = family, everywhere.
-# Source of truth for Python (og.py imports these); template.html's .f-* CSS
-# rules must carry the same values for the JS-rendered catalog.
-FAMILY_COLORS = {
-    "Venture": "#C878F0", "Product": "#E8B44C", "Quality": "#E8705F",
-    "Speed": "#4D9FFF", "Trust": "#52C280", "Growth": "#A98CF5",
-    "Team": "#3FC1C9", "Clarity": "#9AD4E8", "Design": "#5CE8A0",
-    "Data": "#F0904A", "Ops": "#B4C64A", "Subtract": "#E87FB0",
-    "Meta": "#C4CBD8", "Act": "#E84C3D", "Agent": "#8B7CF8",
-    "Automation": "#E8DE5A", "AI-UX": "#F06FD8", "Compliance": "#8892B0",
-    # R64 (COLOR C7): API azure (was #2CB5C4, ΔE 5.8 from Team's teal) and
-    # Reliability sage (was #5FC08A, ΔE 7.9 from Trust's green) — both now
-    # ≥ 15 ΔE from every other family in dark AND light (FamilyDistinctionTests).
-    # Changing a value here recolors that family's og/ cards: rerun scripts/og.py.
-    "API": "#36B3EC", "Reliability": "#8CA878", "AI-Ethics": "#6E8AF0",
-    "Build": "#8CD94C",
-}
+# The values live in design-engine/brand.json (palette.categorical); og.py
+# keeps importing build.FAMILY_COLORS, and the compiled tokens.css carries
+# the same values as .f-* rules for the JS-rendered catalog. Adding a family
+# now means: brand.json categorical + FAMILY_ORDER + FAM_ICON + a <symbol>
+# in template.html (ADR-2 recipe, amended by ADR-13). R64's ΔE ≥ 15 family
+# distinction is pinned by FamilyDistinctionTests; changing a value recolors
+# that family's og/ cards: rerun scripts/og.py.
+FAMILY_COLORS = BRAND["palette"]["categorical"]
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
 # Filenames that mean something else on GitHub — a brief writing one would
 # shadow the repo's own community files, so the linter forbids them as outputs.
@@ -565,121 +565,30 @@ def brief_parts(body: str) -> dict:
 
 # ---- shared shell: tokens, components, nav, footer -------------------
 
-# The mark: four audit bars, three in ink (currentColor, so it re-keys with
-# the theme) and the tallest flagged in the accent — "the finding that
-# matters". One accent, not four hues: the rainbow mark read as generic
-# (specs/design-direction.md).
-BRAND_MARK = (
-    '<svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">'
-    '<rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/>'
-    '<rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/>'
-    '<rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/>'
-    '<rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>')
-
-# Favicon = the bar mark (same geometry as BRAND_MARK), so the browser tab
-# echoes the header logo instead of an unrelated "GP" monogram (B1).
-# Standalone SVG: no CSS vars here, so the accent is hardcoded.
-FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' "
-           "viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' "
-           "fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E"
-           "%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E"
-           "%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E"
-           "%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E"
-           "%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E"
-           "%3C/g%3E%3C/svg%3E")
-
-FAMILY_CSS = "".join(f".f-{k.lower()}{{--fc:{v}}}" for k, v in FAMILY_COLORS.items())
+# The mark, favicon, and every design token are rendered from brand.json by
+# the design engine — one geometry, one palette, everywhere (tab, header,
+# app icons via scripts/icons.py; the OG cards echo the same bar language).
+# Ledger mark: four audit bars, three in ink (currentColor, so it re-keys
+# with the theme) and the tallest flagged in the accent — "the finding that
+# matters" (specs/design-direction.md).
+BRAND_MARK = mark_render.svg(BRAND["mark"])
+FAVICON = mark_render.favicon_data_uri(BRAND["mark"])
 
 # Light theme darkens every family accent in place: the raw hues sit at
-# 1.3–1.9:1 on the light panels (unreadable as text). 62% toward black keeps
-# every hue recognizable and puts the worst (#E8DE5A Automation) at ≥3:1 on
-# the lightest and darkest light surfaces — TokensTests pins the arithmetic.
-# (58% on the ledger paper: its light surfaces are darker than 0.14's
-# neutrals, so 62% left Automation at 2.9:1 on --panel-2.)
-FAMILY_MIX_LIGHT = 58
-FAMILY_CSS_LIGHT = (
-    "".join(f':root[data-theme="light"] .f-{k.lower()}'
-            f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
-            for k, v in FAMILY_COLORS.items())
-    + "@media (prefers-color-scheme:light){"
-    + "".join(f":root:not([data-theme]) .f-{k.lower()}"
-              f"{{--fc:color-mix(in srgb,{v} {FAMILY_MIX_LIGHT}%,black)}}"
-              for k, v in FAMILY_COLORS.items())
-    + "}")
+# 1.3-1.9:1 on the light panels (unreadable as text). The mix percentage
+# lives in brand.json (palette.categorical_mix) and keeps the worst hue at
+# >= 3:1 on the pinned light surfaces — TokensTests pins the arithmetic,
+# design-engine/tools/contrast.py gates the whole matrix. (58% on the ledger
+# paper: its light surfaces are darker than 0.14's neutrals, so 62% left
+# Automation at 2.9:1 on --panel-2.)
+FAMILY_MIX_LIGHT = BRAND["palette"]["categorical_mix"]["light"]["percent"]
+FAMILY_MIX = BRAND["palette"]["categorical_mix"]  # {theme: {toward, percent}}
 
 # tokens.css — the single source of truth for design tokens on EVERY surface.
-# build.py writes it to /tokens.css and every page links it (index, the b//p/
-# detail pages, studio.html, vitals.html), so the token set can never drift
-# between stylesheets again. Fonts live here too, so shipping/dropping a weight
-# is a one-line change. Edit here, not in the HTML files.
-TOKENS_CSS = """/* tokens.css — GENERATED by build.py; do not hand-edit. Edit TOKENS_CSS in build.py. */
-@font-face{font-family:'Schib';font-style:normal;font-weight:400 800;font-display:swap;src:url(/fonts/schibstedgrotesk-latin-var.woff2) format('woff2')}
-@font-face{font-family:'PSans';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexsans-latin-400.woff2) format('woff2')}
-@font-face{font-family:'PSans';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexsans-latin-600.woff2) format('woff2')}
-@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/plexmono-latin-400.woff2) format('woff2')}
-@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/plexmono-latin-600.woff2) format('woff2')}
-:root{
-  color-scheme:dark;
-  /* the ledger palette (specs/design-direction.md): warm ink + paper + ONE
-     accent — the auditor's vermilion. Family hues survive only as metadata. */
-  --ink:#15120D;--ink-2:#0F0D09;--panel:#1C1812;--panel-2:#252017;
-  --line:#2B2519;--line-2:#3B3423;--line-3:#524931;
-  --text:#F0EADC;--dim:#B9B09B;--faint:#948A72;--body:#D6CFBE;
-  --btn:#F0EADC;--btn-fg:#15120D;
-  --amber:#DFA355;--amber-2:#EFC183;--fc:#FF6B47;
-  --success:#5AB380;--warning:#E09540;--danger:#F0522E;
-  /* one severity ramp (COLOR C6/R64), re-keyed onto the ledger palette — the
-     hero's S2 chip and Studio's .c-s* both consume these. --sev-3 is a straw
-     deliberately off the ledger amber (ΔE 21 from #DFA355); --sev-ink is the
-     on-chip ink, AA 4.5+ on --sev-2 in this theme (SeverityContrastTests
-     pins both). */
-  --sev-1:var(--danger);--sev-2:var(--warning);--sev-3:#D9C874;
-  --sev-low:var(--faint);--sev-fixed:var(--success);--sev-ink:#15120D;
-  /* text-on-panel variants for the two ramp stops (Studio's .c-s2/.c-fixed);
-     the dark fills already read as text there (7.19/6.89 on --panel), so
-     dark just aliases them */
-  --sev-2-text:var(--sev-2);--sev-fixed-text:var(--sev-fixed);
-  /* motion (STATES §4) — the one vocabulary already in use, named */
-  --dur-press:.1s;--dur-state:.15s;--dur-move:.2s;--dur-enter:.4s;
-  --ease:ease;--ease-enter:cubic-bezier(.2,.7,.3,1);
-  /* Primary-action colour convention (HIERARCHY F6): the accent --fc is the
-     *browse/navigate* primary; --act (red) is the *commit / act-adjacent*
-     primary — the Studio Fixer button, the Act family. In the ledger system
-     both live in the vermilion family on purpose: red = flagged / act. */
-  --good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#C9C0AC;
-  --r-sm:2px;--r-md:3px;--r-pill:999px;--radius:2px;
-  /* container + rhythm scale (LAYOUT L1/T4 — one source; @media can't take var() so breakpoints stay literal) */
-  --w-page:1120px;--w-doc:960px;--w-read:760px;--gutter:24px;--lh-body:1.6;
-  /* spacing scale — 4pt base (LAYOUT L2/L4/L6); map off-grid values (9,7,22…) onto it */
-  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:40px;--s8:48px;--s9:64px;
-  --section:64px;--section-tight:48px;
-  --disp:'Schib','PSans',system-ui,-apple-system,sans-serif;
-  --sans:'PSans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
-}
-:root[data-theme="light"]{__LIGHT__}
-/* OS-light users without a stored choice get the light theme by default;
-   an explicit data-theme (set by the toggle) always wins, both directions. */
-@media (prefers-color-scheme:light){:root:not([data-theme]){__LIGHT__}}
-button:active{transform:scale(.97)}
-button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
-__FAMILY_CSS__
-""".replace("__LIGHT__", """
-  color-scheme:light;
-  --ink:#F2EFE6;--ink-2:#E9E5D6;--panel:#FAF8F1;--panel-2:#ECE7D8;
-  --line:#DCD6C3;--line-2:#C8C1A9;--line-3:#A69D82;
-  --text:#1B1810;--dim:#524C3C;--faint:#736B55;--body:#35302A;
-  --btn:#1B1810;--btn-fg:#F5F2E9;--amber:#8A651E;--amber-2:#A47B2B;--fc:#B93A16;
-  --success:#207142;--warning:#8F650E;--danger:#B02E12;--good:var(--success);--act:var(--danger);--up:var(--success);--down:var(--danger);--meta:#6B6553;
-  /* light severity ramp on the ledger paper: the warm light hues run darker
-     than 0.14's neutrals, so --warning/--success already read as TEXT on
-     --panel (4.90/5.64) and the -text variants reuse them; --sev-ink flips
-     to the paper --btn-fg (4.65 on the dark-ochre --warning chip), where a
-     near-black ink would sit at 3.4:1. */
-  --sev-1:var(--danger);--sev-2:var(--warning);--sev-3:#736616;
-  --sev-low:var(--faint);--sev-fixed:var(--success);--sev-ink:#F5F2E9;
-  --sev-2-text:#8F650E;--sev-fixed-text:#207142;
-""").replace("__FAMILY_CSS__", FAMILY_CSS + "\n" + FAMILY_CSS_LIGHT)
+# Compiled from design-engine/brand.json; build.py writes it to /tokens.css
+# and every page links it (index, the b//p/ detail pages, studio.html,
+# vitals.html). Edit brand.json, not CSS, not this file.
+TOKENS_CSS = tokens_build.compile_css(BRAND)
 
 SITE_CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
@@ -710,6 +619,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .nav-cta:hover{filter:brightness(1.12)}
 /* under 720px keep Playbooks + Studio reachable — same treatment as the landing page */
 @media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
+@media(max-width:480px){.nav-cta{display:none}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
@@ -2206,12 +2116,17 @@ def main() -> None:
     # ---- service worker (offline shell; version stamped from content) ----
     import hashlib as _hl
     # bodies.json rides the version hash: index.html no longer changes when a
-    # brief body does, so without it a body edit would never bust the cache
+    # brief body does, so without it a body edit would never bust the cache.
+    # Fonts join it too: a face swap alone must bump the SW version, or
+    # returning visitors keep the old precached fonts forever.
     ver_src = b"".join((ROOT / f).read_bytes() for f in
                        ("index.html", "studio.html", "vitals.html", "tokens.css",
                         "bodies.json",
                         "js/catalog-core.js", "js/report-parser.js", "js/gp-detail.js",
-                        "icons/icon-192.png", "icons/icon-512.png"))
+                        "icons/icon-192.png", "icons/icon-512.png")
+                       ) + b"".join((ROOT / f["path"]).read_bytes()
+                                    for face in BRAND["type"]["faces"]
+                                    for f in face["files"])
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
                 "/tokens.css", "/bodies.json",

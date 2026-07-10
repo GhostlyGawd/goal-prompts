@@ -1,0 +1,566 @@
+{
+  "$comment": "Schema for brand.json — the single source of brand truth. Validated by tools/brand_lint.py, which implements the subset of JSON Schema used here: type, required, properties, additionalProperties, patternProperties, pattern, enum, items, minimum, maximum. Semantic invariants that a schema can't express (theme role parity, alias resolution, font files existing on disk) are enforced by brand_lint.py directly.",
+  "type": "object",
+  "required": [
+    "meta",
+    "identity",
+    "palette",
+    "contrast",
+    "type",
+    "space",
+    "radii",
+    "motion",
+    "mark",
+    "host"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "brand_version"
+      ],
+      "properties": {
+        "brand_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "name",
+        "product_name",
+        "tagline",
+        "voice"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "voice": {
+          "type": "object",
+          "required": [
+            "tone",
+            "principles"
+          ],
+          "properties": {
+            "tone": {
+              "type": "string"
+            },
+            "principles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "banned_words": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "signatures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "required": [
+        "themes",
+        "default_theme",
+        "categorical",
+        "categorical_mix"
+      ],
+      "properties": {
+        "themes": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z][a-z0-9-]*$": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z][a-z0-9-]*$": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-z][a-z0-9-]*$": {
+                      "type": "string",
+                      "pattern": "^(#[0-9A-Fa-f]{6}|@[a-z][a-z0-9-]*)$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "default_theme": {
+          "type": "string"
+        },
+        "categorical": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          }
+        },
+        "categorical_prefix": {
+          "type": "string"
+        },
+        "categorical_var": {
+          "type": "string"
+        },
+        "categorical_mix": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z][a-z0-9-]*$": {
+              "type": "object",
+              "required": [
+                "toward",
+                "percent"
+              ],
+              "properties": {
+                "toward": {
+                  "type": "string",
+                  "enum": [
+                    "black",
+                    "white"
+                  ]
+                },
+                "percent": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              }
+            }
+          }
+        },
+        "notes": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "contrast": {
+      "type": "object",
+      "required": [
+        "surfaces",
+        "text_min",
+        "categorical_min"
+      ],
+      "properties": {
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text_min": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 21
+            }
+          }
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accents_min": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "categorical_min": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "categorical_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "type": {
+      "type": "object",
+      "required": [
+        "faces",
+        "stacks"
+      ],
+      "properties": {
+        "faces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "role",
+              "family",
+              "css_name",
+              "license",
+              "files"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "display",
+                  "sans",
+                  "serif",
+                  "mono"
+                ]
+              },
+              "family": {
+                "type": "string"
+              },
+              "css_name": {
+                "type": "string"
+              },
+              "license": {
+                "type": "string"
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "weight",
+                    "style"
+                  ],
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "weight": {
+                      "type": "string"
+                    },
+                    "style": {
+                      "type": "string",
+                      "enum": [
+                        "normal",
+                        "italic"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "stacks": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-z][a-z0-9-]*$": {
+              "type": "string"
+            }
+          }
+        },
+        "preload": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "space": {
+      "type": "object",
+      "required": [
+        "layout",
+        "scale"
+      ],
+      "properties": {
+        "layout": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        },
+        "scale": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        },
+        "sections": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "radii": {
+      "type": "object",
+      "patternProperties": {
+        "^.+$": {
+          "type": "string"
+        }
+      }
+    },
+    "elevation": {
+      "type": "object",
+      "patternProperties": {
+        "^.+$": {
+          "type": "string"
+        }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "required": [
+        "durations",
+        "easings",
+        "reduced_motion"
+      ],
+      "properties": {
+        "durations": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string",
+              "pattern": "^([0-9]*\\.)?[0-9]+m?s$"
+            }
+          }
+        },
+        "easings": {
+          "type": "object",
+          "patternProperties": {
+            "^.+$": {
+              "type": "string"
+            }
+          }
+        },
+        "reduced_motion": {
+          "type": "string",
+          "enum": [
+            "collapse-to-instant",
+            "none"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "mark": {
+      "type": "object",
+      "required": [
+        "viewbox",
+        "favicon"
+      ],
+      "properties": {
+        "viewbox": {
+          "type": "number"
+        },
+        "rx": {
+          "type": "number"
+        },
+        "class": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        },
+        "default_theme": {
+          "type": "string"
+        },
+        "bars": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "x",
+              "y",
+              "w",
+              "h",
+              "color"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "w": {
+                "type": "number"
+              },
+              "h": {
+                "type": "number"
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            }
+          }
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "rect",
+                  "arch",
+                  "line",
+                  "circle"
+                ]
+              },
+              "solid": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            }
+          }
+        },
+        "favicon": {
+          "type": "object",
+          "required": [
+            "viewbox",
+            "bg",
+            "bg_radius",
+            "tx",
+            "ty",
+            "scale"
+          ],
+          "properties": {
+            "viewbox": {
+              "type": "number"
+            },
+            "bg": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "bg_radius": {
+              "type": "number"
+            },
+            "tx": {
+              "type": "number"
+            },
+            "ty": {
+              "type": "number"
+            },
+            "scale": {
+              "type": "number"
+            }
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "host": {
+      "type": "object",
+      "required": [
+        "integration",
+        "tokens_out",
+        "fonts_dir",
+        "fonts_url"
+      ],
+      "properties": {
+        "integration": {
+          "type": "string",
+          "enum": [
+            "python-import",
+            "file"
+          ]
+        },
+        "tokens_out": {
+          "type": "string"
+        },
+        "fonts_dir": {
+          "type": "string"
+        },
+        "fonts_url": {
+          "type": "string"
+        },
+        "pages_to_shoot": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "themes_to_shoot": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "theme_storage_key": {
+          "type": "string"
+        },
+        "extra_css": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hex_lint": {
+          "type": "object",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "allow": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

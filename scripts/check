@@ -4,7 +4,8 @@
 #   scripts/check
 #
 # Runs everything a contribution must clear: the build (which lints every
-# brief), the linter's own tests, the hermetic installer test, JS syntax on
+# brief), the design gates (brand.json lint + the WCAG contrast matrix), the
+# linter's and engine's own tests, the hermetic installer test, JS syntax on
 # the MCP server and both site scripts, and the MCP smoke test. CI and Vercel
 # run the same steps; passing here means the deploy will not surprise you.
 #
@@ -14,7 +15,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 step=0
-say() { step=$((step + 1)); printf '\n== %s/7  %s ==\n' "$step" "$1"; }
+say() { step=$((step + 1)); printf '\n== %s/8  %s ==\n' "$step" "$1"; }
 
 say "build (lints all briefs, regenerates every surface)"
 # Capture rather than `| tail -1`: a pipe masks build.py's exit code, so a
@@ -26,8 +27,13 @@ if ! build_out=$(python3 build.py 2>&1); then
 fi
 printf '%s\n' "$build_out" | tail -1
 
-say "linter tests"
+say "design gates (brand.json lint + WCAG contrast matrix)"
+python3 design-engine/tools/brand_lint.py
+python3 design-engine/tools/contrast.py
+
+say "linter + engine tests"
 python3 -m unittest discover -s tests -q
+python3 -m unittest discover -s design-engine/tests -q
 
 if command -v curl >/dev/null 2>&1; then
   say "installer (hermetic, against a local server)"
@@ -42,6 +48,10 @@ if command -v node >/dev/null 2>&1; then
   echo "OK  mcp/server.cjs"
   node --check sw.js
   echo "OK  sw.js"
+  node --check design-engine/tools/shots.cjs
+  echo "OK  design-engine/tools/shots.cjs"
+  node --check design-engine/tools/motion_preview.cjs
+  echo "OK  design-engine/tools/motion_preview.cjs"
 
   say "site script syntax (index.html + studio.html + vitals.html)"
   node - <<'EOF'
@@ -72,8 +82,8 @@ EOF
   say "mcp smoke (spawns the real server)"
   node scripts/mcp-smoke.cjs
 else
-  step=7
-  printf '\n== 4-7/7  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
+  step=8
+  printf '\n== 5-8/8  SKIPPED — node not found (needed only for mcp/ and site-script checks) ==\n'
 fi
 
 printf '\nALL CHECKS PASSED\n'

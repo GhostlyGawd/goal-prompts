@@ -1,0 +1,174 @@
+{
+  "$schema": "./brand.schema.json",
+  "meta": {
+    "brand_version": 2,
+    "note": "Brand v2 — Auditorium. Mid-century editorial print from the operator's mood board: cream paper default, cobalt structure, one glowing lamp-orange, ink text; Blue Hour navy as the companion dark. Locked at Gates 2R/2R2: name Auditorium, mark Arcade V1 (stroke trio), type Fraunces / Source Serif 4 / Space Mono, Paper-first. All 22 family hues re-derived for both grounds; every contrast narrowing from v1 removed."
+  },
+  "identity": {
+    "name": "goal-prompts",
+    "product_name": "Auditorium",
+    "tagline": "Turn your coding agent into a senior code auditor.",
+    "voice": {
+      "tone": "Mission-control calm with mid-century optimism: a senior auditor who believes the future is buildable — and checks the math. Editorial, warm, precise; showtime words welcome (programme, ovation, doors open), never salesy.",
+      "principles": [
+        "evidence, not vibes",
+        "the report is the deliverable — the → FILE.md glyph is a protected signature",
+        "color = family, everywhere",
+        "light from within — show the real product working, never gloss",
+        "paper first: flat color, honest ink lines, print rhythm",
+        "house-proud — the catalog audits itself in public"
+      ],
+      "banned_words": ["revolutionary", "game-changing", "supercharge", "unleash", "blazingly", "magical"]
+    },
+    "signatures": [
+      "the arcade — receding arches, the catalog as a place you walk into",
+      "the hanging bubble lamp — the one glowing orange accent",
+      "the → FILE.md deliverable glyph",
+      "family color everywhere (card stripes, ids, OG bars)"
+    ]
+  },
+  "palette": {
+    "themes": {
+      "light": {
+        "surfaces": { "ink": "#F7F2E3", "ink-2": "#EFE7D2", "panel": "#FCFAF2", "panel-2": "#F1EBDA" },
+        "lines": { "line": "#DCD2BA", "line-2": "#C9BC9E", "line-3": "#AE9F7C" },
+        "text": { "text": "#1D1F28", "dim": "#4C4F5E", "faint": "#6E7182", "body": "#33363F" },
+        "controls": { "btn": "#3355B4", "btn-fg": "#FBF8EE", "sev": "#BE3524" },
+        "accents": { "amber": "#A04510", "amber-2": "#BA5011", "lamp": "#E8752C", "fc": "#3355B4" },
+        "semantic": { "success": "#276B44", "warning": "#7E5A0A", "danger": "#BE3524" },
+        "aliases": { "good": "@success", "act": "@danger", "up": "@success", "down": "@danger", "meta": "#6B7C9D" }
+      },
+      "dark": {
+        "surfaces": { "ink": "#131C33", "ink-2": "#0D1526", "panel": "#1B2745", "panel-2": "#22305A" },
+        "lines": { "line": "#2B3A66", "line-2": "#354777", "line-3": "#42568E" },
+        "text": { "text": "#F2EDDC", "dim": "#BBBDCE", "faint": "#8E93AC", "body": "#CDCFDC" },
+        "controls": { "btn": "#F08A38", "btn-fg": "#0D1526", "sev": "#F58A70" },
+        "accents": { "amber": "#F08A38", "amber-2": "#F6AC6A", "lamp": "#F08A38", "fc": "#7F9FEC" },
+        "semantic": { "success": "#43BD7E", "warning": "#E5B33E", "danger": "#F0565E" },
+        "aliases": { "good": "@success", "act": "@danger", "up": "@success", "down": "@danger", "meta": "#BFC6DA" }
+      }
+    },
+    "default_theme": "light",
+    "categorical": {
+      "Venture": "#B348E8", "Product": "#A27315", "Quality": "#E1422C",
+      "Speed": "#217BE4", "Trust": "#318C56", "Growth": "#8862EC",
+      "Team": "#28888E", "Clarity": "#2685A6", "Design": "#148E4F",
+      "Data": "#C36018", "Ops": "#758229", "Subtract": "#DC3B86",
+      "Meta": "#6B7C9D", "Act": "#E53C2C", "Agent": "#7868EC",
+      "Automation": "#867E13", "AI-UX": "#DF1CBB", "Compliance": "#6F7B9F",
+      "API": "#218893", "Reliability": "#378B5C", "AI-Ethics": "#5373EA",
+      "Build": "#4F8A1D"
+    },
+    "categorical_prefix": "f-",
+    "categorical_var": "fc",
+    "categorical_mix": { "dark": { "toward": "white", "percent": 65 } },
+    "notes": {
+      "good": "Primary-action colour convention (HIERARCHY F6, carried into v2): cobalt / the\n     family --fc is the *browse/navigate* primary; --act (coral) is the *commit /\n     act-adjacent* primary. --lamp is the glowing GRAPHIC accent (marks, lamps,\n     large shapes) — it is exempt from text floors and must never set type on paper.",
+      "w-page": "container + rhythm scale (LAYOUT L1/T4 — one source; @media can't take var() so breakpoints stay literal)",
+      "s1": "spacing scale — 4pt base (LAYOUT L2/L4/L6); map off-grid values (9,7,22…) onto it"
+    }
+  },
+  "contrast": {
+    "surfaces": ["ink", "ink-2", "panel", "panel-2"],
+    "text_min": { "text": 4.5, "body": 4.5, "dim": 4.5, "faint": 3.0 },
+    "accents": ["amber", "amber-2", "sev", "success", "warning", "danger", "fc", "meta"],
+    "accents_min": 3.0,
+    "categorical_min": 3.0,
+    "note": "v2 removes both v1 narrowings: accents_min is back to the 3.0 non-text minimum and categorical hues are checked on ALL surfaces in both themes. --lamp is deliberately absent from the accents list: it is a graphic-only role (2.4:1 on paper), documented in palette.notes."
+  },
+  "type": {
+    "faces": [
+      {
+        "role": "display",
+        "family": "Fraunces",
+        "css_name": "Fraunces",
+        "license": "OFL-1.1",
+        "files": [
+          { "path": "fonts/fraunces-latin-var.woff2", "weight": "300 900", "style": "normal" }
+        ]
+      },
+      {
+        "role": "serif",
+        "family": "Source Serif 4",
+        "css_name": "Source Serif 4",
+        "license": "OFL-1.1",
+        "files": [
+          { "path": "fonts/sourceserif4-latin-var.woff2", "weight": "300 700", "style": "normal" }
+        ]
+      },
+      {
+        "role": "mono",
+        "family": "Space Mono",
+        "css_name": "Space Mono",
+        "license": "OFL-1.1",
+        "files": [
+          { "path": "fonts/spacemono-latin-400.woff2", "weight": "400", "style": "normal" },
+          { "path": "fonts/spacemono-latin-700.woff2", "weight": "700", "style": "normal" }
+        ]
+      }
+    ],
+    "stacks": {
+      "disp": "'Fraunces',Georgia,'Times New Roman',serif",
+      "sans": "'Source Serif 4',Georgia,'Times New Roman',serif",
+      "mono": "'Space Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace"
+    },
+    "preload": [
+      "fonts/fraunces-latin-var.woff2",
+      "fonts/sourceserif4-latin-var.woff2",
+      "fonts/spacemono-latin-400.woff2"
+    ]
+  },
+  "space": {
+    "layout": { "w-page": "1120px", "w-doc": "960px", "w-read": "760px", "gutter": "24px", "lh-body": "1.65" },
+    "scale": { "s1": "4px", "s2": "8px", "s3": "12px", "s4": "16px", "s5": "24px", "s6": "32px", "s7": "40px", "s8": "48px", "s9": "64px" },
+    "sections": { "section": "72px", "section-tight": "48px" }
+  },
+  "radii": { "r-sm": "6px", "r-md": "10px", "r-pill": "999px", "radius": "8px" },
+  "elevation": {
+    "shadow-print": "5px 5px 0 rgba(29,31,40,.13)",
+    "shadow-pop": "0 22px 60px -28px rgba(13,21,38,.55)",
+    "glow-lamp": "0 0 44px rgba(232,117,44,.30)"
+  },
+  "motion": {
+    "durations": { "fast": "90ms", "base": "180ms", "slow": "280ms", "drift": "900ms" },
+    "easings": {
+      "standard": "cubic-bezier(.22,.61,.21,1)",
+      "enter": "cubic-bezier(.16,.84,.28,1)",
+      "exit": "cubic-bezier(.6,.08,.72,.22)",
+      "spring": "cubic-bezier(.34,1.45,.5,1)"
+    },
+    "reduced_motion": "collapse-to-instant"
+  },
+  "mark": {
+    "viewbox": 24,
+    "class": "mark",
+    "size": 24,
+    "default_theme": "light",
+    "elements": [
+      { "type": "arch", "x0": 3.4, "x1": 20.6, "top": 3.2,
+        "stroke": { "light": "#3355B4", "dark": "#7F9FEC" }, "width": 2.3 },
+      { "type": "arch", "x0": 7.5, "x1": 16.5, "top": 7.6,
+        "stroke": { "light": "#557CD4", "dark": "#5A7ED0" }, "width": 2 },
+      { "type": "arch", "x0": 10.6, "x1": 13.4, "top": 14.8,
+        "fill": { "light": "#E8752C", "dark": "#F08A38" } }
+    ],
+    "favicon": { "viewbox": 64, "bg": "#F7F2E3", "bg_radius": 13, "tx": 3.2, "ty": 3, "scale": 2.4 }
+  },
+  "host": {
+    "integration": "python-import",
+    "tokens_out": "tokens.css",
+    "fonts_dir": "fonts",
+    "fonts_url": "/fonts/",
+    "pages_to_shoot": ["/", "/studio.html", "/vitals.html", "/b/01.html", "/p/facelift.html"],
+    "themes_to_shoot": ["light", "dark"],
+    "theme_storage_key": "gp-theme",
+    "extra_css": [
+      "button:active{transform:scale(.97)}",
+      "button:disabled,[aria-disabled=\"true\"]{opacity:.5;cursor:not-allowed}"
+    ],
+    "hex_lint": {
+      "files": ["template.html", "studio.html", "vitals.html"],
+      "allow": []
+    }
+  }
+}

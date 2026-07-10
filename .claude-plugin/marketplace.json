@@ -1,6 +1,8 @@
 {
   "name": "goal-prompts",
-  "owner": { "name": "GhostlyGawd" },
+  "owner": {
+    "name": "GhostlyGawd"
+  },
   "description": "Audit briefs for coding agents — 4-phase missions that point your agent at a repo and end in one evidence-backed report each.",
   "plugins": [
     {
@@ -8,11 +10,38 @@
       "source": "./plugin",
       "description": "The full goal-prompts catalog as /goal:<slug> commands — every brief audits read-only and writes exactly one report file. Start with /goal:audit-triage (it names the audits your repo needs) or /goal:bug-hunt.",
       "category": "productivity",
-      "keywords": ["audit", "code-audit", "claude-code", "prompts", "reports"],
+      "keywords": [
+        "audit",
+        "code-audit",
+        "claude-code",
+        "prompts",
+        "reports"
+      ],
       "homepage": "https://goal-prompts.vercel.app",
       "repository": "https://github.com/GhostlyGawd/goal-prompts",
       "license": "MIT",
-      "author": { "name": "GhostlyGawd" }
+      "author": {
+        "name": "GhostlyGawd"
+      }
+    },
+    {
+      "name": "design-engine",
+      "source": "./design-engine",
+      "description": "A portable branding & design engine — brand.json as the single source of brand truth, six design skills, and gate-grade tools (token compiler, WCAG contrast matrix, mark renderer, specimen, screenshot harness). Copy the folder into any repo to port it.",
+      "category": "design",
+      "keywords": [
+        "design",
+        "branding",
+        "design-tokens",
+        "design-system",
+        "wcag"
+      ],
+      "homepage": "https://goal-prompts.vercel.app",
+      "repository": "https://github.com/GhostlyGawd/goal-prompts",
+      "license": "MIT",
+      "author": {
+        "name": "GhostlyGawd"
+      }
     }
   ]
 }
