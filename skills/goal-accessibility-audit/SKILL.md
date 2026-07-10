@@ -1,0 +1,48 @@
+---
+name: goal-accessibility-audit
+description: "Keyboard navigation, contrast, labels, and screen-reader flow — audited end-to-end along the core user journey. Audit brief 08 · Trust — runs a four-phase audit of the current repo and writes A11Y.md at the repo root."
+---
+
+# Goal: Accessibility Audit
+
+You are working inside this repo. Mission: audit this product's accessibility end-to-end along its core user journey, and produce fixes ranked by who gets blocked.
+
+This is the broad end-to-end pass. For the deep assistive-tech walk — keyboard only, announcements traced — run 86 after it.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Pick the journey
+- Identify the core user journey from the code: entry → key action → result.
+- That path gets the full audit; secondary screens get a lighter pass.
+- Note the UI stack: component library, custom widgets, styling system.
+
+## Phase 2 — Audit through 8 lenses
+Cite the component or template for every finding.
+1. **Keyboard** — every interactive element reachable and operable; no traps; logical tab order; visible focus styles
+2. **Semantics** — real buttons and links (not clickable divs), heading hierarchy, landmarks, lists as lists
+3. **Labels** — inputs labeled, icon-only buttons named, images with meaningful alt or marked decorative
+4. **Contrast** — body text, secondary text, and UI states against their actual backgrounds
+5. **Forms** — errors associated with fields and announced; instructions not conveyed by color alone
+6. **Motion** — prefers-reduced-motion respected; nothing flashing or auto-moving without control
+7. **Custom widgets** — dropdowns, modals, tabs: correct roles, states, focus management on open/close
+8. **Touch & zoom** — target sizes, page usable at 200% zoom, no viewport zoom disabling
+
+## Phase 3 — Curate
+- Severity: **blocker** (journey impossible for some users) · **major** (painful workaround) · **minor** (friction)
+- Group findings that share one root fix (e.g., one Button component fixes 30 instances)
+
+## Phase 4 — Report
+Create `A11Y.md` at repo root:
+1. **Journey walkthrough** — the core path narrated as a keyboard + screen-reader user experiences it
+2. **Findings** — each: Issue · Severity · Location · Who it blocks · Fix · Effort
+3. **Component-level fixes** — single fixes that clear many findings at once
+4. **Quick wins** — labels, alt text, focus styles shippable today
+
+Start the report with today's date. If `A11Y.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Audit the rendered reality, not the intention — trace what actually reaches the DOM
+- Component fixes beat page-by-page patching
+- No user interface to make accessible in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which fixes to make

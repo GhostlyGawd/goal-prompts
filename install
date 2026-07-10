@@ -8,6 +8,9 @@
 #   /plugin marketplace add GhostlyGawd/goal-prompts   then install "goal"
 #
 # Re-run any time to update. Uninstall: rm -rf .claude/commands/goal
+# Want just one brief? BRIEF picks it by id or slug and leaves any other
+# installed briefs untouched, e.g.
+#   BRIEF=01 sh install        or    BRIEF=bug-hunt sh install
 # Forks/tests: BASE overrides the download origin, e.g.
 #   BASE=https://audits.your-co.internal sh install
 set -e
@@ -40,6 +43,31 @@ elif [ "$WANT" != "$GOT" ]; then
   exit 1
 else
   printf 'Checksum verified.\n'
+fi
+
+# Per-brief install (BRIEF=<id or slug>): extract one command from the same
+# verified tarball, leaving everything else in $DEST/goal alone.
+if [ -n "$BRIEF" ]; then
+  SLUG="$BRIEF"
+  case "$BRIEF" in
+    [0-9][0-9]|[0-9][0-9][0-9])
+      # ids resolve to slugs through catalog.json ("id" precedes "slug"
+      # inside each brief object — the build writes keys sorted)
+      SLUG=$(curl -fsSL "$BASE/catalog.json" 2>/dev/null | awk -v id="$BRIEF" '
+        index($0, "\"id\": \"" id "\"") { found = 1 }
+        found && /"slug":/ { gsub(/[" ,]/, "", $2); print $2; exit }')
+      ;;
+  esac
+  if [ -z "$SLUG" ] || ! tar -tzf "$TMP" "goal/goal-$SLUG.md" >/dev/null 2>&1; then
+    printf 'ERROR: unknown brief "%s" — browse ids and slugs at %s\n' "$BRIEF" "$BASE" >&2
+    exit 1
+  fi
+  tar -xzf "$TMP" -C "$DEST" "goal/goal-$SLUG.md" "goal/.version"
+  VER=$(cat "$DEST/goal/.version" 2>/dev/null || echo '?')
+  printf 'Installed /goal-%s (goal-prompts v%s) into %s/goal/ — other installed briefs untouched.\n' "$SLUG" "$VER" "$DEST"
+  printf 'Whole catalog: re-run without BRIEF.  Uninstall this brief: rm %s/goal/goal-%s.md\n' "$DEST" "$SLUG"
+  printf 'Catalog: %s\n' "$BASE"
+  exit 0
 fi
 
 if [ -d "$DEST/goal" ]; then

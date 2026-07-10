@@ -1072,5 +1072,155 @@ class PlaybookOgTests(unittest.TestCase):
                 self.assertIn("stale", v[0])
 
 
+class SkillsTests(unittest.TestCase):
+    """R42 (COMPETITIVE §3.2): the build emits a parallel skills tree —
+    one skill directory per brief in the ecosystem's recommended
+    .claude/skills/<name>/SKILL.md packaging — from the same source as the
+    plugin, so it can never drift from the catalog (CI diffs the committed
+    copy like every other output)."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_skills_tree_covers_every_brief(self):
+        prompts = self._prompts()
+        dirs = sorted(d.name for d in (build.ROOT / "skills").iterdir()
+                      if d.is_dir())
+        self.assertEqual(dirs,
+                         sorted(f'goal-{p["slug"]}' for p in prompts))
+        for d in dirs:
+            self.assertTrue(
+                (build.ROOT / "skills" / d / "SKILL.md").exists(), d)
+
+    def test_skill_md_frontmatter_and_body(self):
+        p = next(q for q in self._prompts() if q["id"] == "01")
+        text = build.skill_md(p)
+        fm, body = text.split("---\n", 2)[1:]
+        self.assertIn(f'name: goal-{p["slug"]}\n', fm)
+        self.assertIn("description:", fm)
+        self.assertIn(p["output"], fm)          # the description names the report
+        raw = (build.ROOT / "raw" / "01.md").read_text(encoding="utf-8")
+        self.assertEqual(body.strip(), raw.strip())
+
+    def test_committed_skill_matches_the_generator(self):
+        p = next(q for q in self._prompts() if q["id"] == "01")
+        on_disk = (build.ROOT / "skills" / f'goal-{p["slug"]}' /
+                   "SKILL.md").read_text(encoding="utf-8")
+        self.assertEqual(on_disk, build.skill_md(p))
+
+
+class CursorCommandsTests(unittest.TestCase):
+    """R44 (COMPETITIVE §3.4/§9): the multi-harness claim is made true with
+    ONE extra native target, not five — cursor-commands.zip unzips at a repo
+    root into Cursor's project-commands format (.cursor/commands/*.md)."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def _entries(self):
+        import zipfile as _zf
+        with _zf.ZipFile(build.ROOT / "cursor-commands.zip") as z:
+            return {i.filename: z.read(i.filename).decode("utf-8")
+                    for i in z.infolist()}
+
+    def test_zip_covers_every_brief_in_cursor_layout(self):
+        prompts = self._prompts()
+        entries = self._entries()
+        want = {f'.cursor/commands/goal-{p["slug"]}.md' for p in prompts}
+        self.assertEqual(set(entries), want)
+
+    def test_entries_are_plain_brief_bodies(self):
+        # Cursor commands are plain markdown — no Claude-specific frontmatter
+        p = next(q for q in self._prompts() if q["id"] == "01")
+        body = self._entries()[f'.cursor/commands/goal-{p["slug"]}.md']
+        self.assertFalse(body.startswith("---"))
+        raw = (build.ROOT / "raw" / "01.md").read_text(encoding="utf-8")
+        self.assertEqual(body.strip(), raw.strip())
+
+    def test_checksums_cover_the_cursor_zip(self):
+        sums = (build.ROOT / "checksums.txt").read_text(encoding="utf-8")
+        self.assertIn("  cursor-commands.zip", sums)
+
+    def test_landing_page_links_the_cursor_zip(self):
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn("cursor-commands.zip", t)
+
+
+class QualityPageTests(unittest.TestCase):
+    """R50 (COMPETITIVE §10 bet 2, §6.1): the quality bar is published —
+    /quality says why these briefs don't rot, with evidence links to the
+    real linter, CI gate, and dogfooding artifacts."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_quality_page_states_the_real_rules(self):
+        html = build.quality_page(self._prompts())
+        self.assertIn(f'{build.LIMIT:,}', html)                # the 4k cap
+        self.assertIn("Report only — end by asking", html)     # ask-first gate
+        self.assertIn("Phase", html)                           # the skeleton
+        self.assertIn(f'<link rel="canonical" href="{build.BASE}/quality">',
+                      html)
+
+    def test_quality_page_links_the_evidence(self):
+        html = build.quality_page(self._prompts())
+        self.assertIn("blob/main/build.py", html)              # the linter source
+        self.assertIn(".github/workflows/ci.yml", html)        # the CI gate
+        self.assertIn("/examples/", html)                      # dogfooding
+        self.assertIn("/FIXLOG.md", html)
+
+    def test_quality_page_count_tracks_the_catalog(self):
+        prompts = self._prompts()
+        self.assertIn(str(len(prompts)), build.quality_page(prompts))
+
+    def test_live_site_emits_and_links_the_page(self):
+        self.assertTrue((build.ROOT / "quality.html").exists())
+        sitemap = (build.ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertIn(f"<loc>{build.BASE}/quality</loc>", sitemap)
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn('href="/quality"', t)
+
+
+class BriefForgeTests(unittest.TestCase):
+    """R46 (AI-IDEAS 1): the Brief Forge authoring prompt must reflect the
+    REAL linter — a Forge that drafts failing briefs is worse than none, so
+    these assert the doc quotes the live constants and gate phrases."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.doc = (build.ROOT / "docs" /
+                   "brief-forge.md").read_text(encoding="utf-8")
+
+    def test_forge_quotes_the_live_limits(self):
+        self.assertIn(f"{build.LIMIT:,}", self.doc)            # body cap
+        self.assertIn("170", self.doc)                         # tagline cap
+
+    def test_forge_carries_the_gate_phrases_the_linter_greps(self):
+        # these literal strings are what build.py's lint() searches for
+        self.assertIn("Report only — end by asking", self.doc)
+        self.assertIn("## Phase", self.doc)
+        self.assertIn("at repo root", self.doc)
+        self.assertIn("reports/", self.doc)
+        self.assertIn("null report", self.doc)
+        self.assertIn("already exists", self.doc)              # dated re-run
+
+    def test_forge_names_real_exemplars_and_the_green_loop(self):
+        for path in ("prompts/quality/01-bug-hunt.md",
+                     "prompts/venture/62-pain-demand-mining.md"):
+            self.assertIn(path, self.doc)
+            self.assertTrue((build.ROOT / path).exists(), path)
+        self.assertIn("python3 build.py", self.doc)
+        self.assertIn("scripts/check", self.doc)
+
+    def test_forge_is_linked_from_contributing_and_readme(self):
+        contrib = (build.ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        readme = (build.ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("brief-forge", contrib)
+        self.assertIn("brief-forge", readme)
+
+
 if __name__ == "__main__":
     unittest.main()

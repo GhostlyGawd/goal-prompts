@@ -1,2 +1,3 @@
 b6c76a0a83afbbbb0579ed9f15a0ee7b71131a9edd899a80c07a2353dc4befd4  commands.tar.gz
 76ac428f5c088e6e6eaee98f2acda53e54beab9c2421b8874ca74df89b8c4e07  commands.zip
+bfa4f2a936a379174bbd872f67023a257220996976f9f0de16f8a903a2ea3b06  cursor-commands.zip

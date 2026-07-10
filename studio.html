@@ -262,6 +262,9 @@
   <div class="wrap selbar-in">
     <span class="selcount" id="selcount"></span>
     <button class="iconbtn" id="sharesel" hidden>copy link to selection</button>
+    <!-- R48 (AI-IDEAS 3): the selection's other legitimate exit — merge into a
+         sequenced plan (brief 28's method) instead of implementing now -->
+    <button class="iconbtn" id="synbtn">Copy Synthesis prompt</button>
     <button class="fixbtn" id="fixbtn">Copy Fixer prompt</button>
     <button class="iconbtn" id="unsel">clear selection</button>
   </div>
@@ -351,6 +354,31 @@ function buildFixer(sel){
 "## Report\n" +
 "Create or append to `FIXLOG.md` at repo root: session date and branch · each finding with its commit and how it was verified · skipped findings with reasons · follow-ups the fixes revealed.\n\n" +
 "Close by summarizing the branch and asking whether to open a PR, merge, or continue with more findings.\n";
+}
+
+/* ---------- the Synthesis prompt (the targeted form of brief 28) ----------
+   R48 (AI-IDEAS 3): the selection's second exit — "merge these into one
+   sequenced plan" — composed like buildFixer, from the same checked findings,
+   using brief 28 · Roadmap Synthesis's own method. */
+function buildSynthesis(sel){
+  const names = [...new Set(sel.map(f => f.report))];
+  const parts = sel.map((f, i) =>
+    "### " + (i + 1) + " · " + f.title + "\n" +
+    "From `" + f.report + "`" + (f.section ? " — " + f.section : "") + ":\n" +
+    quoted(f.text));
+  const n = sel.length;
+  return "# Goal: Roadmap Synthesis — targeted run\n\n" +
+"You are working inside this repo. Mission: merge exactly the " + n + " finding" + (n > 1 ? "s" : "") + " below into one deduplicated, dependency-aware, sequenced roadmap — nothing more. They were selected in the goal-prompts Report Studio from: " + names.join(", ") + ".\n\n" +
+"This is the targeted form of brief 28 · Roadmap Synthesis (" + RAW_BASE + "/raw/28.md). Synthesis, not re-auditing: work from the findings below, dipping into code only to resolve conflicts. Your only write is the roadmap file.\n\n" +
+"## Findings to synthesize\n\n" + parts.join("\n\n") + "\n\n" +
+"## Method\n" +
+"1. Normalize: extract every finding into one pool — source report · name · impact · effort · tags.\n" +
+"2. Dedupe: the same underlying issue often surfaces in multiple reports — merge, keeping all evidence and the strongest framing.\n" +
+"3. Find themes: many findings, one root cause — name the root cause as its own item.\n" +
+"4. Sequence: score impact, effort, and risk on one scale; map dependencies BETWEEN items (fixes that unlock others, tests that de-risk migrations); interleave risk-reduction and growth.\n\n" +
+"## Report\n" +
+"Create `ROADMAP.md` at repo root (or in `reports/`, if that directory exists): sources · unified backlog table (item · sources · impact · effort · dependencies) · themes · three milestones (Now · Next · Later) · merge log, so nothing looks lost. Start the report with today's date; if `ROADMAP.md` already exists from a previous run, read it first and lead with what changed since.\n\n" +
+"Report only — end by asking whether to adjust the sequence.\n";
 }
 
 /* ---------- rendering (user content via textContent only) ---------- */
@@ -541,6 +569,7 @@ function syncBar(){
   const b = document.createElement("b"); b.textContent = sel;
   selcountEl.append(b, document.createTextNode(" of " + total + " findings selected"));
   fixbtnEl.disabled = sel === 0;
+  document.getElementById("synbtn").disabled = sel === 0;
   document.getElementById("unsel").hidden = sel === 0;
   document.getElementById("sharesel").hidden = sel === 0;
 }
@@ -770,13 +799,12 @@ document.getElementById("unsel").onclick = function(){
   });
 };
 var _hintT;
-function showCopyHint(){
+function showCopyHint(lead, file, tail){
   const el = document.getElementById("copyhint"), t = document.getElementById("copyhinttext");
   if(!el || !t) return;
   t.textContent = "";
-  const code = document.createElement("code"); code.textContent = "FIXLOG.md";
-  t.append("Paste into your agent — it implements the selection and writes ", code,
-           ". Reload the reports here afterwards to see ✓ fixed.");
+  const code = document.createElement("code"); code.textContent = file;
+  t.append(lead, code, tail);
   el.hidden = false;
   clearTimeout(_hintT);
   _hintT = setTimeout(() => { el.hidden = true; }, 9000);
@@ -788,7 +816,16 @@ fixbtnEl.onclick = function(){
   const sel = selected();
   if(!sel.length) return;
   copyText(buildFixer(sel), this, "Copied ✓", { name: "studio_copy_fixer", data: { n: sel.length } });
-  showCopyHint();
+  showCopyHint("Paste into your agent — it implements the selection and writes ", "FIXLOG.md",
+               ". Reload the reports here afterwards to see ✓ fixed.");
+};
+/* R48: mirror of the Fixer exit — same selection, same copy affordance */
+document.getElementById("synbtn").onclick = function(){
+  const sel = selected();
+  if(!sel.length) return;
+  copyText(buildSynthesis(sel), this, "Copied ✓", { name: "studio_copy_synthesis", data: { n: sel.length } });
+  showCopyHint("Paste into your agent — it merges the selection into one sequenced ", "ROADMAP.md",
+               " at the repo root (brief 28's method), and ends by asking.");
 };
 document.getElementById("sharesel").onclick = function(){
   const keys = selected().map(f => f.key);

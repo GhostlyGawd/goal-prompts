@@ -159,6 +159,10 @@
   .pnode::after{content:"";position:absolute;top:25px;left:calc(50% + 33px);right:calc(-50% + 33px);height:2px;background:var(--line-2)}
   .pnode:last-child::after{display:none}
   .pipe .n1{--pc:#E8B44C}.pipe .n2{--pc:#E8705F}.pipe .n3{--pc:#3FC1C9}.pipe .n4{--pc:#5CE8A0}.pipe .n5{--pc:#E84C3D}
+  /* R50 (COMPETITIVE §10 bet 1): the loop line — the post-run motion no rival owns */
+  .loopline{margin-top:18px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-left:2px solid var(--act);border-radius:10px;padding:11px 14px;max-width:760px}
+  .loopline b{color:var(--text);font-weight:600}
+  .loopline a{color:var(--fc);text-decoration:underline}
   .guards{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
   .guard{flex:1;min-width:240px;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--good);border-radius:var(--radius);padding:16px 18px}
   .guard b{display:block;font-size:15px;margin-bottom:4px;color:var(--text);font-weight:600}
@@ -561,6 +565,8 @@
   <div class="kicker">How it works</div>
   <h2 class="h2">One method. Every audit.</h2>
   <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every brief walks the same arc. That’s what makes the output consistent and repeatable.</p>
+  <!-- R50 (COMPETITIVE §10 bet 1): lead with the loop — every rival stops at "here's a prompt"; this catalog owns what happens after the run -->
+  <p class="loopline">The loop: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/FIXLOG.md">FIXLOG</a></b> — audits that end in commits, not chat scrollback. <a href="/quality">Why these briefs don’t rot →</a></p>
   <div class="pipe">
     <div class="pnode n1"><div class="dot">1</div><h3>Explore</h3><p>The agent maps the repo and finds where the risk actually lives.</p></div>
     <div class="pnode n2"><div class="dot">2</div><h3>Audit</h3><p>It sweeps through a fixed set of expert lenses, citing file &amp; line.</p></div>
@@ -634,6 +640,8 @@
       <div><label for="cstage">stage</label><input id="cstage" data-ctx="stage" placeholder="e.g. beta, ~200 users, solo dev" autocomplete="off"></div>
       <div><label for="cnotes">watch out for</label><input id="cnotes" data-ctx="notes" placeholder="e.g. payments code is fragile" autocomplete="off"></div>
       <p class="hint">saved on this device · appended to every brief you copy as an “Operator context” section</p>
+      <!-- R49 (AI-IDEAS 4): the agent has the repo — let it draft the four lines the human would otherwise compose from memory -->
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="ctxagent" type="button">have your agent fill this in — copy the prompt</button><span class="hint">paste it into your agent inside the repo; it answers in four lines you paste back into these fields</span></div>
       <button class="iconbtn clearctx" id="ctxclear">clear</button>
     </div>
   </details>
@@ -697,6 +705,8 @@
       <div class="cmd"><span class="cmdstep">2</span><code id="installcmd2">/plugin install goal@goal-prompts</code><button class="iconbtn" id="copyinstall2" aria-label="copy step 2">copy</button></div>
       <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
+      <!-- R44 (COMPETITIVE §3.4): the Cursor half of the meta claim, made true — native project commands, not just paste -->
+      <a class="more" href="/cursor-commands.zip">on Cursor? cursor-commands.zip → unzip at your repo root</a>
     </div>
     <div class="way">
       <div class="num2">03 · AGENT</div>
@@ -794,11 +804,14 @@
       <a href="#playbooks">Playbooks</a>
       <a href="/studio">Studio</a>
       <a href="/vitals">Vitals</a>
+      <a href="/quality">Quality</a>
       <a href="/changelog">Changelog</a>
       <a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a>
     </nav>
   </div>
   <p class="buildnote">Built by <a href="https://github.com/GhostlyGawd">@GhostlyGawd</a>, an independent developer · <a href="https://github.com/GhostlyGawd/goal-prompts/issues/new">using it? tell me how ↗</a></p>
+  <!-- R45 (COMPETITIVE §3.5): the on-site contribution ask — one honest line; the linter is the moderation story -->
+  <p class="buildnote">Missing an audit you need? <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CONTRIBUTING.md">add a brief →</a> — every submission passes the same <a href="/quality">published linter</a> that gates the whole catalog, and the <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/docs/brief-forge.md">Brief Forge prompt</a> drafts one with you.</p>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
   <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
   <!-- PROOF NF2 / RETENTION R12 (R21): reconcile the privacy promise with the site beacon, in the open -->
@@ -1027,7 +1040,7 @@ function whatNext(){
   };
   return a;
 }
-function showCopyHint(output, id){
+function showCopyHint(output, id, tee){
   /* FUNNEL §1/§3 (R12): on a touch device the clipboard is on the wrong
      machine — offer the raw-brief URL as the bridge instead of "paste". */
   if(COARSE && id){
@@ -1045,6 +1058,13 @@ function showCopyHint(output, id){
   var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
   var parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
                " at the root, then drop it in the ", a, ". ", whatNext()];
+  /* R16 (ACTIVATION AN3): the canonical first win tees up Day-1 as step 2 —
+     the hero quickstart passes tee, so the two "new here" doors stop competing */
+  if(tee){
+    var t2 = document.createElement("a"); t2.href = "/p/day1";
+    t2.textContent = "then run the rest of Day-1 →";
+    parts.push(" ", t2);
+  }
   if(id){
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
     if(runs[id]){ mr.textContent = "✓ run"; mr.disabled = true; }
@@ -1650,6 +1670,23 @@ document.querySelectorAll("[data-ctx]").forEach(el=>{
   el.value = ctx[el.dataset.ctx] || "";
   el.addEventListener("input", ()=>{ ctx[el.dataset.ctx] = el.value.trim(); if(!ctx[el.dataset.ctx]) delete ctx[el.dataset.ctx]; saveCtx(); });
 });
+/* R49 (AI-IDEAS 4): "have your agent fill this in" — copies a mini-prompt the
+   user runs in their agent (which has the repo); the four lines it answers
+   with paste straight back into the fields above. Success-gated via the
+   shared copyText (B2): feedback and the event fire only when the copy lands. */
+(function(){
+  var b = document.getElementById("ctxagent"); if(!b) return;
+  var prompt = 'Inspect this repository and answer in EXACTLY four lines, nothing else — ' +
+    'each under ~90 characters. I will paste them into the goal-prompts ' +
+    '"aim the briefs at your repo" box, so they must be honest and specific to this repo:\n' +
+    'Stack: <the real frameworks, services, and APIs, e.g. Next.js + Supabase + Claude API>\n' +
+    'Product: <what this software actually does, in one line>\n' +
+    'Stage: <maturity, scale, team — e.g. beta, ~200 users, solo dev>\n' +
+    'Watch out for: <the most fragile or risky area of this codebase, from the code itself>';
+  b.onclick = function(){
+    copyText(prompt, b, "Copied ✓ — paste it into your agent", {name:"ctx_agent_prompt"});
+  };
+})();
 /* two-step arm on the button itself, instead of a native confirm() — the one
    pattern every destructive control shares (FORMS FV4/FV7, R40): first click
    asks, second confirms; disarms on blur or after 4s. */
@@ -1889,7 +1926,10 @@ function buildFinder(){
   const host=document.getElementById("finder"); if(!host) return;
   const goals=PLAYBOOKS.filter(pb=>!pb.preview).slice(0,4);
   const day1=PLAYBOOKS.find(pb=>pb.key==="day1");
-  let g = day1 ? '<button class="starter" type="button" data-pb="day1"><span class="sdot"></span><b>New here?</b>&nbsp;Start with the <b>Day-1</b> playbook&nbsp;<span class="sarrow">→</span></button>' : '';
+  /* R16 (ACTIVATION AN3): one canonical "new here" door — the hero's solo-brief
+     quickstart (shortest path to a first report). Day-1 stays, reframed as the
+     teed-up second step instead of a rival first door. */
+  let g = day1 ? '<button class="starter" type="button" data-pb="day1"><span class="sdot"></span><b>Ran your first brief?</b>&nbsp;Run the rest of the <b>Day-1</b> set&nbsp;<span class="sarrow">→</span></button>' : '';
   g+='<div class="goals"><span class="goallab">start with a goal</span>';
   goals.forEach(pb=>{
     const c=pb.accent||(byId[pb.ids[0]]?famColor(byId[pb.ids[0]].family):"var(--fc)");
@@ -2060,7 +2100,7 @@ buildFinder();
      failed copy degrades to the raw-brief link instead of claiming success. */
   qb.onclick = function(){
     copyBrief(starter, qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
-      function(){ showCopyHint(starter.output, starter.id); },
+      function(){ showCopyHint(starter.output, starter.id, true); },
       function(){ rawLink(qb, starter.id, "copy failed — open the raw brief ↗"); });
   };
 })();

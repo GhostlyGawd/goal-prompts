@@ -981,6 +981,7 @@ def foot(head, sub, buttons_html) -> str:
             '<a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a>'
             '<a href="/vitals">Vitals Viewer</a>'
             '<a href="/examples/">Sample reports</a>'
+            '<a href="/quality">Why briefs don\'t rot</a>'
             '<a href="/changelog">Changelog</a>'
             '<a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div>'
             '<p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · '
@@ -1112,6 +1113,8 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
               f'<div class="foot">{" · ".join(rfoot)}</div></div></div></section>')
 
     # use it
+    per_brief_cmd = f'curl -fsSL {BASE}/install | BRIEF={p["id"]} sh'
+    per_brief_label = f'copy the install command for just brief {p["id"]}'
     ways = (f'<section class="blk" id="use"><div class="wrap">'
             f'<div class="kicker">Get started</div>'
             f'<h2 class="h2">Three ways to run this brief</h2>'
@@ -1120,10 +1123,12 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
             f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h3>As a slash command</h3>'
-            f'<p>Install the <b>goal</b> plugin once — two commands — then just type <code>/goal:{esc(slug)}</code> '
-            f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
+            f'<p>Install the <b>goal</b> plugin once — two commands — then just type <code>/goal:{esc(slug)}</code>.</p>'
             f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts", step=1)}'
-            f'{cmd_html("/plugin install goal@goal-prompts", step=2)}</div>'
+            f'{cmd_html("/plugin install goal@goal-prompts", step=2)}'
+            # R43 (COMPETITIVE §3.3): install just this brief — no all-or-nothing
+            f'<p style="margin:12px 0 8px">Or install only this brief as <code>/goal-{esc(slug)}</code>:</p>'
+            f'{cmd_html(per_brief_cmd, label=per_brief_label)}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h3>From an agent (MCP)</h3>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw brief URL")}</div>'
@@ -1489,10 +1494,135 @@ def changelog_page(md: str) -> str:
                 f"{BASE}/changelog", hero + secs + ftr, f"{BASE}/og.png")
 
 
+def quality_page(prompts: list) -> str:
+    """R50 (COMPETITIVE §10 bet 2, §6.1): /quality — why these briefs don't
+    rot. The category's complaint record is flaky, stale, unmanageable
+    prompts; this catalog's answer is a machine-enforced floor that no rival
+    has. Everything on the page is checkable: each claim links the linter
+    source, the CI workflow, or the dogfooding artifacts."""
+    gh = "https://github.com/GhostlyGawd/goal-prompts/blob/main/"
+    n = len(prompts)
+
+    def rules_block(title, items):
+        return ('<div class="rules" style="margin-top:18px"><h3>'
+                + esc(title) + '</h3><ul>'
+                + "".join(f"<li>{item}</li>" for item in items)
+                + "</ul></div>")
+
+    hero = (f'<section class="dhero"><div class="wrap">'
+            f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+            f'<span>Quality</span></div>'
+            f'<h1 style="margin-top:14px">Why these briefs don’t rot</h1>'
+            f'<p class="lede">Prompt catalogs age badly: rules go stale, quality varies '
+            f'by entry, and nothing enforces a floor. Every one of the {n} briefs here '
+            f'passes a published linter and a CI gate before it ships — this page is '
+            f'the bar, with links to the code that enforces it.</p>'
+            f'<div class="cta">'
+            f'<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
+            f'<a class="btn btn-ghost" href="{gh}build.py">Read the linter source ↗</a>'
+            f'</div></div></section>')
+
+    linter = (
+        f'<section class="blk"><div class="wrap">'
+        f'<div class="kicker">The linter</div>'
+        f'<h2 class="h2">Every brief passes the same published linter.</h2>'
+        f'<p class="lead">Not a style guide — a build step. <code>python3 build.py</code> '
+        f'refuses to build the site (and the deploy) unless every brief in the catalog '
+        f'clears every rule below. The rules live in '
+        f'<a href="{gh}build.py" style="color:var(--fc)">build.py</a>, in the open, and the '
+        f'linter has <a href="{gh}tests/test_build.py" style="color:var(--fc)">its own test '
+        f'suite</a> so the bar itself can’t silently loosen.</p>'
+        + rules_block("Structure — enforced on all " + str(n) + " briefs", [
+            'The four-phase skeleton: <code>## Phase 1–4</code> — Explore → '
+            'Audit → Curate → Report — plus a <code>## Rules</code> section.',
+            f'Body under {LIMIT:,} characters — short enough to read before you run it.',
+            'Phase 2 audits through 4–12 named lenses; each report section has a defined shape.',
+            'The brief names its one report file (<code>REPORT.md</code>-shaped, ALL-CAPS), '
+            'and no two briefs may write the same file.',
+            'Re-runs are first-class: the report is dated, and a report that already exists '
+            'is read first so the new one leads with what changed.',
+        ])
+        + rules_block("Safety — the ask-first gate", [
+            'Every brief ends with the literal gate: “Report only — end by asking …” '
+            '— the linter greps for it and fails the build without it.',
+            'Audit briefs are read-only toward your code; the only write is the report itself '
+            '(honest exception: <a href="/b/47" style="color:var(--fc)">47 · The Fixer</a> '
+            'modifies code, and gates on your explicit selection first).',
+            'A brief whose subject a repo simply doesn’t have must say so in a one-paragraph '
+            'null report and stop — no invented findings.',
+        ])
+        + '</div></section>')
+
+    ci = (f'<section class="blk"><div class="wrap">'
+          f'<div class="kicker">The gate</div>'
+          f'<h2 class="h2">CI runs the whole bar on every change.</h2>'
+          f'<p class="lead">Every push and pull request runs '
+          f'<a href="{gh}.github/workflows/ci.yml" style="color:var(--fc)">.github/workflows/ci.yml</a>: '
+          f'the build (which lints all {n} briefs), the linter’s own tests, a hermetic '
+          f'installer test, and the MCP smoke test — then fails on any drift between '
+          f'sources and generated files. The Vercel deploy runs the same build as a hard '
+          f'gate, so an oversized or rule-breaking brief can’t reach production. '
+          f'Contributions clear the identical bar — the linter is the moderation story '
+          f'(<a href="{gh}CONTRIBUTING.md" style="color:var(--fc)">CONTRIBUTING.md</a>).</p>'
+          f'</div></section>')
+
+    dogfood = (
+        f'<section class="blk"><div class="wrap">'
+        f'<div class="kicker">The receipts</div>'
+        f'<h2 class="h2">It’s run against its own code, in the open.</h2>'
+        f'<p class="lead">The briefs audit this site’s own repo: the reports they wrote are '
+        f'<a href="/examples/" style="color:var(--fc)">published as live samples</a>, and the '
+        f'<a href="/FIXLOG.md" style="color:var(--fc)">FIXLOG</a> traces shipped fixes back to '
+        f'the report and finding that surfaced each one. Nothing here is a mock-up — the '
+        f'loop (brief → report → <a href="/studio" style="color:var(--fc)">Studio</a> '
+        f'→ Fixer → FIXLOG) is how this catalog maintains itself. When a brief '
+        f'under-delivers on this repo, it gets sharpened before it stays in the catalog.</p>'
+        f'</div></section>')
+
+    ftr = foot("Hold your repo to the same bar",
+               "Every audit is one paste away — and every brief you paste "
+               "cleared everything on this page.",
+               '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
+               '<a class="btn btn-ghost" href="/examples/">See real reports</a>')
+
+    return page("Why these briefs don't rot — Goal Prompts",
+                f"The quality bar behind all {n} audit briefs: a published "
+                f"linter, a CI gate, a {LIMIT:,}-character cap, the ask-first "
+                f"safety rule, and reports dogfooded on the catalog's own repo.",
+                f"{BASE}/quality", hero + linter + ci + dogfood + ftr,
+                f"{BASE}/og.png")
+
+
 def command_md(p: dict) -> str:
     """One brief as a Claude Code command file — the same content ships in the
     tar/zip archives (curl installer) and the plugin's commands/ directory."""
     return f'---\ndescription: "{p["tagline"]}"\n---\n\n{p["body"]}\n'
+
+
+def skill_md(p: dict) -> str:
+    """One brief in the ecosystem's recommended SKILL.md packaging (R42,
+    COMPETITIVE §3.2): YAML frontmatter (name + description) over the same
+    body the plugin commands carry. The description names the deliverable so
+    an agent picking skills by description knows what the run leaves behind.
+    Taglines are linted double-quote-free, so the quoted YAML scalar is safe."""
+    return (f'---\n'
+            f'name: goal-{p["slug"]}\n'
+            f'description: "{p["tagline"]} Audit brief {p["id"]} · '
+            f'{p["family"]} — runs a four-phase audit of the current repo '
+            f'and writes {p["output"]} at the repo root."\n'
+            f'---\n\n{p["body"]}\n')
+
+
+def write_skills(prompts: list) -> None:
+    """The skills/ output tree (R42): one skills/goal-<slug>/SKILL.md per
+    brief — same goal-<slug> naming as the plugin and archives. Copy any
+    skill directory into .claude/skills/ (or a plugin's skills/) to use it.
+    Fully regenerated like plugin/; CI's drift gate diffs the committed copy."""
+    shutil.rmtree(ROOT / "skills", ignore_errors=True)
+    for p in prompts:
+        d = ROOT / "skills" / f'goal-{p["slug"]}'
+        d.mkdir(parents=True)
+        (d / "SKILL.md").write_text(skill_md(p), encoding="utf-8")
 
 
 def write_plugin(prompts: list) -> None:
@@ -1558,9 +1688,20 @@ def write_archives(prompts: list) -> None:
             zi = zipfile.ZipInfo(name, date_time=(2026, 1, 1, 0, 0, 0))
             zi.external_attr = 0o644 << 16
             zf.writestr(zi, data)
+    # R44 (COMPETITIVE §3.4/§9): one extra native target, not five — Cursor's
+    # project-commands format. Unzip at a repo root and every brief is a
+    # /goal-<slug> command in Cursor (.cursor/commands/<name>.md, plain
+    # markdown: the name comes from the filename, so no frontmatter).
+    with zipfile.ZipFile(ROOT / "cursor-commands.zip", "w",
+                         zipfile.ZIP_DEFLATED) as zf:
+        for p in prompts:
+            zi = zipfile.ZipInfo(f'.cursor/commands/goal-{p["slug"]}.md',
+                                 date_time=(2026, 1, 1, 0, 0, 0))
+            zi.external_attr = 0o644 << 16
+            zf.writestr(zi, p["body"] + "\n")
     import hashlib
     lines = []
-    for fname in ("commands.tar.gz", "commands.zip"):
+    for fname in ("commands.tar.gz", "commands.zip", "cursor-commands.zip"):
         digest = hashlib.sha256((ROOT / fname).read_bytes()).hexdigest()
         lines.append(f"{digest}  {fname}")
     (ROOT / "checksums.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -1766,6 +1907,11 @@ def main() -> None:
     (ROOT / "changelog.html").write_text(changelog_page(changelog_md),
                                          encoding="utf-8")
 
+    # ---- /quality (R50): the published quality bar — "why these briefs
+    # don't rot", linked from the loop copy and every footer ----
+    quality_html = quality_page(prompts)
+    (ROOT / "quality.html").write_text(quality_html, encoding="utf-8")
+
     # ---- per-family conductors ("run all Trust briefs") ----
     fam_conductors = {}
     for fam in FAMILY_ORDER:
@@ -1842,7 +1988,8 @@ def main() -> None:
              "/studio": (ROOT / "studio.html").read_bytes(),
              "/vitals": (ROOT / "vitals.html").read_bytes(),
              "/examples/": (ROOT / "examples" / "index.html").read_bytes(),
-             "/changelog": changelog_md.encode("utf-8")}
+             "/changelog": changelog_md.encode("utf-8"),
+             "/quality": quality_html.encode("utf-8")}
     for pb in playbooks:
         # the page renders the entry (incl. conductor) + its members' card copy
         members = [{k: by_id[i][k] for k in
@@ -1853,7 +2000,7 @@ def main() -> None:
     for p in prompts:
         blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
     lastmod = sitemap_lastmod(blobs)
-    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog"]
+    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality"]
     paths += [f"/p/{pb['key']}" for pb in playbooks]
     paths += [f"/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -1868,10 +2015,12 @@ def main() -> None:
 
     write_archives(prompts)
     write_plugin(prompts)
+    write_skills(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
           f"raw/, b/, catalog.json, bodies.json, sitemap.xml, robots.txt, "
-          f"commands.tar.gz, commands.zip, plugin/")
+          f"commands.tar.gz, commands.zip, cursor-commands.zip, plugin/, "
+          f"skills/")
 
 
 if __name__ == "__main__":

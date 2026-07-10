@@ -1,0 +1,45 @@
+---
+name: goal-api-contract-review
+description: "Naming, error shapes, status codes, and versioning — find the inconsistencies and sequence fixes from non-breaking to breaking. Audit brief 18 · Clarity — runs a four-phase audit of the current repo and writes API.md at the repo root."
+---
+
+# Goal: API Contract Review
+
+You are working inside this repo. Mission: review the API as a contract — naming, error shapes, status codes, pagination, versioning — find where it contradicts itself, and sequence the fixes from non-breaking to breaking.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Inventory the surface
+- List every endpoint: method, path, auth requirement, from the actual routes.
+- Who consumes it: own frontend only, mobile apps, public clients, webhooks? Consumers define breaking-change cost.
+- Is any of it documented or spec'd (OpenAPI, comments), and does that match the code?
+
+## Phase 2 — Audit through 7 lenses
+1. **Naming** — resource nouns, casing, plural/singular, verb leakage in paths; one convention or several?
+2. **Error contract** — one envelope shape or many; status codes used correctly (400 vs 422 vs 500); do errors carry actionable detail?
+3. **Pagination, filtering, sorting** — consistent parameters and response metadata across list endpoints?
+4. **Auth consistency** — same mechanism everywhere; any endpoint accidentally weaker?
+5. **Payload discipline** — over-fetching (responses far bigger than any consumer uses) and under-fetching (one screen forced into N calls)
+6. **Mutation safety** — idempotency on retryable operations; partial-failure behavior defined?
+7. **Versioning & breakage** — strategy for evolving without breaking; undocumented endpoints someone may depend on
+
+## Phase 3 — Curate
+- Every inconsistency names its consumer impact — cosmetic vs correctness
+- Split fixes: non-breaking (additive, internal) vs breaking (needs deprecation path)
+
+## Phase 4 — Report
+Create `API.md` at repo root:
+1. **Surface inventory** — the endpoint table
+2. **Inconsistency findings** — each: endpoint(s) · issue · consumer impact · fix
+3. **Proposed conventions** — the one-page contract: naming, errors, pagination, versioning
+4. **Fix sequence** — non-breaking now; breaking changes with their deprecation path
+5. **The worst offender** — one endpoint fully redesigned as the exemplar
+
+Start the report with today's date. If `API.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Consistency beats elegance: converge on what most endpoints already do
+- Never propose a breaking change without its migration path
+- No API contracts in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which fixes to make
