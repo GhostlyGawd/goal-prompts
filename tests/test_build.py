@@ -404,15 +404,11 @@ class TokensTests(unittest.TestCase):
                 self.assertGreaterEqual(
                     r, 3.0, f"{fam} at {build.FAMILY_MIX_LIGHT}% on #{surface}: {r:.2f}")
 
-    def test_rainbow_is_derived_from_family_colors(self):
-        # R64 (COLOR C7 follow-up): --rainbow drifted to 17 stops while the
-        # palette grew to 21. It is now generated from FAMILY_COLORS in
-        # FAMILY_ORDER, so a new family can never be missing from it again.
-        m = __import__("re").search(r"--rainbow:linear-gradient\(90deg,([^)]*)\)",
-                                    build.TOKENS_CSS)
-        self.assertIsNotNone(m, "--rainbow missing from TOKENS_CSS")
-        stops = m.group(1).split(",")
-        self.assertEqual(stops, [build.FAMILY_COLORS[f] for f in build.FAMILY_ORDER])
+    def test_rainbow_token_stays_gone(self):
+        # 0.13.0 redesign removed the rainbow gradient. With the token gone,
+        # stop-count drift (the original R64 concern) is impossible — guard
+        # against reintroduction instead.
+        self.assertNotIn("--rainbow", build.TOKENS_CSS)
 
     def test_severity_tokens_defined_in_both_theme_blocks(self):
         # R64 (COLOR C6): one shared severity ramp, dark AND light. Studio's

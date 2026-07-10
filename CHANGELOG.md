@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.13.0 — 2026-07-10
+## 0.14.0 — 2026-07-10
 - Growth remediation pass: an 11-stage growth-conductor run against this
   repo's own surfaces (Funnel, Competitive, Revenue, AI, SEO, CRO, Retention,
   Proof, Activation, Forms, Checkout — all reports in the repo root) was
@@ -63,6 +63,31 @@
     test-pinned minimum distance across all 21 families; motion tokens named
     once; `j`/`k` keyboard navigation over visible catalog cards; family
     chips on cards where color was the only family signal.
+
+## 0.13.0 — 2026-07-10
+- Landing-page redesign: calm, product-grade pass over the whole page.
+  - **One visual system:** rainbow gradients removed everywhere (headline
+    underline, footer bar, "All" chip — the `--rainbow` token is gone from
+    `tokens.css`); the 22 family colors no longer spray across card borders,
+    chips, finder icons, and kickers — they survive only where they mean
+    something (family group headers, playbook storefront). Kickers, pipeline
+    steps, and links share one neutral treatment; finder icons render as
+    proper stroke outlines.
+  - **Navigation you can digest:** the catalog leads with the question finder
+    as its single primary chooser; the triage callout, goal pills, and
+    "New here?" nags are gone; the three helper tools (picker, repo
+    recommender, operator context) collapse into quiet disclosure links; the
+    sticky toolbar is search + one neutral chip row (playbook chips dropped —
+    playbooks live in their own section and pages). The 145-card list renders
+    on intent (question, chip, search, or deep link) instead of dumping every
+    card on first paint — the page shrinks from ~29,000px to ~7,000px.
+  - **Sections earn their keep:** single-column hero without the decorative
+    Fig. 1 chart or duplicate stat blocks; the problem section states the
+    problem in three sentences with real proof links instead of three cards;
+    the simulated terminal "run replay" (labelled "not a screen capture") and
+    the placeholder partner band are removed — partnerships move to a footer
+    link; cards drop the "N lenses · N.Nk" trivia and the heavy per-row
+    primary button for a compact quiet one.
 
 ## 0.12.0 — 2026-07-09
 - End-to-end remediation pass across every layer, driven by a full review:

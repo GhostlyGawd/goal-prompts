@@ -1,6 +1,6 @@
 # Goal Prompts
 
-141 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+145 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
 
@@ -170,6 +170,7 @@ Curated sequences on the site, for when you don't want to choose:
 | Subtract | what should go? | 26, 27 |
 | Meta | do the reports add up? | 28, 29 |
 | Act | does anything change? | 46, 47, 74 |
+| Build | will it ship? | 141–144 |
 | Agent | does the agent deliver? | 30–38, 48–50 |
 | Automation | does the process hold? | 39–41 |
 | AI-UX | does the human trust it? | 42–44 |

@@ -1,0 +1,13 @@
+# The same gate as scripts/check locally. Operator: make this workflow a
+# required status check (branch protection) so red can never merge.
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sh scripts/check
