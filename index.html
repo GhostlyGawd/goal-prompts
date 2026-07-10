@@ -789,7 +789,9 @@
     <div class="side">
       <div class="co"><span class="logo">P</span><b>Partner Tool</b> <span class="x">×</span> Goal Prompts <span style="margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 7px">example</span></div>
       <p style="font-size:13px;color:var(--dim);margin-top:10px;line-height:1.5">An example co-branded playbook — see how one looks and reads, end to end. No real partnership implied.</p>
-      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?title=Partnership+inquiry">Partner with us →</a>
+      <!-- R52: same destination as every /p/ partner block — one working channel (build.PARTNER_CTA_URL, test-guarded) -->
+      <a class="contact" href="https://github.com/GhostlyGawd/goal-prompts/issues/new?template=partnership.md&title=Partnership+inquiry">Partner with us →</a>
+      <a class="collablink" href="/partners">formats &amp; specs →</a>
       <a class="collablink" href="/p/codereview-collab">or view the collab template →</a>
     </div>
   </div>
@@ -806,6 +808,8 @@
       <a href="/vitals">Vitals</a>
       <a href="/quality">Quality</a>
       <a href="/changelog">Changelog</a>
+      <a href="/teams">Teams</a>
+      <a href="/partners">Partners</a>
       <a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a>
     </nav>
   </div>
@@ -1484,7 +1488,39 @@ document.addEventListener("click", function(e){
 });
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMoreRows(); });
 const _nudgeSeen = {};
+/* ---- R56 (REVENUE §3.3): post-activation backer nudge — ships DORMANT.
+   BACKER_URL is build-injected (build.py BACKER_URL — empty today, because
+   R53, a real Sponsors/backers profile, is external; never invent one).
+   Empty keeps everything below inert: no markup, no events, zero visible
+   change. The milestone is runCount() — R01's honest marks, never copies —
+   shown once as a footer-weight line, and the dismissal is permanent. */
+const BACKER_URL = "";
+function renderBackerNudge(){
+  if(!BACKER_URL) return;
+  var done = "";
+  try{ done = localStorage.getItem("gp-backer-done") || ""; }catch(e){}
+  var old = document.getElementById("backernudge");
+  if(done || runCount() < 5){ if(old) old.remove(); return; }
+  if(old) return; /* exactly one, ever */
+  var d = document.createElement("p");
+  d.className = "buildnote"; d.id = "backernudge";
+  d.append("Five audits in — this stays free either way. If these have earned their keep, there’s a backer button: ");
+  var a = document.createElement("a"); a.href = BACKER_URL;
+  a.textContent = "back the project ↗";
+  a.addEventListener("click", function(){ track("nudge_clicked", {kind:"backer"}); });
+  var x = document.createElement("button"); x.type = "button"; x.className = "reset";
+  x.textContent = "dismiss ×";
+  x.addEventListener("click", function(){
+    try{ localStorage.setItem("gp-backer-done", "1"); }catch(e){}
+    d.remove(); track("nudge_dismissed", {kind:"backer"});
+  });
+  d.append(a, " · ", x);
+  var bn = document.querySelector(".foot .buildnote");
+  if(bn && bn.parentNode) bn.parentNode.insertBefore(d, bn);
+  if(!_nudgeSeen.backer){ _nudgeSeen.backer = 1; track("nudge_shown", {kind:"backer"}); }
+}
 function renderNudge(){
+  renderBackerNudge(); /* R56 rides the same triggers; separate surface (footer), so the catalog nudges below are untouched */
   const old = document.getElementById("nudge");
   if(old) old.remove();
   if(activePb || query || activeFam!=="All") return;

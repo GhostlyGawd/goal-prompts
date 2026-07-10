@@ -1222,5 +1222,155 @@ class BriefForgeTests(unittest.TestCase):
         self.assertIn("brief-forge", readme)
 
 
+class RevenueRailsTests(unittest.TestCase):
+    """B9 (R52/R54/R55/R56): the revenue rails — one working partner contact
+    on every surface, the /teams and /partners pages, the README/collab-page
+    pointer lines, and the dormant backer nudge. Honesty is load-bearing:
+    no invented prices, addresses, or audience numbers anywhere."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def _pb_html(self, partner=True):
+        prompts = self._prompts()
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "c"}
+        if partner:
+            pb["partner"] = {"name": "Partner Tool", "blurb": "b",
+                             "cta": "Partner with us"}
+        return build.playbook_detail(pb, by_id)
+
+    # ---- R52: both partner CTAs on the one working destination ----
+
+    def test_partner_cta_url_is_the_issue_channel_with_a_template(self):
+        self.assertIn("issues/new", build.PARTNER_CTA_URL)
+        self.assertIn("template=partnership.md", build.PARTNER_CTA_URL)
+        self.assertNotIn("discussions", build.PARTNER_CTA_URL)
+        self.assertTrue((build.ROOT / ".github" / "ISSUE_TEMPLATE" /
+                         "partnership.md").exists())
+
+    def test_playbook_partner_block_uses_the_unified_cta(self):
+        html = self._pb_html()
+        self.assertIn(build.PARTNER_CTA_URL, html)
+        self.assertNotIn("discussions/new", html)
+
+    def test_landing_partner_band_uses_the_same_destination(self):
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn(f'href="{build.PARTNER_CTA_URL}"', t)
+        self.assertNotIn("discussions/new", t)
+
+    def test_no_built_page_links_discussions(self):
+        # Discussions isn't enabled on the repo (R60) — nothing may link it.
+        for f in sorted((build.ROOT / "p").glob("*.html")):
+            self.assertNotIn("discussions/new",
+                             f.read_text(encoding="utf-8"), f.name)
+
+    def test_no_invented_private_email(self):
+        # R52: the private channel is external — a dormant slot is fine,
+        # a made-up address is not.
+        for f in ("template.html", "teams.html", "partners.html"):
+            html = (build.ROOT / f).read_text(encoding="utf-8")
+            self.assertNotIn("mailto:", html, f)
+
+    # ---- R54: the one-line org pointers ----
+
+    def test_readme_teams_section_points_at_the_offer_page(self):
+        readme = (build.ROOT / "README.md").read_text(encoding="utf-8")
+        section = readme.split("## Run your private team catalog", 1)[1]
+        section = section.split("\n## ", 1)[0]
+        self.assertIn("/teams", section)
+        self.assertIn("Want this set up for your org", section)
+
+    def test_collab_template_page_points_at_the_offer_page(self):
+        html = self._pb_html()
+        self.assertIn('href="/teams"', html)
+        self.assertIn("Want this set up for your org", html)
+        # …but only partner pages carry it; plain playbooks don't sell
+        self.assertNotIn('href="/teams"',
+                         self._pb_html(partner=False).split("<footer", 1)[0])
+
+    # ---- R55: /teams + /partners pages ----
+
+    def test_teams_page_productizes_what_exists(self):
+        html = build.teams_page(self._prompts())
+        self.assertIn("GOAL_PROMPTS_BASE", html)          # private catalog
+        self.assertIn("run-brief.example.yml", html)      # standing audit
+        self.assertIn("BASE=", html)                      # installer distribution
+        self.assertIn(f'<link rel="canonical" href="{build.BASE}/teams">',
+                      html)
+        self.assertIn(build.PARTNER_CTA_URL, html)        # the one contact
+
+    def test_teams_page_prices_nothing_it_cannot(self):
+        html = build.teams_page(self._prompts())
+        self.assertIn("on request", html)
+        # the only dollar figures allowed are the cited competitor range and $0
+        import re
+        prices = set(re.findall(r"\$[\d][\d,.]*", html))
+        self.assertLessEqual(prices, {"$24", "$48", "$0"}, prices)
+
+    def test_partners_page_has_formats_specs_and_honest_numbers(self):
+        pbs = json.loads((build.ROOT / "playbooks.json").read_text())
+        html = build.partners_page(pbs)
+        for fmt in ("Sponsored", "Collab", "Themed"):
+            self.assertIn(fmt, html)
+        self.assertIn("playbooks.json", html)             # the real fields
+        self.assertIn("on request", html)                 # audience + pricing
+        self.assertIn("/p/codereview-collab", html)       # the live examples
+        self.assertIn("/p/sponsored-example", html)
+        self.assertIn(build.PARTNER_CTA_URL, html)
+        self.assertNotIn("mailto:", html)
+        # no fabricated reach: no per-month visitor/user counts anywhere
+        import re
+        self.assertFalse(re.search(r"[\d,]+\s*(monthly|weekly)\s*(visitors|users|readers)",
+                                   html, re.I))
+
+    def test_live_site_emits_and_links_both_pages(self):
+        for slug in ("teams", "partners"):
+            self.assertTrue((build.ROOT / f"{slug}.html").exists(), slug)
+        sitemap = (build.ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        for slug in ("teams", "partners"):
+            self.assertRegex(sitemap,
+                             rf"<loc>{build.BASE}/{slug}</loc><lastmod>\d{{4}}-")
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn('href="/teams"', t)                 # landing footer
+        self.assertIn('href="/partners"', t)
+        detail = self._pb_html(partner=False)             # detail-page footer
+        self.assertIn('href="/teams"', detail)
+        self.assertIn('href="/partners"', detail)
+
+    # ---- R56: the backer nudge ships dark ----
+
+    def test_backer_nudge_is_dormant_by_default(self):
+        self.assertEqual(build.BACKER_URL, "")            # R53 is external
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn("__BACKER_URL__", t)                # the injected gate
+        self.assertIn("renderBackerNudge", t)             # logic ships, dark
+        self.assertIn("gp-backer-done", t)                # permanent dismissal
+        built = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn('BACKER_URL = ""', built)           # empty ⇒ inert
+        self.assertNotIn("__BACKER_URL__", built)
+
+    def test_backer_nudge_arms_when_a_url_is_configured(self):
+        # the same replacement main() performs, with a stand-in URL: the
+        # gate value is the only thing between dark and live
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        armed = t.replace("__BACKER_URL__", "https://example.com/backers")
+        self.assertIn('BACKER_URL = "https://example.com/backers"', armed)
+
+    def test_backer_nudge_uses_the_honest_copy_and_real_marks(self):
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        # bound the slice to the function body (up to the next top-level
+        # "function ") so the assertions can't match unrelated later code
+        start = t.index("function renderBackerNudge")
+        end = t.index("function ", start + 1)
+        fn = t[start:end]
+        self.assertIn("runCount() < 5", fn)               # R01's honest marks gate
+        self.assertIn("gp-backer-done", fn)               # permanent dismissal
+        self.assertIn("Five audits in", fn)               # REVENUE §3.3 copy
+        self.assertIn("stays free", fn)
+
+
 if __name__ == "__main__":
     unittest.main()

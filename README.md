@@ -218,6 +218,9 @@ embedded in brief bodies all follow it. The slash-command installer takes
 the same idea as an env var: `BASE=https://audits.your-co.internal sh
 install`. Unset, the build produces the canonical public site.
 
+Want this set up for your org, with your own briefs? →
+[goal-prompts.vercel.app/teams](https://goal-prompts.vercel.app/teams)
+
 ## Add a prompt
 
 1. Create `prompts/<family>/NN-slug.md` with the front matter above.

@@ -39,7 +39,9 @@ at copy/quick-view time and the SW precaches it; `raw/` stays the agents'
 network-only endpoint so its fetch counts stay an honest usage metric),
 `changelog.html` (the `/changelog` page, rendered from `CHANGELOG.md` —
 edit that), `quality.html` (the `/quality` page — its copy lives in
-`build.py`'s `quality_page`), `checksums.txt`, `commands.tar.gz`,
+`build.py`'s `quality_page`), `teams.html`, `partners.html` (the `/teams`
+and `/partners` offer pages — copy in `build.py`'s `teams_page` /
+`partners_page`), `checksums.txt`, `commands.tar.gz`,
 `commands.zip`, `cursor-commands.zip` (Cursor's `.cursor/commands/*.md`
 project-commands format),
 `sitemap.xml`, `robots.txt`, `sw.js`, `tokens.css`.

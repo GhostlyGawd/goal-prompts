@@ -366,6 +366,21 @@ self.addEventListener("notificationclick", function (e) {
 WORKFLOW_URL = ("https://github.com/GhostlyGawd/goal-prompts/blob/main/"
                 ".github/run-brief.example.yml")
 
+# R52 (CRO NF5 · REVENUE §4.1–2): the one partner contact. Both CTAs (the
+# landing Partnerships band — kept as a literal in template.html, guarded by
+# tests — and every /p/ partner block) point here; the old /p/ target was
+# GitHub Discussions, which isn't enabled on the repo. The private email
+# channel REVENUE §4.2 wants is external (no address exists yet — never
+# invent one); the issue template offers a "prefer to talk privately?" out.
+PARTNER_CTA_URL = ("https://github.com/GhostlyGawd/goal-prompts/issues/new"
+                   "?template=partnership.md&title=Partnership+inquiry")
+
+# R56 (REVENUE §3.3), dormant until R53: the post-activation backer nudge is
+# gated on this URL the same way the star badge gates on metrics.json — empty
+# means the logic ships dark with zero user-visible change. Set it to a real
+# Sponsors/backers URL once one exists; nothing else needs editing.
+BACKER_URL = ""
+
 
 # =====================================================================
 # Detail pages — every brief and every playbook gets a full, crawlable,
@@ -983,6 +998,8 @@ def foot(head, sub, buttons_html) -> str:
             '<a href="/examples/">Sample reports</a>'
             '<a href="/quality">Why briefs don\'t rot</a>'
             '<a href="/changelog">Changelog</a>'
+            '<a href="/teams">For teams</a>'
+            '<a href="/partners">Partners</a>'
             '<a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div>'
             '<p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · '
             'works with Claude Code, Cursor, Copilot &amp; any coding agent</p>'
@@ -1387,8 +1404,14 @@ def playbook_detail(pb, by_id) -> str:
                   f'<strong>{esc(partner["name"])}</strong> <span class="x">×</span> '
                   f'<span class="brand" style="font-size:15px">Goal Prompts</span></div>'
                   f'<p>{esc(partner["blurb"])}</p>'
-                  f'<a class="btn btn-primary" href="https://github.com/GhostlyGawd/goal-prompts/discussions/new?category=ideas&title=Partner%20playbook">'
+                  # R52: the unified partner contact — same destination as the
+                  # landing band, and a working one (Discussions isn't enabled)
+                  f'<a class="btn btn-primary" href="{PARTNER_CTA_URL}">'
                   f'{esc(partner.get("cta", "Partner with us"))}</a>'
+                  f'<p class="note">Formats &amp; specs: <a href="/partners" '
+                  f'style="color:var(--fc)">/partners</a> · Want this set up '
+                  f'for your org, with your own briefs? <a href="/teams" '
+                  f'style="color:var(--fc)">Goal Prompts for Teams →</a></p>'
                   f'</div></div></section>')
 
     # briefs as cards
@@ -1590,6 +1613,181 @@ def quality_page(prompts: list) -> str:
                 f"linter, a CI gate, a {LIMIT:,}-character cap, the ask-first "
                 f"safety rule, and reports dogfooded on the catalog's own repo.",
                 f"{BASE}/quality", hero + linter + ci + dogfood + ftr,
+                f"{BASE}/og.png")
+
+
+def teams_page(prompts: list) -> str:
+    """R55 (REVENUE §5/§3.2 · COMPETITIVE §10 bet 3): /teams — the offer page
+    that productizes what already ships free: the private-catalog build
+    (GOAL_PROMPTS_BASE), the installer/plugin/MCP/skills distribution, and
+    the standing-audit GitHub Action. Honesty rules: pricing is the
+    maintainer's call and doesn't exist yet, so the page says "on request";
+    the only dollar figures are the cited competitor range and $0; the DIY
+    path is documented right on the page."""
+    gh = "https://github.com/GhostlyGawd/goal-prompts/blob/main/"
+    n = len(prompts)
+
+    hero = (f'<section class="dhero"><div class="wrap">'
+            f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+            f'<span>For teams</span></div>'
+            f'<h1 style="margin-top:14px">Goal Prompts for Teams</h1>'
+            f'<p class="lede">Run the whole catalog — plus your own private, '
+            f'linted briefs — inside your org: your own deployment, your own '
+            f'slash commands, standing audits on a cron. Everything below '
+            f'already exists in the open repo; the offer is having it set up, '
+            f'extended with your briefs, and supported for you.</p>'
+            f'<div class="cta">'
+            f'<a class="btn btn-primary" href="{PARTNER_CTA_URL}">Ask about a team setup →</a>'
+            f'<a class="btn btn-ghost" href="{gh}README.md#run-your-private-team-catalog">Read the DIY docs ↗</a>'
+            f'</div></div></section>')
+
+    what = (f'<section class="blk"><div class="wrap">'
+            f'<div class="kicker">The pipeline</div>'
+            f'<h2 class="h2">A private audit pipeline, built from shipping parts.</h2>'
+            f'<p class="lead">Nothing here is vaporware — each piece is live in the '
+            f'public repo today and MIT-licensed. A Teams engagement assembles them '
+            f'around your org.</p>'
+            f'<div class="rules" style="margin-top:18px"><h3>What a setup includes</h3><ul>'
+            f'<li><b>A private catalog.</b> A fork built with '
+            f'<code>GOAL_PROMPTS_BASE=https://audits.your-co.internal python3 build.py</code> '
+            f'— the site, raw endpoints, conductors, and <code>catalog.json</code> all '
+            f'point at your internal deployment. Nothing your briefs touch leaves your infra.</li>'
+            f'<li><b>Your own briefs.</b> Org-specific audits — your stack, your compliance '
+            f'bar, your review checklist — written to the same '
+            f'<a href="/quality" style="color:var(--fc)">published linter and CI gate</a> '
+            f'that keeps the public {n} from rotting.</li>'
+            f'<li><b>Distribution to every seat.</b> The slash-command installer '
+            f'(<code>BASE=… sh install</code>), the Claude Code plugin, the MCP server, '
+            f'and the skills tree — the same one-paste flow, pointed at your catalog.</li>'
+            f'<li><b>Standing audits.</b> '
+            f'<a href="{gh}.github/run-brief.example.yml" style="color:var(--fc)">'
+            f'<code>run-brief.example.yml</code> ↗</a> wired into your repos: a scheduled '
+            f'brief runs on a cron and files its report as an issue — audits as an '
+            f'appointment, not a memory.</li>'
+            f'</ul></div></div></section>')
+
+    price = (f'<section class="blk"><div class="wrap">'
+             f'<div class="kicker">Pricing</div>'
+             f'<h2 class="h2">Flat fee, on request. No per-seat metering.</h2>'
+             f'<p class="lead">A setup engagement plus an optional support retainer — '
+             f'scoped per org, priced flat, nothing metered. <b>Pricing is on '
+             f'request</b> via the partnership contact; the project is young and '
+             f'every engagement is scoped individually.</p>'
+             f'<p class="lead" style="margin-top:12px">For scale: adjacent automated-review '
+             f'products price per seat — CodeRabbit’s paid tiers run about $24–$48 '
+             f'per user per month on their published plans. The GitHub Action above already '
+             f'delivers a standing audit at $0; what an engagement buys is the '
+             f'implementation and your own private content, once.</p>'
+             f'<div class="note">Do-it-yourself first: all of this is open source and '
+             f'documented — the <a href="{gh}README.md#run-your-private-team-catalog" '
+             f'style="color:var(--fc)">README covers the private-catalog build ↗</a>. '
+             f'If your team can spare the setup time, you don’t need to pay anyone.</div>'
+             f'</div></section>')
+
+    ftr = foot("Bring the audit loop in-house",
+               "One contact starts the conversation — public issue, and say "
+               "the word if you'd rather talk privately.",
+               f'<a class="btn btn-primary" href="{PARTNER_CTA_URL}">Ask about a team setup →</a>'
+               '<a class="btn btn-ghost" href="/#catalog">Browse the catalog</a>')
+
+    return page("Goal Prompts for Teams — private audit catalogs",
+                f"A private audit pipeline from shipping parts: your own catalog "
+                f"of linted briefs, slash-command distribution, and standing CI "
+                f"audits. Flat-fee setup, pricing on request.",
+                f"{BASE}/teams", hero + what + price + ftr,
+                f"{BASE}/og.png")
+
+
+def partners_page(playbooks: list) -> str:
+    """R55 (REVENUE §4.3/§5): /partners — the rate-card structure. Formats
+    and specs are real (the merchandising fields ship in playbooks.json and
+    render today); the numbers are not, so audience metrics and pricing are
+    "on request" — never invented. Same single contact as R52."""
+    # the worked-example links come from the data, so they track playbooks.json
+    ex = {pb["type"]: pb for pb in playbooks if pb.get("partner")}
+    collab_key = ex["collab"]["key"]
+    sponsored_key = ex["sponsored"]["key"]
+
+    hero = (f'<section class="dhero"><div class="wrap">'
+            f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+            f'<span>Partners</span></div>'
+            f'<h1 style="margin-top:14px">Partner &amp; sponsored playbooks</h1>'
+            f'<p class="lede">Playbooks are how this catalog is built to sustain itself: a '
+            f'partner’s brand wraps a real, linted, useful sequence — always '
+            f'disclosed, never ahead of the organic catalog. This page is the '
+            f'rate-card structure; the numbers are on request while the project '
+            f'is early.</p>'
+            f'<div class="cta">'
+            f'<a class="btn btn-primary" href="{PARTNER_CTA_URL}">Start a partnership →</a>'
+            f'<a class="btn btn-ghost" href="/p/{collab_key}">See the collab template</a>'
+            f'</div></div></section>')
+
+    formats = (f'<section class="blk"><div class="wrap">'
+               f'<div class="kicker">Formats</div>'
+               f'<h2 class="h2">Three placement formats, all already rendered.</h2>'
+               f'<p class="lead">Each format is live in the build today as a worked '
+               f'example — what you see on the example pages is exactly what ships.</p>'
+               f'<div class="rules" style="margin-top:18px"><h3>The inventory</h3><ul>'
+               f'<li><b>Sponsored playbook.</b> A curated sequence your brand wraps — '
+               f'logo, name, blurb, CTA — with the placement paid. Worked example: '
+               f'<a href="/p/{sponsored_key}" style="color:var(--fc)">'
+               f'{esc(ex["sponsored"]["name"])}</a>.</li>'
+               f'<li><b>Collab playbook.</b> Co-branded with a tool or creator: the '
+               f'content is shared and so is the revenue. Worked example: '
+               f'<a href="/p/{collab_key}" style="color:var(--fc)">'
+               f'{esc(ex["collab"]["name"])}</a>.</li>'
+               f'<li><b>Themed drop.</b> A limited-run seasonal slot with a visible '
+               f'window label (the catalog already runs its own — Ship-It Week, the '
+               f'January reset). Calendar inventory, one partner per window.</li>'
+               f'</ul></div></div></section>')
+
+    specs = (f'<section class="blk"><div class="wrap">'
+             f'<div class="kicker">Specs</div>'
+             f'<h2 class="h2">What a placement includes.</h2>'
+             f'<p class="lead">Every placement is a first-class playbook, not a banner: '
+             f'its own detail page with your name, mark, blurb, and CTA; a storefront '
+             f'card on the landing page; a one-paste conductor and raw endpoint; and an '
+             f'OG share card. The merchandising fields are already live in '
+             f'<code>playbooks.json</code> — <code>type</code>, <code>badge</code>, '
+             f'<code>window</code>, <code>accent</code>, <code>partner</code>, '
+             f'<code>tagline</code>, <code>featured</code> — so a real partner slots in '
+             f'without new code.</p>'
+             f'<div class="rules" style="margin-top:18px"><h3>Disclosure rules — non-negotiable</h3><ul>'
+             f'<li>Every paid placement carries a visible <b>Sponsored</b> or '
+             f'<b>Collab</b> badge, on the card and on its page.</li>'
+             f'<li>Sponsored cards never displace organic playbooks in the featured '
+             f'storefront grid.</li>'
+             f'<li>No sponsor messaging in the copy-and-run flow — the surface users '
+             f'trust stays clean.</li>'
+             f'<li>The briefs themselves are never sponsored. Placement wraps a '
+             f'sequence; every brief in it clears the same '
+             f'<a href="/quality" style="color:var(--fc)">published linter</a> as the '
+             f'rest of the catalog.</li>'
+             f'</ul></div></div></section>')
+
+    numbers = (f'<section class="blk"><div class="wrap">'
+               f'<div class="kicker">Numbers</div>'
+               f'<h2 class="h2">Audience and pricing: on request.</h2>'
+               f'<p class="lead">The catalog is early and the numbers stay honest: '
+               f'distribution metrics are shared on request as they come online, and '
+               f'pricing is quoted per placement. No inflated reach claims — if a '
+               f'number isn’t real, it isn’t on this page.</p>'
+               f'<div class="note">Prefer to talk privately? Open the contact issue '
+               f'and say so — it can stay a one-liner, and the maintainer will follow '
+               f'up with you directly.</div>'
+               f'</div></section>')
+
+    ftr = foot("Wrap a sequence worth running",
+               "The example placements show the whole shape, end to end — "
+               "swap in a real partner to ship one.",
+               f'<a class="btn btn-primary" href="{PARTNER_CTA_URL}">Start a partnership →</a>'
+               '<a class="btn btn-ghost" href="/#playbooks">See the playbooks</a>')
+
+    return page("Partner & sponsored playbooks — Goal Prompts",
+                "Placement formats and specs for sponsored, collab, and themed "
+                "playbooks: what each includes, the disclosure rules, and how "
+                "to start — audience numbers and pricing on request.",
+                f"{BASE}/partners", hero + formats + specs + numbers + ftr,
                 f"{BASE}/og.png")
 
 
@@ -1842,7 +2040,8 @@ def main() -> None:
     for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
                   "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__",
                   "__GH_STARS__", "__GH_STARS_HERO__", "__STATIC_CATALOG__",
-                  "__STATIC_PB_FEATURED__", "__STATIC_PB_MORE__"):
+                  "__STATIC_PB_FEATURED__", "__STATIC_PB_MORE__",
+                  "__BACKER_URL__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     icon_gaps = lint_family_icons(template)
@@ -1879,7 +2078,10 @@ def main() -> None:
                           .replace("__N_PLAYBOOKS__", str(len(playbooks)))
                           .replace("__N_FAMILIES__", str(len(fam_payload)))
                           .replace("__GH_STARS_HERO__", gh_stars)
-                          .replace("__GH_STARS__", gh_stars))
+                          .replace("__GH_STARS__", gh_stars)
+                          # R56: dormant backer nudge — empty BACKER_URL
+                          # (R53 is external) keeps the whole feature inert
+                          .replace("__BACKER_URL__", BACKER_URL))
     (ROOT / "index.html").write_text(index_html, encoding="utf-8")
 
     # ---- raw endpoints + full detail pages (brief + playbook) ----
@@ -1911,6 +2113,13 @@ def main() -> None:
     # don't rot", linked from the loop copy and every footer ----
     quality_html = quality_page(prompts)
     (ROOT / "quality.html").write_text(quality_html, encoding="utf-8")
+
+    # ---- /teams + /partners (R55): the revenue rails — the offer page and
+    # the rate-card structure; pricing/audience numbers stay "on request" ----
+    teams_html = teams_page(prompts)
+    (ROOT / "teams.html").write_text(teams_html, encoding="utf-8")
+    partners_html = partners_page(playbooks)
+    (ROOT / "partners.html").write_text(partners_html, encoding="utf-8")
 
     # ---- per-family conductors ("run all Trust briefs") ----
     fam_conductors = {}
@@ -1989,7 +2198,9 @@ def main() -> None:
              "/vitals": (ROOT / "vitals.html").read_bytes(),
              "/examples/": (ROOT / "examples" / "index.html").read_bytes(),
              "/changelog": changelog_md.encode("utf-8"),
-             "/quality": quality_html.encode("utf-8")}
+             "/quality": quality_html.encode("utf-8"),
+             "/teams": teams_html.encode("utf-8"),
+             "/partners": partners_html.encode("utf-8")}
     for pb in playbooks:
         # the page renders the entry (incl. conductor) + its members' card copy
         members = [{k: by_id[i][k] for k in
@@ -2000,7 +2211,8 @@ def main() -> None:
     for p in prompts:
         blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
     lastmod = sitemap_lastmod(blobs)
-    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality"]
+    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality",
+             "/teams", "/partners"]
     paths += [f"/p/{pb['key']}" for pb in playbooks]
     paths += [f"/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
