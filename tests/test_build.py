@@ -1506,5 +1506,133 @@ class RevenueRailsTests(unittest.TestCase):
         self.assertIn("stays free", fn)
 
 
+class RegisterBadgeTests(unittest.TestCase):
+    """Founder-funnel PIVOT item 1 (POSITIONING): the landing owns the
+    audit·brief·report·evidence register — a brief is never sold as a
+    generic 'prompt'. These lock the re-badge so the noun can't drift back,
+    while the load-bearing 'prompt' uses (product name, paths, slugs,
+    analytics events) stay untouched."""
+
+    @staticmethod
+    def _index():
+        return (build.ROOT / "index.html").read_text(encoding="utf-8")
+
+    def test_hero_drops_prompt_as_the_product_noun(self):
+        # a brief is an audit/brief, not a "ready-made prompt"
+        self.assertNotIn("ready-made prompt", self._index())
+
+    def test_hero_uses_the_audit_register_and_keeps_the_substance(self):
+        html = self._index()
+        self.assertIn("ready-to-run audit", html)        # audit-register noun
+        self.assertIn("four-phase", html)                # the method, kept
+        self.assertIn("one evidence-backed report", html)  # the deliverable, kept
+
+    def test_guard_card_calls_them_briefs_not_prompts(self):
+        html = self._index()
+        self.assertNotIn("Prompts run in your repo", html)
+        self.assertIn("Briefs run in your repo", html)
+
+
+class ProofLoopTests(unittest.TestCase):
+    """Founder-funnel PIVOT item 2 (VERDICT action 3 / POSITIONING wedge):
+    the Proof section makes the whole audit loop legible end to end —
+    brief -> report -> Studio -> Fixer -> FIXLOG — with every stage a real,
+    linkable artifact from this repo. Rivals stop at 'here's a prompt'; the
+    catalog owns what happens after the run, so the loop must be spelled out
+    and wired, not implied."""
+
+    @staticmethod
+    def _proof_section():
+        html = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        start = html.index("It audits its own code, too.")
+        end = html.index("<footer", start)
+        return html[start:end]
+
+    def test_proof_names_every_loop_stage(self):
+        proof = self._proof_section()
+        for stage in ("Studio", "Fixer", "FIXLOG"):
+            self.assertIn(stage, proof, stage)
+
+    def test_proof_wires_the_loop_links(self):
+        proof = self._proof_section()
+        self.assertIn("/studio", proof)       # the Report Studio
+        self.assertIn("/examples", proof)      # the real reports
+        self.assertIn("FIXLOG.md", proof)      # the loop's endpoint
+
+    def test_proof_stages_appear_in_loop_order(self):
+        # property/invariant: the first mention of each stage runs in the
+        # order the loop actually flows, so the walkthrough can't be shuffled
+        # into something that reads out of sequence.
+        proof = self._proof_section()
+        order = [proof.index(s) for s in
+                 ("brief", "report", "Studio", "Fixer", "FIXLOG")]
+        self.assertEqual(order, sorted(order), order)
+
+
+class TeamsWtpLockTests(unittest.TestCase):
+    """Founder-funnel PIVOT item 3 (VERDICT action 1, in-repo part): lock the
+    /teams willingness-to-pay surface — a real competitor price anchor
+    ($24-$48/seat), the $0 DIY floor, an honest 'on request' for the product
+    itself, and the one working intent CTA. The lock is two-directional: the
+    anchor + CTA must be PRESENT (positioning), and no OTHER dollar figure may
+    appear (honesty — no invented goal-prompts price)."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_wtp_surface_is_locked(self):
+        html = build.teams_page(self._prompts())
+        # competitor price anchor — both bounds of the cited CodeRabbit range
+        self.assertIn("$24", html)
+        self.assertIn("$48", html)
+        self.assertIn("$0", html)                  # the DIY / GitHub Action floor
+        self.assertIn("on request", html)          # no invented product price
+        self.assertIn(build.PARTNER_CTA_URL, html)  # the intent CTA (one channel)
+        self.assertNotIn("mailto:", html)           # not a made-up private address
+        # honesty property: the ONLY dollar figures are the anchor range + $0
+        import re
+        prices = set(re.findall(r"\$[\d][\d,.]*", html))
+        self.assertEqual(prices, {"$24", "$48", "$0"}, prices)
+
+
+class QualityBarClaimTests(unittest.TestCase):
+    """Founder-funnel PIVOT item 4 (COMPETITORS wedge b / POSITIONING): the
+    machine-enforced quality bar is the category's unclaimed wedge, so the
+    landing states it as a visible claim — and these tests bind that claim to
+    real linter behavior, so the marketing can't outrun the mechanism."""
+
+    def test_landing_surfaces_the_quality_bar_claim(self):
+        html = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn("machine-enforced quality bar", html)
+        for prop in ("4-phase", "ask-first", "size-capped", "CI-gated"):
+            self.assertIn(prop, html, prop)
+        # the claim links out to the page that proves it
+        idx = html.index("machine-enforced quality bar")
+        self.assertIn('href="/quality"', html[idx:idx + 300])
+
+    # ---- the other side: the claim is TRUE because the linter enforces it ----
+
+    def test_size_cap_is_really_enforced(self):
+        # a real over-cap body (not a faked chars field) is rejected
+        big = GOOD_BODY + "\n" + ("padding. " * ((build.LIMIT // 9) + 1))
+        p = brief(big)
+        self.assertGreater(p["chars"], build.LIMIT)
+        self.assertTrue(any(f"max {build.LIMIT}" in x for x in build.lint(p)),
+                        build.lint(p))
+
+    def test_ask_first_gate_is_really_enforced(self):
+        body = GOOD_BODY.replace(
+            "Report only — end by asking which fixes to make", "Just report.")
+        self.assertTrue(any("ask-first" in x for x in build.lint(brief(body))))
+
+    def test_four_phase_skeleton_is_really_enforced(self):
+        for n in (1, 2, 3, 4):
+            body = GOOD_BODY.replace(f"## Phase {n}", f"## Step {n}")
+            self.assertTrue(
+                any(f"Phase {n}" in x for x in build.lint(brief(body))),
+                f"Phase {n} not enforced")
+
+
 if __name__ == "__main__":
     unittest.main()

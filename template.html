@@ -465,7 +465,7 @@
   <div class="hero-in">
     <p class="eyebrow">A free, open catalog of audit briefs for coding agents</p>
     <h1 class="title">Turn your coding agent into a <em>senior code auditor</em>.</h1>
-    <p class="sub">Every brief is a ready-made prompt that runs the same four-phase audit — explore, audit, curate, report — and files <b>one evidence-backed report</b> at your repo root. Paste it into Claude Code, Cursor, or any agent.</p>
+    <p class="sub">Every brief is a ready-to-run audit that follows the same four-phase method — explore, audit, curate, report — and files <b>one evidence-backed report</b> at your repo root. Paste it into Claude Code, Cursor, or any agent.</p>
     <div class="cta">
       <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
       <a class="btn btn-ghost" href="#how">How it works</a>
@@ -512,8 +512,9 @@
   <div class="guards">
     <div class="guard"><b>Read-only by default</b><p>Every audit brief reads your code and runs read-only checks. Its only write is its own report.</p></div>
     <div class="guard"><b>It ends by asking</b><p>No brief changes your code on its own — each one stops and asks before anything is touched.</p></div>
-    <div class="guard"><b>Everything stays local</b><p>Prompts run in your repo, in your agent. Nothing is uploaded; there’s no backend to trust.</p></div>
+    <div class="guard"><b>Everything stays local</b><p>Briefs run in your repo, in your agent. Nothing is uploaded; there’s no backend to trust.</p></div>
   </div>
+  <p class="turn">On top of that, every brief passes a <b>machine-enforced quality bar</b> — 4-phase, ask-first, size-capped, CI-gated — the same published linter and CI gate on every entry, or the build fails. <a href="/quality">See the quality bar →</a></p>
 </div></section>
 
 <!-- ============ VALUE ============ -->
@@ -660,6 +661,14 @@
   <div class="kicker"><span class="kno">07</span>Proof</div>
   <h2 class="h2">It audits its own code, too.</h2>
   <p class="lead">The best demo is the repo itself. These briefs were run against this very project — the reports, and the commits they turned into, are all in the open.</p>
+  <p class="loopline">The loop, end to end: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/reports/FIXLOG.md">FIXLOG</a></b> — every stage below is a real artifact from this repo, not a mock-up.</p>
+  <div class="pipe">
+    <div class="pnode n1"><div class="dot">1</div><h3>Brief</h3><p>Paste an audit brief into your agent inside the repo you want checked.</p></div>
+    <div class="pnode n2"><div class="dot">2</div><h3>Report</h3><p>It files one evidence-backed report at your repo root — the real ones are in the <a href="/examples/">sample gallery</a>.</p></div>
+    <div class="pnode n3"><div class="dot">3</div><h3>Studio</h3><p>The <a href="/studio">Report Studio</a> loads those reports as a findings checklist, entirely in your browser.</p></div>
+    <div class="pnode n4"><div class="dot">4</div><h3>Fixer</h3><p>One tap turns the findings you checked into a targeted <a href="/b/47">Fixer</a> prompt.</p></div>
+    <div class="pnode n5"><div class="dot">→</div><h3>FIXLOG</h3><p>Shipped fixes land as commits, each traced back to its finding in the <a href="/reports/FIXLOG.md">FIXLOG</a>.</p></div>
+  </div>
   <div class="proof">
     <div class="proofcard">
       <h4>Real reports, not screenshots</h4>
