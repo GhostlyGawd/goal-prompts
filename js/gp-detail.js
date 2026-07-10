@@ -44,6 +44,26 @@ function markRun(id) {
     var runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {};
     runs[id] = Date.now();
     localStorage.setItem("gp-runs", JSON.stringify(runs));
+    mirrorVitalsState(runs);
+  } catch (e) {}
+}
+/* R34 (RETENTION R8a): mirror runs["29"] + remind.on into IndexedDB
+ * (db "gp-sw", store "kv", key "vitals") for the service worker's staleness
+ * check — a SW can't read localStorage. Same contract as template.html's
+ * mirrorVitalsState and build.py's SERVICE_WORKER; keep the three in step. */
+function mirrorVitalsState(runs) {
+  try {
+    var remind = JSON.parse(localStorage.getItem("gp-remind") || "{}") || {};
+    var req = indexedDB.open("gp-sw", 1);
+    req.onupgradeneeded = function () { try { req.result.createObjectStore("kv"); } catch (e) {} };
+    req.onsuccess = function () {
+      try {
+        var db = req.result;
+        var tx = db.transaction("kv", "readwrite");
+        tx.objectStore("kv").put({runs29: runs["29"] || 0, remindOn: !!remind.on}, "vitals");
+        tx.oncomplete = function () { db.close(); };
+      } catch (e) {}
+    };
   } catch (e) {}
 }
 function hasRun(id) {
@@ -110,6 +130,23 @@ function showHint(output, id) {
       mr.onclick = function () {
         markRun(id); track("mark_run", {id: id, from: "hint"});
         mr.textContent = "✓ marked"; mr.disabled = true;
+        /* R33/R37: marking Vitals run is the proven-intent high point — point
+         * at the accruing history and the standing-appointment workflow */
+        if (id === "29") {
+          var v = document.createElement("a");
+          v.href = "/vitals"; v.textContent = "your trend history →";
+          v.onclick = function () { track("nudge_clicked", {kind: "vitals_viewer", src: "detail"}); };
+          var g = document.createElement("a");
+          g.href = "https://github.com/GhostlyGawd/goal-prompts/blob/main/.github/run-brief.example.yml";
+          g.textContent = "make it a standing appointment →";
+          g.onclick = function () { track("standing_audit_clicked", {src: "detail"}); };
+          el.insertBefore(document.createTextNode(" "), x);
+          el.insertBefore(v, x);
+          el.insertBefore(document.createTextNode(" · "), x);
+          el.insertBefore(g, x);
+          clearTimeout(_hintT);
+          _hintT = setTimeout(function () { el.hidden = true; }, 12000);
+        }
       };
     }
     el.append(" ", mr);
@@ -196,7 +233,7 @@ document.addEventListener("click", function (e) {
   var n = Object.keys(runs).length;
   if (!n) return;
   try { if (Date.now() - (+localStorage.getItem("gp-wb-hide") || 0) < 14 * DAY) return; } catch (e) {}
-  var kind, lead, href, label;
+  var kind, lead, href, label, extraHref, extraLabel;
   if (n >= 5 && !runs["28"]) {
     kind = "roadmap";
     lead = "you've run " + n + " briefs — their reports can become one plan: ";
@@ -205,6 +242,9 @@ document.addEventListener("click", function (e) {
     kind = "vitals";
     lead = "Weekly Vitals is stale — ten minutes for fresh trend arrows: ";
     href = "/b/29"; label = "29 · Health Check →";
+    /* R33 (RETENTION R6): the stale-Vitals strip also points at the Vitals
+     * Viewer, where the history this ritual accrues is visible */
+    extraHref = "/vitals"; extraLabel = "your trend history →";
   } else {
     kind = "back";
     lead = "you've run " + n + " brief" + (n === 1 ? "" : "s") + " — resume where you left off: ";
@@ -221,7 +261,13 @@ document.addEventListener("click", function (e) {
     try { localStorage.setItem("gp-wb-hide", String(Date.now())); } catch (e) {}
     el.remove();
   };
-  w.append(hi, " — " + lead, a, x); el.append(w);
+  w.append(hi, " — " + lead, a);
+  if (extraHref) {
+    var a2 = document.createElement("a"); a2.href = extraHref; a2.textContent = extraLabel;
+    a2.onclick = function () { track("nudge_clicked", {kind: "vitals_viewer", src: "detail"}); };
+    w.append(" · ", a2);
+  }
+  w.append(x); el.append(w);
   var nav = document.querySelector("header.nav");
   if (nav && nav.parentNode) nav.parentNode.insertBefore(el, nav.nextSibling);
   else document.body.insertBefore(el, document.body.firstChild);

@@ -792,5 +792,48 @@ class DetailPageTests(unittest.TestCase):
         self.assertIn("the conductor text", html)     # embedded for copy
 
 
+class ChangelogTests(unittest.TestCase):
+    """R36 (RETENTION R10): CHANGELOG.md publishes as /changelog — the one URL
+    that says what's new to surfaces that pin their catalog at install time."""
+
+    MD = ("# Changelog\n"
+          "\n"
+          "## 0.2.0 — 2026-01-02\n"
+          "- added a **bold** thing with `code`\n"
+          "- second item\n"
+          "\n"
+          "## 0.1.0 — 2026-01-01\n"
+          "First release.\n")
+
+    def test_changelog_page_emits_every_release(self):
+        html = build.changelog_page(self.MD)
+        self.assertIn("0.2.0", html)
+        self.assertIn("0.1.0", html)
+        self.assertIn("<li>added a <strong>bold</strong> thing with "
+                      "<code>code</code></li>", html)
+        self.assertIn(f'<link rel="canonical" href="{build.BASE}/changelog">',
+                      html)
+
+    def test_newest_release_leads_the_page(self):
+        html = build.changelog_page(self.MD)
+        self.assertLess(html.index("0.2.0"), html.index("0.1.0"))
+
+    def test_changelog_content_is_escaped(self):
+        html = build.changelog_page(
+            "# Changelog\n\n## 0.1.0\n- evil <script>alert(1)</script> & co\n")
+        self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt; &amp; co", html)
+        self.assertNotIn("<script>alert(1)</script>", html)
+
+    def test_changelog_without_releases_fails_the_build(self):
+        with self.assertRaises(SystemExit):
+            build.changelog_page("# Changelog\n\nnothing released yet\n")
+
+    def test_live_sitemap_lists_changelog(self):
+        # scripts/check builds before testing, so the committed sitemap is live
+        sitemap = (Path(build.__file__).resolve().parent
+                   / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertIn(f"<loc>{build.BASE}/changelog</loc>", sitemap)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -286,13 +286,53 @@ self.addEventListener("fetch", function (e) {
 /* Opt-in weekly Vitals reminder (see the landing's reminder toggle). Fires only
  * when the user explicitly enabled it and the browser supports periodicSync
  * (Chromium, installed PWA) — nothing is auto-enabled and nothing leaves the
- * device. */
+ * device.
+ * R34 (RETENTION R8a): a worker can't read localStorage, so the pages mirror
+ * the two fields this check needs — runs["29"] + remind.on — into IndexedDB
+ * (db "gp-sw", store "kv", key "vitals"; writers: template.html's
+ * mirrorVitalsState and js/gp-detail.js — keep all three in step). The
+ * notification is skipped when reminders are off or Vitals ran under 7 days
+ * ago; a missing mirror (an opt-in that predates it) falls back to notifying,
+ * matching the old behavior rather than going silently dead. */
+var VITALS_STALE_MS = 7 * 86400000;
+function readVitalsState() {
+  return new Promise(function (resolve) {
+    var t = setTimeout(function () { resolve(null); }, 3000);
+    function done(v) { clearTimeout(t); resolve(v); }
+    try {
+      var req = indexedDB.open("gp-sw", 1);
+      req.onupgradeneeded = function () { try { req.result.createObjectStore("kv"); } catch (e) {} };
+      req.onerror = function () { done(null); };
+      req.onsuccess = function () {
+        try {
+          var db = req.result;
+          var get = db.transaction("kv").objectStore("kv").get("vitals");
+          get.onsuccess = function () { db.close(); done(get.result || null); };
+          get.onerror = function () { db.close(); done(null); };
+        } catch (e) { done(null); }
+      };
+    } catch (e) { done(null); }
+  });
+}
+/* the notify decision, pure — exposed as self.gpShouldNotify so
+ * tests/sw_reminder.test.cjs can exercise it without a browser */
+function gpShouldNotify(state, now) {
+  if (state && state.remindOn === false) return false;
+  var last = (state && typeof state.runs29 === "number" && state.runs29 > 0) ? state.runs29 : 0;
+  return !last || now - last >= VITALS_STALE_MS;
+}
+self.gpShouldNotify = gpShouldNotify;
 self.addEventListener("periodicsync", function (e) {
   if (e.tag !== "vitals-weekly") return;
-  e.waitUntil(self.registration.showNotification("Weekly Vitals is due", {
-    body: "Ten minutes for fresh trend arrows on your repo.",
-    icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
-    tag: "vitals-weekly", data: { url: "/?src=reminder#29" }
+  e.waitUntil(readVitalsState().then(function (state) {
+    if (!gpShouldNotify(state, Date.now())) return;
+    /* R33 (RETENTION R6): land on the Vitals Viewer — the page that shows the
+     * history this ritual accrues — instead of a cold catalog anchor. */
+    return self.registration.showNotification("Weekly Vitals is due", {
+      body: "Ten minutes for fresh trend arrows on your repo.",
+      icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+      tag: "vitals-weekly", data: { url: "/vitals?src=reminder" }
+    });
   }));
 });
 self.addEventListener("notificationclick", function (e) {
@@ -318,6 +358,13 @@ self.addEventListener("notificationclick", function (e) {
   }));
 });
 """
+
+
+# R37 (RETENTION R11 · COMPETITIVE §6.4): the standing-audit GitHub Action,
+# linked at the moments of proven intent (post-Vitals mark, b/29, p/vitals).
+# template.html and js/gp-detail.js carry the same URL as a literal.
+WORKFLOW_URL = ("https://github.com/GhostlyGawd/goal-prompts/blob/main/"
+                ".github/run-brief.example.yml")
 
 
 # =====================================================================
@@ -829,7 +876,9 @@ def foot(head, sub, buttons_html) -> str:
             '<div class="links">'
             '<a href="/">Home</a><a href="/#catalog">Catalog</a>'
             '<a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a>'
+            '<a href="/vitals">Vitals Viewer</a>'
             '<a href="/examples/">Sample reports</a>'
+            '<a href="/changelog">Changelog</a>'
             '<a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div>'
             '<p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · '
             'works with Claude Code, Cursor, Copilot &amp; any coding agent</p>'
@@ -943,6 +992,11 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     rfoot = ['One file. Evidence-backed. It ends by asking before touching anything.']
     if p.get("example"):
         rfoot.append(f'<a href="{p["example"]}" style="color:var(--fc)">see a real {esc(p["output"])} ↗</a>')
+    if p["id"] == "29":
+        # R33 (RETENTION R6): the deliverable accrues — say where the history
+        # becomes visible, right where the deliverable is described.
+        rfoot.append('<a href="/vitals" style="color:var(--fc)">paste it into '
+                     'the Vitals Viewer — your trend history →</a>')
     report = (f'<section class="blk"><div class="wrap">'
               f'<div class="kicker">The deliverable</div>'
               f'<h2 class="h2">What lands in your repo</h2>'
@@ -971,6 +1025,24 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw brief URL")}</div>'
             f'</div></div></section>')
+
+    # R33/R37 (RETENTION R6/R11): brief 29 is a weekly ritual — its page names
+    # both halves of what keeps it weekly: the Vitals Viewer (where the pasted
+    # history accrues into trends) and the standing-audit GitHub Action
+    # (which runs without human memory).
+    ritual = ""
+    if p["id"] == "29":
+        ritual = (
+            f'<section class="blk"><div class="wrap">'
+            f'<div class="kicker">Keep the ritual</div>'
+            f'<h2 class="h2">Make it a standing appointment</h2>'
+            f'<p class="lead">Each run appends one dated row to <code>{esc(p["output"])}</code> — '
+            f'drop the file on the <a href="/vitals" style="color:var(--fc)">Vitals Viewer</a> and '
+            f'every vital becomes a sparkline with run-over-run deltas. And a ready-made GitHub '
+            f'Action runs this brief every Monday and files the report as an issue, so the ritual '
+            f'survives without your memory: '
+            f'<a href="{WORKFLOW_URL}" style="color:var(--fc)">copy the workflow ↗</a></p>'
+            f'</div></section>')
 
     # full brief + rules
     rules = ""
@@ -1031,7 +1103,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
                '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
                '<a class="btn btn-ghost" href="/#start">Install everything</a>')
 
-    body = hero + whatis + lenses + report + method + ways + full + rel + ftr
+    body = hero + whatis + lenses + report + method + ways + ritual + full + rel + ftr
     title = f'{p["id"]} · {p["title"]} — Goal Prompts'
     return page(title, p["tagline"], f"{BASE}/b/{p['id']}", body,
                 f"{BASE}/og/{p['id']}.png", "article", fc)
@@ -1132,6 +1204,13 @@ def playbook_detail(pb, by_id) -> str:
             f'data-output="{attr(b["output"])}" '
             f'aria-label="Copy brief {pid} · {attr(b["title"])}">copy</button></div>')
     outputs = ", ".join(by_id[i]["output"] for i in pb["ids"])
+    # R33 (RETENTION R6): sequences that run 29 accrue a history — say where
+    # it becomes visible (the Vitals Viewer), right where the outputs land.
+    vitals_line = ""
+    if "29" in pb["ids"]:
+        vitals_line = (' Drop each week\'s <code>HEALTH.md</code> on the '
+                       '<a href="/vitals" style="color:var(--fc)">Vitals Viewer</a> '
+                       'to watch your trend history grow.')
     seq = (f'<section class="blk" id="seq" {style}><div class="wrap">'
            f'<div class="kicker">The map</div>'
            f'<h2 class="h2">Run it in order</h2>'
@@ -1147,7 +1226,7 @@ def playbook_detail(pb, by_id) -> str:
            f'<span class="mono" style="font-size:13px;color:var(--dim)">{esc(outputs)}</span>. '
            f'Feed them to <a href="/studio" style="color:var(--fc)">Report Studio</a> to turn findings '
            f'into commits, or run <a href="/b/28" style="color:var(--fc)">28 · Roadmap Synthesis</a> '
-           f'to merge them into one plan.</p></div></div></div>'
+           f'to merge them into one plan.{vitals_line}</p></div></div></div>'
            f'</div></section>')
 
     # how to run
@@ -1160,7 +1239,14 @@ def playbook_detail(pb, by_id) -> str:
            f'<button class="btn btn-primary" data-copy="#rawcond" data-pb="{pb["key"]}" '
            f'data-raw="{BASE}/raw/playbook-{pb["key"]}.md">Copy the conductor</button>'
            f'<a class="btn btn-ghost" href="{BASE}/raw/playbook-{pb["key"]}.md">View raw ↗</a></div>'
-           f'</div></section>')
+           # R37 (RETENTION R11): playbooks meant to repeat get the
+           # standing-appointment path at the point of intent
+           + (f'<div class="note">Make it a standing appointment — a ready-made GitHub Action '
+              f'runs a brief on a Monday cron and files the report as an issue. '
+              f'<a href="{WORKFLOW_URL}" style="color:var(--fc)">Copy '
+              f'<code>.github/run-brief.example.yml</code> into your repo ↗</a></div>'
+              if "29" in pb["ids"] else "")
+           + f'</div></section>')
 
     # partner block
     pblock = ""
@@ -1200,6 +1286,62 @@ def playbook_detail(pb, by_id) -> str:
     title = f'{pb["name"]} — Goal Prompts playbook'
     return page(title, pb.get("tagline") or pb["desc"], f"{BASE}/p/{pb['key']}",
                 body, f"{BASE}/og.png", "website", body_class)
+
+
+def changelog_page(md: str) -> str:
+    """CHANGELOG.md → the /changelog page (R36, RETENTION R10).
+
+    Installed surfaces (plugin, curl commands, MCP server) pin the catalog
+    they shipped with; this page is the one URL that always says what's new —
+    the MCP tool footers and the installer's outro point here. Rendering
+    reuses the briefs' own tiny markdown subset (md_block/md_inline): `## `
+    headings split releases, everything else is escaped paragraph/list text."""
+    releases, cur_head, cur = [], None, []
+    for line in md.splitlines():
+        m = re.match(r"^##\s+(.*)$", line)
+        if m:
+            if cur_head is not None:
+                releases.append((cur_head, "\n".join(cur)))
+            cur_head, cur = m.group(1).strip(), []
+        elif cur_head is not None:
+            cur.append(line)
+    if cur_head is not None:
+        releases.append((cur_head, "\n".join(cur)))
+    if not releases:
+        fail("CHANGELOG.md has no '## <version>' releases to render")
+
+    secs = "".join(
+        f'<section class="blk"><div class="wrap">'
+        f'<div class="kicker mono">release</div>'
+        f'<h2 class="h2">{esc(head)}</h2>'
+        f'<div class="prose" style="margin-top:12px">{md_block(chunk)}</div>'
+        f'</div></section>'
+        for head, chunk in releases)
+
+    latest = releases[0][0]
+    hero = (f'<section class="dhero"><div class="wrap">'
+            f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+            f'<span>Changelog</span></div>'
+            f'<h1 style="margin-top:14px">Changelog</h1>'
+            f'<p class="lede">What changed, release by release — latest: '
+            f'<span class="mono">{esc(latest)}</span>. Installed the plugin, the slash '
+            f'commands, or the MCP server? They pin the catalog they shipped with; '
+            f'update any time to pick up new briefs.</p>'
+            f'<div class="cta">'
+            f'<a class="btn btn-primary" href="/#start">Install / update</a>'
+            f'<a class="btn btn-ghost" href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CHANGELOG.md">Raw CHANGELOG.md ↗</a>'
+            f'</div></div></section>')
+
+    ftr = foot("Pick up what's new",
+               "Re-run the installer or update the plugin — the whole catalog "
+               "stays free and open.",
+               '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
+               '<a class="btn btn-ghost" href="/#start">Install everything</a>')
+
+    return page("Changelog — Goal Prompts",
+                f"Every goal-prompts release — new briefs, playbooks, and fixes. "
+                f"Latest: {latest}.",
+                f"{BASE}/changelog", hero + secs + ftr, f"{BASE}/og.png")
 
 
 def command_md(p: dict) -> str:
@@ -1470,6 +1612,12 @@ def main() -> None:
         (ROOT / "p" / f'{pb["key"]}.html').write_text(
             playbook_detail(pb, by_id), encoding="utf-8")
 
+    # ---- /changelog (R36, RETENTION R10): the freshness pull for installed
+    # surfaces — MCP footers and the installer's outro point here ----
+    changelog_md = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    (ROOT / "changelog.html").write_text(changelog_page(changelog_md),
+                                         encoding="utf-8")
+
     # ---- per-family conductors ("run all Trust briefs") ----
     fam_conductors = {}
     for fam in FAMILY_ORDER:
@@ -1530,7 +1678,8 @@ def main() -> None:
     blobs = {"/": index_html.encode("utf-8"),
              "/studio": (ROOT / "studio.html").read_bytes(),
              "/vitals": (ROOT / "vitals.html").read_bytes(),
-             "/examples/": (ROOT / "examples" / "index.html").read_bytes()}
+             "/examples/": (ROOT / "examples" / "index.html").read_bytes(),
+             "/changelog": changelog_md.encode("utf-8")}
     for pb in playbooks:
         # the page renders the entry (incl. conductor) + its members' card copy
         members = [{k: by_id[i][k] for k in
@@ -1541,7 +1690,7 @@ def main() -> None:
     for p in prompts:
         blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
     lastmod = sitemap_lastmod(blobs)
-    paths = ["/", "/studio", "/vitals", "/examples/"]
+    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog"]
     paths += [f"/p/{pb['key']}" for pb in playbooks]
     paths += [f"/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'

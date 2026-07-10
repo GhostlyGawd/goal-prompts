@@ -151,6 +151,26 @@
 "use strict";
 function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? fb : v; }catch(e){ return fb; } }
 function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+/* R33/B5: the SW's weekly notification now lands here (/vitals?src=reminder).
+   Count the return once, drop just that marker, and carry the same anonymous
+   aid/fsw cohort fields the other pages attach (R05/R03) — keys shared with
+   template.html and js/gp-detail.js; edit them together. */
+var _AID = "", _FSW = "";
+try{
+  _AID = localStorage.getItem("gp-aid") || Math.random().toString(36).slice(2, 10);
+  localStorage.setItem("gp-aid", _AID);
+  _FSW = localStorage.getItem("gp-fsw") || String(Math.floor(Date.now() / 6048e5));
+  localStorage.setItem("gp-fsw", _FSW);
+}catch(e){}
+function track(name, data){ try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){} }
+if(/[?&]src=reminder(&|$)/.test(location.search)){
+  track("reminder_return");
+  try{
+    var _q = new URLSearchParams(location.search); _q.delete("src");
+    var _qs = _q.toString();
+    history.replaceState(null, "", location.pathname + (_qs ? "?" + _qs : "") + location.hash);
+  }catch(e){}
+}
 let texts = load("gp-vitals-texts", []);   // raw HEALTH.md strings
 
 const noteEl = document.getElementById("note");
@@ -298,7 +318,7 @@ function render(){
     el.append(ser);
     metricsEl.append(el);
   }
-  try{ window.va("event", { name: "vitals_render", data: { runs: runs.length, metrics: metricKeys.length } }); }catch(e){}
+  track("vitals_render", { runs: runs.length, metrics: metricKeys.length });
 }
 
 /* ---------- input ---------- */

@@ -774,12 +774,14 @@
       <a href="#catalog">Catalog</a>
       <a href="#playbooks">Playbooks</a>
       <a href="/studio">Studio</a>
+      <a href="/vitals">Vitals</a>
+      <a href="/changelog">Changelog</a>
       <a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a>
     </nav>
   </div>
   <p class="buildnote">Built by <a href="https://github.com/GhostlyGawd">@GhostlyGawd</a>, an independent developer · <a href="https://github.com/GhostlyGawd/goal-prompts/issues/new">using it? tell me how ↗</a>__GH_STARS__</p>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
-  <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
+  <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
   <!-- PROOF NF2 / RETENTION R12 (R21): reconcile the privacy promise with the site beacon, in the open -->
   <p class="buildnote">Your code, reports, and setup never leave your device — the briefs run in your agent, locally. The site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking, no report or repo contents collected — the feature events carry a random local id (<code>gp-aid</code>), and zero-result catalog search terms are counted so search can improve.</p>
 </div></footer>
@@ -802,7 +804,27 @@ let query = "";
 /* ---- run tracker ---- */
 let runs = {};
 try{ runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}; }catch(e){ runs = {}; }
-function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} }
+function saveRuns(){ try{ localStorage.setItem("gp-runs", JSON.stringify(runs)); }catch(e){} mirrorVitalsState(); }
+/* R34 (RETENTION R8a): the service worker can't read localStorage, so every
+   change to runs["29"] or remind.on is write-through-mirrored into IndexedDB
+   (db "gp-sw", store "kv", key "vitals") — the SW reads it back before
+   showing the weekly nudge, so a fresh run or a turned-off toggle silences
+   it. Same contract in js/gp-detail.js and build.py's SERVICE_WORKER; keep
+   the three in step. localStorage stays the source of truth. */
+function mirrorVitalsState(){
+  try{
+    var req = indexedDB.open("gp-sw", 1);
+    req.onupgradeneeded = function(){ try{ req.result.createObjectStore("kv"); }catch(e){} };
+    req.onsuccess = function(){
+      try{
+        var db = req.result;
+        var tx = db.transaction("kv", "readwrite");
+        tx.objectStore("kv").put({runs29: runs["29"] || 0, remindOn: !!(remind && remind.on)}, "vitals");
+        tx.oncomplete = function(){ db.close(); };
+      }catch(e){}
+    };
+  }catch(e){}
+}
 function runCount(){ return Object.keys(runs).filter(k => runs[k]).length; }
 const DAY = 86400000;
 function ago(ts){
@@ -918,7 +940,23 @@ if(/[?&]src=reminder(&|$)/.test(location.search)){
     history.replaceState(null, "", location.pathname + (_qs ? "?" + _qs : "") + location.hash);
   }catch(e){}
 }
-window.addEventListener("appinstalled", function(){ track("pwa_installed"); });
+/* R35 (RETENTION R8b): stash the install prompt so the reminder opt-in can
+   offer it at the one moment installing has a stated benefit. */
+var _bip = null;
+window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); _bip = e; });
+window.addEventListener("appinstalled", function(){
+  track("pwa_installed");
+  _bip = null;
+  /* if the install came from the reminder opt-in's offer, finish the job:
+     register the periodic sync the opt-in couldn't (R35). */
+  try{
+    if(remind.on && "serviceWorker" in navigator){
+      navigator.serviceWorker.ready.then(function(reg){
+        if(reg.periodicSync) reg.periodicSync.register("vitals-weekly", {minInterval: 7*DAY}).catch(function(){});
+      }).catch(function(){});
+    }
+  }catch(e){}
+});
 /* FUNNEL §4.5 (R04): fires once, the first time the catalog scrolls into view
    or is used. Catalog interactions (copy, quick view) call this before their
    own event, so the funnel stays monotonic even when the observer hasn't fired
@@ -1012,6 +1050,9 @@ document.addEventListener("click", function(e){
       track("mark_run", {id:id, from:"hint"});
       var rc = document.querySelector('[data-run="' + id + '"]');
       if(rc){ rc.className = "iconbtn on"; rc.textContent = runLabel(id); rc.setAttribute("aria-pressed", "true"); }
+      t.textContent = "✓ marked"; t.disabled = true;
+      if(id === "29") vitalsMarkedFollowup();
+      return;
     }
     t.textContent = "✓ marked"; t.disabled = true;
   }
@@ -1242,7 +1283,10 @@ function card(p, idx, stepNo){
   run.setAttribute("aria-label","Mark "+p.title+" as run");
   run.onclick = ()=>{
     if(runs[p.id]) delete runs[p.id];
-    else { runs[p.id] = Date.now(); track("mark_run", {id:p.id, from:"toggle"}); }
+    else {
+      runs[p.id] = Date.now(); track("mark_run", {id:p.id, from:"toggle"});
+      if(p.id === "29") vitalsMarkedFollowup();
+    }
     saveRuns(); renderStats();
     run.className = "iconbtn" + (runs[p.id] ? " on" : "");
     run.textContent = runLabel(p.id);
@@ -1319,14 +1363,18 @@ function renderNudge(){
     html = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
   } else if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
     kind = "vitals";
-    html = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a>";
+    /* R33 (RETENTION R6): the nudge also points at the Vitals Viewer — the
+       page where the history this ritual accrues is actually visible. */
+    html = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a> · <a href='/vitals' data-kind='vitals_viewer'>your trend history →</a>";
   } else return;
   const d = document.createElement("div");
   d.className = "nudge"; d.id = "nudge"; d.innerHTML = html;
-  const a = d.querySelector("a");
   /* through track() like every other event, so the anonymous R5 cohort fields
      (aid/fsw) ride the retention events too (R03). */
-  if(a) a.addEventListener("click", ()=>{ track("nudge_clicked", {kind:kind}); });
+  d.querySelectorAll("a").forEach(a=>{
+    const k = a.getAttribute("data-kind") || kind;
+    a.addEventListener("click", ()=>{ track("nudge_clicked", {kind:k}); });
+  });
   listEl.prepend(d);
   if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; track("nudge_shown", {kind:kind}); }
 }
@@ -1546,11 +1594,36 @@ function importState(file){
    otherwise the existing in-page stale-Vitals nudge covers the return. ---- */
 let remind = {};
 try{ remind = JSON.parse(localStorage.getItem("gp-remind")||"{}")||{}; }catch(e){ remind = {}; }
-function saveRemind(){ try{ localStorage.setItem("gp-remind", JSON.stringify(remind)); }catch(e){} }
-function remindLabel(){ return "🔔 weekly Vitals reminder: " + (remind.on ? "on" : "off"); }
-async function toggleRemind(btn){
+function saveRemind(){ try{ localStorage.setItem("gp-remind", JSON.stringify(remind)); }catch(e){} mirrorVitalsState(); }
+/* R35c: ✓ from the house icon set marks the on state — the old bell emoji
+   sat outside the mono icon language (CLAUDE.md). */
+function remindLabel(){ return remind.on ? "✓ weekly Vitals reminder: on" : "weekly Vitals reminder: off"; }
+function syncRemindUi(){ const rb = document.getElementById("remindtog"); if(rb) rb.textContent = remindLabel(); }
+/* R35a (RETENTION R8b): periodicSync needs an *installed* PWA — when it's
+   absent at opt-in, offer the install path right there instead of leaving a
+   reminder that quietly doesn't exist. Honest fallbacks either way. */
+function offerInstall(){
+  var parts = ["Reminder saved — background nudges need this site installed as an app"];
+  if(_bip){
+    var ib = document.createElement("button"); ib.type = "button"; ib.className = "iconbtn";
+    ib.textContent = "install the app";
+    ib.onclick = function(){
+      var p = _bip; _bip = null;
+      if(!p) return;
+      ib.disabled = true;
+      try{ p.prompt(); }catch(e){}
+    };
+    parts.push(" — ", ib, ". Until then, the stale-Vitals nudge shows here when you return.");
+  } else if("onbeforeinstallprompt" in window){
+    parts.push(" — use your browser's menu → “Install app”; the reminder finishes setting itself up once installed. Until then, the stale-Vitals nudge shows here when you return.");
+  } else {
+    parts.push(", and this browser doesn't support that. You'll see the stale-Vitals nudge here when you return — all local, no account.");
+  }
+  toast(parts);
+}
+async function toggleRemind(){
   if(remind.on){
-    remind.on = false; saveRemind(); btn.textContent = remindLabel();
+    remind.on = false; saveRemind(); syncRemindUi();
     try{ const reg = await navigator.serviceWorker.ready; if(reg.periodicSync) await reg.periodicSync.unregister("vitals-weekly"); }catch(e){}
     return;
   }
@@ -1558,7 +1631,7 @@ async function toggleRemind(btn){
   let perm = Notification.permission;
   if(perm !== "granted") perm = await Notification.requestPermission();
   if(perm !== "granted"){ toast(["Notifications are blocked for this site, so the reminder can't run. Enable them and try again."]); return; }
-  remind.on = true; saveRemind(); btn.textContent = remindLabel();
+  remind.on = true; saveRemind(); syncRemindUi();
   track("reminder_opt_in");
   let bg = false;
   try{
@@ -1569,15 +1642,41 @@ async function toggleRemind(btn){
       bg = true;
     }
   }catch(e){}
-  toast([bg
-    ? "Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."
-    : "Reminder on. This browser has no background-reminder support, so you'll see the stale-Vitals nudge here when you return — all local, no account."]);
+  if(bg){
+    toast(["Reminder on. When Weekly Vitals goes 7+ days stale, your browser will nudge you — all local, no account."]);
+  } else {
+    offerInstall();
+  }
+}
+/* R35b (RETENTION R8c) + R37 (R11): the moment a Vitals run is marked is the
+   proven-intent high point — offer the trend history, the weekly reminder,
+   and the standing-appointment workflow right there, not only in the footer. */
+var WORKFLOW_URL = "https://github.com/GhostlyGawd/goal-prompts/blob/main/.github/run-brief.example.yml";
+function vitalsMarkedFollowup(){
+  var v = document.createElement("a"); v.href = "/vitals"; v.textContent = "Vitals Viewer →";
+  v.onclick = function(){ track("nudge_clicked", {kind:"vitals_viewer", src:"marked"}); };
+  var parts = ["Vitals logged ✓ — your trend history lives in the ", v, ". "];
+  if(!remind.on){
+    var rb = document.createElement("button"); rb.type = "button"; rb.className = "iconbtn";
+    rb.textContent = "remind me weekly";
+    rb.onclick = function(){ rb.disabled = true; toggleRemind(); };
+    parts.push("Get a nudge when it goes stale: ", rb, " · or ");
+  } else {
+    parts.push("Or ");
+  }
+  var g = document.createElement("a"); g.href = WORKFLOW_URL; g.textContent = "make it a standing appointment →";
+  g.onclick = function(){ track("standing_audit_clicked", {src:"marked"}); };
+  parts.push(g, " — a ready-made GitHub Action runs it every Monday and files the report as an issue.");
+  toast(parts);
 }
 (function(){
   const rb = document.getElementById("remindtog");
   if(!rb) return;
   rb.textContent = remindLabel();
-  rb.onclick = ()=> toggleRemind(rb);
+  rb.onclick = ()=> toggleRemind();
+  /* R34: seed the SW's IndexedDB mirror on every visit, so users who opted
+     in before the mirror existed stop getting blind nudges after one return */
+  mirrorVitalsState();
 })();
 
 document.getElementById("seqcopy").onclick = function(){

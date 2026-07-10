@@ -47,6 +47,13 @@ function briefLine(b) {
     "\n    " + b.tagline;
 }
 
+// R36 (RETENTION R10): this server reads its own pinned catalog by design, so
+// the list footers say which version that is and where "what's new" lives —
+// an installed surface stops going silently stale.
+const VERSION_NOTE = "goal-prompts v" + VERSION +
+  " — this install pins its catalog; newer briefs may exist: " +
+  catalog.base + "/changelog";
+
 // ---- tools ----------------------------------------------------------------
 const TOOLS = [
   {
@@ -225,7 +232,7 @@ function callTool(name, args) {
         catalog.families.join(", ");
     }
     return list.map(briefLine).join("\n") +
-      "\n\nUse get_brief with an id to fetch the full prompt.";
+      "\n\nUse get_brief with an id to fetch the full prompt.\n" + VERSION_NOTE;
   }
   if (name === "suggest_briefs") {
     if (!args.goal) return "Provide a goal, e.g. 'my agent keeps looping'.";
@@ -279,7 +286,8 @@ function callTool(name, args) {
         "\n    " + (p.tagline || p.desc) +
         (p.tagline && p.desc ? "\n    " + p.desc : "");
     }).join("\n") +
-      "\n\nUse get_playbook with a key to fetch the conductor prompt.";
+      "\n\nUse get_playbook with a key to fetch the conductor prompt.\n" +
+      VERSION_NOTE;
   }
   if (name === "get_playbook") {
     const key = String(args.key);

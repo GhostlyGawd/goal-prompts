@@ -58,4 +58,5 @@ printf '  /goal-roadmap-synthesis    run last — merges all reports\n\n'
 printf 'Prefer real /goal:<slug> names? Install the Claude Code plugin instead:\n'
 printf '  /plugin marketplace add GhostlyGawd/goal-prompts   then install "goal"\n\n'
 printf 'Update: re-run this installer.  Uninstall: rm -rf %s/goal\n' "$DEST"
+printf "What's new since v%s: %s/changelog\n" "$VER" "$BASE"
 printf 'Catalog: %s\n' "$BASE"
