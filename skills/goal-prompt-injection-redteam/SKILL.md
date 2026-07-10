@@ -1,0 +1,47 @@
+---
+name: goal-prompt-injection-redteam
+description: "Attack the product's own AI like an adversary — make it ignore instructions, leak secrets, or misuse tools — and find where untrusted input can hijack it. Audit brief 118 · AI-Ethics — runs a four-phase audit of the current repo and writes REDTEAM.md at the repo root."
+---
+
+# Goal: Prompt-Injection Red-Team
+
+You are working inside this repo — an authorized red-team of this product's own AI. Mission: try to subvert it the way an attacker would, and find where untrusted input can override its instructions, extract its secrets, or turn its tools against the user.
+
+This is the offensive pass — attack and report what works. For the defensive architecture review, run 35; for prompt hygiene, run 30.
+
+Read-only pass. Read the prompts, tool wiring, and where external content enters the model; reason through attacks; change nothing but the report file.
+
+## Phase 1 — Map the attack surface
+- Find every place untrusted content reaches the model: user input, retrieved documents, web pages, tool results.
+- List the model's powers: the tools it can call and the secrets or context it holds.
+- Note the trust boundaries it is assumed to respect.
+
+## Phase 2 — Audit through 7 lenses
+1. **Direct injection** — user input that overrides the system prompt or instructions
+2. **Indirect injection** — malicious instructions hidden in content the model reads (docs, pages, tool output)
+3. **Prompt & secret leakage** — coaxing the model to reveal its prompt, keys, or hidden context
+4. **Tool & action abuse** — tricking the agent into calling tools destructively or outside policy
+5. **Data exfiltration** — getting the model to send private context to an attacker (e.g., a crafted link)
+6. **Jailbreaks** — bypassing safety guardrails to produce disallowed output
+7. **Trust boundaries** — where the model acts unsupervised on things it should not be trusted to do alone
+
+## Phase 3 — Curate
+- Rank by severity × reachability: an indirect injection that triggers a destructive tool outranks a prompt leak.
+- For each, describe the attack that works and the least-privilege or isolation fix.
+- Separate "the model can be fooled" from "being fooled causes real damage"; the second is the emergency.
+
+## Phase 4 — Report
+Create `REDTEAM.md` at repo root:
+1. **Attack surface** — where untrusted content meets the model, and what the model can do
+2. **Findings** — each: severity · attack path · what it achieves · the fix
+3. **Systemic defenses** — input isolation, output filtering, and least-privilege tool design
+4. **Priority** — the injections to close first, by damage and ease
+
+Start the report with today's date. If `REDTEAM.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Treat everything the model reads as attacker-controlled, including retrieved content
+- The fix is rarely a better prompt; it is least privilege and isolation
+- No LLM attack surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which injection risks to close first

@@ -1,159 +1,275 @@
-# Retention & Lifecycle Audit
+# Retention & Lifecycle Audit — re-run
 
-*Why would a user come back — and where does this product let them drift away?
-Read-only pass over the client state (localStorage), the in-page nudges, the PWA,
-and the analytics events.*
+**Date: 2026-07-09** · read-only pass over `template.html`, `build.py` (SW +
+detail-page builders), `js/gp-detail.js`, `b/`, `p/`, `vitals.html`,
+`studio.html`, `mcp/server.cjs`, `plugin/`, `install`, `.github/*.example.yml`,
+`README.md`, `docs/usage-metrics.md`. Companion reports from today's playbook:
+FUNNEL.md, CRO.md, SEO.md, REVENUE.md — cross-referenced, not duplicated.
 
-**Constraint that shapes everything:** no account, no backend, no email — by
-design ("nothing leaves your machine"). So every retention lever is **client-side
-(localStorage) or PWA**, and every nudge is **pull-only** — it can reward a return
-but cannot *cause* one. Retention must be earned by a warm return and an honest,
-opt-in reminder, never by holding an exit hostage (there is no exit to hold).
+---
 
-**Verdict:** the machinery is better than the category usually gets — the site
-already ships **two smart, state-triggered, genuinely thankable nudges**
-(`renderNudge()`, `template.html:961-979`) and persists real cross-visit state.
-But the retention engine has a **starved fuel line**: both nudges fire only when
-the run-tracker is populated, and the tracker is fed by a *manual* "mark run"
-(`:613`) while the actual audit happens **off-site in the user's agent**. Users
-who never mark a run get **no nudges ever** — the engine runs dark. On top of
-that, retention is **unmeasurable** today (anonymous events only), and any
-new device is a **cold start**.
+## 0 · What changed since the last run (~4 months ago)
 
-> **Backlog reconciliation (2026-07-09).** Dispositions: **R1** (feed the run-tracker from copy) — **FIXED**: the post-copy hint carries a
-> "✓ mark it run" button that records the run at the moment of action. **R4**
-> (resurface Operator context) — **FIXED**: the context badge now reads "· tuned to
-> <stack>". **R3** (export/import state) — **FIXED**:
-> footer "export setup"/"import setup" round-trips all local state as a JSON file,
-> no backend. **R2** (opt-in PWA reminder) — **FIXED**: a footer "🔔 remind me weekly" toggle
-> requests Notification permission and registers a periodicSync for a weekly Vitals
-> reminder (best-effort; installed-PWA/Chrome for background delivery). **R5**
-> (retention instrumentation) — **FIXED**: an anonymous, non-PII cohort id +
-> first-seen-week rides the already-anonymous analytics events, plus
-> nudge_shown/clicked — gp-runs stays local. All five R-findings now addressed. These are product
-> features, and R2/R3/R5 deliberately brush the "nothing leaves your machine"
-> promise, which the report flags as needing the maintainer's call before building.
-> Out of scope for a correctness-and-a11y backlog pass; captured here as the
-> retention roadmap. See `FIXLOG.md`.
+**All five prior findings (R1–R5) shipped, verified in current source:**
+
+- **R1 — the run-tracker is fed at the moment of action.** Copying a brief on
+  the landing page optimistically records the run with an easy undo
+  (`template.html:1136-1143`), and the post-copy hint carries a "✓ mark it run"
+  button (`:901-917`). The nudge engine no longer runs dark.
+- **R2 — the opt-in weekly Vitals reminder exists.** A footer toggle
+  (`:760`, `:1422-1459`) requests Notification permission and registers a
+  `vitals-weekly` periodicSync; the service worker shows the notification and
+  focuses/opens the site on click (`build.py:286-307`).
+- **R3 — export/import setup.** Footer "export setup" / "import a backup"
+  round-trips every `gp-*` localStorage key as a JSON file (`:1385-1420`) —
+  covering runs, context, sequence, Studio triage, and Vitals history.
+- **R4 — Operator context resurfaces warmly.** A "Welcome back — your briefs
+  are tuned to *stack · product*" banner renders above the catalog on any
+  return with saved context (`renderCtxWarm`, `:848-862`, `#ctxwarm` `:582`).
+- **R5 — cohort instrumentation started.** An anonymous id + first-seen-week
+  (`gp-aid`/`gp-fsw`, `:874-880`) ride events routed through `track()`
+  (`:881-883`), and `nudge_shown` / `nudge_clicked` / `mark_run` /
+  `reminder_opt_in` events exist (`:1142`, `:1210-1212`, `:1440`).
+
+**The product's perimeter changed underneath those fixes:** 141 briefs, a
+Claude Code **plugin as the README's primary install**, **MCP prompts**
+(every brief in the client's prompt picker), 141 `/b/<id>` + 35 `/p/<key>`
+detail pages that are now the best-indexed entry points (per SEO.md), a
+**Vitals Viewer** page (`/vitals`) that turns HEALTH.md history into
+sparklines, a ready-to-copy **scheduled run-brief GitHub Action**
+(`.github/run-brief.example.yml`), ranked search, and a light theme.
+
+**Consequence — the retention problem moved.** Last run's diagnosis was "the
+engine is dark" (no trigger data). The engine is lit now, but three new seams
+opened: (1) every shipped retention fix is **landing-page-only** while entry
+traffic shifted to detail pages that have none of it — and no analytics at
+all; (2) the reminder chain shipped with **three broken links** (fires blind,
+no PWA-install path, returns unattributable); (3) the single best
+accruing-value surface, the **Vitals Viewer, is an orphan** — zero inbound
+links from anywhere on the site.
 
 ---
 
 ## 1 · Return-trip map
 
-- **Natural rhythm — episodic, with one weekly anchor.** The job (audit a repo) is
-  event-driven: new repo, pre-launch, post-refactor, agent onboarding. The single
-  designed *recurring* ritual is **Weekly Vitals (`29`)** — "ten minutes, every
-  week" (`README.md:86`; `playbooks.json:5` "Re-run every week"). Count retention
-  from *this* rhythm, not from a daily-active fantasy.
-- **What persists (localStorage, same device/browser only):**
-  - `gp-runs` — which briefs marked run + timestamps (`:603`)
-  - `gp-seq` — the custom conductor sequence, restored in the seqbar (`:620`)
-  - `gp-ctx` — Operator context (stack/product/stage/notes), re-applied to every copy (`:669`)
-  - `gp-studio-reports` / `gp-studio-checks` — loaded reports + checked findings (`studio.html:250-251`)
-  - `gp-theme` — theme
-- **The pull back:** (a) a new audit need; (b) the two in-page nudges when the user
-  returns; (c) the Studio triage waiting where they left it; (d) the PWA icon, if
-  installed. The strongest *designed* pull is the stale-Vitals nudge.
-- **The biggest leak:** the nudges are **pull-only and starved** — they can't reach
-  a user who left, and they don't fire at all unless runs were manually marked.
-  The reason-to-return exists but rarely gets delivered.
+- **Visit rhythm — still episodic with one weekly anchor.** The job (audit a
+  repo) is event-driven: new repo, pre-launch, post-refactor. The one designed
+  recurring ritual is **Weekly Vitals (29)** — "ten minutes, every week"
+  (`README.md:112`; brief 29 is "Designed to re-run weekly" and appends a
+  dated history table). Count retention from that weekly cadence.
+- **A structural shift: for the best-retained users, the "return" no longer
+  happens on the site.** Plugin (`/goal:<slug>`) and installer
+  (`/goal-<slug>`) users carry the whole catalog inside their editor; MCP
+  users have every brief as a prompt (`mcp/server.cjs:319-337`). That is
+  retention *success* — the product lives where the work is — but it means the
+  site's returning-user job narrows to three pulls: **fresh trends**
+  (`/vitals`), **triage** (`/studio`, `gp-studio-reports`/`-checks`,
+  `studio.html:270-271`), and **what's new** in the catalog.
+- **What persists (localStorage, per-device):** `gp-runs` (with timestamps),
+  `gp-seq`, `gp-ctx`, `gp-theme`, `gp-remind`, `gp-aid`/`gp-fsw`,
+  `gp-studio-reports`/`gp-studio-checks`, and `gp-vitals-texts` — the pasted
+  HEALTH.md history that makes each week's run worth more than the last
+  (`vitals.html:145`). Export/import covers all of it (`:1388`).
+- **The pull back:** the two in-page nudges (roadmap ≥5 runs, stale Vitals
+  >7d — `renderNudge`, `:1192-1213`), the welcome-back context banner, the
+  opt-in weekly notification, Studio triage, and — off-site — the report
+  history accruing in the user's own repo.
+- **The biggest leak:** the weekly-Vitals loop is built but **disconnected**.
+  The nudge, the notification, the viewer, and the scheduler all exist and
+  none of them link to each other — and the viewer is unreachable entirely.
 
 ---
 
 ## 2 · Findings (lens · location · why users drift · fix · effort)
 
-Ranked by compounding value (earliest-in-lifecycle first).
+Ranked by compounding value.
 
-### R1 — The retention engine is starved of trigger data *(lens 2: saved state as a hook · lens 5: habit)* — **HIGH · effort S**
-- **Location:** `renderNudge()` (`:961-979`) keys entirely off `runs[...]`; runs are set only by the manual "mark run" button (`runLabel` `:612-616`, toggled at `:925-932`). The real run happens off-site in the agent.
-- **Why users drift:** a user copies a brief, gets a report *in their repo*, and never returns to tap "mark run." `gp-runs` stays empty → **both** the roadmap nudge (`:966`) and the stale-Vitals nudge (`:973`) never fire → the product has no reason-to-return to show. The best machinery on the site is dark for most users.
-- **Fix:** feed the tracker where the action already is — prompt "mark this run?" in the post-copy hint (ties to ACTIVATION A1), or optimistically record a run on `copy_prompt` (`:938`) with an easy undo. A populated tracker is the prerequisite for every other hook here.
+### R6 — The Vitals Viewer is an orphan page *(lens 2: saved state as a hook · lens 5: progression)* — **HIGH · effort S**
+- **Location:** `/vitals` is precached by the SW (`build.py:1379`) and listed
+  in `sitemap.xml:5` — but has **zero inbound links**: not in the landing
+  page's nav or footer (`template.html` contains no `/vitals` href), not on
+  `b/29.html`, not on `p/vitals.html`, not in the stale-Vitals nudge (links
+  `#29` only, `:1204`), not in the SW notification (`data.url: "/#29"`,
+  `build.py:295`).
+- **Why users drift:** the viewer is the product's only *progression* surface
+  — each weekly paste adds a sparkline point (`gp-vitals-texts`,
+  `vitals.html:145,298`), which is exactly the accruing value that makes
+  staying rational. A user who runs Vitals weekly never learns the trends
+  page exists; the ritual feels like Groundhog Day instead of a growing
+  history, and the tenth visit has no more pull than the second.
+- **Fix:** link `/vitals` from the stale-Vitals nudge and the SW
+  notification URL, from `b/29`'s deliverable section, from `p/vitals`, and
+  from the site footer. Resurfacing value the user already created — the
+  cheapest, highest-leverage fix in this report.
 
-### R2 — Excellent nudges, but pull-only — they can't reach a user who left *(lens 4: well-timed nudges · lens 7: win-back)* — **HIGH · effort M**
-- **Location:** the nudges render in-page (`listEl.prepend`, `:970`/`:977`); the service worker (`SERVICE_WORKER` in `build.py`) has **no push, notification, or periodicSync** (confirmed absent). The PWA is installable/offline but never re-engages.
-- **Why users drift:** the stale-Vitals message — "Weekly Vitals is stale — last run 8d ago" (`:976`) — is exactly the nudge that should arrive *while the user is away*, but it only shows if they happen to come back on their own. The one honest, no-backend win-back lever (an **opt-in** reminder from the installed PWA) is untapped.
-- **Fix:** offer an explicit opt-in ("remind me weekly to run Vitals") that uses the Notification API / periodic background sync from the installed PWA — no account, no server, fully local and consented. This turns the existing designed ritual into a real habit loop. (See "The one hook," below.)
+### R7 — Every retention fix is landing-page-only; detail pages are a parallel cold world *(lens 3: the empty return · lens 8: measurement)* — **HIGH · effort M**
+- **Location:** the 141 `b/` + 35 `p/` pages run `js/gp-detail.js`. Context
+  rides copies and the hint can mark a run (`gp-detail.js:17-37,71-78`) —
+  good — but there is **no welcome-back banner, no nudges, no optimistic
+  run-mark on copy** (hint-button only), and **no analytics script at all**
+  (`grep -c _vercel b/29.html` → 0; `gp-detail.js` emits zero events;
+  confirmed independently by REVENUE.md §167).
+- **Why users drift:** per SEO.md the detail pages are now the best-indexed
+  entry points, so a *returning* user arriving via Google gets a cold start —
+  no "welcome back," no stale-Vitals pull, no roadmap nudge — and the
+  operator can't even see that the visit happened. The retention machinery
+  guards the front door while traffic moved to the side doors.
+- **Fix:** add the insights snippet + `copy_prompt`-equivalent events to the
+  detail-page template (`build.py` head builder), and a slim shared
+  welcome-back/nudge strip (the logic is ~30 lines; `gp-detail.js` already
+  reads `gp-runs`/`gp-ctx`).
 
-### R3 — A new device or cleared storage is a total cold start *(lens 3: the empty return)* — **MED · effort M · tension**
-- **Location:** all state is `localStorage`, per-device/per-browser (`:603,620,669`; `studio.html:250-251`). No sync.
-- **Why users drift:** a dev who audits from a laptop and returns on a work machine loses their runs, their **Operator context** (the tailoring that makes returning better than starting fresh), their saved sequence, and their Studio triage. The warm return silently becomes a cold one.
-- **Fix (honest, within constraints):** offer a **manual export/import** of state (a small JSON "backup your setup" / "restore") — portable without a backend and without breaking "nothing leaves your machine." Don't add silent cloud sync; that would trade away the core promise. Flag the tradeoff rather than resolve it unilaterally.
+### R8 — The weekly reminder chain has three broken links *(lens 4: well-timed nudges · lens 6: churn cliffs)* — **HIGH · effort M**
+- **(a) It fires blind.** The SW shows "Weekly Vitals is due" unconditionally
+  on every `periodicsync` tick (`build.py:290-297`) — it can't read
+  `localStorage`, so it never checks `runs["29"]`. A user who ran Vitals
+  yesterday still gets nudged, directly contradicting the opt-in toast's
+  promise: "When Weekly Vitals goes 7+ days stale, your browser will nudge
+  you" (`template.html:1451`). Every nudge must be one the user would thank
+  you for; a wrong "it's due" teaches them to disable notifications — a
+  one-way churn cliff. **Fix:** mirror `runs["29"]` + `remind.on` into
+  IndexedDB (or the Cache API) in `saveRuns()`/`saveRemind()`, and have the
+  SW check staleness before showing.
+- **(b) The background path is unreachable.** periodicSync needs an
+  *installed* PWA (Chromium), but nothing anywhere suggests installing —
+  no `beforeinstallprompt` handling, no install hint on any surface. Most
+  opt-ins end at the fallback toast ("no background-reminder support",
+  `:1452`), i.e. the reminder quietly doesn't exist. **Fix:** when the user
+  opts in and `periodicSync` is absent, offer the PWA install right there —
+  the one moment installing has a stated benefit.
+- **(c) It's buried.** The toggle lives in a footer buildnote (`:760`) below
+  the fold, next to "reset run tracker." The natural moment to offer it is
+  right after a Vitals run is marked — intent proven, timing honest. (Minor:
+  the "🔔" glyph is outside the repo's stated mono-Unicode icon set per
+  CLAUDE.md.)
 
-### R4 — Operator context is a strong hook that never resurfaces *(lens 2: saved state as a hook)* — **MED · effort S**
-- **Location:** `gp-ctx` (`:669`) is applied silently inside `withContext()` (`:672-680`) on copy; on return it's collapsed inside the `<details>` "aim the briefs at your repo" (`:467-477`), marked only by a small "· applied to every copy" (`:468`).
-- **Why users drift:** the single richest reason a return beats a fresh start — "your briefs are already tailored to *your* stack" — is nearly invisible. A returning user doesn't feel the accrued value.
-- **Fix:** on a return with saved context, surface it warmly ("Briefs tuned to *Next.js + Supabase* — change →") so the persisted value is felt, not hidden. Resurfacing value the user already created > inventing new notifications.
+### R9 — A reminder-driven return is invisible; retention events carry no cohort id *(lens 8: is return even measured)* — **HIGH (operator) · effort S**
+- **Location:** `track()` attaches `aid`/`fsw` (`:881-883`), but the
+  retention-specific events bypass it and call `window.va` raw:
+  `nudge_shown`/`nudge_clicked` (`:1210-1212`), `mark_run` (`:1142`),
+  `reminder_opt_in` (`:1440`). The code even disagrees with itself — `:871`
+  says R5 shipped, while `:1137` and `:1209` say "R5 stays off." The SW
+  notification opens plain `/#29` with no source marker and emits nothing
+  (`build.py:295-307`): there is no `reminder_fired` and no way to
+  distinguish a notification-driven return from an organic one.
+- **Why it matters:** you can now count nudges shown but still cannot answer
+  the only question that justifies them — *do they bring anyone back?* The
+  one hook built since the last audit ships unmeasurable.
+- **Fix:** route all events through `track()`; set the notification URL to
+  `/#29?src=reminder` and emit `reminder_return` on load when present;
+  emit `pwa_installed` from the `appinstalled` event.
 
-### R5 — Retention is unmeasurable today *(lens 8: is return even measured)* — **HIGH (for the operator) · effort M**
-- **Location:** analytics are anonymous action events via Vercel Insights — `copy_prompt`, `copy_conductor`, `copy_install`, `copy_mcp`, `share_link`, `search_zero`, `copy_*_conductor` (`:745,923,938,1007,1024,1052,1093-1115`). No identity; `gp-runs` never leaves the device.
-- **Why it matters:** you cannot distinguish a returning user from a new one, cannot draw a retention curve or cohort, and cannot tell whether the nudges (R1/R2) actually bring anyone back. Churn is invisible until traffic sags. (See "Instrumentation gaps.")
-- **Fix:** add a non-PII anonymous client id + first-seen bucket to events, and instrument the nudges. Detailed below.
+### R10 — Installed surfaces freeze at install; no freshness pull, no win-back *(lens 1: reason to return · lens 7: win-back)* — **MED · effort M**
+- **Location:** the plugin bundles the catalog at build time (updates only
+  via a manual `/plugin marketplace update`, `README.md:31`); the curl
+  installer requires a re-run (`install:10`); the MCP server reads its own
+  pinned `catalog.json` — by design it "never drifts from the installed
+  version" (`mcp/server.cjs:5-6`). `CHANGELOG.md` exists but is not published
+  as a page; nothing anywhere says "what's new."
+- **Why users drift:** the catalog grew 129 → 141 in two days and a plugin
+  user will never hear. For the best-converted users (installed = the
+  retention-grade conversion, per CRO.md §4), a lapse is permanent by
+  default: no surface ever gives them a reason to come back or re-sync.
+- **Fix:** publish `/changelog` from `CHANGELOG.md` at build time and link it
+  site-wide; have the MCP `list_briefs`/`list_playbooks` footer line include
+  the installed version ("goal-prompts v0.12.0 — check
+  goal-prompts.vercel.app/changelog for newer briefs"); print the same
+  pointer at the end of `install`.
+
+### R11 — The strongest habit machine is README-only *(lens 5: habit · lens 4: nudges)* — **MED-HIGH · effort S**
+- **Location:** `.github/run-brief.example.yml` — a Monday-cron GitHub Action
+  that runs a chosen brief and files the report as an issue ("audits as a
+  standing appointment instead of a memory," `README.md:94-101`). It appears
+  nowhere on the site: not on the landing page, not on `b/29`, not on
+  `p/vitals`, not in any post-copy hint.
+- **Why users drift:** this is the one retention device that keeps working
+  *after the user forgets the product exists* — honest, opt-in, and delivered
+  where they already live (GitHub issues). Hiding it in the README means the
+  ritual depends on human memory, which is the thing it was built to replace.
+- **Fix:** merchandise it at the moment of proven intent — after a Vitals
+  copy/mark-run ("make it a standing appointment →") and on `b/29` /
+  `p/vitals`.
+
+### R12 — "Nothing leaves your machine" vs. an undocumented persistent analytics id *(lens 6: churn cliff — trust)* — **MED · effort S**
+- **Location:** the hero promises "nothing leaves your machine" (`:502`)
+  while `gp-aid` — a persistent random id — now rides analytics events
+  (`:874-883`). The last report shipped this with an explicit caveat:
+  "document it, prefer opt-in." It shipped undocumented; no footer note, no
+  README mention, no docs page.
+- **Why users drift:** the promise is the acquisition hook for exactly the
+  privacy-conscious audience most likely to check — and one HN comment
+  pointing at `gp-aid` next to that hero line churns them permanently.
+  Trust cliffs are the least recoverable kind.
+- **Fix:** one honest footer/docs line ("anonymous, cookie-less usage events
+  via Vercel Insights; a random local id, no PII; your runs/context never
+  leave the device") — or make the id opt-out. Cheap insurance.
 
 ### What already retains — keep it
-- **Two honest, well-timed nudges** (`:961-979`): the roadmap nudge resurfaces the
-  user's *own reports* ("You've run N briefs — their reports are sitting in your
-  repo… compose them: #28"), and the stale-Vitals nudge rebuilds a weekly habit.
-  Both are state-tied, non-coercive, and exactly what this brief asks for — protect
-  them; just *fuel* (R1) and *deliver* (R2) them.
-- **Rich local persistence** — runs, sequence, context, and Studio triage all
-  survive a same-device return (lens 3).
-- **A designed weekly ritual** — Weekly Vitals gives retention a real cadence to
-  build on (lens 1).
-- **PWA foundation** — installable + offline via `sw.js`; the substrate for R2's
-  opt-in reminder already exists.
+- **Copy-marks-a-run + undo** (`:1136-1143`) — the engine's fuel line, fixed.
+- **Two honest, state-tied nudges** (`:1192-1213`), now instrumented as shown.
+- **The welcome-back context banner** (`:848-862`) — accrued value, felt.
+- **Export/import** (`:1385-1420`) — the new-device cold start has an answer.
+- **Report history in the user's own repo** (HEALTH.md's append-only history
+  table; every report a standing artifact) — value that accrues *off-site*,
+  immune to cleared storage.
 
 ---
 
 ## 3 · The one hook to build
 
-**An opt-in weekly reminder for Weekly Vitals, delivered by the installed PWA.**
+**Close the Weekly Vitals loop.** Not a new feature — a set of links between
+four pieces that already exist: the stale-Vitals nudge (`:1202-1204`), the
+opt-in notification (`build.py:290-297`), the Vitals Viewer's accruing
+sparklines (`vitals.html`), and the Monday cron workflow
+(`.github/run-brief.example.yml`).
 
-The argument: the product *already knows the right thing to say at the right time*
-— "Weekly Vitals is stale — last run 8d ago" (`:976`). Its only failure is
-**reach**: that message waits on a page the drifted user isn't visiting. Every
-other lever here rewards a return; this is the sole honest lever that can *cause*
-one without a backend or an email address. It builds on machinery that already
-exists (the stale-Vitals nudge + the run-tracker + the service worker), it targets
-the product's one genuine recurring rhythm, and it's something a user who opted in
-would thank you for — a ten-minute health check on a repo they chose to watch, not
-spam.
-
-Sequence it right: **R1 first** (make runs real, so the tracker knows Vitals was
-ever run), then this reminder on top. The teed-up second action is the report
-itself → the Report Studio → the Fixer, closing the acquisition-to-habit loop.
+The argument: last audit's "one hook" (the reminder) was built, but it shipped
+as an island — it fires blind (R8a), mostly can't be delivered (R8b), links to
+a brief instead of the user's own trend history (R6), and can't be measured
+(R9). Meanwhile the product's genuinely differentiated retention asset — a
+*growing, week-over-week health history of a repo the user cares about* — is
+split between an orphan page and a README section. Wire it end to end:
+nudge/notification → `/vitals` ("here's your history, 6 runs and climbing") →
+"make it a standing appointment" (the workflow). Every piece is honest,
+opt-in, and resurfaces value the user already created; the second and tenth
+visits each arrive with strictly more to show than the last. R6 + R11 are
+small; R8a/R9 are the wiring; R8b is the delivery. Together they finish the
+hook this product has been building for two audits.
 
 ---
 
 ## 4 · Instrumentation gaps (to see retention at all)
 
-Today you can see *actions*, never *cohorts*. To make return visible without
-breaking local-first (keep it aggregate, non-PII, ideally documented/opt-in):
-
-- **Anonymous client id + first-seen week** (localStorage, not PII) attached to
-  events, so returning vs new and week-N-return cohorts become visible.
-- **Nudge instrumentation:** emit `nudge_shown` / `nudge_clicked` for the roadmap
-  and Vitals nudges — the only way to know if R1/R2 actually retain.
-- **Run signal:** emit `mark_run` (and, if R1 auto-infers from copy, `run_inferred`)
-  to connect activation → repeat use.
-- **PWA lifecycle:** `pwa_installed`, `reminder_opt_in`, `reminder_fired`,
-  `reminder_return` — to measure the one hook end to end.
-- **Cohort readout:** first-visit week → subsequent return events; approximable
-  entirely client-side from the anonymous id + first-seen stamp.
-- **Tension to flag, not silently cross:** any of this leaves the device, which
-  brushes against "nothing leaves your machine." Keep it anonymous and aggregate,
-  document it, and prefer opt-in — don't trade the core promise for a dashboard.
+- **Route every event through `track()`** so `aid`/`fsw` ride
+  `nudge_*`, `mark_run`, and `reminder_opt_in` — today the retention events
+  are the ones you can't cohort (R9). Resolve the contradictory R5 comments
+  (`:871` vs `:1137`/`:1209`) one way or the other, deliberately.
+- **Reminder attribution:** `?src=reminder` on the notification URL +
+  `reminder_return` on load; `pwa_installed` via `appinstalled`. Without
+  these, R2's ROI is unknowable forever.
+- **Detail-page analytics** (R7): the fastest-growing entry surface currently
+  reports nothing — neither acquisition nor return.
+- **The installed-user blind spot:** plugin and installer users generate zero
+  site traffic; conductor stages do fetch `/raw/<id>.md`. The design for
+  counting those fetches exists (`docs/usage-metrics.md`) but "nothing in
+  this document is live." Turning on Option 1 (Vercel log filtering — zero
+  code) is the only way to see whether installed users are alive at all.
+- **Cohort readout:** with `aid`+`fsw` on all events, week-N return curves
+  are derivable from Vercel Insights custom-event exports today; no backend.
+- **The standing tension:** all of this brushes "nothing leaves your machine"
+  — keep it anonymous, aggregate, and *documented* (R12), and prefer counting
+  paths (`raw/*.md` per day) over people wherever a path answers the question.
 
 ---
 
 ## Report only — which fixes do you want me to make?
 
-This was a read-only pass; nothing was changed. The highest-leverage, in-lifecycle
-fix is **R1** (feed the run-tracker where the action is) — it's small, front-end
-only, and it lights up the good nudges that already exist; it also dovetails with
-ACTIVATION A1. **R4** (resurface Operator context) is cheap. **R2** (opt-in PWA
-reminder) is the biggest reason-to-return but a larger build. **R3** (export/import)
-and **R5** (retention instrumentation) both touch the local-first promise — I'd
-want your call on the tradeoff before touching them.
-
-Tell me which fixes to implement (any subset), and your stance on the local-first
-tradeoffs in R3/R5. I'll make only the changes you pick.
+Nothing was changed in this pass. The cheapest compounding wins are **R6**
+(link the orphaned Vitals Viewer — pure HTML/href work) and **R11** (surface
+the scheduled workflow at the moment of intent); **R9** (event routing +
+reminder attribution) is small and makes everything else measurable; **R8**
+(staleness-aware SW + PWA install offer) finishes the reminder honestly;
+**R7** (detail-page parity + analytics) is the biggest build; **R10**
+(publish `/changelog`, version pointers) and **R12** (document the analytics
+id) round it out. Tell me which to implement — and for R12, whether you'd
+rather document the anonymous id or drop it.

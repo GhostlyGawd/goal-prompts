@@ -1668,7 +1668,7 @@
  "name": "goal-prompts",
  "playbooks": [
   {
-   "badge": "Most popular",
+   "badge": "Start here",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-day1.md",
    "desc": "First contact with an unfamiliar codebase: what is it, is it broken, is it safe, can I work on it.",
    "featured": true,
@@ -1954,7 +1954,7 @@
    "type": "standard"
   },
   {
-   "badge": "Seasonal",
+   "badge": "Themed",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipit.md",
    "desc": "A limited, themed sprint for launch season — hunt the bugs, lock the doors, make it fast, rehearse the bad day, and get found. One themed bundle, five reports, ready to ship.",
    "featured": true,
@@ -1969,8 +1969,7 @@
    "name": "Ship-It Week",
    "page": "https://goal-prompts.vercel.app/p/shipit",
    "tagline": "Launch season, in one themed bundle of five audits.",
-   "type": "themed",
-   "window": "Featured this season"
+   "type": "themed"
   },
   {
    "badge": "Collab",
@@ -2247,7 +2246,13 @@
    "page": "https://goal-prompts.vercel.app/p/newyear",
    "tagline": "Start the year on a clean, clear codebase.",
    "type": "themed",
-   "window": "January drop"
+   "window": {
+    "label": "January drop",
+    "months": [
+     12,
+     1
+    ]
+   }
   },
   {
    "badge": "Sponsored",

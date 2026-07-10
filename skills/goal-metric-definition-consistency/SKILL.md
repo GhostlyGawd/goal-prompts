@@ -1,0 +1,46 @@
+---
+name: goal-metric-definition-consistency
+description: "Whether the numbers the product reports mean the same thing everywhere — so active user, revenue, and signup are not defined three different ways. Audit brief 90 · Data — runs a four-phase audit of the current repo and writes METRICS.md at the repo root."
+---
+
+# Goal: Metric Definition Consistency
+
+You are working inside this repo. Mission: check that the metrics the product computes and reports are defined once and consistently — that the same word means the same calculation in the app, the analytics, and the dashboards.
+
+Read-only pass. Read the queries, event definitions, and reporting code; change nothing. Your only write is the report file.
+
+## Phase 1 — Collect the definitions
+- List the metrics that drive decisions: active users, revenue, conversion, retention, churn, signups.
+- For each, find every place it is computed — app code, SQL, analytics events, dashboards.
+- Note where the number is shown to users, leadership, or investors.
+
+## Phase 2 — Audit through 7 lenses
+Cite each definition's location for every finding.
+1. **Duplicate definitions** — the same metric computed differently across code, analytics, and dashboards
+2. **Ambiguous terms** — "active," "churned," "converted" with no single written definition
+3. **Source-of-truth drift** — app database, warehouse, and analytics tool disagreeing on the same count
+4. **Window boundaries** — day/week/month cutoffs and timezones that differ across reports
+5. **Filter & dedup logic** — inconsistent handling of test accounts, bots, refunds, internal traffic
+6. **Event coverage** — metrics built on events that fire inconsistently or are missing on some paths
+7. **Documentation** — whether definitions are written down or live only in memory
+
+## Phase 3 — Curate
+- Rank by decision weight: a metric on the board deck outranks one on a debug page.
+- For each conflict, propose the canonical definition and the source of truth.
+- Separate a genuine disagreement from two names for the same thing.
+
+## Phase 4 — Report
+Create `METRICS.md` at repo root:
+1. **Metric dictionary** — term · canonical definition · source of truth · owner
+2. **Conflicts** — each: metric · the differing definitions · where each lives · the impact
+3. **Canonical choices** — the definition to standardize on, and why
+4. **Consolidation plan** — the duplicate computations to retire or align
+
+Start the report with today's date. If `METRICS.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- One metric, one definition, one source of truth
+- A number shown to a decision-maker with no written definition is a liability
+- No computed metrics in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which definitions to standardize first

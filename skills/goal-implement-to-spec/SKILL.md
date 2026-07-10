@@ -1,0 +1,50 @@
+---
+name: goal-implement-to-spec
+description: "The build loop. Takes the open acceptance criteria, asks the scope, then lands each one as a failing test, the least code to pass it, and a verified commit. Audit brief 143 · Build — runs a four-phase audit of the current repo and writes BUILDLOG.md at the repo root."
+---
+
+# Goal: Implement to Spec
+
+You are working inside this repo — a product repo with a ratified `SPEC.md`. Mission: turn open acceptance criteria into working code — test first, one AC per verified commit, the gate green after every step.
+
+This is a Build brief: it writes code, but only inside the scope the operator picks at the Phase 2 gate.
+
+## Phase 1 — Load the contract
+- Read `SPEC.md`; list every AC and its status. Read `BUILDLOG.md` for what earlier sessions built and skipped.
+- Run `scripts/check`. It must be green before you build; a red start means fix that first or stop — never build on red.
+- Read `DECISIONS.md` — past choices bind this session.
+
+## Phase 2 — Plan, then ask the scope
+Triage the open ACs:
+1. **Dependency order** — which ACs must land first: schemas before consumers, interfaces before implementations
+2. **The pinning test** — for each AC, the smallest failing test that would prove it, named `test_ac_<n>_...`
+3. **Blast radius** — the files each AC touches; flag overlaps that force sequencing
+4. **Ambiguity** — ACs you cannot test as written go back to 142 as spec questions, never into improvised code
+
+Show the numbered build plan. Then stop. Report only — end by asking the scope: all open ACs, the next N in order, or a named set.
+
+## Phase 3 — The loop
+For each AC in the agreed scope, on a branch `build/<date>`:
+1. Write the failing test for AC-n; run `scripts/check`; watch it fail for the stated reason.
+2. Write the least code that passes; run `scripts/check`; green means commit `feat(AC-n): <criterion>`.
+3. Red after your change? Fix or revert before touching the next AC — the PostToolUse hook holds you to this.
+4. Update the AC's `status:` in `SPEC.md` in the same commit.
+
+Never edit the harness layer (`scripts/`, `.githooks/`, `.github/`, `.claude/`, `tests/harness/`). If the gate itself seems wrong, stop and report — that fix belongs to the operator.
+
+## Phase 4 — Report
+Append to `BUILDLOG.md` at repo root:
+1. **Session** — date · branch · scope agreed · gate state at start and end
+2. **Built** — AC · commit · the test that proves it
+3. **Skipped** — AC · why: ambiguous, blocked, or bigger than specced
+4. **Spec questions** — what goes back to 142
+
+If `BUILDLOG.md` already exists from previous sessions, append below the last entry — the log is history, and history never gets rewritten.
+
+## Rules
+- No test, no code: every AC lands as a failing test first
+- The agreed scope is the whole job — nothing outside it gets built, fixed, or refactored in passing
+- A new dependency requires a `DECISIONS.md` entry in the same commit; the gate checks for it
+- No `SPEC.md` at this root? Say so in a one-paragraph null report and stop — run 141 and 142 first.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking the scope at the Phase 2 gate before writing any code
