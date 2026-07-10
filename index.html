@@ -52,7 +52,7 @@
   .nav-links{display:flex;gap:20px;margin-left:10px;font-size:14px;color:var(--faint)}
   .nav-links a:hover{color:var(--text)}
   .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-  .themetog{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .themetog{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .themetog .ic{width:17px;height:17px}
   .themetog .moon{display:none}.themetog .sun{display:block}
@@ -65,7 +65,7 @@
   @media(max-width:480px){.nav-cta{display:none}}
 
   /* ---------- buttons ---------- */
-  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform .1s,filter .15s,background .15s,border-color .15s,color .15s;-webkit-tap-highlight-color:transparent}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state),color var(--dur-state);-webkit-tap-highlight-color:transparent}
   .btn:active{transform:translateY(1px)}
   .btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
   .btn-primary:hover{filter:brightness(1.12)}
@@ -94,7 +94,7 @@
   .hero .micro a{color:var(--dim);text-decoration:none}
   .hero .micro a:hover{color:var(--text);text-decoration:underline}
   .hero .microproof{margin-top:7px}
-  .quickstart{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-top:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:none;border:1px dashed var(--line-3);border-radius:999px;padding:8px 15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
+  .quickstart{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-top:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:none;border:1px dashed var(--line-3);border-radius:999px;padding:8px 15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state)}
   .quickstart:hover{border-color:var(--amber)}
   .quickstart b{font-weight:700}
   .quickstart .qs-dot{width:7px;height:7px;border-radius:2px;background:var(--amber);flex:none}
@@ -106,9 +106,9 @@
   .famchart{display:grid;grid-template-columns:repeat(21,minmax(0,1fr));grid-template-rows:clamp(170px,22vw,236px) auto;gap:0 clamp(3px,.7vw,9px);align-items:end;min-width:680px}
   .bar-cell{grid-row:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative}
   .bar-cell .val{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:7px;font-variant-numeric:tabular-nums}
-  .bar-cell .bar{width:100%;max-width:46px;border-radius:5px 5px 0 0;background:var(--fc);height:calc(16% + var(--h)*.84%);transition:filter .2s,transform .2s}
+  .bar-cell .bar{width:100%;max-width:46px;border-radius:5px 5px 0 0;background:var(--fc);height:calc(16% + var(--h)*.84%);transition:filter var(--dur-move),transform var(--dur-move)}
   .bar-cell:hover .bar{filter:brightness(1.1);transform:translateY(-2px)}
-  .bar-cell .tip{position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--sans);font-size:12px;color:var(--btn-fg);background:var(--btn);padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
+  .bar-cell .tip{position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--sans);font-size:12px;color:var(--btn-fg);background:var(--btn);padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity var(--dur-state);z-index:5}
   .bar-cell .tip i{font-style:normal;opacity:.65}
   .bar-cell:hover .tip,.bar-cell:focus .tip,.bar-cell:focus-within .tip{opacity:1}
   .lab-cell{grid-row:2;padding-top:12px;border-top:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;gap:6px}
@@ -191,7 +191,7 @@
 
   /* ---------- playbook storefront ---------- */
   .store{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
-  .storecard{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:10px;padding:20px;transition:transform .15s,border-color .15s}
+  .storecard{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:10px;padding:20px;transition:transform var(--dur-state),border-color var(--dur-state)}
   .storecard:hover{transform:translateY(-3px);border-color:var(--line-2)}
   .storecard .top{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
   .badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--btn-fg);background:var(--fc);border-radius:999px;padding:4px 9px}
@@ -203,7 +203,7 @@
   .seqdots .cnt{font-family:var(--mono);font-size:12px;color:var(--faint);margin-left:4px}
   .storecard .acts{display:flex;gap:8px;align-items:center}
   .storecard .go{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--fc);flex:1}
-  .storecard .cc{font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:7px;padding:8px 11px;cursor:pointer;transition:border-color .15s,color .15s}
+  .storecard .cc{font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:7px;padding:8px 11px;cursor:pointer;transition:border-color var(--dur-state),color var(--dur-state)}
   .storecard .cc:hover{color:var(--text);border-color:var(--line-2)}
   .storecard .cc.done{color:var(--good);border-color:var(--good)}
   @media(max-width:860px){.store{grid-template-columns:1fr 1fr}}
@@ -225,7 +225,7 @@
   .partnerband .logo{width:32px;height:32px;border-radius:8px;background:#3FC1C9;color:#0c1510;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--disp)}
   .partnerband .co .x{color:var(--faint)}
   .partnerband .side a{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--fc)}
-  .partnerband .side .contact{background:var(--amber);color:#141518;font-family:var(--sans);font-size:13px;font-weight:700;border-radius:8px;padding:9px 15px;transition:filter .15s}
+  .partnerband .side .contact{background:var(--amber);color:#141518;font-family:var(--sans);font-size:13px;font-weight:700;border-radius:8px;padding:9px 15px;transition:filter var(--dur-state)}
   .partnerband .side .contact:hover{filter:brightness(1.1)}
   .partnerband .side .collablink{display:block;margin-top:12px;font-size:12px;color:var(--faint)}
   @media(max-width:760px){.partnerband{grid-template-columns:1fr}}
@@ -235,7 +235,7 @@
   .ctx{margin-top:var(--s5);border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);max-width:760px}
   .ctx summary{cursor:pointer;padding:12px 14px;font-family:var(--mono);font-size:12px;color:var(--dim);list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .ctx summary::-webkit-details-marker{display:none}
-  .ctx summary .chev{transition:transform .2s;display:inline-block}
+  .ctx summary .chev{transition:transform var(--dur-move);display:inline-block}
   .ctx[open] summary .chev{transform:rotate(90deg)}
   .ctx summary .on{color:var(--good)}
   .ctxbody{padding:2px 14px 14px;display:grid;gap:8px}
@@ -259,14 +259,14 @@
     .search input,.ctxbody input{font-size:16px}
   }
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:border-color .15s,color .15s,background .15s;-webkit-tap-highlight-color:transparent}
+  .chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:border-color var(--dur-state),color var(--dur-state),background var(--dur-state);-webkit-tap-highlight-color:transparent}
   .chip .dot{width:7px;height:7px;border-radius:2px;background:var(--fc,var(--dim));flex:none}
   .chip .n{color:var(--faint)}
   .chip:hover{border-color:var(--fc,var(--dim));color:var(--text)}
   .chip[aria-pressed="true"]{border-color:var(--fc,var(--text));color:var(--text);background:color-mix(in srgb,var(--fc,#fff) 12%,var(--panel))}
   .pbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .pblabel{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);align-self:center;margin-right:3px}
-  .pb{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:transparent;border:1px dashed var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s}
+  .pb{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:transparent;border:1px dashed var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state),background var(--dur-state)}
   .pb .len{color:var(--faint)}
   .pb:hover{border-color:var(--dim);color:var(--text)}
   .pb[aria-pressed="true"]{border-style:solid;border-color:var(--text);color:var(--text);background:var(--panel)}
@@ -292,10 +292,10 @@
   .ctxwarm-edit{background:none;border:0;color:var(--fc);font-family:var(--mono);font-size:13px;cursor:pointer;padding:0}
   .ctxwarm-edit:hover{text-decoration:underline}
 
-  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;scroll-margin-top:130px;transition:border-color .15s,transform .15s}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 16px 14px;margin-bottom:10px;scroll-margin-top:130px;transition:border-color var(--dur-state),transform var(--dur-state)}
   .card:hover{border-color:var(--line-2);transform:translateY(-1px)}
   /* entrance animation runs on the first render only (render() drops .anim after), so filtering doesn't re-stagger 141 cards */
-  .list.anim .card{animation:rise .4s cubic-bezier(.2,.7,.3,1) both}
+  .list.anim .card{animation:rise var(--dur-enter) var(--ease-enter) both}
   @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .card.flash{outline:2px solid var(--fc);outline-offset:2px}
   .card-top{display:flex;align-items:flex-start;gap:13px}
@@ -303,22 +303,27 @@
   .stepno{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--btn-fg);background:var(--fc);border-radius:6px;padding:2px 7px;margin-bottom:4px}
   .card h3.ct{font-family:var(--disp);font-size:18px;font-weight:740;letter-spacing:-.017em;line-height:1.22;color:var(--text)}
   .tagline{color:var(--dim);font-size:13px;margin-top:4px;line-height:1.45}
-  .copy{flex:none;margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:8px;padding:10px 14px;min-height:40px;cursor:pointer;transition:transform .1s,filter .15s;-webkit-tap-highlight-color:transparent}
+  .copy{flex:none;margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:8px;padding:10px 14px;min-height:40px;cursor:pointer;transition:transform var(--dur-press),filter var(--dur-state);-webkit-tap-highlight-color:transparent}
   .copy:hover{filter:brightness(1.12)}.copy:active{transform:scale(.96)}
   .copy.done{background:var(--good);color:#0c1510}
   .card-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .card-meta .cardmore{display:inline-flex;align-items:center;gap:10px}
   .card-meta .cardmore[hidden]{display:none}
   .card-meta .cardmore-t{font-weight:700;letter-spacing:.05em}
+  /* COLOR C8 / R64: icon + name so family is never signaled by color alone —
+     rendered in the ungrouped views (playbook, ranked search), where no
+     family section header names it for the card */
+  .card-meta .famchip{display:inline-flex;align-items:center;gap:5px;color:var(--fc);font-weight:600}
+  .card-meta .famchip .fic{width:13px;height:13px;flex:none}
   .out{color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
   .out::before{content:"→ ";color:var(--fc)}
   .detail{color:var(--fc);font-weight:600;display:inline-flex;align-items:center;gap:4px}
   .detail:hover{text-decoration:underline}
   .view{background:none;border:0;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:2px 0;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent}
   .view:hover{color:var(--text)}
-  .view .chev{transition:transform .2s;display:inline-block}
+  .view .chev{transition:transform var(--dur-move);display:inline-block}
   .card.open .view .chev{transform:rotate(90deg)}
-  .iconbtn{background:none;border:1px solid var(--line-2);border-radius:8px;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:5px 9px;min-height:28px;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}
+  .iconbtn{background:none;border:1px solid var(--line-2);border-radius:8px;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:5px 9px;min-height:28px;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state)}
   .iconbtn:hover{color:var(--text);border-color:var(--line-3)}
   .iconbtn.on{color:var(--good);border-color:var(--good)}
   .body{display:none;margin-top:12px}
@@ -337,7 +342,7 @@
 
   /* ---------- question-led finder ---------- */
   .finder{margin-top:24px}
-  .finder .starter{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-bottom:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:color-mix(in srgb,var(--fc) 9%,var(--panel));border:1px solid var(--line-2);border-radius:999px;padding:9px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s}
+  .finder .starter{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-bottom:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:color-mix(in srgb,var(--fc) 9%,var(--panel));border:1px solid var(--line-2);border-radius:999px;padding:9px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),background var(--dur-state)}
   .finder .starter:hover{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 14%,var(--panel))}
   .finder .starter b{font-weight:700}
   .finder .starter .sdot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
@@ -345,13 +350,13 @@
   .finder .goals,#picker .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;align-items:center}
   #picker .goals{margin-bottom:10px}
   .finder .goallab,#picker .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
-  .finder .goal,#picker .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s}
+  .finder .goal,#picker .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:999px;padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state),background var(--dur-state)}
   .finder .goal:hover,#picker .goal:hover{border-color:var(--fc);color:var(--text)}
   #picker .goal[aria-pressed="true"]{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 12%,var(--panel))}
   .finder .goal .gd{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
   .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(20px,4vw,44px)}
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
-  .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:13px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left .15s,border-color .15s;-webkit-tap-highlight-color:transparent}
+  .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:13px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
   .qrow:hover{padding-left:9px;border-bottom-color:var(--line-2)}
   .qrow>span{min-width:0}/* let the 1fr text column shrink so .qm can ellipsis instead of forcing mobile overflow */
   .qrow .qic{width:21px;height:21px;color:var(--fc)}
@@ -366,7 +371,7 @@
   .seqbar-in{display:flex;align-items:center;gap:10px;padding-top:11px;padding-bottom:max(11px,env(safe-area-inset-bottom))}
   .seqbar .lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);flex:none}
   .seqbar .ord{font-family:var(--mono);font-size:12px;color:var(--text);flex:1;min-width:0;overflow-x:auto;white-space:nowrap}
-  .seqcopy{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:8px;padding:9px 12px;min-height:36px;cursor:pointer;transition:transform .1s,filter .15s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .seqcopy{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:8px;padding:9px 12px;min-height:36px;cursor:pointer;transition:transform var(--dur-press),filter var(--dur-state);-webkit-tap-highlight-color:transparent;white-space:nowrap}
   .seqcopy:hover{filter:brightness(1.12)}.seqcopy:active{transform:scale(.96)}
   .seqcopy.done{background:var(--good)}
   body.hasseq main{padding-bottom:92px}
@@ -443,7 +448,10 @@
   .rr-out{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-2);color:var(--text);white-space:normal}
   .rr-arrow{color:var(--good);margin-right:6px}
   .rr-out b{color:var(--text);font-weight:600}
-  .rr-sev{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:#141518;background:var(--sev);border-radius:5px;padding:1px 6px;margin:0 4px}
+  /* the replayed finding is labeled S2, so it wears the shared ramp's --sev-2;
+     --sev-ink clears AA 4.5 on it in both themes (the old hardcoded #141518
+     sat at 3.58:1 on the old light chip) — R64 / COLOR C6 */
+  .rr-sev{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--sev-ink);background:var(--sev-2);border-radius:5px;padding:1px 6px;margin:0 4px}
   .rr-loc{color:var(--faint)}
   .rr-cap{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.5}
   .rr-cap a{color:var(--dim);text-decoration:underline}
@@ -1353,10 +1361,11 @@ function matches(p){
 }
 /* R29: precomputed by build.py (the body is no longer inlined to count from) */
 function lensCount(p){ return p.lenses || 0; }
-function card(p, idx, stepNo){
+function card(p, idx, stepNo, famTag){
   const c = document.createElement("article");
   c.className = "card " + fkey(p.family);
   c.id = "p" + p.id;
+  c.tabIndex = -1;   /* j/k target (R66); the global :focus-visible rule rings it */
   c.style.animationDelay = Math.min(idx*35, 420) + "ms";
 
   const top = document.createElement("div"); top.className="card-top";
@@ -1376,6 +1385,18 @@ function card(p, idx, stepNo){
   top.append(num, tt, btn);
 
   const meta = document.createElement("div"); meta.className="card-meta";
+  /* COLOR C8 / R64: in the ungrouped views (playbook sequence, ranked search)
+     the family used to be signaled by border color alone — name it */
+  let fam = null;
+  if(famTag){
+    fam = document.createElement("span"); fam.className = "famchip";
+    const fi = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    fi.setAttribute("class", "fic"); fi.setAttribute("aria-hidden", "true");
+    const fu = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    fu.setAttribute("href", "#" + (FAM_ICON[p.family] || "i-meta"));
+    fi.append(fu);
+    fam.append(fi, document.createTextNode(shortFam(p.family)));
+  }
   const out = document.createElement("span"); out.className="out"; out.textContent = p.output;
   const lc = lensCount(p);
   const info = document.createElement("span");
@@ -1440,6 +1461,7 @@ function card(p, idx, stepNo){
   const more = document.createElement("button"); more.className = "iconbtn cardmore-t";
   more.textContent = "⋯"; more.setAttribute("aria-label", "More actions for " + p.title); more.setAttribute("aria-expanded", "false");
   more.onclick = (e) => { e.stopPropagation(); const open = morewrap.hidden; if(open) closeMoreRows(); morewrap.hidden = !open; more.setAttribute("aria-expanded", String(open)); };
+  if(fam) meta.append(fam);
   meta.append(out, info, det, view, more, morewrap);
 
   /* the 141 quick-view <pre>s are the heaviest DOM on the page — build each
@@ -1570,7 +1592,7 @@ function render(){
       fh.append(nm, qq, rl);
       listEl.append(fh);
       let r = 0;
-      for(const p of ranked) listEl.append(card(p, r++));
+      for(const p of ranked) listEl.append(card(p, r++, null, true));
       return;
     }
     /* tokens too short/rare for the scorer fall through to substring filtering */
@@ -1626,7 +1648,7 @@ function render(){
     cbar.append(plink);
     listEl.append(cbar);
     let step = 1;
-    for(const p of shown) listEl.append(card(p, i++, pb.ids.length>1 ? step++ : null));
+    for(const p of shown) listEl.append(card(p, i++, pb.ids.length>1 ? step++ : null, true));
     return;
   }
   let lastFam = null;
@@ -1683,6 +1705,25 @@ qEl.addEventListener("input", ()=>{query = qEl.value.trim().toLowerCase(); rende
 document.addEventListener("keydown", e=>{
   if(e.key==="/" && document.activeElement!==qEl){e.preventDefault(); qEl.focus();}
   if((e.key==="k"||e.key==="K") && (e.metaKey||e.ctrlKey)){e.preventDefault(); qEl.focus(); qEl.select();}
+});
+/* ---- R66 (DX): j/k walks focus through the visible catalog cards.
+   Inert while typing (inputs, textareas, contenteditable) and under any
+   modifier (Cmd/Ctrl+K above stays the search shortcut); the focused card
+   gets the global :focus-visible ring in its family color. */
+document.addEventListener("keydown", e=>{
+  if(e.key !== "j" && e.key !== "k") return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ""))) return;
+  const cards = listEl.querySelectorAll(".card");
+  if(!cards.length) return;
+  const cur = document.activeElement && document.activeElement.closest
+    ? document.activeElement.closest("#list .card") : null;
+  let i = Array.prototype.indexOf.call(cards, cur);
+  i = e.key === "j" ? Math.min(i + 1, cards.length - 1) : Math.max(i - 1, 0);
+  e.preventDefault();
+  cards[i].focus({preventScroll:true});
+  cards[i].scrollIntoView({block:"nearest"});
 });
 
 /* ---- footer + context wiring ---- */

@@ -404,6 +404,144 @@ class TokensTests(unittest.TestCase):
                 self.assertGreaterEqual(
                     r, 3.0, f"{fam} at {build.FAMILY_MIX_LIGHT}% on #{surface}: {r:.2f}")
 
+    def test_rainbow_is_derived_from_family_colors(self):
+        # R64 (COLOR C7 follow-up): --rainbow drifted to 17 stops while the
+        # palette grew to 21. It is now generated from FAMILY_COLORS in
+        # FAMILY_ORDER, so a new family can never be missing from it again.
+        m = __import__("re").search(r"--rainbow:linear-gradient\(90deg,([^)]*)\)",
+                                    build.TOKENS_CSS)
+        self.assertIsNotNone(m, "--rainbow missing from TOKENS_CSS")
+        stops = m.group(1).split(",")
+        self.assertEqual(stops, [build.FAMILY_COLORS[f] for f in build.FAMILY_ORDER])
+
+    def test_severity_tokens_defined_in_both_theme_blocks(self):
+        # R64 (COLOR C6): one shared severity ramp, dark AND light. Studio's
+        # .c-s* chips and the landing's .rr-sev consume these tokens. The
+        # light block is injected twice (data-theme + prefers-color-scheme),
+        # so each token appears 3x: 1 dark + 2 light.
+        for tok in ("--sev-1:var(--danger)", "--sev-2:var(--warning)",
+                    "--sev-low:var(--faint)", "--sev-fixed:var(--success)",
+                    "--sev-3:#", "--sev-ink:#"):
+            self.assertEqual(build.TOKENS_CSS.count(tok), 3, tok)
+        # the lone pre-ramp token is retired — nothing may resurrect it
+        self.assertNotIn("--sev:", build.TOKENS_CSS)
+
+    def test_motion_tokens_are_named(self):
+        # R65 (STATES §4): the already-consistent motion vocabulary, named.
+        for tok in ("--dur-press:.1s", "--dur-state:.15s", "--dur-move:.2s",
+                    "--dur-enter:.4s", "--ease:ease",
+                    "--ease-enter:cubic-bezier(.2,.7,.3,1)"):
+            self.assertIn(tok, build.TOKENS_CSS, tok)
+
+
+class SeverityContrastTests(unittest.TestCase):
+    # R64 (COLOR C6): the landing run-replay chip is labeled S2 and filled
+    # with --sev-2 (= --warning); its ink must clear AA 4.5:1 in BOTH themes
+    # (the old hardcoded #141518 sat at 3.58:1 on the light chip). --sev-3 is
+    # severity text on panels, same bar.
+    @staticmethod
+    def _tok(name):
+        """[dark, light] values of a literal hex token in TOKENS_CSS (the
+        light block is injected twice; both copies must agree)."""
+        vals = __import__("re").findall(name + r":(#[0-9A-Fa-f]{6})", build.TOKENS_CSS)
+        if len(vals) == 3 and vals[1] == vals[2]:
+            return vals[:2]
+        return vals
+
+    @staticmethod
+    def _ratio(a, b):
+        return TokensTests._ratio(
+            tuple(int(a[i:i + 2], 16) for i in (1, 3, 5)),
+            tuple(int(b[i:i + 2], 16) for i in (1, 3, 5)))
+
+    def test_sev_ink_clears_aa_on_the_warning_chip_in_both_themes(self):
+        inks, warns = self._tok("--sev-ink"), self._tok("--warning")
+        self.assertEqual(len(inks), 2)
+        self.assertEqual(len(warns), 2)
+        for theme, ink, warn in zip(("dark", "light"), inks, warns):
+            r = self._ratio(ink, warn)
+            self.assertGreaterEqual(r, 4.5, f"{theme}: {ink} on {warn} = {r:.2f}")
+
+    def test_sev_text_variants_clear_aa_on_their_panels(self):
+        # Review fix (B10): Studio's .c-s2/.c-fixed render severity as colored
+        # TEXT on --panel, where the light base fills sit at 3.48/3.49. The
+        # -text variants carry the same hue at >= 4.5 on the light panel; dark
+        # aliases the base tokens, which already pass there (7.95/6.08).
+        self.assertEqual(build.TOKENS_CSS.count("--sev-2-text:var(--sev-2)"), 1)
+        self.assertEqual(
+            build.TOKENS_CSS.count("--sev-fixed-text:var(--sev-fixed)"), 1)
+        self.assertGreaterEqual(self._ratio("#F59E2C", "#1B1C20"), 4.5)  # dark --warning
+        self.assertGreaterEqual(self._ratio("#2FAF73", "#1B1C20"), 4.5)  # dark --success
+        for tok in ("--sev-2-text", "--sev-fixed-text"):
+            vals = self._tok(tok)   # light block is injected twice
+            self.assertEqual(len(vals), 2, tok)
+            self.assertEqual(vals[0], vals[1], tok)
+            self.assertGreaterEqual(
+                self._ratio(vals[0], "#FCFBF9"), 4.5, f"{tok} on the light panel")
+        # and the Studio chips actually consume them (text only; borders stay
+        # on the base fills so the chips still match the landing's S2)
+        studio = (build.ROOT / "studio.html").read_text(encoding="utf-8")
+        self.assertIn(".c-s2{color:var(--sev-2-text);border-color:var(--sev-2)}", studio)
+        self.assertIn(".c-fixed{color:var(--sev-fixed-text);border-color:var(--sev-fixed)}",
+                      studio)
+
+    def test_sev_3_reads_on_its_panels_and_stays_off_brand(self):
+        s3 = self._tok("--sev-3")
+        self.assertEqual(len(s3), 2)
+        dark, light = s3
+        self.assertGreaterEqual(self._ratio(dark, "#1B1C20"), 4.5)   # dark --panel
+        self.assertGreaterEqual(self._ratio(light, "#FCFBF9"), 4.5)  # light --panel
+        self.assertGreaterEqual(_delta_e(dark, "#E8B44C"), 15,       # brand amber
+                                "dark --sev-3 too close to the brand amber")
+
+
+def _delta_e(a, b):
+    """CIE76 ΔE between two sRGB hexes (D65) — enough to pin 'distinct'."""
+    def lab(hexv):
+        def lin(c):
+            c /= 255
+            return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+        r, g, b_ = (lin(int(hexv[i:i + 2], 16)) for i in (1, 3, 5))
+        x = (0.4124564 * r + 0.3575761 * g + 0.1804375 * b_) / 0.95047
+        y = 0.2126729 * r + 0.7151522 * g + 0.0721750 * b_
+        z = (0.0193339 * r + 0.1191920 * g + 0.9503041 * b_) / 1.08883
+        f = lambda t: t ** (1 / 3) if t > 0.008856 else 7.787 * t + 16 / 116
+        fx, fy, fz = f(x), f(y), f(z)
+        return 116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)
+    return sum((p - q) ** 2 for p, q in zip(lab(a), lab(b))) ** 0.5
+
+
+class FamilyDistinctionTests(unittest.TestCase):
+    # R64 (COLOR C7): the two ΔE<10 family pairs — API on Team's teal and
+    # Reliability on Trust's green — were recolored. Pin ΔE >= 15 in both
+    # themes (light = color-mix 62% toward black) so they can't creep back.
+    PAIRS = (("API", "Team"), ("Reliability", "Trust"))
+
+    @staticmethod
+    def _light(hexv):
+        p = build.FAMILY_MIX_LIGHT / 100
+        return "#%02X%02X%02X" % tuple(
+            round(int(hexv[i:i + 2], 16) * p) for i in (1, 3, 5))
+
+    def test_recolored_pairs_are_distinct_in_both_themes(self):
+        for a, b in self.PAIRS:
+            ca, cb = build.FAMILY_COLORS[a], build.FAMILY_COLORS[b]
+            self.assertGreaterEqual(_delta_e(ca, cb), 15, f"{a}/{b} dark")
+            self.assertGreaterEqual(
+                _delta_e(self._light(ca), self._light(cb)), 15, f"{a}/{b} light")
+
+    def test_recolored_hues_clear_their_nearest_neighbor(self):
+        # the actual R64 target: >= 15 to the NEAREST family, not just to the
+        # one they used to collide with (measured: API 25.8/17.2,
+        # Reliability 28.8/19.7 dark/light at ship time)
+        for fam in ("API", "Reliability"):
+            cf = build.FAMILY_COLORS[fam]
+            for theme, cv in (("dark", lambda h: h), ("light", self._light)):
+                near = min((_delta_e(cv(cf), cv(c)), o)
+                           for o, c in build.FAMILY_COLORS.items() if o != fam)
+                self.assertGreaterEqual(
+                    near[0], 15, f"{fam} {theme}: nearest is {near[1]} at {near[0]:.1f}")
+
 
 class ParseTests(unittest.TestCase):
     def test_missing_front_matter_exits(self):

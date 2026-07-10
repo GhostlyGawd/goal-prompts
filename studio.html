@@ -47,7 +47,7 @@
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
   .topnav .cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
-  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .topnav .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .topnav .themetog .moon{display:none}
@@ -71,7 +71,7 @@
   .drop{
     border:1.5px dashed var(--line-2);border-radius:var(--radius);
     background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;
-    transition:border-color .15s,background .15s;
+    transition:border-color var(--dur-state),background var(--dur-state);
   }
   .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,var(--act) 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
@@ -83,7 +83,7 @@
     background:none;border:1px solid var(--line);border-radius:8px;color:var(--dim);
     cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;min-height:30px;
     display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;
-    transition:border-color .15s,color .15s;text-decoration:none;
+    transition:border-color var(--dur-state),color var(--dur-state);text-decoration:none;
   }
   .iconbtn:hover{color:var(--text);border-color:var(--dim)}
   /* FUNNEL §1 (R18): the demo button carries primary weight while nothing is loaded */
@@ -134,7 +134,7 @@
     border:1.5px solid var(--faint);border-radius:6px;background:var(--ink);
     display:inline-grid;place-content:center;
   }
-  .find input[type=checkbox]::before{content:"✓";font-size:12px;font-weight:700;color:var(--ink);transform:scale(0);transition:transform .1s}
+  .find input[type=checkbox]::before{content:"✓";font-size:12px;font-weight:700;color:var(--ink);transform:scale(0);transition:transform var(--dur-press)}
   .find input[type=checkbox]:checked{background:var(--act);border-color:var(--act)}
   .find input[type=checkbox]:checked::before{transform:scale(1)}
   .ft{flex:1;min-width:0}
@@ -142,18 +142,23 @@
   .ftitle:hover{color:var(--amber)}
   .fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
   .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
-  .c-s1{color:var(--danger);border-color:var(--danger)}
-  .c-s2{color:var(--warning);border-color:var(--warning)}
-  .c-s3{color:var(--amber);border-color:var(--amber)}
-  .c-low{color:var(--faint);border-color:var(--line-2)}
-  .c-fixed{color:var(--success);border-color:var(--success)}
+  /* severity chips consume the shared ramp from tokens.css (COLOR C6/R64),
+     so the Studio and the landing's run-replay can never disagree on "S2".
+     S2/fixed text wears the -text variants — the light base fills sit under
+     AA as text on --panel — while the borders keep the base fills so the
+     chip still visibly matches the landing's S2. */
+  .c-s1{color:var(--sev-1);border-color:var(--sev-1)}
+  .c-s2{color:var(--sev-2-text);border-color:var(--sev-2)}
+  .c-s3{color:var(--sev-3);border-color:var(--sev-3)}
+  .c-low{color:var(--sev-low);border-color:var(--line-2)}
+  .c-fixed{color:var(--sev-fixed-text);border-color:var(--sev-fixed)}
   .c-eff,.c-tag{color:var(--dim)}
   .view{
     background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);
     font-size:11px;padding:2px 0;display:inline-flex;align-items:center;gap:4px;
   }
   .view:hover{color:var(--text)}
-  .view .chev{transition:transform .2s;display:inline-block}
+  .view .chev{transition:transform var(--dur-move);display:inline-block}
   .find.open .view .chev{transform:rotate(90deg)}
   .fbody{display:none;margin-top:10px}
   .find.open .fbody{display:block}
@@ -176,7 +181,7 @@
   .fixbtn{
     font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);
     background:var(--act);border:0;border-radius:8px;padding:10px 14px;min-height:40px;cursor:pointer;
-    transition:transform .1s,filter .15s,opacity .15s;-webkit-tap-highlight-color:transparent;white-space:nowrap;
+    transition:transform var(--dur-press),filter var(--dur-state),opacity var(--dur-state);-webkit-tap-highlight-color:transparent;white-space:nowrap;
   }
   .fixbtn:hover{filter:brightness(1.1)}
   .fixbtn:active{transform:scale(.96)}
