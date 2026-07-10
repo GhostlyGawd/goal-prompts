@@ -371,7 +371,7 @@ class TokensTests(unittest.TestCase):
     # data-theme and the prefers-color-scheme form, and (b) the arithmetic:
     # the mix leaves every family at >= 3:1 against the lightest and darkest
     # light-theme surfaces, so nobody can nudge the percentage below AA-large.
-    LIGHT_SURFACES = ("FCFBF9", "F4F3EF", "EFEEE7")  # --panel, --ink, --panel-2
+    LIGHT_SURFACES = ("FAF8F1", "F2EFE6", "ECE7D8")  # --panel, --ink, --panel-2
 
     @staticmethod
     def _lum(rgb):
@@ -462,18 +462,18 @@ class SeverityContrastTests(unittest.TestCase):
         # Review fix (B10): Studio's .c-s2/.c-fixed render severity as colored
         # TEXT on --panel, where the light base fills sit at 3.48/3.49. The
         # -text variants carry the same hue at >= 4.5 on the light panel; dark
-        # aliases the base tokens, which already pass there (7.95/6.08).
+        # aliases the base tokens, which already pass there (7.19/6.89).
         self.assertEqual(build.TOKENS_CSS.count("--sev-2-text:var(--sev-2)"), 1)
         self.assertEqual(
             build.TOKENS_CSS.count("--sev-fixed-text:var(--sev-fixed)"), 1)
-        self.assertGreaterEqual(self._ratio("#F59E2C", "#1B1C20"), 4.5)  # dark --warning
-        self.assertGreaterEqual(self._ratio("#2FAF73", "#1B1C20"), 4.5)  # dark --success
+        self.assertGreaterEqual(self._ratio("#E09540", "#1C1812"), 4.5)  # dark --warning
+        self.assertGreaterEqual(self._ratio("#5AB380", "#1C1812"), 4.5)  # dark --success
         for tok in ("--sev-2-text", "--sev-fixed-text"):
             vals = self._tok(tok)   # light block is injected twice
             self.assertEqual(len(vals), 2, tok)
             self.assertEqual(vals[0], vals[1], tok)
             self.assertGreaterEqual(
-                self._ratio(vals[0], "#FCFBF9"), 4.5, f"{tok} on the light panel")
+                self._ratio(vals[0], "#FAF8F1"), 4.5, f"{tok} on the light panel")
         # and the Studio chips actually consume them (text only; borders stay
         # on the base fills so the chips still match the landing's S2)
         studio = (build.ROOT / "studio.html").read_text(encoding="utf-8")
@@ -485,9 +485,9 @@ class SeverityContrastTests(unittest.TestCase):
         s3 = self._tok("--sev-3")
         self.assertEqual(len(s3), 2)
         dark, light = s3
-        self.assertGreaterEqual(self._ratio(dark, "#1B1C20"), 4.5)   # dark --panel
-        self.assertGreaterEqual(self._ratio(light, "#FCFBF9"), 4.5)  # light --panel
-        self.assertGreaterEqual(_delta_e(dark, "#E8B44C"), 15,       # brand amber
+        self.assertGreaterEqual(self._ratio(dark, "#1C1812"), 4.5)   # dark --panel
+        self.assertGreaterEqual(self._ratio(light, "#FAF8F1"), 4.5)  # light --panel
+        self.assertGreaterEqual(_delta_e(dark, "#DFA355"), 15,       # brand amber
                                 "dark --sev-3 too close to the brand amber")
 
 

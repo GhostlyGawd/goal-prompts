@@ -203,3 +203,30 @@ operate loop (29, 46→47, re-run 144) stays out of the conductor — it is a
 cadence, not a sequence. Residual note: in graft mode spec_lint's
 dependency rule still only reads requirements.txt; extending it to
 package.json and kin is queue work (FABLE_BUILD_QUEUE item 3 territory).
+
+## ADR-12 — Design direction is pinned as decisions, not adjectives (new)
+
+Status: accepted
+Context: Ten visual passes (see git log through 0.13) converged on the same
+generic landing page, and hours-long "redesign" sessions produced changes
+users could not perceive. Two causes, both structural. First: with no pinned
+direction, an agent asked to "redesign" samples the maximum-likelihood
+landing page — soft neutrals, rounded cards, kicker + two buttons — so every
+regeneration lands in the same basin. Second: the repo's own audit briefs
+reward *verifiable* findings (a radius token drift, a 22px/24px logo split),
+so agent effort flowed into sub-perceptual consistency fixes; consistency
+audits can maintain an identity but cannot originate one. Nothing in the
+loop ever rendered the page — build.py lints text, scripts/check parses JS —
+so design edits shipped on plausibility alone.
+Decision: The identity is a written contract: specs/DESIGN_DIRECTION.md
+("the ledger" — the page typeset like the audit report the product sells:
+warm ink/paper, ruled numbered sections, mono metadata, ONE vermilion
+accent, family hues demoted to metadata, real report content as the hero
+artifact, 4-bar mark with the tallest bar flagged). Restyling against it
+requires a superseding ADR here first. Palette lives only in TOKENS_CSS
+(build.py) so one edit re-keys every surface. UI work must render
+screenshots (scripts/design-shot.cjs) and eyeball them before commit.
+Consequences: "Redesign it again" is no longer a valid prompt against this
+repo; the valid prompts are "execute the direction better" or "supersede
+ADR-8 with a new direction". Visual changes below a stranger's
+just-noticeable-difference are maintenance and must be labeled as such.

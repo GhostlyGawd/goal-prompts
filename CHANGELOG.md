@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.15.0 — 2026-07-10
+- **Brand redesign — "the ledger":** every surface is now typeset like the
+  artifact the product sells, an audit report. Warm ink/paper palette (one
+  `TOKENS_CSS` edit re-keys the landing page, `b/`/`p/` detail pages, Studio
+  and Vitals), ruled numbered section headers, mono metadata voice, and ONE
+  vermilion accent used like an auditor's red pen. The 17 family hues are
+  demoted to metadata — dots, filing tabs, the famchip — never decoration.
+  The brand mark is new: four audit bars, tallest flagged vermilion
+  (`build.BRAND_MARK`), carried through the favicon, PWA icons
+  (`scripts/icons.py`), and the OG home card (`scripts/og.py`). The hero now
+  shows a real S2 finding from this repo's own `BUGS.md`, typeset on the
+  shared severity ramp (`--sev-2`). The direction is pinned as
+  `specs/DESIGN_DIRECTION.md` + ADR-12 in `DECISIONS.md`; UI changes must be
+  rendered with `node scripts/design-shot.cjs` and the PNGs looked at before
+  commit.
+- Every 0.14.0 growth feature is preserved under the new identity: the
+  static crawlable catalog, `bodies.json` copy path, honest run-marking and
+  funnel events, copy-hint variants, the success-gated quickstart door, the
+  two-step plugin install, offer lines and analytics disclosures, the
+  dormant star badge, clock-gated window chips, returning-user nudges,
+  PWA/reminder machinery, two-step destructive gates, j/k navigation, the
+  famchip, severity/motion tokens, and the /quality, /teams, /partners and
+  /changelog pages. Severity and family-hue token values were re-derived for
+  the warm palette so every pinned contrast guard still clears AA
+  (`FAMILY_MIX_LIGHT` 62→58; the light `--sev-ink` flips to paper on the
+  darker ochre chip).
+
+
 ## 0.14.0 — 2026-07-10
 - Growth remediation pass: an 11-stage growth-conductor run against this
   repo's own surfaces (Funnel, Competitive, Revenue, AI, SEO, CRO, Retention,
