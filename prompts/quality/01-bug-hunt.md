@@ -4,7 +4,7 @@ title: Bug Hunt
 family: Quality
 question: does it work?
 output: BUGS.md
-example: /BUGS.md
+example: /reports/BUGS.md
 tagline: Trace latent bugs, unhandled edge cases, and race conditions; rank by user pain with repro paths and fix sketches.
 ---
 # Goal: Bug Hunt

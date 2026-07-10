@@ -4,7 +4,7 @@ title: Comprehension Audit
 family: Clarity
 question: is it understood?
 output: COMPREHENSION.md
-example: /COMPREHENSION.md
+example: /reports/COMPREHENSION.md
 tagline: Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing?
 ---
 # Goal: Comprehension Audit

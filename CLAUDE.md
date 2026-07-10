@@ -4,6 +4,10 @@ This repo is a catalog of audit briefs for coding agents. It builds a static
 site and machine-readable surfaces from markdown sources. No framework, no
 runtime backend; the build is stdlib-only Python.
 
+This file is the agent entry point. The human-facing overview — install
+paths, the families table, the report gallery — lives in `README.md`;
+brief-authoring rules and the report format grammar live in `CONTRIBUTING.md`.
+
 ## Commands
 - `python3 build.py` — lint every brief and regenerate all outputs
 - `scripts/check` — the full gate: build + JS parse + MCP smoke + linter tests
@@ -17,6 +21,10 @@ Edit these (source of truth):
 - `playbooks.json` — curated brief sequences
 - `template.html` — the catalog UI (build injects prompt + playbook JSON)
 - `studio.html` — Report Studio (standalone page)
+- `vitals.html` — Weekly Vitals (standalone page, like studio.html)
+- `examples/index.html` — the hand-authored report gallery; it links into
+  `reports/`, so it moves in step when report files do
+- `manifest.json` — the PWA manifest (hand-authored)
 - `build.py` — the build + linter
 - `mcp/server.cjs` — the MCP server (zero deps)
 - `install` — the slash-command installer
@@ -61,11 +69,21 @@ it there. Its cache version is a content hash, so a deploy self-invalidates.)
 (`img/studio.png` is a real Report Studio screenshot regenerated with `node
 scripts/studio-shot.cjs` — needs the global `playwright` package + the pre-installed
 Chromium. It's an ungated asset, so re-run it when the Studio UI changes.)
+(`metrics.json` is refreshed out-of-band by `python3 scripts/refresh-stars.py`
+so the build can render the adoption badge without a network call — same
+ungated-asset species as `img/studio.png`.)
 (Design tokens are one source of truth: `TOKENS_CSS` in `build.py` → written to
 `tokens.css`, which every surface links — `template.html`, the `b/`/`p/` detail
 pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.
 `SITE_CSS` and the `brief_detail`/`playbook_detail` builders hold the detail
 pages' component CSS; `template.html` holds the landing page's component CSS.)
+
+Dogfood output (neither source nor build-generated):
+`reports/` — this repo's own audit reports, written by running the catalog's
+briefs against this repo. Brief `example:` front matter and the examples
+gallery point into it. Refresh one by re-running its brief; never hand-edit.
+(`CHANGELOG.md` stays at root — it's a reserved community filename, not a
+brief output.)
 
 ## Conventions
 - Every brief follows the 4-phase skeleton (Explore → Audit → Curate → Report)
@@ -103,6 +121,11 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
   here. The brand mark is the 4-bar audit mark, tallest bar flagged vermilion
   (`build.BRAND_MARK`); the favicon, `icons/*.png` (via `scripts/icons.py`),
   and the OG home card all derive from it — keep them in step.
+- Breadcrumbs: every doc, script, and tooling surface must be reachable
+  within two hops of this file, and CLAUDE.md ↔ README.md cross-link each
+  other. A new surface lands with a line in the Layout taxonomy above in the
+  same change. Brief 145 (Breadcrumb Audit) checks exactly this — run it
+  after structural changes.
 - Playbooks in `playbooks.json` may carry optional merchandising fields —
   `type` (standard | themed | collab | sponsored), `featured`, `badge`,
   `window`, `accent`, `partner`, `preview`, `tagline`. They drive the

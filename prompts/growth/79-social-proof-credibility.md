@@ -4,7 +4,7 @@ title: Social Proof & Credibility
 family: Growth
 question: does it grow?
 output: PROOF.md
-example: /PROOF.md
+example: /reports/PROOF.md
 tagline: Testimonials, logos, counts, reviews, and guarantees — the evidence that turns a skeptical stranger into a believer, and the credibility gaps where doubt wins.
 ---
 # Goal: Social Proof & Credibility

@@ -4,7 +4,7 @@ title: Interaction States & Motion Audit
 family: Design
 question: is it beautiful?
 output: STATES.md
-example: /STATES.md
+example: /reports/STATES.md
 tagline: The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle.
 ---
 # Goal: Interaction States & Motion Audit

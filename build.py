@@ -1630,7 +1630,7 @@ def quality_page(prompts: list) -> str:
         f'<h2 class="h2">It’s run against its own code, in the open.</h2>'
         f'<p class="lead">The briefs audit this site’s own repo: the reports they wrote are '
         f'<a href="/examples/" style="color:var(--fc)">published as live samples</a>, and the '
-        f'<a href="/FIXLOG.md" style="color:var(--fc)">FIXLOG</a> traces shipped fixes back to '
+        f'<a href="/reports/FIXLOG.md" style="color:var(--fc)">FIXLOG</a> traces shipped fixes back to '
         f'the report and finding that surfaced each one. Nothing here is a mock-up — the '
         f'loop (brief → report → <a href="/studio" style="color:var(--fc)">Studio</a> '
         f'→ Fixer → FIXLOG) is how this catalog maintains itself. When a brief '

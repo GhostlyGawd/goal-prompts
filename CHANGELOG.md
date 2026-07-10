@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.16.0 — 2026-07-10
+- New brief: **145 Breadcrumb Audit** (Team) — walks the doc-and-tooling link
+  graph from the agent entry file (CLAUDE.md / AGENTS.md, README, CONTRIBUTING)
+  and reports orphaned docs, unreachable scripts, files outside every stated
+  taxonomy, and unwritten rules. Output `BREADCRUMBS.md`; its first run
+  against this repo ships as `reports/BREADCRUMBS.md`, linked as the brief's
+  `example:`.
+- Practiced what 145 preaches on this repo:
+  - All 27 dogfood reports (BUGS.md, DX.md, FIXLOG.md, the 0.14.0 growth
+    run, …) moved from the repo root into `reports/`; all `example:` front
+    matter, the examples gallery, the landing-page fix-log link, the Studio
+    demo loader, and the Vercel redirects follow (old root URLs redirect
+    permanently).
+  - CLAUDE.md and README.md now cross-link; CLAUDE.md's Layout taxonomy gains
+    the dogfood-output class, classifies vitals.html / examples/ /
+    manifest.json / metrics.json, and states the breadcrumb convention
+    (everything reachable within two hops of CLAUDE.md); CONTRIBUTING states
+    the two previously unwritten build gates for a new brief (og share card,
+    README count) and links back to CLAUDE.md; README names vercel.json.
+
 ## 0.15.0 — 2026-07-10
 - **Brand redesign — "the ledger":** every surface is now typeset like the
   artifact the product sells, an audit report. Warm ink/paper palette (one
@@ -91,6 +111,7 @@
     test-pinned minimum distance across all 21 families; motion tokens named
     once; `j`/`k` keyboard navigation over visible catalog cards; family
     chips on cards where color was the only family signal.
+>>>>>>> origin/main
 
 ## 0.13.0 — 2026-07-10
 - Landing-page redesign: calm, product-grade pass over the whole page.

@@ -4,7 +4,7 @@ title: New-Dev Onboarding Audit
 family: Team
 question: can others build on it?
 output: DX.md
-example: /DX.md
+example: /reports/DX.md
 tagline: Walk clone → install → run → change → PR like a brand-new developer and log every stumble on the way to a first contribution.
 ---
 # Goal: New-Dev Onboarding Audit

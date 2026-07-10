@@ -1,8 +1,12 @@
 # Goal Prompts
 
-145 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+146 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
+
+Working on this repo itself (human or agent)? Start at [CLAUDE.md](CLAUDE.md) —
+commands, layout taxonomy, and conventions. This repo's own dogfood reports
+live in [`reports/`](reports/).
 
 **Live:** https://goal-prompts.vercel.app · **Source:** https://github.com/GhostlyGawd/goal-prompts · MIT licensed
 
@@ -237,7 +241,9 @@ writes the brief and iterates against `build.py`'s linter until it passes.
 See `CONTRIBUTING.md`. Every push is built on Vercel with `build.py` as a
 hard gate — an oversized brief blocks the deploy — and CI
 (`.github/workflows/ci.yml`) runs `scripts/check` plus a generated-file
-drift check on every push and PR. Ready-to-copy examples (npm publish on
+drift check on every push and PR. Deploy behavior (clean URLs, the
+redirects that keep old report URLs alive, cache headers) lives in
+`vercel.json`. Ready-to-copy examples (npm publish on
 release, scheduled brief runs) live at `.github/*.example.yml`.
 
 ## Project layout

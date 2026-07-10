@@ -4,7 +4,8 @@
   "installCommand": "",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/SECURITY.md", "destination": "/SECURITY-AUDIT.md", "permanent": true }
+    { "source": "/SECURITY.md", "destination": "/reports/SECURITY-AUDIT.md", "permanent": true },
+    { "source": "/(ACTIVATION|AI-IDEAS|BRAND|BUGS|CHECKOUT|COLOR|COMPETITIVE|COMPREHENSION|CREDIBILITY|CRO|DEMAND|DX|FIXLOG|FORMS|FUNNEL|HIERARCHY|IMPROVEMENTS|LAYOUT|PROOF|RETENTION|REVENUE|ROADMAP|SECURITY-AUDIT|SEO|SHOWCASE|STATES|TYPOGRAPHY).md", "destination": "/reports/$1.md", "permanent": true }
   ],
   "headers": [
     {
