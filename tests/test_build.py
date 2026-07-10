@@ -866,10 +866,12 @@ class StaticHeadTests(unittest.TestCase):
                       self._head("studio.html"))
         self.assertIn('rel="canonical" href="https://goal-prompts.vercel.app/vitals"',
                       self._head("vitals.html"))
+        self.assertIn('rel="canonical" href="https://goal-prompts.vercel.app/coverage"',
+                      self._head("coverage.html"))
 
     def test_hand_authored_heads_carry_the_seo9_tags(self):
         for name in ("template.html", "studio.html", "vitals.html",
-                     "examples/index.html"):
+                     "coverage.html", "examples/index.html"):
             head = self._head(name)
             self.assertIn('property="og:site_name" content="Goal Prompts"', head,
                           name)
@@ -1504,6 +1506,127 @@ class RevenueRailsTests(unittest.TestCase):
         self.assertIn("gp-backer-done", fn)               # permanent dismissal
         self.assertIn("Five audits in", fn)               # REVENUE §3.3 copy
         self.assertIn("stays free", fn)
+
+
+class CoverageTests(unittest.TestCase):
+    """0.17.0: the /coverage heatmap surface. coverage.json is one computed
+    blob that feeds both the page and any agent — so it must be complete,
+    internally consistent, and deterministic (the CI drift gate diffs the
+    committed copy, and the page can't render a picture the data doesn't back)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.prompts = sorted(
+            (build.parse(f) for f in (build.ROOT / "prompts").rglob("*.md")),
+            key=build.sort_key)
+        cls.playbooks = json.loads(
+            (build.ROOT / "playbooks.json").read_text(encoding="utf-8"))
+        cls.by_id = {p["id"]: p for p in cls.prompts}
+        cls.cov = build.coverage_data(cls.prompts, cls.playbooks, cls.by_id)
+
+    def test_families_partition_the_catalog(self):
+        # every brief lands in exactly one family bucket, and the buckets sum
+        self.assertEqual(sum(f["count"] for f in self.cov["families"]),
+                         len(self.prompts))
+        self.assertEqual(self.cov["totals"]["briefs"], len(self.prompts))
+
+    def test_families_follow_the_curated_family_order(self):
+        present = [f for f in build.FAMILY_ORDER
+                   if any(p["family"] == f for p in self.prompts)]
+        self.assertEqual([f["family"] for f in self.cov["families"]], present)
+
+    def test_heat_and_share_are_derived_consistently(self):
+        total = len(self.prompts)
+        mx = max(f["count"] for f in self.cov["families"])
+        self.assertEqual(self.cov["totals"]["max_per_family"], mx)
+        for f in self.cov["families"]:
+            self.assertAlmostEqual(f["heat"], f["count"] / mx, places=3)
+            self.assertAlmostEqual(f["share"], f["count"] / total, places=3)
+            self.assertTrue(0 < f["heat"] <= 1)
+
+    def test_gap_flag_matches_the_published_threshold(self):
+        mx = self.cov["totals"]["max_per_family"]
+        expected = max(2, int(mx * build.GAP_RATIO + 0.5))
+        self.assertEqual(self.cov["gap_threshold"], expected)
+        self.assertEqual(self.cov["gap_ratio"], build.GAP_RATIO)
+        for f in self.cov["families"]:
+            self.assertEqual(f["gap"], f["count"] <= expected, f["family"])
+        self.assertEqual(
+            self.cov["gaps"]["thin_families"],
+            [f["family"] for f in self.cov["families"] if f["gap"]])
+
+    def test_matrix_is_rectangular_and_aligned_to_playbooks(self):
+        m = self.cov["matrix"]
+        self.assertEqual([pb["key"] for pb in m["playbooks"]],
+                         [pb["key"] for pb in self.playbooks])
+        self.assertEqual([r["family"] for r in m["rows"]],
+                         [f["family"] for f in self.cov["families"]])
+        for r in m["rows"]:
+            self.assertEqual(len(r["cells"]), len(self.playbooks), r["family"])
+
+    def test_matrix_cell_is_the_real_family_playbook_count(self):
+        # spot-check one cell against a direct recount from the playbook
+        m = self.cov["matrix"]
+        fam0 = m["rows"][0]["family"]
+        fam_ids = {p["id"] for p in self.prompts if p["family"] == fam0}
+        for j, pb in enumerate(self.playbooks):
+            want = sum(1 for i in pb["ids"] if i in fam_ids)
+            self.assertEqual(m["rows"][0]["cells"][j], want, (fam0, pb["key"]))
+
+    def test_playbook_reach_matches_the_matrix(self):
+        # a family's "playbooks" count = how many matrix cells in its row are >0
+        rows = {r["family"]: r["cells"] for r in self.cov["matrix"]["rows"]}
+        for f in self.cov["families"]:
+            nonzero = sum(1 for c in rows[f["family"]] if c)
+            self.assertEqual(f["playbooks"], nonzero, f["family"])
+
+    def test_uncurated_briefs_are_exactly_those_in_no_playbook(self):
+        curated = {i for pb in self.playbooks for i in pb["ids"]}
+        want = {p["id"] for p in self.prompts if p["id"] not in curated}
+        got = {b["id"] for b in self.cov["gaps"]["uncurated_briefs"]}
+        self.assertEqual(got, want)
+        self.assertEqual(self.cov["totals"]["uncurated_briefs"], len(want))
+
+    def test_brief_ids_and_titles_round_trip(self):
+        # the drawer links /b/<id> and shows the title — both must be real
+        listed = {b["id"] for f in self.cov["families"] for b in f["briefs"]}
+        self.assertEqual(listed, {p["id"] for p in self.prompts})
+        for f in self.cov["families"]:
+            for b in f["briefs"]:
+                self.assertEqual(b["title"], self.by_id[b["id"]]["title"])
+
+    def test_no_build_clock_leaks_in(self):
+        # determinism: the blob carries counts, never a date/time
+        import re
+        blob = json.dumps(self.cov, sort_keys=True)
+        self.assertNotRegex(blob, r"\d{4}-\d{2}-\d{2}")
+
+    def test_coverage_data_is_deterministic(self):
+        again = build.coverage_data(self.prompts, self.playbooks, self.by_id)
+        self.assertEqual(self.cov, again)
+
+    def test_committed_coverage_json_matches_the_generator(self):
+        on_disk = (build.ROOT / "coverage.json").read_text(encoding="utf-8")
+        regenerated = json.dumps(self.cov, ensure_ascii=False, sort_keys=True,
+                                 indent=1) + "\n"
+        self.assertEqual(on_disk, regenerated)
+
+    def test_live_site_emits_and_wires_the_page(self):
+        self.assertTrue((build.ROOT / "coverage.html").exists())
+        sitemap = (build.ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertRegex(sitemap,
+                         rf"<loc>{build.BASE}/coverage</loc><lastmod>\d{{4}}-")
+        # service worker precaches both the page and its data (offline + a
+        # coverage shift bumps the SW version via ver_src)
+        sw = (build.ROOT / "sw.js").read_text(encoding="utf-8")
+        precache = json.loads(sw.split("var PRECACHE = ", 1)[1].split(";", 1)[0])
+        self.assertIn("/coverage", precache)
+        self.assertIn("/coverage.json", precache)
+        # discoverable: landing nav/footer and every detail-page footer
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn('href="/coverage"', t)
+        detail = build.brief_detail(self.prompts[0], [], [])
+        self.assertIn('href="/coverage"', detail)
 
 
 if __name__ == "__main__":

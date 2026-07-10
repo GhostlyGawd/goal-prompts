@@ -1,0 +1,2168 @@
+{
+ "base": "https://goal-prompts.vercel.app",
+ "families": [
+  {
+   "briefs": [
+    {
+     "id": "60",
+     "title": "Opportunity Scan"
+    },
+    {
+     "id": "61",
+     "title": "Niche Map"
+    },
+    {
+     "id": "62",
+     "title": "Pain & Demand Mining"
+    },
+    {
+     "id": "63",
+     "title": "Competitor Teardown"
+    },
+    {
+     "id": "64",
+     "title": "Market Size & Timing"
+    },
+    {
+     "id": "65",
+     "title": "Positioning & Wedge"
+    },
+    {
+     "id": "66",
+     "title": "Moat & Model Check"
+    },
+    {
+     "id": "67",
+     "title": "Venture Verdict"
+    }
+   ],
+   "count": 8,
+   "family": "Venture",
+   "gap": false,
+   "heat": 0.5333,
+   "playbooks": 3,
+   "question": "is it worth building?",
+   "share": 0.0548
+  },
+  {
+   "briefs": [
+    {
+     "id": "00",
+     "title": "Product Improvement Discovery"
+    },
+    {
+     "id": "45",
+     "title": "Feedback Loop Audit"
+    },
+    {
+     "id": "106",
+     "title": "Notification & Email Audit"
+    },
+    {
+     "id": "107",
+     "title": "In-App Search Audit"
+    },
+    {
+     "id": "108",
+     "title": "Account Lifecycle Audit"
+    }
+   ],
+   "count": 5,
+   "family": "Product",
+   "gap": false,
+   "heat": 0.3333,
+   "playbooks": 1,
+   "question": "what could this be?",
+   "share": 0.0342
+  },
+  {
+   "briefs": [
+    {
+     "id": "01",
+     "title": "Bug Hunt"
+    },
+    {
+     "id": "02",
+     "title": "Test Gap Audit"
+    },
+    {
+     "id": "03",
+     "title": "Silent Failure Audit"
+    },
+    {
+     "id": "98",
+     "title": "Concurrency & Race-Condition Audit"
+    },
+    {
+     "id": "99",
+     "title": "Type-Safety Audit"
+    },
+    {
+     "id": "100",
+     "title": "Test-Quality Audit"
+    },
+    {
+     "id": "101",
+     "title": "Flaky-Test Audit"
+    },
+    {
+     "id": "102",
+     "title": "Test-Pyramid Balance"
+    }
+   ],
+   "count": 8,
+   "family": "Quality",
+   "gap": false,
+   "heat": 0.5333,
+   "playbooks": 5,
+   "question": "does it work?",
+   "share": 0.0548
+  },
+  {
+   "briefs": [
+    {
+     "id": "04",
+     "title": "Performance Audit"
+    },
+    {
+     "id": "05",
+     "title": "10x Stress Review"
+    },
+    {
+     "id": "51",
+     "title": "Latency Budget Audit"
+    },
+    {
+     "id": "87",
+     "title": "Query Performance & N+1 Audit"
+    },
+    {
+     "id": "88",
+     "title": "Bundle & Asset Weight Audit"
+    },
+    {
+     "id": "140",
+     "title": "Caching Strategy Audit"
+    }
+   ],
+   "count": 6,
+   "family": "Speed",
+   "gap": false,
+   "heat": 0.4,
+   "playbooks": 5,
+   "question": "does it scale?",
+   "share": 0.0411
+  },
+  {
+   "briefs": [
+    {
+     "id": "06",
+     "title": "Security & Privacy Audit"
+    },
+    {
+     "id": "07",
+     "title": "Dependency Health Check"
+    },
+    {
+     "id": "08",
+     "title": "Accessibility Audit"
+    },
+    {
+     "id": "68",
+     "title": "Localization Readiness"
+    },
+    {
+     "id": "69",
+     "title": "License & Compliance"
+    },
+    {
+     "id": "81",
+     "title": "Secrets & Credential Hygiene"
+    },
+    {
+     "id": "82",
+     "title": "Access-Control & Authorization Audit"
+    },
+    {
+     "id": "83",
+     "title": "Input & Injection Audit"
+    },
+    {
+     "id": "84",
+     "title": "Threat Model & Abuse Cases"
+    },
+    {
+     "id": "85",
+     "title": "Dependency Currency Audit"
+    },
+    {
+     "id": "86",
+     "title": "Keyboard & Screen-Reader Flow"
+    }
+   ],
+   "count": 11,
+   "family": "Trust",
+   "gap": false,
+   "heat": 0.7333,
+   "playbooks": 6,
+   "question": "is it safe?",
+   "share": 0.0753
+  },
+  {
+   "briefs": [
+    {
+     "id": "125",
+     "title": "Consent & Cookie Audit"
+    },
+    {
+     "id": "126",
+     "title": "Data-Subject-Rights Readiness"
+    },
+    {
+     "id": "127",
+     "title": "Encryption & Key Management"
+    },
+    {
+     "id": "128",
+     "title": "Audit-Trail Audit"
+    }
+   ],
+   "count": 4,
+   "family": "Compliance",
+   "gap": false,
+   "heat": 0.2667,
+   "playbooks": 1,
+   "question": "does it respect the user?",
+   "share": 0.0274
+  },
+  {
+   "briefs": [
+    {
+     "id": "09",
+     "title": "Funnel Friction Audit"
+    },
+    {
+     "id": "10",
+     "title": "Competitive Gap Scan"
+    },
+    {
+     "id": "11",
+     "title": "Monetization Map"
+    },
+    {
+     "id": "12",
+     "title": "AI Opportunity Scan"
+    },
+    {
+     "id": "70",
+     "title": "SEO & Discoverability"
+    },
+    {
+     "id": "75",
+     "title": "Conversion Rate Optimization"
+    },
+    {
+     "id": "78",
+     "title": "Retention & Lifecycle Audit"
+    },
+    {
+     "id": "79",
+     "title": "Social Proof & Credibility"
+    },
+    {
+     "id": "80",
+     "title": "Activation & First-Win Audit"
+    },
+    {
+     "id": "109",
+     "title": "Forms & Validation Audit"
+    },
+    {
+     "id": "110",
+     "title": "Checkout & Payment Flow Audit"
+    }
+   ],
+   "count": 11,
+   "family": "Growth",
+   "gap": false,
+   "heat": 0.7333,
+   "playbooks": 4,
+   "question": "does it grow?",
+   "share": 0.0753
+  },
+  {
+   "briefs": [
+    {
+     "id": "13",
+     "title": "Tech Debt Map"
+    },
+    {
+     "id": "14",
+     "title": "New-Dev Onboarding Audit"
+    },
+    {
+     "id": "15",
+     "title": "Design System Consolidation"
+    },
+    {
+     "id": "52",
+     "title": "Agent Readiness Audit"
+    },
+    {
+     "id": "72",
+     "title": "Ownership & Bus Factor"
+    },
+    {
+     "id": "94",
+     "title": "Inner-Loop Speed Audit"
+    },
+    {
+     "id": "95",
+     "title": "Debuggability Audit"
+    },
+    {
+     "id": "96",
+     "title": "CI Feedback-Loop Audit"
+    },
+    {
+     "id": "97",
+     "title": "Decision-Record Audit"
+    },
+    {
+     "id": "145",
+     "title": "Breadcrumb Audit"
+    }
+   ],
+   "count": 10,
+   "family": "Team",
+   "gap": false,
+   "heat": 0.6667,
+   "playbooks": 4,
+   "question": "can others build on it?",
+   "share": 0.0685
+  },
+  {
+   "briefs": [
+    {
+     "id": "111",
+     "title": "Webhook Design Audit"
+    },
+    {
+     "id": "112",
+     "title": "SDK Ergonomics Audit"
+    },
+    {
+     "id": "113",
+     "title": "API Versioning & Deprecation"
+    },
+    {
+     "id": "114",
+     "title": "Rate-Limit & Quota Design"
+    },
+    {
+     "id": "115",
+     "title": "Developer Portal & Onboarding"
+    },
+    {
+     "id": "136",
+     "title": "Library & Package API Design"
+    }
+   ],
+   "count": 6,
+   "family": "API",
+   "gap": false,
+   "heat": 0.4,
+   "playbooks": 1,
+   "question": "will developers adopt it?",
+   "share": 0.0411
+  },
+  {
+   "briefs": [
+    {
+     "id": "16",
+     "title": "Documentation Audit"
+    },
+    {
+     "id": "17",
+     "title": "Copy & Voice Audit"
+    },
+    {
+     "id": "18",
+     "title": "API Contract Review"
+    },
+    {
+     "id": "76",
+     "title": "Comprehension Audit"
+    },
+    {
+     "id": "103",
+     "title": "Error-Message Audit"
+    },
+    {
+     "id": "135",
+     "title": "CLI Tool UX Audit"
+    }
+   ],
+   "count": 6,
+   "family": "Clarity",
+   "gap": false,
+   "heat": 0.4,
+   "playbooks": 2,
+   "question": "is it understood?",
+   "share": 0.0411
+  },
+  {
+   "briefs": [
+    {
+     "id": "54",
+     "title": "Visual Hierarchy Audit"
+    },
+    {
+     "id": "55",
+     "title": "Typography Audit"
+    },
+    {
+     "id": "56",
+     "title": "Color & Contrast Audit"
+    },
+    {
+     "id": "57",
+     "title": "Spacing & Layout Audit"
+    },
+    {
+     "id": "58",
+     "title": "Interaction States & Motion Audit"
+    },
+    {
+     "id": "59",
+     "title": "Brand Coherence Audit"
+    },
+    {
+     "id": "77",
+     "title": "Show, Don't Tell"
+    },
+    {
+     "id": "104",
+     "title": "Mobile & Responsive Audit"
+    },
+    {
+     "id": "105",
+     "title": "Design-Token Adoption Audit"
+    },
+    {
+     "id": "129",
+     "title": "Navigation & Wayfinding Audit"
+    },
+    {
+     "id": "130",
+     "title": "Menu & Command Surface Audit"
+    },
+    {
+     "id": "131",
+     "title": "Data Visualization Audit"
+    },
+    {
+     "id": "132",
+     "title": "Dashboard & Density Audit"
+    },
+    {
+     "id": "133",
+     "title": "Empty & Zero-Data States Audit"
+    },
+    {
+     "id": "134",
+     "title": "Iconography & Visual Language Audit"
+    }
+   ],
+   "count": 15,
+   "family": "Design",
+   "gap": false,
+   "heat": 1.0,
+   "playbooks": 6,
+   "question": "is it beautiful?",
+   "share": 0.1027
+  },
+  {
+   "briefs": [
+    {
+     "id": "19",
+     "title": "Schema Review"
+    },
+    {
+     "id": "20",
+     "title": "Analytics Coverage Audit"
+    },
+    {
+     "id": "21",
+     "title": "PII & Retention Map"
+    },
+    {
+     "id": "22",
+     "title": "Git Hotspot Mining"
+    },
+    {
+     "id": "71",
+     "title": "Migration Safety"
+    },
+    {
+     "id": "89",
+     "title": "Data Integrity Audit"
+    },
+    {
+     "id": "90",
+     "title": "Metric Definition Consistency"
+    },
+    {
+     "id": "138",
+     "title": "Event & Message Contracts"
+    },
+    {
+     "id": "139",
+     "title": "Data Pipeline Quality"
+    }
+   ],
+   "count": 9,
+   "family": "Data",
+   "gap": false,
+   "heat": 0.6,
+   "playbooks": 3,
+   "question": "is it sound?",
+   "share": 0.0616
+  },
+  {
+   "briefs": [
+    {
+     "id": "23",
+     "title": "Release Pipeline Audit"
+    },
+    {
+     "id": "24",
+     "title": "Cost Audit"
+    },
+    {
+     "id": "25",
+     "title": "Incident Readiness Review"
+    },
+    {
+     "id": "53",
+     "title": "Config & Environment Audit"
+    },
+    {
+     "id": "73",
+     "title": "Telemetry & SLOs"
+    },
+    {
+     "id": "91",
+     "title": "Backup & Recovery Audit"
+    },
+    {
+     "id": "92",
+     "title": "Feature-Flag & Rollback Readiness"
+    },
+    {
+     "id": "93",
+     "title": "Vendor Lock-In Audit"
+    },
+    {
+     "id": "137",
+     "title": "Infra-as-Code Audit"
+    }
+   ],
+   "count": 9,
+   "family": "Ops",
+   "gap": false,
+   "heat": 0.6,
+   "playbooks": 5,
+   "question": "does it run?",
+   "share": 0.0616
+  },
+  {
+   "briefs": [
+    {
+     "id": "121",
+     "title": "Graceful Degradation Audit"
+    },
+    {
+     "id": "122",
+     "title": "Failure-Injection Readiness"
+    },
+    {
+     "id": "123",
+     "title": "Capacity & Scalability Audit"
+    },
+    {
+     "id": "124",
+     "title": "Abuse & Overload Protection"
+    }
+   ],
+   "count": 4,
+   "family": "Reliability",
+   "gap": false,
+   "heat": 0.2667,
+   "playbooks": 1,
+   "question": "will it stay up?",
+   "share": 0.0274
+  },
+  {
+   "briefs": [
+    {
+     "id": "26",
+     "title": "Prune Audit"
+    },
+    {
+     "id": "27",
+     "title": "Simplification Pass"
+    }
+   ],
+   "count": 2,
+   "family": "Subtract",
+   "gap": true,
+   "heat": 0.1333,
+   "playbooks": 4,
+   "question": "what should go?",
+   "share": 0.0137
+  },
+  {
+   "briefs": [
+    {
+     "id": "28",
+     "title": "Roadmap Synthesis"
+    },
+    {
+     "id": "29",
+     "title": "Recurring Health Check"
+    }
+   ],
+   "count": 2,
+   "family": "Meta",
+   "gap": true,
+   "heat": 0.1333,
+   "playbooks": 3,
+   "question": "do the reports add up?",
+   "share": 0.0137
+  },
+  {
+   "briefs": [
+    {
+     "id": "46",
+     "title": "Audit Triage"
+    },
+    {
+     "id": "47",
+     "title": "The Fixer"
+    },
+    {
+     "id": "74",
+     "title": "Change Risk Review"
+    }
+   ],
+   "count": 3,
+   "family": "Act",
+   "gap": true,
+   "heat": 0.2,
+   "playbooks": 9,
+   "question": "does anything change?",
+   "share": 0.0205
+  },
+  {
+   "briefs": [
+    {
+     "id": "141",
+     "title": "Scaffold the Rails"
+    },
+    {
+     "id": "142",
+     "title": "Spec the Product"
+    },
+    {
+     "id": "143",
+     "title": "Implement to Spec"
+    },
+    {
+     "id": "144",
+     "title": "Ship Gate"
+    }
+   ],
+   "count": 4,
+   "family": "Build",
+   "gap": false,
+   "heat": 0.2667,
+   "playbooks": 2,
+   "question": "will it ship?",
+   "share": 0.0274
+  },
+  {
+   "briefs": [
+    {
+     "id": "30",
+     "title": "Prompt & Instruction Audit"
+    },
+    {
+     "id": "31",
+     "title": "Tool Design Review"
+    },
+    {
+     "id": "32",
+     "title": "Loop & Termination Audit"
+    },
+    {
+     "id": "33",
+     "title": "Context Engineering Audit"
+    },
+    {
+     "id": "34",
+     "title": "Eval Coverage Audit"
+    },
+    {
+     "id": "35",
+     "title": "Guardrails Audit"
+    },
+    {
+     "id": "36",
+     "title": "Model Strategy Review"
+    },
+    {
+     "id": "37",
+     "title": "Trace & Replay Audit"
+    },
+    {
+     "id": "38",
+     "title": "Token Economics Audit"
+    },
+    {
+     "id": "48",
+     "title": "Memory & State Audit"
+    },
+    {
+     "id": "49",
+     "title": "Retrieval Quality Audit"
+    },
+    {
+     "id": "50",
+     "title": "Multi-Agent Topology Review"
+    }
+   ],
+   "count": 12,
+   "family": "Agent",
+   "gap": false,
+   "heat": 0.8,
+   "playbooks": 5,
+   "question": "does the agent deliver?",
+   "share": 0.0822
+  },
+  {
+   "briefs": [
+    {
+     "id": "39",
+     "title": "Workflow Resilience Audit"
+    },
+    {
+     "id": "40",
+     "title": "Determinism Boundary Audit"
+    },
+    {
+     "id": "41",
+     "title": "Handoff Audit"
+    }
+   ],
+   "count": 3,
+   "family": "Automation",
+   "gap": true,
+   "heat": 0.2,
+   "playbooks": 0,
+   "question": "does the process hold?",
+   "share": 0.0205
+  },
+  {
+   "briefs": [
+    {
+     "id": "42",
+     "title": "Agent Experience Audit"
+    },
+    {
+     "id": "43",
+     "title": "Human-in-the-Loop Placement"
+    },
+    {
+     "id": "44",
+     "title": "Trust Calibration Audit"
+    }
+   ],
+   "count": 3,
+   "family": "AI-UX",
+   "gap": true,
+   "heat": 0.2,
+   "playbooks": 1,
+   "question": "does the human trust it?",
+   "share": 0.0205
+  },
+  {
+   "briefs": [
+    {
+     "id": "116",
+     "title": "Bias & Fairness Audit"
+    },
+    {
+     "id": "117",
+     "title": "Hallucination & Grounding Audit"
+    },
+    {
+     "id": "118",
+     "title": "Prompt-Injection Red-Team"
+    },
+    {
+     "id": "119",
+     "title": "Model Transparency Audit"
+    },
+    {
+     "id": "120",
+     "title": "Training-Data Provenance"
+    }
+   ],
+   "count": 5,
+   "family": "AI-Ethics",
+   "gap": false,
+   "heat": 0.3333,
+   "playbooks": 1,
+   "question": "is the AI responsible?",
+   "share": 0.0342
+  }
+ ],
+ "gap_ratio": 0.2,
+ "gap_threshold": 3,
+ "gaps": {
+  "thin_families": [
+   "Subtract",
+   "Meta",
+   "Act",
+   "Automation",
+   "AI-UX"
+  ],
+  "uncurated_briefs": [
+   {
+    "family": "Venture",
+    "id": "60",
+    "title": "Opportunity Scan"
+   },
+   {
+    "family": "Product",
+    "id": "45",
+    "title": "Feedback Loop Audit"
+   },
+   {
+    "family": "Product",
+    "id": "106",
+    "title": "Notification & Email Audit"
+   },
+   {
+    "family": "Product",
+    "id": "107",
+    "title": "In-App Search Audit"
+   },
+   {
+    "family": "Product",
+    "id": "108",
+    "title": "Account Lifecycle Audit"
+   },
+   {
+    "family": "Quality",
+    "id": "03",
+    "title": "Silent Failure Audit"
+   },
+   {
+    "family": "Quality",
+    "id": "98",
+    "title": "Concurrency & Race-Condition Audit"
+   },
+   {
+    "family": "Quality",
+    "id": "99",
+    "title": "Type-Safety Audit"
+   },
+   {
+    "family": "Speed",
+    "id": "05",
+    "title": "10x Stress Review"
+   },
+   {
+    "family": "Speed",
+    "id": "140",
+    "title": "Caching Strategy Audit"
+   },
+   {
+    "family": "Trust",
+    "id": "85",
+    "title": "Dependency Currency Audit"
+   },
+   {
+    "family": "Trust",
+    "id": "86",
+    "title": "Keyboard & Screen-Reader Flow"
+   },
+   {
+    "family": "Growth",
+    "id": "10",
+    "title": "Competitive Gap Scan"
+   },
+   {
+    "family": "Growth",
+    "id": "11",
+    "title": "Monetization Map"
+   },
+   {
+    "family": "Growth",
+    "id": "12",
+    "title": "AI Opportunity Scan"
+   },
+   {
+    "family": "Growth",
+    "id": "109",
+    "title": "Forms & Validation Audit"
+   },
+   {
+    "family": "Growth",
+    "id": "110",
+    "title": "Checkout & Payment Flow Audit"
+   },
+   {
+    "family": "Team",
+    "id": "15",
+    "title": "Design System Consolidation"
+   },
+   {
+    "family": "Team",
+    "id": "52",
+    "title": "Agent Readiness Audit"
+   },
+   {
+    "family": "Team",
+    "id": "97",
+    "title": "Decision-Record Audit"
+   },
+   {
+    "family": "Team",
+    "id": "145",
+    "title": "Breadcrumb Audit"
+   },
+   {
+    "family": "API",
+    "id": "136",
+    "title": "Library & Package API Design"
+   },
+   {
+    "family": "Clarity",
+    "id": "16",
+    "title": "Documentation Audit"
+   },
+   {
+    "family": "Clarity",
+    "id": "18",
+    "title": "API Contract Review"
+   },
+   {
+    "family": "Clarity",
+    "id": "103",
+    "title": "Error-Message Audit"
+   },
+   {
+    "family": "Clarity",
+    "id": "135",
+    "title": "CLI Tool UX Audit"
+   },
+   {
+    "family": "Design",
+    "id": "59",
+    "title": "Brand Coherence Audit"
+   },
+   {
+    "family": "Design",
+    "id": "105",
+    "title": "Design-Token Adoption Audit"
+   },
+   {
+    "family": "Data",
+    "id": "19",
+    "title": "Schema Review"
+   },
+   {
+    "family": "Data",
+    "id": "20",
+    "title": "Analytics Coverage Audit"
+   },
+   {
+    "family": "Data",
+    "id": "21",
+    "title": "PII & Retention Map"
+   },
+   {
+    "family": "Data",
+    "id": "71",
+    "title": "Migration Safety"
+   },
+   {
+    "family": "Data",
+    "id": "90",
+    "title": "Metric Definition Consistency"
+   },
+   {
+    "family": "Data",
+    "id": "138",
+    "title": "Event & Message Contracts"
+   },
+   {
+    "family": "Data",
+    "id": "139",
+    "title": "Data Pipeline Quality"
+   },
+   {
+    "family": "Ops",
+    "id": "53",
+    "title": "Config & Environment Audit"
+   },
+   {
+    "family": "Ops",
+    "id": "73",
+    "title": "Telemetry & SLOs"
+   },
+   {
+    "family": "Ops",
+    "id": "92",
+    "title": "Feature-Flag & Rollback Readiness"
+   },
+   {
+    "family": "Ops",
+    "id": "93",
+    "title": "Vendor Lock-In Audit"
+   },
+   {
+    "family": "Ops",
+    "id": "137",
+    "title": "Infra-as-Code Audit"
+   },
+   {
+    "family": "Agent",
+    "id": "48",
+    "title": "Memory & State Audit"
+   },
+   {
+    "family": "Agent",
+    "id": "50",
+    "title": "Multi-Agent Topology Review"
+   },
+   {
+    "family": "Automation",
+    "id": "39",
+    "title": "Workflow Resilience Audit"
+   },
+   {
+    "family": "Automation",
+    "id": "40",
+    "title": "Determinism Boundary Audit"
+   },
+   {
+    "family": "Automation",
+    "id": "41",
+    "title": "Handoff Audit"
+   },
+   {
+    "family": "AI-UX",
+    "id": "42",
+    "title": "Agent Experience Audit"
+   },
+   {
+    "family": "AI-UX",
+    "id": "44",
+    "title": "Trust Calibration Audit"
+   }
+  ]
+ },
+ "generated_from": "146 briefs, 37 playbooks, 22 families",
+ "matrix": {
+  "playbooks": [
+   {
+    "key": "day1",
+    "name": "Day-1 New Repo"
+   },
+   {
+    "key": "prelaunch",
+    "name": "Pre-Launch"
+   },
+   {
+    "key": "cleaning",
+    "name": "Spring Cleaning"
+   },
+   {
+    "key": "vitals",
+    "name": "Weekly Vitals"
+   },
+   {
+    "key": "agentday1",
+    "name": "Agent Day-1"
+   },
+   {
+    "key": "shipcheck",
+    "name": "Agent Ship-Check"
+   },
+   {
+    "key": "triagefix",
+    "name": "Triage & Fix"
+   },
+   {
+    "key": "retrievaltune",
+    "name": "Retrieval Tune-Up"
+   },
+   {
+    "key": "facelift",
+    "name": "Face-Lift"
+   },
+   {
+    "key": "wayfinding",
+    "name": "Wayfinding"
+   },
+   {
+    "key": "datalegible",
+    "name": "Make Data Legible"
+   },
+   {
+    "key": "uioverhaul",
+    "name": "Total UI Overhaul"
+   },
+   {
+    "key": "founderfunnel",
+    "name": "Founder Funnel"
+   },
+   {
+    "key": "gutcheck",
+    "name": "Gut Check"
+   },
+   {
+    "key": "world",
+    "name": "Ship to the World"
+   },
+   {
+    "key": "release",
+    "name": "OSS Release-Ready"
+   },
+   {
+    "key": "ecommerce",
+    "name": "eCommerce Optimization"
+   },
+   {
+    "key": "experience",
+    "name": "Experience Optimization"
+   },
+   {
+    "key": "shipit",
+    "name": "Ship-It Week"
+   },
+   {
+    "key": "codereview-collab",
+    "name": "Deep Code Review"
+   },
+   {
+    "key": "harden",
+    "name": "Harden Before Ship"
+   },
+   {
+    "key": "datalayer",
+    "name": "Data-Layer Tune-Up"
+   },
+   {
+    "key": "dxtuneup",
+    "name": "DX Tune-Up"
+   },
+   {
+    "key": "testconfidence",
+    "name": "Test Confidence"
+   },
+   {
+    "key": "shipapi",
+    "name": "Ship a Public API"
+   },
+   {
+    "key": "responsibleai",
+    "name": "Responsible AI Review"
+   },
+   {
+    "key": "resilience",
+    "name": "Production Resilience"
+   },
+   {
+    "key": "privacycompliance",
+    "name": "Privacy & Compliance"
+   },
+   {
+    "key": "makefast",
+    "name": "Make It Fast"
+   },
+   {
+    "key": "inherit",
+    "name": "Inherit a Codebase"
+   },
+   {
+    "key": "refactor",
+    "name": "Refactor Safely"
+   },
+   {
+    "key": "costdown",
+    "name": "Cost Down"
+   },
+   {
+    "key": "buildloop",
+    "name": "Build Loop"
+   },
+   {
+    "key": "zerotoship",
+    "name": "Zero to Shipped"
+   },
+   {
+    "key": "agentcost",
+    "name": "Agent Cost Control"
+   },
+   {
+    "key": "newyear",
+    "name": "New-Year Reset"
+   },
+   {
+    "key": "sponsored-example",
+    "name": "Sponsored Speed Bundle"
+   }
+  ],
+  "rows": [
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     7,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     7,
+     0,
+     0,
+     0
+    ],
+    "family": "Venture"
+   },
+   {
+    "cells": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Product"
+   },
+   {
+    "cells": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Quality"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     3
+    ],
+    "family": "Speed"
+   },
+   {
+    "cells": [
+     1,
+     2,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     3,
+     0,
+     0,
+     1,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Trust"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Compliance"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     3,
+     4,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Growth"
+   },
+   {
+    "cells": [
+     1,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Team"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     5,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "API"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Clarity"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     4,
+     4,
+     5,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Design"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Data"
+   },
+   {
+    "cells": [
+     0,
+     2,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Ops"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Reliability"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     2,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     0,
+     2,
+     0
+    ],
+    "family": "Subtract"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     0
+    ],
+    "family": "Meta"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     2,
+     1,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Act"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     4,
+     0,
+     0,
+     0
+    ],
+    "family": "Build"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     4,
+     3,
+     0,
+     3,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     3,
+     0,
+     0
+    ],
+    "family": "Agent"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "Automation"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "AI-UX"
+   },
+   {
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     5,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "family": "AI-Ethics"
+   }
+  ]
+ },
+ "name": "goal-prompts",
+ "totals": {
+  "briefs": 146,
+  "families": 22,
+  "max_per_family": 15,
+  "median_per_family": 6.0,
+  "min_per_family": 2,
+  "playbooks": 37,
+  "uncurated_briefs": 47
+ }
+}
