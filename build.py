@@ -30,6 +30,7 @@ DEFAULT_BASE = "https://goal-prompts.vercel.app"
 # surface (site, raw/, conductors, catalog.json, brief bodies) follows it.
 BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
+CONDUCTOR_CAP = 16  # max stages in one conductor (mcp/server.cjs matches this)
 FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Compliance",
                 "Growth", "Team", "API", "Clarity", "Design", "Data", "Ops",
                 "Reliability", "Subtract", "Meta", "Act", "Build", "Agent",
@@ -202,10 +203,10 @@ def conductor(pb: dict, by_id: dict) -> str:
     is the same policy make_conductor enforces — a family growing past 16
     briefs must fail here loudly, not drift past what the server will compose.
     """
-    if len(pb["ids"]) > 16:
+    if len(pb["ids"]) > CONDUCTOR_CAP:
         sys.exit(f"FAIL conductor '{pb['name']}' has {len(pb['ids'])} stages — "
-                 f"the cap is 16 (mcp/server.cjs make_conductor enforces the "
-                 f"same); split it into two conductors")
+                 f"the cap is {CONDUCTOR_CAP} (mcp/server.cjs make_conductor "
+                 f"enforces the same); split it into two conductors")
     stages = []
     for n, pid in enumerate(pb["ids"], 1):
         p = by_id[pid]
@@ -2067,18 +2068,37 @@ def main() -> None:
     (ROOT / "partners.html").write_text(partners_html, encoding="utf-8")
 
     # ---- per-family conductors ("run all Trust briefs") ----
+    # A conductor caps at CONDUCTOR_CAP stages, so a family larger than that
+    # splits into balanced, numbered parts — "All Design briefs (1/2)" — each a
+    # runnable conductor. fam_conductors then holds a list of URLs for that
+    # family rather than a single string.
     fam_conductors = {}
     for fam in FAMILY_ORDER:
         ids = [p["id"] for p in prompts if p["family"] == fam]
         if len(ids) < 2:
             continue
         slug = fam.lower()
-        fam_pb = {"name": f"All {fam} briefs",
-                  "desc": f"Every {fam} brief in the catalog, in order — {ids[0]} through {ids[-1]}, one report each.",
-                  "ids": ids}
-        (ROOT / "raw" / f"family-{slug}.md").write_text(
-            conductor(fam_pb, by_id), encoding="utf-8")
-        fam_conductors[fam] = f"{BASE}/raw/family-{slug}.md"
+        parts = -(-len(ids) // CONDUCTOR_CAP)  # ceil division
+        base, extra = divmod(len(ids), parts)  # nearly-equal, ordered chunks
+        chunks, i = [], 0
+        for k in range(parts):
+            size = base + (1 if k < extra else 0)
+            chunks.append(ids[i:i + size])
+            i += size
+        urls = []
+        for k, chunk in enumerate(chunks, 1):
+            suffix = f"-{k}" if parts > 1 else ""
+            span = f"{chunk[0]} through {chunk[-1]}"
+            fam_pb = {"name": f"All {fam} briefs" + (f" ({k}/{parts})" if parts > 1 else ""),
+                      "desc": (f"Every {fam} brief in the catalog, in order — "
+                               f"{span}, one report each.") if parts == 1 else
+                              (f"{fam} briefs {span} — part {k} of {parts}, "
+                               f"one report each."),
+                      "ids": chunk}
+            (ROOT / "raw" / f"family-{slug}{suffix}.md").write_text(
+                conductor(fam_pb, by_id), encoding="utf-8")
+            urls.append(f"{BASE}/raw/family-{slug}{suffix}.md")
+        fam_conductors[fam] = urls[0] if parts == 1 else urls
 
     # ---- machine-readable catalog ----
     catalog = {

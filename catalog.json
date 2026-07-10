@@ -840,6 +840,17 @@
    "title": "CLI Tool UX Audit"
   },
   {
+   "chars": 3331,
+   "family": "Clarity",
+   "id": "148",
+   "output": "MICROCOPY.md",
+   "question": "is it understood?",
+   "raw": "https://goal-prompts.vercel.app/raw/148.md",
+   "slug": "ui-microcopy",
+   "tagline": "The words inside the interface — buttons, labels, tooltips, placeholders, helper text — do they say what happens next in plain language, or leave the user guessing?",
+   "title": "UI Microcopy & Labeling Audit"
+  },
+  {
    "chars": 2962,
    "example": "https://goal-prompts.vercel.app/reports/HIERARCHY.md",
    "family": "Design",
@@ -1010,6 +1021,28 @@
    "slug": "iconography-visual-language",
    "tagline": "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check.",
    "title": "Iconography & Visual Language Audit"
+  },
+  {
+   "chars": 3383,
+   "family": "Design",
+   "id": "146",
+   "output": "OVERLAYS.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/146.md",
+   "slug": "modal-overlay",
+   "tagline": "Every floating layer — modals, drawers, popovers, sheets — does each earn its interruption, trap focus, dismiss cleanly, and never stack into a maze?",
+   "title": "Modal, Dialog & Overlay Audit"
+  },
+  {
+   "chars": 3193,
+   "family": "Design",
+   "id": "147",
+   "output": "TABLES.md",
+   "question": "is it beautiful?",
+   "raw": "https://goal-prompts.vercel.app/raw/147.md",
+   "slug": "tables-data-grid",
+   "tagline": "The tables people work in — scannable rows, sortable and filterable, paginated not endless, responsive on a phone, and honest about loading, empty, and error.",
+   "title": "Tables & Data-Grid Audit"
   },
   {
    "chars": 2648,
@@ -1664,7 +1697,10 @@
   "Clarity": "https://goal-prompts.vercel.app/raw/family-clarity.md",
   "Compliance": "https://goal-prompts.vercel.app/raw/family-compliance.md",
   "Data": "https://goal-prompts.vercel.app/raw/family-data.md",
-  "Design": "https://goal-prompts.vercel.app/raw/family-design.md",
+  "Design": [
+   "https://goal-prompts.vercel.app/raw/family-design-1.md",
+   "https://goal-prompts.vercel.app/raw/family-design-2.md"
+  ],
   "Growth": "https://goal-prompts.vercel.app/raw/family-growth.md",
   "Meta": "https://goal-prompts.vercel.app/raw/family-meta.md",
   "Ops": "https://goal-prompts.vercel.app/raw/family-ops.md",
@@ -1862,6 +1898,23 @@
    "name": "Total UI Overhaul",
    "page": "https://goal-prompts.vercel.app/p/uioverhaul",
    "tagline": "Overhaul the whole UI layer — then ship the fixes as commits.",
+   "type": "standard"
+  },
+  {
+   "badge": "Ends in commits",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-componentux.md",
+   "desc": "Audit the workhorse UI components one by one — the overlays that interrupt, the tables people work in, the microcopy that guides, and every interactive state — then the Fixer turns the findings into verified commits.",
+   "ids": [
+    "146",
+    "147",
+    "148",
+    "58",
+    "47"
+   ],
+   "key": "componentux",
+   "name": "Component UX",
+   "page": "https://goal-prompts.vercel.app/p/componentux",
+   "tagline": "Audit the components users touch most — then ship the fixes as commits.",
    "type": "standard"
   },
   {
