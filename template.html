@@ -10,8 +10,14 @@
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Goal Prompts — turn your coding agent into a senior code auditor">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="twitter:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
+<meta name="twitter:description" content="Point your agent at your repo. Each brief runs a rigorous four-phase audit and leaves one evidence-backed report you can act on. __N_BRIEFS__ briefs, __N_PLAYBOOKS__ playbooks, free and open.">
 <meta name="theme-color" content="#131417">
 <link rel="canonical" href="https://goal-prompts.vercel.app/">
 <link rel="manifest" href="/manifest.json">
@@ -668,8 +674,8 @@
       <p>Add the plugin once — two commands — then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
       <!-- CRO NF3 / FUNNEL §1 (R07): both commands as numbered copyable steps —
            step 2 used to be fine print, and a step-1-only install looks broken -->
-      <div class="cmd"><span class="cmdstep">1</span><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall">copy</button></div>
-      <div class="cmd"><span class="cmdstep">2</span><code id="installcmd2">/plugin install goal@goal-prompts</code><button class="iconbtn" id="copyinstall2">copy</button></div>
+      <div class="cmd"><span class="cmdstep">1</span><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall" aria-label="copy step 1">copy</button></div>
+      <div class="cmd"><span class="cmdstep">2</span><code id="installcmd2">/plugin install goal@goal-prompts</code><button class="iconbtn" id="copyinstall2" aria-label="copy step 2">copy</button></div>
       <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
@@ -677,7 +683,7 @@
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
       <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every brief as a <code>goal-&lt;slug&gt;</code> prompt in your client's picker.</p>
-      <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
+      <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp" aria-label="copy MCP add command">copy</button></div>
       <!-- PROOF NF5 (R24): the npx line gets the same inspect-the-source reassurance the curl line has -->
       <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">Runs the zero-dependency server straight from the public source — <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/mcp/server.cjs" style="color:var(--dim);text-decoration:underline">inspect mcp/server.cjs first ↗</a></p>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>

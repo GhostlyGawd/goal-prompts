@@ -627,6 +627,129 @@ class PluginTests(unittest.TestCase):
         self.assertIn("/goal:audit-triage", entry["description"])
 
 
+class DetailPageAnalyticsTests(unittest.TestCase):
+    # R02 (FUNNEL §4.1 / RETENTION R7): the 176 side-door pages carry the same
+    # insights script + va shim as the landing page, so detail-page entries,
+    # copies, and returns stop being invisible.
+    def _brief_html(self):
+        p = build.parse(next(iter(sorted((build.ROOT / "prompts").rglob("*.md")))))
+        return build.brief_detail(p, [], [])
+
+    def test_detail_head_carries_the_insights_script(self):
+        html = self._brief_html()
+        self.assertIn("/_vercel/insights/script.js", html)
+        self.assertIn("window.va=window.va||", html)   # the queue shim
+
+    def test_detail_head_carries_unfurl_metadata(self):
+        # SEO-9 (R30): og:site_name + image dimensions/alt + twitter tags
+        html = self._brief_html()
+        self.assertIn('property="og:site_name" content="Goal Prompts"', html)
+        self.assertIn('property="og:image:width" content="1200"', html)
+        self.assertIn('property="og:image:height" content="630"', html)
+        self.assertIn('property="og:image:alt"', html)
+        self.assertIn('name="twitter:title"', html)
+        self.assertIn('name="twitter:description"', html)
+
+    def test_install_step_copy_buttons_are_distinguishable(self):
+        # B2 review carry-over: the .cp buttons all said just "copy" to a
+        # screen reader — each carries a distinguishing aria-label now.
+        html = self._brief_html()
+        self.assertIn('aria-label="copy step 1"', html)
+        self.assertIn('aria-label="copy step 2"', html)
+        self.assertIn('aria-label="copy raw brief URL"', html)
+
+    def test_conductor_copy_buttons_carry_key_and_raw_fallback(self):
+        # gp-detail.js needs the playbook key (copy_conductor event) and the
+        # raw conductor URL (clipboard-failure link fallback) on the button.
+        prompts = [build.parse(f)
+                   for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "c"}
+        html = build.playbook_detail(pb, by_id)
+        self.assertIn('data-pb="t"', html)
+        self.assertIn('data-raw="' + build.BASE + '/raw/playbook-t.md"', html)
+
+
+class SitemapLastmodTests(unittest.TestCase):
+    # SEO-7 (R30): <lastmod> must come from stable inputs, never the build
+    # clock — CI rebuilds and diffs, so an unchanged rebuild must be
+    # byte-identical.
+    def test_dates_persist_while_content_is_unchanged(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            state = Path(d) / "state.json"
+            first = build.sitemap_lastmod({"/x": b"one"}, state)
+            again = build.sitemap_lastmod({"/x": b"one"}, state)
+            self.assertEqual(first, again)
+
+    def test_changed_content_moves_the_date(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            state = Path(d) / "state.json"
+            state.write_text(json.dumps(
+                {"/x": {"h": "stale-hash", "d": "2001-01-01"}}), encoding="utf-8")
+            out = build.sitemap_lastmod({"/x": b"two"}, state)
+            self.assertNotEqual(out["/x"], "2001-01-01")
+
+    def test_unchanged_hash_keeps_the_recorded_date(self):
+        import tempfile, hashlib
+        with tempfile.TemporaryDirectory() as d:
+            state = Path(d) / "state.json"
+            h = hashlib.sha1(b"one").hexdigest()[:16]
+            state.write_text(json.dumps(
+                {"/x": {"h": h, "d": "2001-01-01"}}), encoding="utf-8")
+            out = build.sitemap_lastmod({"/x": b"one"}, state)
+            self.assertEqual(out["/x"], "2001-01-01")
+
+    def test_generated_sitemap_carries_a_lastmod_per_url(self):
+        import re as _re
+        xml = (build.ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        locs = xml.count("<loc>")
+        mods = _re.findall(r"<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>", xml)
+        self.assertGreater(locs, 0)
+        self.assertEqual(locs, len(mods))
+
+
+class StaticHeadTests(unittest.TestCase):
+    # R30: SEO-4 (og/canonical on /examples/), SEO-5 (canonicals on
+    # studio/vitals — the clean URLs, per vercel.json cleanUrls), SEO-9
+    # (site_name + image dims + twitter tags on the hand-authored heads).
+    def _head(self, name):
+        text = (build.ROOT / name).read_text(encoding="utf-8")
+        return text.split("</head>")[0]
+
+    def test_examples_page_has_og_twitter_and_canonical(self):
+        head = self._head("examples/index.html")
+        self.assertIn('property="og:title"', head)
+        self.assertIn('property="og:image"', head)
+        self.assertIn('name="twitter:card"', head)
+        self.assertIn('rel="canonical" href="https://goal-prompts.vercel.app/examples/"',
+                      head)
+
+    def test_studio_and_vitals_have_clean_url_canonicals(self):
+        self.assertIn('rel="canonical" href="https://goal-prompts.vercel.app/studio"',
+                      self._head("studio.html"))
+        self.assertIn('rel="canonical" href="https://goal-prompts.vercel.app/vitals"',
+                      self._head("vitals.html"))
+
+    def test_hand_authored_heads_carry_the_seo9_tags(self):
+        for name in ("template.html", "studio.html", "vitals.html",
+                     "examples/index.html"):
+            head = self._head(name)
+            self.assertIn('property="og:site_name" content="Goal Prompts"', head,
+                          name)
+            self.assertIn('property="og:image:width" content="1200"', head, name)
+            self.assertIn('property="og:image:height" content="630"', head, name)
+            self.assertIn('name="twitter:title"', head, name)
+            self.assertIn('name="twitter:description"', head, name)
+
+    def test_landing_install_copy_buttons_are_distinguishable(self):
+        html = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        self.assertIn('id="copyinstall" aria-label="copy step 1"', html)
+        self.assertIn('id="copyinstall2" aria-label="copy step 2"', html)
+
+
 class DetailPageTests(unittest.TestCase):
     def _prompts(self):
         return [build.parse(f)

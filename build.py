@@ -13,7 +13,7 @@ Outputs (all committed, all deterministic, stdlib only — this also runs on Ver
 The linter enforces the house rules on every brief: front matter complete,
 4-phase skeleton, a Rules section, the ask-first ending, and body < 4,000 chars.
 """
-import gzip, io, json, os, re, shutil, sys, tarfile, zipfile
+import datetime, gzip, io, json, os, re, shutil, sys, tarfile, zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -720,6 +720,16 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
 .gp-hint .x:hover{color:var(--text)}
 
+/* RETENTION R7 (R02): slim welcome-back strip for returning visitors —
+   built by gp-detail.js only when gp-runs has data, dismissible */
+.gp-wb{border-bottom:1px solid var(--line);background:var(--panel);font-size:13px;color:var(--dim)}
+.gp-wb .wrap{display:flex;align-items:center;gap:8px;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.gp-wb b{color:var(--text);font-weight:600}
+.gp-wb a{color:var(--fc,#C4CBD8);font-family:var(--mono);text-decoration:none;white-space:nowrap}
+.gp-wb a:hover{text-decoration:underline}
+.gp-wb .x{margin-left:auto;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.gp-wb .x:hover{color:var(--text)}
+
 /* footer */
 footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 .foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
@@ -783,8 +793,16 @@ def page(title, desc, canon, body_html, og_image, og_type="website",
             f'<meta property="og:image" content="{og_image}">\n'
             f'<meta property="og:url" content="{canon}">\n'
             f'<meta property="og:type" content="{og_type}">\n'
+            # SEO-9 (R30): site_name + image dims/alt + explicit twitter
+            # title/description — scrapers stop guessing, unfurlers get alt text
+            '<meta property="og:site_name" content="Goal Prompts">\n'
+            '<meta property="og:image:width" content="1200">\n'
+            '<meta property="og:image:height" content="630">\n'
+            f'<meta property="og:image:alt" content="{attr(title)}">\n'
             '<meta name="twitter:card" content="summary_large_image">\n'
             f'<meta name="twitter:image" content="{og_image}">\n'
+            f'<meta name="twitter:title" content="{attr(title)}">\n'
+            f'<meta name="twitter:description" content="{attr(desc)}">\n'
             '<meta name="theme-color" content="#131417">\n'
             '<link rel="manifest" href="/manifest.json">\n'
             f'<link rel="canonical" href="{canon}">\n'
@@ -792,6 +810,11 @@ def page(title, desc, canon, body_html, og_image, og_type="website",
             '<link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>\n'
             '<link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>\n'
             '<link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>\n'
+            # R02 (FUNNEL §4.1 / RETENTION R7): the side doors carry the same
+            # anonymous insights script + va queue shim as the landing page —
+            # entry mix, copies, and returns on /b/ and /p/ become visible.
+            '<script defer src="/_vercel/insights/script.js"></script>\n'
+            '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>\n'
             '<link rel="stylesheet" href="/tokens.css">\n'
             f"<style>{SITE_CSS}</style>\n" + THEME_INLINE + "</head>\n"
             f'<body class="{body_class}">\n' + SPRITE + f'\n{NAV_HTML}\n{body_html}\n'
@@ -813,13 +836,16 @@ def foot(head, sub, buttons_html) -> str:
             '</div></footer>')
 
 
-def cmd_html(text: str, step: int = 0) -> str:
+def cmd_html(text: str, step: int = 0, label: str = "") -> str:
     import hashlib
     cid = "c" + hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
     # CRO NF3 (R07): multi-command installs render as numbered copyable steps
     lab = f'<span class="cmdstep">{step}</span>' if step else ""
+    # B2 review carry-over (R02 batch): every .cp button said just "copy" to a
+    # screen reader — give each a distinguishing accessible name
+    aria = label or (f"copy step {step}" if step else "copy command")
     return (f'<div class="cmd">{lab}<code>{esc(text)}</code>'
-            f'<button class="cp" data-copy="#{cid}">copy</button>'
+            f'<button class="cp" data-copy="#{cid}" aria-label="{attr(aria)}">copy</button>'
             f'<textarea id="{cid}" hidden>{esc(text)}</textarea></div>')
 
 
@@ -943,7 +969,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'{cmd_html("/plugin install goal@goal-prompts", step=2)}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h4>From an agent (MCP)</h4>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
-            f'{cmd_html(BASE + "/raw/" + p["id"] + ".md")}</div>'
+            f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw brief URL")}</div>'
             f'</div></div></section>')
 
     # full brief + rules
@@ -1066,7 +1092,10 @@ def playbook_detail(pb, by_id) -> str:
             f'<h1 style="margin-top:14px">{esc(pb["name"])}</h1>'
             f'<p class="lede">{esc(pb.get("tagline") or pb["desc"])}</p>'
             f'<div class="cta">'
-            f'<button class="btn btn-primary" data-copy="#rawcond">Copy the conductor</button>'
+            # data-pb + data-raw: gp-detail.js fires copy_conductor with the
+            # key and degrades to the raw conductor link on clipboard failure
+            f'<button class="btn btn-primary" data-copy="#rawcond" data-pb="{pb["key"]}" '
+            f'data-raw="{BASE}/raw/playbook-{pb["key"]}.md">Copy the conductor</button>'
             f'<a class="btn btn-ghost" href="#seq">See the sequence</a>'
             f'<a class="btn btn-ghost" href="/examples/">See real sample reports ↗</a></div>'
             f'<p class="offer">{offer}</p>'
@@ -1128,7 +1157,8 @@ def playbook_detail(pb, by_id) -> str:
            f'<p class="lead">Copy the conductor into your agent inside the repo you want audited. '
            f'It runs each brief in sequence, honoring every brief\'s ask-first rule.</p>'
            f'<div class="cta" style="margin-top:18px">'
-           f'<button class="btn btn-primary" data-copy="#rawcond">Copy the conductor</button>'
+           f'<button class="btn btn-primary" data-copy="#rawcond" data-pb="{pb["key"]}" '
+           f'data-raw="{BASE}/raw/playbook-{pb["key"]}.md">Copy the conductor</button>'
            f'<a class="btn btn-ghost" href="{BASE}/raw/playbook-{pb["key"]}.md">View raw ↗</a></div>'
            f'</div></section>')
 
@@ -1249,11 +1279,44 @@ def write_archives(prompts: list) -> None:
     (ROOT / "checksums.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def sitemap_lastmod(inputs: dict, state_path: Path = None) -> dict:
+    """Deterministic sitemap <lastmod> dates (SEO-7, R30): path -> ISO date.
+
+    The build clock can't be used (CI rebuilds and diffs — any timestamp would
+    drift) and git file dates disagree between full and shallow clones (CI and
+    Vercel check out depth-1), so dates persist in sitemap-lastmod.json keyed
+    by a hash of each URL's content sources. A date moves to "today" only when
+    that page's content actually changed; an unchanged rebuild is
+    byte-identical. The state file is build-maintained — commit it with the
+    other outputs, never hand-edit it."""
+    import hashlib
+    state_path = state_path or (ROOT / "sitemap-lastmod.json")
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        state = {}
+    today = datetime.date.today().isoformat()
+    dates, new_state = {}, {}
+    for path, blob in inputs.items():
+        h = hashlib.sha1(blob).hexdigest()[:16]
+        prev = state.get(path)
+        d = prev["d"] if isinstance(prev, dict) and prev.get("h") == h else today
+        dates[path] = d
+        new_state[path] = {"h": h, "d": d}
+    if new_state != state:
+        state_path.write_text(
+            json.dumps(new_state, sort_keys=True, indent=1) + "\n",
+            encoding="utf-8")
+    return dates
+
+
 def main() -> None:
     files = sorted((ROOT / "prompts").rglob("*.md"))
     if not files:
         fail("no prompt files found under prompts/")
     prompts = [parse(f) for f in files]
+    # source path per brief — feeds the sitemap's content-keyed <lastmod>
+    src_of = {p["id"]: f for p, f in zip(prompts, files)}
     prompts.sort(key=sort_key)
     by_id = {p["id"]: p for p in prompts}
 
@@ -1378,16 +1441,15 @@ def main() -> None:
                 f'{stars:,} stars on GitHub</a>') if stars >= STAR_THRESHOLD else ""
     # counts injected from source-of-truth so the static meta/OG tags and the
     # no-JS hero/chart fallbacks can never drift from the catalog again
-    (ROOT / "index.html").write_text(
-        template.replace("__PROMPTS_JSON__", esc(prompt_payload))
-                .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
-                .replace("__FAMILIES_JSON__", esc(fam_payload))
-                .replace("__N_BRIEFS__", str(len(prompts)))
-                .replace("__N_PLAYBOOKS__", str(len(playbooks)))
-                .replace("__N_FAMILIES__", str(len(fam_payload)))
-                .replace("__GH_STARS_HERO__", gh_stars)
-                .replace("__GH_STARS__", gh_stars),
-        encoding="utf-8")
+    index_html = (template.replace("__PROMPTS_JSON__", esc(prompt_payload))
+                          .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
+                          .replace("__FAMILIES_JSON__", esc(fam_payload))
+                          .replace("__N_BRIEFS__", str(len(prompts)))
+                          .replace("__N_PLAYBOOKS__", str(len(playbooks)))
+                          .replace("__N_FAMILIES__", str(len(fam_payload)))
+                          .replace("__GH_STARS_HERO__", gh_stars)
+                          .replace("__GH_STARS__", gh_stars))
+    (ROOT / "index.html").write_text(index_html, encoding="utf-8")
 
     # ---- raw endpoints + full detail pages (brief + playbook) ----
     for d in ("raw", "b", "p"):
@@ -1462,12 +1524,31 @@ def main() -> None:
                                 encoding="utf-8")
 
     # ---- sitemap + robots (crawlers can't guess 68 share pages) ----
-    urls = [f"{BASE}/", f"{BASE}/studio", f"{BASE}/vitals", f"{BASE}/examples/"]
-    urls += [f"{BASE}/p/{pb['key']}" for pb in playbooks]
-    urls += [f"{BASE}/b/{p['id']}" for p in prompts]
+    # SEO-7 (R30): each URL's <lastmod> is keyed to its content sources via
+    # sitemap-lastmod.json (see sitemap_lastmod) — a freshness signal that
+    # moves only when the page's content does, and stays build-deterministic.
+    blobs = {"/": index_html.encode("utf-8"),
+             "/studio": (ROOT / "studio.html").read_bytes(),
+             "/vitals": (ROOT / "vitals.html").read_bytes(),
+             "/examples/": (ROOT / "examples" / "index.html").read_bytes()}
+    for pb in playbooks:
+        # the page renders the entry (incl. conductor) + its members' card copy
+        members = [{k: by_id[i][k] for k in
+                    ("id", "title", "tagline", "output", "family")}
+                   for i in pb["ids"]]
+        blobs[f"/p/{pb['key']}"] = json.dumps(
+            [pb, members], sort_keys=True, ensure_ascii=False).encode("utf-8")
+    for p in prompts:
+        blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
+    lastmod = sitemap_lastmod(blobs)
+    paths = ["/", "/studio", "/vitals", "/examples/"]
+    paths += [f"/p/{pb['key']}" for pb in playbooks]
+    paths += [f"/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-               + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls)
+               + "".join(f"  <url><loc>{BASE}{u}</loc>"
+                         f"<lastmod>{lastmod[u]}</lastmod></url>\n"
+                         for u in paths)
                + "</urlset>\n")
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
     (ROOT / "robots.txt").write_text(
