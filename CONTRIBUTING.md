@@ -14,6 +14,11 @@ point is `CLAUDE.md` — commands, layout taxonomy, conventions.)
    new catalog size.
 5. Run `scripts/check` and commit the regenerated files — CI fails on drift.
 
+Don't want to start from a blank file? Use the **Brief Forge**
+([docs/brief-forge.md](docs/brief-forge.md)) — a copyable meta-prompt that
+has your agent draft the brief and iterate against the real linter until
+the build is green.
+
 ## One command
 
 `scripts/check` is the whole gate: it builds (linting every brief),

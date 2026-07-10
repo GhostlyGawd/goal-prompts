@@ -5,7 +5,7 @@
   "cleanUrls": true,
   "redirects": [
     { "source": "/SECURITY.md", "destination": "/reports/SECURITY-AUDIT.md", "permanent": true },
-    { "source": "/(ACTIVATION|BRAND|BUGS|COLOR|COMPREHENSION|CREDIBILITY|CRO|DEMAND|DX|FIXLOG|HIERARCHY|IMPROVEMENTS|LAYOUT|PROOF|RETENTION|SECURITY-AUDIT|SHOWCASE|STATES|TYPOGRAPHY).md", "destination": "/reports/$1.md", "permanent": true }
+    { "source": "/(ACTIVATION|AI-IDEAS|BRAND|BUGS|CHECKOUT|COLOR|COMPETITIVE|COMPREHENSION|CREDIBILITY|CRO|DEMAND|DX|FIXLOG|FORMS|FUNNEL|HIERARCHY|IMPROVEMENTS|LAYOUT|PROOF|RETENTION|REVENUE|ROADMAP|SECURITY-AUDIT|SEO|SHOWCASE|STATES|TYPOGRAPHY).md", "destination": "/reports/$1.md", "permanent": true }
   ],
   "headers": [
     {
@@ -20,6 +20,24 @@
       "source": "/fonts/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/raw/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
+      "source": "/bodies.json",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
+      "source": "/prompts/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
       ]
     }
   ]

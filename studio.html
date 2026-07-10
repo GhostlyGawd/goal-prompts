@@ -10,11 +10,18 @@
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app/studio">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Report Studio — Goal Prompts">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
-<meta name="theme-color" content="#131417">
+<meta name="twitter:title" content="Report Studio — Goal Prompts">
+<meta name="twitter:description" content="Turn audit reports into action: findings become a checklist, checked findings become a one-paste Fixer prompt for your agent. Nothing leaves your browser.">
+<meta name="theme-color" content="#15120D">
+<link rel="canonical" href="https://goal-prompts.vercel.app/studio">
 <link rel="manifest" href="/manifest.json">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23131417'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,7 +47,7 @@
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
   .topnav .cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
-  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .topnav .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .topnav .themetog .moon{display:none}
@@ -64,7 +71,7 @@
   .drop{
     border:1.5px dashed var(--line-2);border-radius:var(--radius);
     background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;
-    transition:border-color .15s,background .15s;
+    transition:border-color var(--dur-state),background var(--dur-state);
   }
   .drop:hover,.drop.over{border-color:var(--act);background:color-mix(in srgb,var(--act) 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
@@ -76,9 +83,12 @@
     background:none;border:1px solid var(--line);border-radius:8px;color:var(--dim);
     cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;min-height:30px;
     display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;
-    transition:border-color .15s,color .15s;text-decoration:none;
+    transition:border-color var(--dur-state),color var(--dur-state);text-decoration:none;
   }
   .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  /* FUNNEL §1 (R18): the demo button carries primary weight while nothing is loaded */
+  .iconbtn.primary{background:var(--btn);color:var(--btn-fg);border-color:transparent;font-weight:600}
+  .iconbtn.primary:hover{color:var(--btn-fg);border-color:transparent;filter:brightness(1.12)}
   .iconbtn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .pastebox{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);display:grid;gap:8px}
   .pastebox input,.pastebox textarea{
@@ -124,7 +134,7 @@
     border:1.5px solid var(--faint);border-radius:6px;background:var(--ink);
     display:inline-grid;place-content:center;
   }
-  .find input[type=checkbox]::before{content:"✓";font-size:12px;font-weight:700;color:var(--ink);transform:scale(0);transition:transform .1s}
+  .find input[type=checkbox]::before{content:"✓";font-size:12px;font-weight:700;color:var(--ink);transform:scale(0);transition:transform var(--dur-press)}
   .find input[type=checkbox]:checked{background:var(--act);border-color:var(--act)}
   .find input[type=checkbox]:checked::before{transform:scale(1)}
   .ft{flex:1;min-width:0}
@@ -132,18 +142,23 @@
   .ftitle:hover{color:var(--amber)}
   .fmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px}
   .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
-  .c-s1{color:var(--danger);border-color:var(--danger)}
-  .c-s2{color:var(--warning);border-color:var(--warning)}
-  .c-s3{color:var(--amber);border-color:var(--amber)}
-  .c-low{color:var(--faint);border-color:var(--line-2)}
-  .c-fixed{color:var(--success);border-color:var(--success)}
+  /* severity chips consume the shared ramp from tokens.css (COLOR C6/R64),
+     so the Studio and the landing's run-replay can never disagree on "S2".
+     S2/fixed text wears the -text variants — the light base fills sit under
+     AA as text on --panel — while the borders keep the base fills so the
+     chip still visibly matches the landing's S2. */
+  .c-s1{color:var(--sev-1);border-color:var(--sev-1)}
+  .c-s2{color:var(--sev-2-text);border-color:var(--sev-2)}
+  .c-s3{color:var(--sev-3);border-color:var(--sev-3)}
+  .c-low{color:var(--sev-low);border-color:var(--line-2)}
+  .c-fixed{color:var(--sev-fixed-text);border-color:var(--sev-fixed)}
   .c-eff,.c-tag{color:var(--dim)}
   .view{
     background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);
     font-size:11px;padding:2px 0;display:inline-flex;align-items:center;gap:4px;
   }
   .view:hover{color:var(--text)}
-  .view .chev{transition:transform .2s;display:inline-block}
+  .view .chev{transition:transform var(--dur-move);display:inline-block}
   .find.open .view .chev{transform:rotate(90deg)}
   .fbody{display:none;margin-top:10px}
   .find.open .fbody{display:block}
@@ -166,7 +181,7 @@
   .fixbtn{
     font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);
     background:var(--act);border:0;border-radius:8px;padding:10px 14px;min-height:40px;cursor:pointer;
-    transition:transform .1s,filter .15s,opacity .15s;-webkit-tap-highlight-color:transparent;white-space:nowrap;
+    transition:transform var(--dur-press),filter var(--dur-state),opacity var(--dur-state);-webkit-tap-highlight-color:transparent;white-space:nowrap;
   }
   .fixbtn:hover{filter:brightness(1.1)}
   .fixbtn:active{transform:scale(.96)}
@@ -191,13 +206,17 @@
     .selbar-in{flex-wrap:wrap}
     .selcount{flex-basis:100%}
   }
+  /* FORMS FV8 (R41): iOS Safari force-zooms any focused input under 16px */
+  @media (max-width:640px){
+    .pastebox input,.pastebox textarea{font-size:16px}
+  }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
 <div class="topnav"><div class="topnav-in">
-  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
+  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a>
   <nav class="lk">
     <a href="/#how">How it works</a>
     <a href="/#playbooks">Playbooks</a>
@@ -236,7 +255,7 @@
     <div class="altrow"><button class="iconbtn" id="ghload">load its reports</button></div>
     <p class="drop-small" style="margin-top:0;text-align:left">public repos only — fetches the ALL-CAPS .md reports at the repo root, straight from GitHub to this tab</p>
   </div>
-  <div class="note" id="note" hidden></div>
+  <div class="note" id="note" role="status" hidden></div>
   <div class="repchips" id="repchips"></div>
   <div class="altrow" id="bulkrow" hidden></div>
   <div id="findings" aria-live="polite"></div>
@@ -248,6 +267,9 @@
   <div class="wrap selbar-in">
     <span class="selcount" id="selcount"></span>
     <button class="iconbtn" id="sharesel" hidden>copy link to selection</button>
+    <!-- R48 (AI-IDEAS 3): the selection's other legitimate exit — merge into a
+         sequenced plan (brief 28's method) instead of implementing now -->
+    <button class="iconbtn" id="synbtn">Copy Synthesis prompt</button>
     <button class="fixbtn" id="fixbtn">Copy Fixer prompt</button>
     <button class="iconbtn" id="unsel">clear selection</button>
   </div>
@@ -256,6 +278,8 @@
 <footer>
   <div class="wrap">
     <p class="buildnote">the loop: run briefs from the <a href="/">catalog</a> → reports land at your repo root → drop them here → checked findings become a targeted <a href="/#47">47 · Fixer</a> run → FIXLOG.md records what changed. sample input lives in the <a href="/examples/">report gallery</a>.</p>
+    <!-- PROOF NF2 / RETENTION R12 (R21): reconcile "no upload, no backend" with the site beacon -->
+    <p class="buildnote">your reports parse in this tab and never leave your device. the site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking — no report content is ever collected.</p>
   </div>
 </footer>
 
@@ -266,7 +290,16 @@ const RAW_BASE = /^https?:/.test(location.origin) ? location.origin : "https://g
 
 /* ---------- state ---------- */
 function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? fb : v; }catch(e){ return fb; } }
-function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+/* FORMS FV10 (R41): a full localStorage used to fail silently — the report
+ * rendered this session, then vanished on reload. Say so instead. save() only
+ * runs from user events, so note()'s element exists by the time this fires. */
+function save(k, v){
+  try{ localStorage.setItem(k, JSON.stringify(v)); return true; }
+  catch(e){
+    try{ note("Couldn't save on this device — storage looks full, so this won't survive a reload."); }catch(e2){}
+    return false;
+  }
+}
 let reports = load("gp-studio-reports", []);   // [{name, text}]
 let checks  = load("gp-studio-checks", {});    // {findingKey: 1}
 let parsed  = [];                              // [{name, findings:[…], skipped}]
@@ -326,6 +359,31 @@ function buildFixer(sel){
 "## Report\n" +
 "Create or append to `FIXLOG.md` at repo root: session date and branch · each finding with its commit and how it was verified · skipped findings with reasons · follow-ups the fixes revealed.\n\n" +
 "Close by summarizing the branch and asking whether to open a PR, merge, or continue with more findings.\n";
+}
+
+/* ---------- the Synthesis prompt (the targeted form of brief 28) ----------
+   R48 (AI-IDEAS 3): the selection's second exit — "merge these into one
+   sequenced plan" — composed like buildFixer, from the same checked findings,
+   using brief 28 · Roadmap Synthesis's own method. */
+function buildSynthesis(sel){
+  const names = [...new Set(sel.map(f => f.report))];
+  const parts = sel.map((f, i) =>
+    "### " + (i + 1) + " · " + f.title + "\n" +
+    "From `" + f.report + "`" + (f.section ? " — " + f.section : "") + ":\n" +
+    quoted(f.text));
+  const n = sel.length;
+  return "# Goal: Roadmap Synthesis — targeted run\n\n" +
+"You are working inside this repo. Mission: merge exactly the " + n + " finding" + (n > 1 ? "s" : "") + " below into one deduplicated, dependency-aware, sequenced roadmap — nothing more. They were selected in the goal-prompts Report Studio from: " + names.join(", ") + ".\n\n" +
+"This is the targeted form of brief 28 · Roadmap Synthesis (" + RAW_BASE + "/raw/28.md). Synthesis, not re-auditing: work from the findings below, dipping into code only to resolve conflicts. Your only write is the roadmap file.\n\n" +
+"## Findings to synthesize\n\n" + parts.join("\n\n") + "\n\n" +
+"## Method\n" +
+"1. Normalize: extract every finding into one pool — source report · name · impact · effort · tags.\n" +
+"2. Dedupe: the same underlying issue often surfaces in multiple reports — merge, keeping all evidence and the strongest framing.\n" +
+"3. Find themes: many findings, one root cause — name the root cause as its own item.\n" +
+"4. Sequence: score impact, effort, and risk on one scale; map dependencies BETWEEN items (fixes that unlock others, tests that de-risk migrations); interleave risk-reduction and growth.\n\n" +
+"## Report\n" +
+"Create `ROADMAP.md` at repo root (or in `reports/`, if that directory exists): sources · unified backlog table (item · sources · impact · effort · dependencies) · themes · three milestones (Now · Next · Later) · merge log, so nothing looks lost. Start the report with today's date; if `ROADMAP.md` already exists from a previous run, read it first and lead with what changed since.\n\n" +
+"Report only — end by asking whether to adjust the sequence.\n";
 }
 
 /* ---------- rendering (user content via textContent only) ---------- */
@@ -479,6 +537,9 @@ function render(){
 
   emptyEl.hidden = reports.length > 0;
   document.getElementById("clearall").hidden = reports.length === 0;
+  /* FUNNEL §1 (R18): with zero reports the demo is the fastest aha — give it
+     the primary weight; it steps back to a peer once anything is loaded */
+  document.getElementById("demobtn").classList.toggle("primary", reports.length === 0);
   syncBar();
 }
 function syncBulk(){
@@ -513,6 +574,7 @@ function syncBar(){
   const b = document.createElement("b"); b.textContent = sel;
   selcountEl.append(b, document.createTextNode(" of " + total + " findings selected"));
   fixbtnEl.disabled = sel === 0;
+  document.getElementById("synbtn").disabled = sel === 0;
   document.getElementById("unsel").hidden = sel === 0;
   document.getElementById("sharesel").hidden = sel === 0;
 }
@@ -525,8 +587,7 @@ function addReport(name, text){
   const before = Object.keys(checks).length;
   reports = reports.filter(r => r.name !== name);
   reports.push({ name: name, text: String(text) });
-  save("gp-studio-reports", reports);
-  note("");
+  if(save("gp-studio-reports", reports)) note("");   // a quota failure keeps its own note (FV10)
   try{ window.va("event", { name: "studio_load_report" }); }catch(e){}
   render();
   /* say so when re-adding a changed report dropped checked findings — the keys
@@ -560,11 +621,36 @@ document.getElementById("pastebtn").onclick = () => {
   if(!box.hidden) document.getElementById("pastename").focus();
 };
 document.getElementById("pasteadd").onclick = () => {
-  addReport(document.getElementById("pastename").value || "pasted.md",
-            document.getElementById("pastetext").value);
-  document.getElementById("pastetext").value = "";
+  const nameEl = document.getElementById("pastename");
+  const textEl = document.getElementById("pastetext");
+  const text = textEl.value;
+  /* FORMS FV2 (R38): fail without wiping the form — the box stays open, the
+     paste stays put, and the noun matches the action */
+  if(!text.trim()){ note("That paste looked empty — nothing added."); return; }
+  let name = nameEl.value.trim();
+  if(!name){
+    /* FORMS FV1 (R38): no typed name used to mean "pasted.md" for every paste,
+       so a second unnamed paste silently destroyed the first. Infer the name
+       from the pasted markdown itself; when even that would land on an
+       existing, different report, suffix instead of overwriting. */
+    name = window.GPReportParser.inferReportName(text) || "pasted.md";
+    const same = reports.find(r => r.text === String(text));
+    if(same) name = same.name; /* identical content: update in place, never suffix */
+    else if(reports.some(r => r.name === name && r.text !== String(text))){
+      const base = name.replace(/\.md$/i, "");
+      let i = 2;
+      while(reports.some(r => r.name === base + "-" + i + ".md")) i++;
+      name = base + "-" + i + ".md";
+    }
+  }
+  addReport(name, text);
+  textEl.value = ""; nameEl.value = "";
   document.getElementById("pastebox").hidden = true;
 };
+/* Enter in the name field submits the add — same handler its twin ghref has (FV2) */
+document.getElementById("pastename").addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); document.getElementById("pasteadd").click(); }
+});
 /* ---------- load from a public GitHub repo (browser → GitHub, nothing through us) ---------- */
 const GH_SKIP = new Set(["README.MD", "LICENSE.MD", "CONTRIBUTING.MD", "CODE_OF_CONDUCT.MD",
   "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "SECURITY.MD", "NOTICE.MD", "AUTHORS.MD",
@@ -599,16 +685,16 @@ async function ghProbeCommon(r){
 async function loadFromGitHub(refStr){
   const r = parseRepoRef(refStr);
   if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return 0; }
-  let files = null;
+  let files = null, over = 0;
   try{
     const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo +
       "/contents" + (r.branch ? "?ref=" + encodeURIComponent(r.branch) : ""));
     if(res.ok){
       const list = await res.json();
       if(Array.isArray(list)){
-        files = list
-          .filter(f => f.type === "file" && reportLike(f.name) && f.download_url)
-          .slice(0, 12);
+        const all = list.filter(f => f.type === "file" && reportLike(f.name) && f.download_url);
+        files = all.slice(0, 12);
+        over = all.length - files.length;   // FORMS FV9 (R41): say so when the cap bites
       }
     } else if(res.status === 404){
       note("GitHub can't find " + r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : "") + " — private repos need their reports dropped or pasted here instead.");
@@ -634,6 +720,9 @@ async function loadFromGitHub(refStr){
   }
   loaded.sort((a, b) => a.name < b.name ? -1 : 1);
   for(const f of loaded) addReport(f.name, f.text);
+  if(over > 0){
+    note("That repo has " + (over + 12) + " report-shaped .md files — loaded the first 12 (alphabetical). Drop the rest here if you need them.");
+  }
   try{ window.va("event", { name: "studio_load_github", data: { n: loaded.length } }); }catch(e){}
   return loaded.length;
 }
@@ -662,6 +751,8 @@ document.getElementById("ghref").addEventListener("input", function(){
 
 document.getElementById("demobtn").onclick = async function(){
   const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "DX.md"];
+  /* pin the real label before "loading…" so feedback() restores it (FV6) */
+  if(!this.dataset.label) this.dataset.label = this.textContent;
   this.disabled = true; this.textContent = "loading…";
   try{
     for(const n of names){
@@ -669,29 +760,56 @@ document.getElementById("demobtn").onclick = async function(){
       if(!res.ok) throw new Error(n);
       addReport(n, await res.text());
     }
-    this.textContent = "loaded ✓";
+    /* FORMS FV6 (R41): the old permanent "loaded ✓" left a dead control —
+       feedback() resets the label, and re-enabling lets a cleared Studio
+       re-run the demo without a reload */
+    this.disabled = false;
+    feedback(this, "loaded ✓");
   }catch(e){
     note("Couldn't fetch the sample reports (offline copy?). Grab them from the report gallery and drop them here instead.");
     this.textContent = "try it on this repo's own reports"; this.disabled = false;
   }
 };
-document.getElementById("clearall").onclick = () => {
-  if(!confirm("Remove all " + reports.length + " loaded reports? Selections clear with them.")) return;
-  reports = []; checks = {};
-  save("gp-studio-reports", reports); save("gp-studio-checks", checks);
-  render();
+/* two-step arm on destructive actions — the landing page's house pattern
+   (FORMS FV4/FV7, R40): first click asks on the button itself, second click
+   confirms; disarms on blur or after 4s. Not blockable like confirm(). */
+function armConfirm(btn, armText, fn){
+  if(btn.dataset.arm){
+    delete btn.dataset.arm; clearTimeout(btn._armT);
+    btn.textContent = btn.dataset.armLabel;
+    fn();
+    return;
+  }
+  if(!btn.dataset.armLabel) btn.dataset.armLabel = btn.textContent;
+  btn.dataset.arm = "1";
+  btn.textContent = armText;
+  const disarm = () => { if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = btn.dataset.armLabel; } };
+  clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
+  btn.addEventListener("blur", disarm, { once: true });
+}
+document.getElementById("clearall").onclick = function(){
+  const n = reports.length;
+  if(!n) return;
+  armConfirm(this, "remove " + n + " report" + (n === 1 ? "" : "s") + " + selections? click again", () => {
+    reports = []; checks = {};
+    save("gp-studio-reports", reports); save("gp-studio-checks", checks);
+    render();
+  });
 };
-document.getElementById("unsel").onclick = () => {
-  checks = {}; save("gp-studio-checks", checks); render();
+document.getElementById("unsel").onclick = function(){
+  const n = selected().length;
+  if(!n) return;
+  armConfirm(this, "clear " + n + " selected? click again", () => {
+    checks = {}; save("gp-studio-checks", checks); render();
+  });
 };
 var _hintT;
-function showCopyHint(){
+function showCopyHint(lead, file, tail){
   const el = document.getElementById("copyhint"), t = document.getElementById("copyhinttext");
   if(!el || !t) return;
   t.textContent = "";
-  const code = document.createElement("code"); code.textContent = "FIXLOG.md";
-  t.append("Paste into your agent — it implements the selection and writes ", code,
-           ". Reload the reports here afterwards to see ✓ fixed.");
+  const code = document.createElement("code"); code.textContent = file;
+  t.append(lead, code, tail);
   el.hidden = false;
   clearTimeout(_hintT);
   _hintT = setTimeout(() => { el.hidden = true; }, 9000);
@@ -703,7 +821,16 @@ fixbtnEl.onclick = function(){
   const sel = selected();
   if(!sel.length) return;
   copyText(buildFixer(sel), this, "Copied ✓", { name: "studio_copy_fixer", data: { n: sel.length } });
-  showCopyHint();
+  showCopyHint("Paste into your agent — it implements the selection and writes ", "FIXLOG.md",
+               ". Reload the reports here afterwards to see ✓ fixed.");
+};
+/* R48: mirror of the Fixer exit — same selection, same copy affordance */
+document.getElementById("synbtn").onclick = function(){
+  const sel = selected();
+  if(!sel.length) return;
+  copyText(buildSynthesis(sel), this, "Copied ✓", { name: "studio_copy_synthesis", data: { n: sel.length } });
+  showCopyHint("Paste into your agent — it merges the selection into one sequenced ", "ROADMAP.md",
+               " at the repo root (brief 28's method), and ends by asking.");
 };
 document.getElementById("sharesel").onclick = function(){
   const keys = selected().map(f => f.key);
@@ -724,6 +851,6 @@ if("serviceWorker" in navigator){
 }
 </script>
 
-<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F2EFE6":"#15120D");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
 </body>
 </html>

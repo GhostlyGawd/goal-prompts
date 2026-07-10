@@ -1,0 +1,45 @@
+---
+name: goal-graceful-degradation
+description: "What happens when a dependency is slow or down — whether the product degrades gracefully with timeouts, fallbacks, and breakers, or cascades into a full outage. Audit brief 121 · Reliability — runs a four-phase audit of the current repo and writes DEGRADE.md at the repo root."
+---
+
+# Goal: Graceful Degradation Audit
+
+You are working inside this repo. Mission: judge how the product behaves when something it depends on gets slow or dies — whether it isolates the failure and keeps serving what it can, or lets one sick dependency drag the whole system down.
+
+Read-only pass. Read the external-call sites, timeout and retry config, and any fallbacks; change nothing but the report file.
+
+## Phase 1 — Map the dependencies
+- List every external dependency: databases, third-party APIs, queues, caches, other services.
+- For each, find how it is called and what protects that call.
+- Trace what a user experiences if that dependency is slow or unavailable right now.
+
+## Phase 2 — Audit through 7 lenses
+1. **Timeouts** — every external call bounded, or calls that can hang forever
+2. **Retries & backoff** — retries with backoff and jitter, or naive retries that amplify an outage
+3. **Circuit breakers** — a way to stop hammering a failing dependency and let it recover
+4. **Fallbacks** — a degraded-but-useful path (cache, default, queue) when a dependency is down
+5. **Blast-radius isolation** — one slow dependency taking down unrelated features; bulkheads
+6. **Failure visibility** — degraded mode surfaced honestly to users and operators, not silent
+7. **Recovery** — does the system heal when the dependency returns, or need a manual restart
+
+## Phase 3 — Curate
+- Rank by blast radius: a missing timeout on a call in the request path outranks one in a nightly job.
+- For each, name the fix — a timeout, a breaker, a fallback, a bulkhead.
+- Separate "fails badly" from "fails everything"; stop the cascades first.
+
+## Phase 4 — Report
+Create `DEGRADE.md` at repo root:
+1. **Dependency map** — each dependency and what happens today when it fails
+2. **Findings** — each: dependency · failure behavior · blast radius · the fix
+3. **Cascade risks** — the single failures that take down more than themselves
+4. **Priority** — the timeouts, breakers, and fallbacks to add first
+
+Start the report with today's date. If `DEGRADE.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- A call with no timeout is an outage waiting for a slow dependency
+- Isolate blast radius; one sick dependency should not sink the ship
+- No runtime dependencies that can fail in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which degradation gaps to close first

@@ -2,10 +2,11 @@
 """Generate og/<id>.png share cards for briefs — the style of the 0.4 set.
 
 Usage:
-    python3 scripts/og.py            # generate cards missing from og/
-    python3 scripts/og.py --all      # regenerate every card + the home card (og.png)
-    python3 scripts/og.py --home     # just the home card (og.png)
-    python3 scripts/og.py 46 47      # specific ids
+    python3 scripts/og.py             # generate cards missing from og/
+    python3 scripts/og.py --all       # regenerate every card + home + playbooks
+    python3 scripts/og.py --home      # just the home card (og.png)
+    python3 scripts/og.py --playbooks # the per-playbook cards (og/p-<key>.png)
+    python3 scripts/og.py 46 47       # specific ids
 
 Needs Pillow and fontTools (`pip install Pillow fonttools brotli`). The cards
 render in the site's own brand fonts — Schibsted Grotesk (variable), IBM Plex Sans, Plex Mono —
@@ -31,9 +32,10 @@ import build  # noqa: E402  (reuses the brief parser + family colors; stdlib-onl
 FAMILY_COLORS = build.FAMILY_COLORS
 
 W, H = 1200, 630
-INK = "#131417"
-TEXT = "#F1F1F3"
-DIM = "#B7B8BE"
+INK = "#15120D"
+TEXT = "#F0EADC"
+DIM = "#B9B09B"
+ACCENT = "#FF6B47"  # the ledger vermilion (specs/design-direction.md)
 BAR_W = 17
 LEFT = 78
 DOMAIN = "goal-prompts.vercel.app"
@@ -120,23 +122,102 @@ def render(brief):
 
 
 def render_home(briefs):
-    """The catalog's own share card: wordmark, the family spectrum, tagline."""
+    """The catalog's own share card: the bar mark, wordmark, tagline — the
+    ledger identity (three paper bars, tallest flagged vermilion), not the
+    retired 22-family spectrum."""
     im = Image.new("RGB", (W, H), INK)
     d = ImageDraw.Draw(im)
-    fams = [FAMILY_COLORS[k] for k in build.FAMILY_ORDER]
     span = W - LEFT - 60
-    bw = span / len(fams)
-    for i, c in enumerate(fams):
-        d.rounded_rectangle([LEFT + i * bw, 300, LEFT + (i + 1) * bw - 4, 330], radius=4, fill=c)
-    d.text((LEFT, 96), "Goal Prompts", font=font(DISPLAY, 108, 800), fill=TEXT)
-    sf = font(DISPLAY, 42, 500)
-    y = 374
+    # the brand bars, scaled up from the 24-unit viewBox (build.BRAND_MARK)
+    mk, my = 5.4, 88  # scale + top of the mark
+    for x, y, w, h, c in ((1, 9, 3.4, 9, TEXT), (6.9, 3, 3.4, 15, ACCENT),
+                          (12.8, 7, 3.4, 11, TEXT), (18.7, 12, 3.4, 6, TEXT)):
+        d.rounded_rectangle([LEFT + x * mk, my + y * mk,
+                             LEFT + (x + w) * mk, my + (y + h) * mk],
+                            radius=0.8 * mk, fill=c)
+    d.text((LEFT + 156, 96), "Goal Prompts", font=font(DISPLAY, 92, 800), fill=TEXT)
+    d.rectangle([LEFT, 290, LEFT + span, 293], fill=ACCENT)
+    sf = font(DISPLAY, 48, 640)
+    y = 340
     for line in wrap(d, "Turn your coding agent into a senior code auditor.", sf, span)[:2]:
         d.text((LEFT, y), line, font=sf, fill=TEXT)
-        y += 52
+        y += 60
+    fams = build.FAMILY_ORDER
     foot = f"{len(briefs)} briefs / {len(fams)} families / {DOMAIN}"
     d.text((LEFT, 548), foot, font=font(MONO, 24), fill=DIM)
     return im
+
+
+def render_playbook(pb, by_id):
+    """A playbook's share card (SEO-3, R31): same visual language as the
+    brief cards — ink ground, mono eyebrow, display-weight title — with the
+    sequence itself as the color: the left edge stacks one equalizer segment
+    per stage in its brief's family color, and a dot row repeats the order
+    horizontally (the storefront's seqDots)."""
+    ids = pb["ids"]
+    fams = [by_id[i]["family"] for i in ids]
+    # ledger: one voice color — the eyebrow/lead speak vermilion; the family
+    # hues stay where they are metadata (the stacked edge + the dot row).
+    accent = ACCENT
+    im = Image.new("RGB", (W, H), INK)
+    d = ImageDraw.Draw(im)
+
+    # left edge: one segment per stage, gapped like the BRAND_MARK bars
+    seg = H / len(ids)
+    gap = 3 if len(ids) > 1 else 0
+    for i, fam in enumerate(fams):
+        y0 = i * seg
+        y1 = (i + 1) * seg - (gap if i < len(ids) - 1 else 0)
+        d.rectangle([0, y0, BAR_W - 1, y1], fill=FAMILY_COLORS[fam])
+
+    f_eyebrow = font(MONO_SB, 26)
+    n = len(ids)
+    d.text((LEFT, 84), "PLAYBOOK", font=f_eyebrow, fill=accent)
+    x = LEFT + d.textlength("PLAYBOOK", font=f_eyebrow) + 30
+    d.text((x, 84), f"{n} BRIEF{'S' if n > 1 else ''} / ONE PASTE",
+           font=font(MONO, 26), fill=DIM)
+
+    title = pb["name"]
+    tf = font(DISPLAY, 76, 800)
+    while d.textlength(title, font=tf) > W - LEFT - 60 and tf.size > 42:
+        tf = font(DISPLAY, tf.size - 4, 800)
+    d.text((LEFT, 150), title, font=tf, fill=TEXT)
+
+    f_tag = font(SANS, 30)
+    y = 275
+    for line in wrap(d, pb.get("tagline") or pb["desc"], f_tag, 1000)[:4]:
+        d.text((LEFT, y), line, font=f_tag, fill=DIM)
+        y += 38
+
+    # the sequence, in order — the storefront's seqDots at share-card scale
+    dy, dsz, dgap = 452, 30, 12
+    for i, fam in enumerate(fams[:16]):
+        x0 = LEFT + i * (dsz + dgap)
+        d.rounded_rectangle([x0, dy, x0 + dsz, dy + dsz], radius=3,
+                            fill=FAMILY_COLORS[fam])
+
+    fy = 549
+    x = LEFT
+    lead = f"{n} REPORTS" if n > 1 else "1 REPORT"
+    d.text((x, fy), lead, font=font(MONO_SB, 22), fill=accent)
+    x += d.textlength(lead, font=font(MONO_SB, 22)) + 42
+    d.text((x, fy), DOMAIN, font=font(MONO, 22), fill=DIM)
+    return im
+
+
+def write_playbook_cards(by_id):
+    import json
+    from PIL.PngImagePlugin import PngInfo
+    playbooks = json.loads((ROOT / "playbooks.json").read_text(encoding="utf-8"))
+    for pb in playbooks:
+        # build.py's drift guard compares this baked-in stage count to the
+        # live playbook, like og.png's gp-briefs count
+        meta = PngInfo()
+        meta.add_text("gp-briefs", str(len(pb["ids"])))
+        out = ROOT / "og" / f'p-{pb["key"]}.png'
+        render_playbook(pb, by_id).save(str(out), optimize=True, pnginfo=meta)
+        print(f'og/p-{pb["key"]}.png  {pb["name"]}')
+    print(f"OK  {len(playbooks)} playbook card(s) written")
 
 
 def main():
@@ -152,7 +233,11 @@ def main():
         print("og.png  home card")
         if "--home" in sys.argv:
             return
-    args = [a for a in sys.argv[1:] if a not in ("--all", "--home")]
+    if "--playbooks" in sys.argv or "--all" in sys.argv:
+        write_playbook_cards(by_id)
+        if "--playbooks" in sys.argv:
+            return
+    args = [a for a in sys.argv[1:] if a not in ("--all", "--home", "--playbooks")]
     if args:
         ids = [a.zfill(2) for a in args]
         unknown = [i for i in ids if i not in by_id]

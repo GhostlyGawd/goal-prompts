@@ -1,35 +1,39 @@
-# Conversion Rate Optimization
+# Conversion Rate Optimization — re-run
 
-*The product's public surfaces audited against conversion best practice, through
-the eyes of a first-time visitor who knows nothing about the product or the
-niche. Read-only pass over `template.html`, `studio.html`, and the meta/OG/head.*
+**Date:** 2026-07-09 · read-only pass over `template.html`, `build.py` (detail-page
+builders), `b/`, `p/`, `examples/`, `studio.html`, `README.md`, `playbooks.json`.
+Companion reports from today's run: FUNNEL.md (structure), SEO.md (discoverability),
+REVENUE.md (monetization) — cross-referenced, not duplicated.
 
-**Context that shapes every finding:** this is a **free, open, static catalog** —
-there is no signup, no checkout, no paid user tier. That is a conversion
-*superpower* (the offer is "free, no account, nothing to install, runs in your
-own tool") — and the site systematically **underplays it**. The single biggest
-CRO theme here is not "add persuasion" but "stop hiding how cheap and safe the
-yes is," plus "cut the choice-friction at the moment of action."
+## What changed since the last run (~4 months ago)
 
-The real primary conversion is **copying a brief** (or installing / adding the
-MCP). The secondary conversion is **partner/sponsor interest** (the project's
-actual revenue path), and that funnel currently has no closing action.
+**All eight findings from the previous CRO.md shipped, and they held up.** Verified
+in current source:
 
-> **Backlog reconciliation (2026-07-09).** Dispositions: **F3** (stale meta/OG
-> counts) — **FIXED**: counts injected from source. **F4** (no JSON-LD/canonical)
-> — **FIXED**: `SoftwareApplication` JSON-LD + canonical URL added. **F8** (jargon
-> in the scan path) — **FIXED**: "MCP" and "conductor" glossed. **F5** (partner funnel has no closing action) — **FIXED**: added a primary
-> "Partner with us →" CTA (routed to the repo's GitHub, the honest channel without
-> exposing a personal email). **F1**
-> (promote the free/no-signup offer) — **FIXED**: the hero offer line leads with
-> "free & open · no signup · nothing leaves your machine." **F6** (two "start"
-> CTAs) — **FIXED**: the nav "Get started" CTA now points at `#catalog`, the same
-> primary destination as the hero. **F2** (default way-in) — **FIXED**: the copy-paste
-> way is badged "Start here" with a primary CTA + accent border. **F7** (copyable
-> brief near the hero) — **FIXED**: a hero quickstart copies a starter brief right
-> there (shipped as the default with `src:hero` analytics). Every CRO finding is
-> now addressed.
-> See `FIXLOG.md`.
+- **F1** hero offer — "free & open · no signup · nothing leaves your machine" is the
+  hero micro-line (`template.html:502`). ✔
+- **F2** default way-in — "01 · COPY" carries a "Start here" badge, primary styling,
+  and its own primary CTA (`:650-655`). ✔
+- **F3** meta/OG counts — injected from source as `__N_BRIEFS__`/`__N_PLAYBOOKS__`
+  (`:7-9`, `build.py:1286`). ✔
+- **F4** JSON-LD + canonical — `SoftwareApplication` schema with `price: 0` and
+  `<link rel="canonical">` (`:16`, `:19`). ✔
+- **F5** partner CTA — "Partner with us →" exists (`:741`). ✔ (but see NF5)
+- **F6** unified start CTAs — nav "Get started" and hero primary both → `#catalog`
+  (`:485`, `:499`). ✔
+- **F7** hero quickstart — shipped as a one-tap "Copy your first brief" pill with
+  `src:hero` analytics (`:503`, JS `:1679-1692`). ✔ (but see NF1)
+- **F8** jargon — "brief" glossed inline in the hero sub (`:497`), "MCP (Model
+  Context Protocol)" spelled out (`:667`), "conductor" gets a tooltip (`:640`). ✔
+
+**The product underneath grew a whole new perimeter:** 141 briefs (was 129), 35
+playbooks, 141 static `/b/<id>` pages + 35 `/p/<key>` pages (now the best-indexed
+entry points per SEO.md), an `/examples/` proof gallery, a run-replay and
+before/after proof section, plugin distribution as the README's "primary path,"
+MCP prompts, a 3-question picker, repo-recommend, and a merchandised playbook
+storefront (badges, seasonal windows, collab/sponsored types). This re-run's theme:
+**the landing page now converts well; the leaks moved to the side doors, the
+install path's second step, and a few trust details in the merchandising.**
 
 ---
 
@@ -37,107 +41,176 @@ actual revenue path), and that funnel currently has no closing action.
 
 | # | Surface | The one action it must drive | Who lands / their question | Biggest leak |
 |---|---|---|---|---|
-| 1 | **Hero** (`template.html:379-398`) | Scroll into value / click "Browse the catalog" | Cold. *"What is this and is it for me?"* | Doesn't name the artifact or the near-zero cost/effort above the fold; two CTAs + a third nav CTA compete (`:374`, `:388-389`). |
-| 2 | **Value** (Problem `:401-411` → How `:414-430` → Payoff `:433-456`) | Build belief; keep scrolling to the catalog | Cold→warming. *"Does this fix my inconsistent-agent problem?"* | Strong section — but ~4 screens of reading sit between "interested" and the first copyable card. No shortcut to act. |
-| 3 | **Catalog** (`:460-489`, finder `buildFinder()`) | **Tap Copy on a brief** (core conversion) | Warm. *"Which one do I use, and how?"* | Opens on the finder, not on copyable cards; the money action (Copy) is one more step down. |
-| 4 | **Ways in** (`:528-553`) | Choose an integration and act | Warm/ready. *"How do I actually start?"* | **Choice friction** — copy / install / MCP presented as three equals; no obvious default. |
-| 5 | **Playbooks** (`:493-516`) | Copy a playbook conductor | Warm. *"Is there a done-for-me path?"* | Good. Partner band below it (`:500-515`) has **no closing action** for the revenue funnel. |
-| 6 | **Activation** (off-site, in the user's agent) | Paste → get a report | — | Out of scope here; covered in ACTIVATION.md. |
+| 1 | **Landing hero** (`template.html:490-515`) | One tap into value: browse or quickstart-copy | Cold. *"What is this, is it for me, what does trying cost?"* | The best newcomer action (quickstart pill) is styled as a footnote below two bigger buttons (NF1). |
+| 2 | **Side doors** — `/b/<id>` (141), `/p/<key>` (35) | Tap "Copy this prompt" / "Copy the conductor" | **Cold, from search/shared links.** *"Can I trust pasting this? What does it cost?"* | The offer + risk-reversal that carry the landing page (free, no signup, read-only, local) never reach these pages (NF2). |
+| 3 | **Catalog** (`:577-622`) | Tap Copy on a brief — the core conversion | Warm. *"Which one?"* | Six chooser mechanisms stacked before the list; assists compete with the action (NF7, structure covered in FUNNEL.md). |
+| 4 | **Ways in / install** (`:646-672`) | Complete an install (the retention-grade conversion) | Ready. *"How do I make this permanent?"* | The plugin path's **required second command exists nowhere on the site** — a copied step 1 dead-ends (NF3). |
+| 5 | **Proof + Examples** (`:675-723`, `/examples/`) | Believe → return to catalog | Skeptical. *"Is this real?"* | Strong (real reports, real commits, honest "walk-through, not a screen capture" label). Leak is off-page: examples unfurl with no OG card (SEO-4). |
+| 6 | **Partner band** (`:726-745`) | A sponsor inquiry — the revenue conversion | Warm prospect. *"How do I start, discreetly?"* | Only channel is a **public** GitHub issue; the two partner CTAs point at different destinations (NF5, detailed in REVENUE.md §4). |
+| 7 | **Activation** (off-site, post-copy) | Paste → report lands | — | Out of scope; the post-copy toast (`showCopyHint`, `:895-907`) bridges it well. ACTIVATION.md's stage. |
 
 ---
 
-## 2 · Findings (lens · location · visitor experience · fix · lift · effort)
+## 2 · Findings
 
-Ranked by lift ÷ effort.
+### NF1 — The one-tap conversion is dressed as a footnote *(lens 3: the one action / lens 1: above the fold)* — **lift M-H · effort S · TEST**
+- **Location:** hero quickstart pill `template.html:503` — rendered `hidden` until JS
+  (`:1684`), styled 13px with a *dashed* border (`:88`), placed third under two
+  full-weight buttons ("Browse the catalog", "See how it works", `:499-500`).
+- **First-time experience:** the visitor's cheapest possible yes — one tap puts a
+  runnable brief on the clipboard — reads as an afterthought. Visual hierarchy says
+  "browse 141 things"; value hierarchy says "just take this one."
+- **Fix:** promote the pill to a peer of the primary CTA (solid border, same row or
+  directly under it), or make it the primary and demote "Browse the catalog."
+  FUNNEL.md flags the same element structurally; the persuasion risk cuts the other
+  way too — the catalog *is* the product tour — so **A/B it** using the existing
+  `src:hero` copy event vs `copy_prompt` from the catalog.
 
-### F1 — The offer's best feature (free, no signup, no risk) is a micro-line *(lens 7: pricing & offer / lens 2: value)* — **lift H · effort S · SHIP**
-- **Location:** the only above-the-fold mention of cost is the micro line `template.html:391` — "75 briefs · 15 playbooks · install in one line · MIT licensed & free." The risk-reversal that seals it ("Everything stays local", "Read-only by default") is four screens down (`:425-429`).
-- **First-time experience:** the visitor reads a benefit ("senior code auditor") but not the *price of trying* — do I sign up? does it cost? will it touch my code? Uncertainty at the top suppresses the scroll.
-- **Fix:** promote the offer into the hero as a first-class line or badge row: **"Free & open · no signup · nothing leaves your machine."** Removing perceived cost/risk is the cheapest lift on the page.
+### NF2 — 176 side-door pages never state the offer or the risk-reversal *(lens 4: trust / lens 7: offer)* — **lift M-H · effort S · SHIP**
+- **Location:** the `/b/<id>` hero CTA block (`build.py:823-827` → e.g. `b/47.html`)
+  and `/p/<key>` conductor block. `grep -c "free" b/47.html` → **0**; "no signup"
+  and "nothing leaves your machine" appear nowhere; "read-only" appears only if the
+  brief body happens to say it. The landing page's trust triad (`:543-545`) doesn't
+  exist here.
+- **First-time experience:** SEO.md shows these are the pages a cold searcher
+  actually lands on. They see a big "Copy this prompt" button and a wall of prompt
+  text — with no answer to *"is this free?"* and *"is it safe to paste this into
+  the agent that can edit my code?"* The exact objections the homepage pre-empts
+  are unanswered at the exact CTA that matters.
+- **Fix:** one generated micro-line under the detail-hero CTA row in `build.py`:
+  "Free & open · no signup · read-only — it ends by asking · nothing leaves your
+  machine." One template edit fixes all 176 pages.
 
-### F2 — "Three ways in" has no default → choice friction at the moment of action *(lens 5: friction / lens 3: the one action)* — **lift H · effort S · SHIP**
-- **Location:** `template.html:528-552` — "01 · COPY / 02 · INSTALL / 03 · AGENT" as three equal-weight cards.
-- **First-time experience:** a ready visitor now has to *evaluate three options* (and two involve shell commands / "MCP") before doing anything. The zero-friction path (copy-paste, "Nothing to install", `:535`) is buried as a peer of the two higher-friction ones.
-- **Fix:** make copy-paste the obvious default — badge it "Start here," give it primary visual weight, and demote install/MCP to "also available." Prefer removing the decision over explaining all three equally.
+### NF3 — The "primary path" install dead-ends after step 1 *(lens 5: friction / lens 4: trust)* — **lift H · effort S · SHIP**
+- **Location:** landing "02 · INSTALL" card copies `/plugin marketplace add
+  GhostlyGawd/goal-prompts` (`:660`); the **required** second command
+  `/plugin install goal@goal-prompts` (README.md:29) appears **nowhere in
+  template.html or any `b/` page** (`grep -c "plugin install"` → 0). Its only trace
+  is 12px fine print: "then install **goal** from the marketplace" (`:661`).
+- **First-time experience:** a ready visitor copies the one visible command, pastes
+  it, gets a marketplace added — and **no commands appear**. Without step 2 the
+  honest conclusion is "it's broken." A failed first experience on the path README
+  calls primary is the most expensive kind of leak: it converts, then refunds
+  itself with interest.
+- **Fix:** render both commands as numbered copyable steps (1 · add marketplace,
+  2 · install goal) on the landing card and the `b/` "02 · INSTALL" way
+  (`build.py:908-911`). FUNNEL.md counts the steps; this is the persuasion cost.
 
-### F3 — Stale counts in the meta/OG tags cost clicks and credibility *(lens 9: findable & shareable)* — **lift M · effort S · SHIP**
-- **Location:** meta description `:7` "**75 briefs**"; og:description `:9` "**75 briefs**, 15 playbooks". Actual: **129 briefs, 32 playbooks** (`catalog.json`, `playbooks.json`). (The rendered hero self-heals via JS at `:772-778`, but the tags that Google and social unfurls read do not.)
-- **First-time experience:** the search snippet and the shared card — the surfaces that decide the *click* — undersell the catalog by ~40% and disagree with the on-page number a visitor sees after clicking.
-- **Fix:** inject real counts into the meta/OG tags from `build.py`. (Shared with COMPREHENSION F2 / SHOWCASE F7.)
+### NF4 — Stale and unverifiable merchandising chips on an "evidence, not vibes" brand *(lens 4: trust)* — **lift L-M · effort S · SHIP (carefully)**
+- **Location:** `/p/newyear` renders the chip **"January drop"** (`playbooks.json`
+  `window`, rendered unconditionally at `build.py:994`) — it is **July**. `shipit`
+  wears "Seasonal · Featured this season" permanently. Day-1's badge is **"Most
+  popular"** (`playbooks.json`) on a site with 0 public stars and no visible usage
+  numbers.
+- **First-time visitor experience:** a January label in July signals an
+  unmaintained site; an unverifiable superlative on a page whose own hero promises
+  "evidence, not vibes" invites exactly the skepticism the proof section works so
+  hard to defuse.
+- **Fix:** date-gate `window` chips at build time (hide when expired) or drop the
+  stale ones; either back "Most popular" with the real `copy_conductor` analytics
+  ("most-copied playbook") or soften to "Start here." Cheap, and it protects the
+  site's strongest asset — its honesty (the "example" partner card at `:739-740`
+  and the "walk-through, not a screen capture" tag at `:680` set the standard).
 
-### F4 — No structured data or canonical *(lens 9: findable & shareable)* — **lift M · effort S · SHIP**
-- **Location:** `template.html` head — zero `application/ld+json`, no `<link rel="canonical">` (confirmed: both absent).
-- **First-time experience:** happens *before* the visit — weaker/again inconsistent rich results and a missed shot at SoftwareApplication/FAQ rich snippets that lift organic CTR.
-- **Fix:** add JSON-LD (`SoftwareApplication` or `WebSite` + `FAQPage` from the "How it works" Q&A) and a canonical URL. Safe, mechanical.
+### NF5 — The revenue conversion demands a public confession *(lens 5: friction / lens 6: objections)* — **lift M · effort S · SHIP**
+- **Location:** "Partner with us →" → `github.com/.../issues/new?title=Partnership+inquiry`
+  (`:741`); the `/p/` partner blocks point at GitHub *Discussions* instead
+  (REVENUE.md §4.1).
+- **First-time experience:** a sponsor's first move becomes a **public** post
+  titled "Partnership inquiry," visible to competitors, before any conversation.
+  Most will simply not.
+- **Fix:** one private channel (email or form) as the primary contact on both
+  surfaces, GitHub as secondary. REVENUE.md owns the full treatment; it is also a
+  straight CRO fix.
 
-### F5 — The partner/sponsor funnel has no closing action *(lens 3: the one action / lens 7: offer)* — **lift M · effort S · SHIP**
-- **Location:** partner band `:500-515`; its only link is "View the collab template →" (`:513`) — informational, not transactional. No "become a partner / sponsor / get in touch," no contact path.
-- **First-time experience:** a prospective sponsor who *is* sold reads the modes ("Themed & limited-time", "Sponsored bundles") and then has nowhere to go. The revenue funnel leaks at the exact point of intent.
-- **Fix:** add a primary CTA — "Partner with us →" / "Sponsor a playbook →" — pointing to a contact route (mailto or short form). Keep the template link as secondary.
+### NF6 — The hero sub is one 34-word, triple-em-dash sentence *(lens 8: scannability)* — **lift L · effort S · SHIP**
+- **Location:** `:497` — "Point it at your repo. Every brief — a ready-made,
+  copy-paste prompt — runs the same four-phase audit and files **one
+  evidence-backed report** you can act on — no more random, throwaway results."
+- **First-time experience:** in the ten-second skim, three dashes force a re-read;
+  the payoff clause ("no more random, throwaway results") arrives after the
+  visitor has already skipped ahead.
+- **Fix:** split: "Every brief is a ready-made, copy-paste prompt. It runs the
+  same four-phase audit and files **one evidence-backed report** you can act on —
+  not another wall of random, throwaway output."
 
-### F6 — Two competing "start" destinations *(lens 3: the one action)* — **lift L-M · effort S · SHIP**
-- **Location:** nav CTA "Get started" → `#start` (`:374`) vs hero primary "Browse the catalog" → `#catalog` (`:388`). Two prominent CTAs send the same intent to different places.
-- **First-time experience:** minor disorientation; "Get started" lands on install/MCP options (Ways in) rather than the catalog most visitors want.
-- **Fix:** point both at the same next step (recommend `#catalog`), or relabel the nav CTA to match its destination.
+### NF7 — Six assists stand between the headline and the goods *(lens 5: friction)* — **lift M · effort M · TEST**
+- **Location:** between the `#catalog` H2 (`:579`) and the card list (`:621`):
+  triage nudge (`:581`), 3-question picker (`:584`), repo-recommend (`:588`),
+  the 21-row finder (`:597`), the 4-field "aim the briefs" box (`:600`), then
+  search + 22 family chips + playbook chips (`:612-619`).
+- **First-time experience:** each helper is individually good; stacked, the moment
+  of action reads like a form. The finder's own "New here? Start with Day-1"
+  starter is the best of the six — and it sits below three collapsed disclosures.
+- **Fix (hypothesis):** collapse picker + repo-recommend into one "help me choose"
+  disclosure and move "aim the briefs" below the toolbar; keep the Day-1 starter
+  at the top. FUNNEL.md maps this structurally — **test**, don't blind-ship, since
+  the assists exist because 141 choices genuinely need triage.
 
-### F7 — The money action sits below ~4 screens of value *(lens 5: friction)* — **lift M · effort M · TEST**
-- **Location:** the first copyable `.copy` button (`:252`) only appears in the catalog (`:488`), after Problem/How/Payoff.
-- **First-time experience:** an action-ready visitor must scroll a long way to *do* something. Long value-first pages convert well for cold traffic but tax warm/returning visitors.
-- **Fix (hypothesis):** surface one real, copyable "try this brief" near the hero, or change the hero primary CTA to "Copy your first brief." Worth an A/B test, not a blind change.
-
-### F8 — Jargon in the scan path slows the ten-second read *(lens 8: scannability)* — **lift L · effort S · SHIP**
-- **Location:** "conductor" (`:520-522`), "MCP" (`:547-548`), "brief" used before definition (`:386`). (Detailed in COMPREHENSION F3-F5.)
-- **Fix:** one-line glosses. Cheap scannability + comprehension win.
+### NF8 — The click before the visit *(lens 9: findable & shareable)* — **defer to SEO.md**
+The head is now in good shape (dynamic counts, canonical, JSON-LD with `price: 0`).
+The remaining CTR-deciders are already specified in SEO.md and matter for
+conversion: `/examples/` — the site's best proof asset — unfurls as a bare URL
+(SEO-4); all 35 playbooks share one generic OG image (SEO-3); the homepage's 141
+briefs are invisible to non-rendering crawlers (SEO-1). Not re-litigated here.
 
 ### What already converts — keep it
-- **Risk reversal is excellent** (`:425-429`): "Read-only by default / It ends by asking / Everything stays local" pre-empts the scariest objection (will it break or leak my code?).
-- **Value-not-features is strong** (`:401-410`, `:433-443`): real pain named in developers' own words, capabilities framed as outcomes ("Evidence, not vibes").
-- **Copy interaction is clean** (`:252-254`): prominent button, instant "Copied ✓" feedback.
-- **Speed & PWA signals** are strong: preloaded fonts, deferred scripts, no heavy media, manifest + service worker. Fast pages convert; don't regress this.
+- **Hero offer line** (`:502`) and the trust triad (`:543-545`) — the previous
+  run's top fixes, intact and load-bearing.
+- **Dogfooding proof chain** (`:675-723`, `/examples/`): real reports → real
+  commits, self-labeled honestly. Rare and persuasive; NF4 is about protecting it.
+- **Post-copy toast** (`:895-907`): tells the visitor exactly what happens next
+  and bridges to the Studio — the activation handoff is well-written.
+- **Star-count honesty**: `__GH_STARS__` renders nothing below a threshold
+  (`build.py:1300-1304`) instead of bragging "0 stars." Correct instinct.
+- **Speed & weight discipline**: single-request page, preloaded fonts, no media.
+  (SEO-2 notes the 507 KB inline JSON tradeoff; don't regress it further.)
 
 ---
 
 ## 3 · Top 5 lifts (ranked by leverage)
 
-1. **Promote the free/no-signup/local offer into the hero (F1).** — *Ship first.*
-   It's the highest lift for the least work and it removes the top unspoken cost
-   at the exact moment the visitor decides whether to invest attention. Nothing
-   else converts if they bounce here.
-2. **Give "Three ways in" a default: "copy-paste, start here" (F2).** Removes the
-   biggest decision-friction on the path to the primary action.
-3. **Fix stale counts in meta/OG + add structured data/canonical (F3+F4).** Wins
-   happen before the visit — more clicks, more trust on arrival.
-4. **Add a closing CTA to the partner band (F5).** The only funnel with actual
-   revenue attached currently has no button.
-5. **Unify the two "start" CTAs and gloss the jargon (F6+F8).** Small, safe,
-   compounding clarity gains.
-
----
+1. **NF3 — show the plugin install's second command. *Ship first.*** It is the only
+   place on the site where a converting visitor follows instructions and gets a
+   result that looks broken. One line of HTML on two templates; protects the path
+   README calls primary.
+2. **NF2 — offer + risk-reversal micro-line on all 176 detail pages.** One
+   `build.py` edit puts the homepage's best-performing trust copy at the CTA the
+   cold search traffic actually sees.
+3. **NF4 — retire "January drop" / gate the merchandising chips.** Minutes of work;
+   an expired seasonal label quietly poisons every other claim on the site.
+4. **NF5 — a private partner channel.** The only funnel with money in it currently
+   asks strangers to negotiate in public (with REVENUE.md's fuller fix).
+5. **NF1 — weight the quickstart pill like the conversion it is** — behind an A/B
+   against the existing `src:hero` event, since it competes with the catalog tour.
 
 ## 4 · Ship vs test
 
 **Ship now — proven best practice, low risk:**
-- F1 hero offer prominence · F2 default way-in · F3 meta/OG counts ·
-  F4 JSON-LD + canonical · F5 partner CTA · F6 unified start CTA · F8 glosses.
+NF2 (detail-page offer line) · NF3 (two-step install) · NF4 (chip gating — keep
+badges only where verifiable) · NF5 (private partner contact) · NF6 (hero sub
+split).
 
-**Test — hypotheses that could cut both ways:**
-- F7 surfacing a copyable brief near the hero / changing the hero CTA wording
-  (risk: undercuts the value-first narrative for cold traffic — A/B it).
-- Adding usage social proof near a CTA (stars, "used by") — depends on assets and
-  is the subject of PROOF.md; validate the numbers before displaying them.
+**Test — could cut both ways:**
+NF1 (promote the quickstart pill — may cannibalize catalog browsing, which is the
+product tour; measure `copy_prompt src:hero` vs catalog copies) · NF7 (collapsing
+the chooser stack — the assists earn their keep for some segments; watch
+`repo_recommend` / picker events before removing anything).
 
-**Handle with care (trust/clarity/accessibility):**
-- Don't shorten the risk-reversal guards to make room — they carry the trust.
-- Keep the fast, media-light first paint when adding any hero badge/visual.
+**Handle with care:**
+- Never add urgency or popularity claims that can't be backed by a number the site
+  actually has — the brand *is* "evidence, not vibes" (NF4's flip side).
+- The trust triad and detail-page "It ends by asking" copy carry the safety story;
+  shorten nothing there to make room for offers.
+- Any hero change must preserve the fast, media-light first paint; NF1's pill
+  should also get a no-JS fallback (`hidden` today means no JS = no pill).
 
 ---
 
 ## Report only — which lifts do you want me to make?
 
-This was a read-only pass; nothing was changed. The "ship now" set (F1–F6, F8) is
-safe, mostly small, and several overlap with fixes proposed in COMPREHENSION.md
-and SHOWCASE.md — so they can be batched. F7 and any social-proof additions
-should be treated as experiments / are covered by later stages.
-
-Tell me which lifts to implement (any subset), and whether hero-copy changes
-should use my proposed wording or your own. I'll make only the changes you pick.
+Nothing was changed in this pass. The ship set (NF2, NF3, NF4, NF5, NF6) is small,
+independent, and mostly single-template edits in `build.py` / `template.html`;
+NF5 pairs naturally with REVENUE.md's quick wins and NF8 with SEO.md's. NF1 and
+NF7 should run as experiments against the analytics events that already exist.
+Tell me which findings to implement (any subset) and I'll make only those changes.

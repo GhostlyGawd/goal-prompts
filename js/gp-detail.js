@@ -14,6 +14,21 @@ function load(k, fb) {
     return v === null || v === undefined ? fb : v;
   } catch (e) { return fb; }
 }
+
+/* R02 (FUNNEL §4.1 / RETENTION R7): the same anonymous cohort fields the
+ * landing page attaches (gp-aid / gp-fsw, Retention R5) ride every detail-page
+ * event, so side-door entries and returns are measurable. Keys are shared with
+ * template.html — edit them together. Nothing else leaves the device. */
+var _AID = "", _FSW = "";
+try {
+  _AID = localStorage.getItem("gp-aid") || Math.random().toString(36).slice(2, 10);
+  localStorage.setItem("gp-aid", _AID);
+  _FSW = localStorage.getItem("gp-fsw") || String(Math.floor(Date.now() / 6048e5));
+  localStorage.setItem("gp-fsw", _FSW);
+} catch (e) {}
+function track(name, data) {
+  try { window.va("event", {name: name, data: Object.assign({aid: _AID, fsw: _FSW}, data || {})}); } catch (e) {}
+}
 function withContext(body) {
   var ctx = load("gp-ctx", {}) || {};
   var L = [];
@@ -29,6 +44,26 @@ function markRun(id) {
     var runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {};
     runs[id] = Date.now();
     localStorage.setItem("gp-runs", JSON.stringify(runs));
+    mirrorVitalsState(runs);
+  } catch (e) {}
+}
+/* R34 (RETENTION R8a): mirror runs["29"] + remind.on into IndexedDB
+ * (db "gp-sw", store "kv", key "vitals") for the service worker's staleness
+ * check — a SW can't read localStorage. Same contract as template.html's
+ * mirrorVitalsState and build.py's SERVICE_WORKER; keep the three in step. */
+function mirrorVitalsState(runs) {
+  try {
+    var remind = JSON.parse(localStorage.getItem("gp-remind") || "{}") || {};
+    var req = indexedDB.open("gp-sw", 1);
+    req.onupgradeneeded = function () { try { req.result.createObjectStore("kv"); } catch (e) {} };
+    req.onsuccess = function () {
+      try {
+        var db = req.result;
+        var tx = db.transaction("kv", "readwrite");
+        tx.objectStore("kv").put({runs29: runs["29"] || 0, remindOn: !!remind.on}, "vitals");
+        tx.oncomplete = function () { db.close(); };
+      } catch (e) {}
+    };
   } catch (e) {}
 }
 function hasRun(id) {
@@ -42,17 +77,32 @@ function flash(b, m) {
   b.textContent = m; b.classList.add("done");
   b._t = setTimeout(function () { b.textContent = b.dataset.label; b.classList.remove("done"); }, 1600);
 }
-function copy(t, b, then) {
+function copy(t, b, then, onFail) {
   function ok() { flash(b, b.classList.contains("cp") ? "✓" : "Copied ✓"); if (then) then(); }
+  function bad() { if (onFail) onFail(); else b.textContent = "copy failed"; }
   function fb() {
     var a = document.createElement("textarea");
     a.value = t; a.style.position = "fixed"; a.style.opacity = "0";
     document.body.appendChild(a); a.select();
-    try { document.execCommand("copy"); ok(); } catch (e) { b.textContent = "copy failed"; }
+    /* execCommand signals failure by returning false as well as by throwing
+     * (R02, the landing page's B2 fix mirrored) — false must never paint
+     * "Copied ✓" over an empty clipboard */
+    var done = false;
+    try { done = document.execCommand("copy"); } catch (e) { done = false; }
     a.remove();
+    if (done) ok(); else bad();
   }
   if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(ok, fb); }
   else fb();
+}
+/* clipboard out of reach → degrade the button to a plain link to the same
+ * artifact — the pattern the data-fetch fallback below already uses */
+function rawFail(btn, url) {
+  return function () {
+    var a = document.createElement("a");
+    a.className = btn.className; a.textContent = "open raw ↗"; a.href = url;
+    btn.replaceWith(a);
+  };
 }
 
 /* the landing page's post-copy hint, rebuilt here (DOM only, no innerHTML) */
@@ -66,14 +116,38 @@ function showHint(output, id) {
   el.textContent = "";
   var b = document.createElement("b"); b.textContent = "inside your repo";
   var code = document.createElement("code"); code.textContent = output || "the report";
+  /* ACTIVATION AN6 (R11): same second step the landing hint tees up */
+  var studio = document.createElement("a");
+  studio.href = "/studio"; studio.textContent = "Report Studio";
   el.append("Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
-            " at the root (or in reports/).");
+            " at the root (or in reports/), then drop it in the ", studio, ".");
   if (id) {
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
     if (hasRun(id)) { mr.textContent = "✓ run"; mr.disabled = true; }
     else {
       mr.textContent = "✓ mark it run";
-      mr.onclick = function () { markRun(id); mr.textContent = "✓ marked"; mr.disabled = true; };
+      /* the one honest mark_run source on detail pages (R01/R02) — never a copy */
+      mr.onclick = function () {
+        markRun(id); track("mark_run", {id: id, from: "hint"});
+        mr.textContent = "✓ marked"; mr.disabled = true;
+        /* R33/R37: marking Vitals run is the proven-intent high point — point
+         * at the accruing history and the standing-appointment workflow */
+        if (id === "29") {
+          var v = document.createElement("a");
+          v.href = "/vitals"; v.textContent = "your trend history →";
+          v.onclick = function () { track("nudge_clicked", {kind: "vitals_viewer", src: "detail"}); };
+          var g = document.createElement("a");
+          g.href = "https://github.com/GhostlyGawd/goal-prompts/blob/main/.github/run-brief.example.yml";
+          g.textContent = "make it a standing appointment →";
+          g.onclick = function () { track("standing_audit_clicked", {src: "detail"}); };
+          el.insertBefore(document.createTextNode(" "), x);
+          el.insertBefore(v, x);
+          el.insertBefore(document.createTextNode(" · "), x);
+          el.insertBefore(g, x);
+          clearTimeout(_hintT);
+          _hintT = setTimeout(function () { el.hidden = true; }, 12000);
+        }
+      };
     }
     el.append(" ", mr);
   }
@@ -86,6 +160,20 @@ function showHint(output, id) {
   _hintT = setTimeout(function () { el.hidden = true; }, 9000);
 }
 
+/* CRO NF4 (R22): date-gated merchandising chips. build.py emits windowed
+ * chips hidden with data-window-months="12,1"; show one only while the
+ * viewer's month is inside its window. No JS → the chip stays hidden, so a
+ * stale label can never render out of season. */
+(function () {
+  var chips = document.querySelectorAll("[data-window-months]");
+  if (!chips.length) return;
+  var now = String(new Date().getMonth() + 1);
+  for (var i = 0; i < chips.length; i++) {
+    var months = chips[i].getAttribute("data-window-months").split(",");
+    if (months.indexOf(now) !== -1) chips[i].hidden = false;
+  }
+})();
+
 document.addEventListener("click", function (e) {
   var b = e.target.closest("[data-copy]");
   if (b) {
@@ -93,8 +181,19 @@ document.addEventListener("click", function (e) {
     if (!s) return;
     var txt = s.value !== undefined ? s.value : s.textContent;
     var brief = b.getAttribute("data-brief");
+    var pbkey = b.getAttribute("data-pb");
     if (b.hasAttribute("data-ctx")) txt = withContext(txt);
-    copy(txt, b, brief ? function () { showHint(b.getAttribute("data-output"), brief); } : null);
+    var raw = b.getAttribute("data-raw") || (brief ? "/raw/" + brief + ".md" : null);
+    /* events fire only on a confirmed copy (FUNNEL §4.1: copy_prompt with
+     * src:"detail"; the conductor CTA is the playbook page's equivalent) */
+    copy(txt, b, function () {
+      if (brief) {
+        track("copy_prompt", {id: brief, src: "detail"});
+        showHint(b.getAttribute("data-output"), brief);
+      } else if (pbkey) {
+        track("copy_conductor", {key: pbkey, src: "detail"});
+      }
+    }, raw ? rawFail(b, raw) : null);
     return;
   }
   /* per-step playbook copy: fetch the brief body on demand */
@@ -103,14 +202,16 @@ document.addEventListener("click", function (e) {
   e.preventDefault();
   var id = f.getAttribute("data-brief");
   var out = f.getAttribute("data-output");
-  if (f._body) { copy(withContext(f._body), f, function () { showHint(out, id); }); return; }
+  var rawUrl = f.getAttribute("data-raw") || f.getAttribute("data-fetch");
+  function stepOk() { track("copy_step", {id: id}); showHint(out, id); }
+  if (f._body) { copy(withContext(f._body), f, stepOk, rawFail(f, rawUrl)); return; }
   f.textContent = "…";
   fetch(f.getAttribute("data-fetch"))
     .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
     .then(function (text) {
       f._body = text.replace(/\n+$/, "");
       f.textContent = f.dataset.label || "copy";
-      copy(withContext(f._body), f, function () { showHint(out, id); });
+      copy(withContext(f._body), f, stepOk, rawFail(f, rawUrl));
     })
     .catch(function () {
       /* graceful fallback: hand over a plain link to the raw brief */
@@ -120,4 +221,56 @@ document.addEventListener("click", function (e) {
       f.replaceWith(a);
     });
 });
+
+/* RETENTION R7 (R02): the side doors get the landing page's welcome-back
+ * state. A returning visitor with run marks (shared gp-runs key) sees one
+ * slim, dismissible strip of light context; the kinds mirror the landing
+ * nudges (roadmap, stale vitals) with a plain resume line as the fallback.
+ * No runs data → nothing renders; dismissing hides it for 14 days. */
+(function () {
+  var DAY = 864e5;
+  var runs = load("gp-runs", {}) || {};
+  var n = Object.keys(runs).length;
+  if (!n) return;
+  try { if (Date.now() - (+localStorage.getItem("gp-wb-hide") || 0) < 14 * DAY) return; } catch (e) {}
+  var kind, lead, href, label, extraHref, extraLabel;
+  if (n >= 5 && !runs["28"]) {
+    kind = "roadmap";
+    lead = "you've run " + n + " briefs — their reports can become one plan: ";
+    href = "/b/28"; label = "28 · Roadmap Synthesis →";
+  } else if (typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY) {
+    kind = "vitals";
+    lead = "Weekly Vitals is stale — ten minutes for fresh trend arrows: ";
+    href = "/b/29"; label = "29 · Health Check →";
+    /* R33 (RETENTION R6): the stale-Vitals strip also points at the Vitals
+     * Viewer, where the history this ritual accrues is visible */
+    extraHref = "/vitals"; extraLabel = "your trend history →";
+  } else {
+    kind = "back";
+    lead = "you've run " + n + " brief" + (n === 1 ? "" : "s") + " — resume where you left off: ";
+    href = "/#catalog"; label = "your catalog →";
+  }
+  var el = document.createElement("div"); el.className = "gp-wb"; el.id = "gp-wb";
+  var w = document.createElement("div"); w.className = "wrap";
+  var hi = document.createElement("b"); hi.textContent = "Welcome back";
+  var a = document.createElement("a"); a.href = href; a.textContent = label;
+  a.onclick = function () { track("nudge_clicked", {kind: kind, src: "detail"}); };
+  var x = document.createElement("button"); x.type = "button"; x.className = "x";
+  x.textContent = "×"; x.setAttribute("aria-label", "Dismiss");
+  x.onclick = function () {
+    try { localStorage.setItem("gp-wb-hide", String(Date.now())); } catch (e) {}
+    el.remove();
+  };
+  w.append(hi, " — " + lead, a);
+  if (extraHref) {
+    var a2 = document.createElement("a"); a2.href = extraHref; a2.textContent = extraLabel;
+    a2.onclick = function () { track("nudge_clicked", {kind: "vitals_viewer", src: "detail"}); };
+    w.append(" · ", a2);
+  }
+  w.append(x); el.append(w);
+  var nav = document.querySelector("header.nav");
+  if (nav && nav.parentNode) nav.parentNode.insertBefore(el, nav.nextSibling);
+  else document.body.insertBefore(el, document.body.firstChild);
+  track("nudge_shown", {kind: kind, src: "detail"});
+})();
 })();

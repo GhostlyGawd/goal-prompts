@@ -10,13 +10,20 @@
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app/vitals">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vitals Viewer — Goal Prompts">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
-<meta name="theme-color" content="#131417">
+<meta name="twitter:title" content="Vitals Viewer — Goal Prompts">
+<meta name="twitter:description" content="Turn brief 29's dated HEALTH.md history into visible trends: every vital as a sparkline with run-over-run deltas. Nothing leaves your browser.">
+<meta name="theme-color" content="#15120D">
+<link rel="canonical" href="https://goal-prompts.vercel.app/vitals">
 <link rel="manifest" href="/manifest.json">
 <link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23131417'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
 <script defer src="/_vercel/insights/script.js"></script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script>try{var _t=localStorage.getItem('gp-theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
@@ -36,7 +43,7 @@
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
   .topnav .cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
-  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .topnav .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .topnav .themetog .moon{display:none}
@@ -55,14 +62,14 @@
   .sub a{color:var(--amber);text-decoration:none}
   .sub a:hover{text-decoration:underline}
   main{padding:var(--s5) 0 var(--s7)}
-  .drop{border:1.5px dashed var(--line);border-radius:var(--radius);background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+  .drop{border:1.5px dashed var(--line);border-radius:var(--radius);background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;transition:border-color var(--dur-state),background var(--dur-state)}
   .drop:hover,.drop.over{border-color:var(--meta);background:color-mix(in srgb,#C4CBD8 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .drop-big{font-family:var(--disp);font-weight:700;font-size:17px}
   .drop-big b{color:var(--meta);font-family:var(--mono);font-weight:600}
   .drop-small{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:6px}
   .altrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .iconbtn{background:none;border:1px solid var(--line);border-radius:8px;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;min-height:30px;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s;text-decoration:none}
+  .iconbtn{background:none;border:1px solid var(--line);border-radius:8px;color:var(--dim);cursor:pointer;font-family:var(--mono);font-size:12px;padding:6px 10px;min-height:30px;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state);text-decoration:none}
   .iconbtn:hover{color:var(--text);border-color:var(--dim)}
   .iconbtn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .pastebox{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);display:grid;gap:8px}
@@ -72,6 +79,9 @@
   .runrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;align-items:center}
   .runchip{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
   .runchip .n{color:var(--faint)}
+  /* per-file remove — same affordance as the Studio's repchips (FORMS FV5) */
+  .runchip .x{background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);font-size:13px;padding:0 5px;margin-right:-5px;border-radius:50%}
+  .runchip .x:hover{color:var(--text)}
   .metrics{margin-top:var(--s5);display:grid;gap:8px}
   .metric{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--meta);border-radius:var(--radius);padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center}
   .mname{font-weight:600;font-size:14px}
@@ -88,13 +98,15 @@
   button:active{transform:scale(.97)}
   button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
   @media (max-width:560px){header{padding-top:40px}}
+  /* FORMS FV8 (R41): iOS Safari force-zooms any focused input under 16px */
+  @media (max-width:640px){.pastebox input,.pastebox textarea{font-size:16px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
 <div class="topnav"><div class="topnav-in">
-  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="7" width="3.4" height="11" rx="1.7" fill="#E8B44C"/><rect x="6.9" y="3" width="3.4" height="18" rx="1.7" fill="#52C280"/><rect x="12.8" y="6" width="3.4" height="13" rx="1.7" fill="#4D9FFF"/><rect x="18.7" y="9" width="3.4" height="8" rx="1.7" fill="#C878F0"/></svg>Goal Prompts</a>
+  <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a>
   <nav class="lk">
     <a href="/#how">How it works</a>
     <a href="/#playbooks">Playbooks</a>
@@ -126,7 +138,8 @@
     <textarea id="pastetext" rows="8" placeholder="# paste HEALTH.md (or just its history table) here…" aria-label="HEALTH markdown"></textarea>
     <div class="altrow"><button class="iconbtn" id="pasteadd">add</button></div>
   </div>
-  <div class="note" id="note" hidden></div>
+  <div class="note" id="note" role="status" hidden></div>
+  <div class="runrow" id="srcrow"></div>
   <div class="runrow" id="runrow"></div>
   <div class="metrics" id="metrics"></div>
   <div class="empty" id="empty">nothing loaded yet — trends appear here once a HEALTH.md with a dated history table is in</div>
@@ -135,14 +148,50 @@
 <footer>
   <div class="wrap">
     <p class="buildnote">the weekly loop: run <a href="/#29">29 · Health Check</a> → it appends a dated row to HEALTH.md → drop the file here for trend arrows. part of the <a href="/">goal-prompts</a> catalog · sample input in the <a href="/examples/">report gallery</a>.</p>
+    <!-- PROOF NF2 / RETENTION R12 (R21): reconcile "everything stays in this tab" with the site beacon -->
+    <p class="buildnote">your HEALTH.md parses in this tab and never leaves your device. the site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking — no report content is ever collected.</p>
   </div>
 </footer>
 
 <script>
 "use strict";
 function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? fb : v; }catch(e){ return fb; } }
-function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
-let texts = load("gp-vitals-texts", []);   // raw HEALTH.md strings
+/* FORMS FV10 (R41): a full localStorage used to fail silently — the run
+ * rendered this session, then vanished on reload. Say so instead. save() only
+ * runs from user events, so note()'s element exists by the time this fires. */
+function save(k, v){
+  try{ localStorage.setItem(k, JSON.stringify(v)); return true; }
+  catch(e){
+    try{ note("Couldn't save on this device — storage looks full, so this won't survive a reload."); }catch(e2){}
+    return false;
+  }
+}
+/* R33/B5: the SW's weekly notification now lands here (/vitals?src=reminder).
+   Count the return once, drop just that marker, and carry the same anonymous
+   aid/fsw cohort fields the other pages attach (R05/R03) — keys shared with
+   template.html and js/gp-detail.js; edit them together. */
+var _AID = "", _FSW = "";
+try{
+  _AID = localStorage.getItem("gp-aid") || Math.random().toString(36).slice(2, 10);
+  localStorage.setItem("gp-aid", _AID);
+  _FSW = localStorage.getItem("gp-fsw") || String(Math.floor(Date.now() / 6048e5));
+  localStorage.setItem("gp-fsw", _FSW);
+}catch(e){}
+function track(name, data){ try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){} }
+if(/[?&]src=reminder(&|$)/.test(location.search)){
+  track("reminder_return");
+  try{
+    var _q = new URLSearchParams(location.search); _q.delete("src");
+    var _qs = _q.toString();
+    history.replaceState(null, "", location.pathname + (_qs ? "?" + _qs : "") + location.hash);
+  }catch(e){}
+}
+let texts = load("gp-vitals-texts", []);   // [{name, text}] — raw HEALTH.md strings + labels
+/* pre-B6 storage held bare strings; wrap them so per-file chips can label and
+   remove each one (FORMS FV5). Saved back in the new shape on the next change. */
+texts = (Array.isArray(texts) ? texts : [])
+  .map(x => typeof x === "string" ? { name: "", text: x } : x)
+  .filter(x => x && typeof x.text === "string");
 
 const noteEl = document.getElementById("note");
 function note(msg){ noteEl.textContent = msg || ""; noteEl.hidden = !msg; }
@@ -201,8 +250,8 @@ function historyRows(md){
 /* ---------- assembling the series ---------- */
 function allRuns(){
   const seen = new Map();                 // run label -> record (last wins)
-  for(const md of texts){
-    for(const rec of historyRows(md)){
+  for(const src of texts){
+    for(const rec of historyRows(src.text)){
       seen.set(rec._run, Object.assign(seen.get(rec._run) || {}, rec));
     }
   }
@@ -210,6 +259,7 @@ function allRuns(){
 }
 
 /* ---------- rendering ---------- */
+const srcrowEl = document.getElementById("srcrow");
 const runrowEl = document.getElementById("runrow");
 const metricsEl = document.getElementById("metrics");
 const emptyEl = document.getElementById("empty");
@@ -247,8 +297,24 @@ function render(){
   metricsEl.textContent = "";
   emptyEl.hidden = runs.length > 0;
   document.getElementById("clearall").hidden = texts.length === 0;
+  /* per-file chips with a remove × (FORMS FV5) — rendered even when no run
+     parsed, so a junk drop is removable without nuking everything */
+  srcrowEl.textContent = "";
+  texts.forEach((src, i) => {
+    const c = document.createElement("span"); c.className = "runchip";
+    const nm = document.createElement("span"); nm.textContent = src.name || "loaded text";
+    const rows = historyRows(src.text).length;
+    const n = document.createElement("span"); n.className = "n";
+    n.textContent = " · " + rows + " row" + (rows === 1 ? "" : "s");
+    const x = document.createElement("button"); x.className = "x"; x.textContent = "×";
+    x.setAttribute("aria-label", "Remove " + (src.name || "this loaded text"));
+    x.onclick = () => { texts.splice(i, 1); save("gp-vitals-texts", texts); render(); };
+    c.append(nm, n, x);
+    srcrowEl.append(c);
+  });
   if(!runs.length){
     if(texts.length) note("Loaded, but no dated history table found. Brief 29's HEALTH.md keeps one row per run — that's what this reads.");
+    else note("");
     return;
   }
   note("");
@@ -289,16 +355,25 @@ function render(){
     el.append(ser);
     metricsEl.append(el);
   }
-  try{ window.va("event", { name: "vitals_render", data: { runs: runs.length, metrics: metricKeys.length } }); }catch(e){}
+  track("vitals_render", { runs: runs.length, metrics: metricKeys.length });
 }
 
 /* ---------- input ---------- */
-function addText(t){
+function addText(t, name){
   if(!t || !t.trim()){ note("That looked empty — nothing added."); return; }
-  texts.push(String(t)); save("gp-vitals-texts", texts); note(""); render();
+  t = String(t);
+  /* FORMS FV5 (R41): re-dropping the same HEALTH.md every week used to
+     accumulate identical copies with no recovery short of clear-all */
+  if(texts.some(x => x.text === t)){
+    note("Already loaded" + (name ? " (" + name + ")" : "") + " — skipped the duplicate.");
+    return;
+  }
+  texts.push({ name: name || "", text: t });
+  render();                                // render() owns the note on success
+  save("gp-vitals-texts", texts);          // a quota failure surfaces its own note (FV10)
 }
 function readFiles(list){
-  for(const f of list){ const reader = new FileReader(); reader.onload = () => addText(reader.result); reader.readAsText(f); }
+  for(const f of list){ const reader = new FileReader(); reader.onload = () => addText(reader.result, f.name); reader.readAsText(f); }
 }
 const dropEl = document.getElementById("drop");
 const fileEl = document.getElementById("file");
@@ -313,13 +388,35 @@ document.getElementById("pastebtn").onclick = () => {
   if(!b.hidden) document.getElementById("pastetext").focus();
 };
 document.getElementById("pasteadd").onclick = () => {
-  addText(document.getElementById("pastetext").value);
+  const t = document.getElementById("pastetext").value;
+  addText(t, "pasted");
+  if(!t.trim()) return;   // the empty-paste error keeps the box + text visible (FV2's principle)
   document.getElementById("pastetext").value = "";
   document.getElementById("pastebox").hidden = true;
 };
-document.getElementById("clearall").onclick = () => {
-  if(!confirm("Clear all loaded HEALTH.md data?")) return;
-  texts = []; save("gp-vitals-texts", texts); render();
+/* two-step arm on destructive actions — the landing page's house pattern
+   (FORMS FV4/FV7, R40): first click asks on the button itself, second click
+   confirms; disarms on blur or after 4s. Not blockable like confirm(). */
+function armConfirm(btn, armText, fn){
+  if(btn.dataset.arm){
+    delete btn.dataset.arm; clearTimeout(btn._armT);
+    btn.textContent = btn.dataset.armLabel;
+    fn();
+    return;
+  }
+  if(!btn.dataset.armLabel) btn.dataset.armLabel = btn.textContent;
+  btn.dataset.arm = "1";
+  btn.textContent = armText;
+  const disarm = () => { if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = btn.dataset.armLabel; } };
+  clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
+  btn.addEventListener("blur", disarm, { once: true });
+}
+document.getElementById("clearall").onclick = function(){
+  const n = texts.length;
+  if(!n) return;
+  armConfirm(this, "clear " + n + " loaded file" + (n === 1 ? "" : "s") + "? click again", () => {
+    texts = []; save("gp-vitals-texts", texts); note(""); render();
+  });
 };
 document.getElementById("demobtn").onclick = function(){
   addText([
@@ -330,7 +427,7 @@ document.getElementById("demobtn").onclick = function(){
     "| 2026-06-16 | 131 pass / 1 fail | 38 | 3 | 54 | 8240 |",
     "| 2026-06-23 | 134 pass / 0 fail | 36 | 1 | 49 | 8305 |",
     "| 2026-06-30 | 140 pass / 0 fail | 35 | 1 | 46 | 8410 |"
-  ].join("\n"));
+  ].join("\n"), "sample history");
   this.textContent = "loaded ✓";
 };
 
@@ -341,6 +438,6 @@ if("serviceWorker" in navigator){
 }
 </script>
 
-<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F2EFE6":"#15120D");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
 </body>
 </html>

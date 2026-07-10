@@ -13,18 +13,20 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent.parent
-INK = "#131417"
+INK = "#15120D"
 # bars: (x, y, w, h) in the logo's 24-unit viewBox; shared corner radius RX
+# Ledger identity: three paper bars + the tallest flagged in vermilion
+# (specs/design-direction.md) — keep in step with build.BRAND_MARK/FAVICON.
 BARS = [
-    (1.0, 7.0, 3.4, 11.0, "#E8B44C"),
-    (6.9, 3.0, 3.4, 18.0, "#52C280"),
-    (12.8, 6.0, 3.4, 13.0, "#4D9FFF"),
-    (18.7, 9.0, 3.4, 8.0, "#C878F0"),
+    (1.0, 9.0, 3.4, 9.0, "#F0EADC"),
+    (6.9, 3.0, 3.4, 15.0, "#FF6B47"),
+    (12.8, 7.0, 3.4, 11.0, "#F0EADC"),
+    (18.7, 12.0, 3.4, 6.0, "#F0EADC"),
 ]
-RX = 1.7
+RX = 0.8
 # favicon composition: translate(10, 9.2) scale(1.9) inside a 64-unit square
 TX, TY, SC, VB = 10.0, 9.2, 1.9, 64.0
-BG_RADIUS = 13.0  # in 64-space, matches the favicon's rounded square
+BG_RADIUS = 6.0  # in 64-space, matches the favicon's rounded square
 
 
 def render(size):

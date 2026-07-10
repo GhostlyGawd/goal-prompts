@@ -1,0 +1,45 @@
+---
+name: goal-trace-replay-audit
+description: "Can you see why a run did what it did — per-step traces, failure taxonomy, and replaying yesterday's bad run today. Audit brief 37 · Agent — runs a four-phase audit of the current repo and writes TRACES.md at the repo root."
+---
+
+# Goal: Trace & Replay Audit
+
+You are working inside this repo. Mission: determine whether a bad agent run can be understood after the fact — and rebuilt into a test — or whether every incident is archaeology.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — What's recorded today
+- Per run and per step: are prompts, tool calls, tool results, model outputs, tokens, latency, and errors captured? Where, and for how long?
+- How would you find the trace for "user X's bad run yesterday afternoon" — walk the actual lookup path.
+- Do IDs correlate: user → run → steps → cost, or are these separate log puddles?
+
+## Phase 2 — Audit through 7 lenses
+1. **Step completeness** — for any step, can you see exactly what the model saw when it chose? Inputs-at-that-moment captured, or only outputs?
+2. **Correlation** — one run_id threading everything, or grep-and-pray across systems
+3. **Failure taxonomy** — failures bucketed by cause (bad retrieval, tool error, refusal, timeout, hallucination) or one undifferentiated "error"
+4. **Replay capability** — can a captured trace be re-run with fixed inputs to reproduce or verify a fix? Even approximately?
+5. **Redaction** — user content and secrets sitting in traces; retention aligned with 21's rules or contradicting them
+6. **Cost and latency per step** — recorded where you can query them, or reconstructed by hand
+7. **Triage workflow** — simulate it: a user reports a wrong answer; time the path from report to root cause with today's tooling
+
+## Phase 3 — Curate
+- Rank gaps by how much they lengthen the report-to-root-cause path
+- Traces feed evals (34) and feedback loops (45) — note the wiring wins
+
+## Phase 4 — Report
+Create `TRACES.md` at repo root:
+1. **Trace anatomy** — captured today vs needed, field by field
+2. **The triage walkthrough** — the simulated incident, timed, with every dead end
+3. **Instrumentation plan** — field · where to emit · effort
+4. **Replay design** — the smallest mechanism that turns a bad trace into a fixture
+5. **Redaction fixes**
+
+Start the report with today's date. If `TRACES.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- If you can't see what the model saw, you can't explain what it did
+- Every production failure should be one command away from becoming a test
+- No agent runs to trace in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which gaps to close
