@@ -6,6 +6,7 @@ question: can others build on it?
 output: BREADCRUMBS.md
 tagline: Walk the doc-and-tooling link graph from the agent entry file — orphaned docs, unreachable scripts, files outside every stated taxonomy, and unwritten rules.
 related: 52 16 14 97
+example: /reports/BREADCRUMBS.md
 ---
 # Goal: Breadcrumb Audit
 
