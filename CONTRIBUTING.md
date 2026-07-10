@@ -1,12 +1,18 @@
 # Contributing
 
 The fastest way to contribute is a new brief or a sharper version of an
-existing one.
+existing one. (Working on the repo's own tooling instead? The agent entry
+point is `CLAUDE.md` — commands, layout taxonomy, conventions.)
 
 1. Create `prompts/<family>/NN-slug.md` — front matter + body (see README).
 2. Keep the 4-phase skeleton: Explore → Audit → Curate → Report.
 3. Keep the body under 4,000 characters. `python3 build.py` enforces this.
-4. Run `scripts/check` and commit the regenerated files — CI fails on drift.
+4. A new brief needs a share card and the README count bump — both are hard
+   build gates: `python3 scripts/og.py <id>` writes `og/<id>.png` (needs
+   `pip3 install Pillow fonttools brotli` — the only step the stdlib-only
+   build outsources), and README's "<N> mission briefs" line must match the
+   new catalog size.
+5. Run `scripts/check` and commit the regenerated files — CI fails on drift.
 
 ## One command
 

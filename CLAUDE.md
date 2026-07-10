@@ -21,6 +21,10 @@ Edit these (source of truth):
 - `playbooks.json` — curated brief sequences
 - `template.html` — the catalog UI (build injects prompt + playbook JSON)
 - `studio.html` — Report Studio (standalone page)
+- `vitals.html` — Weekly Vitals (standalone page, like studio.html)
+- `examples/index.html` — the hand-authored report gallery; it links into
+  `reports/`, so it moves in step when report files do
+- `manifest.json` — the PWA manifest (hand-authored)
 - `build.py` — the build + linter
 - `mcp/server.cjs` — the MCP server (zero deps)
 - `install` — the slash-command installer
@@ -52,6 +56,9 @@ it there. Its cache version is a content hash, so a deploy self-invalidates.)
 (`img/studio.png` is a real Report Studio screenshot regenerated with `node
 scripts/studio-shot.cjs` — needs the global `playwright` package + the pre-installed
 Chromium. It's an ungated asset, so re-run it when the Studio UI changes.)
+(`metrics.json` is refreshed out-of-band by `python3 scripts/refresh-stars.py`
+so the build can render the adoption badge without a network call — same
+ungated-asset species as `img/studio.png`.)
 (Design tokens are one source of truth: `TOKENS_CSS` in `build.py` → written to
 `tokens.css`, which every surface links — `template.html`, the `b/`/`p/` detail
 pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.

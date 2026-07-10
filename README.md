@@ -211,7 +211,9 @@ install`. Unset, the build produces the canonical public site.
 See `CONTRIBUTING.md`. Every push is built on Vercel with `build.py` as a
 hard gate — an oversized brief blocks the deploy — and CI
 (`.github/workflows/ci.yml`) runs `scripts/check` plus a generated-file
-drift check on every push and PR. Ready-to-copy examples (npm publish on
+drift check on every push and PR. Deploy behavior (clean URLs, the
+redirects that keep old report URLs alive, cache headers) lives in
+`vercel.json`. Ready-to-copy examples (npm publish on
 release, scheduled brief runs) live at `.github/*.example.yml`.
 
 ## Project layout
