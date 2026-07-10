@@ -157,11 +157,40 @@ function parseReport(name, text) {
   return { findings: out, skipped: skipped };
 }
 
+/* inferReportName — the Studio's paste box uses this so an unnamed paste
+ * lands under the report's own name instead of the shared "pasted.md"
+ * default (FORMS FV1: two unnamed pastes silently overwrote each other).
+ * Reads, in order: an ALL-CAPS *.md token in the first `#` heading, the
+ * heading text slugified, or an ALL-CAPS *.md token in the first lines.
+ * Returns null when nothing name-shaped is found — callers keep their own
+ * fallback (and any uniqueness suffixing). */
+var CAPS_MD = /\b([A-Z][A-Z0-9_-]*\.md)\b/;
+function inferReportName(text) {
+  var lines = String(text || "").replace(/\r\n?/g, "\n").split("\n");
+  var top = lines.slice(0, 40);
+  for (var i = 0; i < top.length; i++) {
+    var h = top[i].match(/^#\s+(.+)/);
+    if (!h) continue;
+    var tok = h[1].match(CAPS_MD);
+    if (tok) return tok[1];
+    /* slugify the heading; an em/en-dash subtitle ("— 2026-07-09") drops */
+    var slug = h[1].split(/[—–:·|]/)[0].replace(/[*_`~#>\[\]()]/g, "")
+      .trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return slug ? slug.slice(0, 48).replace(/-+$/, "") + ".md" : null;
+  }
+  for (var j = 0; j < top.length; j++) {
+    var t2 = top[j].match(CAPS_MD);
+    if (t2) return t2[1];
+  }
+  return null;
+}
+
 var GPReportParser = {
   hash: hash,
   firstWords: firstWords,
   mkFinding: mkFinding,
-  parseReport: parseReport
+  parseReport: parseReport,
+  inferReportName: inferReportName
 };
 if (typeof module !== "undefined" && module.exports) module.exports = GPReportParser;
 global.GPReportParser = GPReportParser;

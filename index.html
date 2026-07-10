@@ -238,6 +238,9 @@
   .ctxbody label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:4px}
   .ctxbody input{width:100%;background:var(--ink);border:1px solid var(--line-2);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:9px 11px;outline:0}
   .ctxbody input:focus-visible{outline:2px solid var(--fc);outline-offset:2px}
+  /* FORMS FV3 (R39): the repo-recommend input mirrors the Studio ghref's error treatment */
+  .ctxbody input.is-error{border-color:var(--act)}
+  .ctxbody input.is-error:focus-visible{outline-color:var(--act)}
   .ctxbody .hint{font-size:12px;color:var(--faint);font-family:var(--mono)}
   .ctxbody .clearctx{justify-self:start}
 
@@ -247,6 +250,10 @@
   .search input{flex:1;background:none;border:0;outline:0;color:var(--text);font-family:var(--sans);font-size:15px;min-width:0}
   .search input::placeholder{color:var(--faint)}
   .search input:focus-visible{outline:2px solid var(--fc);outline-offset:2px}
+  /* FORMS FV8 (R41): iOS Safari force-zooms any focused input under 16px */
+  @media (max-width:640px){
+    .search input,.ctxbody input{font-size:16px}
+  }
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;cursor:pointer;transition:border-color .15s,color .15s,background .15s;-webkit-tap-highlight-color:transparent}
   .chip .dot{width:7px;height:7px;border-radius:2px;background:var(--fc,var(--dim));flex:none}
@@ -604,7 +611,7 @@
     <summary><span class="chev">▸</span> recommend for my repo — point it at owner/repo</summary>
     <div class="ctxbody">
       <div><label for="rrin">github repo</label><input id="rrin" placeholder="e.g. vercel/next.js — or paste a GitHub URL" autocomplete="off"></div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="rrgo" type="button">analyze</button><span class="hint" id="rrhint">public repos only · one read-only call to the GitHub API · nothing else leaves this tab</span></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="rrgo" type="button">analyze</button><span class="hint" id="rrhint" role="status">public repos only · one read-only call to the GitHub API · nothing else leaves this tab</span></div>
       <div id="rrout"></div>
     </div>
   </details>
@@ -1533,24 +1540,37 @@ document.querySelectorAll("[data-ctx]").forEach(el=>{
   el.value = ctx[el.dataset.ctx] || "";
   el.addEventListener("input", ()=>{ ctx[el.dataset.ctx] = el.value.trim(); if(!ctx[el.dataset.ctx]) delete ctx[el.dataset.ctx]; saveCtx(); });
 });
-document.getElementById("ctxclear").onclick = ()=>{ ctx = {}; saveCtx();
-  document.querySelectorAll("[data-ctx]").forEach(el=>{ el.value = ""; }); };
-syncCtxUi();
-/* two-step confirm on the button itself, instead of a native confirm() */
-document.getElementById("reset").onclick = function(){
-  const btn = this;
-  if(!runCount()){ return; }
+/* two-step arm on the button itself, instead of a native confirm() — the one
+   pattern every destructive control shares (FORMS FV4/FV7, R40): first click
+   asks, second confirms; disarms on blur or after 4s. */
+function armConfirm(btn, armText, fn){
   if(btn.dataset.arm){
-    delete btn.dataset.arm;
-    runs = {}; saveRuns(); renderStats(); render();
-    btn.textContent = "reset run tracker";
+    delete btn.dataset.arm; clearTimeout(btn._armT);
+    btn.textContent = btn.dataset.armLabel;
+    fn();
     return;
   }
+  if(!btn.dataset.armLabel) btn.dataset.armLabel = btn.textContent;
   btn.dataset.arm = "1";
-  btn.textContent = "clear " + runCount() + " run mark" + (runCount() === 1 ? "" : "s") + "? click again";
-  setTimeout(function(){
-    if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = "reset run tracker"; }
-  }, 4000);
+  btn.textContent = armText;
+  const disarm = () => { if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = btn.dataset.armLabel; } };
+  clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
+  btn.addEventListener("blur", disarm, { once: true });
+}
+/* FORMS FV4 (R40): this was the one one-click irreversible wipe of hand-typed
+   fields — now gated like every other destructive control */
+document.getElementById("ctxclear").onclick = function(){
+  const n = Object.keys(ctx).length;
+  const wipe = () => { ctx = {}; saveCtx(); document.querySelectorAll("[data-ctx]").forEach(el=>{ el.value = ""; }); };
+  if(!n){ wipe(); return; }   // nothing saved — nothing to lose, no gate needed
+  armConfirm(this, "clear " + n + " saved field" + (n === 1 ? "" : "s") + "? click again", wipe);
+};
+syncCtxUi();
+document.getElementById("reset").onclick = function(){
+  if(!runCount()){ return; }
+  armConfirm(this, "clear " + runCount() + " run mark" + (runCount() === 1 ? "" : "s") + "? click again", () => {
+    runs = {}; saveRuns(); renderStats(); render();
+  });
 };
 /* ---- export / import local setup — portable backup, no backend (R3) ---- */
 function exportState(){
@@ -1687,7 +1707,11 @@ document.getElementById("seqcopy").onclick = function(){
     ids), this, "✓ copied", {name:"copy_custom_conductor", data:{n:ids.length}},
     function(){ showConductorHint(ids); });
 };
-document.getElementById("seqclear").onclick = () => { seq = []; saveSeq(); syncSeqUi(); };
+document.getElementById("seqclear").onclick = function(){
+  if(!seq.length) return;
+  armConfirm(this, "clear " + seq.length + " stage" + (seq.length === 1 ? "" : "s") + "? click again",
+    () => { seq = []; saveSeq(); syncSeqUi(); });
+};
 
 renderFeatured();
 renderStats();
@@ -1845,9 +1869,15 @@ buildFinder();
     if(m) return {owner: m[1], repo: m[2]};
     return null;
   }
-  function note(msg){ hint.textContent = msg; hint.style.color = "var(--act)"; }
+  /* FORMS FV3 (R39): errors also mark the input itself — aria-invalid +
+     .is-error, mirroring the Studio's ghref — not just colored hint text */
+  function note(msg){
+    hint.textContent = msg; hint.style.color = "var(--act)";
+    input.classList.add("is-error"); input.setAttribute("aria-invalid", "true");
+  }
+  function clearErr(){ input.classList.remove("is-error"); input.removeAttribute("aria-invalid"); }
   async function analyze(){
-    out.textContent = ""; hint.textContent = HINT0; hint.style.color = "";
+    out.textContent = ""; hint.textContent = HINT0; hint.style.color = ""; clearErr();
     const r = parseRepoRef(input.value);
     if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return; }
     btn.disabled = true; btn.textContent = "analyzing…";
@@ -1898,7 +1928,7 @@ buildFinder();
   }
   btn.onclick = analyze;
   input.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); analyze(); } });
-  input.addEventListener("input", () => { hint.textContent = HINT0; hint.style.color = ""; });
+  input.addEventListener("input", () => { hint.textContent = HINT0; hint.style.color = ""; clearErr(); });
 })();
 
 // ACTIVATION A3 / CRO F7: a copyable starter brief in the hero, for the ready-to-act newcomer.

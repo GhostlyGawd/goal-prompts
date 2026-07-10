@@ -302,6 +302,35 @@ t("property: 300 seeded random reports — no throw, no empty titles, ### blocks
   }
 });
 
+// ---- inferReportName — Studio paste name inference (FORMS FV1 / R38) --------
+t("inferReportName: ALL-CAPS .md token in the first heading wins", () => {
+  assert.strictEqual(
+    RP.inferReportName("# FORMS.md — Forms & Validation Audit\n\ntext"),
+    "FORMS.md");
+  assert.strictEqual(
+    RP.inferReportName("intro line\n\n# SECURITY-AUDIT.md\n\n## Findings"),
+    "SECURITY-AUDIT.md");
+});
+t("inferReportName: heading without a token slugifies to a .md name", () => {
+  assert.strictEqual(
+    RP.inferReportName("# Bug Hunt report\n\n**Finding** — text"),
+    "bug-hunt-report.md");
+  // trailing dash-separated dates/subtitles after an em dash are dropped
+  assert.strictEqual(
+    RP.inferReportName("# Performance Audit — 2026-07-09\n\nbody"),
+    "performance-audit.md");
+});
+t("inferReportName: ALL-CAPS token in early lines works without a heading", () => {
+  assert.strictEqual(
+    RP.inferReportName("Findings from BUGS.md, week 3\n\n- **One** — a thing"),
+    "BUGS.md");
+});
+t("inferReportName: lowercase .md tokens and plain prose infer nothing", () => {
+  assert.strictEqual(RP.inferReportName("see readme.md for details\n\nplain text"), null);
+  assert.strictEqual(RP.inferReportName("just a paragraph of prose"), null);
+  assert.strictEqual(RP.inferReportName(""), null);
+});
+
 if (failures.length) {
   console.error("\n" + failures.length + " report-parser test(s) failed");
   process.exit(1);

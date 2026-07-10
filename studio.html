@@ -201,6 +201,10 @@
     .selbar-in{flex-wrap:wrap}
     .selcount{flex-basis:100%}
   }
+  /* FORMS FV8 (R41): iOS Safari force-zooms any focused input under 16px */
+  @media (max-width:640px){
+    .pastebox input,.pastebox textarea{font-size:16px}
+  }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -246,7 +250,7 @@
     <div class="altrow"><button class="iconbtn" id="ghload">load its reports</button></div>
     <p class="drop-small" style="margin-top:0;text-align:left">public repos only — fetches the ALL-CAPS .md reports at the repo root, straight from GitHub to this tab</p>
   </div>
-  <div class="note" id="note" hidden></div>
+  <div class="note" id="note" role="status" hidden></div>
   <div class="repchips" id="repchips"></div>
   <div class="altrow" id="bulkrow" hidden></div>
   <div id="findings" aria-live="polite"></div>
@@ -278,7 +282,16 @@ const RAW_BASE = /^https?:/.test(location.origin) ? location.origin : "https://g
 
 /* ---------- state ---------- */
 function load(k, fb){ try{ const v = JSON.parse(localStorage.getItem(k)); return v === null || v === undefined ? fb : v; }catch(e){ return fb; } }
-function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+/* FORMS FV10 (R41): a full localStorage used to fail silently — the report
+ * rendered this session, then vanished on reload. Say so instead. save() only
+ * runs from user events, so note()'s element exists by the time this fires. */
+function save(k, v){
+  try{ localStorage.setItem(k, JSON.stringify(v)); return true; }
+  catch(e){
+    try{ note("Couldn't save on this device — storage looks full, so this won't survive a reload."); }catch(e2){}
+    return false;
+  }
+}
 let reports = load("gp-studio-reports", []);   // [{name, text}]
 let checks  = load("gp-studio-checks", {});    // {findingKey: 1}
 let parsed  = [];                              // [{name, findings:[…], skipped}]
@@ -540,8 +553,7 @@ function addReport(name, text){
   const before = Object.keys(checks).length;
   reports = reports.filter(r => r.name !== name);
   reports.push({ name: name, text: String(text) });
-  save("gp-studio-reports", reports);
-  note("");
+  if(save("gp-studio-reports", reports)) note("");   // a quota failure keeps its own note (FV10)
   try{ window.va("event", { name: "studio_load_report" }); }catch(e){}
   render();
   /* say so when re-adding a changed report dropped checked findings — the keys
@@ -575,11 +587,36 @@ document.getElementById("pastebtn").onclick = () => {
   if(!box.hidden) document.getElementById("pastename").focus();
 };
 document.getElementById("pasteadd").onclick = () => {
-  addReport(document.getElementById("pastename").value || "pasted.md",
-            document.getElementById("pastetext").value);
-  document.getElementById("pastetext").value = "";
+  const nameEl = document.getElementById("pastename");
+  const textEl = document.getElementById("pastetext");
+  const text = textEl.value;
+  /* FORMS FV2 (R38): fail without wiping the form — the box stays open, the
+     paste stays put, and the noun matches the action */
+  if(!text.trim()){ note("That paste looked empty — nothing added."); return; }
+  let name = nameEl.value.trim();
+  if(!name){
+    /* FORMS FV1 (R38): no typed name used to mean "pasted.md" for every paste,
+       so a second unnamed paste silently destroyed the first. Infer the name
+       from the pasted markdown itself; when even that would land on an
+       existing, different report, suffix instead of overwriting. */
+    name = window.GPReportParser.inferReportName(text) || "pasted.md";
+    const same = reports.find(r => r.text === String(text));
+    if(same) name = same.name; /* identical content: update in place, never suffix */
+    else if(reports.some(r => r.name === name && r.text !== String(text))){
+      const base = name.replace(/\.md$/i, "");
+      let i = 2;
+      while(reports.some(r => r.name === base + "-" + i + ".md")) i++;
+      name = base + "-" + i + ".md";
+    }
+  }
+  addReport(name, text);
+  textEl.value = ""; nameEl.value = "";
   document.getElementById("pastebox").hidden = true;
 };
+/* Enter in the name field submits the add — same handler its twin ghref has (FV2) */
+document.getElementById("pastename").addEventListener("keydown", e => {
+  if(e.key === "Enter"){ e.preventDefault(); document.getElementById("pasteadd").click(); }
+});
 /* ---------- load from a public GitHub repo (browser → GitHub, nothing through us) ---------- */
 const GH_SKIP = new Set(["README.MD", "LICENSE.MD", "CONTRIBUTING.MD", "CODE_OF_CONDUCT.MD",
   "CHANGELOG.MD", "SUPPORT.MD", "GOVERNANCE.MD", "SECURITY.MD", "NOTICE.MD", "AUTHORS.MD",
@@ -614,16 +651,16 @@ async function ghProbeCommon(r){
 async function loadFromGitHub(refStr){
   const r = parseRepoRef(refStr);
   if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return 0; }
-  let files = null;
+  let files = null, over = 0;
   try{
     const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo +
       "/contents" + (r.branch ? "?ref=" + encodeURIComponent(r.branch) : ""));
     if(res.ok){
       const list = await res.json();
       if(Array.isArray(list)){
-        files = list
-          .filter(f => f.type === "file" && reportLike(f.name) && f.download_url)
-          .slice(0, 12);
+        const all = list.filter(f => f.type === "file" && reportLike(f.name) && f.download_url);
+        files = all.slice(0, 12);
+        over = all.length - files.length;   // FORMS FV9 (R41): say so when the cap bites
       }
     } else if(res.status === 404){
       note("GitHub can't find " + r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : "") + " — private repos need their reports dropped or pasted here instead.");
@@ -649,6 +686,9 @@ async function loadFromGitHub(refStr){
   }
   loaded.sort((a, b) => a.name < b.name ? -1 : 1);
   for(const f of loaded) addReport(f.name, f.text);
+  if(over > 0){
+    note("That repo has " + (over + 12) + " report-shaped .md files — loaded the first 12 (alphabetical). Drop the rest here if you need them.");
+  }
   try{ window.va("event", { name: "studio_load_github", data: { n: loaded.length } }); }catch(e){}
   return loaded.length;
 }
@@ -677,6 +717,8 @@ document.getElementById("ghref").addEventListener("input", function(){
 
 document.getElementById("demobtn").onclick = async function(){
   const names = ["IMPROVEMENTS.md", "BUGS.md", "SECURITY-AUDIT.md", "DX.md"];
+  /* pin the real label before "loading…" so feedback() restores it (FV6) */
+  if(!this.dataset.label) this.dataset.label = this.textContent;
   this.disabled = true; this.textContent = "loading…";
   try{
     for(const n of names){
@@ -684,20 +726,48 @@ document.getElementById("demobtn").onclick = async function(){
       if(!res.ok) throw new Error(n);
       addReport(n, await res.text());
     }
-    this.textContent = "loaded ✓";
+    /* FORMS FV6 (R41): the old permanent "loaded ✓" left a dead control —
+       feedback() resets the label, and re-enabling lets a cleared Studio
+       re-run the demo without a reload */
+    this.disabled = false;
+    feedback(this, "loaded ✓");
   }catch(e){
     note("Couldn't fetch the sample reports (offline copy?). Grab them from the report gallery and drop them here instead.");
     this.textContent = "try it on this repo's own reports"; this.disabled = false;
   }
 };
-document.getElementById("clearall").onclick = () => {
-  if(!confirm("Remove all " + reports.length + " loaded reports? Selections clear with them.")) return;
-  reports = []; checks = {};
-  save("gp-studio-reports", reports); save("gp-studio-checks", checks);
-  render();
+/* two-step arm on destructive actions — the landing page's house pattern
+   (FORMS FV4/FV7, R40): first click asks on the button itself, second click
+   confirms; disarms on blur or after 4s. Not blockable like confirm(). */
+function armConfirm(btn, armText, fn){
+  if(btn.dataset.arm){
+    delete btn.dataset.arm; clearTimeout(btn._armT);
+    btn.textContent = btn.dataset.armLabel;
+    fn();
+    return;
+  }
+  if(!btn.dataset.armLabel) btn.dataset.armLabel = btn.textContent;
+  btn.dataset.arm = "1";
+  btn.textContent = armText;
+  const disarm = () => { if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = btn.dataset.armLabel; } };
+  clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
+  btn.addEventListener("blur", disarm, { once: true });
+}
+document.getElementById("clearall").onclick = function(){
+  const n = reports.length;
+  if(!n) return;
+  armConfirm(this, "remove " + n + " report" + (n === 1 ? "" : "s") + " + selections? click again", () => {
+    reports = []; checks = {};
+    save("gp-studio-reports", reports); save("gp-studio-checks", checks);
+    render();
+  });
 };
-document.getElementById("unsel").onclick = () => {
-  checks = {}; save("gp-studio-checks", checks); render();
+document.getElementById("unsel").onclick = function(){
+  const n = selected().length;
+  if(!n) return;
+  armConfirm(this, "clear " + n + " selected? click again", () => {
+    checks = {}; save("gp-studio-checks", checks); render();
+  });
 };
 var _hintT;
 function showCopyHint(){

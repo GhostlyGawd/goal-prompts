@@ -49,6 +49,31 @@ t("closest: empty and sub-3-char queries return nothing", () => {
   assert.deepStrictEqual(CC.closest(DATA, "a b", 5), []);
 });
 
+// ---- fuzzy zero-state fallback (FORMS FV11 / R41) ---------------------------
+t("fuzzy: typo 'preformance' (transposition) still finds 04 · Performance Audit", () => {
+  const top = CC.closest(DATA, "preformance", 3).map(p => p.id);
+  assert(top.length > 0, "no fallback results");
+  assert.strictEqual(top[0], "04", "top was " + top.join(","));
+});
+t("fuzzy: typo 'secruity' (transposition) surfaces a security brief", () => {
+  const top = CC.closest(DATA, "secruity", 3);
+  assert(top.length > 0, "no fallback results");
+  assert(top.some(p => (p.title + " " + p.family).toLowerCase().includes("secur")),
+    "top was " + top.map(p => p.id + " " + p.title).join(", "));
+});
+t("fuzzy: typo 'cachng' (dropped letter) finds cache briefs", () => {
+  const top = CC.closest(DATA, "cachng", 5);
+  assert(top.length > 0, "no fallback results");
+  assert(top.some(p => p.id === "140"), "top was " + top.map(p => p.id).join(","));
+});
+t("fuzzy: gibberish 'zzqxzz' still returns nothing", () => {
+  assert.deepStrictEqual(CC.closest(DATA, "zzqxzz", 5), []);
+});
+t("fuzzy: never fires when the exact query already matches", () => {
+  // 'bug' matches directly; fallback must not reorder the exact ranking
+  assert.strictEqual(CC.closest(DATA, "bug", 3)[0].id, "01");
+});
+
 // ---- matches() composition ---------------------------------------------------
 t("matches: family filter + query compose (AND, within the family)", () => {
   const state = { family: "Speed", query: "cache" };

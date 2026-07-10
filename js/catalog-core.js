@@ -45,12 +45,7 @@ function rarity(data, ix, w) {
   return (ix.df[w] = 1 / Math.sqrt(Math.max(df, 5)));
 }
 
-function closestScored(data, q, n) {
-  var ix = index(data);
-  var words = String(q || "").toLowerCase().split(/[^a-z0-9]+/)
-    .filter(function (w) { return w.length > 2; }).map(stemWord)
-    .filter(function (w, i, a) { return a.indexOf(w) === i; });
-  if (!words.length) return [];
+function scoreAll(data, ix, words, n) {
   return data.map(function (p) {
     var h = ix.hay[p.id], s = 0;
     for (var i = 0; i < words.length; i++) {
@@ -65,6 +60,72 @@ function closestScored(data, q, n) {
   }).filter(function (x) { return x.s > 0; })
     .sort(function (a, b) { return b.s - a.s; })
     .slice(0, n);
+}
+
+/* true when a and b are exactly one edit apart — substitution, insertion,
+ * deletion, or an adjacent transposition ("preformance" → "performance"),
+ * i.e. optimal-string-alignment distance 1 */
+function edit1(a, b) {
+  var d = a.length - b.length;
+  if (d < -1 || d > 1) return false;
+  if (d !== 0) {                                   // one insertion/deletion
+    if (d < 0) { var t = a; a = b; b = t; }        // make a the longer one
+    var i = 0;
+    while (i < b.length && a[i] === b[i]) i++;
+    return a.slice(i + 1) === b.slice(i);
+  }
+  if (a === b) return false;
+  var j = 0;
+  while (a[j] === b[j]) j++;
+  if (a.slice(j + 1) === b.slice(j + 1)) return true;      // one substitution
+  return a[j] === b[j + 1] && a[j + 1] === b[j] &&         // one transposition
+         a.slice(j + 2) === b.slice(j + 2);
+}
+
+/* FV11: when the scored pass finds nothing, try correcting each query word to
+ * a catalog word one edit away (same-first-letter candidates preferred). The
+ * corrected list re-scores through the normal path; null = nothing to fix. */
+function fuzzyWords(data, ix, words) {
+  if (!ix.vocab) {
+    var seen = {}, vocab = [];
+    for (var di = 0; di < data.length; di++) {
+      var h = ix.hay[data[di].id];
+      var ws = (h.title + " " + h.fam + " " + h.tag + " " + h.body).split(/[^a-z0-9]+/);
+      for (var wi = 0; wi < ws.length; wi++) {
+        var vw = ws[wi];
+        if (vw.length >= 4 && !seen[vw]) { seen[vw] = true; vocab.push(vw); }
+      }
+    }
+    ix.vocab = vocab;
+  }
+  var out = [], changed = false;
+  for (var qi = 0; qi < words.length; qi++) {
+    var w = words[qi], fix = null;
+    if (w.length >= 4) {
+      for (var vi = 0; vi < ix.vocab.length; vi++) {
+        var c = ix.vocab[vi];
+        if (!edit1(w, c)) continue;
+        if (c[0] === w[0]) { fix = c; break; }
+        if (!fix) fix = c;
+      }
+    }
+    if (fix) { out.push(fix); changed = true; } else out.push(w);
+  }
+  return changed ? out : null;
+}
+
+function closestScored(data, q, n) {
+  var ix = index(data);
+  var words = String(q || "").toLowerCase().split(/[^a-z0-9]+/)
+    .filter(function (w) { return w.length > 2; }).map(stemWord)
+    .filter(function (w, i, a) { return a.indexOf(w) === i; });
+  if (!words.length) return [];
+  var hits = scoreAll(data, ix, words, n);
+  if (hits.length) return hits;
+  /* zero hits — a typo shouldn't strand the user (FORMS FV11): one cheap
+   * edit-distance-1 pass over the catalog vocabulary, then re-score */
+  var fixed = fuzzyWords(data, ix, words);
+  return fixed ? scoreAll(data, ix, fixed, n) : [];
 }
 
 function closest(data, q, n) {
