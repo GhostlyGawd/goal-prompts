@@ -68,6 +68,7 @@ function serve() {
     ["landing", "/index.html"],
     ["detail", "/b/01.html"],
     ["studio", "/studio.html"],
+    ["coverage", "/coverage.html"],
   ];
   for (const [name, url] of shots) {
     for (const [theme, suffix] of [["light", "light"], ["dark", "dark"]]) {

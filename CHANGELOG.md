@@ -1,6 +1,23 @@
 # Changelog
 
-## 0.16.0 — 2026-07-10
+## 0.17.0 — 2026-07-10
+- New page: **Coverage Map** (`/coverage`) — a heatmap of what the catalog
+  covers, for agents and humans. Three linked views: a family **density
+  heatmap** (each family shaded by brief count, sorted densest-first so the
+  thin tail is obvious, click a tile to list its briefs); a **family ×
+  playbook curation matrix** showing how coverage spreads across the curated
+  sequences (a family no playbook draws on shows as an empty column); and a
+  **gap analysis** flagging the thinly-covered families worth a new brief.
+- New build output: **`coverage.json`** — one computed surface (per-family
+  counts, density, playbook reach, the curation matrix, and the gap set)
+  written by `build.py`'s `coverage_data`. The page fetches it and agents read
+  the same file, so the visualization can never drift from what shipped.
+  Deterministic and stdlib-only like every other output; the CI drift gate
+  diffs it.
+- Wiring: `/coverage` joins the sitemap and the service-worker precache (page
+  + data, so it works offline and self-invalidates on a coverage shift), and
+  is cross-linked from the landing nav/footer, the Studio and Vitals navs, and
+  every brief/playbook footer.
 - New brief: **145 Breadcrumb Audit** (Team) — walks the doc-and-tooling link
   graph from the agent entry file (CLAUDE.md / AGENTS.md, README, CONTRIBUTING)
   and reports orphaned docs, unreachable scripts, files outside every stated

@@ -940,6 +940,7 @@ def foot(head, sub, buttons_html) -> str:
             '<a href="/">Home</a><a href="/#catalog">Catalog</a>'
             '<a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a>'
             '<a href="/vitals">Vitals Viewer</a>'
+            '<a href="/coverage">Coverage map</a>'
             '<a href="/examples/">Sample reports</a>'
             '<a href="/quality">Why briefs don\'t rot</a>'
             '<a href="/changelog">Changelog</a>'
@@ -1881,6 +1882,94 @@ def sitemap_lastmod(inputs: dict, state_path: Path = None) -> dict:
     return dates
 
 
+# A family is flagged a coverage "gap" (thinly covered, room to grow) when its
+# brief count sits at or below this share of the densest family. 0.2 puts the
+# line at 3 while Design tops out at 15, and it scales as the catalog grows, so
+# the flag never hard-codes a count. The threshold is written into
+# coverage.json so the /coverage page and any agent apply the identical rule.
+GAP_RATIO = 0.2
+
+
+def coverage_data(prompts: list, playbooks: list, by_id: dict) -> dict:
+    """The /coverage surface: how densely each family is covered, how that
+    coverage is organized into playbooks, and where the gaps are.
+
+    One computed blob feeds both the human heatmap page (which fetches it) and
+    any agent that wants the same picture without re-deriving it from
+    catalog.json. Deterministic and stdlib-only like every other output — it
+    reads only the already-sorted briefs and playbooks and carries no build
+    clock, so an unchanged rebuild is byte-identical (the CI drift gate diffs
+    it like the rest)."""
+    fam_members = {fam: [p for p in prompts if p["family"] == fam]
+                   for fam in FAMILY_ORDER
+                   if any(p["family"] == fam for p in prompts)}
+    total = len(prompts)
+    counts = sorted(len(m) for m in fam_members.values())
+    max_count = counts[-1]
+    # round-half-up, so the boundary is predictable across catalog sizes
+    gap_threshold = max(2, int(max_count * GAP_RATIO + 0.5))
+    ids_by_fam = {fam: {p["id"] for p in members}
+                  for fam, members in fam_members.items()}
+    curated_ids = {i for pb in playbooks for i in pb["ids"]}
+
+    families = []
+    for fam, members in fam_members.items():
+        count = len(members)
+        families.append({
+            "family": fam,
+            "question": members[0]["question"],
+            "count": count,
+            "share": round(count / total, 4),
+            # heat = count / densest family, the sequential ramp's 0..1 input
+            "heat": round(count / max_count, 4),
+            # how many playbooks include at least one brief from this family
+            "playbooks": sum(1 for pb in playbooks
+                             if ids_by_fam[fam] & set(pb["ids"])),
+            "gap": count <= gap_threshold,
+            "briefs": [{"id": p["id"], "title": p["title"]} for p in members],
+        })
+
+    # the 2-D curation heatmap: family (rows) x playbook (cols), each cell the
+    # number of that family's briefs the playbook runs
+    matrix_rows = [{"family": fam,
+                    "cells": [len(ids_by_fam[fam] & set(pb["ids"]))
+                              for pb in playbooks]}
+                   for fam in fam_members]
+    uncurated = [{"id": p["id"], "title": p["title"], "family": p["family"]}
+                 for p in prompts if p["id"] not in curated_ids]
+    mid = len(counts) // 2
+    median = counts[mid] if len(counts) % 2 else (counts[mid - 1] + counts[mid]) / 2
+
+    return {
+        "name": "goal-prompts",
+        "base": BASE,
+        # counts, not a timestamp — determinism over freshness signalling
+        "generated_from": (f"{total} briefs, {len(playbooks)} playbooks, "
+                           f"{len(fam_members)} families"),
+        "gap_ratio": GAP_RATIO,
+        "gap_threshold": gap_threshold,
+        "totals": {
+            "briefs": total,
+            "families": len(fam_members),
+            "playbooks": len(playbooks),
+            "max_per_family": max_count,
+            "min_per_family": counts[0],
+            "median_per_family": median,
+            "uncurated_briefs": len(uncurated),
+        },
+        "families": families,
+        "matrix": {
+            "playbooks": [{"key": pb["key"], "name": pb["name"]}
+                          for pb in playbooks],
+            "rows": matrix_rows,
+        },
+        "gaps": {
+            "thin_families": [f["family"] for f in families if f["gap"]],
+            "uncurated_briefs": uncurated,
+        },
+    }
+
+
 def main() -> None:
     files = sorted((ROOT / "prompts").rglob("*.md"))
     if not files:
@@ -2113,6 +2202,14 @@ def main() -> None:
                    ensure_ascii=False, sort_keys=True) + "\n",
         encoding="utf-8")
 
+    # ---- coverage.json: the /coverage heatmap surface — family density, the
+    # family x playbook curation matrix, and the gap analysis. One computed
+    # blob for both the human page and agents (deterministic, stdlib-only). ----
+    (ROOT / "coverage.json").write_text(
+        json.dumps(coverage_data(prompts, playbooks, by_id),
+                   ensure_ascii=False, sort_keys=True, indent=1) + "\n",
+        encoding="utf-8")
+
     # ---- service worker (offline shell; version stamped from content) ----
     import hashlib as _hl
     # bodies.json rides the version hash: index.html no longer changes when a
@@ -2120,16 +2217,18 @@ def main() -> None:
     # Fonts join it too: a face swap alone must bump the SW version, or
     # returning visitors keep the old precached fonts forever.
     ver_src = b"".join((ROOT / f).read_bytes() for f in
-                       ("index.html", "studio.html", "vitals.html", "tokens.css",
-                        "bodies.json",
+                       ("index.html", "studio.html", "vitals.html",
+                        "coverage.html", "tokens.css",
+                        "bodies.json", "coverage.json",
                         "js/catalog-core.js", "js/report-parser.js", "js/gp-detail.js",
                         "icons/icon-192.png", "icons/icon-512.png")
                        ) + b"".join((ROOT / f["path"]).read_bytes()
                                     for face in BRAND["type"]["faces"]
                                     for f in face["files"])
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
-    precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
-                "/tokens.css", "/bodies.json",
+    precache = ["/", "/studio", "/vitals", "/coverage", "/examples/",
+                "/manifest.json",
+                "/tokens.css", "/bodies.json", "/coverage.json",
                 "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js",
                 "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2",
                 "/fonts/plexmono-latin-600.woff2",
@@ -2146,6 +2245,9 @@ def main() -> None:
     blobs = {"/": index_html.encode("utf-8"),
              "/studio": (ROOT / "studio.html").read_bytes(),
              "/vitals": (ROOT / "vitals.html").read_bytes(),
+             # keyed on page + data, so a coverage shift moves its <lastmod>
+             "/coverage": ((ROOT / "coverage.html").read_bytes()
+                           + (ROOT / "coverage.json").read_bytes()),
              "/examples/": (ROOT / "examples" / "index.html").read_bytes(),
              "/changelog": changelog_md.encode("utf-8"),
              "/quality": quality_html.encode("utf-8"),
@@ -2161,8 +2263,8 @@ def main() -> None:
     for p in prompts:
         blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
     lastmod = sitemap_lastmod(blobs)
-    paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality",
-             "/teams", "/partners"]
+    paths = ["/", "/studio", "/vitals", "/coverage", "/examples/", "/changelog",
+             "/quality", "/teams", "/partners"]
     paths += [f"/p/{pb['key']}" for pb in playbooks]
     paths += [f"/b/{p['id']}" for p in prompts]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -2180,9 +2282,9 @@ def main() -> None:
     write_skills(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
-          f"raw/, b/, catalog.json, bodies.json, sitemap.xml, robots.txt, "
-          f"commands.tar.gz, commands.zip, cursor-commands.zip, plugin/, "
-          f"skills/")
+          f"raw/, b/, catalog.json, bodies.json, coverage.json, sitemap.xml, "
+          f"robots.txt, commands.tar.gz, commands.zip, cursor-commands.zip, "
+          f"plugin/, skills/")
 
 
 if __name__ == "__main__":

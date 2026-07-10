@@ -22,6 +22,9 @@ Edit these (source of truth):
 - `template.html` — the catalog UI (build injects prompt + playbook JSON)
 - `studio.html` — Report Studio (standalone page)
 - `vitals.html` — Weekly Vitals (standalone page, like studio.html)
+- `coverage.html` — the Coverage Map (standalone page, like studio.html);
+  fetches the build-generated `coverage.json` and draws the family density
+  heatmap, the family × playbook curation matrix, and the gap analysis
 - `examples/index.html` — the hand-authored report gallery; it links into
   `reports/`, so it moves in step when report files do
 - `manifest.json` — the PWA manifest (hand-authored)
@@ -62,6 +65,9 @@ packaging — one `skills/goal-<slug>/SKILL.md` per brief), `catalog.json`,
 `bodies.json` (every brief body in one blob — the landing page fetches it
 at copy/quick-view time and the SW precaches it; `raw/` stays the agents'
 network-only endpoint so its fetch counts stay an honest usage metric),
+`coverage.json` (the coverage surface — per-family density, the family ×
+playbook curation matrix, and the gap analysis — computed by `build.py`'s
+`coverage_data`; `coverage.html` fetches it and agents read the same file),
 `changelog.html` (the `/changelog` page, rendered from `CHANGELOG.md` —
 edit that), `quality.html` (the `/quality` page — its copy lives in
 `build.py`'s `quality_page`), `teams.html`, `partners.html` (the `/teams`
@@ -75,7 +81,8 @@ project-commands format),
 drifts from `playbooks.json` — same guard as `og.png`'s brief count.)
 (The service worker's body lives in `build.py` as `SERVICE_WORKER`; edit
 it there. Its cache version is a content hash, so a deploy self-invalidates.)
-(`studio.html` is a source page; Vercel's `cleanUrls` serves it at `/studio`.)
+(`studio.html` is a source page; Vercel's `cleanUrls` serves it at `/studio`.
+`vitals.html` → `/vitals` and `coverage.html` → `/coverage` the same way.)
 (`img/studio.png` is a real Report Studio screenshot regenerated with `node
 scripts/studio-shot.cjs` — needs the global `playwright` package + the pre-installed
 Chromium. It's an ungated asset, so re-run it when the Studio UI changes.)
