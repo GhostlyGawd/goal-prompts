@@ -10,6 +10,14 @@ traffic (only its instrumentation should be built) · **`external`** — needs m
 accounts, credentials, assets, or decisions (cannot be built here) · **`done`** — already
 shipped per FIXLOG/source. No item proposes fabricating proof or metrics.
 
+**Execution log (2026-07-10).** The ship items were built on branch
+`claude/growth-briefs-conductor-qdd12h` per the Now/Next/Later plan: R01–R04, R06–R52
+(ship items; R57/R58 got instrumentation only, as tagged), R54–R56, and R63–R66 (R64
+after the fresh color re-audit this plan asked for; R63 turned out to have already
+shipped in 0.12.0 — a stale row, marked `done` below). Still open for the maintainer:
+the external items R05, R53, R59, R60, R61, R62, plus R51 (data-gated on search_zero
+volume).
+
 ---
 
 ## 1 · Sources
@@ -155,7 +163,7 @@ Impact/effort are recalibrated on one scale across all reports (H/M/L, S/M/L).
 | R60 | The CREDIBILITY decisions: enable Discussions, confirm star threshold (25), quotes real-or-illustrative, a launch ("Show HN") to earn first stars | **external** (maintainer decisions/accounts) | CREDIBILITY · PROOF NF3 (earning) · COMPETITIVE §1 | H | — | R60 unblocks R52's Discussions link and wakes R25's badge | — |
 | R61 | Real 10–15s screen recording of a brief run (MP4/WebM + poster) | **external** (capture tooling; honest walk-through already ships) | SHOWCASE F1 · CREDIBILITY 1 | M | — | — | — |
 | R62 | DEMAND's strategic proceed/pivot/drop call on the execution-wedge opportunity | **external** (founder decision) | DEMAND | — | — | informed by R05 data + COMPETITIVE/REVENUE | — |
-| R63 | Card meta row: collapse 7–8 controls behind one "more" affordance | ship (Later; design judgment) | HIERARCHY F4 | M | M | consider alongside R58's test | template.html |
+| R63 | Card meta row: collapse 7–8 controls behind one "more" affordance | **done** (already shipped in 0.12.0 — verified 2026-07-10; this row was stale) | HIERARCHY F4 | M | M | consider alongside R58's test | template.html |
 | R64 | One shared severity ramp; categorical-hue distinction; family not signaled by color alone | ship (Later — **re-audit first**; findings are pre-redesign per FIXLOG) | COLOR C6–C8 · FIXLOG follow-up | M | M | fresh color audit | build.py (TOKENS_CSS), template.html |
 | R65 | Name the motion tokens (`--dur-*`/`--ease*`) — additive only | ship (Later) | STATES §4 | L | S | none | build.py (TOKENS_CSS) |
 | R66 | `j/k` keyboard navigation | ship (Later) | DX (deferred) · IMPROVEMENTS qw4 | L | S | none | template.html |
