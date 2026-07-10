@@ -292,15 +292,27 @@ self.addEventListener("periodicsync", function (e) {
   e.waitUntil(self.registration.showNotification("Weekly Vitals is due", {
     body: "Ten minutes for fresh trend arrows on your repo.",
     icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
-    tag: "vitals-weekly", data: { url: "/#29" }
+    tag: "vitals-weekly", data: { url: "/?src=reminder#29" }
   }));
 });
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
   var url = (e.notification.data && e.notification.data.url) || "/";
+  var bare = url.replace("?src=reminder", "");  // match open windows without the attribution query
   e.waitUntil(clients.matchAll({ type: "window" }).then(function (cs) {
     for (var i = 0; i < cs.length; i++) {
-      if (cs[i].url.indexOf(url) !== -1 && "focus" in cs[i]) return cs[i].focus();
+      if (cs[i].url.indexOf(bare) !== -1 && "focus" in cs[i]) {
+        /* navigate the existing window so ?src=reminder rides along and the
+         * page can fire reminder_return — a focus alone would hide the return.
+         * If navigate() rejects, still surface the window rather than no-op. */
+        if ("navigate" in cs[i]) {
+          var win = cs[i];
+          return win.navigate(url)
+            .then(function (c) { return c ? c.focus() : win.focus(); })
+            .catch(function () { return win.focus(); });
+        }
+        return cs[i].focus();
+      }
     }
     if (clients.openWindow) return clients.openWindow(url);
   }));

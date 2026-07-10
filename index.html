@@ -881,6 +881,28 @@ try{
 function track(name, data){
   try{ window.va("event", {name:name, data:Object.assign({aid:_AID, fsw:_FSW}, data || {})}); }catch(e){}
 }
+/* Retention R03: the SW notification opens /?src=reminder#29 — count the return,
+   then drop just that marker (any other query params survive) so a refresh
+   doesn't double-count. */
+if(/[?&]src=reminder(&|$)/.test(location.search)){
+  track("reminder_return");
+  try{
+    var _q = new URLSearchParams(location.search); _q.delete("src");
+    var _qs = _q.toString();
+    history.replaceState(null, "", location.pathname + (_qs ? "?" + _qs : "") + location.hash);
+  }catch(e){}
+}
+window.addEventListener("appinstalled", function(){ track("pwa_installed"); });
+/* FUNNEL §4.5 (R04): fires once, the first time the catalog scrolls into view
+   or is used. Catalog interactions (copy, quick view) call this before their
+   own event, so the funnel stays monotonic even when the observer hasn't fired
+   yet (their stopPropagation also keeps clicks from the section fallback). */
+var _catReached = false;
+function catalogReached(){
+  if(_catReached) return;
+  _catReached = true;
+  track("catalog_reached");
+}
 var _copyhintT;
 /* one inline toast for hints + the ex-alert flows; content built via DOM, never innerHTML */
 function toast(parts){
@@ -900,18 +922,25 @@ function showCopyHint(output, id){
                " at the root, then drop it in the ", a, "."];
   if(id){
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
-    mr.setAttribute("data-id", id); mr.textContent = "✓ mark it run";
+    if(runs[id]){ mr.textContent = "✓ run"; mr.disabled = true; }
+    else { mr.setAttribute("data-id", id); mr.textContent = "✓ mark it run"; }
     parts.push(" ", mr);
   }
   toast(parts);
 }
 (function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
-// Retention R1: let the post-copy hint feed the run-tracker at the moment of action.
+// The hint's "✓ mark it run" is the honest run confirmation (R01) — the only
+// mark_run sources are this button and the card's run toggle, never a copy.
 document.addEventListener("click", function(e){
   var t = e.target;
   if(t && t.classList && t.classList.contains("markrun")){
     var id = t.getAttribute("data-id");
-    if(id && !runs[id]){ runs[id] = Date.now(); saveRuns(); renderStats(); renderNudge(); }
+    if(id && !runs[id]){
+      runs[id] = Date.now(); saveRuns(); renderStats(); renderNudge();
+      track("mark_run", {id:id, from:"hint"});
+      var rc = document.querySelector('[data-run="' + id + '"]');
+      if(rc){ rc.className = "iconbtn on"; rc.textContent = runLabel(id); rc.setAttribute("aria-pressed", "true"); }
+    }
     t.textContent = "✓ marked"; t.disabled = true;
   }
 });
@@ -1112,7 +1141,7 @@ function card(p, idx, stepNo){
   view.onclick = ()=>{
     const open = c.classList.toggle("open");
     view.setAttribute("aria-expanded", open);
-    if(open) fillQuick(c);
+    if(open){ fillQuick(c); catalogReached(); track("quickview_open", {id:p.id}); }
   };
   const share = document.createElement("button"); share.className="iconbtn";
   share.textContent = "link";
@@ -1120,10 +1149,12 @@ function card(p, idx, stepNo){
   share.onclick = ()=>copyText(location.origin + "/b/" + p.id, share, "✓", {name:"share_link", data:{id:p.id}});
   const run = document.createElement("button"); run.className="iconbtn" + (runs[p.id] ? " on" : "");
   run.textContent = runLabel(p.id);
+  run.setAttribute("data-run", p.id);   /* hook for the hint's mark-run to sync this chip */
   run.setAttribute("aria-pressed", !!runs[p.id]);
   run.setAttribute("aria-label","Mark "+p.title+" as run");
   run.onclick = ()=>{
-    if(runs[p.id]) delete runs[p.id]; else runs[p.id] = Date.now();
+    if(runs[p.id]) delete runs[p.id];
+    else { runs[p.id] = Date.now(); track("mark_run", {id:p.id, from:"toggle"}); }
     saveRuns(); renderStats();
     run.className = "iconbtn" + (runs[p.id] ? " on" : "");
     run.textContent = runLabel(p.id);
@@ -1132,15 +1163,11 @@ function card(p, idx, stepNo){
   };
   btn.onclick = e=>{
     e.stopPropagation();
+    catalogReached();   /* before copy_prompt — position events stay monotonic */
+    /* a copy is not a run: marking happens only through the explicit affordances
+       (the hint's "✓ mark it run", the card's run toggle), so the tracker,
+       nudges, and mark_run stay keyed to confirmed runs (R01). */
     copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
-    /* optimistically record the run so the nudges stop running dark; the run
-       button (which toggles) is the undo (R1). No cross-session id (R5 stays off). */
-    if(!runs[p.id]){
-      runs[p.id] = Date.now(); saveRuns(); renderStats();
-      run.className = "iconbtn on"; run.textContent = runLabel(p.id); run.setAttribute("aria-pressed", "true");
-      renderNudge();
-      try{ window.va("event", {name:"mark_run", data:{id:p.id, from:"copy"}}); }catch(e){}
-    }
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -1206,10 +1233,11 @@ function renderNudge(){
   const d = document.createElement("div");
   d.className = "nudge"; d.id = "nudge"; d.innerHTML = html;
   const a = d.querySelector("a");
-  /* anonymous, like the existing action events — no client id (R5, flagged). */
-  if(a) a.addEventListener("click", ()=>{ try{ window.va("event", {name:"nudge_clicked", data:{kind:kind}}); }catch(e){} });
+  /* through track() like every other event, so the anonymous R5 cohort fields
+     (aid/fsw) ride the retention events too (R03). */
+  if(a) a.addEventListener("click", ()=>{ track("nudge_clicked", {kind:kind}); });
   listEl.prepend(d);
-  if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; try{ window.va("event", {name:"nudge_shown", data:{kind:kind}}); }catch(e){} }
+  if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; track("nudge_shown", {kind:kind}); }
 }
 let entranced = false;
 function render(){
@@ -1437,7 +1465,7 @@ async function toggleRemind(btn){
   if(perm !== "granted") perm = await Notification.requestPermission();
   if(perm !== "granted"){ toast(["Notifications are blocked for this site, so the reminder can't run. Enable them and try again."]); return; }
   remind.on = true; saveRemind(); btn.textContent = remindLabel();
-  try{ window.va("event", {name:"reminder_opt_in"}); }catch(e){}
+  track("reminder_opt_in");
   let bg = false;
   try{
     const reg = await navigator.serviceWorker.ready;
@@ -1702,6 +1730,33 @@ buildFinder();
     entries.forEach(function(en){ if(en.isIntersecting){ fig.classList.add("rr-run"); io.disconnect(); } });
   }, {threshold:0.4});
   io.observe(fig);
+})();
+
+/* FUNNEL §4.5 — catalog_reached wiring: threshold 0 (any visible pixel), since
+   the #catalog section is far taller than any viewport and a ratio threshold
+   would never be met. Click/focus fallback covers browsers without IO. */
+(function(){
+  var cat = document.getElementById("catalog"); if(!cat) return;
+  var io = null;
+  function reached(){
+    catalogReached();
+    if(io){ io.disconnect(); io = null; }
+  }
+  if("IntersectionObserver" in window){
+    io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) reached(); });
+    }, {threshold:0});
+    io.observe(cat);
+  }
+  cat.addEventListener("click", reached);
+  cat.addEventListener("focusin", reached);
+})();
+(function(){
+  var sent = false;
+  document.addEventListener("click", function(e){
+    if(sent || !e.target.closest) return;
+    if(e.target.closest('a[href^="/examples"]')){ sent = true; track("examples_viewed"); }
+  });
 })();
 
 </script>
