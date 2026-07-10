@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coverage Map — Goal Prompts</title>
-<meta name="description" content="A heatmap of what the goal-prompts catalog covers: how densely each family is audited, how that coverage spreads across playbooks, and where the gaps are. Built from the same /coverage.json agents read.">
-<meta property="og:title" content="Coverage Map — Goal Prompts">
-<meta property="og:description" content="See what's covered and what's missing at a glance: a family density heatmap, a family × playbook curation matrix, and the thin areas worth filling. All from one machine-readable surface.">
+<title>The Audit Map — Goal Prompts</title>
+<meta name="description" content="A coding agent checks whatever you point it at — the hard part is knowing what to ask. This is the whole map: every question worth asking about a piece of software, and the ready-made audits that answer each one.">
+<meta property="og:title" content="The Audit Map — Goal Prompts">
+<meta property="og:description" content="Every question worth asking about your software — from 'is this worth building?' to 'is it safe to ship?' — and the ready-made audits that answer each one. Point an agent at your repo and run any of them.">
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app/coverage">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Goal Prompts">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Coverage Map — Goal Prompts">
+<meta property="og:image:alt" content="The Audit Map — Goal Prompts">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
-<meta name="twitter:title" content="Coverage Map — Goal Prompts">
-<meta name="twitter:description" content="See what's covered and what's missing at a glance: a family density heatmap, a family × playbook curation matrix, and the thin areas worth filling.">
+<meta name="twitter:title" content="The Audit Map — Goal Prompts">
+<meta name="twitter:description" content="Every question worth asking about your software, and the ready-made audits that answer each one.">
 <meta name="theme-color" content="#15120D">
 <link rel="canonical" href="https://goal-prompts.vercel.app/coverage">
 <link rel="manifest" href="/manifest.json">
@@ -32,11 +32,6 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
-  /* the sequential "heat" hue — one brand vermilion, ramped into the panel by
-     count. Its own theme switch, since tokens.css doesn't carry it. */
-  :root{--heat:#E0603A}
-  :root[data-theme="light"]{--heat:#C2410C}
-  @media (prefers-color-scheme:light){:root:not([data-theme]){--heat:#C2410C}}
   .wrap{max-width:var(--w-doc);margin:0 auto;padding:0 var(--gutter)}
   a{color:var(--amber)}
   /* shared top nav — matches the catalog, Studio, and Vitals */
@@ -58,94 +53,55 @@
   .topnav .cta:hover{filter:brightness(1.08)}
   @media(max-width:720px){.topnav .lk .mh{display:none}}
   @media(max-width:520px){.topnav .lk{display:none}}
+
   header{padding:34px 0 8px}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
   .eyebrow b{color:var(--text);font-weight:500}
-  h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 16px}
-  h1 .tick{color:var(--heat)}
-  .sub{color:var(--dim);max-width:64ch;font-size:15px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,50px);line-height:1.04;letter-spacing:-.03em;margin:14px 0 16px}
+  h1 .tick{color:var(--amber)}
+  .sub{color:var(--dim);max-width:64ch;font-size:16px;line-height:1.55}
+  .sub b{color:var(--text);font-weight:500}
   .sub a{color:var(--amber);text-decoration:none}
   .sub a:hover{text-decoration:underline}
+  .count{margin-top:18px;font-family:var(--mono);font-size:13px;color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 16px}
+  .count b{color:var(--text);font-weight:600}
+
   main{padding:var(--s5) 0 var(--s7)}
-  .note{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--heat);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
+  .note{margin-bottom:16px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:var(--radius);background:var(--panel);font-size:13px;color:var(--dim)}
 
-  /* ---------- summary stat row ---------- */
-  .stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s5)}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px;min-width:120px}
-  .stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-  .stat .v{font-family:var(--disp);font-weight:700;font-size:22px;color:var(--text);line-height:1.15;margin-top:3px}
-  .stat .v small{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--dim);letter-spacing:0}
+  /* one phase of a product's life = one band of the map */
+  .phase{padding:26px 0 4px;border-top:1px solid var(--line)}
+  .phase:first-of-type{border-top:0;padding-top:8px}
+  .phase-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .phase-h .n{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:600}
+  .phase-h h2{font-family:var(--disp);font-weight:700;font-size:clamp(21px,3.2vw,27px);letter-spacing:-.02em;color:var(--text)}
+  .phase-h .intent{flex-basis:100%;color:var(--dim);font-size:14px;margin-top:2px;max-width:74ch}
 
-  /* ---------- section scaffolding ---------- */
-  .sec{margin-top:var(--s7)}
-  .sec>h2{font-family:var(--disp);font-weight:700;font-size:clamp(20px,3.4vw,26px);letter-spacing:-.02em;color:var(--text)}
-  .sec>.lead{color:var(--dim);font-size:14px;max-width:70ch;margin-top:6px}
-  .sec>.lead a{color:var(--amber);text-decoration:none}
-  .sec>.lead a:hover{text-decoration:underline}
+  .fams{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px;margin-top:16px}
+  .fam{border:1px solid var(--line);border-left:3px solid var(--fc,#C4CBD8);border-radius:var(--radius);background:var(--panel);padding:15px 16px 14px}
+  .fam .q{font-family:var(--disp);font-weight:660;font-size:17px;letter-spacing:-.01em;color:var(--text);line-height:1.15}
+  .fam .nm{display:flex;align-items:center;gap:7px;margin-top:7px;font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.02em}
+  .fam .nm .dot{width:8px;height:8px;border-radius:2px;background:var(--fc,#C4CBD8);flex:none}
+  .fam .nm .c{color:var(--dim)}
+  .fam .briefs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .fam .briefs a{display:inline-flex;align-items:baseline;gap:6px;font-family:var(--mono);font-size:11.5px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;text-decoration:none;transition:border-color var(--dur-state),color var(--dur-state)}
+  .fam .briefs a:hover{color:var(--text);border-color:var(--fc,var(--amber))}
+  .fam .briefs a .id{color:var(--fc,#C4CBD8);font-weight:600}
 
-  /* legend for the sequential heat ramp */
-  .legend{display:flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--faint)}
-  .legend .sw{display:flex;gap:3px}
-  .legend .sw i{width:16px;height:12px;border-radius:2px;border:1px solid var(--line)}
-
-  /* ---------- density heatmap grid ---------- */
-  .heatgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:14px}
-  .tile{position:relative;text-align:left;cursor:pointer;border:1px solid var(--line);border-radius:var(--radius);padding:12px 13px 13px;background:var(--panel-2);color:var(--text);font:inherit;transition:border-color var(--dur-state),transform var(--dur-state)}
-  .tile:hover{transform:translateY(-2px)}
-  .tile:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-  .tile[aria-pressed="true"]{border-color:var(--text)}
-  .tile .top{display:flex;align-items:center;gap:7px}
-  .tile .dot{width:9px;height:9px;border-radius:2px;background:var(--fc,#C4CBD8);flex:none}
-  .tile .fam{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:600;letter-spacing:.02em}
-  .tile .gaptag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--sev-2-text);border:1px solid color-mix(in srgb,var(--sev-2) 55%,transparent);border-radius:999px;padding:1px 7px;display:inline-flex;align-items:center;gap:4px}
-  .tile .cnt{font-family:var(--disp);font-weight:700;font-size:30px;line-height:1;margin-top:12px;color:var(--text)}
-  .tile .cnt small{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--dim)}
-  .tile .q{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:7px;font-style:italic;line-height:1.4}
-
-  /* the briefs drawer under the grid */
-  .drawer{margin-top:12px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:16px 18px;min-height:64px}
-  .drawer .dhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .drawer .dhead .dot{width:10px;height:10px;border-radius:2px;background:var(--fc,#C4CBD8);align-self:center}
-  .drawer .dhead .name{font-family:var(--disp);font-weight:700;font-size:18px;color:var(--text)}
-  .drawer .dhead .meta{font-family:var(--mono);font-size:12px;color:var(--faint)}
-  .drawer .dq{font-family:var(--mono);font-size:12px;color:var(--dim);font-style:italic;margin-top:2px}
-  .drawer .blist{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
-  .drawer .blist a{display:inline-flex;align-items:baseline;gap:7px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:6px 11px;text-decoration:none;transition:border-color var(--dur-state)}
-  .drawer .blist a:hover{border-color:var(--fc,var(--amber))}
-  .drawer .blist a .id{color:var(--heat);font-weight:600}
-  .drawer .hint{font-family:var(--mono);font-size:12px;color:var(--faint)}
-
-  /* ---------- curation matrix (playbooks × families) ---------- */
-  .mxwrap{margin-top:14px;overflow:auto;max-height:540px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
-  table.mx{border-collapse:separate;border-spacing:0;font-family:var(--mono);font-size:11px}
-  table.mx th,table.mx td{padding:0}
-  table.mx thead th{position:sticky;top:0;z-index:2;background:var(--panel);vertical-align:bottom}
-  table.mx thead th.corner{left:0;z-index:3}
-  table.mx .cfam{height:96px;width:26px;padding-bottom:6px}
-  table.mx .cfam .rot{display:inline-flex;align-items:center;gap:5px;writing-mode:vertical-rl;transform:rotate(180deg);color:var(--dim);white-space:nowrap;font-size:10.5px}
-  table.mx .cfam .rot .dot{width:7px;height:7px;border-radius:2px;background:var(--fc,#C4CBD8)}
-  table.mx tbody th{position:sticky;left:0;z-index:1;background:var(--panel);text-align:left;color:var(--dim);font-weight:400;white-space:nowrap;padding:0 12px 0 14px;max-width:180px;overflow:hidden;text-overflow:ellipsis;border-right:1px solid var(--line)}
-  table.mx tbody th a{color:var(--dim);text-decoration:none}
-  table.mx tbody th a:hover{color:var(--text)}
-  table.mx td{width:24px;height:24px;text-align:center;color:var(--text);border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);font-size:10.5px}
-  table.mx td.z{color:transparent}
-  table.mx thead th.corner span{font-family:var(--mono);font-size:10px;color:var(--faint);padding-left:14px}
-  table.mx tbody tr:hover th{color:var(--text)}
-
-  /* ---------- gaps ---------- */
-  .gapgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
-  .gapcard{border:1px solid var(--line);border-left:3px solid var(--sev-2);border-radius:var(--radius);background:var(--panel);padding:14px 15px}
-  .gapcard .top{display:flex;align-items:center;gap:8px}
-  .gapcard .dot{width:9px;height:9px;border-radius:2px;background:var(--fc,#C4CBD8)}
-  .gapcard .fam{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text)}
-  .gapcard .n{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--sev-2-text)}
-  .gapcard .q{font-family:var(--mono);font-size:12px;color:var(--dim);font-style:italic;margin-top:8px;line-height:1.45}
-  .gapcard .cov{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:9px}
-  .gapcard a.mk{display:inline-block;margin-top:11px;font-family:var(--mono);font-size:12px;color:var(--amber);text-decoration:none}
-  .gapcard a.mk:hover{text-decoration:underline}
-  .agentline{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:var(--radius);padding:11px 14px;line-height:1.6}
+  /* the honest edge of the map */
+  .frontier{margin-top:var(--s7);border-top:1px solid var(--line);padding-top:26px}
+  .frontier h2{font-family:var(--disp);font-weight:700;font-size:clamp(20px,3vw,25px);letter-spacing:-.02em;color:var(--text)}
+  .frontier p{color:var(--dim);font-size:15px;max-width:70ch;margin-top:8px;line-height:1.55}
+  .frontier p a{color:var(--amber);text-decoration:none}
+  .frontier p a:hover{text-decoration:underline}
+  .thinrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .thin{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 13px}
+  .thin .dot{width:8px;height:8px;border-radius:2px;background:var(--fc,#C4CBD8)}
+  .thin b{color:var(--text);font-weight:500}
+  .thin .c{color:var(--faint)}
+  .agentline{margin-top:20px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:var(--radius);padding:11px 14px;line-height:1.6}
   .agentline a{color:var(--dim)}
   .agentline a:hover{color:var(--text);text-decoration:underline}
   .agentline code{color:var(--text)}
@@ -154,7 +110,6 @@
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
   .buildnote a{color:var(--dim)}
   .buildnote a:hover{text-decoration:underline}
-  button:active{transform:scale(.99)}
   @media (max-width:640px){header{padding-top:40px}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -175,42 +130,28 @@
 </div></div>
 
 <header class="wrap">
-  <div class="eyebrow"><a href="/">← goal prompts</a> · <b>what's covered, what's missing</b></div>
-  <h1>Coverage Map<span class="tick">.</span></h1>
-  <p class="sub">Every brief answers a question for one <a href="/#catalog">family</a>. This is the heatmap of where the catalog is deep and where it's thin — so an agent picking an audit, or a human proposing a new brief, can see the whole surface at once. Hotter means more briefs. It reads the same <a href="/coverage.json">coverage.json</a> that agents fetch.</p>
+  <div class="eyebrow"><a href="/">← goal prompts</a> · <b>the audit map</b></div>
+  <h1>What's worth auditing<span class="tick">.</span></h1>
+  <p class="sub">A coding agent will check whatever you point it at — the hard part is knowing <b>what to ask</b>. So here's the whole map: every question worth asking about a piece of software, grouped by the stage of its life, and the ready-made audits that answer each one. Find your worry, or scan the shape of what a codebase should be held to.</p>
+  <div class="count" id="count"></div>
 </header>
 
 <main class="wrap">
   <div class="note" id="status" role="status" hidden></div>
+  <div id="map"></div>
 
-  <div class="stats" id="stats"></div>
-
-  <section class="sec" id="sec-heat" aria-labelledby="h-heat">
-    <h2 id="h-heat">Coverage by family</h2>
-    <p class="lead">Each tile is one family, shaded by how many briefs audit it and sorted densest first — so the cool tail at the end is exactly where coverage thins out. Select a tile to list its briefs.</p>
-    <div class="legend" aria-hidden="true"><span>fewer briefs</span><span class="sw" id="legendsw"></span><span>more</span></div>
-    <div class="heatgrid" id="heatgrid" role="list"></div>
-    <div class="drawer" id="drawer" aria-live="polite"><span class="hint">Select a family above to list its briefs.</span></div>
-  </section>
-
-  <section class="sec" id="sec-matrix" aria-labelledby="h-matrix">
-    <h2 id="h-matrix">Coverage across playbooks</h2>
-    <p class="lead">Playbooks are curated sequences. This matrix shows how many of each playbook's briefs come from each family — a family with an empty column is one no sequence draws on yet. Hover or focus a cell for the exact count.</p>
-    <div class="mxwrap" id="mxwrap"></div>
-  </section>
-
-  <section class="sec" id="sec-gaps" aria-labelledby="h-gaps">
-    <h2 id="h-gaps">Gaps worth filling</h2>
-    <p class="lead" id="gaplead"></p>
-    <div class="gapgrid" id="gapgrid"></div>
+  <section class="frontier" aria-labelledby="h-frontier">
+    <h2 id="h-frontier">The edge of the map</h2>
+    <p id="frontier-p"></p>
+    <div class="thinrow" id="thinrow"></div>
     <p class="agentline" id="agentline"></p>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p class="buildnote">the map is generated: <a href="/coverage.json">coverage.json</a> is rebuilt from the catalog on every deploy, so this page never drifts from what's actually shipped. propose a brief for a thin area — see <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CONTRIBUTING.md">CONTRIBUTING</a> and the <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/docs/brief-forge.md">Brief Forge</a>. part of the <a href="/">goal-prompts</a> catalog.</p>
-    <p class="buildnote">this page reads one small JSON file in your browser; nothing you do here leaves your device. the site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking.</p>
+    <p class="buildnote">this map is generated from the live catalog on every deploy, so it never claims an audit that isn't really there. found your question? <a href="/#catalog">browse the catalog</a> or <a href="/#playbooks">run a playbook</a>. part of the <a href="/">goal-prompts</a> catalog.</p>
+    <p class="buildnote">this page reads one small file in your browser; nothing you do here leaves your device. the site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking.</p>
   </div>
 </footer>
 
@@ -229,170 +170,114 @@
 
   var statusEl = document.getElementById("status");
   function fail(msg){ statusEl.textContent = msg; statusEl.hidden = false; }
-
   function slug(fam){ return "f-" + String(fam).toLowerCase(); }
   function el(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt != null) e.textContent = txt; return e; }
-  /* one brand hue, ramped into the panel by t (0..1) — a single-hue
-     sequential scale, floored so the sparsest family is still visible */
-  function heatBg(t){ return "color-mix(in srgb, var(--heat) " + Math.round(9 + t * 58) + "%, var(--panel-2))"; }
 
-  function renderStats(d){
-    var wrap = document.getElementById("stats");
-    var top = d.families.reduce(function(a, b){ return b.count > a.count ? b : a; }, d.families[0]);
-    var items = [
-      ["Briefs", d.totals.briefs, ""],
-      ["Families", d.totals.families, ""],
-      ["Playbooks", d.totals.playbooks, ""],
-      ["Densest", top.count, top.family],
-      ["Thin families", d.gaps.thin_families.length, "&le; " + d.gap_threshold + " briefs"]
-    ];
-    items.forEach(function(it){
-      var s = el("div", "stat");
-      s.append(el("div", "k", it[0]));
-      var v = el("div", "v"); v.textContent = it[1];
-      if(it[2]){ var sm = el("small"); sm.innerHTML = " " + it[2]; v.append(sm); }
-      s.append(v);
-      wrap.append(s);
-    });
-  }
+  /* Editorial map: the 22 questions grouped into the stages of a product's
+     life, so 22 becomes a story you can scan top to bottom. Any family not
+     listed here still renders, under "Everything else" — nothing disappears. */
+  var PHASES = [
+    { q: "Is it worth building?", intent: "Before a line of code — pressure-test the idea and shape what to make.",
+      fams: ["Venture", "Product"] },
+    { q: "Is it any good?", intent: "The experience a person actually meets: how it looks, reads, and earns trust.",
+      fams: ["Design", "AI-UX", "Clarity"] },
+    { q: "Does it actually work?", intent: "The engineering underneath — correctness, resilience, speed, and data.",
+      fams: ["Quality", "Reliability", "Speed", "Data"] },
+    { q: "Is it safe to ship?", intent: "What has to hold before release: security, privacy, responsible AI, shippability.",
+      fams: ["Trust", "Compliance", "AI-Ethics", "Build"] },
+    { q: "Does it run and grow?", intent: "Living in production — operating it, opening it up, and growing the thing.",
+      fams: ["Ops", "API", "Agent", "Automation", "Growth", "Team"] },
+    { q: "What now?", intent: "Step back — cut what no longer earns its place, and turn findings into action.",
+      fams: ["Subtract", "Meta", "Act"] }
+  ];
 
-  function renderLegend(){
-    var sw = document.getElementById("legendsw");
-    [0, 0.28, 0.5, 0.75, 1].forEach(function(t){
-      var i = document.createElement("i"); i.style.background = heatBg(t); sw.append(i);
-    });
-  }
-
-  var drawerEl, tilesByFam = {};
-  function selectFam(f){
-    for(var k in tilesByFam){ tilesByFam[k].setAttribute("aria-pressed", k === f.family ? "true" : "false"); }
-    drawerEl.textContent = "";
-    drawerEl.className = "drawer " + slug(f.family);
-    var head = el("div", "dhead");
-    head.append(el("span", "dot"));
-    head.append(el("span", "name", f.family));
-    var pb = f.playbooks + " playbook" + (f.playbooks === 1 ? "" : "s");
-    head.append(el("span", "meta", f.count + " brief" + (f.count === 1 ? "" : "s") + " · in " + pb));
-    drawerEl.append(head);
-    drawerEl.append(el("div", "dq", "“" + f.question + "”"));
-    var list = el("ul", "blist");
+  function famCard(f){
+    var c = el("div", "fam " + slug(f.family));
+    c.append(el("div", "q", "“" + f.question + "”"));
+    var nm = el("div", "nm");
+    nm.append(el("span", "dot"));
+    nm.append(el("span", null, f.family));
+    nm.append(el("span", "c", "· " + f.count + " audit" + (f.count === 1 ? "" : "s")));
+    c.append(nm);
+    var briefs = el("div", "briefs");
     f.briefs.forEach(function(b){
       var a = document.createElement("a"); a.href = "/b/" + b.id;
-      var id = el("span", "id", b.id); a.append(id, document.createTextNode(" " + b.title));
-      var li = document.createElement("li"); li.append(a); list.append(li);
+      a.title = b.title;
+      a.append(el("span", "id", b.id), document.createTextNode(b.title));
+      briefs.append(a);
     });
-    drawerEl.append(list);
-    track("coverage_family", { family: f.family, count: f.count });
+    c.append(briefs);
+    return c;
   }
 
-  function renderHeat(d){
-    var grid = document.getElementById("heatgrid");
-    drawerEl = document.getElementById("drawer");
-    var fams = d.families.slice().sort(function(a, b){ return b.count - a.count; });
-    fams.forEach(function(f){
-      var t = el("button", "tile " + slug(f.family));
-      t.type = "button";
-      t.setAttribute("role", "listitem");
-      t.setAttribute("aria-pressed", "false");
-      t.setAttribute("aria-label", f.family + " family, " + f.count + " briefs" + (f.gap ? ", thinly covered" : "") + " — show its briefs");
-      t.style.background = heatBg(f.heat);
-      var top = el("div", "top");
-      top.append(el("span", "dot"));
-      top.append(el("span", "fam", f.family));
-      if(f.gap){ var g = el("span", "gaptag"); g.append(document.createTextNode("▲ gap")); top.append(g); }
-      t.append(top);
-      var cnt = el("div", "cnt"); cnt.textContent = f.count;
-      cnt.append(el("small", null, f.count === 1 ? " brief" : " briefs"));
-      t.append(cnt);
-      t.append(el("div", "q", "“" + f.question + "”"));
-      t.addEventListener("click", function(){ selectFam(f); });
-      grid.append(t);
-      tilesByFam[f.family] = t;
-    });
-    if(fams.length) selectFam(fams[0]);   // open the densest so the drawer isn't empty
-  }
-
-  function renderMatrix(d){
-    var pbs = d.matrix.playbooks, fams = d.families;
+  function render(d){
     var byFam = {};
-    d.matrix.rows.forEach(function(r){ byFam[r.family] = r.cells; });
-    var maxCell = 1;
-    d.matrix.rows.forEach(function(r){ r.cells.forEach(function(c){ if(c > maxCell) maxCell = c; }); });
+    d.families.forEach(function(f){ byFam[f.family] = f; });
 
-    var table = el("table", "mx");
-    var thead = el("thead"), htr = el("tr");
-    var corner = el("th", "corner"); corner.scope = "col";
-    var cspan = document.createElement("span"); cspan.textContent = "playbook \\ family"; corner.append(cspan);
-    htr.append(corner);
-    fams.forEach(function(f){
-      var th = el("th", "cfam " + slug(f.family)); th.scope = "col"; th.title = f.family;
-      var rot = el("span", "rot");
-      rot.append(el("span", "dot"));
-      rot.append(document.createTextNode(f.family));
-      th.append(rot); htr.append(th);
+    document.getElementById("count").innerHTML =
+      "<span><b>" + d.totals.briefs + "</b> audits</span>" +
+      "<span><b>" + d.totals.families + "</b> questions</span>" +
+      "<span><b>" + d.totals.playbooks + "</b> ready-made sequences</span>";
+
+    var map = document.getElementById("map");
+    var placed = {};
+    PHASES.forEach(function(ph, i){
+      var fams = ph.fams.map(function(n){ return byFam[n]; }).filter(Boolean);
+      if(!fams.length) return;
+      fams.forEach(function(f){ placed[f.family] = 1; });
+      var sec = el("section", "phase");
+      var h = el("div", "phase-h");
+      h.append(el("span", "n", "0" + (i + 1)));
+      h.append(el("h2", null, ph.q));
+      h.append(el("div", "intent", ph.intent));
+      sec.append(h);
+      var grid = el("div", "fams");
+      fams.forEach(function(f){ grid.append(famCard(f)); });
+      sec.append(grid);
+      map.append(sec);
     });
-    thead.append(htr); table.append(thead);
+    // safety net: any family the editorial map missed still shows up
+    var leftover = d.families.filter(function(f){ return !placed[f.family]; });
+    if(leftover.length){
+      var sec = el("section", "phase");
+      var h = el("div", "phase-h");
+      h.append(el("h2", null, "Everything else"));
+      sec.append(h);
+      var grid = el("div", "fams");
+      leftover.forEach(function(f){ grid.append(famCard(f)); });
+      sec.append(grid);
+      map.append(sec);
+    }
 
-    var tbody = el("tbody");
-    pbs.forEach(function(pb, j){
-      var tr = el("tr");
-      var th = el("th"); th.scope = "row"; th.title = pb.name;
-      var a = document.createElement("a"); a.href = "/p/" + pb.key; a.textContent = pb.name;
-      th.append(a); tr.append(th);
-      fams.forEach(function(f){
-        var v = (byFam[f.family] || [])[j] || 0;
-        var td = el("td", v ? "" : "z");
-        td.textContent = v || "·";
-        if(v){ td.style.background = heatBg(0.15 + 0.85 * (v / maxCell)); }
-        var lbl = f.family + " × " + pb.name + ": " + v + " brief" + (v === 1 ? "" : "s");
-        td.title = lbl; td.setAttribute("aria-label", lbl);
-        tr.append(td);
-      });
-      tbody.append(tr);
-    });
-    table.append(tbody);
-    document.getElementById("mxwrap").append(table);
-  }
-
-  function renderGaps(d){
-    var thin = d.families.filter(function(f){ return f.gap; })
-                 .sort(function(a, b){ return a.count - b.count; });
-    document.getElementById("gaplead").innerHTML =
-      "Families with " + d.gap_threshold + " briefs or fewer — the bottom of the ramp above. " +
-      "Not a defect: each is an invitation to add the audit that's missing. The question is already framed; the briefs aren't written yet.";
-    var grid = document.getElementById("gapgrid");
+    // the honest edge: the questions with the fewest audits so far — a true
+    // statement, not a manufactured "gap". Framed as the frontier, not a flaw.
+    var thin = d.families.slice().sort(function(a, b){ return a.count - b.count; }).slice(0, 5);
+    document.getElementById("frontier-p").innerHTML =
+      "No map is ever finished. Some questions here have a dozen audits; a few have only one or two so far — " +
+      "so the thinnest of them is where the catalog grows next, not a hole to apologize for. And if your codebase " +
+      "raises a question that isn't on the map at all, <b style=\"color:var(--dim)\">that</b> is the real frontier: " +
+      "<a href=\"https://github.com/GhostlyGawd/goal-prompts/blob/main/CONTRIBUTING.md\">propose the audit</a> " +
+      "and it gets held to the same bar as the rest.";
+    var thinrow = document.getElementById("thinrow");
     thin.forEach(function(f){
-      var c = el("div", "gapcard " + slug(f.family));
-      var top = el("div", "top");
-      top.append(el("span", "dot"));
-      top.append(el("span", "fam", f.family));
-      var n = el("span", "n"); n.textContent = f.count + " brief" + (f.count === 1 ? "" : "s"); top.append(n);
-      c.append(top);
-      c.append(el("div", "q", "“" + f.question + "”"));
-      var cov = el("div", "cov");
-      cov.textContent = f.playbooks ? ("in " + f.playbooks + " playbook" + (f.playbooks === 1 ? "" : "s")) : "in no playbook yet";
-      c.append(cov);
-      var a = document.createElement("a"); a.className = "mk"; a.href = "/#catalog";
-      a.textContent = "Explore " + f.family + " →";
-      c.append(a);
-      grid.append(c);
+      var t = el("span", "thin " + slug(f.family));
+      t.append(el("span", "dot"));
+      var b = el("b"); b.textContent = f.family; t.append(b);
+      t.append(el("span", "c", f.count + " audit" + (f.count === 1 ? "" : "s")));
+      thinrow.append(t);
     });
-    var un = d.totals.uncurated_briefs;
     document.getElementById("agentline").innerHTML =
-      "A second kind of gap: <b style=\"color:var(--dim)\">" + un + "</b> briefs aren't in any playbook yet — curation, not coverage. " +
-      "Agents can read the whole picture from <a href=\"/coverage.json\"><code>/coverage.json</code></a> " +
-      "(<code>gaps.thin_families</code>, <code>gaps.uncurated_briefs</code>, and the family × playbook <code>matrix</code>).";
+      "Building on the catalog? The same map is machine-readable at " +
+      "<a href=\"/coverage.json\"><code>/coverage.json</code></a> — every question, its audits, and the counts, " +
+      "so an agent can pick the right audit for a repo without guessing.";
+
+    track("map_view", { families: d.totals.families, briefs: d.totals.briefs });
   }
 
   fetch("/coverage.json", { cache: "no-cache" })
     .then(function(r){ if(!r.ok) throw new Error("http " + r.status); return r.json(); })
-    .then(function(d){
-      renderStats(d); renderLegend(); renderHeat(d); renderMatrix(d); renderGaps(d);
-      track("coverage_view", { families: d.totals.families, briefs: d.totals.briefs });
-    })
-    .catch(function(){
-      fail("Couldn't load the coverage data just now. Reload the page, or read /coverage.json directly.");
-    });
+    .then(render)
+    .catch(function(){ fail("Couldn't load the map just now. Reload the page, or read /coverage.json directly."); });
 })();
 
 if("serviceWorker" in navigator){

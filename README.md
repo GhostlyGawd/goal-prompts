@@ -118,15 +118,17 @@ Vercel Analytics: no cookies, no cross-site tracking, no report or repo
 contents collected — the feature events carry a random local id (`gp-aid`),
 and zero-result catalog search terms are counted so search can improve.
 
-## See what's covered — Coverage Map
+## The audit map
 
-The [Coverage Map](https://goal-prompts.vercel.app/coverage) is the catalog's
-own heatmap: a family-by-family view of how deeply each area is audited, a
-family × playbook matrix showing how that coverage spreads across the curated
-sequences, and a gap analysis flagging the thin families worth a new brief.
-It's built from `coverage.json`, regenerated from the catalog on every deploy —
-the same machine-readable surface an agent can fetch to see what exists and
-what's missing before proposing an audit.
+The [audit map](https://goal-prompts.vercel.app/coverage) lays the whole
+catalog out as a map of the questions worth asking about a piece of software —
+grouped by the stage of its life (worth building → any good → works → safe to
+ship → runs & grows → what now) — with the ready-made audits under each. It's
+the fast way to find the audit for a given worry, or to take in the shape of
+what a codebase should be held to; the thinnest areas are shown honestly as the
+frontier rather than a manufactured gap. Built from `coverage.json`, regenerated
+from the catalog on every deploy — the same machine-readable surface an agent
+can fetch to pick the right audit for a repo.
 
 ## Run it on a schedule
 

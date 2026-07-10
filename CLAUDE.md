@@ -22,9 +22,10 @@ Edit these (source of truth):
 - `template.html` — the catalog UI (build injects prompt + playbook JSON)
 - `studio.html` — Report Studio (standalone page)
 - `vitals.html` — Weekly Vitals (standalone page, like studio.html)
-- `coverage.html` — the Coverage Map (standalone page, like studio.html);
-  fetches the build-generated `coverage.json` and draws the family density
-  heatmap, the family × playbook curation matrix, and the gap analysis
+- `coverage.html` — the audit map (standalone page, like studio.html);
+  fetches the build-generated `coverage.json` and lays the catalog out as a
+  map of the question each family answers, grouped by product-life stage, with
+  the ready-made audits under each and an honest "thinnest areas" frontier
 - `examples/index.html` — the hand-authored report gallery; it links into
   `reports/`, so it moves in step when report files do
 - `manifest.json` — the PWA manifest (hand-authored)

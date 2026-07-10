@@ -1,13 +1,14 @@
 # Changelog
 
 ## 0.17.0 — 2026-07-10
-- New page: **Coverage Map** (`/coverage`) — a heatmap of what the catalog
-  covers, for agents and humans. Three linked views: a family **density
-  heatmap** (each family shaded by brief count, sorted densest-first so the
-  thin tail is obvious, click a tile to list its briefs); a **family ×
-  playbook curation matrix** showing how coverage spreads across the curated
-  sequences (a family no playbook draws on shows as an empty column); and a
-  **gap analysis** flagging the thinly-covered families worth a new brief.
+- New page: **the audit map** (`/coverage`) — the catalog laid out as a map of
+  the questions worth asking about a piece of software, grouped by the stage of
+  its life (worth building → any good → works → safe to ship → runs & grows →
+  what now), with the ready-made audits under each question and colored by
+  family like the rest of the site. The fast way to find the audit for a given
+  worry, and to take in the whole territory a codebase should be held to. The
+  thinnest areas are shown honestly as the frontier — where the catalog grows
+  next — not a manufactured gap.
 - New build output: **`coverage.json`** — one computed surface (per-family
   counts, density, playbook reach, the curation matrix, and the gap set)
   written by `build.py`'s `coverage_data`. The page fetches it and agents read
