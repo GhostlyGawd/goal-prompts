@@ -6,7 +6,7 @@
     {
       "name": "goal",
       "source": "./plugin",
-      "description": "The full goal-prompts catalog as /goal:<slug> commands — every brief audits read-only and writes exactly one report file.",
+      "description": "The full goal-prompts catalog as /goal:<slug> commands — every brief audits read-only and writes exactly one report file. Start with /goal:audit-triage (it names the audits your repo needs) or /goal:bug-hunt.",
       "category": "productivity",
       "keywords": ["audit", "code-audit", "claude-code", "prompts", "reports"],
       "homepage": "https://goal-prompts.vercel.app",

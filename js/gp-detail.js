@@ -66,8 +66,11 @@ function showHint(output, id) {
   el.textContent = "";
   var b = document.createElement("b"); b.textContent = "inside your repo";
   var code = document.createElement("code"); code.textContent = output || "the report";
+  /* ACTIVATION AN6 (R11): same second step the landing hint tees up */
+  var studio = document.createElement("a");
+  studio.href = "/studio"; studio.textContent = "Report Studio";
   el.append("Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
-            " at the root (or in reports/).");
+            " at the root (or in reports/), then drop it in the ", studio, ".");
   if (id) {
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
     if (hasRun(id)) { mr.textContent = "✓ run"; mr.disabled = true; }

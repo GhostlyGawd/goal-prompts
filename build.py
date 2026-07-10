@@ -649,6 +649,8 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .way .num{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
 .way p{font-size:13px;color:var(--dim);margin:2px 0 12px;line-height:1.5}
 .cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;overflow-x:auto;min-width:0}
+.cmd+.cmd{margin-top:8px}
+.cmd .cmdstep{flex:none;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fc)}
 .cmd code{flex:1;white-space:nowrap;min-width:0;background:none;border:0;padding:0;color:var(--text)}
 .cmd .cp{flex:none;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;cursor:pointer}
 .cmd .cp:hover{color:var(--text);border-color:var(--line-3)}
@@ -710,6 +712,7 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
 .gp-hint[hidden]{display:none}
 .gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint a{color:var(--fc);text-decoration:underline}
 .gp-hint b{color:var(--text)}
 .gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
 .gp-hint .markrun:disabled{opacity:.6;cursor:default}
@@ -809,10 +812,12 @@ def foot(head, sub, buttons_html) -> str:
             '</div></footer>')
 
 
-def cmd_html(text: str) -> str:
+def cmd_html(text: str, step: int = 0) -> str:
     import hashlib
     cid = "c" + hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
-    return (f'<div class="cmd"><code>{esc(text)}</code>'
+    # CRO NF3 (R07): multi-command installs render as numbered copyable steps
+    lab = f'<span class="cmdstep">{step}</span>' if step else ""
+    return (f'<div class="cmd">{lab}<code>{esc(text)}</code>'
             f'<button class="cp" data-copy="#{cid}">copy</button>'
             f'<textarea id="{cid}" hidden>{esc(text)}</textarea></div>')
 
@@ -918,9 +923,10 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
             f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h4>As a slash command</h4>'
-            f'<p>Install the <b>goal</b> plugin once, then just type <code>/goal:{esc(slug)}</code> '
+            f'<p>Install the <b>goal</b> plugin once — two commands — then just type <code>/goal:{esc(slug)}</code> '
             f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
-            f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts")}</div>'
+            f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts", step=1)}'
+            f'{cmd_html("/plugin install goal@goal-prompts", step=2)}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h4>From an agent (MCP)</h4>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md")}</div>'
@@ -1144,9 +1150,13 @@ def write_plugin(prompts: list) -> None:
         "name": "goal",
         "displayName": "Goal Prompts",
         "version": version,
+        # ACTIVATION AN5 (R15): name a concrete first command, so the install
+        # moment doesn't land in 141 equal choices (mirrors install's outro).
         "description": "The goal-prompts audit catalog as native /goal:<slug> "
                        "commands — each brief points your agent at the repo "
-                       "and writes one evidence-backed report.",
+                       "and writes one evidence-backed report. Start with "
+                       "/goal:audit-triage (it names the audits your repo "
+                       "needs) or /goal:bug-hunt.",
         "author": {"name": "GhostlyGawd"},
         "homepage": BASE,
         "repository": "https://github.com/GhostlyGawd/goal-prompts",

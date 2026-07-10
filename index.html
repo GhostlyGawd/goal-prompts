@@ -364,8 +364,12 @@
   .way h4{font-family:var(--disp);font-size:16px;font-weight:680;margin:6px 0 4px;color:var(--text)}
   .way p{font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.5}
   .cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;overflow-x:auto;min-width:0}
+  .cmd+.cmd{margin-top:8px}
+  .cmd .cmdstep{flex:none;font-size:11px;font-weight:600;color:var(--fc)}
   .cmd code{flex:1;white-space:nowrap;min-width:0}
   .cmd .iconbtn{flex:none}
+  .noagent{margin-top:18px;font-size:13px;color:var(--dim)}
+  .noagent a{color:var(--text);text-decoration:underline}
   .way .more{display:block;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--dim)}
   .way .more:hover{color:var(--text)}
   @media(max-width:820px){.ways{grid-template-columns:1fr}}
@@ -656,9 +660,12 @@
     <div class="way">
       <div class="num2">02 · INSTALL</div>
       <h4>As slash commands</h4>
-      <p>Add the plugin once, then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
-      <div class="cmd"><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall">copy</button></div>
-      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">then install <b>goal</b> from the marketplace. No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
+      <p>Add the plugin once — two commands — then type <code>/goal:bug-hunt</code>, <code>/goal:prune-audit</code>… native in Claude Code.</p>
+      <!-- CRO NF3 / FUNNEL §1 (R07): both commands as numbered copyable steps —
+           step 2 used to be fine print, and a step-1-only install looks broken -->
+      <div class="cmd"><span class="cmdstep">1</span><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall">copy</button></div>
+      <div class="cmd"><span class="cmdstep">2</span><code id="installcmd2">/plugin install goal@goal-prompts</code><button class="iconbtn" id="copyinstall2">copy</button></div>
+      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
     </div>
     <div class="way">
@@ -669,6 +676,8 @@
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
   </div>
+  <!-- FUNNEL silent stall 3 (R17): the page assumes a coding agent exists -->
+  <p class="noagent">New to coding agents? Start with <a href="https://claude.com/claude-code">Claude Code ↗</a> — every brief here runs in it with a plain paste.</p>
 </div></section>
 
 <!-- ============ PROOF ============ -->
@@ -863,10 +872,12 @@ function renderCtxWarm(){
 
 /* ---- copy ---- */
 function feedback(btn, ok){
-  if(!btn.dataset.label) btn.dataset.label = btn.textContent;
+  /* restore innerHTML, not textContent — buttons like the quickstart pill
+     carry markup (dot + <b>) that a text-only restore would flatten */
+  if(btn._label === undefined) btn._label = btn.innerHTML;
   clearTimeout(btn._t);
   btn.textContent = ok; btn.classList.add("done");
-  btn._t = setTimeout(()=>{btn.textContent = btn.dataset.label; btn.classList.remove("done");}, 1600);
+  btn._t = setTimeout(()=>{btn.innerHTML = btn._label; btn.classList.remove("done");}, 1600);
 }
 // Retention R5: attach an anonymous, non-PII cohort id + first-seen-week bucket
 // to the (already anonymous) analytics events, so new-vs-returning and week-N
@@ -914,18 +925,64 @@ function toast(parts){
   clearTimeout(_copyhintT);
   _copyhintT = setTimeout(function(){ el.hidden = true; }, 9000);
 }
+var COARSE = false;
+try{ COARSE = window.matchMedia && window.matchMedia("(pointer:coarse)").matches; }catch(e){}
+/* FUNNEL §1 / ACTIVATION AN7 (R14): the run walk-through answers "what does
+   the 15-minute wait look like?" at the moment the doubt starts. */
+function whatNext(){
+  var a = document.createElement("a"); a.href = "#runreplay";
+  a.textContent = "what happens next →";
+  a.onclick = function(){
+    var el = document.getElementById("copyhint");
+    if(el) el.hidden = true;
+    clearTimeout(_copyhintT);
+  };
+  return a;
+}
 function showCopyHint(output, id){
+  /* FUNNEL §1/§3 (R12): on a touch device the clipboard is on the wrong
+     machine — offer the raw-brief URL as the bridge instead of "paste". */
+  if(COARSE && id){
+    var url = location.origin + "/raw/" + id + ".md";
+    var ra = document.createElement("a"); ra.href = "/raw/" + id + ".md";
+    ra.textContent = "/raw/" + id + ".md";
+    var cu = document.createElement("button"); cu.type = "button"; cu.className = "iconbtn";
+    cu.textContent = "copy URL";
+    cu.onclick = function(){ copyText(url, cu, "✓"); };
+    toast(["On your phone? Copy this URL instead and open the raw brief on the machine your agent runs on → ", ra, " ", cu]);
+    return;
+  }
   var b = document.createElement("b"); b.textContent = "inside your repo";
   var code = document.createElement("code"); code.textContent = output || "the report";
   var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
   var parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
-               " at the root, then drop it in the ", a, "."];
+               " at the root, then drop it in the ", a, ". ", whatNext()];
   if(id){
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
     if(runs[id]){ mr.textContent = "✓ run"; mr.disabled = true; }
     else { mr.setAttribute("data-id", id); mr.textContent = "✓ mark it run"; }
     parts.push(" ", mr);
   }
+  toast(parts);
+}
+/* ACTIVATION AN4 / FUNNEL path C (R10): conductors are the least
+   self-explanatory copy — say how many briefs run and which reports land. */
+function showConductorHint(ids){
+  var outs = [];
+  for(var i = 0; i < ids.length; i++){
+    var p = byId[ids[i]];
+    if(p && p.output && outs.indexOf(p.output) < 0) outs.push(p.output);
+  }
+  var b = document.createElement("b"); b.textContent = "inside your repo";
+  var parts = ["Paste into your agent ", b, " — one paste runs " + ids.length +
+               " brief" + (ids.length === 1 ? "" : "s") + " in order and writes "];
+  outs.slice(0, 3).forEach(function(o, i){
+    if(i) parts.push(", ");
+    var c = document.createElement("code"); c.textContent = o;
+    parts.push(c);
+  });
+  if(outs.length > 3) parts.push("…");
+  parts.push(" (~15 min each). ", whatNext());
   toast(parts);
 }
 (function(){ var x = document.getElementById("copyhintx"); if(x) x.onclick = function(){ document.getElementById("copyhint").hidden = true; clearTimeout(_copyhintT); }; })();
@@ -944,11 +1001,16 @@ document.addEventListener("click", function(e){
     t.textContent = "✓ marked"; t.disabled = true;
   }
 });
-function copyText(txt, btn, ok, evt){
+/* onOk fires only when the text actually reached the clipboard (AN2/R09 —
+   success UI must not run on a failed copy); onFail lets a call site degrade
+   (R13's raw-link swap) instead of the bare "copy failed" default. */
+function copyText(txt, btn, ok, evt, onOk, onFail){
   const done = ()=>{
     feedback(btn, ok || "Copied ✓");
     if(evt){ track(evt.name, evt.data); }
+    if(onOk) onOk();
   };
+  const fail = ()=>{ if(onFail) onFail(); else btn.textContent = "copy failed"; };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done).catch(()=>fallback());
   } else fallback();
@@ -956,9 +1018,19 @@ function copyText(txt, btn, ok, evt){
     const ta = document.createElement("textarea");
     ta.value = txt; ta.style.position="fixed"; ta.style.opacity="0";
     document.body.append(ta); ta.select();
-    try{ document.execCommand("copy"); done(); }catch(e){ btn.textContent="copy failed"; }
+    /* execCommand reports failure by returning false, not just by throwing */
+    try{ if(document.execCommand("copy")) done(); else fail(); }catch(e){ fail(); }
     ta.remove();
   }
+}
+/* FUNNEL §1c / ACTIVATION AN8 (R13): when the clipboard is out of reach,
+   degrade the button to a plain link to the same artifact — the pattern
+   gp-detail.js already uses for fetch failures. */
+function rawLink(btn, id, label){
+  var a = document.createElement("a");
+  a.className = btn.className; a.href = "/raw/" + id + ".md";
+  a.textContent = label || "open raw ↗";
+  btn.replaceWith(a);
 }
 
 /* ---- featured playbook storefront ---- */
@@ -1001,7 +1073,8 @@ function renderFeatured(){
     const cc = document.createElement("button");
     cc.className = "cc"; cc.textContent = "⧉ conductor";
     cc.setAttribute("aria-label", "Copy the " + pb.name + " conductor");
-    cc.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cc, "✓", {name:"copy_conductor", data:{key:pb.key}});
+    cc.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cc, "✓", {name:"copy_conductor", data:{key:pb.key}},
+      ()=>showConductorHint(pb.ids));
     a.querySelector(".acts").append(cc);
     host.append(a);
   }
@@ -1166,8 +1239,11 @@ function card(p, idx, stepNo){
     catalogReached();   /* before copy_prompt — position events stay monotonic */
     /* a copy is not a run: marking happens only through the explicit affordances
        (the hint's "✓ mark it run", the card's run toggle), so the tracker,
-       nudges, and mark_run stay keyed to confirmed runs (R01). */
-    copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}});
+       nudges, and mark_run stay keyed to confirmed runs (R01). The hint
+       (ACTIVATION AN1 / R08) is the guided handoff on this majority path. */
+    copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}},
+      ()=>showCopyHint(p.output, p.id),
+      ()=>rawLink(btn, p.id));
   };
   const sq = document.createElement("button"); sq.className = "iconbtn";
   sq.setAttribute("aria-label", "Add " + p.title + " to a custom conductor sequence");
@@ -1306,7 +1382,8 @@ function render(){
     cbar.append("Run the whole playbook with one paste — the conductor fetches each brief in order and writes every report. ");
     const cbtn = document.createElement("button"); cbtn.className = "iconbtn";
     cbtn.textContent = "copy conductor";
-    cbtn.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}});
+    cbtn.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}},
+      ()=>showConductorHint(pb.ids));
     cbar.append(cbtn);
     const plink = document.createElement("a"); plink.className = "iconbtn"; plink.href = "/p/" + pb.key;
     plink.textContent = "open playbook page →"; plink.style.marginLeft = "8px";
@@ -1334,7 +1411,8 @@ function render(){
           makeConductor("All " + fam + " briefs",
             "Every " + fam + " brief in the catalog, in order — " + famIds[0] + " through " + famIds[famIds.length-1] + ", one report each.",
             famIds),
-          fb, "✓ copied", {name:"copy_family_conductor", data:{family:fam}});
+          fb, "✓ copied", {name:"copy_family_conductor", data:{family:fam}},
+          () => showConductorHint(famIds));
         fh.append(fb);
       }
       listEl.append(fh);
@@ -1376,14 +1454,15 @@ function wireCopy(id, srcId, evt){
   const b = document.getElementById(id); if(!b) return;
   b.onclick = function(){ copyText(document.getElementById(srcId).textContent, this, "✓", evt); };
 }
-wireCopy("copyinstall", "installcmd", {name:"copy_install"});
+wireCopy("copyinstall", "installcmd", {name:"copy_install", data:{step:1}});
+wireCopy("copyinstall2", "installcmd2", {name:"copy_install", data:{step:2}});
 wireCopy("copymcp", "mcpcmd", {name:"copy_mcp"});
 (function(){
   var b = document.getElementById("triagecopy"), p = byId["46"];
   if(!b || !p) return;
   b.onclick = function(){
-    copyText(withContext(p.body), b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}});
-    showCopyHint(p.output, "46");
+    copyText(withContext(p.body), b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}},
+      function(){ showCopyHint(p.output, "46"); }, function(){ rawLink(b, "46"); });
   };
 })();
 
@@ -1488,9 +1567,11 @@ async function toggleRemind(btn){
 
 document.getElementById("seqcopy").onclick = function(){
   if(!seq.length) return;
+  var ids = seq.slice();   /* snapshot — seq can change before the async hint */
   copyText(makeConductor("Custom sequence",
-    "A custom sequence of " + seq.length + " brief" + (seq.length>1?"s":"") + ", assembled by the operator in the goal-prompts catalog.",
-    seq.slice()), this, "✓ copied", {name:"copy_custom_conductor", data:{n:seq.length}});
+    "A custom sequence of " + ids.length + " brief" + (ids.length>1?"s":"") + ", assembled by the operator in the goal-prompts catalog.",
+    ids), this, "✓ copied", {name:"copy_custom_conductor", data:{n:ids.length}},
+    function(){ showConductorHint(ids); });
 };
 document.getElementById("seqclear").onclick = () => { seq = []; saveSeq(); syncSeqUi(); };
 
@@ -1614,14 +1695,16 @@ buildFinder();
       const a = document.createElement("a"); a.href = "/p/" + pb.key; a.textContent = pb.name;
       d.append("Run the ", a, " playbook — " + (pb.tagline || pb.desc) + " (" + pb.ids.length + " briefs, one paste). ");
       const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy conductor";
-      cb.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cb, "✓ copied", {name:"copy_conductor", data:{key:pb.key, src:"picker"}});
+      cb.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cb, "✓ copied", {name:"copy_conductor", data:{key:pb.key, src:"picker"}},
+        ()=>showConductorHint(pb.ids));
       d.append(cb);
     } else {
       const p = byId[plan.id];
       const a = document.createElement("a"); a.href = "/b/" + p.id; a.textContent = p.id + " · " + p.title;
       d.append("Run ", a, " — " + p.tagline + " → " + p.output + " ");
       const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy the brief";
-      cb.onclick = ()=>{ copyText(withContext(p.body), cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}}); showCopyHint(p.output, p.id); };
+      cb.onclick = ()=>copyText(withContext(p.body), cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}},
+        ()=>showCopyHint(p.output, p.id), ()=>rawLink(cb, p.id));
       d.append(cb);
     }
     if(!(plan.kind === "brief" && plan.id === plan.alt) && byId[plan.alt]){
@@ -1710,12 +1793,13 @@ buildFinder();
   var starter = byId["01"] || DATA[0]; if(!starter) return;
   var lbl = qb.querySelector("b"); if(lbl) lbl.textContent = "Copy the " + starter.title + " brief";
   qb.hidden = false;
+  /* ACTIVATION AN2 (R09): the shared copyText owns the fallback + failure
+     state — success UI (event, hint) only fires when the copy landed, and a
+     failed copy degrades to the raw-brief link instead of claiming success. */
   qb.onclick = function(){
-    var txt = withContext(starter.body);
-    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(function(){}); }
-    else { var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); }
-    track("copy_prompt", {id:starter.id, src:"hero"});
-    showCopyHint(starter.output, starter.id);
+    copyText(withContext(starter.body), qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
+      function(){ showCopyHint(starter.output, starter.id); },
+      function(){ rawLink(qb, starter.id, "copy failed — open the raw brief ↗"); });
   };
 })();
 

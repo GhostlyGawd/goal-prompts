@@ -79,6 +79,9 @@
     transition:border-color .15s,color .15s;text-decoration:none;
   }
   .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  /* FUNNEL §1 (R18): the demo button carries primary weight while nothing is loaded */
+  .iconbtn.primary{background:var(--btn);color:var(--btn-fg);border-color:transparent;font-weight:600}
+  .iconbtn.primary:hover{color:var(--btn-fg);border-color:transparent;filter:brightness(1.12)}
   .iconbtn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .pastebox{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);display:grid;gap:8px}
   .pastebox input,.pastebox textarea{
@@ -479,6 +482,9 @@ function render(){
 
   emptyEl.hidden = reports.length > 0;
   document.getElementById("clearall").hidden = reports.length === 0;
+  /* FUNNEL §1 (R18): with zero reports the demo is the fastest aha — give it
+     the primary weight; it steps back to a peer once anything is loaded */
+  document.getElementById("demobtn").classList.toggle("primary", reports.length === 0);
   syncBar();
 }
 function syncBulk(){

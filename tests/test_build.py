@@ -571,6 +571,17 @@ class PluginTests(unittest.TestCase):
         entry = [pl for pl in market["plugins"] if pl["name"] == "goal"][0]
         self.assertEqual(entry["source"], "./plugin")
 
+    def test_plugin_descriptions_name_a_first_command(self):
+        # ACTIVATION AN5 (R15): the install/browse surfaces name a concrete
+        # first command instead of dropping the user into 141 equal choices.
+        manifest = json.loads((build.ROOT / "plugin" / ".claude-plugin" /
+                               "plugin.json").read_text(encoding="utf-8"))
+        self.assertIn("/goal:audit-triage", manifest["description"])
+        market = json.loads((build.ROOT / ".claude-plugin" /
+                             "marketplace.json").read_text(encoding="utf-8"))
+        entry = [pl for pl in market["plugins"] if pl["name"] == "goal"][0]
+        self.assertIn("/goal:audit-triage", entry["description"])
+
 
 class DetailPageTests(unittest.TestCase):
     def _prompts(self):

@@ -2,7 +2,7 @@
   "name": "goal",
   "displayName": "Goal Prompts",
   "version": "0.12.0",
-  "description": "The goal-prompts audit catalog as native /goal:<slug> commands — each brief points your agent at the repo and writes one evidence-backed report.",
+  "description": "The goal-prompts audit catalog as native /goal:<slug> commands — each brief points your agent at the repo and writes one evidence-backed report. Start with /goal:audit-triage (it names the audits your repo needs) or /goal:bug-hunt.",
   "author": {
     "name": "GhostlyGawd"
   },
