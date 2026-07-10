@@ -1320,6 +1320,50 @@
    "title": "Change Risk Review"
   },
   {
+   "chars": 3887,
+   "family": "Build",
+   "id": "141",
+   "output": "SCAFFOLD.md",
+   "question": "will it ship?",
+   "raw": "https://goal-prompts.vercel.app/raw/141.md",
+   "slug": "scaffold-the-rails",
+   "tagline": "Installs the golden-path harness into this repo — greenfield or grafted onto existing code — and proves the gate bites, red fails, green passes, before more code lands.",
+   "title": "Scaffold the Rails"
+  },
+  {
+   "chars": 2968,
+   "family": "Build",
+   "id": "142",
+   "output": "SPEC.md",
+   "question": "will it ship?",
+   "raw": "https://goal-prompts.vercel.app/raw/142.md",
+   "slug": "spec-the-product",
+   "tagline": "Turns venture research and operator intent into SPEC.md — a contract where every acceptance criterion carries a command a machine can run.",
+   "title": "Spec the Product"
+  },
+  {
+   "chars": 2902,
+   "family": "Build",
+   "id": "143",
+   "output": "BUILDLOG.md",
+   "question": "will it ship?",
+   "raw": "https://goal-prompts.vercel.app/raw/143.md",
+   "slug": "implement-to-spec",
+   "tagline": "The build loop. Takes the open acceptance criteria, asks the scope, then lands each one as a failing test, the least code to pass it, and a verified commit.",
+   "title": "Implement to Spec"
+  },
+  {
+   "chars": 2714,
+   "family": "Build",
+   "id": "144",
+   "output": "SHIP-GATE.md",
+   "question": "will it ship?",
+   "raw": "https://goal-prompts.vercel.app/raw/144.md",
+   "slug": "ship-gate",
+   "tagline": "The adversarial go/no-go. Re-runs every check fresh, sabotages code to prove the tests bite, walks the revenue path end to end, and rules ship or hold.",
+   "title": "Ship Gate"
+  },
+  {
    "chars": 2833,
    "family": "Agent",
    "id": "30",
@@ -1591,6 +1635,7 @@
   "Subtract",
   "Meta",
   "Act",
+  "Build",
   "Agent",
   "Automation",
   "AI-UX",
@@ -1603,6 +1648,7 @@
   "Act": "https://goal-prompts.vercel.app/raw/family-act.md",
   "Agent": "https://goal-prompts.vercel.app/raw/family-agent.md",
   "Automation": "https://goal-prompts.vercel.app/raw/family-automation.md",
+  "Build": "https://goal-prompts.vercel.app/raw/family-build.md",
   "Clarity": "https://goal-prompts.vercel.app/raw/family-clarity.md",
   "Compliance": "https://goal-prompts.vercel.app/raw/family-compliance.md",
   "Data": "https://goal-prompts.vercel.app/raw/family-data.md",
@@ -2130,6 +2176,47 @@
    "name": "Cost Down",
    "page": "https://goal-prompts.vercel.app/p/costdown",
    "tagline": "Find the spend you can cut without anyone noticing.",
+   "type": "standard"
+  },
+  {
+   "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-buildloop.md",
+   "desc": "From go verdict to shipped product, in the repo you're standing in: put it on rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.",
+   "featured": true,
+   "ids": [
+    "141",
+    "142",
+    "143",
+    "144"
+   ],
+   "key": "buildloop",
+   "name": "Build Loop",
+   "page": "https://goal-prompts.vercel.app/p/buildloop",
+   "tagline": "Rails, spec, build, gate — the supervised path from verdict to shipped product.",
+   "type": "standard"
+  },
+  {
+   "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-zerotoship.md",
+   "desc": "The whole arc in your actual repo: prove the idea is worth building — pain, competitors, market, positioning, moat, verdict — then put the repo on rails, spec it, build it test-first, and face the ship gate.",
+   "featured": true,
+   "ids": [
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "67",
+    "141",
+    "142",
+    "143",
+    "144"
+   ],
+   "key": "zerotoship",
+   "name": "Zero to Shipped",
+   "page": "https://goal-prompts.vercel.app/p/zerotoship",
+   "tagline": "Eleven stages, one repo: from is-it-worth-building to shipped.",
    "type": "standard"
   },
   {

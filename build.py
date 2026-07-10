@@ -24,8 +24,8 @@ BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
 FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Compliance",
                 "Growth", "Team", "API", "Clarity", "Design", "Data", "Ops",
-                "Reliability", "Subtract", "Meta", "Act", "Agent", "Automation",
-                "AI-UX", "AI-Ethics"]
+                "Reliability", "Subtract", "Meta", "Act", "Build", "Agent",
+                "Automation", "AI-UX", "AI-Ethics"]
 # family colors — the structural signature: color = family, everywhere.
 # Source of truth for Python (og.py imports these); template.html's .f-* CSS
 # rules must carry the same values for the JS-rendered catalog.
@@ -37,6 +37,7 @@ FAMILY_COLORS = {
     "Meta": "#C4CBD8", "Act": "#E84C3D", "Agent": "#8B7CF8",
     "Automation": "#E8DE5A", "AI-UX": "#F06FD8", "Compliance": "#8892B0",
     "API": "#2CB5C4", "Reliability": "#5FC08A", "AI-Ethics": "#6E8AF0",
+    "Build": "#8CD94C",
 }
 REQUIRED = ["id", "title", "family", "question", "output", "tagline"]
 # Filenames that mean something else on GitHub — a brief writing one would

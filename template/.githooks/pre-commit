@@ -1,0 +1,4 @@
+#!/bin/sh
+# Every commit passes the gate, or it does not happen.
+# Wired by: git config core.hooksPath .githooks   (scripts/init / brief 141)
+exec sh "$(git rev-parse --show-toplevel)/scripts/check"

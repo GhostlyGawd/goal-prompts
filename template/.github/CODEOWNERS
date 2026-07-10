@@ -1,0 +1,7 @@
+# The harness layer is operator-owned: any change here needs the operator's
+# review. Replace @OPERATOR with a real GitHub handle at instantiation.
+/scripts/       @OPERATOR
+/.githooks/     @OPERATOR
+/.github/       @OPERATOR
+/.claude/       @OPERATOR
+/tests/harness/ @OPERATOR
