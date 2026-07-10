@@ -320,6 +320,13 @@
   .body{display:none;margin-top:12px}
   .card.open .body{display:block}
   .body pre{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text);background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow-y:auto}
+  /* R28 (SEO-1): the build-emitted static catalog inside #list — visible
+     until (and unless) the inline script swaps in the interactive cards */
+  .sfam .famhead{margin:28px 0 10px}
+  .sbriefs{list-style:none;margin:0;display:grid;gap:8px}
+  .sbriefs a{color:var(--text);font-weight:600}
+  .sbriefs a:hover{color:var(--fc)}
+  .sbriefs .st{color:var(--dim);font-size:13px}
   .empty{text-align:center;color:var(--dim);font-family:var(--mono);font-size:13px;padding:56px 0}
   .empty b{color:var(--dim);font-weight:500}
   .empty .nearrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
@@ -640,7 +647,10 @@
     <div class="pbs" id="pbs" role="group" aria-label="Filter by playbook"></div>
   </div>
 
-  <div class="list" id="list" aria-live="polite"></div>
+  <!-- R28 (SEO-1): build.py emits the full, crawlable catalog here — every
+       brief linked, grouped by family, useful with JS off; the inline script
+       replaces it with the interactive catalog on boot -->
+  <div class="list" id="list" aria-live="polite">__STATIC_CATALOG__</div>
 </div></section>
 </main>
 
@@ -649,8 +659,10 @@
   <div class="kicker">Playbooks</div>
   <h2 class="h2">Want a running start? Grab a playbook.</h2>
   <p class="lead">Curated sequences that run several briefs in the right order — one paste, a whole stack of reports. Each one is tuned for a moment: a fresh repo, launch night, a visual overhaul, a startup idea.</p>
-  <div class="store" id="featured"></div>
-  <div class="morepb" id="morepb"></div>
+  <!-- R28 (SEO-1): static storefront from build.py — every playbook page
+       linked without JS; renderFeatured() swaps in the interactive cards -->
+  <div class="store" id="featured">__STATIC_PB_FEATURED__</div>
+  <div class="morepb" id="morepb">__STATIC_PB_MORE__</div>
 </div></section>
 
 <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
@@ -803,6 +815,22 @@ const fkey = f => "f-" + f.toLowerCase();
 const byId = {};
 DATA.forEach(p => byId[p.id] = p);
 const RAW_BASE = /^https?:/.test(location.origin) ? location.origin : "https://goal-prompts.vercel.app";
+
+/* R29 (SEO-2): DATA carries metadata only — the 141 bodies live in
+   /bodies.json, fetched lazily (and precached by the service worker, so
+   offline copies keep working). raw/<id>.md stays the agents' endpoint:
+   fetching it from the UI would pollute the raw-fetch usage metric
+   (docs/usage-metrics.md) and conflate copies with runs. */
+var _bodies = null, _bodiesP = null;
+function loadBodies(){
+  if(_bodies) return Promise.resolve(_bodies);
+  if(_bodiesP) return _bodiesP;
+  _bodiesP = fetch("/bodies.json")
+    .then(function(r){ if(!r.ok) throw new Error("http " + r.status); return r.json(); })
+    .then(function(j){ _bodies = j; return j; })
+    .catch(function(e){ _bodiesP = null; throw e; });
+  return _bodiesP;
+}
 
 let activeFam = "All";
 let activePb = null;
@@ -1095,6 +1123,49 @@ function rawLink(btn, id, label){
   a.textContent = label || "open raw ↗";
   btn.replaceWith(a);
 }
+/* R29: every brief-copy affordance goes through here — body from bodies.json
+   (usually already loaded: the SW precaches it and an idle prefetch warms it),
+   Operator context applied, then the shared copyText. A failed fetch degrades
+   to the raw-brief link, exactly like a failed clipboard write (R13). */
+function copyBrief(p, btn, ok, evt, onOk, onFail){
+  var fail = onFail || function(){ btn.textContent = "copy failed"; };
+  if(_bodies){
+    if(_bodies[p.id]) copyText(withContext(_bodies[p.id]), btn, ok, evt, onOk, fail);
+    else fail();
+    return;
+  }
+  /* Cold cache: WebKit rejects clipboard writes that happen after an await,
+     and even Chromium's transient-activation window can expire on a slow
+     fetch — so invoke the write SYNCHRONOUSLY in the gesture and hand it a
+     ClipboardItem whose text resolves when bodies.json lands. Success UI,
+     events, and hints key off the write's own promise; a refusal (or a
+     browser without promise-valued ClipboardItem) retries through the
+     await-then-writeText path, whose fallbacks still end at the raw link. */
+  function awaited(){
+    loadBodies().then(function(b){
+      if(b[p.id]) copyText(withContext(b[p.id]), btn, ok, evt, onOk, fail);
+      else fail();
+    }).catch(fail);
+  }
+  if(navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem !== "undefined"){
+    var item = null;
+    try{
+      item = new ClipboardItem({"text/plain": loadBodies().then(function(b){
+        if(!b[p.id]) throw new Error("no body for " + p.id);
+        return new Blob([withContext(b[p.id])], {type: "text/plain"});
+      })});
+    }catch(e){ item = null; }
+    if(item){
+      navigator.clipboard.write([item]).then(function(){
+        feedback(btn, ok || "Copied ✓");
+        if(evt){ track(evt.name, evt.data); }
+        if(onOk) onOk();
+      }).catch(awaited);
+      return;
+    }
+  }
+  awaited();
+}
 
 /* ---- featured playbook storefront ---- */
 const _famColor = {};
@@ -1228,8 +1299,27 @@ function buildPbs(){
   }
 }
 
-/* ---- closest matches — same scoring as the MCP server's suggest_briefs ---- */
-function closest(q, n){ return CC.closest(DATA, q, n); }
+/* ---- closest matches — the MCP server's suggest_briefs scoring, but over a
+   smaller corpus: DATA is metadata-only (R29), so body terms only score after
+   upgradeZeroState() merges bodies.json in (see _searchData below) ---- */
+function closest(q, n){ return CC.closest(_searchData, q, n); }
+/* R29 zero-state upgrade: a search that finds nothing in the metadata pulls
+   bodies.json once (idle-prefetched, SW-precached), swaps in the body-backed
+   corpus, and re-renders — body-only terms like "backpressure" keep working
+   while the happy path pays nothing. Still zero afterwards = honestly zero. */
+var _searchData = DATA, _bodySearch = false;
+function upgradeZeroState(q0){
+  if(_bodySearch) return;   // already body-backed — the empty state is honest
+  loadBodies().then(function(bodies){
+    if(_bodySearch) return;
+    _bodySearch = true;
+    _searchData = CC.withBodies(DATA, bodies);
+    /* keep the playbook-chip filter path (which matches via byId) consistent
+       with the upgraded corpus — same objects, plus body */
+    _searchData.forEach(function(p){ byId[p.id] = p; });
+    if(query === q0 && listEl.querySelector(".empty")) render();
+  }).catch(function(){});
+}
 
 /* ---- render ---- */
 const listEl = document.getElementById("list");
@@ -1237,10 +1327,8 @@ let zeroT;
 function matches(p){
   return CC.matches(p, {family:activeFam, playbook:activePb, query:query}, PLAYBOOKS);
 }
-function lensCount(p){
-  const m = p.body.match(/## Phase 2[\s\S]*?(?=## Phase 3|$)/);
-  return m ? (m[0].match(/^\d+\.\s+\*\*/gm) || []).length : 0;
-}
+/* R29: precomputed by build.py (the body is no longer inlined to count from) */
+function lensCount(p){ return p.lenses || 0; }
 function card(p, idx, stepNo){
   const c = document.createElement("article");
   c.className = "card " + fkey(p.family);
@@ -1307,7 +1395,7 @@ function card(p, idx, stepNo){
        (the hint's "✓ mark it run", the card's run toggle), so the tracker,
        nudges, and mark_run stay keyed to confirmed runs (R01). The hint
        (ACTIVATION AN1 / R08) is the guided handoff on this majority path. */
-    copyText(withContext(p.body), btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}},
+    copyBrief(p, btn, "Copied ✓", {name:"copy_prompt", data:{id:p.id}},
       ()=>showCopyHint(p.output, p.id),
       ()=>rawLink(btn, p.id));
   };
@@ -1339,11 +1427,28 @@ function card(p, idx, stepNo){
 }
 function fillQuick(cardEl){
   const b = cardEl.querySelector(".body");
-  if(!b || b.firstChild) return;
+  /* a failed load marks the panel (data-failed) so reopening really retries */
+  if(!b || (b.firstChild && !b.dataset.failed)) return;
   const p = byId[cardEl.id.slice(1)];
   if(!p) return;
-  const pre = document.createElement("pre"); pre.textContent = p.body;
+  /* R29: the body arrives from bodies.json; a failed fetch degrades to the
+     raw-brief link, and the next open retries the fetch */
+  delete b.dataset.failed;
+  b.textContent = "";
+  const pre = document.createElement("pre"); pre.textContent = "loading…";
   b.append(pre);
+  loadBodies().then(function(bodies){
+    pre.textContent = bodies[p.id] || "";
+    if(!bodies[p.id]) fallback();
+  }).catch(fallback);
+  function fallback(){
+    b.textContent = "";
+    const a = document.createElement("a"); a.className = "iconbtn";
+    a.href = "/raw/" + p.id + ".md";
+    a.textContent = "couldn't load here — open the raw brief ↗";
+    b.append(a);
+    b.dataset.failed = "1";
+  }
 }
 /* the "⋯" more rows close on outside click or Escape, like any disclosure */
 function closeMoreRows(){
@@ -1393,8 +1498,10 @@ function render(){
   listEl.classList.toggle("anim", !entranced);
   entranced = true;
   /* an active query with no family/playbook filter switches to ranked results —
-     the same scorer as the MCP server's suggest_briefs — instead of the family
-     grouping. Inside a family chip the query stays an AND-substring refinement. */
+     the MCP server's suggest_briefs scorer over the metadata corpus (bodies
+     join in via upgradeZeroState when metadata alone finds nothing) — instead
+     of the family grouping. Inside a family chip the query stays an
+     AND-substring refinement. */
   if(query && !activePb && activeFam === "All"){
     const ranked = closest(query, 20);
     if(ranked.length){
@@ -1412,7 +1519,7 @@ function render(){
     }
     /* tokens too short/rare for the scorer fall through to substring filtering */
   }
-  let shown = DATA.filter(matches);
+  let shown = _searchData.filter(matches);
   if(!shown.length){
     const e = document.createElement("div"); e.className="empty";
     const bq = document.createElement("b"); bq.textContent = "“"+query+"”";
@@ -1437,6 +1544,9 @@ function render(){
       zeroT = setTimeout(()=>{
         if(query === q0){ track("search_zero", {q:q0.slice(0,80)}); }
       }, 1200);
+      /* body-only terms get one async second chance; if it lands, render()
+         re-runs (clearing the zeroT above, so search_zero stays honest) */
+      upgradeZeroState(q0);
     }
     listEl.append(e); return;
   }
@@ -1531,7 +1641,7 @@ wireCopy("copymcp", "mcpcmd", {name:"copy_mcp"});
   var b = document.getElementById("triagecopy"), p = byId["46"];
   if(!b || !p) return;
   b.onclick = function(){
-    copyText(withContext(p.body), b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}},
+    copyBrief(p, b, "✓ copied", {name:"copy_prompt", data:{id:"46", src:"callout"}},
       function(){ showCopyHint(p.output, "46"); }, function(){ rawLink(b, "46"); });
   };
 })();
@@ -1724,6 +1834,14 @@ if("serviceWorker" in navigator){
   window.addEventListener("load", function(){ navigator.serviceWorker.register("/sw.js").catch(function(){}); });
 }
 
+/* R29: warm the bodies cache off the critical path, so the first copy is
+   instant and never races the clipboard's user-gesture window */
+window.addEventListener("load", function(){
+  var kick = function(){ loadBodies().catch(function(){}); };
+  if("requestIdleCallback" in window) requestIdleCallback(kick, {timeout:4000});
+  else setTimeout(kick, 2500);
+});
+
 /* ---- theme toggle ---- */
 (function(){
   var KEY="gp-theme", root=document.documentElement, btn=document.getElementById("themetog");
@@ -1841,7 +1959,7 @@ buildFinder();
       const a = document.createElement("a"); a.href = "/b/" + p.id; a.textContent = p.id + " · " + p.title;
       d.append("Run ", a, " — " + p.tagline + " → " + p.output + " ");
       const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy the brief";
-      cb.onclick = ()=>copyText(withContext(p.body), cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}},
+      cb.onclick = ()=>copyBrief(p, cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}},
         ()=>showCopyHint(p.output, p.id), ()=>rawLink(cb, p.id));
       d.append(cb);
     }
@@ -1941,7 +2059,7 @@ buildFinder();
      state — success UI (event, hint) only fires when the copy landed, and a
      failed copy degrades to the raw-brief link instead of claiming success. */
   qb.onclick = function(){
-    copyText(withContext(starter.body), qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
+    copyBrief(starter, qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
       function(){ showCopyHint(starter.output, starter.id); },
       function(){ rawLink(qb, starter.id, "copy failed — open the raw brief ↗"); });
   };

@@ -28,6 +28,12 @@
       ]
     },
     {
+      "source": "/bodies.json",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
       "source": "/prompts/(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex" }

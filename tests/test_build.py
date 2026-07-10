@@ -835,5 +835,242 @@ class ChangelogTests(unittest.TestCase):
         self.assertIn(f"<loc>{build.BASE}/changelog</loc>", sitemap)
 
 
+class StaticCatalogTests(unittest.TestCase):
+    """R28 (SEO-1): the homepage must link every brief and playbook page in
+    static HTML — outside <script> tags — so non-rendering crawlers (and
+    JS-off humans) can reach the product. build.py emits the list from the
+    same source of truth as the JS payload, so the two can never drift."""
+
+    @staticmethod
+    def _static_index():
+        import re as _re
+        html = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        return _re.sub(r"<script[^>]*>[\s\S]*?</script>", "", html)
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_every_brief_is_linked_outside_scripts(self):
+        import re as _re
+        linked = set(_re.findall(r'href="/b/(\d+)"', self._static_index()))
+        missing = {p["id"] for p in self._prompts()} - linked
+        self.assertEqual(missing, set(), "briefs with no static homepage link")
+
+    def test_every_playbook_is_linked_outside_scripts(self):
+        import re as _re
+        playbooks = json.loads(
+            (build.ROOT / "playbooks.json").read_text(encoding="utf-8"))
+        linked = set(_re.findall(r'href="/p/([\w-]+)"', self._static_index()))
+        missing = {pb["key"] for pb in playbooks} - linked
+        self.assertEqual(missing, set(),
+                         "playbooks with no static homepage link")
+
+    def test_static_list_groups_by_family_with_taglines(self):
+        # useful with JS off: family heading + question, title + tagline
+        stat = self._static_index()
+        prompts = self._prompts()
+        p = prompts[0]
+        self.assertIn(build.esc(p["tagline"]), stat)
+        for fam in {q["family"] for q in prompts}:
+            self.assertIn(build.esc(fam), stat)
+            question = next(q["question"] for q in prompts
+                            if q["family"] == fam)
+            self.assertIn(build.esc(question), stat)
+
+    def test_template_carries_the_static_placeholders(self):
+        t = (build.ROOT / "template.html").read_text(encoding="utf-8")
+        for tok in ("__STATIC_CATALOG__", "__STATIC_PB_FEATURED__",
+                    "__STATIC_PB_MORE__"):
+            self.assertIn(tok, t)
+
+    def test_static_catalog_builder_escapes(self):
+        html = build.static_catalog(
+            [brief(title="Evil <Brief>", tagline="a & b <c>",
+                   family="Meta", question='q "quoted"')])
+        self.assertIn("Evil &lt;Brief&gt;", html)
+        self.assertIn("a &amp; b &lt;c&gt;", html)
+        self.assertNotIn("<Brief>", html)
+
+
+class InlineDataTests(unittest.TestCase):
+    """R29 (SEO-2): the inline DATA blob carries metadata only — bodies moved
+    to bodies.json, fetched at copy/quick-view time and precached by the SW
+    so the offline story survives."""
+
+    @staticmethod
+    def _data():
+        import re as _re
+        html = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        m = _re.search(r"const DATA = (\[[\s\S]*?\]);\n", html)
+        assert m, "const DATA not found in index.html"
+        return json.loads(m.group(1))
+
+    def test_data_has_no_body_field(self):
+        for p in self._data():
+            self.assertNotIn("body", p, f'brief {p["id"]} still inlines its body')
+
+    def test_data_carries_precomputed_lens_counts(self):
+        # the card meta line used to count lenses from p.body — the count now
+        # ships precomputed so stripping bodies can't blank it
+        data = self._data()
+        self.assertTrue(all(isinstance(p.get("lenses"), int) for p in data))
+        self.assertTrue(any(p["lenses"] >= 4 for p in data))
+
+    def test_bodies_json_covers_every_brief_and_matches_raw(self):
+        bodies = json.loads(
+            (build.ROOT / "bodies.json").read_text(encoding="utf-8"))
+        prompts = [build.parse(f)
+                   for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+        self.assertEqual(set(bodies), {p["id"] for p in prompts})
+        for p in prompts[:3]:
+            raw = (build.ROOT / "raw" / f'{p["id"]}.md').read_text(
+                encoding="utf-8")
+            self.assertEqual(bodies[p["id"]] + "\n", raw)
+
+    def test_sw_precaches_bodies_json(self):
+        sw = (build.ROOT / "sw.js").read_text(encoding="utf-8")
+        precache = json.loads(
+            sw.split("var PRECACHE = ", 1)[1].split(";", 1)[0])
+        self.assertIn("/bodies.json", precache)
+
+    def test_bodies_json_is_noindexed(self):
+        # SEO-8's duplicate-text discipline extends to the new blob: raw/ and
+        # prompts/ are noindexed, so this third copy of the briefs must be too
+        cfg = json.loads(
+            (build.ROOT / "vercel.json").read_text(encoding="utf-8"))
+        block = next((h for h in cfg["headers"]
+                      if h["source"] == "/bodies.json"), None)
+        self.assertIsNotNone(block, "vercel.json lacks a /bodies.json block")
+        self.assertIn({"key": "X-Robots-Tag", "value": "noindex"},
+                      block["headers"])
+
+
+class JsonLdTests(unittest.TestCase):
+    """R32 (SEO-6): every detail page carries valid JSON-LD — BreadcrumbList
+    plus HowTo (briefs) / ItemList (playbooks)."""
+
+    @staticmethod
+    def _ld_blocks(html):
+        import re as _re
+        return [json.loads(m) for m in _re.findall(
+            r'<script type="application/ld\+json">([\s\S]*?)</script>', html)]
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_brief_page_carries_breadcrumbs_and_howto(self):
+        p = self._prompts()[0]
+        blocks = self._ld_blocks(build.brief_detail(p, [], []))
+        types = {b["@type"] for b in blocks}
+        self.assertIn("BreadcrumbList", types)
+        self.assertIn("HowTo", types)
+        crumb = next(b for b in blocks if b["@type"] == "BreadcrumbList")
+        items = crumb["itemListElement"]
+        self.assertEqual([i["position"] for i in items], [1, 2, 3])
+        self.assertEqual(items[0]["item"], build.BASE + "/")
+        howto = next(b for b in blocks if b["@type"] == "HowTo")
+        self.assertEqual(howto["name"], p["title"])
+        self.assertEqual(len(howto["step"]), 4)
+        self.assertTrue(all(s["@type"] == "HowToStep" for s in howto["step"]))
+
+    def test_brief_jsonld_survives_hostile_metadata(self):
+        p = brief(title='The "Fixer" & <Friends>', slug="example",
+                  body=GOOD_BODY.replace("exemplify.",
+                                         'exemplify </script> & "quotes".'))
+        html = build.brief_detail(p, [], [])
+        blocks = self._ld_blocks(html)   # json.loads is the validity check
+        howto = next(b for b in blocks if b["@type"] == "HowTo")
+        self.assertEqual(howto["name"], 'The "Fixer" & <Friends>')
+        import re as _re
+        for m in _re.findall(
+                r'<script type="application/ld\+json">([\s\S]*?)</script>', html):
+            self.assertNotIn("</script", m)
+
+    def test_playbook_page_carries_breadcrumbs_and_itemlist(self):
+        prompts = self._prompts()
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"], prompts[1]["id"]], "conductor": "c"}
+        blocks = self._ld_blocks(build.playbook_detail(pb, by_id))
+        types = {b["@type"] for b in blocks}
+        self.assertIn("BreadcrumbList", types)
+        self.assertIn("ItemList", types)
+        il = next(b for b in blocks if b["@type"] == "ItemList")
+        self.assertEqual(il["numberOfItems"], 2)
+        self.assertEqual(il["itemListElement"][0]["url"],
+                         f'{build.BASE}/b/{prompts[0]["id"]}')
+
+
+class HeadingHierarchyTests(unittest.TestCase):
+    """R32 (SEO-10): detail pages used to skip h2 → h4 on lens/way/rules/pcard
+    titles; they are h3 now (pure restyle, no visual change)."""
+
+    def _prompts(self):
+        return [build.parse(f)
+                for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+
+    def test_brief_detail_has_no_h4(self):
+        html = build.brief_detail(self._prompts()[0], [], [])
+        self.assertNotIn("<h4", html)
+
+    def test_playbook_detail_has_no_h4(self):
+        prompts = self._prompts()
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "t", "name": "Test PB", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "c"}
+        self.assertNotIn("<h4", build.playbook_detail(pb, by_id))
+
+    def test_site_css_styles_the_promoted_headings(self):
+        for sel in (".lens h3", ".way h3", ".rules h3", ".pcard h3"):
+            self.assertIn(sel, build.SITE_CSS)
+        self.assertNotIn("h4", build.SITE_CSS)
+
+
+class PlaybookOgTests(unittest.TestCase):
+    """R31 (SEO-3): every playbook page gets its own og/p-<key>.png share
+    card; the baked-in brief count is guarded the same way og.png's is."""
+
+    def _playbooks(self):
+        return json.loads(
+            (build.ROOT / "playbooks.json").read_text(encoding="utf-8"))
+
+    def test_live_playbook_cards_exist_with_baked_counts(self):
+        for pb in self._playbooks():
+            f = build.ROOT / "og" / f'p-{pb["key"]}.png'
+            self.assertTrue(f.exists(), f"missing {f.name} — run "
+                                        f"scripts/og.py --playbooks")
+            self.assertEqual(build.png_text(f, "gp-briefs"),
+                             str(len(pb["ids"])), f.name)
+
+    def test_playbook_page_references_its_own_card(self):
+        prompts = [build.parse(f)
+                   for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+        by_id = {p["id"]: p for p in prompts}
+        pb = {"key": "day1", "name": "Day 1", "desc": "d",
+              "ids": [prompts[0]["id"]], "conductor": "c"}
+        html = build.playbook_detail(pb, by_id)
+        self.assertIn(f"{build.BASE}/og/p-day1.png", html)
+        self.assertNotIn(f'content="{build.BASE}/og.png"', html)
+
+    def test_og_guard_reports_missing_and_stale_cards(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            og = Path(d)
+            pbs = [{"key": "gone", "ids": ["01"]}]
+            v = build.playbook_og_violations(pbs, og)
+            self.assertEqual(len(v), 1)
+            self.assertIn("gone", v[0])
+            # a real card with the wrong baked-in count is stale
+            src = build.ROOT / "og" / "p-day1.png"
+            if src.exists():
+                (og / "p-gone.png").write_bytes(src.read_bytes())
+                v = build.playbook_og_violations(
+                    [{"key": "gone", "ids": ["01", "02"] * 40}], og)
+                self.assertEqual(len(v), 1)
+                self.assertIn("stale", v[0])
+
+
 if __name__ == "__main__":
     unittest.main()

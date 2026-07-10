@@ -26,7 +26,11 @@ function index(data) {
       title: p.title.toLowerCase(),
       fam: (p.family + " " + p.question).toLowerCase(),
       tag: p.tagline.toLowerCase(),
-      body: p.body.toLowerCase()
+      /* body is optional since R29 (SEO-2): the landing page's DATA carries
+         metadata only — search there runs on title/family/question/tagline.
+         Callers that do have bodies (tests, MCP-parity checks) still get the
+         body-weighted scoring. */
+      body: (p.body || "").toLowerCase()
     };
   });
   var made = { hay: hay, df: {} };
@@ -146,7 +150,7 @@ function matches(p, state, playbooks) {
   var q = String(state.query || "").trim().toLowerCase();
   if (!q) return true;
   var h = (p.id + " " + p.title + " " + p.tagline + " " + p.family + " " +
-           p.output + " " + p.body).toLowerCase();
+           p.output + " " + (p.body || "")).toLowerCase();
   return q.split(/\s+/).every(function (t) { return h.indexOf(t) !== -1; });
 }
 
@@ -254,11 +258,23 @@ function repoRecommend(names, pkg, data) {
   return { stack: stack, ids: ids };
 }
 
+/* R29 (SEO-2): merge fetched bodies into a metadata-only catalog. Returns a
+ * NEW array of copies — index()'s WeakMap cache keys on array identity, so
+ * the merged corpus gets its own body-weighted index and the lite one stays
+ * untouched. The landing page uses this to upgrade a zero-result search once
+ * bodies.json arrives. */
+function withBodies(data, bodies) {
+  return (data || []).map(function (p) {
+    return Object.assign({}, p, { body: (bodies && bodies[p.id]) || "" });
+  });
+}
+
 var GPCatalogCore = {
   stemWord: stemWord,
   closest: closest,
   closestScored: closestScored,
   matches: matches,
+  withBodies: withBodies,
   makeConductor: makeConductor,
   pickerPlan: pickerPlan,
   repoRecommend: repoRecommend,

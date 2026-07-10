@@ -379,6 +379,53 @@ def esc(s: str) -> str:
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+def jsonld(obj) -> str:
+    """One <script type="application/ld+json"> block (SEO-6, R32).
+    json.dumps owns the quote escaping; "</" is additionally escaped so a
+    hostile title/tagline can never close the script element early."""
+    return ('<script type="application/ld+json">'
+            + json.dumps(obj, ensure_ascii=False, sort_keys=True,
+                         separators=(",", ":")).replace("</", "<\\/")
+            + "</script>\n")
+
+
+def png_text(path, key):
+    """Read a tEXt chunk from a PNG, stdlib-only — the OG drift guards use it
+    to compare a card's baked-in-pixels count against the live catalog."""
+    b = Path(path).read_bytes()
+    if b[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    i = 8
+    while i + 8 <= len(b):
+        ln = int.from_bytes(b[i:i + 4], "big")
+        if b[i + 4:i + 8] == b"tEXt":
+            k, _, v = b[i + 8:i + 8 + ln].partition(b"\x00")
+            if k.decode("latin1") == key:
+                return v.decode("latin1")
+        i += 12 + ln
+    return None
+
+
+def playbook_og_violations(playbooks, og_dir) -> list:
+    """R31 (SEO-3): every playbook page references its own og/p-<key>.png.
+    Like og.png, each card bakes its brief count in as pixels, so scripts/og.py
+    embeds the count as PNG metadata and the (stdlib-only) build compares it
+    to the live playbook here."""
+    v = []
+    for pb in playbooks:
+        f = Path(og_dir) / f'p-{pb["key"]}.png'
+        if not f.exists():
+            v.append(f'playbook "{pb["key"]}" has no share card og/{f.name}'
+                     f' — generate with scripts/og.py --playbooks')
+            continue
+        n = png_text(f, "gp-briefs")
+        if n is None or int(n) != len(pb["ids"]):
+            v.append(f'og/{f.name} is stale (baked-in count {n}, catalog has '
+                     f'{len(pb["ids"])} briefs) — regenerate with '
+                     f'scripts/og.py --playbooks')
+    return v
+
+
 def attr(s: str) -> str:
     return esc(s).replace('"', "&quot;")
 
@@ -673,7 +720,7 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:13px;transition:border-color .15s,transform .15s}
 .lens:hover{border-color:var(--line-2);transform:translateY(-2px)}
 .lens .i{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--fc);flex:none;width:26px;height:26px;border-radius:7px;background:color-mix(in srgb,var(--fc) 14%,var(--panel-2));display:flex;align-items:center;justify-content:center}
-.lens h4{font-family:var(--disp);font-size:15px;font-weight:660;margin-bottom:3px;letter-spacing:-.01em;color:var(--text)}
+.lens h3{font-family:var(--disp);font-size:15px;font-weight:660;margin-bottom:3px;letter-spacing:-.01em;color:var(--text)}
 .lens p{font-size:13px;color:var(--dim);line-height:1.5}
 @media(max-width:640px){.lenses{grid-template-columns:1fr}}
 
@@ -693,7 +740,7 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 /* use / commands */
 .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--s5)}
 .way{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-width:0}
-.way h4{font-family:var(--disp);font-size:14px;font-weight:660;margin-bottom:4px;color:var(--text)}
+.way h3{font-family:var(--disp);font-size:14px;font-weight:660;margin-bottom:4px;color:var(--text)}
 .way .num{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
 .way p{font-size:13px;color:var(--dim);margin:2px 0 12px;line-height:1.5}
 .cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;overflow-x:auto;min-width:0}
@@ -712,7 +759,7 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .full summary .chev{transition:transform .2s}.full[open] summary .chev{transform:rotate(90deg)}
 .full pre{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text);background:var(--ink-2);border-top:1px solid var(--line);padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
 .rules{margin-top:var(--s5);background:color-mix(in srgb,var(--fc) 7%,var(--panel));border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 18px}
-.rules h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:9px}
+.rules h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:9px}
 .rules ul{list-style:none;display:grid;gap:8px}
 .rules li{font-size:14px;color:var(--text);padding-left:20px;position:relative}
 .rules li::before{content:"→";position:absolute;left:0;color:var(--fc)}
@@ -722,7 +769,7 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .pcard{display:block;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:15px 16px;transition:transform .15s,border-color .15s}
 .pcard:hover{transform:translateY(-2px);border-color:var(--line-2)}
 .pcard .pid{font-family:var(--mono);font-size:12px;color:var(--fc)}
-.pcard h4{font-family:var(--disp);font-size:16px;font-weight:660;margin:3px 0 5px;letter-spacing:-.01em;color:var(--text)}
+.pcard h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:3px 0 5px;letter-spacing:-.01em;color:var(--text)}
 .pcard p{font-size:13px;color:var(--dim);line-height:1.45}
 @media(max-width:640px){.cards{grid-template-columns:1fr}}
 .pblinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -828,8 +875,63 @@ THEME_INLINE = '<script>try{var _t=localStorage.getItem("gp-theme");if(_t==="lig
 THEME_JS = '''(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name=\"theme-color\"]');if(m)m.setAttribute("content",isLight()?"#F4F3EF":"#131417");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();'''
 
 
+def static_catalog(prompts) -> str:
+    """R28 (SEO-1): the crawlable homepage catalog. A plain, family-grouped
+    link list of every brief — emitted into #list from the same parsed
+    prompts as the JS payload (so it can never drift), then replaced by the
+    interactive catalog when the inline script boots. Links + taglines only:
+    the page stays light (bodies live in bodies.json, R29)."""
+    out = []
+    for fam in FAMILY_ORDER:
+        members = [p for p in prompts if p["family"] == fam]
+        if not members:
+            continue
+        items = "".join(
+            f'<li><a href="/b/{p["id"]}">{esc(p["id"])} · {esc(p["title"])}</a>'
+            f'<span class="st"> — {esc(p["tagline"])}</span></li>'
+            for p in members)
+        out.append(
+            f'<section class="sfam f-{fam.lower()}">'
+            f'<h3 class="famhead"><span class="name">{esc(fam)}</span>'
+            f'<span class="q">{esc(members[0]["question"])}</span>'
+            f'<span class="rule"></span></h3>'
+            f'<ul class="sbriefs">{items}</ul></section>')
+    return "".join(out)
+
+
+def static_playbooks(playbooks, by_id) -> tuple:
+    """R28 (SEO-1): the crawlable storefront — a static card per featured
+    playbook and a pill per remaining one, mirroring renderFeatured()'s
+    6-card split so the JS swap-in changes nothing visible."""
+    feat = [pb for pb in playbooks if pb.get("featured")]
+    rest = feat[6:] + [pb for pb in playbooks if not pb.get("featured")]
+    cards = []
+    for pb in feat[:6]:
+        first = by_id[pb["ids"][0]]
+        style = f' style="--fc:{attr(pb["accent"])}"' if pb.get("accent") else ""
+        cls = "" if pb.get("accent") else " f-" + first["family"].lower()
+        n = len(pb["ids"])
+        cards.append(
+            f'<a class="storecard{cls}" href="/p/{pb["key"]}"{style}>'
+            f'<h3>{esc(pb["name"])}</h3>'
+            f'<p class="tl">{esc(pb.get("tagline") or pb["desc"])}</p>'
+            f'<span class="seqdots"><span class="cnt">{n} brief'
+            f'{"s" if n > 1 else ""}</span></span>'
+            f'<span class="go">Explore playbook →</span></a>')
+    pills = ['<span class="morelab">more sequences</span>'] if rest else []
+    for pb in rest:
+        first = by_id[pb["ids"][0]]
+        style = f' style="--fc:{attr(pb["accent"])}"' if pb.get("accent") else ""
+        pills.append(
+            f'<a class="pb-pill f-{first["family"].lower()}" '
+            f'href="/p/{pb["key"]}"{style}>'
+            f'<b>{esc(pb["name"])}</b> '
+            f'<span class="len">{len(pb["ids"])}</span></a>')
+    return "".join(cards), "".join(pills)
+
+
 def page(title, desc, canon, body_html, og_image, og_type="website",
-         body_class="") -> str:
+         body_class="", head_extra="") -> str:
     return ("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"
             '<meta charset="UTF-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
@@ -853,6 +955,7 @@ def page(title, desc, canon, body_html, og_image, og_type="website",
             '<meta name="theme-color" content="#131417">\n'
             '<link rel="manifest" href="/manifest.json">\n'
             f'<link rel="canonical" href="{canon}">\n'
+            + head_extra +
             f'<link rel="icon" href="{FAVICON}">\n'
             '<link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>\n'
             '<link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>\n'
@@ -970,7 +1073,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
         lcards = []
         for i, (name, d) in enumerate(parts["lenses"], 1):
             lcards.append(f'<div class="lens"><div class="i">{i}</div><div>'
-                          f'<h4>{esc(name)}</h4><p>{md_inline(d)}</p></div></div>')
+                          f'<h3>{esc(name)}</h3><p>{md_inline(d)}</p></div></div>')
         lenses = (f'<section class="blk"><div class="wrap">'
                   f'<div class="kicker">The audit</div>'
                   f'<h2 class="h2">{len(parts["lenses"])} {lens_word} it looks through</h2>'
@@ -1013,15 +1116,15 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<div class="kicker">Get started</div>'
             f'<h2 class="h2">Three ways to run this brief</h2>'
             f'<div class="ways">'
-            f'<div class="way"><div class="num">01 · COPY</div><h4>Paste it in</h4>'
+            f'<div class="way"><div class="num">01 · COPY</div><h3>Paste it in</h3>'
             f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
             f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
-            f'<div class="way"><div class="num">02 · INSTALL</div><h4>As a slash command</h4>'
+            f'<div class="way"><div class="num">02 · INSTALL</div><h3>As a slash command</h3>'
             f'<p>Install the <b>goal</b> plugin once — two commands — then just type <code>/goal:{esc(slug)}</code> '
             f'— or use the curl installer for the same brief as <code>/goal-{esc(slug)}</code>.</p>'
             f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts", step=1)}'
             f'{cmd_html("/plugin install goal@goal-prompts", step=2)}</div>'
-            f'<div class="way"><div class="num">03 · AGENT</div><h4>From an agent (MCP)</h4>'
+            f'<div class="way"><div class="num">03 · AGENT</div><h3>From an agent (MCP)</h3>'
             f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
             f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw brief URL")}</div>'
             f'</div></div></section>')
@@ -1047,7 +1150,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     # full brief + rules
     rules = ""
     if parts["rules"]:
-        rules = ('<div class="rules"><h4>House rules for this brief</h4><ul>'
+        rules = ('<div class="rules"><h3>House rules for this brief</h3><ul>'
                  + "".join(f"<li>{md_inline(r)}</li>" for r in parts["rules"])
                  + "</ul></div>")
     full = (f'<section class="blk"><div class="wrap">'
@@ -1064,7 +1167,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     def _pcard(s):
         return (f'<a class="pcard {"f-"+s["family"].lower()}" href="/b/{s["id"]}">'
                 f'<div class="pid">{esc(s["id"])} · {esc(s["family"])}</div>'
-                f'<h4>{esc(s["title"])}</h4><p>{esc(s["tagline"])}</p></a>')
+                f'<h3>{esc(s["title"])}</h3><p>{esc(s["tagline"])}</p></a>')
     rel = ""
     rel_cards = "".join(_pcard(r) for r in related)
     if p["id"] == "47":
@@ -1072,7 +1175,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
         # checked findings become this brief's targeted form
         rel_cards += ('<a class="pcard" href="/studio">'
                       '<div class="pid">Studio · Act</div>'
-                      '<h4>Report Studio</h4>'
+                      '<h3>Report Studio</h3>'
                       '<p>Drop the reports your audits produced — findings become a '
                       'checklist, and checked findings become a targeted Fixer run.</p></a>')
     sib_cards = "".join(_pcard(s) for s in siblings[:4])
@@ -1105,8 +1208,28 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
 
     body = hero + whatis + lenses + report + method + ways + ritual + full + rel + ftr
     title = f'{p["id"]} · {p["title"]} — Goal Prompts'
+    # SEO-6 (R32): BreadcrumbList mirrors the visible crumb; the 4-phase
+    # method maps to HowTo steps — all from data already in hand at build time
+    ld = jsonld({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",
+             "item": BASE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Catalog",
+             "item": BASE + "/#catalog"},
+            {"@type": "ListItem", "position": 3,
+             "name": f'{p["id"]} · {p["title"]}',
+             "item": f'{BASE}/b/{p["id"]}'}]})
+    ld += jsonld({
+        "@context": "https://schema.org", "@type": "HowTo",
+        "name": p["title"], "description": p["tagline"],
+        "isAccessibleForFree": True,
+        "step": [{"@type": "HowToStep", "position": ph["n"],
+                  "name": f'Phase {ph["n"]} — {ph["name"]}',
+                  "text": ph["gist"] or ph["name"]}
+                 for ph in parts["phases"]]})
     return page(title, p["tagline"], f"{BASE}/b/{p['id']}", body,
-                f"{BASE}/og/{p['id']}.png", "article", fc)
+                f"{BASE}/og/{p['id']}.png", "article", fc, head_extra=ld)
 
 
 def window_chip(win) -> str:
@@ -1267,7 +1390,7 @@ def playbook_detail(pb, by_id) -> str:
     cards = "".join(
         f'<a class="pcard {"f-"+by_id[i]["family"].lower()}" href="/b/{i}">'
         f'<div class="pid">{esc(i)} · {esc(by_id[i]["family"])}</div>'
-        f'<h4>{esc(by_id[i]["title"])}</h4>'
+        f'<h3>{esc(by_id[i]["title"])}</h3>'
         f'<p>{esc(by_id[i]["tagline"])}</p></a>' for i in pb["ids"])
     briefs = (f'<section class="blk"><div class="wrap">'
               f'<div class="kicker">In this playbook</div>'
@@ -1284,8 +1407,30 @@ def playbook_detail(pb, by_id) -> str:
 
     body = hero + banner + why + seq + run + pblock + briefs + rawcond + ftr
     title = f'{pb["name"]} — Goal Prompts playbook'
+    # SEO-6 (R32): breadcrumbs + the member briefs as a machine-readable list
+    n_name = pb["name"]
+    ld = jsonld({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home",
+             "item": BASE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Playbooks",
+             "item": BASE + "/#playbooks"},
+            {"@type": "ListItem", "position": 3, "name": n_name,
+             "item": f'{BASE}/p/{pb["key"]}'}]})
+    ld += jsonld({
+        "@context": "https://schema.org", "@type": "ItemList",
+        "name": n_name, "description": pb.get("tagline") or pb["desc"],
+        "numberOfItems": n,
+        "itemListElement": [
+            {"@type": "ListItem", "position": i,
+             "name": f'{pid} · {by_id[pid]["title"]}',
+             "url": f"{BASE}/b/{pid}"}
+            for i, pid in enumerate(pb["ids"], 1)]})
+    # SEO-3 (R31): each playbook unfurls with its own card, not the site-wide one
     return page(title, pb.get("tagline") or pb["desc"], f"{BASE}/p/{pb['key']}",
-                body, f"{BASE}/og.png", "website", body_class)
+                body, f"{BASE}/og/p-{pb['key']}.png", "website", body_class,
+                head_extra=ld)
 
 
 def changelog_page(md: str) -> str:
@@ -1511,37 +1656,33 @@ def main() -> None:
     if missing_fams:
         fail("README.md Families table is missing: " + ", ".join(missing_fams))
 
-    # ---- og.png drift guard: the home share card bakes "N briefs" in as pixels,
-    # so scripts/og.py embeds the count as PNG metadata and the build (stdlib
-    # only — no Pillow) reads it back and compares to the live catalog ----
-    def _png_text(path, key):
-        b = path.read_bytes()
-        if b[:8] != b"\x89PNG\r\n\x1a\n":
-            return None
-        i = 8
-        while i + 8 <= len(b):
-            ln = int.from_bytes(b[i:i + 4], "big")
-            if b[i + 4:i + 8] == b"tEXt":
-                k, _, v = b[i + 8:i + 8 + ln].partition(b"\x00")
-                if k.decode("latin1") == key:
-                    return v.decode("latin1")
-            i += 12 + ln
-        return None
-    og_n = _png_text(ROOT / "og.png", "gp-briefs")
+    # ---- OG drift guards: the home card bakes "N briefs" in as pixels and
+    # each playbook card bakes its stage count, so scripts/og.py embeds the
+    # counts as PNG metadata and the build (stdlib only — no Pillow) reads
+    # them back and compares to the live catalog ----
+    og_n = png_text(ROOT / "og.png", "gp-briefs")
     if og_n is None:
         fail("og.png has no gp-briefs metadata — regenerate with "
              "scripts/og.py --home")
     if int(og_n) != len(prompts):
         fail(f"og.png's baked-in count is {og_n} briefs but the catalog has "
              f"{len(prompts)} — regenerate with scripts/og.py --home (needs Pillow)")
+    pb_og = playbook_og_violations(playbooks, ROOT / "og")
+    if pb_og:
+        fail("; ".join(pb_og))
 
     # ---- shared design tokens (single source of truth, linked by every page) ----
     (ROOT / "tokens.css").write_text(TOKENS_CSS, encoding="utf-8")
 
     # ---- injected site ----
+    # R29 (SEO-2): metadata only — no bodies. The catalog UI fetches
+    # /bodies.json at copy/quick-view time (SW-precached, so offline
+    # copies survive); the lens count the card meta line used to derive
+    # from the body ships precomputed instead.
     prompt_payload = [{**{k: p[k] for k in
                           ("id", "title", "family", "question", "output",
-                           "tagline", "body", "chars")},
+                           "tagline", "chars")},
+                       "lenses": len(brief_parts(p["body"])["lenses"]),
                        **({"example": BASE + p["example"]} if p.get("example") else {})}
                       for p in prompts]
     pb_opt = ("type", "badge", "featured", "window", "accent", "partner",
@@ -1559,7 +1700,8 @@ def main() -> None:
         template = template.replace(DEFAULT_BASE, BASE)
     for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
                   "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__",
-                  "__GH_STARS__", "__GH_STARS_HERO__"):
+                  "__GH_STARS__", "__GH_STARS_HERO__", "__STATIC_CATALOG__",
+                  "__STATIC_PB_FEATURED__", "__STATIC_PB_MORE__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     icon_gaps = lint_family_icons(template)
@@ -1583,9 +1725,15 @@ def main() -> None:
                 f'{stars:,} stars on GitHub</a>') if stars >= STAR_THRESHOLD else ""
     # counts injected from source-of-truth so the static meta/OG tags and the
     # no-JS hero/chart fallbacks can never drift from the catalog again
+    # R28 (SEO-1): the static, crawlable catalog + storefront — same source
+    # of truth as the JSON payloads; the inline script replaces them on boot
+    pb_feat_html, pb_more_html = static_playbooks(playbooks, by_id)
     index_html = (template.replace("__PROMPTS_JSON__", esc(prompt_payload))
                           .replace("__PLAYBOOKS_JSON__", esc(pb_payload))
                           .replace("__FAMILIES_JSON__", esc(fam_payload))
+                          .replace("__STATIC_CATALOG__", static_catalog(prompts))
+                          .replace("__STATIC_PB_FEATURED__", pb_feat_html)
+                          .replace("__STATIC_PB_MORE__", pb_more_html)
                           .replace("__N_BRIEFS__", str(len(prompts)))
                           .replace("__N_PLAYBOOKS__", str(len(playbooks)))
                           .replace("__N_FAMILIES__", str(len(fam_payload)))
@@ -1654,15 +1802,30 @@ def main() -> None:
         json.dumps(catalog, ensure_ascii=False, sort_keys=True, indent=1) + "\n",
         encoding="utf-8")
 
+    # ---- bodies.json (R29, SEO-2): every brief body in one fetchable blob.
+    # The landing page loads it lazily at copy/quick-view time instead of
+    # inlining 141 bodies into index.html; the service worker precaches it so
+    # offline copies keep working. raw/<id>.md stays the agents' network-only
+    # endpoint (its fetch counts are the usage metric — docs/usage-metrics.md),
+    # so browser copies never pollute that signal. ----
+    (ROOT / "bodies.json").write_text(
+        json.dumps({p["id"]: p["body"] for p in prompts},
+                   ensure_ascii=False, sort_keys=True) + "\n",
+        encoding="utf-8")
+
     # ---- service worker (offline shell; version stamped from content) ----
     import hashlib as _hl
+    # bodies.json rides the version hash: index.html no longer changes when a
+    # brief body does, so without it a body edit would never bust the cache
     ver_src = b"".join((ROOT / f).read_bytes() for f in
                        ("index.html", "studio.html", "vitals.html", "tokens.css",
+                        "bodies.json",
                         "js/catalog-core.js", "js/report-parser.js", "js/gp-detail.js",
                         "icons/icon-192.png", "icons/icon-512.png"))
     sw_ver = _hl.sha256(ver_src).hexdigest()[:12]
     precache = ["/", "/studio", "/vitals", "/examples/", "/manifest.json",
-                "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js",
+                "/tokens.css", "/bodies.json",
+                "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js",
                 "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2",
                 "/fonts/plexmono-latin-600.woff2",
                 "/icons/icon-192.png", "/icons/icon-512.png"]
@@ -1707,7 +1870,7 @@ def main() -> None:
     write_plugin(prompts)
     print(f"\nOK  {len(prompts)} briefs, {len(playbooks)} playbooks -> "
           f"index.html ({(ROOT / 'index.html').stat().st_size:,} b), "
-          f"raw/, b/, catalog.json, sitemap.xml, robots.txt, "
+          f"raw/, b/, catalog.json, bodies.json, sitemap.xml, robots.txt, "
           f"commands.tar.gz, commands.zip, plugin/")
 
 
