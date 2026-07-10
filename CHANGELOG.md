@@ -1,5 +1,97 @@
 # Changelog
 
+## 0.15.0 — 2026-07-10
+- **Brand redesign — "the ledger":** every surface is now typeset like the
+  artifact the product sells, an audit report. Warm ink/paper palette (one
+  `TOKENS_CSS` edit re-keys the landing page, `b/`/`p/` detail pages, Studio
+  and Vitals), ruled numbered section headers, mono metadata voice, and ONE
+  vermilion accent used like an auditor's red pen. The 17 family hues are
+  demoted to metadata — dots, filing tabs, the famchip — never decoration.
+  The brand mark is new: four audit bars, tallest flagged vermilion
+  (`build.BRAND_MARK`), carried through the favicon, PWA icons
+  (`scripts/icons.py`), and the OG home card (`scripts/og.py`). The hero now
+  shows a real S2 finding from this repo's own `BUGS.md`, typeset on the
+  shared severity ramp (`--sev-2`). The direction is pinned as
+  `specs/DESIGN_DIRECTION.md` + ADR-12 in `DECISIONS.md`; UI changes must be
+  rendered with `node scripts/design-shot.cjs` and the PNGs looked at before
+  commit.
+- Every 0.14.0 growth feature is preserved under the new identity: the
+  static crawlable catalog, `bodies.json` copy path, honest run-marking and
+  funnel events, copy-hint variants, the success-gated quickstart door, the
+  two-step plugin install, offer lines and analytics disclosures, the
+  dormant star badge, clock-gated window chips, returning-user nudges,
+  PWA/reminder machinery, two-step destructive gates, j/k navigation, the
+  famchip, severity/motion tokens, and the /quality, /teams, /partners and
+  /changelog pages. Severity and family-hue token values were re-derived for
+  the warm palette so every pinned contrast guard still clears AA
+  (`FAMILY_MIX_LIGHT` 62→58; the light `--sev-ink` flips to paper on the
+  darker ochre chip).
+
+
+## 0.14.0 — 2026-07-10
+- Growth remediation pass: an 11-stage growth-conductor run against this
+  repo's own surfaces (Funnel, Competitive, Revenue, AI, SEO, CRO, Retention,
+  Proof, Activation, Forms, Checkout — all reports in the repo root) was
+  synthesized into `ROADMAP.md` and shipped as one branch:
+  - **Honest measurement:** copying a brief no longer auto-marks it as run —
+    only the hint's explicit "✓ mark it run" and the card toggle record runs;
+    funnel events (`catalog_reached`, `quickview_open`, `examples_viewed`,
+    `copy_install`, `mark_run`, reminder round-trips) ride a shared `track()`
+    with attribution; `raw/` and `prompts/` are noindexed so raw fetches stay
+    a clean usage metric; the stale no-analytics line in the usage-metrics
+    doc corrected.
+  - **Handoff fixes:** plugin install rendered as numbered copyable steps on
+    the landing and all 141 `b/` pages; every copy control is success-gated
+    (a failed clipboard write shows an "open raw" link instead of a false
+    "Copied"), coarse-pointer devices get a `/raw/<id>.md` bridge; conductor
+    copies name the reports they write; the detail-page hint tees up Report
+    Studio.
+  - **Trust & honesty:** offer/risk-reversal micro-line on all 176 detail
+    pages (honesty-forked for the Fixer); the hero dogfood claim rescoped to
+    be literally true per leg, linter-enforced; an analytics disclosure
+    naming Vercel Analytics and exactly what's counted; merchandising window
+    chips gated by the viewer's clock (no stale "January drop" in July); the
+    XSS evidence card repointed at a verifiable BUGS.md finding.
+  - **Detail-page parity:** all 176 `b/`/`p/` pages get the landing's
+    analytics, success-gated copy events, and a dismissible welcome-back
+    strip; per-URL sitemap lastmod from a content-hash state file; og/
+    twitter/canonical tags completed across studio, vitals, and /examples/.
+  - **Retention circuit closed:** the Vitals Viewer is now linked from every
+    place that mentions Weekly Vitals; the opt-in reminder is staleness-aware
+    (skips if Vitals ran <7 days ago, gated in the service worker and covered
+    by a Node suite); a PWA install offer where periodic sync needs it;
+    `/changelog` rendered from this file; "make it a standing appointment"
+    links to the scheduled-run workflow at the mark moment.
+  - **Forms integrity:** Studio pastes infer a report name from the markdown
+    and never silently overwrite; all five destructive actions use the same
+    two-step arm pattern; `role=status` live regions and error states on
+    every async input; fuzzy zero-state search fallback (distance-1) in
+    catalog core.
+  - **SEO structural:** the homepage ships a static crawlable catalog (141
+    brief + 35 playbook links) that JS hydrates on boot; brief bodies moved
+    out of the inline payload to a precached `bodies.json` — index.html
+    drops 595k → 231k raw (61% lighter); 35 per-playbook OG cards with a
+    build-time drift guard; JSON-LD (BreadcrumbList + HowTo / ItemList) on
+    all 176 detail pages.
+  - **Distribution:** a `skills/` output tree (one SKILL.md per brief);
+    `BRIEF=<id|slug>` single-brief installer (SHA-verified, hermetically
+    tested) with a per-brief install line on `b/` pages; a native
+    `cursor-commands.zip`; the Brief Forge authoring meta-prompt quoting the
+    linter's literal rules (drift-tested); Studio gains **Copy Synthesis
+    prompt** beside the Fixer; a build-generated `/quality` page explaining
+    why the briefs don't rot, every claim evidence-linked.
+  - **Revenue rails, honest:** `/teams` and `/partners` pages productizing
+    only what exists today (fork support, standing-audit action, plugin/MCP/
+    skills distribution) with pricing "on request"; both partner CTAs
+    unified on a working GitHub issue template; a post-activation backer
+    nudge shipped dark until a real backer URL exists.
+  - **Design system:** one severity ramp in the token source consumed by
+    Studio chips and the landing run-replay (AA text contrast in both
+    themes, measured); API and Reliability family hues de-collided with a
+    test-pinned minimum distance across all 21 families; motion tokens named
+    once; `j`/`k` keyboard navigation over visible catalog cards; family
+    chips on cards where color was the only family signal.
+
 ## 0.13.0 — 2026-07-10
 - Landing-page redesign: calm, product-grade pass over the whole page.
   - **One visual system:** rainbow gradients removed everywhere (headline

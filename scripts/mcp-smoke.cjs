@@ -12,6 +12,7 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
+const VER = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version;
 
 const failures = [];
 function check(label, ok) {
@@ -97,6 +98,8 @@ const requests = [
     params: { name: "get_brief", arguments: { id: "007" } } },
   { jsonrpc: "2.0", id: 21, method: "tools/call",
     params: { name: "make_conductor", arguments: { ids: " 46, 47" } } },
+  { jsonrpc: "2.0", id: 22, method: "tools/call",
+    params: { name: "list_briefs", arguments: {} } },
 ];
 requests.forEach(function (m) { server.stdin.write(JSON.stringify(m) + "\n"); });
 
@@ -190,6 +193,15 @@ server.stdout.on("data", function (d) {
       check("list_playbooks includes ids and taglines",
         t.indexOf("day1") !== -1 && t.indexOf("00 → 01 → 06 → 14") !== -1 &&
         t.indexOf("The four questions to ask any repo you just cloned.") !== -1);
+      // R36 (RETENTION R10): the pinned-catalog footer names the installed
+      // version and where "what's new" lives
+      check("list_playbooks footer pins v" + VER + " + /changelog",
+        t.indexOf("v" + VER) !== -1 && t.indexOf("/changelog") !== -1);
+    }
+    if (msg.id === 22) {
+      check("list_briefs footer pins v" + VER + " + /changelog",
+        text(msg).indexOf("v" + VER) !== -1 &&
+        text(msg).indexOf("/changelog") !== -1);
     }
     if (msg.id === 11) {
       const prompts = (msg.result && msg.result.prompts) || [];

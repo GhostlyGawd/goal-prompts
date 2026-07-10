@@ -49,6 +49,31 @@ t("closest: empty and sub-3-char queries return nothing", () => {
   assert.deepStrictEqual(CC.closest(DATA, "a b", 5), []);
 });
 
+// ---- fuzzy zero-state fallback (FORMS FV11 / R41) ---------------------------
+t("fuzzy: typo 'preformance' (transposition) still finds 04 · Performance Audit", () => {
+  const top = CC.closest(DATA, "preformance", 3).map(p => p.id);
+  assert(top.length > 0, "no fallback results");
+  assert.strictEqual(top[0], "04", "top was " + top.join(","));
+});
+t("fuzzy: typo 'secruity' (transposition) surfaces a security brief", () => {
+  const top = CC.closest(DATA, "secruity", 3);
+  assert(top.length > 0, "no fallback results");
+  assert(top.some(p => (p.title + " " + p.family).toLowerCase().includes("secur")),
+    "top was " + top.map(p => p.id + " " + p.title).join(", "));
+});
+t("fuzzy: typo 'cachng' (dropped letter) finds cache briefs", () => {
+  const top = CC.closest(DATA, "cachng", 5);
+  assert(top.length > 0, "no fallback results");
+  assert(top.some(p => p.id === "140"), "top was " + top.map(p => p.id).join(","));
+});
+t("fuzzy: gibberish 'zzqxzz' still returns nothing", () => {
+  assert.deepStrictEqual(CC.closest(DATA, "zzqxzz", 5), []);
+});
+t("fuzzy: never fires when the exact query already matches", () => {
+  // 'bug' matches directly; fallback must not reorder the exact ranking
+  assert.strictEqual(CC.closest(DATA, "bug", 3)[0].id, "01");
+});
+
 // ---- matches() composition ---------------------------------------------------
 t("matches: family filter + query compose (AND, within the family)", () => {
   const state = { family: "Speed", query: "cache" };
@@ -183,6 +208,40 @@ t("property: 200 seeded random queries — no throw, bounded, finite scores", ()
       assert(BY_ID[x.p.id], "bad brief for " + JSON.stringify(q));
     });
   }
+});
+
+// ---- body-less DATA (R29 / SEO-2): the landing page's payload has no body --
+t("metadata-only: matches() works without a body field", () => {
+  const p = { id: "01", title: "Bug Hunt", tagline: "find bugs", family: "Quality",
+              question: "Where is it broken?", output: "BUGS.md" };
+  assert(CC.matches(p, { family: "All", query: "bug" }, PLAYBOOKS));
+  assert(CC.matches(p, { family: "Quality", query: "" }, PLAYBOOKS));
+  assert(!CC.matches(p, { family: "All", query: "zebra" }, PLAYBOOKS));
+});
+t("withBodies: body-only terms rank again after the zero-state upgrade", () => {
+  const LITE = catalog.briefs.map(b => ({ ...b }));
+  assert.deepStrictEqual(CC.closest(LITE, "backpressure", 5), [], "should miss without bodies");
+  const bodies = {};
+  catalog.briefs.forEach(b => { bodies[b.id] = fs.readFileSync(path.join(ROOT, "raw", b.id + ".md"), "utf8"); });
+  const full = CC.withBodies(LITE, bodies);
+  assert.strictEqual(CC.closest(full, "backpressure", 5)[0].id, "39");
+  assert.strictEqual(CC.closest(full, "cardinality", 5)[0].id, "73");
+  assert.deepStrictEqual(CC.closest(full, "zzqxzz", 5), [], "absent terms stay an honest zero");
+  // the source array is untouched (no cache-poisoning of the lite index)
+  assert.strictEqual(LITE[0].body, undefined);
+});
+t("withBodies: missing map entries become empty bodies, not crashes", () => {
+  const full = CC.withBodies([{ id: "01", title: "Bug Hunt", tagline: "t", family: "Quality",
+                                question: "q", output: "BUGS.md" }], null);
+  assert.strictEqual(full[0].body, "");
+  assert(CC.matches(full[0], { family: "All", query: "bug" }, PLAYBOOKS));
+});
+t("metadata-only: closest() still ranks on title/family/tagline", () => {
+  const LITE = catalog.briefs.map(b => ({ ...b }));   // no body key at all
+  const top = CC.closest(LITE, "bug", 3).map(p => p.id);
+  assert.strictEqual(top[0], "01", "top was " + top.join(","));
+  const perf = CC.closest(LITE, "speed", 5).map(p => p.id);
+  assert(perf.includes("04"), "speed top 5 was " + perf.join(","));
 });
 
 if (failures.length) {

@@ -1,0 +1,47 @@
+---
+name: goal-data-subject-rights
+description: "Whether the product can honor the rights users have over their data — access, export, correction, and deletion — operationally, not just in the privacy policy. Audit brief 126 · Compliance — runs a four-phase audit of the current repo and writes DSAR.md at the repo root."
+---
+
+# Goal: Data-Subject-Rights Readiness
+
+You are working inside this repo. Mission: judge whether the product could actually fulfill a user's data rights request — show me my data, export it, correct it, delete me — across every place their data lives, within the legal window, and prove it did.
+
+This judges operational readiness for rights requests. For the engineering map of where personal data actually lives and spreads, run 21 first.
+
+Read-only pass. Read the data model, storage, third-party integrations, and any request tooling; change nothing but the report file.
+
+## Phase 1 — Map where personal data lives
+- Trace a user's personal data across the system: primary database, replicas, caches, logs, files, analytics, third parties.
+- For each, note whether it can be read, exported, corrected, and deleted.
+- Find any existing process for handling a rights request.
+
+## Phase 2 — Audit through 7 lenses
+1. **Access & export** — can you produce everything held about a user, in a usable form
+2. **Deletion** — can you actually delete a user everywhere: primary, replicas, backups, logs, third parties
+3. **Correction** — can a user's data be corrected across the systems that copy it
+4. **Data map** — do you know every place personal data lives, or is that unknown
+5. **Third-party propagation** — are deletion and correction passed to processors and vendors
+6. **Timeliness & repeatability** — can requests be fulfilled within the legal window, reliably
+7. **Identity & audit** — verifying the requester, and proving the request was honored
+
+## Phase 3 — Curate
+- Rank by exposure: no real deletion path, or unknown data locations, outrank a manual-but-working export.
+- For each right, state whether the product can honor it today and what is missing.
+- Separate "no process" from "impossible with this architecture"; flag the structural gaps.
+
+## Phase 4 — Report
+Create `DSAR.md` at repo root:
+1. **Personal-data map** — every place a user's data lives, and what can be done to it there
+2. **Readiness per right** — access, export, delete, correct: can the product honor it today
+3. **Findings** — each: right · gap · exposure · the fix
+4. **Priority** — the capabilities to build first, deletion and the data map foremost
+
+Start the report with today's date. If `DSAR.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- You cannot delete what you cannot find; the data map comes first
+- Deletion that skips backups, logs, and vendors is not deletion
+- No stored personal data in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which rights-readiness gaps to close first

@@ -4,8 +4,8 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-495e8a87ce6f";
-var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
+var CACHE = "goal-prompts-2f56d14457b2";
+var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/bodies.json", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
     return Promise.all(PRECACHE.map(function (u) {
@@ -49,21 +49,73 @@ self.addEventListener("fetch", function (e) {
 /* Opt-in weekly Vitals reminder (see the landing's reminder toggle). Fires only
  * when the user explicitly enabled it and the browser supports periodicSync
  * (Chromium, installed PWA) — nothing is auto-enabled and nothing leaves the
- * device. */
+ * device.
+ * R34 (RETENTION R8a): a worker can't read localStorage, so the pages mirror
+ * the two fields this check needs — runs["29"] + remind.on — into IndexedDB
+ * (db "gp-sw", store "kv", key "vitals"; writers: template.html's
+ * mirrorVitalsState and js/gp-detail.js — keep all three in step). The
+ * notification is skipped when reminders are off or Vitals ran under 7 days
+ * ago; a missing mirror (an opt-in that predates it) falls back to notifying,
+ * matching the old behavior rather than going silently dead. */
+var VITALS_STALE_MS = 7 * 86400000;
+function readVitalsState() {
+  return new Promise(function (resolve) {
+    var t = setTimeout(function () { resolve(null); }, 3000);
+    function done(v) { clearTimeout(t); resolve(v); }
+    try {
+      var req = indexedDB.open("gp-sw", 1);
+      req.onupgradeneeded = function () { try { req.result.createObjectStore("kv"); } catch (e) {} };
+      req.onerror = function () { done(null); };
+      req.onsuccess = function () {
+        try {
+          var db = req.result;
+          var get = db.transaction("kv").objectStore("kv").get("vitals");
+          get.onsuccess = function () { db.close(); done(get.result || null); };
+          get.onerror = function () { db.close(); done(null); };
+        } catch (e) { done(null); }
+      };
+    } catch (e) { done(null); }
+  });
+}
+/* the notify decision, pure — exposed as self.gpShouldNotify so
+ * tests/sw_reminder.test.cjs can exercise it without a browser */
+function gpShouldNotify(state, now) {
+  if (state && state.remindOn === false) return false;
+  var last = (state && typeof state.runs29 === "number" && state.runs29 > 0) ? state.runs29 : 0;
+  return !last || now - last >= VITALS_STALE_MS;
+}
+self.gpShouldNotify = gpShouldNotify;
 self.addEventListener("periodicsync", function (e) {
   if (e.tag !== "vitals-weekly") return;
-  e.waitUntil(self.registration.showNotification("Weekly Vitals is due", {
-    body: "Ten minutes for fresh trend arrows on your repo.",
-    icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
-    tag: "vitals-weekly", data: { url: "/#29" }
+  e.waitUntil(readVitalsState().then(function (state) {
+    if (!gpShouldNotify(state, Date.now())) return;
+    /* R33 (RETENTION R6): land on the Vitals Viewer — the page that shows the
+     * history this ritual accrues — instead of a cold catalog anchor. */
+    return self.registration.showNotification("Weekly Vitals is due", {
+      body: "Ten minutes for fresh trend arrows on your repo.",
+      icon: "/icons/icon-192.png", badge: "/icons/icon-192.png",
+      tag: "vitals-weekly", data: { url: "/vitals?src=reminder" }
+    });
   }));
 });
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
   var url = (e.notification.data && e.notification.data.url) || "/";
+  var bare = url.replace("?src=reminder", "");  // match open windows without the attribution query
   e.waitUntil(clients.matchAll({ type: "window" }).then(function (cs) {
     for (var i = 0; i < cs.length; i++) {
-      if (cs[i].url.indexOf(url) !== -1 && "focus" in cs[i]) return cs[i].focus();
+      if (cs[i].url.indexOf(bare) !== -1 && "focus" in cs[i]) {
+        /* navigate the existing window so ?src=reminder rides along and the
+         * page can fire reminder_return — a focus alone would hide the return.
+         * If navigate() rejects, still surface the window rather than no-op. */
+        if ("navigate" in cs[i]) {
+          var win = cs[i];
+          return win.navigate(url)
+            .then(function (c) { return c ? c.focus() : win.focus(); })
+            .catch(function () { return win.focus(); });
+        }
+        return cs[i].focus();
+      }
     }
     if (clients.openWindow) return clients.openWindow(url);
   }));

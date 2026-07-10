@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog — Goal Prompts</title>
+<meta name="description" content="Every goal-prompts release — new briefs, playbooks, and fixes. Latest: 0.15.0 — 2026-07-10.">
+<meta property="og:title" content="Changelog — Goal Prompts">
+<meta property="og:description" content="Every goal-prompts release — new briefs, playbooks, and fixes. Latest: 0.15.0 — 2026-07-10.">
+<meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
+<meta property="og:url" content="https://goal-prompts.vercel.app/changelog">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Changelog — Goal Prompts">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="twitter:title" content="Changelog — Goal Prompts">
+<meta name="twitter:description" content="Every goal-prompts release — new briefs, playbooks, and fixes. Latest: 0.15.0 — 2026-07-10.">
+<meta name="theme-color" content="#15120D">
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://goal-prompts.vercel.app/changelog">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<link rel="stylesheet" href="/tokens.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--w-doc);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
+code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:.06em .34em;color:var(--text)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ink) 84%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;letter-spacing:-.02em;font-size:16px;color:var(--text)}
+.brand .mark{flex:none}
+.nav-links{display:flex;gap:20px;margin-left:8px;font-size:14px;color:var(--faint)}
+.nav-links a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.themetog{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
+.themetog:hover{color:var(--text);border-color:var(--line-3)}
+.themetog .ic{width:17px;height:17px}
+.themetog .moon{display:none}.themetog .sun{display:block}
+:root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
+@media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
+.nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
+.nav-cta:hover{filter:brightness(1.12)}
+/* under 720px keep Playbooks + Studio reachable — same treatment as the landing page */
+@media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+
+/* breadcrumb + eyebrow */
+.crumb{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:24px 0 0;flex-wrap:wrap}
+.crumb a:hover{color:var(--dim)}
+.crumb .sep{opacity:.5}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+/* chips + badges */
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px}
+.chip .dot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-fg);background:var(--fc);border-radius:999px;padding:4px 10px}
+.badge.soft{background:color-mix(in srgb,var(--fc) 16%,var(--panel));color:var(--fc);border:1px solid color-mix(in srgb,var(--fc) 40%,transparent)}
+.out{font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+.out::before{content:"→ ";color:var(--fc)}
+
+/* hero */
+.dhero{position:relative;padding:30px 0 34px;border-bottom:1px solid var(--line);overflow:hidden}
+.dhero>*{position:relative}
+.dhero .id{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--fc);display:inline-flex;align-items:center;gap:8px}
+.dhero .id .ic{width:19px;height:19px}
+.dhero h1{font-family:var(--disp);font-size:clamp(30px,5.6vw,50px);font-weight:680;letter-spacing:-.03em;line-height:1.05;margin:12px 0 14px;color:var(--text)}
+.dhero .lede{font-size:clamp(16px,2.4vw,20px);color:var(--text);max-width:60ch;line-height:1.5}
+.dhero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.dhero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.dhero .offer{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.6}
+
+/* section scaffolding */
+section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,30px);font-weight:680;letter-spacing:-.02em;margin:9px 0 6px;color:var(--text)}
+.lead{color:var(--dim);max-width:64ch;font-size:16px}
+.prose{color:var(--text);font-size:16px;max-width:68ch}
+.prose p{margin:0 0 12px}
+.prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
+.prose strong{color:var(--text);font-weight:600}
+
+/* method / phases */
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:var(--s5)}
+.phase{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:var(--radius);padding:16px 15px;position:relative}
+.phase .pn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.phase h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:5px 0 8px;letter-spacing:-.01em;color:var(--text)}
+.phase p{font-size:13px;color:var(--dim);line-height:1.5}
+.phase .step{position:absolute;top:-11px;right:13px;width:22px;height:22px;border-radius:6px;background:var(--fc);color:var(--btn-fg);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+@media(max-width:820px){.method{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.method{grid-template-columns:1fr}}
+
+/* lenses */
+.lenses{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:var(--s5)}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:13px;transition:border-color var(--dur-state),transform var(--dur-state)}
+.lens:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.lens .i{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--fc);flex:none;width:26px;height:26px;border-radius:7px;background:color-mix(in srgb,var(--fc) 14%,var(--panel-2));display:flex;align-items:center;justify-content:center}
+.lens h3{font-family:var(--disp);font-size:15px;font-weight:660;margin-bottom:3px;letter-spacing:-.01em;color:var(--text)}
+.lens p{font-size:13px;color:var(--dim);line-height:1.5}
+@media(max-width:640px){.lenses{grid-template-columns:1fr}}
+
+/* the report doc */
+.report{margin-top:var(--s5);background:var(--panel);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.report .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+.report .fname{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:600}
+.report .fname::before{content:"▸ ";color:var(--faint)}
+.report .doc{padding:6px 10px 14px}
+.report .row{display:flex;gap:13px;padding:12px 8px;border-radius:9px}
+.report .row+.row{border-top:1px solid var(--line)}
+.report .rn{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none;width:22px;text-align:right;font-weight:600}
+.report .rt{font-family:var(--disp);font-weight:640;font-size:14px;color:var(--text)}
+.report .rd{font-size:13px;color:var(--dim);margin-top:2px;line-height:1.45}
+.report .foot{padding:12px 16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* use / commands */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--s5)}
+.way{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-width:0}
+.way h3{font-family:var(--disp);font-size:14px;font-weight:660;margin-bottom:4px;color:var(--text)}
+.way .num{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
+.way p{font-size:13px;color:var(--dim);margin:2px 0 12px;line-height:1.5}
+.cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;overflow-x:auto;min-width:0}
+.cmd+.cmd{margin-top:8px}
+.cmd .cmdstep{flex:none;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fc)}
+.cmd code{flex:1;white-space:nowrap;min-width:0;background:none;border:0;padding:0;color:var(--text)}
+.cmd .cp{flex:none;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;cursor:pointer}
+.cmd .cp:hover{color:var(--text);border-color:var(--line-3)}
+.cmd .cp.done{color:var(--good);border-color:var(--good)}
+@media(max-width:760px){.ways{grid-template-columns:1fr}}
+
+/* full brief + rules */
+.full{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+.full summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:8px}
+.full summary::-webkit-details-marker{display:none}
+.full summary .chev{transition:transform var(--dur-move)}.full[open] summary .chev{transform:rotate(90deg)}
+.full pre{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text);background:var(--ink-2);border-top:1px solid var(--line);padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.rules{margin-top:var(--s5);background:color-mix(in srgb,var(--fc) 7%,var(--panel));border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 18px}
+.rules h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:9px}
+.rules ul{list-style:none;display:grid;gap:8px}
+.rules li{font-size:14px;color:var(--text);padding-left:20px;position:relative}
+.rules li::before{content:"→";position:absolute;left:0;color:var(--fc)}
+
+/* related + cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.pcard{display:block;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:15px 16px;transition:transform var(--dur-state),border-color var(--dur-state)}
+.pcard:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.pcard .pid{font-family:var(--mono);font-size:12px;color:var(--fc)}
+.pcard h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:3px 0 5px;letter-spacing:-.01em;color:var(--text)}
+.pcard p{font-size:13px;color:var(--dim);line-height:1.45}
+@media(max-width:640px){.cards{grid-template-columns:1fr}}
+.pblinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pblink{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px dashed var(--line-2);border-radius:999px;padding:8px 13px}
+.pblink:hover{color:var(--text);border-color:var(--fc)}
+.pblink .len{color:var(--faint)}
+
+/* playbook sequence map */
+.seq{display:flex;flex-direction:column;gap:0;margin-top:var(--s5)}
+.seqstep{display:flex;gap:14px;align-items:stretch}
+.seqstep .rail{display:flex;flex-direction:column;align-items:center;flex:none;width:30px}
+.seqstep .node{width:30px;height:30px;border-radius:9px;background:var(--panel);border:2px solid var(--fc);color:var(--fc);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+.seqstep .wire{flex:1;width:2px;background:var(--line-2);min-height:14px;margin:2px 0}
+.seqstep:last-child .wire{display:none}
+.seqcard{flex:1;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:11px;padding:13px 15px;margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;transition:transform var(--dur-state),border-color var(--dur-state)}
+.seqcard:hover{transform:translateX(3px);border-color:var(--line-2)}
+.seqcard .sid{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none}
+.seqcard .st{font-family:var(--disp);font-weight:640;font-size:15px;flex:1;min-width:120px;letter-spacing:-.01em;color:var(--text)}
+.seqcard .sq{font-size:12px;color:var(--faint);font-family:var(--mono)}
+
+/* partner / monetization */
+.partner{margin-top:24px;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:20px 22px}
+.partner .co{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:14px;color:var(--text);flex-wrap:wrap}
+.partner .co .x{color:var(--faint)}
+.partner .logo{width:34px;height:34px;border-radius:9px;background:var(--fc);color:var(--btn-fg);font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--disp)}
+.partner p{font-size:14px;color:var(--dim);margin:12px 0 14px;max-width:64ch;line-height:1.5}
+.note{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
+
+/* per-step copy on playbook sequence maps */
+.seqstep .stepcopy{flex:none;align-self:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;cursor:pointer;text-decoration:none}
+.seqstep .stepcopy:hover{color:var(--text);border-color:var(--line-3)}
+.seqstep .stepcopy.done{color:var(--good);border-color:var(--good)}
+
+/* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
+.gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+.gp-hint[hidden]{display:none}
+.gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint a{color:var(--fc);text-decoration:underline}
+.gp-hint b{color:var(--text)}
+.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun:disabled{opacity:.6;cursor:default}
+.gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+.gp-hint .x:hover{color:var(--text)}
+
+/* RETENTION R7 (R02): slim welcome-back strip for returning visitors —
+   built by gp-detail.js only when gp-runs has data, dismissible */
+.gp-wb{border-bottom:1px solid var(--line);background:var(--panel);font-size:13px;color:var(--dim)}
+.gp-wb .wrap{display:flex;align-items:center;gap:8px;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.gp-wb b{color:var(--text);font-weight:600}
+.gp-wb a{color:var(--fc,#C4CBD8);font-family:var(--mono);text-decoration:none;white-space:nowrap}
+.gp-wb a:hover{text-decoration:underline}
+.gp-wb .x{margin-left:auto;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.gp-wb .x:hover{color:var(--text)}
+
+/* footer */
+footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
+.foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
+.foot .cta-band h3{font-family:var(--disp);font-size:clamp(20px,3vw,26px);font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:8px}
+.foot .cta-band p{font-size:15px;max-width:52ch;margin:0 auto 18px}
+.foot .links{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
+.foot .links a:hover{color:var(--text)}
+.foot .fine{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<script>try{var _t=localStorage.getItem("gp-theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
+</head>
+<body class="">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-product" viewBox="0 0 24 24"><path d="M12 3 L13.7 10.3 L21 12 L13.7 13.7 L12 21 L10.3 13.7 L3 12 L10.3 10.3 Z"/></symbol>
+<symbol id="i-quality" viewBox="0 0 24 24"><ellipse cx="12" cy="13.5" rx="4" ry="5.3"/><circle cx="12" cy="7.5" r="2.1"/><path d="M8 12 L4.2 10 M8 14.5 L4 14.5 M8.2 17.5 L4.8 19.6 M16 12 L19.8 10 M16 14.5 L20 14.5 M15.8 17.5 L19.2 19.6 M10.6 6.2 L9.4 3.8 M13.4 6.2 L14.6 3.8"/></symbol>
+<symbol id="i-speed" viewBox="0 0 24 24"><path d="M4 17 A8 8 0 0 1 20 17"/><path d="M12 17 L16.5 11.5"/><circle cx="12" cy="17" r="1.3"/></symbol>
+<symbol id="i-trust" viewBox="0 0 24 24"><path d="M12 3 L20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z"/><path d="M8.8 12 L11 14.2 L15.4 9.4"/></symbol>
+<symbol id="i-growth" viewBox="0 0 24 24"><path d="M4 18 L10 12 L13.5 15 L20 7"/><path d="M15 7 L20 7 L20 12"/></symbol>
+<symbol id="i-clarity" viewBox="0 0 24 24"><path d="M2.5 12 C5 7.2 8.8 5.2 12 5.2 C15.2 5.2 19 7.2 21.5 12 C19 16.8 15.2 18.8 12 18.8 C8.8 18.8 5 16.8 2.5 12 Z"/><circle cx="12" cy="12" r="2.7"/></symbol>
+<symbol id="i-design" viewBox="0 0 24 24"><path d="M12 4 L7.5 20 M12 4 L16.5 20 M9.4 13.4 L14.6 13.4"/><circle cx="12" cy="4.4" r="1.5"/></symbol>
+<symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.9"/><path d="M5 6 V18 C5 19.7 8.1 21 12 21 C15.9 21 19 19.7 19 18 V6"/><path d="M5 12 C5 13.7 8.1 15 12 15 C15.9 15 19 13.7 19 12"/></symbol>
+<symbol id="i-ops" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6 V5.2 M12 18.8 V21.4 M2.6 12 H5.2 M18.8 12 H21.4 M5.4 5.4 L7.2 7.2 M16.8 16.8 L18.6 18.6 M18.6 5.4 L16.8 7.2 M7.2 16.8 L5.4 18.6"/></symbol>
+<symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="9" r="2.5"/><circle cx="16" cy="10" r="2"/><path d="M3.5 19 C3.5 15.4 5.8 13.8 9 13.8 C11 13.8 12.6 14.5 13.4 16 M13.6 19 C13.9 16 15.2 15 17 15 C19.2 15 20.5 16.6 20.5 19"/></symbol>
+<symbol id="i-subtract" viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="6.5" cy="17" r="2"/><path d="M8.2 8.2 L20 18 M8.2 15.8 L20 6 M8.4 12 L12.5 9"/></symbol>
+<symbol id="i-meta" viewBox="0 0 24 24"><path d="M12 4 L21 9 L12 14 L3 9 Z"/><path d="M3.5 13 L12 17.6 L20.5 13"/></symbol>
+<symbol id="i-act" viewBox="0 0 24 24"><path d="M13 3 L5.5 13 H11 L10 21 L18.5 10.5 H12.5 Z"/></symbol>
+<symbol id="i-agent" viewBox="0 0 24 24"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"/><circle cx="12" cy="12" r="2.5"/><path d="M12 5.2 V7.4"/></symbol>
+<symbol id="i-automation" viewBox="0 0 24 24"><path d="M6.5 9.5 A6 6 0 0 1 18 8.2"/><path d="M17.5 14.5 A6 6 0 0 1 6 15.8"/><path d="M18.4 4.6 L18.4 8.6 L14.4 8.4 M5.6 19.4 L5.6 15.4 L9.6 15.6"/></symbol>
+<symbol id="i-aiux" viewBox="0 0 24 24"><path d="M12 20 C6.2 15.6 4 12.2 4 9 C4 6.5 6 4.9 8.3 4.9 C9.9 4.9 11.3 5.9 12 7.1 C12.7 5.9 14.1 4.9 15.7 4.9 C18 4.9 20 6.5 20 9 C20 12.2 17.8 15.6 12 20 Z"/></symbol>
+<symbol id="i-venture" viewBox="0 0 24 24"><path d="M12 2.6 C15.2 5 16.8 9.2 16.8 13 L14 16 H10 L7.2 13 C7.2 9.2 8.8 5 12 2.6 Z"/><circle cx="12" cy="10" r="1.7"/><path d="M10 16 L7.8 20.4 M14 16 L16.2 20.4 M12 16.4 V20.6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5 M12 19V21.5 M2.5 12H5 M19 12H21.5 M5.2 5.2l1.8 1.8 M17 17l1.8 1.8 M18.8 5.2 17 7 M7 17l-1.8 1.8"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5 A8 8 0 0 1 9.5 4 A7 7 0 1 0 20 14.5 Z"/></symbol>
+</defs></svg>
+<header class="nav"><div class="nav-in wrap"><a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a><nav class="nav-links"><a href="/#how" class="mh">How it works</a><a href="/#catalog" class="mh">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a></nav><div class="nav-right"><button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button><a class="nav-cta" href="/#start">Get started</a></div></div></header>
+<section class="dhero"><div class="wrap"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><span>Changelog</span></div><h1 style="margin-top:14px">Changelog</h1><p class="lede">What changed, release by release — latest: <span class="mono">0.15.0 — 2026-07-10</span>. Installed the plugin, the slash commands, or the MCP server? They pin the catalog they shipped with; update any time to pick up new briefs.</p><div class="cta"><a class="btn btn-primary" href="/#start">Install / update</a><a class="btn btn-ghost" href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CHANGELOG.md">Raw CHANGELOG.md ↗</a></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.15.0 — 2026-07-10</h2><div class="prose" style="margin-top:12px"><ul><li><strong>Brand redesign — "the ledger":</strong> every surface is now typeset like the</li></ul>
+<p>artifact the product sells, an audit report. Warm ink/paper palette (one <code>TOKENS_CSS</code> edit re-keys the landing page, <code>b/</code>/<code>p/</code> detail pages, Studio and Vitals), ruled numbered section headers, mono metadata voice, and ONE vermilion accent used like an auditor's red pen. The 17 family hues are demoted to metadata — dots, filing tabs, the famchip — never decoration. The brand mark is new: four audit bars, tallest flagged vermilion (<code>build.BRAND_MARK</code>), carried through the favicon, PWA icons (<code>scripts/icons.py</code>), and the OG home card (<code>scripts/og.py</code>). The hero now shows a real S2 finding from this repo's own <code>BUGS.md</code>, typeset on the shared severity ramp (<code>--sev-2</code>). The direction is pinned as <code>specs/DESIGN_DIRECTION.md</code> + ADR-12 in <code>DECISIONS.md</code>; UI changes must be rendered with <code>node scripts/design-shot.cjs</code> and the PNGs looked at before commit.</p>
+<ul><li>Every 0.14.0 growth feature is preserved under the new identity: the</li></ul>
+<p>static crawlable catalog, <code>bodies.json</code> copy path, honest run-marking and funnel events, copy-hint variants, the success-gated quickstart door, the two-step plugin install, offer lines and analytics disclosures, the dormant star badge, clock-gated window chips, returning-user nudges, PWA/reminder machinery, two-step destructive gates, j/k navigation, the famchip, severity/motion tokens, and the /quality, /teams, /partners and /changelog pages. Severity and family-hue token values were re-derived for the warm palette so every pinned contrast guard still clears AA (<code>FAMILY_MIX_LIGHT</code> 62→58; the light <code>--sev-ink</code> flips to paper on the darker ochre chip).</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.14.0 — 2026-07-10</h2><div class="prose" style="margin-top:12px"><ul><li>Growth remediation pass: an 11-stage growth-conductor run against this</li></ul>
+<p>repo's own surfaces (Funnel, Competitive, Revenue, AI, SEO, CRO, Retention, Proof, Activation, Forms, Checkout — all reports in the repo root) was synthesized into <code>ROADMAP.md</code> and shipped as one branch:</p>
+<ul><li><strong>Honest measurement:</strong> copying a brief no longer auto-marks it as run —</li></ul>
+<p>only the hint's explicit "✓ mark it run" and the card toggle record runs; funnel events (<code>catalog_reached</code>, <code>quickview_open</code>, <code>examples_viewed</code>, <code>copy_install</code>, <code>mark_run</code>, reminder round-trips) ride a shared <code>track()</code> with attribution; <code>raw/</code> and <code>prompts/</code> are noindexed so raw fetches stay a clean usage metric; the stale no-analytics line in the usage-metrics doc corrected.</p>
+<ul><li><strong>Handoff fixes:</strong> plugin install rendered as numbered copyable steps on</li></ul>
+<p>the landing and all 141 <code>b/</code> pages; every copy control is success-gated (a failed clipboard write shows an "open raw" link instead of a false "Copied"), coarse-pointer devices get a <code>/raw/&lt;id&gt;.md</code> bridge; conductor copies name the reports they write; the detail-page hint tees up Report Studio.</p>
+<ul><li><strong>Trust &amp; honesty:</strong> offer/risk-reversal micro-line on all 176 detail</li></ul>
+<p>pages (honesty-forked for the Fixer); the hero dogfood claim rescoped to be literally true per leg, linter-enforced; an analytics disclosure naming Vercel Analytics and exactly what's counted; merchandising window chips gated by the viewer's clock (no stale "January drop" in July); the XSS evidence card repointed at a verifiable BUGS.md finding.</p>
+<ul><li><strong>Detail-page parity:</strong> all 176 <code>b/</code>/<code>p/</code> pages get the landing's</li></ul>
+<p>analytics, success-gated copy events, and a dismissible welcome-back strip; per-URL sitemap lastmod from a content-hash state file; og/ twitter/canonical tags completed across studio, vitals, and /examples/.</p>
+<ul><li><strong>Retention circuit closed:</strong> the Vitals Viewer is now linked from every</li></ul>
+<p>place that mentions Weekly Vitals; the opt-in reminder is staleness-aware (skips if Vitals ran &lt;7 days ago, gated in the service worker and covered by a Node suite); a PWA install offer where periodic sync needs it; <code>/changelog</code> rendered from this file; "make it a standing appointment" links to the scheduled-run workflow at the mark moment.</p>
+<ul><li><strong>Forms integrity:</strong> Studio pastes infer a report name from the markdown</li></ul>
+<p>and never silently overwrite; all five destructive actions use the same two-step arm pattern; <code>role=status</code> live regions and error states on every async input; fuzzy zero-state search fallback (distance-1) in catalog core.</p>
+<ul><li><strong>SEO structural:</strong> the homepage ships a static crawlable catalog (141</li></ul>
+<p>brief + 35 playbook links) that JS hydrates on boot; brief bodies moved out of the inline payload to a precached <code>bodies.json</code> — index.html drops 595k → 231k raw (61% lighter); 35 per-playbook OG cards with a build-time drift guard; JSON-LD (BreadcrumbList + HowTo / ItemList) on all 176 detail pages.</p>
+<ul><li><strong>Distribution:</strong> a <code>skills/</code> output tree (one SKILL.md per brief);</li></ul>
+<p><code>BRIEF=&lt;id|slug&gt;</code> single-brief installer (SHA-verified, hermetically tested) with a per-brief install line on <code>b/</code> pages; a native <code>cursor-commands.zip</code>; the Brief Forge authoring meta-prompt quoting the linter's literal rules (drift-tested); Studio gains <strong>Copy Synthesis prompt</strong> beside the Fixer; a build-generated <code>/quality</code> page explaining why the briefs don't rot, every claim evidence-linked.</p>
+<ul><li><strong>Revenue rails, honest:</strong> <code>/teams</code> and <code>/partners</code> pages productizing</li></ul>
+<p>only what exists today (fork support, standing-audit action, plugin/MCP/ skills distribution) with pricing "on request"; both partner CTAs unified on a working GitHub issue template; a post-activation backer nudge shipped dark until a real backer URL exists.</p>
+<ul><li><strong>Design system:</strong> one severity ramp in the token source consumed by</li></ul>
+<p>Studio chips and the landing run-replay (AA text contrast in both themes, measured); API and Reliability family hues de-collided with a test-pinned minimum distance across all 21 families; motion tokens named once; <code>j</code>/<code>k</code> keyboard navigation over visible catalog cards; family chips on cards where color was the only family signal.</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.13.0 — 2026-07-10</h2><div class="prose" style="margin-top:12px"><ul><li>Landing-page redesign: calm, product-grade pass over the whole page.</li><li><strong>One visual system:</strong> rainbow gradients removed everywhere (headline</li></ul>
+<p>underline, footer bar, "All" chip — the <code>--rainbow</code> token is gone from <code>tokens.css</code>); the 22 family colors no longer spray across card borders, chips, finder icons, and kickers — they survive only where they mean something (family group headers, playbook storefront). Kickers, pipeline steps, and links share one neutral treatment; finder icons render as proper stroke outlines.</p>
+<ul><li><strong>Navigation you can digest:</strong> the catalog leads with the question finder</li></ul>
+<p>as its single primary chooser; the triage callout, goal pills, and "New here?" nags are gone; the three helper tools (picker, repo recommender, operator context) collapse into quiet disclosure links; the sticky toolbar is search + one neutral chip row (playbook chips dropped — playbooks live in their own section and pages). The 145-card list renders on intent (question, chip, search, or deep link) instead of dumping every card on first paint — the page shrinks from ~29,000px to ~7,000px.</p>
+<ul><li><strong>Sections earn their keep:</strong> single-column hero without the decorative</li></ul>
+<p>Fig. 1 chart or duplicate stat blocks; the problem section states the problem in three sentences with real proof links instead of three cards; the simulated terminal "run replay" (labelled "not a screen capture") and the placeholder partner band are removed — partnerships move to a footer link; cards drop the "N lenses · N.Nk" trivia and the heavy per-row primary button for a compact quiet one.</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.12.0 — 2026-07-09</h2><div class="prose" style="margin-top:12px"><ul><li>End-to-end remediation pass across every layer, driven by a full review:</li><li><strong>Linter &amp; contract guards:</strong> numeric id ordering; new build-failing rules</li></ul>
+<p>for duplicate/reserved output filenames, id/filename drift, id format, <code>example:</code> targets, <code>related:</code> ids, tagline quoting, and family icon coverage. Brief contract hardened repo-wide: dated re-run-aware Phase 4, an optional <code>reports/</code> directory for clean roots, and a null-report escape for briefs whose subject can be absent — all linted, permanently.</p>
+<ul><li><strong>Brief content:</strong> 46 Audit Triage routes all 21 families; disambiguation</li></ul>
+<p>pointers across every confusion cluster (07↔85, 05↔123, 08↔86, …); the six weakest briefs rewritten to the house standard; <code>example:</code> links to the real dogfood reports; six new audits — 135 CLI Tool UX, 136 Library API Design, 137 Infra-as-Code, 138 Event Contracts, 139 Data Pipeline Quality, 140 Caching Strategy. <strong>141 briefs.</strong></p>
+<ul><li><strong>MCP &amp; conductors:</strong> id normalization (<code>get_brief("6")</code> works), honest</li></ul>
+<p>error ranges, a <code>list_playbooks</code> tool, the MCP <strong>prompts</strong> capability (every brief in your client's prompt picker as <code>goal-&lt;slug&gt;</code>), stemmer and word-boundary matching fixes, and conductor stage-isolation + fetch-fallback + reports/ awareness — kept identical across build.py, server.cjs, and the site by a parity guard in the smoke test.</p>
+<ul><li><strong>Distribution:</strong> a Claude Code plugin as the primary install</li></ul>
+<p>(<code>/plugin marketplace add GhostlyGawd/goal-prompts</code> → real <code>/goal:bug-hunt</code> names), generated from the briefs at build time; the curl installer gains a checksum fallback chain, stale-file removal, a <code>.version</code> stamp, and a hermetic test; CI workflow activated with an airtight rebuild-drift check; a ready-to-copy scheduled run-brief workflow; usage-metrics design doc.</p>
+<ul><li><strong>Landing page:</strong> ranked live search, a 3-question picker, per-repo</li></ul>
+<p>recommendations from a public GitHub repo, honest dogfood evidence tiles replacing paraphrased quotes, toolbar diet, Audit Triage callout, lazy quick-views and client-composed conductors (smaller page), and an a11y/mobile batch.</p>
+<ul><li><strong>Studio, theme, detail pages:</strong> the report parser extracted to</li></ul>
+<p><code>js/report-parser.js</code> and made truthful under test — ###-titled findings parse, severity/fixed read only from label positions, code fences are inert, unrecognized blocks are counted and disclosed; bulk severity chips, post-copy guidance, and share-selection permalinks; an OS-light default theme with family accents darkened to ≥3:1 in light mode; detail pages get saved-context copies, <code>related:</code> cross-links, and per-step playbook copy.</p>
+<ul><li><strong>Tests:</strong> the Python linter suite grew 25 → 65 tests, plus three Node</li></ul>
+<p>suites (catalog core, report parser, MCP smoke + parity) and the hermetic installer test — all wired into <code>scripts/check</code> and CI.</p>
+<ul><li>Open-items backlog pass — accessibility, activation, and anti-staleness fixes</li></ul>
+<p>drawn from the self-audit report gallery:</p>
+<ul><li><strong>Accessibility:</strong> keyboard focus rings restored on every text input; the</li></ul>
+<p><code>--faint</code> text tier lifted to WCAG AA in both themes; mono/sans faux-bold eliminated; a real text alternative for the schematic report mock; the Studio's GitHub-repo input now shows an error state on a failed load.</p>
+<ul><li><strong>Activation &amp; clarity:</strong> copying a brief now shows a guided next-step hint</li></ul>
+<p>naming the report file it writes; the hero names the artifact ("a ready-made, copy-paste prompt") and leads with the free / no-signup / local offer; "MCP" and "conductor" are glossed; the partner band is labeled an example; the installer's SHA-256 verification is surfaced at the install line.</p>
+<ul><li><strong>Anti-staleness:</strong> every public brief/playbook/family count is injected from</li></ul>
+<p>the catalog (meta, OG, hero, chart, and the <code>og.png</code> share card), and the build now fails if the README, family taxonomy, or <code>og.png</code> count drift.</p>
+<ul><li><strong>Also:</strong> a mobile horizontal-overflow fix in the catalog finder; canonical</li></ul>
+<p>URL + <code>SoftwareApplication</code> JSON-LD; shared disabled/press states; and a per-finding disposition recorded in every design/experience report.</p>
+<ul><li><strong>Design-system systematization:</strong> a 4pt spacing scale (<code>--s1..--s9</code>,</li></ul>
+<p><code>--section</code>/<code>--section-tight</code>) added to the token source; every half-pixel font size folded to its nearest integer and the biggest off-grid gaps/margins snapped to the grid (all imperceptible — TYPO T3/T5, LAYOUT L2/L4/L6); and the Proof section gains an honest animated *walk-through* of one real <code>bug-hunt</code> run ending on the real <code>BUGS.md</code> finding — reduced-motion-safe and explicitly labeled "not a screen capture" (SHOWCASE F1).</p>
+<ul><li><strong>Product proof &amp; credibility (integrated):</strong> a real Report Studio screenshot</li></ul>
+<p>captured from the live tool, a real finding→commit before/after, a mobile hero stat-block, retention (copy-marks-a-run, welcome-back banner, export/import, opt-in weekly reminder), a maintainer credit, and an armed adoption badge that turns on only once GitHub stars are real (SHOWCASE F2/F3/F5, PROOF F2/F5, RETENTION R1–R4). No social proof is fabricated.</p>
+<ul><li>Mobile landing-page pass. The page ran ~8 phone-screens of marketing</li></ul>
+<p>before the catalog, and the filter bar overflowed on phones:</p>
+<ul><li><strong>Hero</strong> drops the briefs-per-family chart on phones (it only scrolled</li></ul>
+<p>sideways and delayed the value) and leads with the promise + one primary action; the nav "Get started" is demoted to an outline so a single filled CTA wins per viewport (Hierarchy audit F1).</p>
+<ul><li><strong>Catalog filter bar</strong> is now opaque when pinned — cards no longer</li></ul>
+<p>bleed through its transparent lower edge — and the 21 family + 30 playbook chips collapse into single swipeable rows instead of ~8 stacked rows.</p>
+<ul><li><strong>Funnel:</strong> the playbook storefront moves below the catalog, so the</li></ul>
+<p>catalog is reachable in roughly half the scroll. Its entry points still live in the catalog's "start with a goal" chips and filter row.</p>
+<ul><li><strong>Catalog cards</strong> demote the brief id and promote the title (Hierarchy</li></ul>
+<p>audit F2), and the footer drops the how-to-use steps and second install box that duplicated "Three ways in".</p>
+<ul><li>Visual identity refresh: a <strong>light theme</strong> alongside the dark one (a header</li></ul>
+<p>toggle; the choice persists in <code>localStorage</code>), self-hosted full-coverage Schibsted Grotesk (display) + IBM Plex Sans (UI) replacing Archivo, and every brand asset — OG cards, home share card, PWA icons, manifest, favicons — unified on the <code>#131417</code> ink and the 4-bar mark. Design tokens now live in one source (<code>tokens.css</code>) linked by every surface. (An earlier build shipped the webfonts accidentally ASCII-subset, so the live site fell back to system fonts; the full subsets fix that.)</p>
+<ul><li>Six UI/UX Design briefs, each the standard read-only 4-phase audit:</li></ul>
+<p>129 Navigation &amp; Wayfinding, 130 Menu &amp; Command Surface, 131 Data Visualization, 132 Dashboard &amp; Density, 133 Empty &amp; Zero-Data States, 134 Iconography &amp; Visual Language — plus three design playbooks: Wayfinding (129 → 130 → 54 → 104), Make Data Legible (131 → 132 → 54 → 56), and Total UI Overhaul (129 → 130 → 58 → 133 → 134 → 47). 135 briefs, 35 playbooks</p>
+<ul><li>Self-audit sample-report gallery expanded: the Design family run against this</li></ul>
+<p>repo (HIERARCHY, TYPOGRAPHY, COLOR, LAYOUT, STATES, BRAND) and the experience suite (COMPREHENSION, SHOWCASE, PROOF, RETENTION, ACTIVATION) — read-only audits of goal-prompts' own surfaces, dogfooded.</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.11.0 — 2026-07-08</h2><div class="prose" style="margin-top:12px"><ul><li>Forty-eight briefs and four new families, taking the catalog to 129</li></ul>
+<p>briefs across 21 families — each the standard read-only 4-phase audit that leaves one evidence-backed report:</p>
+<ul><li>Security suite (Trust): 81 Secrets &amp; Credential Hygiene, 82 Access-</li></ul>
+<p>Control &amp; Authorization, 83 Input &amp; Injection, 84 Threat Model &amp; Abuse Cases; plus 85 Dependency Currency and 86 Keyboard &amp; Screen- Reader Flow</p>
+<ul><li>Speed: 87 Query Performance &amp; N+1, 88 Bundle &amp; Asset Weight</li><li>Data: 89 Data Integrity, 90 Metric Definition Consistency</li><li>Ops: 91 Backup &amp; Recovery, 92 Feature-Flag &amp; Rollback Readiness,</li></ul>
+<p>93 Vendor Lock-In</p>
+<ul><li>DX suite (Team): 94 Inner-Loop Speed, 95 Debuggability, 96 CI</li></ul>
+<p>Feedback-Loop; plus 97 Decision-Record</p>
+<ul><li>Quality: 98 Concurrency &amp; Race-Condition, 99 Type-Safety, 100 Test-</li></ul>
+<p>Quality, 101 Flaky-Test, 102 Test-Pyramid Balance</p>
+<ul><li>103 Error-Message (Clarity); 104 Mobile &amp; Responsive and 105 Design-</li></ul>
+<p>Token Adoption (Design); 106 Notification &amp; Email, 107 In-App Search, 108 Account Lifecycle (Product); 109 Forms &amp; Validation, 110 Checkout &amp; Payment (Growth)</p>
+<ul><li>API (new family): 111 Webhook Design, 112 SDK Ergonomics, 113 API</li></ul>
+<p>Versioning &amp; Deprecation, 114 Rate-Limit &amp; Quota Design, 115 Developer Portal &amp; Onboarding</p>
+<ul><li>AI-Ethics (new family): 116 Bias &amp; Fairness, 117 Hallucination &amp;</li></ul>
+<p>Grounding, 118 Prompt-Injection Red-Team, 119 Model Transparency, 120 Training-Data Provenance</p>
+<ul><li>Reliability (new family): 121 Graceful Degradation, 122 Failure-</li></ul>
+<p>Injection Readiness, 123 Capacity &amp; Scalability, 124 Abuse &amp; Overload Protection</p>
+<ul><li>Compliance (new family): 125 Consent &amp; Cookie, 126 Data-Subject-</li></ul>
+<p>Rights, 127 Encryption &amp; Key Management, 128 Audit-Trail</p>
+<ul><li>Fifteen playbooks: Harden Before Ship, Data-Layer Tune-Up, DX Tune-Up,</li></ul>
+<p>Test Confidence, Ship a Public API, Responsible AI Review, Production Resilience, Privacy &amp; Compliance, Make It Fast, Inherit a Codebase, Refactor Safely, Cost Down, Agent Cost Control, plus a themed (New-Year Reset) and a sponsored (Sponsored Speed Bundle) merchandising example. 129 briefs, 32 playbooks</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.10.0 — 2026-07-08</h2><div class="prose" style="margin-top:12px"><ul><li>Five briefs that optimize the whole visitor experience — comprehension,</li></ul>
+<p>visual proof, conversion credibility, retention, and activation — each the standard read-only 4-phase audit that leaves one evidence-backed report:</p>
+<ul><li>76 Comprehension Audit (Clarity): does a newcomer form the right</li></ul>
+<p>mental model — what it is, who it's for, how it works — from the first screen, or does the curse of knowledge win — writes COMPREHENSION.md</p>
+<ul><li>77 Show, Don't Tell (Design): are benefits and mechanics shown —</li></ul>
+<p>screenshots, demos, diagrams, before/after — or asserted in prose the visitor must take on faith — writes SHOWCASE.md</p>
+<ul><li>78 Retention &amp; Lifecycle Audit (Growth): the return trip — saved</li></ul>
+<p>state, resurfaced value, well-timed nudges, and the churn cliffs that quietly lose users — writes RETENTION.md</p>
+<ul><li>79 Social Proof &amp; Credibility (Growth): the testimonials, logos,</li></ul>
+<p>counts, and guarantees that turn a skeptical stranger into a believer, placed where the decision is made — writes PROOF.md</p>
+<ul><li>80 Activation &amp; First-Win Audit (Growth): the first session from empty</li></ul>
+<p>account to first win, and the inspiring next step that seeds a habit — writes ACTIVATION.md</p>
+<ul><li>One playbook: Experience Optimization (76 → 77 → 75 → 79 → 80 → 78 → 47),</li></ul>
+<p>the get-it/want-it/keep-it arc that audits every surface a visitor meets for comprehension, conversion, and retention, then ships the biggest lifts as commits. 81 briefs, 17 playbooks</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.9.0 — 2026-07-07</h2><div class="prose" style="margin-top:12px"><ul><li>Seven briefs closing the biggest coverage gaps, each the standard</li></ul>
+<p>read-only 4-phase audit that leaves one evidence-backed report:</p>
+<ul><li>68 Localization Readiness (Trust): hardcoded strings, locale-blind</li></ul>
+<p>number/date formatting, plural and RTL gaps — writes I18N.md</p>
+<ul><li>69 License &amp; Compliance (Trust): dependency license compatibility,</li></ul>
+<p>copyleft reach, attribution owed — writes LICENSES.md</p>
+<ul><li>70 SEO &amp; Discoverability (Growth): titles, crawlability, structured</li></ul>
+<p>data, social unfurls — writes SEO.md</p>
+<ul><li>71 Migration Safety (Data): table locks, reversibility, timed-out</li></ul>
+<p>backfills, expand/contract ordering — writes MIGRATIONS.md</p>
+<ul><li>72 Ownership &amp; Bus Factor (Team): git-history truck factor, orphaned</li></ul>
+<p>code, single points of human failure — writes OWNERSHIP.md</p>
+<ul><li>73 Telemetry &amp; SLOs (Ops): the positive side of observability —</li></ul>
+<p>metric/trace/log coverage and SLOs, not just crash detection — writes TELEMETRY.md</p>
+<ul><li>74 Change Risk Review (Act): the first diff-scoped brief — blast</li></ul>
+<p>radius, missing tests, rollback story, go/no-go — writes CHANGE-RISK.md</p>
+<ul><li>Two playbooks: Ship to the World (68 → 08 → 70, reach &amp; inclusion) and</li></ul>
+<p>OSS Release-Ready (06 → 07 → 69, safe to make public). 75 briefs, 13 playbooks</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.8.0 — 2026-07-07</h2><div class="prose" style="margin-top:12px"><ul><li>Paid down the whole IMPROVEMENTS.md opportunity map (the v0.7 self-audit</li></ul>
+<p>re-run) via 47 · The Fixer, one finding per commit:</p>
+<ul><li>Share cards for every brief: the 22 briefs added since 0.5 (Act, Design,</li></ul>
+<p>Venture, 48–53) had no OG image, so their <code>/b/&lt;id&gt;</code> pages unfurled a 404. <code>scripts/og.py</code> generates cards from front matter and the build now fails if a brief ships without one</p>
+<ul><li>Self-hosted fonts: Archivo + IBM Plex Mono vendored as woff2 (OFL),</li></ul>
+<p>dropping the site's last runtime third party — closes SECURITY 4</p>
+<ul><li>Offline PWA: a build-generated service worker precaches the shell and</li></ul>
+<p>fonts (content-hash cache version); the catalog, Studio, and new Vitals Viewer work offline</p>
+<ul><li>Vitals Viewer (/vitals): drop brief 29's HEALTH.md history and every</li></ul>
+<p>vital becomes a sparkline with run-over-run deltas — client-side</p>
+<ul><li>Report Studio loads reports straight from a public GitHub repo, no</li></ul>
+<p>download step; the report grammar is now documented and linted, and the Studio surfaces the impact chip</p>
+<ul><li>Venture family dogfooded: a sourced Gut Check (62 → 63 → 67) on a real</li></ul>
+<p>candidate niche, live in the sample gallery — every claim linked and dated</p>
+<ul><li>Zero-result search suggests the closest briefs (the MCP server's</li></ul>
+<p>rarity-weighted scoring, in-page) and logs the miss; run tracker keeps timestamps and nudges when Weekly Vitals goes stale; playbook chips copy their conductor in one tap</p>
+<ul><li>sitemap.xml + robots.txt from the build; families injected from one</li></ul>
+<p>source instead of hand-synced; MCP version reads from package.json; 3-digit hash-router ids; MCP package made publish-ready (npm publish itself still pending credentials). 68 briefs, 11 playbooks</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.7.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>Venture family (is it worth building?): eight briefs that research a</li></ul>
+<p>company before it exists — 60 Opportunity Scan, 61 Niche Map, 62 Pain &amp; Demand Mining, 63 Competitor Teardown, 64 Market Size &amp; Timing, 65 Positioning &amp; Wedge, 66 Moat &amp; Model Check, 67 Venture Verdict. Repo-as-workspace: each brief web-researches one stage and leaves a sourced report; 67 rules go/pivot/kill against bars set before scoring</p>
+<ul><li>Family evidence rules: every claim carries a source link and date,</li></ul>
+<p>arithmetic is shown, and disconfirming evidence gets equal effort</p>
+<ul><li>Two playbooks: Founder Funnel (61→67, the whole pipeline) and Gut Check</li></ul>
+<p>(62·63·67, 72 hours of truth). Audit Triage (46) learns the pre-product signal. 68 briefs, 11 playbooks; the catalog now opens with Venture</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.6.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>Design family (is it beautiful?): six briefs for UI, web, and graphic</li></ul>
+<p>design — 54 Visual Hierarchy, 55 Typography, 56 Color &amp; Contrast, 57 Spacing &amp; Layout, 58 Interaction States &amp; Motion, 59 Brand Coherence. Evidence rules of the house: every visual claim cites a selector, token, or computed ratio</p>
+<ul><li>Face-Lift playbook: 54 → 57 → 55 → 56 → 47 — audit the visuals, then the</li></ul>
+<p>Fixer turns the findings into commits</p>
+<ul><li>Audit Triage (46) learns the Design signal; run-all-6 family conductor at</li></ul>
+<p>/raw/family-design.md. 60 briefs, 9 playbooks</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.5.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>Act family (does anything change?): 46 Audit Triage routes a repo to the</li></ul>
+<p>briefs it needs; 47 The Fixer turns audit reports into verified commits, one finding per commit on its own branch</p>
+<ul><li>Report Studio (/studio): drop your reports, findings become a checklist</li></ul>
+<p>with severity chips, and checked findings become a targeted Fixer prompt — entirely client-side</p>
+<ul><li>Six new audits: 48 Memory &amp; State, 49 Retrieval Quality, 50 Multi-Agent</li></ul>
+<p>Topology, 51 Latency Budget, 52 Agent Readiness, 53 Config &amp; Environment; two new playbooks (Triage &amp; Fix, Retrieval Tune-Up). 54 briefs, 8 playbooks</p>
+<ul><li>Custom conductors: compose any sequence of briefs into one conductor</li></ul>
+<p>prompt — '+ seq' on the site, make_conductor over MCP, plus per-family 'run all' conductors at /raw/family-&lt;slug&gt;.md</p>
+<ul><li>Paid down the self-audit debt the sample reports named: stemmed and</li></ul>
+<p>rarity-weighted suggest_briefs (IMPROVEMENTS 1); sample-report chips on audited cards (IMPROVEMENTS 2); scripts/check one-command gate and a real MCP smoke test (DX 1); linter tests including the lens-scoping regression (DX 2); baseline security headers (SECURITY 3); FIXLOG.md records it</p>
+<ul><li>Fork support: GOAL_PROMPTS_BASE rewrites every generated surface for teams</li></ul>
+<p>running a private catalog</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.4.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>Agent-native catalog: stable raw URLs per brief, playbook conductors,</li></ul>
+<p>machine-readable catalog.json, and a zero-dependency MCP server (list_briefs / suggest_briefs / get_brief / get_playbook)</p>
+<ul><li>Context configurator: aim every copied brief at your stack and stage</li><li>Dogfood gallery at /examples/ — Day-1 playbook run on this repo;</li></ul>
+<p>two bugs it found (copy-label race, empty-state self-XSS) fixed here</p>
+<ul><li>Installer now verifies a published sha256 and warns before overwriting</li><li>Brief linter in the build: 4-phase skeleton, Rules section, ask-first</li></ul>
+<p>ending, lens counts — enforced on every deploy</p>
+<ul><li>Per-brief share pages (/b/30) with individual OG cards; discuss links;</li></ul>
+<p>ctrl/cmd-K; PWA manifest and icons</p></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.3.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>16 new briefs (30–45) for AI-agent products, in three new families:</li></ul>
+<p>Agent (does the agent deliver?), Automation (does the process hold?), AI-UX (does the human trust it?), plus Feedback Loop Audit in Product</p>
+<ul><li>Two new playbooks: Agent Day-1 and Agent Ship-Check</li><li>Catalog copy de-hardcoded from "30"; OG image regenerated</li></ul></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.2.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>Slash-command installer: <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code></li></ul>
+<p>installs all briefs as <code>/goal:*</code> Claude Code commands (+ commands.zip)</p>
+<ul><li>Deep links: <code>/#07</code> opens and highlights a brief; per-card link button</li><li>Run tracker: mark briefs as run (stored locally), progress in masthead,</li></ul>
+<p>nudge toward #28 Roadmap Synthesis after 5 runs</p>
+<ul><li>Playbooks: Day-1 New Repo · Pre-Launch · Spring Cleaning · Weekly Vitals</li><li>OG image, favicon, meta descriptions for link unfurls</li><li>Repo scaffolding: CI (build + drift check), MIT license, templates</li><li>build.py now emits deterministic command archives</li></ul></div></div></section><section class="blk"><div class="wrap"><div class="kicker mono">release</div><h2 class="h2">0.1.0 — 2026-07-06</h2><div class="prose" style="margin-top:12px"><ul><li>30 briefs across 11 families, each &lt; 4k chars</li><li>Catalog site with search, family filters, one-tap copy</li><li><code>build.py</code> pipeline: prompts/*.md → index.html</li><li>Deployed to https://goal-prompts.vercel.app</li></ul></div></div></section><footer class="foot"><div class="wrap"><div class="cta-band"><h3>Pick up what's new</h3><p>Re-run the installer or update the plugin — the whole catalog stays free and open.</p><div class="row"><a class="btn btn-primary" href="/#catalog">Browse the catalog</a><a class="btn btn-ghost" href="/#start">Install everything</a></div></div><div class="links"><a href="/">Home</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a><a href="/vitals">Vitals Viewer</a><a href="/examples/">Sample reports</a><a href="/quality">Why briefs don't rot</a><a href="/changelog">Changelog</a><a href="/teams">For teams</a><a href="/partners">Partners</a><a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div><p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · works with Claude Code, Cursor, Copilot &amp; any coding agent</p></div></footer>
+<script src="/js/gp-detail.js"></script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F2EFE6":"#15120D");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+</body>
+</html>

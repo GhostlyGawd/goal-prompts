@@ -1,0 +1,80 @@
+# Advisory LLM review of changed briefs — the semantic tier above build.py's
+# deterministic linter (AI-IDEAS idea 2). The linter catches structure; this
+# pass reads what it can't: is the brief actually read-only in spirit, does
+# the tagline oversell the body, does it duplicate an existing brief, are the
+# lenses checkable against a real repo?
+#
+# Ships as .example because it needs a secret — it stays DORMANT until a
+# maintainer activates it:
+#
+#   1. Copy this file into the repo as .github/workflows/semantic-lint.yml
+#   2. Add your API key as the repo secret ANTHROPIC_API_KEY
+#      (Settings → Secrets and variables → Actions → New repository secret)
+#
+# ADVISORY BY DESIGN, NEVER A GATE: the job posts one PR comment and always
+# reports success (continue-on-error). The deterministic linter in build.py
+# (run by ci.yml) remains the only blocking check — a wrong model opinion
+# costs one ignorable comment, never a merge. Cost: one model call per
+# brief-touching PR.
+
+name: semantic-lint
+on:
+  pull_request:
+    paths:
+      - "prompts/**"
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    # advisory by construction — even a model failure must not block the PR
+    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: List the changed briefs
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'prompts/**/*.md' > /tmp/changed-briefs.txt
+          echo "Changed briefs:" && cat /tmp/changed-briefs.txt
+
+      - name: Semantic review with Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: >
+            /tmp/changed-briefs.txt lists the audit briefs this PR adds or
+            changes (paths relative to the repo root; empty means nothing to
+            review). This repo's deterministic linter already gates structure,
+            so review ONLY what it cannot read, for each listed brief:
+            (1) read-only in spirit — nothing in the brief would lead an agent
+            to modify code beyond writing its one report file;
+            (2) the tagline promises no more than the body delivers;
+            (3) overlap — does an existing brief in prompts/ already cover
+            this ground (name it if so);
+            (4) every Phase 2 lens is concretely checkable against a real
+            repo — flag generic advice that fits any codebase;
+            (5) the Phase 4 report sections follow CONTRIBUTING.md's
+            report-format grammar the Report Studio parses.
+            Write your review to /tmp/semantic-review.md as short markdown —
+            one section per brief, only genuine concerns with a quoted line
+            each, no praise padding. Start the file with the line
+            "**Semantic lint (advisory)** — a model's second opinion; the
+            deterministic linter remains the only gate." If nothing is worth
+            flagging, do not create the file at all. Do not modify any
+            repository file.
+
+      - name: Post the advisory comment
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -s /tmp/semantic-review.md ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" --body-file /tmp/semantic-review.md
+          else
+            echo "Nothing to flag — no comment posted."
+          fi

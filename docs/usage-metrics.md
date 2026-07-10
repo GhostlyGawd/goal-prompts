@@ -7,8 +7,11 @@ curl installer, CI workflows — ultimately fetches those files. Counting
 `raw/*.md` requests per path per day answers "which briefs get run" without
 cookies, scripts, or user tracking.
 
-Nothing in this document is live. The site ships no analytics; this is the
-design for turning it on when adoption justifies it.
+Nothing in this document is live. (The site itself does ship analytics now —
+the anonymous Vercel Web Analytics beacon plus custom events like
+`copy_prompt` and `mark_run` — but those only see browser visits; the
+raw-fetch counting designed here, which covers conductors, the MCP server,
+the curl installer, and CI, is still off.)
 
 ## Option 1 — Vercel logs (zero code)
 

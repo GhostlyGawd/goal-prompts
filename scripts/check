@@ -67,6 +67,7 @@ EOF
   done
   node tests/catalog_core.test.cjs
   node tests/report_parser.test.cjs
+  node tests/sw_reminder.test.cjs
 
   say "mcp smoke (spawns the real server)"
   node scripts/mcp-smoke.cjs

@@ -1,0 +1,46 @@
+---
+name: goal-mobile-responsive
+description: "The product on a phone — whether layouts, touch targets, and performance hold up on small screens and real devices, or quietly assume a desktop. Audit brief 104 · Design — runs a four-phase audit of the current repo and writes MOBILE.md at the repo root."
+---
+
+# Goal: Mobile & Responsive Audit
+
+You are working inside this repo. Mission: judge the product on a phone — narrow screens, thumbs, and a slow network — and find where a desktop-first design breaks down for the users who arrive on mobile.
+
+Read-only pass. Drive the UI at mobile widths, read the responsive styles; change nothing but the report file.
+
+## Phase 1 — Walk it on a phone
+- Open the core flows at a phone width and interact with a thumb, not a mouse.
+- Note where layouts break, controls are hard to hit, or the page fights the device.
+- Check a mid-tier phone profile and a throttled network if you can.
+
+## Phase 2 — Audit through 7 lenses
+Cite the breakpoint and screen for every finding.
+1. **Breakpoints & layout** — reflow at small widths; horizontal scroll, clipped content, broken grids
+2. **Touch targets** — tap sizes and spacing; controls too small or too close for a thumb
+3. **Input & interaction** — right input types; hover-only interactions with no touch equivalent
+4. **Readable type & density** — font sizes, line length, and spacing that work handheld
+5. **Viewport & safe areas** — notches, safe-area insets, orientation changes, the viewport meta
+6. **Mobile performance** — weight and jank on a mid-tier phone and a slow connection
+7. **Native feel** — momentum, sticky headers, and gestures that feel broken versus expected
+
+## Phase 3 — Curate
+- Rank by how completely each blocks a phone user on a core flow.
+- For each, name the fix and the breakpoint it applies to.
+- Separate "broken on mobile" from "not optimized"; fix broken first.
+
+## Phase 4 — Report
+Create `MOBILE.md` at repo root:
+1. **Flow walk** — each core flow on a phone, where it breaks, and how badly
+2. **Findings** — each: lens · breakpoint/screen · what a phone user hits · the fix
+3. **Blocking issues** — the ones that stop the task on mobile, first
+4. **Polish** — the touch, type, and native-feel refinements after the blockers
+
+Start the report with today's date. If `MOBILE.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Test with a thumb on a narrow screen, not a resized desktop window
+- A tap target too small to hit is a broken feature, not a nitpick
+- No user interface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which mobile issues to fix first

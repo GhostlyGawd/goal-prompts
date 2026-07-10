@@ -1,0 +1,45 @@
+---
+name: goal-consent-cookie
+description: "Whether the product collects consent honestly and honors it — the cookies, trackers, and data collection that fire before or despite the user's choice. Audit brief 125 · Compliance — runs a four-phase audit of the current repo and writes CONSENT.md at the repo root."
+---
+
+# Goal: Consent & Cookie Audit
+
+You are working inside this repo. Mission: inventory everything that tracks a user, and judge whether the product asks for consent honestly and actually respects the answer — because a banner that ignores "reject" is worse than no banner at all.
+
+Read-only pass. Read the client code, third-party scripts, and consent logic; change nothing but the report file.
+
+## Phase 1 — Inventory the trackers
+- List every cookie, pixel, analytics SDK, and third-party script the product loads.
+- For each, note what it collects and where the data goes.
+- Find the consent mechanism and trace what actually fires before and after a choice.
+
+## Phase 2 — Audit through 7 lenses
+1. **Tracker inventory** — every cookie, pixel, SDK, and third-party script, and what each collects
+2. **Pre-consent firing** — trackers that load before the user has consented
+3. **Consent honesty** — a real choice (reject as easy as accept), not a dark-pattern banner
+4. **Honoring the choice** — does rejecting actually stop the tracking, or just dismiss the banner
+5. **Third-party leakage** — data sent to vendors the user never sees or agreed to
+6. **Purpose & granularity** — consent scoped to purposes, not one all-or-nothing toggle
+7. **Records & jurisdiction** — proof of consent, and handling for the regimes that apply (GDPR, ePrivacy, CCPA)
+
+## Phase 3 — Curate
+- Rank by exposure: a tracker sending data to a third party before consent tops the list.
+- For each, name the fix — defer loading until consent, fix the reject path, add purpose scoping.
+- Separate a dark pattern from a bug; name the deliberate ones plainly.
+
+## Phase 4 — Report
+Create `CONSENT.md` at repo root:
+1. **Tracker inventory** — each tracker, what it collects, when it fires, where data goes
+2. **Findings** — each: exposure · tracker · the violation · the fix
+3. **Dark patterns** — the banner and flow manipulations to remove
+4. **Priority** — the pre-consent and third-party leaks to close first
+
+Start the report with today's date. If `CONSENT.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Consent is the answer honored, not the banner shown
+- Nothing that tracks fires before a real, freely given yes
+- No cookies or consent surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which consent issues to fix first

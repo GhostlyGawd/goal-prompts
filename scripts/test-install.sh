@@ -18,9 +18,10 @@ cleanup() { [ -n "$SRV_PID" ] && kill "$SRV_PID" 2>/dev/null; rm -rf "$TMPD"; }
 trap cleanup EXIT
 
 # one server, two origins: /good serves the real artifacts, /bad a corrupted
-# tarball beside the real checksums (so verification must fail)
+# tarball beside the real checksums (so verification must fail).
+# catalog.json rides along: the BRIEF flag resolves ids to slugs through it.
 mkdir -p "$TMPD/www/good" "$TMPD/www/bad"
-cp commands.tar.gz checksums.txt "$TMPD/www/good/"
+cp commands.tar.gz checksums.txt catalog.json "$TMPD/www/good/"
 cp checksums.txt "$TMPD/www/bad/"
 { cat commands.tar.gz; printf 'corrupt'; } > "$TMPD/www/bad/commands.tar.gz"
 
@@ -70,4 +71,25 @@ fi
 grep -q 'checksum mismatch' out3.txt || fail "abort did not name the checksum mismatch"
 [ -f .claude/commands/goal/goal-bug-hunt.md ] || fail "existing install damaged by the aborted run"
 
-echo "OK  install: $N commands, v$VER, stale-file removal, corrupt-tarball abort"
+# --- R43 (COMPETITIVE §3.3): per-brief install via the BRIEF flag ---
+# BRIEF=<id> in a fresh dir installs exactly that brief (still verified)
+ONE="$TMPD/one"; mkdir -p "$ONE"; cd "$ONE"
+BASE="http://127.0.0.1:$PORT/good" BRIEF=01 sh "$REPO/install" > out4.txt
+grep -q 'Checksum verified' out4.txt || fail "BRIEF install skipped verification"
+[ -f .claude/commands/goal/goal-bug-hunt.md ] || fail "BRIEF=01 did not install goal-bug-hunt.md"
+N1=$(ls .claude/commands/goal/*.md | wc -l | tr -d ' ')
+[ "$N1" = "1" ] || fail "BRIEF=01 installed $N1 commands, wanted exactly 1"
+
+# a slug works directly, and adding a second brief leaves the first alone
+BASE="http://127.0.0.1:$PORT/good" BRIEF=roadmap-synthesis sh "$REPO/install" > out5.txt
+[ -f .claude/commands/goal/goal-roadmap-synthesis.md ] || fail "BRIEF=<slug> did not install"
+[ -f .claude/commands/goal/goal-bug-hunt.md ] || fail "second BRIEF install removed the first brief"
+
+# an unknown brief aborts without touching the install
+if BASE="http://127.0.0.1:$PORT/good" BRIEF=999 sh "$REPO/install" > out6.txt 2>&1; then
+  fail "unknown BRIEF did not abort"
+fi
+grep -q 'unknown brief' out6.txt || fail "abort did not name the unknown brief"
+[ -f .claude/commands/goal/goal-bug-hunt.md ] || fail "failed BRIEF install damaged existing files"
+
+echo "OK  install: $N commands, v$VER, stale-file removal, corrupt-tarball abort, BRIEF flag"
