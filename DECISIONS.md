@@ -230,3 +230,53 @@ Consequences: "Redesign it again" is no longer a valid prompt against this
 repo; the valid prompts are "execute the direction better" or "supersede
 ADR-8 with a new direction". Visual changes below a stranger's
 just-noticeable-difference are maintenance and must be labeled as such.
+
+## ADR-13 — The design engine: brand.json is the single source of brand truth; design-engine/ is a portable, second plugin
+
+Status: accepted (amends ADR-12's storage clause; the pinned direction stands)
+Context: The ledger identity (ADR-12) lived in four hand-synced places —
+TOKENS_CSS + BRAND_MARK + FAVICON + FAMILY_COLORS literals in build.py, a
+duplicated BARS geometry in scripts/icons.py, echoed constants in
+scripts/og.py — with the contrast maths pinned only where individual tests
+thought to look. Separately, the operator commissioned a portable branding &
+design engine (clonable into other repos); a full rebrand attempted through
+it was rejected at the live preview and rolled back (the engine's
+library/references/retros.md records the lessons), leaving the engine itself
+as the contribution.
+Decision: design-engine/ is a self-contained folder: brand.json (palette
+themes incl. the severity ramp, categorical family hues, type faces, space,
+radii, motion vocabulary, mark geometry, host config) + stdlib tools
+(tokens_build, brand_lint, contrast, mark_render, specimen, css_hex_lint;
+font_subset, image_lab, scene, imagegen, present, shots.cjs, qa_sheet,
+motion_preview as generate-time tools) + six design skills + a mind library
+(boards, references incl. anti-slop and the program retro, technique
+recipes). build.py imports the engine's tools (host → engine, never the
+reverse, so the folder stays copy-portable) and derives FAMILY_COLORS,
+FAMILY_MIX_LIGHT, BRAND_MARK, FAVICON, and TOKENS_CSS from brand.json;
+scripts/icons.py draws from mark_render (byte-identical PNGs). The compiled
+tokens.css is declaration-identical to the hand-authored ledger file — the
+mark and favicon strings are byte-identical — so this changes no pixels.
+scripts/check grew a design-gates step (brand_lint + contrast, both exit
+non-zero, ADR-1) and discovers design-engine/tests. The engine ships as a
+second marketplace entry with its own hand-maintained version.
+This AMENDS one clause of ADR-12: "Palette lives only in TOKENS_CSS
+(build.py)" becomes "palette lives only in design-engine/brand.json" — the
+one-edit-re-keys-every-surface property that clause protected is preserved
+and now machine-gated (contrast matrix + manifest↔tokens parity test).
+Everything else in ADR-12 stands unchanged: the ledger direction is still
+the identity, restyling still requires a superseding ADR, UI work still
+renders screenshots before commit (scripts/design-shot.cjs, now joined by
+the engine's shots.cjs matrix asserts + qa_sheet contact sheets). Amends
+ADR-2's new-family recipe: the color now goes in brand.json
+palette.categorical (plus FAMILY_ORDER, FAM_ICON, and the template.html
+symbol as before). Contrast thresholds are seeded at the ledger's shipped
+floors (all accents clear 3.0 on every surface; categorical is checked on
+the three TokensTests surfaces) with the standing rule that thresholds only
+ever tighten.
+Consequences: One brand definition feeds site CSS, header mark, favicon,
+and PWA icons, and the folder can be copied into any repo to port the
+system. Superseded brands are preserved as manifests under
+design-engine/library/proposals/ (brand v1, the rejected Auditorium).
+og.py still carries local color constants — re-pointing it at brand.json
+is queued. css_hex_lint joins scripts/check only once the three
+inline-<style> surfaces are var-clean.

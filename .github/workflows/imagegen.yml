@@ -1,0 +1,64 @@
+name: imagegen
+# The design engine's secure generation channel: imagegen.py runs HERE, where
+# the GEMINI_API_KEY repo secret lives (never exposed to dev sessions).
+#
+# Trigger: push a change to design-engine/imagegen-request.json on any branch.
+# The request file IS the recipe record (PROTOCOL §5 sidecar law); the
+# generated image + its brand re-ink are committed back to the same branch
+# under design-engine/library/generated/. Results-only commits don't touch the
+# request file, so no trigger loop.
+#
+# Request shape:
+#   { "name": "hero-x", "prompt": "…", "style": "midcentury-editorial",
+#     "refs": ["design-engine/library/boards/…/arch-hall.jpg", …],
+#     "brand": "design-engine/brand.v2.json", "size": "1536x1024", "n": 1 }
+on:
+  push:
+    paths:
+      - design-engine/imagegen-request.json
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet pillow
+      - name: generate + re-ink from the request file
+        env:
+          IMAGEGEN_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set -e
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          spec = json.loads(open("design-engine/imagegen-request.json").read())
+          reqs = spec["requests"] if "requests" in spec else [spec]
+          rc = 0
+          for req in reqs:
+              os.environ["BRAND_JSON"] = req.get("brand", "design-engine/brand.json")
+              args = ["python3", "design-engine/tools/imagegen.py", req["prompt"],
+                      "--style", req.get("style", "midcentury-editorial"),
+                      "--size", req.get("size", "1536x1024"),
+                      "--n", str(req.get("n", 1)),
+                      "--out", f"design-engine/library/generated/{req['name']}.png"]
+              if req.get("reink", True):
+                  args.insert(-2, "--reink")
+              refs = req.get("refs") or []
+              if refs:
+                  args += ["--ref", ",".join(refs)]
+              rc |= subprocess.call(args)
+          sys.exit(rc)
+          PY
+      - name: commit results to the same branch
+        run: |
+          git config user.name "design-engine imagegen"
+          git config user.email "actions@users.noreply.github.com"
+          git add design-engine/library/generated
+          NAME=$(python3 -c "import json;s=json.load(open('design-engine/imagegen-request.json'));print(s['name'] if 'name' in s else ','.join(r['name'] for r in s['requests']))")
+          git commit -m "imagegen: ${NAME} (recipe: design-engine/imagegen-request.json @ ${GITHUB_SHA})"
+          git push

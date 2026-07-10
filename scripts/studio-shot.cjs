@@ -18,7 +18,19 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { chromium } = require("playwright-core");
+function requirePlaywright() {
+  const paths = [__dirname, process.cwd()];
+  try {
+    const g = require("child_process").execSync("npm root -g", { encoding: "utf8" }).trim();
+    paths.push(g, require("path").join(g, "playwright", "node_modules"));
+  } catch (e) {}
+  for (const name of ["playwright-core", "playwright"]) {
+    try { return require(require.resolve(name, { paths })); } catch (e) {}
+  }
+  console.error("SKIP  playwright-core not resolvable — npm i -g playwright-core");
+  process.exit(0);
+}
+const { chromium } = requirePlaywright();
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(ROOT, "img", "studio.png");

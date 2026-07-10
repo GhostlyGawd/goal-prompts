@@ -1,0 +1,33 @@
+{
+  "requests": [
+    {
+      "name": "spot-lamp",
+      "prompt": "A single striped orange bubble pendant lamp hanging from a black cord, glowing warmly, isolated spot illustration on a plain warm cream background, nothing else in frame.",
+      "refs": [
+        "design-engine/library/boards/midcentury-editorial/blue-room.jpg"
+      ],
+      "size": "1024x1024",
+      "reink": false
+    },
+    {
+      "name": "spot-reports",
+      "prompt": "A neat stack of printed audit reports and spec sheets on a plain warm cream background, top page showing dense typewritten text with a few red-ink margin marks, isolated spot illustration, nothing else in frame.",
+      "refs": [
+        "design-engine/library/boards/midcentury-editorial/still-life.jpg",
+        "design-engine/library/boards/midcentury-editorial/writers-desk.jpg"
+      ],
+      "size": "1024x1024",
+      "reink": false
+    },
+    {
+      "name": "spot-desk",
+      "prompt": "A small cobalt-blue writing desk with a black typewriter and one open printed report, a simple wooden chair, isolated spot illustration on a plain warm cream background, nothing else in frame.",
+      "refs": [
+        "design-engine/library/boards/midcentury-editorial/writers-desk.jpg",
+        "design-engine/library/boards/midcentury-editorial/blue-room.jpg"
+      ],
+      "size": "1024x1024",
+      "reink": false
+    }
+  ]
+}

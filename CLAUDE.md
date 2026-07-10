@@ -35,6 +35,16 @@ Edit these (source of truth):
 - `HARNESS_PLAN.md`, `DECISIONS.md`, `FABLE_BUILD_QUEUE.md`, `specs/` — the
   build-harness design layer: plan, ADR log, remaining frontier-only work,
   and component specs. DECISIONS.md is append-only.
+- `design-engine/` — the portable branding & design engine (ADR-13) and the
+  second Claude Code plugin. `brand.json` is the single source of brand
+  truth (the ledger palette incl. the severity ramp + family colors, type,
+  space, radii, motion, mark geometry); its stdlib tools
+  compile/validate/render it, and build.py imports them (host → engine,
+  never the reverse — the folder is designed to be copied into other
+  repos). Docs: `design-engine/README.md` (contract), `TOOLS.md` (tool
+  index), `PROTOCOL.md` (how to add tools); superseded brands live under
+  `library/proposals/`. Its gates (brand_lint + contrast) and tests run
+  inside `scripts/check`.
 - `js/` — the site's pure-logic modules, each with a zero-dep Node suite:
   `catalog-core.js` (search/conductors — `tests/catalog_core.test.cjs`),
   `report-parser.js` (Studio parsing — `tests/report_parser.test.cjs`),
@@ -72,11 +82,13 @@ Chromium. It's an ungated asset, so re-run it when the Studio UI changes.)
 (`metrics.json` is refreshed out-of-band by `python3 scripts/refresh-stars.py`
 so the build can render the adoption badge without a network call — same
 ungated-asset species as `img/studio.png`.)
-(Design tokens are one source of truth: `TOKENS_CSS` in `build.py` → written to
-`tokens.css`, which every surface links — `template.html`, the `b/`/`p/` detail
-pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.
-`SITE_CSS` and the `brief_detail`/`playbook_detail` builders hold the detail
-pages' component CSS; `template.html` holds the landing page's component CSS.)
+(Design tokens are one source of truth: `design-engine/brand.json` →
+compiled by `design-engine/tools/tokens_build.py` (imported by `build.py`)
+→ written to `tokens.css`, which every surface links — `template.html`, the
+`b/`/`p/` detail pages, `studio.html`, `vitals.html`. Edit brand.json, never
+the CSS or HTML. `SITE_CSS` and the `brief_detail`/`playbook_detail` builders
+hold the detail pages' component CSS; `template.html` holds the landing
+page's component CSS.)
 
 Dogfood output (neither source nor build-generated):
 `reports/` — this repo's own audit reports, written by running the catalog's
@@ -101,26 +113,33 @@ brief output.)
   unknown ids.
 - Family order and questions have one source: `FAMILY_ORDER` in `build.py`
   plus the briefs' front matter, injected into the site as
-  `__FAMILIES_JSON__`. Family *colors* also have one source now:
-  `build.FAMILY_COLORS` — `scripts/og.py` imports it, and `build.py` emits the
-  `.f-*` rules into `tokens.css` from it (they used to be duplicated in
-  `template.html`). Add a family in `FAMILY_ORDER` + `FAMILY_COLORS`, plus a
-  `FAM_ICON` entry and a matching `<symbol>` in `template.html` —
-  `lint_family_icons` fails the build without them.
+  `__FAMILIES_JSON__`. Family *colors* live in `design-engine/brand.json`
+  (`palette.categorical`) — `build.FAMILY_COLORS` is read from it,
+  `scripts/og.py` imports that, and the compiled `tokens.css` carries the
+  `.f-*` rules. Add a family in brand.json `categorical` + `FAMILY_ORDER`,
+  plus a `FAM_ICON` entry and a matching `<symbol>` in `template.html` —
+  `lint_family_icons` fails the build without them (ADR-2, amended by
+  ADR-13).
 - Design direction: **`specs/DESIGN_DIRECTION.md` is the pinned visual
   identity ("the ledger") and ADR-12 in DECISIONS.md is its contract — read
   both before touching CSS, tokens, or marketing markup.** Don't "redesign"
   against taste; either execute the direction better or supersede ADR-12
-  first. Any UI change must be rendered with `node scripts/design-shot.cjs`
-  and the PNGs (light + dark + mobile) actually looked at before commit —
-  the text-only gates in `scripts/check` never see a pixel.
+  first. Palette values live in `design-engine/brand.json` (ADR-13 amended
+  ADR-12's storage clause; the direction itself is unchanged). Any UI change
+  must be rendered with `node scripts/design-shot.cjs` and the PNGs (light +
+  dark + mobile) actually looked at before commit — the text-only gates in
+  `scripts/check` never see a pixel. The engine adds gate-grade page-health
+  asserts (`node design-engine/tools/shots.cjs --matrix --assert`) and a
+  one-image review sheet (`design-engine/tools/qa_sheet.py`).
 - Icons & marks: the UI icon language is deliberately a small Unicode set in
   the mono font — `→` (leads a report filename), `▸` (expander chevrons),
   `✓` (done/success), `×` (remove), `↗` (external link). Don't add an icon
   library; if a new glyph is needed, pick one the mono stack renders and add it
-  here. The brand mark is the 4-bar audit mark, tallest bar flagged vermilion
-  (`build.BRAND_MARK`); the favicon, `icons/*.png` (via `scripts/icons.py`),
-  and the OG home card all derive from it — keep them in step.
+  here. The brand mark is the 4-bar audit mark, tallest bar flagged vermilion;
+  its geometry lives once, in `design-engine/brand.json` (`mark`):
+  `build.BRAND_MARK`, the favicon, and `icons/*.png` (via `scripts/icons.py`)
+  all render from it through `design-engine/tools/mark_render.py`, so they
+  cannot drift; the OG home card echoes the same bar language.
 - Breadcrumbs: every doc, script, and tooling surface must be reachable
   within two hops of this file, and CLAUDE.md ↔ README.md cross-link each
   other. A new surface lands with a line in the Layout taxonomy above in the

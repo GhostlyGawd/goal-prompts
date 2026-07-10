@@ -1,0 +1,20 @@
+{
+  "name": "design-engine",
+  "displayName": "Design Engine",
+  "version": "0.1.0",
+  "description": "A portable branding & design engine: brand.json as the single source of brand truth, six design skills (strategy → identity → UI/UX → motion → graphic → review), and gate-grade tools (token compiler, WCAG contrast matrix, mark renderer, specimen page, screenshot harness). Copy the design-engine/ folder into any repo to port it.",
+  "author": {
+    "name": "GhostlyGawd"
+  },
+  "homepage": "https://goal-prompts.vercel.app",
+  "repository": "https://github.com/GhostlyGawd/goal-prompts",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "branding",
+    "design-tokens",
+    "design-system",
+    "wcag",
+    "claude-code"
+  ]
+}

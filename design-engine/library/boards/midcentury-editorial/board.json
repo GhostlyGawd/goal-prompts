@@ -1,0 +1,37 @@
+{
+  "name": "midcentury-editorial",
+  "images": {
+    "arch-hall.jpg": {
+      "subject": "blue arched catalog hall — receding arches, archive shelves of documents/appliances, white grid floor, one orange Nelson lamp, reading figure",
+      "sampled_palette": ["#66A0C6", "#4481A6", "#011717", "#979B89", "#37657B", "#CBCFC1", "#214451", "#79663F", "#E47730", "#0F282C"],
+      "motifs": ["arcade/receding-arches", "bubble-lamp", "document-archive", "checker-floor", "figure-for-scale"],
+      "hero_grade": true
+    },
+    "blue-room.jpg": {
+      "subject": "cobalt furniture interior on cream — gouache/screen-print, striped lamp, mustard+orange accents, black ink objects",
+      "motifs": ["cobalt-objects-on-paper", "bubble-lamp", "flat-gouache-technique", "mustard-coral-accents"]
+    },
+    "still-life.jpg": {
+      "subject": "ink+watercolor still life — cobalt bottles, orange cocktail/citrus, dense printed text page, loose gestural linework",
+      "motifs": ["ink-linework", "printed-text-as-texture", "cobalt-orange-pairing"]
+    },
+    "arched-interior.jpg": {
+      "subject": "periwinkle arched interior, daylight — orange cigar lamps, coral armchair, gallery walls, patterned floor",
+      "motifs": ["arcade/receding-arches", "gallery-walls", "coral-accent", "daylight-optimism"]
+    },
+    "writers-desk.jpg": {
+      "subject": "cobalt writer's desk by the sea — typewriter, handwritten notebooks, pencils, postcards, eye drawing",
+      "motifs": ["typewriter/report-writing", "handwriting-as-texture", "paper-artifacts", "seaside-horizon"]
+    }
+  },
+  "system": {
+    "grounds": "warm cream paper (3 of 5 images); the blue images are bright daylight blues, never black",
+    "brand_color": "cobalt/cornflower blue as OBJECT and STRUCTURE color, not background darkness",
+    "accent": "orange — the lamp; exactly one glowing thing per composition",
+    "supporting": ["mustard", "coral red", "warm greys/tans", "ink black linework"],
+    "technique": "flat gouache/screen-print: limited palette, posterized shapes, visible grain, ink outlines, slight misregistration",
+    "composition": "depth by repetition (arches), dense supporting detail (documents, objects), one focal glow, figures for scale",
+    "donts": ["black backgrounds", "gradient-as-atmosphere", "clean minimal vector shapes standing alone", "more than one glowing accent", "neon saturation"]
+  },
+  "usage": "Process these images (or any new drops) with tools/image_lab.py: `map` onto the brand palette (levels 5, boost ~1.05) + `grain` for hero art. Sampled palettes above came from `image_lab.py sample`."
+}
