@@ -31,9 +31,10 @@ import build  # noqa: E402  (reuses the brief parser + family colors; stdlib-onl
 FAMILY_COLORS = build.FAMILY_COLORS
 
 W, H = 1200, 630
-INK = "#131417"
-TEXT = "#F1F1F3"
-DIM = "#B7B8BE"
+INK = "#15120D"
+TEXT = "#F0EADC"
+DIM = "#B9B09B"
+ACCENT = "#FF6B47"  # the ledger vermilion (specs/design-direction.md)
 BAR_W = 17
 LEFT = 78
 DOMAIN = "goal-prompts.vercel.app"
@@ -120,20 +121,27 @@ def render(brief):
 
 
 def render_home(briefs):
-    """The catalog's own share card: wordmark, the family spectrum, tagline."""
+    """The catalog's own share card: the bar mark, wordmark, tagline — the
+    ledger identity (three paper bars, tallest flagged vermilion), not the
+    retired 22-family spectrum."""
     im = Image.new("RGB", (W, H), INK)
     d = ImageDraw.Draw(im)
-    fams = [FAMILY_COLORS[k] for k in build.FAMILY_ORDER]
     span = W - LEFT - 60
-    bw = span / len(fams)
-    for i, c in enumerate(fams):
-        d.rounded_rectangle([LEFT + i * bw, 300, LEFT + (i + 1) * bw - 4, 330], radius=4, fill=c)
-    d.text((LEFT, 96), "Goal Prompts", font=font(DISPLAY, 108, 800), fill=TEXT)
-    sf = font(DISPLAY, 42, 500)
-    y = 374
+    # the brand bars, scaled up from the 24-unit viewBox (build.BRAND_MARK)
+    mk, my = 5.4, 88  # scale + top of the mark
+    for x, y, w, h, c in ((1, 9, 3.4, 9, TEXT), (6.9, 3, 3.4, 15, ACCENT),
+                          (12.8, 7, 3.4, 11, TEXT), (18.7, 12, 3.4, 6, TEXT)):
+        d.rounded_rectangle([LEFT + x * mk, my + y * mk,
+                             LEFT + (x + w) * mk, my + (y + h) * mk],
+                            radius=0.8 * mk, fill=c)
+    d.text((LEFT + 156, 96), "Goal Prompts", font=font(DISPLAY, 92, 800), fill=TEXT)
+    d.rectangle([LEFT, 290, LEFT + span, 293], fill=ACCENT)
+    sf = font(DISPLAY, 48, 640)
+    y = 340
     for line in wrap(d, "Turn your coding agent into a senior code auditor.", sf, span)[:2]:
         d.text((LEFT, y), line, font=sf, fill=TEXT)
-        y += 52
+        y += 60
+    fams = build.FAMILY_ORDER
     foot = f"{len(briefs)} briefs / {len(fams)} families / {DOMAIN}"
     d.text((LEFT, 548), foot, font=font(MONO, 24), fill=DIM)
     return im

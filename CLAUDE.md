@@ -76,13 +76,20 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
   `template.html`). Add a family in `FAMILY_ORDER` + `FAMILY_COLORS`, plus a
   `FAM_ICON` entry and a matching `<symbol>` in `template.html` —
   `lint_family_icons` fails the build without them.
+- Design direction: **`specs/DESIGN_DIRECTION.md` is the pinned visual
+  identity ("the ledger") and ADR-12 in DECISIONS.md is its contract — read
+  both before touching CSS, tokens, or marketing markup.** Don't "redesign"
+  against taste; either execute the direction better or supersede ADR-12
+  first. Any UI change must be rendered with `node scripts/design-shot.cjs`
+  and the PNGs (light + dark + mobile) actually looked at before commit —
+  the text-only gates in `scripts/check` never see a pixel.
 - Icons & marks: the UI icon language is deliberately a small Unicode set in
   the mono font — `→` (leads a report filename), `▸` (expander chevrons),
   `✓` (done/success), `×` (remove), `↗` (external link). Don't add an icon
   library; if a new glyph is needed, pick one the mono stack renders and add it
-  here. The brand mark is the 4-bar equalizer (`build.BRAND_MARK`); the favicon,
-  `icons/*.png` (via `scripts/icons.py`), and each OG card's left bar all derive
-  from it — keep them in step.
+  here. The brand mark is the 4-bar audit mark, tallest bar flagged vermilion
+  (`build.BRAND_MARK`); the favicon, `icons/*.png` (via `scripts/icons.py`),
+  and the OG home card all derive from it — keep them in step.
 - Playbooks in `playbooks.json` may carry optional merchandising fields —
   `type` (standard | themed | collab | sponsored), `featured`, `badge`,
   `window`, `accent`, `partner`, `preview`, `tagline`. They drive the
