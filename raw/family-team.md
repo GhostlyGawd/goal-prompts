@@ -1,8 +1,8 @@
 # Playbook: All Team briefs (conductor)
 
-You are working inside this repo. Mission: execute the **All Team briefs** playbook — 9 audit briefs in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
+You are working inside this repo. Mission: execute the **All Team briefs** playbook — 10 audit briefs in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
 
-Every Team brief in the catalog, in order — 13 through 97, one report each.
+Every Team brief in the catalog, in order — 13 through 145, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -21,6 +21,7 @@ Every Team brief in the catalog, in order — 13 through 97, one report each.
 7. **95 · Debuggability Audit** — fetch https://goal-prompts.vercel.app/raw/95.md → writes `DEBUG.md`
 8. **96 · CI Feedback-Loop Audit** — fetch https://goal-prompts.vercel.app/raw/96.md → writes `CIFEEDBACK.md`
 9. **97 · Decision-Record Audit** — fetch https://goal-prompts.vercel.app/raw/97.md → writes `DECISIONS.md`
+10. **145 · Breadcrumb Audit** — fetch https://goal-prompts.vercel.app/raw/145.md → writes `BREADCRUMBS.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.

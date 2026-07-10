@@ -1,8 +1,12 @@
 # Goal Prompts
 
-145 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
+146 mission briefs for Claude Code (or any coding agent). Each one points the agent at your repo, walks it through a 4-phase audit — **Explore → Audit → Curate → Report** — and produces a single evidence-backed report file at your repo root. Then the **Act** family turns those reports into commits.
 
 Every prompt body is under 4,000 characters.
+
+Working on this repo itself (human or agent)? Start at [CLAUDE.md](CLAUDE.md) —
+commands, layout taxonomy, and conventions. This repo's own dogfood reports
+live in [`reports/`](reports/).
 
 **Live:** https://goal-prompts.vercel.app · **Source:** https://github.com/GhostlyGawd/goal-prompts · MIT licensed
 

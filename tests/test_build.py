@@ -127,7 +127,7 @@ class LintTests(unittest.TestCase):
         v = build.lint(brief(example="BUGS.md"))
         self.assertTrue(any("root-relative" in x for x in v), v)
         self.assertEqual(
-            [x for x in build.lint(brief(example="/BUGS.md"))
+            [x for x in build.lint(brief(example="/reports/BUGS.md"))
              if "root-relative" in x], [])
 
     def test_reserved_output_filename_fails(self):
@@ -190,7 +190,7 @@ class LintTests(unittest.TestCase):
         v = build.lint(brief(example="/NO-SUCH-REPORT-EVER.md"))
         self.assertTrue(any("does not exist" in x for x in v), v)
         self.assertEqual(
-            [x for x in build.lint(brief(example="/BUGS.md"))
+            [x for x in build.lint(brief(example="/reports/BUGS.md"))
              if "does not exist" in x], [])
 
 

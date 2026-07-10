@@ -4,7 +4,7 @@ title: Visual Hierarchy Audit
 family: Design
 question: is it beautiful?
 output: HIERARCHY.md
-example: /HIERARCHY.md
+example: /reports/HIERARCHY.md
 tagline: Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once.
 ---
 # Goal: Visual Hierarchy Audit

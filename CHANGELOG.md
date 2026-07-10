@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.14.0 — 2026-07-10
+- New brief: **145 Breadcrumb Audit** (Team) — walks the doc-and-tooling link
+  graph from the agent entry file (CLAUDE.md / AGENTS.md, README, CONTRIBUTING)
+  and reports orphaned docs, unreachable scripts, files outside every stated
+  taxonomy, and unwritten rules. Output `BREADCRUMBS.md`.
+- Practiced what 145 preaches on this repo:
+  - The 19 dogfood reports (BUGS.md, DX.md, FIXLOG.md, …) moved from the repo
+    root into `reports/`; all `example:` front matter, the examples gallery,
+    the landing-page fix-log link, the Studio demo loader, and the Vercel
+    redirects follow (old root URLs redirect permanently).
+  - CLAUDE.md and README.md now cross-link; CLAUDE.md's Layout taxonomy gains
+    the dogfood-output class, and the breadcrumb convention (everything
+    reachable within two hops of CLAUDE.md) is stated in Conventions.
+
 ## 0.13.0 — 2026-07-10
 - Landing-page redesign: calm, product-grade pass over the whole page.
   - **One visual system:** rainbow gradients removed everywhere (headline

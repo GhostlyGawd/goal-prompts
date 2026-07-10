@@ -235,8 +235,8 @@ t("a dropped short ###-block counts as unrecognized", () => {
 });
 
 // ---- the repo's own dogfood reports (real-world regression) ---------------------
-t("BUGS.md at the repo root parses to its 5 findings, all severity-tagged and fixed", () => {
-  const text = fs.readFileSync(path.join(ROOT, "BUGS.md"), "utf8");
+t("BUGS.md in reports/ parses to its 5 findings, all severity-tagged and fixed", () => {
+  const text = fs.readFileSync(path.join(ROOT, "reports", "BUGS.md"), "utf8");
   const f = findings(text, "BUGS.md");
   assert.strictEqual(f.length, 5, "got " + f.length);
   f.forEach(x => {
@@ -245,7 +245,7 @@ t("BUGS.md at the repo root parses to its 5 findings, all severity-tagged and fi
   });
 });
 t("IMPROVEMENTS.md parses to a non-trivial finding list", () => {
-  const text = fs.readFileSync(path.join(ROOT, "IMPROVEMENTS.md"), "utf8");
+  const text = fs.readFileSync(path.join(ROOT, "reports", "IMPROVEMENTS.md"), "utf8");
   assert(findings(text, "IMPROVEMENTS.md").length >= 8);
 });
 

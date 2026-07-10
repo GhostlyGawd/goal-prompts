@@ -25,7 +25,7 @@
   },
   {
    "chars": 2925,
-   "example": "https://goal-prompts.vercel.app/DEMAND.md",
+   "example": "https://goal-prompts.vercel.app/reports/DEMAND.md",
    "family": "Venture",
    "id": "62",
    "output": "DEMAND.md",
@@ -94,7 +94,7 @@
   },
   {
    "chars": 3463,
-   "example": "https://goal-prompts.vercel.app/IMPROVEMENTS.md",
+   "example": "https://goal-prompts.vercel.app/reports/IMPROVEMENTS.md",
    "family": "Product",
    "id": "00",
    "output": "IMPROVEMENTS.md",
@@ -150,7 +150,7 @@
   },
   {
    "chars": 2621,
-   "example": "https://goal-prompts.vercel.app/BUGS.md",
+   "example": "https://goal-prompts.vercel.app/reports/BUGS.md",
    "family": "Quality",
    "id": "01",
    "output": "BUGS.md",
@@ -305,7 +305,7 @@
   },
   {
    "chars": 2633,
-   "example": "https://goal-prompts.vercel.app/SECURITY-AUDIT.md",
+   "example": "https://goal-prompts.vercel.app/reports/SECURITY-AUDIT.md",
    "family": "Trust",
    "id": "06",
    "output": "SECURITY-AUDIT.md",
@@ -526,7 +526,7 @@
   },
   {
    "chars": 3509,
-   "example": "https://goal-prompts.vercel.app/CRO.md",
+   "example": "https://goal-prompts.vercel.app/reports/CRO.md",
    "family": "Growth",
    "id": "75",
    "output": "CRO.md",
@@ -538,7 +538,7 @@
   },
   {
    "chars": 3243,
-   "example": "https://goal-prompts.vercel.app/RETENTION.md",
+   "example": "https://goal-prompts.vercel.app/reports/RETENTION.md",
    "family": "Growth",
    "id": "78",
    "output": "RETENTION.md",
@@ -550,7 +550,7 @@
   },
   {
    "chars": 3500,
-   "example": "https://goal-prompts.vercel.app/PROOF.md",
+   "example": "https://goal-prompts.vercel.app/reports/PROOF.md",
    "family": "Growth",
    "id": "79",
    "output": "PROOF.md",
@@ -562,7 +562,7 @@
   },
   {
    "chars": 3566,
-   "example": "https://goal-prompts.vercel.app/ACTIVATION.md",
+   "example": "https://goal-prompts.vercel.app/reports/ACTIVATION.md",
    "family": "Growth",
    "id": "80",
    "output": "ACTIVATION.md",
@@ -607,7 +607,7 @@
   },
   {
    "chars": 2466,
-   "example": "https://goal-prompts.vercel.app/DX.md",
+   "example": "https://goal-prompts.vercel.app/reports/DX.md",
    "family": "Team",
    "id": "14",
    "output": "DX.md",
@@ -693,6 +693,17 @@
    "slug": "decision-records",
    "tagline": "Whether the consequential technical decisions are written down — or whether the why lives only in people's heads and git archaeology.",
    "title": "Decision-Record Audit"
+  },
+  {
+   "chars": 3327,
+   "family": "Team",
+   "id": "145",
+   "output": "BREADCRUMBS.md",
+   "question": "can others build on it?",
+   "raw": "https://goal-prompts.vercel.app/raw/145.md",
+   "slug": "breadcrumb-audit",
+   "tagline": "Walk the doc-and-tooling link graph from the agent entry file — orphaned docs, unreachable scripts, files outside every stated taxonomy, and unwritten rules.",
+   "title": "Breadcrumb Audit"
   },
   {
    "chars": 2753,
@@ -795,7 +806,7 @@
   },
   {
    "chars": 3388,
-   "example": "https://goal-prompts.vercel.app/COMPREHENSION.md",
+   "example": "https://goal-prompts.vercel.app/reports/COMPREHENSION.md",
    "family": "Clarity",
    "id": "76",
    "output": "COMPREHENSION.md",
@@ -829,7 +840,7 @@
   },
   {
    "chars": 2962,
-   "example": "https://goal-prompts.vercel.app/HIERARCHY.md",
+   "example": "https://goal-prompts.vercel.app/reports/HIERARCHY.md",
    "family": "Design",
    "id": "54",
    "output": "HIERARCHY.md",
@@ -841,7 +852,7 @@
   },
   {
    "chars": 2878,
-   "example": "https://goal-prompts.vercel.app/TYPOGRAPHY.md",
+   "example": "https://goal-prompts.vercel.app/reports/TYPOGRAPHY.md",
    "family": "Design",
    "id": "55",
    "output": "TYPOGRAPHY.md",
@@ -853,7 +864,7 @@
   },
   {
    "chars": 3001,
-   "example": "https://goal-prompts.vercel.app/COLOR.md",
+   "example": "https://goal-prompts.vercel.app/reports/COLOR.md",
    "family": "Design",
    "id": "56",
    "output": "COLOR.md",
@@ -865,7 +876,7 @@
   },
   {
    "chars": 2780,
-   "example": "https://goal-prompts.vercel.app/LAYOUT.md",
+   "example": "https://goal-prompts.vercel.app/reports/LAYOUT.md",
    "family": "Design",
    "id": "57",
    "output": "LAYOUT.md",
@@ -877,7 +888,7 @@
   },
   {
    "chars": 2952,
-   "example": "https://goal-prompts.vercel.app/STATES.md",
+   "example": "https://goal-prompts.vercel.app/reports/STATES.md",
    "family": "Design",
    "id": "58",
    "output": "STATES.md",
@@ -889,7 +900,7 @@
   },
   {
    "chars": 3026,
-   "example": "https://goal-prompts.vercel.app/BRAND.md",
+   "example": "https://goal-prompts.vercel.app/reports/BRAND.md",
    "family": "Design",
    "id": "59",
    "output": "BRAND.md",
@@ -901,7 +912,7 @@
   },
   {
    "chars": 3337,
-   "example": "https://goal-prompts.vercel.app/SHOWCASE.md",
+   "example": "https://goal-prompts.vercel.app/reports/SHOWCASE.md",
    "family": "Design",
    "id": "77",
    "output": "SHOWCASE.md",
@@ -1298,7 +1309,7 @@
   },
   {
    "chars": 3408,
-   "example": "https://goal-prompts.vercel.app/FIXLOG.md",
+   "example": "https://goal-prompts.vercel.app/reports/FIXLOG.md",
    "family": "Act",
    "id": "47",
    "output": "FIXLOG.md",

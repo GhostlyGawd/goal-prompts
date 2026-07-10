@@ -665,7 +665,7 @@ document.getElementById("demobtn").onclick = async function(){
   this.disabled = true; this.textContent = "loading…";
   try{
     for(const n of names){
-      const res = await fetch("/" + n);
+      const res = await fetch("/reports/" + n);
       if(!res.ok) throw new Error(n);
       addReport(n, await res.text());
     }

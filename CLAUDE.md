@@ -4,6 +4,10 @@ This repo is a catalog of audit briefs for coding agents. It builds a static
 site and machine-readable surfaces from markdown sources. No framework, no
 runtime backend; the build is stdlib-only Python.
 
+This file is the agent entry point. The human-facing overview — install
+paths, the families table, the report gallery — lives in `README.md`;
+brief-authoring rules and the report format grammar live in `CONTRIBUTING.md`.
+
 ## Commands
 - `python3 build.py` — lint every brief and regenerate all outputs
 - `scripts/check` — the full gate: build + JS parse + MCP smoke + linter tests
@@ -54,6 +58,13 @@ pages, `studio.html`, `vitals.html`. Edit tokens there, never in the HTML.
 `SITE_CSS` and the `brief_detail`/`playbook_detail` builders hold the detail
 pages' component CSS; `template.html` holds the landing page's component CSS.)
 
+Dogfood output (neither source nor build-generated):
+`reports/` — this repo's own audit reports, written by running the catalog's
+briefs against this repo. Brief `example:` front matter and the examples
+gallery point into it. Refresh one by re-running its brief; never hand-edit.
+(`CHANGELOG.md` stays at root — it's a reserved community filename, not a
+brief output.)
+
 ## Conventions
 - Every brief follows the 4-phase skeleton (Explore → Audit → Curate → Report)
   and contains the ask-first gate ("Report only — end by asking …"). The
@@ -83,6 +94,11 @@ pages' component CSS; `template.html` holds the landing page's component CSS.)
   here. The brand mark is the 4-bar equalizer (`build.BRAND_MARK`); the favicon,
   `icons/*.png` (via `scripts/icons.py`), and each OG card's left bar all derive
   from it — keep them in step.
+- Breadcrumbs: every doc, script, and tooling surface must be reachable
+  within two hops of this file, and CLAUDE.md ↔ README.md cross-link each
+  other. A new surface lands with a line in the Layout taxonomy above in the
+  same change. Brief 145 (Breadcrumb Audit) checks exactly this — run it
+  after structural changes.
 - Playbooks in `playbooks.json` may carry optional merchandising fields —
   `type` (standard | themed | collab | sponsored), `featured`, `badge`,
   `window`, `accent`, `partner`, `preview`, `tagline`. They drive the
