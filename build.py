@@ -599,6 +599,7 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .dhero .lede{font-size:clamp(16px,2.4vw,20px);color:var(--text);max-width:60ch;line-height:1.5}
 .dhero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .dhero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.dhero .offer{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.6}
 
 /* section scaffolding */
 section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
@@ -842,6 +843,18 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     if p.get("example"):
         ex = p["example"] if p["example"].startswith("/") else p["example"]
         cta.append(f'<a class="btn btn-ghost" href="{ex}">See a real report ↗</a>')
+    else:
+        # PROOF NF6 (R19): the 121 briefs without their own sample still get
+        # evidence in eyeshot of the copy button — the generic gallery.
+        cta.append('<a class="btn btn-ghost" href="/examples/">See real sample reports ↗</a>')
+    # CRO NF2 (R19): the landing page's offer + risk-reversal, restated at the
+    # side-door CTA. Brief 47 is the catalog's one code-modifying brief — its
+    # line must not claim read-only (CLAUDE.md's Fixer exception).
+    offer = ('Free &amp; open · no signup · it asks before touching anything — '
+             'you pick what it fixes · nothing leaves your machine'
+             if p["id"] == "47" else
+             'Free &amp; open · no signup · read-only — it ends by asking · '
+             'nothing leaves your machine')
 
     hero = (f'<section class="dhero"><div class="wrap">'
             f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
@@ -854,6 +867,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<p class="lede">{esc(p["tagline"])}</p>'
             f'<div class="meta">{"".join(meta)}</div>'
             f'<div class="cta">{"".join(cta)}</div>'
+            f'<p class="offer">{offer}</p>'
             f'</div></section>')
 
     # what it does
@@ -997,6 +1011,30 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
                 f"{BASE}/og/{p['id']}.png", "article", fc)
 
 
+def window_chip(win) -> str:
+    """Merchandising `window` → chip HTML, date-gated (CRO NF4, R22).
+
+    A plain string renders as an evergreen chip. A {"label", "months"} object
+    renders *hidden* with its months in a data attribute; gp-detail.js unhides
+    it only while the viewer's month is inside the window. Gating on the
+    viewer's clock (not the build's) keeps the build deterministic and means a
+    stale deploy can never show "January drop" in July — without JS the chip
+    simply stays hidden, which is the safe direction."""
+    if isinstance(win, str):
+        return f'<span class="chip">{esc(win)}</span>'
+    label = win.get("label")
+    months = win.get("months")
+    if not label or not isinstance(label, str):
+        fail(f"playbook window {win!r} needs a non-empty 'label'")
+    if (not months or not isinstance(months, list)
+            # type() not isinstance(): bool is an int subclass, and [True]
+            # would serialize as a silently dead data-window-months="True"
+            or any(type(m) is not int or not 1 <= m <= 12 for m in months)):
+        fail(f"playbook window '{label}' needs 'months' as a list of ints 1-12")
+    ms = ",".join(str(m) for m in months)
+    return f'<span class="chip" data-window-months="{ms}" hidden>{esc(label)}</span>'
+
+
 def playbook_detail(pb, by_id) -> str:
     accent = pb.get("accent")
     fam_of_first = by_id[pb["ids"][0]]["family"]
@@ -1009,7 +1047,15 @@ def playbook_detail(pb, by_id) -> str:
     badge = ""
     if pb.get("badge"):
         badge = f'<span class="badge">{esc(pb["badge"])}</span> '
-    win = f'<span class="chip">{esc(pb["window"])}</span>' if pb.get("window") else ""
+    win = window_chip(pb["window"]) if pb.get("window") else ""
+
+    # CRO NF2 (R19): offer + risk-reversal at the conductor CTA. Sequences
+    # that end in 47 · The Fixer aren't read-only — say so honestly.
+    offer = ('Free &amp; open · no signup · audits are read-only — the Fixer '
+             'asks before any edit · nothing leaves your machine'
+             if "47" in pb["ids"] else
+             'Free &amp; open · no signup · read-only — every stage ends by '
+             'asking · nothing leaves your machine')
 
     hero = (f'<section class="dhero" {style}><div class="wrap">'
             f'<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
@@ -1021,7 +1067,9 @@ def playbook_detail(pb, by_id) -> str:
             f'<p class="lede">{esc(pb.get("tagline") or pb["desc"])}</p>'
             f'<div class="cta">'
             f'<button class="btn btn-primary" data-copy="#rawcond">Copy the conductor</button>'
-            f'<a class="btn btn-ghost" href="#seq">See the sequence</a></div>'
+            f'<a class="btn btn-ghost" href="#seq">See the sequence</a>'
+            f'<a class="btn btn-ghost" href="/examples/">See real sample reports ↗</a></div>'
+            f'<p class="offer">{offer}</p>'
             f'</div></section>')
 
     # preview / partner note
@@ -1305,7 +1353,8 @@ def main() -> None:
     if BASE != DEFAULT_BASE:
         template = template.replace(DEFAULT_BASE, BASE)
     for token in ("__PROMPTS_JSON__", "__PLAYBOOKS_JSON__", "__FAMILIES_JSON__",
-                  "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__", "__GH_STARS__"):
+                  "__N_BRIEFS__", "__N_PLAYBOOKS__", "__N_FAMILIES__",
+                  "__GH_STARS__", "__GH_STARS_HERO__"):
         if token not in template:
             fail(f"template.html missing {token} placeholder")
     icon_gaps = lint_family_icons(template)
@@ -1322,6 +1371,9 @@ def main() -> None:
         stars = int(json.loads((ROOT / "metrics.json").read_text()).get("stars", 0))
     except Exception:
         stars = 0
+    # One badge, two placements: the footer buildnote and \u2014 PROOF NF7 (R25) \u2014
+    # the hero micro-line next to "free & open". Same threshold, same
+    # dark-below-it discipline; never a fake or deflating number.
     gh_stars = (f' \u00b7 <a href="https://github.com/GhostlyGawd/goal-prompts/stargazers">'
                 f'{stars:,} stars on GitHub</a>') if stars >= STAR_THRESHOLD else ""
     # counts injected from source-of-truth so the static meta/OG tags and the
@@ -1333,6 +1385,7 @@ def main() -> None:
                 .replace("__N_BRIEFS__", str(len(prompts)))
                 .replace("__N_PLAYBOOKS__", str(len(playbooks)))
                 .replace("__N_FAMILIES__", str(len(fam_payload)))
+                .replace("__GH_STARS_HERO__", gh_stars)
                 .replace("__GH_STARS__", gh_stars),
         encoding="utf-8")
 

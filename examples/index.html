@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sample reports — Goal Prompts</title>
-<meta name="description" content="Real reports produced by running the Day-1 playbook against the goal-prompts repo itself.">
+<meta name="description" content="Real reports produced by running the Day-1, venture, and growth briefs against the goal-prompts repo itself.">
 <meta name="theme-color" content="#131417">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23131417'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='7' width='3.4' height='11' rx='1.7' fill='%23E8B44C'/%3E%3Crect x='6.9' y='3' width='3.4' height='18' rx='1.7' fill='%2352C280'/%3E%3Crect x='12.8' y='6' width='3.4' height='13' rx='1.7' fill='%234D9FFF'/%3E%3Crect x='18.7' y='9' width='3.4' height='8' rx='1.7' fill='%23C878F0'/%3E%3C/g%3E%3C/svg%3E">
@@ -43,6 +43,9 @@
   h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-.03em;margin:14px 0 16px}
   h1 span{color:var(--amber)}
   h2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:36px 0 4px}
+  /* family-colored section headings: tokens.css's .f-* classes set --fc with
+     light-theme color-mix overrides, so the hue stays legible in both themes */
+  h2.f-venture,h2.f-growth{color:var(--fc)}
   p.sub{color:var(--dim);font-size:15px;max-width:58ch}
   .card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--fc);border-radius:10px;padding:16px;margin-top:12px;transition:border-color .15s,transform .15s}
   .card:hover{border-color:var(--fc);transform:translateY(-2px)}
@@ -108,7 +111,7 @@
     <p class="file">→ FIXLOG.md</p>
   </a>
 
-  <h2 style="color:#C878F0">Venture · Gut Check</h2>
+  <h2 class="f-venture">Venture · Gut Check</h2>
   <p class="sub" style="margin-bottom:4px">A second dogfood: the Venture family run <em>before</em> a product exists. Briefs 62 → 63 → 67 research one candidate niche — flaky-test tooling for CI — entirely from sourced web evidence, and rule on it. Every claim carries a link and an access date; the bear case gets equal weight; the verdict comes out <em>pivot</em>, not a reflexive go.</p>
 
   <a class="card f-venture" href="/examples/venture/DEMAND.md">
@@ -125,6 +128,65 @@
     <span class="id">67</span><b>Venture Verdict</b>
     <p>Bars set before scoring, then the ruling: <b>pivot</b> — the pain is real but detection is commoditizing, so the wedge moves from "quarantine" to "root-cause &amp; prevent."</p>
     <p class="file">→ examples/venture/VERDICT.md</p>
+  </a>
+
+  <h2 class="f-growth">Growth · the whole funnel, audited</h2>
+  <p class="sub" style="margin-bottom:4px">The freshest dogfood: all eleven Growth briefs, run against this site as one conductor pass. They are deliberately self-critical — the competitive scan records the 0-star gap in the open, and the proof audit called out the site's own overclaims. Their findings became the roadmap the site is shipping right now.</p>
+
+  <a class="card f-growth" href="/FUNNEL.md">
+    <span class="id">09</span><b>Funnel Friction Audit</b>
+    <p>The real funnel reconstructed — no signup, no backend — with every silent stall between landing and a first report, counted and ranked.</p>
+    <p class="file">→ FUNNEL.md</p>
+  </a>
+  <a class="card f-growth" href="/COMPETITIVE.md">
+    <span class="id">10</span><b>Competitive Gap Scan</b>
+    <p>Five rivals at 23k–50k stars, table stakes vs differentiation — and the honest headline that the category gap here is distribution and proof, not features.</p>
+    <p class="file">→ COMPETITIVE.md</p>
+  </a>
+  <a class="card f-growth" href="/REVENUE.md">
+    <span class="id">11</span><b>Monetization Map</b>
+    <p>Where money could enter a free, MIT catalog — partner playbooks, sponsorship rails — and the billing friction standing in the way.</p>
+    <p class="file">→ REVENUE.md</p>
+  </a>
+  <a class="card f-growth" href="/AI-IDEAS.md">
+    <span class="id">12</span><b>AI Opportunity Scan</b>
+    <p>Which LLM features would earn their place on a no-backend static site — and which would break the "nothing leaves your machine" stance that is the moat.</p>
+    <p class="file">→ AI-IDEAS.md</p>
+  </a>
+  <a class="card f-growth" href="/SEO.md">
+    <span class="id">70</span><b>SEO &amp; Discoverability</b>
+    <p>Titles, structured data, crawlability, and unfurls across 180+ generated pages — including the briefs invisible to non-rendering crawlers.</p>
+    <p class="file">→ SEO.md</p>
+  </a>
+  <a class="card f-growth" href="/CRO.md">
+    <span class="id">75</span><b>Conversion Rate Optimization</b>
+    <p>Every conversion surface for a first-time visitor — including the install path that dead-ended after step 1 and the 176 side-door pages missing the offer.</p>
+    <p class="file">→ CRO.md</p>
+  </a>
+  <a class="card f-growth" href="/RETENTION.md">
+    <span class="id">78</span><b>Retention &amp; Lifecycle Audit</b>
+    <p>What earns a second visit: the run tracker, the weekly Vitals ritual, the welcome-back context — and the churn cliffs that quietly lose it.</p>
+    <p class="file">→ RETENTION.md</p>
+  </a>
+  <a class="card f-growth" href="/PROOF.md">
+    <span class="id">79</span><b>Social Proof &amp; Credibility</b>
+    <p>The site's own trust claims stress-tested — it caught the "every brief is dogfooded" overclaim and an unfalsifiable commit citation; both are fixed in the release that shipped this section.</p>
+    <p class="file">→ PROOF.md</p>
+  </a>
+  <a class="card f-growth" href="/ACTIVATION.md">
+    <span class="id">80</span><b>Activation &amp; First-Win Audit</b>
+    <p>The first session, cold arrival to first report file, with every handoff where a newcomer stalls between copy and paste.</p>
+    <p class="file">→ ACTIVATION.md</p>
+  </a>
+  <a class="card f-growth" href="/FORMS.md">
+    <span class="id">109</span><b>Forms &amp; Validation Audit</b>
+    <p>No classic forms here — so the audit covers what exists: search, the 4-field context box, file drops, and how kindly each one fails.</p>
+    <p class="file">→ FORMS.md</p>
+  </a>
+  <a class="card f-growth" href="/CHECKOUT.md">
+    <span class="id">110</span><b>Checkout &amp; Payment Flow</b>
+    <p>A null report, filed honestly: there is no checkout to audit on a $0 site — the seven lenses had nothing to attach to, and saying so is the finding.</p>
+    <p class="file">→ CHECKOUT.md</p>
   </a>
 
   <div class="note">

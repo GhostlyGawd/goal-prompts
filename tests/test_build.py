@@ -194,6 +194,50 @@ class LintTests(unittest.TestCase):
              if "does not exist" in x], [])
 
 
+class WindowChipTests(unittest.TestCase):
+    # CRO NF4 (R22): merchandising `window` chips are date-gated. A plain
+    # string stays an evergreen chip; a {"label", "months"} object is emitted
+    # hidden with its months in a data attribute, and gp-detail.js unhides it
+    # only while the viewer's month is inside the window — so a static build
+    # can never show "January drop" in July, and the build itself stays
+    # deterministic (no build-time clock in the output).
+    def test_string_window_renders_an_evergreen_chip(self):
+        html = build.window_chip("Featured drop")
+        self.assertIn(">Featured drop<", html)
+        self.assertNotIn("hidden", html)
+        self.assertNotIn("data-window-months", html)
+
+    def test_dated_window_renders_hidden_with_its_months(self):
+        html = build.window_chip({"label": "January drop", "months": [12, 1]})
+        self.assertIn(">January drop<", html)
+        self.assertIn("hidden", html)
+        self.assertIn('data-window-months="12,1"', html)
+
+    def test_label_is_escaped(self):
+        html = build.window_chip({"label": "<b>x</b>", "months": [1]})
+        self.assertNotIn("<b>", html)
+
+    def test_month_out_of_range_fails_the_build(self):
+        with self.assertRaises(SystemExit):
+            build.window_chip({"label": "Bad", "months": [0]})
+        with self.assertRaises(SystemExit):
+            build.window_chip({"label": "Bad", "months": [13]})
+
+    def test_empty_months_fail_the_build(self):
+        with self.assertRaises(SystemExit):
+            build.window_chip({"label": "Bad", "months": []})
+
+    def test_boolean_months_fail_the_build(self):
+        # bool is an int subclass — [True] would serialize as
+        # data-window-months="True", a silently dead chip. Fail loudly.
+        with self.assertRaises(SystemExit):
+            build.window_chip({"label": "Bad", "months": [True]})
+
+    def test_missing_label_fails_the_build(self):
+        with self.assertRaises(SystemExit):
+            build.window_chip({"months": [1]})
+
+
 class SortKeyTests(unittest.TestCase):
     def test_ids_sort_numerically_within_a_family(self):
         # String ids sort "106" < "45"; the catalog must order numerically.

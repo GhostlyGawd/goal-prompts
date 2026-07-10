@@ -91,6 +91,13 @@ targeted **47 · Fixer** prompt containing exactly those findings — paste it
 into your agent and it branches, implements one finding per commit, and
 verifies each. Everything runs in your browser: no upload, no backend.
 
+Privacy boundary, stated plainly: your code, reports, and setup never leave
+your device — briefs run in your agent, and the Studio parses reports in the
+tab. The site itself counts anonymous page views and feature events via
+Vercel Analytics: no cookies, no cross-site tracking, no report or repo
+contents collected — the feature events carry a random local id (`gp-aid`),
+and zero-result catalog search terms are counted so search can improve.
+
 ## Run it on a schedule
 
 `.github/run-brief.example.yml` is a ready-to-copy GitHub Actions workflow:

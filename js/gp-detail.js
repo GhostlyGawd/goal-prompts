@@ -89,6 +89,20 @@ function showHint(output, id) {
   _hintT = setTimeout(function () { el.hidden = true; }, 9000);
 }
 
+/* CRO NF4 (R22): date-gated merchandising chips. build.py emits windowed
+ * chips hidden with data-window-months="12,1"; show one only while the
+ * viewer's month is inside its window. No JS → the chip stays hidden, so a
+ * stale label can never render out of season. */
+(function () {
+  var chips = document.querySelectorAll("[data-window-months]");
+  if (!chips.length) return;
+  var now = String(new Date().getMonth() + 1);
+  for (var i = 0; i < chips.length; i++) {
+    var months = chips[i].getAttribute("data-window-months").split(",");
+    if (months.indexOf(now) !== -1) chips[i].hidden = false;
+  }
+})();
+
 document.addEventListener("click", function (e) {
   var b = e.target.closest("[data-copy]");
   if (b) {

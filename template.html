@@ -85,6 +85,9 @@
   .hero p.sub b{color:var(--text);font-weight:600}
   .hero .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:var(--s5)}
   .hero .micro{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .hero .micro a{color:var(--dim);text-decoration:none}
+  .hero .micro a:hover{color:var(--text);text-decoration:underline}
+  .hero .microproof{margin-top:7px}
   .quickstart{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-top:16px;font-family:var(--sans);font-size:13px;color:var(--text);background:none;border:1px dashed var(--line-3);border-radius:999px;padding:8px 15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
   .quickstart:hover{border-color:var(--amber)}
   .quickstart b{font-weight:700}
@@ -498,12 +501,14 @@
       <h1 class="title">Turn your coding agent into a <span class="hl">senior code auditor</span>.</h1>
     </div>
     <div>
-      <p class="sub">Point it at your repo. Every brief — a ready-made, copy-paste prompt — runs the same four-phase audit and files <b>one evidence-backed report</b> you can act on — no more random, throwaway results.</p>
+      <p class="sub">Point it at your repo. Every brief is a ready-made, copy-paste prompt. It runs the same four-phase audit and files <b>one evidence-backed report</b> you can act on — not another wall of random, throwaway output.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <div class="micro"><b id="herostat">__N_BRIEFS__ briefs · __N_PLAYBOOKS__ playbooks</b> · free &amp; open · no signup · nothing leaves your machine</div>
+      <div class="micro"><b id="herostat">__N_BRIEFS__ briefs · __N_PLAYBOOKS__ playbooks</b> · free &amp; open__GH_STARS_HERO__ · no signup · nothing leaves your machine</div>
+      <!-- PROOF NF3 (R25): the honest substitute for a star count, where rivals put theirs -->
+      <div class="micro microproof"><a href="/examples/">run against this repo's own code — read the reports →</a></div>
       <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first brief</b> — paste it in your agent</button>
     </div>
   </div>
@@ -524,8 +529,8 @@
   <h2 class="h2">AI coding agents are powerful — and maddeningly inconsistent.</h2>
   <p class="lead">Point one at your own repo to “review” or “improve” it, and you get a different answer every time — a wall of vibes one run, a shrug the next. Structure fixes that, and this catalog holds itself to the proof:</p>
   <div class="quotes">
-    <div class="quote"><p class="ev">Every brief is dogfooded on this repo before it ships — the reports the briefs wrote sit at the repo root, in the open, linked as live samples from their briefs.</p><div class="who"><a href="/examples/">see the sample reports →</a></div></div>
-    <div class="quote"><p class="ev">A structured Bug Hunt on this site’s own code found a real S2 self-XSS in the search empty state — cited to the function, fixed the same release.</p><div class="who">BUGS.md, finding 2 · <a href="https://github.com/GhostlyGawd/goal-prompts/commit/d041b3f">fixed in 0.4 ↗</a></div></div>
+    <div class="quote"><p class="ev">Every brief is linter-gated before it ships; the Day-1, design, and growth playbooks have all been run against this repo’s own code, and the venture briefs against a real outside niche as a live worked example — every report they wrote is in the open, linked as live samples.</p><div class="who"><a href="/examples/">see the sample reports →</a></div></div>
+    <div class="quote"><p class="ev">A structured Bug Hunt on this site’s own code found a real S2 self-XSS in the search empty state — cited to the function, fixed the same release.</p><div class="who"><a href="/BUGS.md">BUGS.md, finding 2 ↗</a> · shipped in 0.4</div></div>
     <div class="quote"><p class="ev">Findings become commits: the FIXLOG traces every shipped fix back to the report and finding that surfaced it — the acting half of the same dogfooding.</p><div class="who"><a href="/FIXLOG.md">read the FIXLOG →</a></div></div>
   </div>
   <p class="turn">The fix isn’t a bigger model — it’s <b>structure</b>. A brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind. That’s the whole idea here: a catalog of them, battle-tested, so you never write one from scratch again.</p>
@@ -673,6 +678,8 @@
       <h4>Call it from an agent</h4>
       <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every brief as a <code>goal-&lt;slug&gt;</code> prompt in your client's picker.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp">copy</button></div>
+      <!-- PROOF NF5 (R24): the npx line gets the same inspect-the-source reassurance the curl line has -->
+      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">Runs the zero-dependency server straight from the public source — <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/mcp/server.cjs" style="color:var(--dim);text-decoration:underline">inspect mcp/server.cjs first ↗</a></p>
       <a class="more" href="/catalog.json">or read the machine index → /catalog.json</a>
     </div>
   </div>
@@ -767,6 +774,8 @@
   <p class="buildnote">Built by <a href="https://github.com/GhostlyGawd">@GhostlyGawd</a>, an independent developer · <a href="https://github.com/GhostlyGawd/goal-prompts/issues/new">using it? tell me how ↗</a>__GH_STARS__</p>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
   <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">🔔 weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
+  <!-- PROOF NF2 / RETENTION R12 (R21): reconcile the privacy promise with the site beacon, in the open -->
+  <p class="buildnote">Your code, reports, and setup never leave your device — the briefs run in your agent, locally. The site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking, no report or repo contents collected — the feature events carry a random local id (<code>gp-aid</code>), and zero-result catalog search terms are counted so search can improve.</p>
 </div></footer>
 
 <script src="/js/catalog-core.js"></script>
