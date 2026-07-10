@@ -1,8 +1,8 @@
-# Playbook: All Clarity briefs (conductor)
+# Playbook: All Design briefs (2/2) (conductor)
 
-You are working inside this repo. Mission: execute the **All Clarity briefs** playbook — 7 audit briefs in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
+You are working inside this repo. Mission: execute the **All Design briefs (2/2)** playbook — 8 audit briefs in sequence, each producing one report file at the repo root (or in `reports/`, if the repo has that directory).
 
-Every Clarity brief in the catalog, in order — 16 through 148, one report each.
+Design briefs 129 through 147 — part 2 of 2, one report each.
 
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
@@ -12,13 +12,14 @@ Every Clarity brief in the catalog, in order — 16 through 148, one report each
 5. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
-1. **16 · Documentation Audit** — fetch https://goal-prompts.vercel.app/raw/16.md → writes `DOCS.md`
-2. **17 · Copy & Voice Audit** — fetch https://goal-prompts.vercel.app/raw/17.md → writes `COPY.md`
-3. **18 · API Contract Review** — fetch https://goal-prompts.vercel.app/raw/18.md → writes `API.md`
-4. **76 · Comprehension Audit** — fetch https://goal-prompts.vercel.app/raw/76.md → writes `COMPREHENSION.md`
-5. **103 · Error-Message Audit** — fetch https://goal-prompts.vercel.app/raw/103.md → writes `ERRORS.md`
-6. **135 · CLI Tool UX Audit** — fetch https://goal-prompts.vercel.app/raw/135.md → writes `CLI.md`
-7. **148 · UI Microcopy & Labeling Audit** — fetch https://goal-prompts.vercel.app/raw/148.md → writes `MICROCOPY.md`
+1. **129 · Navigation & Wayfinding Audit** — fetch https://goal-prompts.vercel.app/raw/129.md → writes `NAVIGATION.md`
+2. **130 · Menu & Command Surface Audit** — fetch https://goal-prompts.vercel.app/raw/130.md → writes `MENUS.md`
+3. **131 · Data Visualization Audit** — fetch https://goal-prompts.vercel.app/raw/131.md → writes `DATAVIZ.md`
+4. **132 · Dashboard & Density Audit** — fetch https://goal-prompts.vercel.app/raw/132.md → writes `DASHBOARD.md`
+5. **133 · Empty & Zero-Data States Audit** — fetch https://goal-prompts.vercel.app/raw/133.md → writes `EMPTYSTATES.md`
+6. **134 · Iconography & Visual Language Audit** — fetch https://goal-prompts.vercel.app/raw/134.md → writes `ICONOGRAPHY.md`
+7. **146 · Modal, Dialog & Overlay Audit** — fetch https://goal-prompts.vercel.app/raw/146.md → writes `OVERLAYS.md`
+8. **147 · Tables & Data-Grid Audit** — fetch https://goal-prompts.vercel.app/raw/147.md → writes `TABLES.md`
 
 ## After the final stage
 - List every report created, with a one-line takeaway each.
