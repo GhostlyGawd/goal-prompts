@@ -1012,6 +1012,21 @@ class ReportPagesTests(unittest.TestCase):
         self.assertIn("/r/bugs", html)
         self.assertNotIn('href="/reports/BUGS.md"', html)
 
+    def test_catalog_json_examples_point_at_styled_pages(self):
+        cat = json.loads((build.ROOT / "catalog.json").read_text(encoding="utf-8"))
+        examples = [b["example"] for b in cat["briefs"] if "example" in b]
+        self.assertTrue(examples)                       # some briefs have examples
+        for ex in examples:
+            self.assertIn("/r/", ex, ex)
+            self.assertFalse(ex.endswith(".md"), ex)    # not the raw text dump
+
+    def test_landing_page_routes_reports_through_styled_pages(self):
+        # the injected catalog + the loop/proof copy must not dead-end into raw
+        # /reports/*.md (the JS quick-view link read p.example straight through)
+        html = (build.ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertNotIn("/reports/", html)
+        self.assertIn("/r/fixlog", html)
+
 
 class DetailPageTests(unittest.TestCase):
     def _prompts(self):
@@ -1433,7 +1448,7 @@ class QualityPageTests(unittest.TestCase):
         self.assertIn("blob/main/build.py", html)              # the linter source
         self.assertIn(".github/workflows/ci.yml", html)        # the CI gate
         self.assertIn("/examples/", html)                      # dogfooding
-        self.assertIn("/FIXLOG.md", html)
+        self.assertIn("/r/fixlog", html)                       # the styled FIXLOG
 
     def test_quality_page_count_tracks_the_catalog(self):
         prompts = self._prompts()
@@ -1696,7 +1711,7 @@ class ProofLoopTests(unittest.TestCase):
 
     def test_proof_wires_the_loop_links(self):
         pipe = self._pipe_block()
-        for href in ("/studio", "/examples", "FIXLOG.md", "/b/47"):
+        for href in ("/studio", "/examples", "/r/fixlog", "/b/47"):
             self.assertIn(href, pipe, href)   # Studio, reports, FIXLOG, Fixer
 
     def test_proof_stages_appear_in_loop_order(self):
