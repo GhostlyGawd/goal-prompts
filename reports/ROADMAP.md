@@ -1,300 +1,318 @@
 # ROADMAP.md — Unified Roadmap Synthesis
 
-**Date: 2026-07-09** · produced by brief 28 · Roadmap Synthesis, read-only over the audit
-reports at the repo root. First run — no previous `ROADMAP.md` existed.
+**Date: 2026-07-11** · produced by brief 28 · Roadmap Synthesis (re-run), read-only over
+every audit report at the repo root and in `reports/`. **Second run** — a prior `ROADMAP.md`
+(2026-07-09) synthesized the *product-improvement* reports; this run leads with what changed,
+then folds the seven **Founder Funnel** venture reports + the **PIVOT** verdict on top.
 
 **How to read this.** Every item traces to a source report; nothing new is smuggled in.
-Each item carries a tag:
-**`ship`** — buildable in this repo now · **`test`** — an A/B-style hypothesis needing
-traffic (only its instrumentation should be built) · **`external`** — needs maintainer
-accounts, credentials, assets, or decisions (cannot be built here) · **`done`** — already
-shipped per FIXLOG/source. No item proposes fabricating proof or metrics.
+Tags: **`test`** — a $0 validation gate (the pivot's pre-tests) · **`ship`** — buildable in
+this repo now · **`ext`** — needs maintainer accounts/decisions (cannot be built here) ·
+**`gated`** — deliberately blocked on a signal, data, or decision · **`done`** — shipped.
+Impact/effort are recalibrated on the **pivot's** scale: "impact" now means *moves the
+validation question or protects the moat/trust*, not *storefront optimization*.
 
-**Execution log (2026-07-10).** The ship items were built on branch
-`claude/growth-briefs-conductor-qdd12h` per the Now/Next/Later plan: R01–R04, R06–R52
-(ship items; R57/R58 got instrumentation only, as tagged), R54–R56, and R63–R66 (R64
-after the fresh color re-audit this plan asked for; R63 turned out to have already
-shipped in 0.12.0 — a stale row, marked `done` below). Still open for the maintainer:
-the external items R05, R53, R59, R60, R61, R62, plus R51 (data-gated on search_zero
-volume).
+---
+
+## What changed since 2026-07-09
+
+The last roadmap was a **product-optimization** plan: see the funnel, close the silent
+stalls, patch honesty drift, then spend the visibility. Its ~50 ship items were built (0.14.0,
+PR #27), and 0.15.0/0.16.0 added the ledger redesign, the design engine, BLINDSPOTS, and the
+breadcrumb pass. Three things then changed the frame underneath it:
+
+1. **A full Founder Funnel ran (NICHE · DEMAND · COMPETITORS · MARKET · POSITIONING · MOAT ·
+   VERDICT) and returned a verdict: PIVOT — axis: product.** Not a kill (pain is real,
+   recurring, sufferer-verbatim; the first ten are nameable; timing is genuinely 2026), and
+   not "keep optimizing the storefront." Two bars hard-failed: **competitive survivability**
+   (the "own-the-loop" wedge has no moat against an Anthropic that can copy it *trivially and
+   profitably* — MOAT: "no moat today, only head starts") and **economics** (at the sourced
+   1–3% dev-tool conversion floor the dollar thesis collapses ~20× into $9k–58k side income —
+   MOAT napkin). Both fails share one root: **the money and the only path to a moat live in
+   the outcome/loop (report→Studio→47·Fixer→FIXLOG), not in the $0 forkable catalog text.**
+   The ruling: keep the customer and the pain, move the paid surface to the loop, and
+   **validate willingness-to-pay CHEAPLY before building anything more.**
+
+2. **BLINDSPOTS.md (2026-07-10, meta-audit) independently reached the same conclusion** the
+   old roadmap didn't digest: "a beautifully machined answer to the wrong layer… verifying
+   the verifiable proxy instead of the value." It ruled the old plan's own tell — *50
+   storefront items shipped while the three audience-creating items (measurement, npm, launch)
+   stayed open and the R62 pivot decision stayed deferred.* That decision is **now taken**
+   (VERDICT = pivot). BLINDSPOTS also contributes a fresh backlog the old roadmap never saw.
+
+3. **Four pivot changes shipped to `main`** (commits 54ae65f, ae724d5) — marked **done**
+   below, not re-listed as todo: (a) re-badged the register to *audit/brief/evidence*;
+   (b) made the report→Fixer→FIXLOG loop legible in the Proof section; (c) locked the `/teams`
+   WTP surface (competitor $24–48 anchor, $0 DIY floor, "on request", one intent CTA);
+   (d) surfaced the machine-enforced quality-bar claim, linking `/quality`. All four are
+   TDD-locked in `tests/test_build.py`.
+
+**Net effect on the roadmap.** The product backlog is *substantially built*. The frontier is
+no longer construction — it is **validation**. The old Themes A–H (funnel, handoff, trust,
+SEO, retention, forms, differentiation, revenue rails) are ~90% shipped and roll up into
+"Already done." What re-organizes everything now is one thesis:
+
+> **Own the audit loop — and prove the hope for ~$0 before building against it.**
+> The evidence says the catalog-as-company fails on moat and conversion; the operator's hope
+> (that free attention converts, that the loop accretes switching cost, that the flag gets
+> planted before Anthropic bothers) is *plausible but unproven*. The whole "Now" is the six
+> cheap pre-tests that test that hope — and the one measurement that reads them.
+
+The single biggest re-prioritization: the old roadmap filed raw-fetch counting (R05) as a
+low-drama "flag to the maintainer." **Post-pivot it is the measurement spine** — every
+validation gate returns an unreadable signal without it (BLINDSPOTS F1: "optimizing a ratio
+whose numerator is invisible").
 
 ---
 
 ## 1 · Sources
 
-**Fresh (today, 2026-07-09 — the Growth playbook run):**
-FUNNEL.md · COMPETITIVE.md · REVENUE.md · AI-IDEAS.md · SEO.md · CRO.md (re-run) ·
-RETENTION.md (re-run) · PROOF.md (re-run) · ACTIVATION.md (re-run) · FORMS.md ·
-CHECKOUT.md (**null report** — no payment surface exists; correct, no items).
+**Read this run — the seven venture reports (fresh effort):** NICHE (61) · DEMAND (62) ·
+COMPETITORS (63) · MARKET (64) · POSITIONING (65) · MOAT (66) · VERDICT (67).
+**Read this run — reports the old roadmap predates:** BLINDSPOTS (meta-audit, 2026-07-10) ·
+BREADCRUMBS (145).
+**Carried forward from the 2026-07-09 synthesis** (their product items already digested there,
+statuses updated below): FUNNEL · COMPETITIVE · REVENUE · AI-IDEAS · SEO · CRO · RETENTION ·
+PROOF · ACTIVATION · FORMS · CHECKOUT (null) · BUGS · SECURITY-AUDIT · IMPROVEMENTS · DX ·
+CREDIBILITY · COMPREHENSION · BRAND · HIERARCHY · COLOR · LAYOUT · TYPOGRAPHY · STATES ·
+SHOWCASE · FIXLOG.
+**Total on hand:** 34 audit reports (27 product + 7 venture) + this ROADMAP. `reports/` is the
+write target and it exists — writing here.
 
-**Older, largely reconciled** (dispositions in FIXLOG.md, PRs #19–#24, and each report's
-own ledger): BUGS.md, SECURITY-AUDIT.md, IMPROVEMENTS.md, DX.md, CREDIBILITY.md,
-COMPREHENSION.md, DEMAND.md, BRAND.md, HIERARCHY.md, COLOR.md, LAYOUT.md, TYPOGRAPHY.md,
-STATES.md, SHOWCASE.md. Fully closed: BUGS, SECURITY-AUDIT, COMPREHENSION, LAYOUT,
-TYPOGRAPHY. The open remainder from the rest is carried into the backlog below (§2,
-items R59–R66); everything else in them is `done`.
-
-**Missing reports that would most change this roadmap:**
-- **A11Y.md (brief 86, Keyboard & Screen-Reader Flow)** — FORMS FV3 found that *every
-  error message on the site is unannounced to screen readers*; a dedicated pass would
-  likely widen that finding. **Run this next.**
-- **PERF.md** — SEO-2 identifies the 572 KB homepage as the only Core Web Vitals
-  liability; a perf audit would size R29's payoff before that M-effort change.
-- **Fresh COLOR/TYPO re-audit** — FIXLOG itself notes the existing COLOR findings
-  (C6–C8) measure a pre-redesign palette that no longer ships; re-audit before acting.
-- TESTING.md / DEPS.md — lower urgency: `scripts/check` + 65 linter tests + three Node
-  suites already gate the build; the repo is zero-runtime-dependency by design.
+**Missing — and which absence would most change this roadmap:**
+- **The WTP / launch signal is the missing evidence that would most change the roadmap — and
+  it is not an in-repo audit.** VERDICT, MARKET §4 and NICHE §4 all rule that the one number
+  that decides the thesis (does free attention convert to a paid dollar; does a genuine launch
+  clear a few hundred stars) is knowable *only* from real customer conversations + a real
+  launch. No further desk audit substitutes. **Run the pre-tests (§4 Now), not another brief.**
+- **An EVALS / brief-efficacy report — the highest-value absent *in-repo* audit.** BLINDSPOTS
+  F4/§8.4: the linter verifies *shape* (4-phase, ask-first, 4k cap), never *substance* — "a
+  hollow brief that pattern-matches passes clean." The pivot just made the quality-bar claim
+  prominent (shipped item d); nothing proves it. Seeded-defect fixtures + expected-findings
+  assertions would convert the claim from shape to truth. No brief for this exists yet.
+- **A11Y.md (brief 86)** — still absent; FORMS FV3 (every error unannounced to screen readers)
+  + BLINDSPOTS §5.5 (zero a11y verification while selling brief 86) make it the top
+  product-hygiene gap. It won't change the *strategic* sequence, so it sits in Later.
+- **PERF.md** — SEO-2's 572 KB homepage + BLINDSPOTS #6 (catalog ships twice, 228 KB;
+  bodies.json 420 KB precached) would size the payoff of the body-stripping work. Later.
+- **OPPORTUNITIES.md (Founder Funnel stage 60)** — absent *by design*; the funnel starts at 61
+  and the venture is fixed. VERDICT confirms the ruling survives its absence completely.
 
 ---
 
-## 2 · Unified backlog
+## 2 · Unified backlog (deduped)
 
-Impact/effort are recalibrated on one scale across all reports (H/M/L, S/M/L).
-`where` cites the files a ship item touches.
+Grouped by the pivot's logic. `sources` cite the reports each item traces to; nothing here is
+new. The ~50 shipped product items + the 4 pivot changes are rolled into **Already done** at
+the end rather than re-listed.
 
-### Theme A — Observability (see the funnel at all)
+### A — Validation gates (the pivot's $0 pre-tests) — *the whole reason to re-run*
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R01 | Un-fake `mark_run`: stop auto-marking on copy; the hint's explicit "✓ mark it run" becomes the honest signal | ship | FUNNEL §2/§4.2 · ACTIVATION AN1 · RETENTION R9 · REVENUE §3.3 | H | S | none — unlocks R08, R56, R57 | template.html |
-| R02 | Detail-page analytics + retention parity: insights script + copy events on all 176 `/b`/`/p` pages, slim welcome-back/nudge strip | ship | FUNNEL §4.1 · RETENTION R7 · REVENUE §4.4 | H | M | none | build.py, js/gp-detail.js |
-| R03 | Route all events through `track()` (aid/fsw on nudge/mark/reminder events); `?src=reminder` + `reminder_return`; `pwa_installed`; resolve the contradictory R5 comments | ship | RETENTION R9/§4 | M-H | S | none | template.html, build.py (SERVICE_WORKER) |
-| R04 | Funnel-position events: `catalog_reached`, `quickview_open`, `examples_viewed` | ship | FUNNEL §4.5 | M | S | none | template.html |
-| R05 | Turn on `/raw/*` + `commands.tar.gz` fetch counting (usage-metrics Option 1, Vercel log filter — zero code); correct the stale "no analytics" line in the doc when touched | **external** (Vercel dashboard) + ship (doc line) | FUNNEL §4.3–4 · REVENUE §4.4 · RETENTION §4 · PROOF §4 · COMPETITIVE §4 | H | S | R06 cleans the metric | docs/usage-metrics.md (doc fix only) |
-| R06 | `X-Robots-Tag: noindex` for `/raw/` + `/prompts/` (SEO-8) — dedupes crawl surface and de-pollutes R05's metric | ship | SEO-8 | M | S | none | vercel.json |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| G1 | **Test WTP before building** — point a little attention at the (now-locked) `/teams` surface, **count inbound intent**, and in parallel ask DEMAND's ten named sufferers the flat-fee-team-audit question to their face. 3–5 real "what does it cost / can you do this for us" emails = the cheapest proof of non-zero WTP. Zero intent → demote to attention-play + SKU B only. | test | VERDICT act.1 · MOAT kill#2 · DEMAND "ten people" · REVENUE §3.2/§4 · MARKET §4 | H | S | M1 (counting) + G2 (attention to measure) |
+| G2 | **One loud distribution swing** — Show HN + an `awesome-claude-code` inclusion PR + this repo's own BUGS.md hero finding as the dogfood hook; measure the star/fetch response. Can't clear a few hundred stars → the base-rate bear is confirmed and the funnel is moot. Doubles as the only lever the survivability fail leaves: **speed** — plant "audits/briefs" as the category noun before the platform owns it. | test/ext | VERDICT act.2 · MOAT kill#3 · NICHE §3 · COMPETITORS traction · (old R60 launch half) | H | S | M1, M2 (install path), U1+U2 (don't launch into a broken funnel) |
+| G3 | **Prove the loop is the product** — demonstrate report→Studio→47·Fixer→FIXLOG as one motion **end-to-end on a real external repo**, not self-dogfood. The only surface with a *path* to a moat (accreting per-repo report+fix history → switching cost). Can't beat "just rerun it" → the product-axis pivot reverts toward kill. | test | VERDICT act.3 · MOAT §3 loop · COMPETITORS wedge 1 · BLINDSPOTS §7 | H | M | none (uses shipped loop) |
+| G4 | **Submit goal-prompts to `anthropics/claude-plugins-official`** — the absorption pre-test. Distributed → absorption becomes co-option; rejected on its quality bar → you learned the rail is closed before betting on it. | test/ext | MOAT kill#1 pre-test | M-H | S | M2 helps |
+| G5 | **Publish the honest token cost** of the heaviest brief run at current API rates — confirm a full audit is cents-to-low-dollars. If one run costs more than it returns to a solo dev, the "effortless vs. doing-nothing" wedge is dead on arrival. | test | MOAT kill#4 pre-test · NICHE §1 | M | S | none |
+| G6 | **Ask the beachhead the privacy-vs-"learnings" question** — would they trade privacy for a compounding cross-run feature? A "no" (likely) means the ceiling is a head-start business; size ambition to match, don't raise against a moat that structurally can't exist. | test | MOAT kill#5 pre-test · NICHE §4 | M | S | part of G1 interviews |
 
-### Theme B — The handoff (close the silent stalls)
+### B — Measurement & external unlocks (carried open; they *enable* the gates)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R07 | Plugin two-command trap: copy/show **both** commands as numbered steps on landing + `/b` install ways | ship | FUNNEL §1 · CRO NF3 · ACTIVATION path E | H | S | none | template.html, build.py |
-| R08 | Wire `showCopyHint` into the catalog card's own Copy button — the last unguided handoff | ship | ACTIVATION AN1 | H | S | pair with R01 | template.html |
-| R09 | Quickstart pill false-success: route through `copyText()`, hint only on success | ship | ACTIVATION AN2 | M-H | S | none | template.html |
-| R10 | Conductor hint variant ("runs N briefs, writes X.md, Y.md…") on all four conductor copy affordances | ship | ACTIVATION AN4 · FUNNEL path C | M | S | none | template.html |
-| R11 | Detail-page hint gets the Studio tee-up (parity with landing hint) | ship | ACTIVATION AN6 | M-L | S | none | js/gp-detail.js |
-| R12 | Mobile copy bridge: on coarse-pointer, post-copy toast offers the `/raw/<id>.md` URL instead | ship | FUNNEL §1/§3 | M-H | S | none | template.html |
-| R13 | `copy failed` on cards degrades to an "open raw ↗" link (pattern exists in gp-detail.js) | ship | FUNNEL §1c · ACTIVATION AN8 | L | S | none | template.html |
-| R14 | "what happens next →" link in the post-copy toast (run-replay anchor / `/examples/`) | ship | FUNNEL §1 · ACTIVATION AN7 | M | S | none | template.html |
-| R15 | Name a first command in plugin/marketplace descriptions ("start with `/goal:audit-triage`") | ship | ACTIVATION AN5 | M | S | none | build.py (plugin generator) |
-| R16 | Pick the canonical "New here?" door (solo brief vs Day-1) and make the other the teed-up step 2 | ship (needs one maintainer call) | ACTIVATION AN3 | M | S | decision | template.html |
-| R17 | One line for the no-agent visitor: "New to coding agents? Start with Claude Code →" | ship | FUNNEL silent stall 3 | L-M | S | none | template.html |
-| R18 | Studio demo button gets primary styling when zero reports are loaded | ship | FUNNEL §1 Studio | L | S | none | studio.html |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| M1 | **Turn on `/raw/*` + `commands.tar.gz` fetch counting** (Vercel log filter, zero code — `middleware.js.example` is inert on purpose). *Re-prioritized from a footnote to the measurement spine:* without it G1/G2 return no readable signal. | ext | old R05 · FUNNEL §4.3 · REVENUE §4.4 · BLINDSPOTS §1.3/F1 | H | S | Vercel dashboard |
+| M2 | **npm publish + MCP-registry listing** — package is publish-ready, workflow ships; gives the launch (G2) an install path and feeds G4. | ext | old R59 · IMPROVEMENTS 11 · CREDIBILITY 3 · BLINDSPOTS §1.2 | H | S | NPM_TOKEN + release |
+| M3 | **`.github/FUNDING.yml` + Sponsors footer link** — SKU B's only rail; one file. Expect ~$0 until stars exist; ship anyway (MOAT: "backers are gratitude, not a model"). | ext | old R53 · REVENUE §2/§4.5 · MOAT §2 | L-M | S | Sponsors profile exists |
+| M4 | **R60 residuals** — confirm the dormant hero star-badge threshold (25); rule quotes real-or-illustrative. *The Discussions dead-end is resolved:* `PARTNER_CTA_URL` now points at a GitHub **issue**, which resolves. | ext | old R60 · CREDIBILITY · PROOF NF3 | M | — | maintainer calls |
 
-### Theme C — Trust & honesty (protect the brand's one asset)
+### C — Launch-blockers (BLINDSPOTS P0s the pivot pulls INTO Now — you can't Show HN into these)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R19 | Offer/risk-reversal micro-line ("Free · no signup · read-only — ends by asking · local") + generic "see real sample reports ↗" fallback on all 176 detail pages | ship | CRO NF2 · PROOF NF6 | H | S | none | build.py |
-| R20 | Rescope the "**every** brief is dogfooded" claim to the true, still-strong statement | ship | PROOF NF1 | H | S | none | template.html |
-| R21 | One-line analytics disclosure reconciling "nothing leaves your machine" with the Vercel beacon + `gp-aid` | ship | PROOF NF2 · RETENTION R12 | M-H | S | none | template.html, studio.html, vitals.html, README.md |
-| R22 | Date-gate merchandising `window` chips (kill "January drop" in July); back "Most popular" with real data or soften to "Start here" | ship | CRO NF4 | M | S | none | build.py, playbooks.json |
-| R23 | Repoint the XSS evidence card at BUGS.md finding 2 (verifiable) instead of the squashed release commit | ship | PROOF NF4 | M | S | none | template.html |
-| R24 | MCP `npx -y` line gets the inspect-the-source reassurance (mirror the curl line's treatment) | ship | PROOF NF5 | M | S | none | template.html, build.py |
-| R25 | Hero dogfood pointer where rivals put star counts ("run against this repo's own code — read the reports →") + dormant hero star-badge slot (≥ threshold) | ship | PROOF NF3 (placement) / NF7 · COMPETITIVE §3.1 | M-H | S | none | template.html, build.py |
-| R26 | Split the 34-word triple-em-dash hero sub | ship | CRO NF6 | L | S | none | template.html |
-| R27 | Third `/examples/` section linking today's growth reports (fresh, self-critical dogfood) | ship | PROOF NF8 | L | S | none | examples/index.html |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| U1 | **Mobile nav amputates the catalog** — at ≤720px the nav drops *Catalog*; Studio/Vitals/Examples show zero nav links; the mobile landing is 12,418px of scroll. A launch drives mobile traffic into a dead end. Add a disclosure menu; keep Catalog + CTA. | ship | BLINDSPOTS §4 P0-1 | H | S-M | none |
+| U2 | **The proof surface dead-ends into raw markdown** — `examples/` cards link to `/reports/*.md` as an unstyled text dump with no nav or way back. The single most persuasive artifact (the dogfood report the launch points at) renders as a wall of text. Render reports to styled HTML (the CHANGELOG→changelog.html machinery exists) or open in Studio. | ship | BLINDSPOTS §4 P0-2 · SHOWCASE · PROOF | H | M | none |
 
-### Theme D — SEO & reach (open the side doors)
+### D — Claim-defense & product-truth (BLINDSPOTS, re-weighted by the pivot)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R28 | **SEO-1**: static homepage catalog (build-emitted brief/playbook link list, JS-enhanced) — the biggest reach item | ship | SEO-1 · CRO NF8 | H | M | none | build.py, template.html |
-| R29 | **SEO-2**: strip brief bodies from inline `DATA`; fetch `raw/<id>.md` at copy time; keep offline via SW | ship | SEO-2 | M-H | M | after R28; don't regress offline/one-request (CRO §2 keep-list) | build.py, template.html |
-| R30 | SEO quick-win batch: OG/canonical on `/examples/` (SEO-4); canonicals on studio/vitals (SEO-5); sitemap `<lastmod>` (SEO-7); `og:site_name` + image dims + twitter tags (SEO-9) | ship | SEO-4/5/7/9 · CRO NF8 | M | S | none | examples/index.html, studio.html, vitals.html, build.py |
-| R31 | Per-playbook OG cards (SEO-3) | ship | SEO-3 | M | M | none | scripts/og.py, build.py |
-| R32 | JSON-LD (BreadcrumbList + content schema) on 176 detail pages (SEO-6); fix h2→h4 heading skip (SEO-10) | ship | SEO-6/10 | M | M | none | build.py |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| T1 | **Brief-efficacy evals** — seeded-defect fixtures + expected-findings assertions; publish pass rates on `/quality`. *The pivot made the quality-bar claim load-bearing (shipped item d); this is the audit that makes it true.* | ship | BLINDSPOTS F4/§8.4 · POSITIONING C · COMPETITORS wedge 2 · FABLE_BUILD_QUEUE 2 | H | M | none |
+| T2 | **Search silently collapses recall** — landing search runs metadata-only, merges bodies in only on *zero* results ("top 1 for 'security'" while the chip says 11). Idle-prefetch `bodies.json` (already SW-precached) and always full-text. | ship | BLINDSPOTS §3.1/§4 P1-3/F5 | M-H | S-M | none |
+| T3 | **Trust orphans** — no `SECURITY.md` (and `vercel.json` redirects `/SECURITY.md` to a marketing report); copied prompts are unversioned (a report can't be traced to the brief text that made it); `gp-aid` persistent id vs the "no tracking" claim has no privacy page/opt-out; no consumer-side "spot-check citations before ticking Fixer boxes" guidance. *These defend the "evidence, not vibes" moat the pivot leans on.* | ship | BLINDSPOTS §5.1/§5.2/§5.4/§5.6 · PROOF NF2 · RETENTION R12 | M-H | S-M | none |
+| T4 | **Architecture paydown** — search logic triplicated (site fuzzy vs MCP word-boundary; parity guard misses the divergence — highest-leverage fix); detail-page inline JS never syntax-checked (183 pages); 16-stage conductor cap is a build failure Design is one brief from hitting; SITE_CSS inlined into 183 committed files. | ship | BLINDSPOTS §3.1/§3.2/§3.5/§3.3 | M | M-L | none |
+| T5 | **Prune — apply Subtract to itself** — 37 playbooks → ~15; designate a hub brief per large family; mandate `related:` inside the overlap clusters (Design 54–59/132, growth 09/75/80/109/110, testing 02/100–102); trim the 7-channel/21-family surface. | ship | BLINDSPOTS F6/§6/§8.7 | M | M | none |
+| T6 | **Commit to the diff loop as the retention spine** — generalize vitals/HEALTH.md and the universal dated re-run rule to every report re-run (the compounding-switching-cost mechanism G3 tests). | ship | BLINDSPOTS §7/§8.6 · MOAT §3 · RETENTION | M | M | after G3 proves it |
+| T7 | **Coverage-gap briefs** (demand-ranked) — mobile-native, supply-chain security, pricing & packaging, background jobs/queues, alert/pager health, realtime/offline sync. Plus **A11Y (86)** + a PERF pass. | ship | BLINDSPOTS §6 · FORMS FV3 | M | M-L | none |
+| T8 | **Promote three brief shapes to first-class** — Monitor (29), Generator (47/142 gate → artifact), Scored-gate (144 → machine-parseable), the shapes the Studio parser most wants. | ship | BLINDSPOTS §6/F2 | M | M | none |
 
-### Theme E — The retention loop (close the Weekly Vitals circuit)
+### E — Revenue (built; deliberately HELD until G1 returns a positive signal)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R33 | Link the orphaned Vitals Viewer: from the stale-Vitals nudge, SW notification URL, `b/29`, `p/vitals`, footer | ship | RETENTION R6 | H | S | none | template.html, build.py |
-| R34 | Staleness-aware reminder: mirror `runs["29"]`/`remind.on` into IndexedDB so the SW checks before notifying | ship | RETENTION R8a | H | M | none | build.py (SERVICE_WORKER), template.html |
-| R35 | PWA install offer when periodicSync is absent at opt-in; move the reminder offer to the moment a Vitals run is marked; swap the 🔔 for an in-set glyph | ship | RETENTION R8b/c | M | S-M | R34 first | template.html |
-| R36 | Publish `/changelog` from CHANGELOG.md; version pointer in MCP tool footers and `install` outro | ship | RETENTION R10 | M | M | none | build.py, mcp/server.cjs, install |
-| R37 | Surface `.github/run-brief.example.yml` at the moment of intent (post-Vitals hint, `b/29`, `p/vitals`) — "make it a standing appointment →" | ship | RETENTION R11 · COMPETITIVE §6.4 | M-H | S | none | template.html, build.py |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| X1 | **SKU A — flat team-audit, services-first** (private catalog + custom linted briefs + standing CI audits + support; *never* per-seat). The survivor model, delivered as an engagement first, productized only if WTP proves out. | gated/ext | MOAT §1 · MARKET Phase 1 · REVENUE §2 | M | — | **hard-gated on G1** |
+| X2 | **`/partners` rate-card upgrade + post-activation backer nudge** — do NOT build further until audience/WTP exists; the surfaces already ship. | gated | REVENUE §4.3/§3.3 · old R55/R56 · BLINDSPOTS §8.7 | L | S-M | G1 + M1 numbers + M3 |
 
-### Theme F — Forms & input integrity
+### F — Carried Later (data- / decision- / moat-gated)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R38 | Studio paste: infer/suffix duplicate names (kills silent data loss); don't hide the pastebox on failure; Enter-to-add; reword "file"→"paste" | ship | FORMS FV1/FV2 | H | S | none | studio.html |
-| R39 | `role="status"` on the three note elements; `aria-invalid` + `.is-error` on `rrin` | ship | FORMS FV3 | M | S | none | studio.html, vitals.html, template.html |
-| R40 | Unify destructive-action gates on the two-step arm (ctxclear, Studio clear-all, Vitals clear, unsel, seqclear) | ship | FORMS FV4/FV7 | M | S | none | template.html, studio.html, vitals.html |
-| R41 | Forms polish tier: Vitals dedupe + per-file remove (FV5); demo re-enable (FV6); ≥16px mobile inputs (FV8); GitHub 12-file cap note (FV9); quota-failure note (FV10); fuzzy zero-state (FV11) | ship | FORMS FV5/6/8–11 | L-M | S | none | vitals.html, studio.html, template.html, js/catalog-core.js |
+| id | item | tag | sources | impact | effort | deps |
+|---|---|---|---|---|---|---|
+| L1 | Offline search-alias table, tuned by `search_zero` misses | gated | old R51 · AI-IDEAS 5 | M-L | M | `search_zero` data (needs M1) |
+| L2 | Real 10–15s screen recording of a brief run | ext | old R61 · SHOWCASE F1 · CREDIBILITY 1 | M | — | capture tooling |
+| L3 | BREADCRUMBS residue — *largely applied in 0.16.0* (vitals/examples/manifest/metrics now classified in CLAUDE.md); remaining: name `vercel.json` in README, the two unwritten build gates in CONTRIBUTING, the CONTRIBUTING→CLAUDE.md backlink | ship | BREADCRUMBS §Fixes | L | S | none |
 
-### Theme G — Competitive table stakes & AI-shaped features
+### Already done (rolled up — so nothing looks lost)
 
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R42 | Emit a parallel skills tree (`SKILL.md` format) from the build | ship | COMPETITIVE §3.2 | M-H | M | none | build.py |
-| R43 | Per-brief install: `BRIEF=NN sh install` flag and/or per-brief download on `/b/<id>` | ship | COMPETITIVE §3.3 | M | S-M | none | install, build.py |
-| R44 | Make the Cursor claim true (one `.cursor` emitter in build) **or** narrow the meta copy — one target, not five | ship (either branch buildable) | COMPETITIVE §3.4/§9 | M | M | decision: emit vs narrow | build.py or template.html |
-| R45 | On-site contribution ask ("add a brief →" in footer/catalog; linter is the moderation story) | ship | COMPETITIVE §3.5 | M | S | pairs with R46 | template.html |
-| R46 | **Brief Forge**: authoring meta-prompt (skeleton + linter rules + exemplars + iterate-until-green loop), linked from CONTRIBUTING/README | ship | AI-IDEAS 1 · COMPETITIVE §3.5 · REVENUE §2 (Teams production line) | H | S | none | docs/, CONTRIBUTING.md, README.md |
-| R47 | Semantic-linter CI pass (advisory PR comment) shipped as an example workflow; activation needs the maintainer's API key | ship (file) + external (key) | AI-IDEAS 2 | M-H | S | key in Actions | .github/ |
-| R48 | Studio "Copy Synthesis prompt" — `buildSynthesis()` sibling of `buildFixer` + selbar button (brief 28's method, targeted) | ship | AI-IDEAS 3 · COMPETITIVE §6.2 | M | S | none | studio.html |
-| R49 | "Have your agent fill this in" copy-link on the Operator-context box | ship | AI-IDEAS 4 | M | S | none | template.html |
-| R50 | Own "the audit loop" + publish the quality bar: lead positioning with brief → report → Studio → Fixer → FIXLOG; a "why these briefs don't rot" page (linter rules, CI gate, 4k cap, ask-first) | ship | COMPETITIVE §10 bets 1–2 · §6.1 | M-H | M | none | template.html, build.py (new page) |
-| R51 | Offline-generated search alias table, tuned by `search_zero` misses | ship (Later) | AI-IDEAS 5 | M-L | M | accumulate `search_zero` data first (R02/R04); parity guard in scripts/mcp-smoke.cjs | js/catalog-core.js, mcp/server.cjs, new script |
-
-### Theme H — Revenue rails (build now, sell later)
-
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R52 | Unify the two partner CTAs on one working destination + add a private email channel | ship (needs the email from maintainer) | CRO NF5 · REVENUE §4.1–2 | M | S | maintainer supplies address; note `/p/` CTA targets Discussions, which isn't enabled (→ R60) | template.html, build.py |
-| R53 | `.github/FUNDING.yml` + footer Sponsors link | **external** (GitHub Sponsors profile must exist first) | REVENUE §4.5/§5 | M | S | maintainer account setup | .github/FUNDING.yml once enabled |
-| R54 | "Want this set up for your org? →" pointer lines in README teams section + collab template page | ship | REVENUE §3.2 | M | S | none | README.md, build.py |
-| R55 | `/teams` offer page + `/partners` rate-card page (formats, specs, "audience numbers on request") | ship (pages) + **external** (pricing/offer decisions; real numbers from R05) | REVENUE §5 · COMPETITIVE §10 bet 3 | M-H | M | R05 for numbers; maintainer pricing call | build.py, template.html |
-| R56 | Post-activation backer nudge (once, dismissible, after a real ≥5-run milestone) | ship (Later) | REVENUE §3.3 | M | S | **hard-gated on R01** (else it fires on copies) + R53 | template.html |
-
-### Tests (traffic hypotheses — build only instrumentation now)
-
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R57 | Promote the hero quickstart pill to a peer of the primary CTA | **test** | CRO NF1 · FUNNEL §1 (conflict ruled §4 below) | M-H | S | R01/R02/R04 baseline; measure `copy_prompt src:hero` vs catalog copies | template.html |
-| R58 | Collapse the six-chooser stack (fold picker into repo-recommend fallback; move "aim the briefs" below toolbar) | **test** | FUNNEL §1 Choose · CRO NF7 | M | M | watch `picker_plan`/`repo_recommend` events first | template.html |
-
-### Carried over from the older reports (the open remainder)
-
-| id | item | tag | sources | impact | effort | deps | where |
-|---|---|---|---|---|---|---|---|
-| R59 | npm publish + MCP-registry listing (package publish-ready; workflow ships) | **external** (NPM_TOKEN + release) | IMPROVEMENTS 11 · CREDIBILITY 3 · PROOF §4 | H | S (maintainer) | — | — |
-| R60 | The CREDIBILITY decisions: enable Discussions, confirm star threshold (25), quotes real-or-illustrative, a launch ("Show HN") to earn first stars | **external** (maintainer decisions/accounts) | CREDIBILITY · PROOF NF3 (earning) · COMPETITIVE §1 | H | — | R60 unblocks R52's Discussions link and wakes R25's badge | — |
-| R61 | Real 10–15s screen recording of a brief run (MP4/WebM + poster) | **external** (capture tooling; honest walk-through already ships) | SHOWCASE F1 · CREDIBILITY 1 | M | — | — | — |
-| R62 | DEMAND's strategic proceed/pivot/drop call on the execution-wedge opportunity | **external** (founder decision) | DEMAND | — | — | informed by R05 data + COMPETITIVE/REVENUE | — |
-| R63 | Card meta row: collapse 7–8 controls behind one "more" affordance | **done** (already shipped in 0.12.0 — verified 2026-07-10; this row was stale) | HIERARCHY F4 | M | M | consider alongside R58's test | template.html |
-| R64 | One shared severity ramp; categorical-hue distinction; family not signaled by color alone | ship (Later — **re-audit first**; findings are pre-redesign per FIXLOG) | COLOR C6–C8 · FIXLOG follow-up | M | M | fresh color audit | build.py (TOKENS_CSS), template.html |
-| R65 | Name the motion tokens (`--dur-*`/`--ease*`) — additive only | ship (Later) | STATES §4 | L | S | none | build.py (TOKENS_CSS) |
-| R66 | `j/k` keyboard navigation | ship (Later) | DX (deferred) · IMPROVEMENTS qw4 | L | S | none | template.html |
-
-### Already done (verified — listed so nothing looks lost)
-
-BUGS 1–5, SECURITY 1–4 (all closed by 0.4–0.8) · COMPREHENSION F1–F5 · LAYOUT L1–L6 ·
-TYPOGRAPHY T1–T5 · STATES S1–S7 · HIERARCHY F1–F3/F5–F7 · COLOR C1–C5/C9 · BRAND B1–B5,
-and **B6** (the Unicode icon set is now blessed and documented in CLAUDE.md — the one
-residual, the off-set 🔔 glyph, is folded into R35) · SHOWCASE F2–F7 (F1's honest
-walk-through shipped; the real recording is R61) · RETENTION R1–R5 · ACTIVATION A1–A5
-(A1's catalog-card gap re-opened as R08) · prior CRO F1–F8 · prior PROOF F1/F3–F6 ·
-IMPROVEMENTS 1–16 except the publish itself (R59) · DX 1–4 · og.png regeneration + drift
-guard · CHECKOUT: null by design — nothing to do until a payment path exists (R53/R55).
+**Shipped in 0.14.0 (PR #27):** the entire old Themes A–H product backlog — R01–R52, R54–R56,
+R63–R66 (funnel instrumentation, handoff/copy-hint fixes, honesty-drift batch, SEO quick-wins +
+static catalog, Weekly-Vitals loop, forms integrity, skills-tree/Brief-Forge/differentiation
+bets, revenue rails incl. `/teams` + `/partners` pages). **Shipped 0.15.0/0.16.0:** ledger
+redesign, design engine, breadcrumb cross-links, dogfood reports to `reports/`.
+**Shipped in the pivot (54ae65f/ae724d5):** register re-badge (POSITIONING/COMPETITORS/NICHE) ·
+loop legible in Proof (VERDICT act.3 / old R50) · `/teams` WTP surface locked (VERDICT act.1 /
+old R52+R55) · quality-bar claim surfaced (COMPETITORS wedge 2 / old R50). **Decision taken:**
+**R62** (proceed/pivot/drop) — VERDICT ruled **PIVOT — axis: product**. **Closed earlier:**
+BUGS 1–5, SECURITY 1–4, COMPREHENSION, LAYOUT, TYPOGRAPHY, STATES, HIERARCHY, COLOR, BRAND,
+SHOWCASE F2–7, DX, IMPROVEMENTS (except publish = M2). CHECKOUT: null by design.
 
 ---
 
 ## 3 · Themes — root causes worth one structural fix
 
-1. **The funnel's central transition is invisible *and* falsified.** One root cause —
-   copy-time auto-marking plus zero measurement of the copy→run handoff — underlies
-   FUNNEL §2, RETENTION R9, ACTIVATION AN1's mark-run entanglement, and REVENUE's gated
-   backer nudge. One structural fix: **R01 + R02 + R03 + R05** make copy→confirmed-run
-   the product's core conversion number. Nearly everything tagged `test` or revenue-
-   related is downstream of this.
-2. **The retention/trust machinery guards the front door while traffic moved to the
-   side doors.** SEO.md proves `/b`/`/p` are the best-indexed entries; CRO NF2, PROOF
-   NF6, RETENTION R7, ACTIVATION AN6 all describe the same asymmetry. One structural
-   fix: a **detail-page parity pass in `build.py` + `gp-detail.js`** (R02 + R19 + R11 +
-   R24) — one template edit fixes 176 pages at a time.
-3. **Guidance shipped everywhere except where the finding pointed.** The copy-hint
-   exists and is good; it's missing precisely on the highest-traffic paths (card Copy,
-   conductors, plugin step 2). R07–R10 + R15 are one component reused, not new design.
-4. **Honesty drift under growth.** The site's moat is "evidence, not vibes," and growth
-   introduced small overclaims: "every brief" (R20), "January drop" in July (R22), the
-   undisclosed analytics id (R21), the unfalsifiable commit citation (R23). Each is a
-   one-line fix; together they are brand maintenance, the cheapest high-impact batch here.
-5. **Proof exists; placement and third-party corroboration don't.** First-party proof is
-   excellent and buried (R25, R27); third-party proof is structurally blocked on four
-   maintainer decisions (R59, R60, R61) that no amount of in-repo work substitutes for.
-6. **The revenue system is inventory without a cash register.** Sponsorship rendering,
-   Teams self-hosting, and standing audits all exist as features; none has a transaction
-   path or an audience number. Rails (R52–R55) are cheap; selling waits on R05's numbers.
+1. **The whole product was built to verify the proxy, not the value** (BLINDSPOTS' one-line
+   verdict, and VERDICT's independently). Lint the skeleton not the efficacy; guard the
+   conductor text not the search semantics; optimize the funnel not the traffic; mark the
+   finding fixed without wiring the fix. **One structural fix, not five patches:** stop
+   building storefront and *measure the value* — G1+G2+M1 turn "installs → confirmed run →
+   inbound WTP" into observable numbers. Everything tagged `gated` is downstream of this.
+2. **The money and the only moat-path both sit one layer over, in the loop — not the catalog.**
+   DEMAND ("WTP is High for execution, ~Zero for the catalog"), MARKET (catalog TAM = $0),
+   MOAT (no data moat by design; the loop is the only candidate with a compounding mechanism),
+   COMPETITORS (post-run loop is "the one gap open because hard") all name the same seam. **One
+   fix:** make the loop the product — G3 proves it on a real repo, T6 makes the diff-history
+   the retention spine, and the catalog demotes to a top-of-funnel *attention* asset.
+3. **Distribution is the gate and the clock — 0★ is invisible, and the window closes when
+   Anthropic decides to own "audits."** NICHE §3 (the star economy is border control), MARKET
+   §3 (first-mover matters only for the noun + loop, *only if the flag is planted loudly
+   first*), MOAT kill#1 (negative strategy tax; "not a moat, a countdown"). **One fix:** the
+   loud launch (G2) is not marketing polish — it is the existential first test *and* the only
+   defense the survivability fail leaves (speed).
+4. **The quality-bar claim is now load-bearing but unproven.** The pivot surfaced
+   "machine-enforced quality bar" as a headline differentiator (shipped) precisely because
+   POSITIONING/COMPETITORS/NICHE agree it's the one counter-belief no rival can copy — while
+   BLINDSPOTS F4 shows the linter checks shape, not substance. **One fix:** T1 (efficacy evals
+   published on `/quality`) makes the claim true, or the pivot's own differentiation is vibes.
+5. **Honesty drift is now a moat threat, not cosmetics.** The pivot bets everything on
+   "evidence, not vibes"; T3's orphans (no SECURITY.md, unversioned copied prompts, the gp-aid
+   vs "no tracking" gap, no consumer-side report-judgment guidance) each quietly contradict it.
+   Cheap to fix, expensive to be caught on at launch.
 
 ---
 
-## 4 · Conflicts, ruled
+## 4 · Sequence & milestones
 
-- **Auto-mark on copy:** RETENTION lists it under "what already retains — keep it";
-  FUNNEL calls it the funnel's central falsification. **Ruled with FUNNEL:** measurement
-  integrity wins — R01 removes the auto-mark, and R08's hint button (already the honest
-  pattern on detail pages) keeps the retention fuel line lit without faking it.
-- **Quickstart pill promotion:** FUNNEL says ship (S); CRO says A/B (it competes with the
-  catalog tour). **Ruled with CRO:** tagged `test` (R57) — instrumentation already exists.
-- **Chooser-stack collapse:** FUNNEL proposes the fix; CRO warns the assists earn their
-  keep for some segments. **Ruled with CRO:** tagged `test` (R58).
-- **Homepage weight:** FUNNEL calls the inline blob "acceptable"; SEO-2 calls it the CWV
-  liability. **Ruled: sequence, don't choose** — R28's static cards first (pure win),
-  then R29's body-stripping with the offline story preserved via the service worker.
+### Conflicts, ruled
 
----
+- **THE hinge: venture "test WTP before building revenue" vs product "build the rails now."**
+  REVENUE.md sequenced monetization as *plumbing built now, sold later* and proposed the
+  `/partners` rate-card + backer nudge as next steps. MOAT/MARKET/VERDICT overrule that: at the
+  **sourced 1–3% dev-tool conversion floor** (MOAT corrected MARKET's optimistic 5–20% against
+  a benchmark — and won the argument, because the number is *sourced*, more conservative, and
+  structurally right: converting free→paid *with no wall* is strictly harder than the walled
+  comparable). **Ruled with MOAT/VERDICT:** the rails are already built; more revenue plumbing
+  is wasted motion until *one team says "I'd pay."* The next revenue action is a **$0 WTP test
+  (G1)**, not a rate card. X1/X2 are `gated` on G1's signal. *The evidence favors the pessimist
+  here, and the pivot's discipline forbids letting optimism launder the napkin.*
+- **BLINDSPOTS "demote /teams+/partners to a contact line" vs VERDICT "keep /teams as the WTP
+  test surface."** Reconciled: **keep** the minimal, now-locked `/teams` surface (it *is* the
+  cheap test the pivot needs — price anchor + one intent CTA already shipped); **hold** any
+  further `/partners` build (X2). Minimal surface as instrument, no further plumbing.
+- **Old roadmap's Theme H "revenue rails = inventory to accumulate" is downgraded.** It wasn't
+  wrong in 0.14.0 (rails are cheap); the pivot re-weights it: inventory with a structurally-null
+  conversion step is not an asset until the step is proven non-zero.
+- **R05 (raw-fetch counting): old "low-drama external" → now the measurement spine.** Re-ruled
+  up (M1, H-impact) because every validation gate is unreadable without it (BLINDSPOTS F1).
+- **Carried from 2026-07-09 (still valid):** homepage weight — SEO-1 static cards shipped;
+  SEO-2 body-stripping stays sequenced behind, now folded into a PERF pass (T7/Later).
 
-## 5 · Three milestones
+### Now (1–2 weeks) — *prove the hope for ~$0, and don't launch into a broken funnel*
 
-### Now (1–2 weeks) — *see the funnel, close the silent stalls, patch the honesty drift*
-Nothing here needs traffic or taste; it's the instrumentation everything else reads,
-plus every S-effort stall and overclaim fix. Risk-reduction (trust, data loss) is
-interleaved with growth (SEO quick wins, handoff fixes) on purpose.
+The pivot's entire near-term: run the six cheap pre-tests, turn on the one measurement that
+reads them, give the launch an install path, and fix the two P0s a Show HN would expose.
+Nothing here builds new product surface; it *tests the surface that exists.*
 
-**Ship:** R01, R02, R03, R04, R06 · R07, R08, R09, R10, R11, R12, R13, R14, R15, R17,
-R18 · R19, R20, R21, R22, R23, R24, R25, R26, R27 · R30 · R33, R37 · R38, R39, R40 · R52.
-**External — flag to maintainer now (they gate later milestones):** R05 (flip on Vercel
-log counting), R53 (Sponsors profile), R59 (npm publish), R60 (Discussions / threshold /
-quotes / launch).
+**Test (gates):** G1 · G2 · G4 · G5 · G6 · (G3 kick-off).
+**Enable — flag to maintainer immediately (they gate the gates):** M1 (raw-fetch counting) ·
+M2 (npm publish) · M3 (FUNDING.yml).
+**Ship (launch-blockers):** U1 (mobile nav) · U2 (styled report pages).
+*Why this order:* the launch (G2) is the gate everything upstream feeds and the only defense
+speed buys — but it is worthless if the numerator is invisible (M1), has no install path (M2),
+or drives mobile traffic into a dead end and the proof into a text dump (U1/U2). WTP (G1) is
+measured *from* the attention G2 creates, so they run together, not in series.
 
-### Next (a month) — *spend the visibility: reach, the retention loop, differentiation*
-With the funnel observable, open the side doors to crawlers, finish the Weekly Vitals
-circuit end-to-end, ship the differentiation bets that need no traffic, and run the two
-experiments against the new baseline.
+### Next (a month) — *react to the signal; make the two claims the pivot leaned on TRUE*
 
-**Ship:** R16 · R28 → R29 · R31, R32 · R34, R35, R36 · R41 · R42, R43, R44, R45, R46,
-R47, R48, R49, R50 · R54.
-**Test:** R57, R58 (against Now's instrumentation).
+Branch on what Now returned. If WTP/distribution fire: stand up the SKU-A delivery motion (X1)
+and pay down what a scaling launch would strain. Either way: defend the differentiation the
+pivot made prominent.
 
-### Later — *traffic- and decision-dependent: revenue offers, deferred design judgment*
-Everything here is deliberately blocked on data (R05's numbers, `search_zero` volume),
-maintainer decisions (pricing, DEMAND), or a fresh audit — starting it earlier would
-mean selling against no numbers or restyling against stale findings.
+**Ship:** T1 (efficacy evals — make the quality bar true) · T2 (full-text search) · T3 (trust
+orphans — defend "evidence not vibes") · T4 (architecture paydown) · G3 (finish the
+external-repo loop proof) · M4 (R60 residuals).
+**Gated:** X1 (SKU-A engagement) — *only if G1 returned real intent.*
+*Why this order:* Now proved (or killed) the thesis; Next spends the proof — T1/T3 close the
+gap between the claims the pivot shipped and the substance behind them, before a bigger
+audience arrives to check.
 
-**Ship:** R51 (after search data) · R55 (pages; offers after R05 + pricing call) · R56
-(after R01 + R53) · R63, R64 (after a fresh color audit), R65, R66.
-**External:** R61 (recording), R62 (DEMAND call), and the ongoing earning half of R60.
+### Later — *moat-, data-, and decision-gated*
 
----
-
-## 6 · Merge log (deduplications — nothing lost)
-
-- **Copy≠run / mark-run integrity** ← FUNNEL §2 + §4.2, RETENTION R9, ACTIVATION AN1
-  (mark-state branch), REVENUE §3.3 gating → **R01** (+R03).
-- **Detail pages are dark/cold** ← FUNNEL §4.1, RETENTION R7, REVENUE §4.4 → **R02**.
-- **Raw-fetch counting** ← FUNNEL §4.3–4, REVENUE §4.4, RETENTION §4, PROOF §4,
-  COMPETITIVE §4 (cursor.directory transparency pattern) → **R05**.
-- **Plugin second-command trap** ← FUNNEL §1 activation row, CRO NF3, ACTIVATION path E →
-  **R07**.
-- **Detail-page trust line + evidence link** ← CRO NF2 + PROOF NF6 (same `build.py`
-  pass) → **R19**.
-- **Analytics-vs-promise disclosure** ← PROOF NF2 + RETENTION R12 → **R21**.
-- **Partner channel** ← CRO NF5 + REVENUE §4.1–2 → **R52**; the `/p/` Discussions
-  dead-end also feeds R60.
-- **Proof where star counts sit** ← PROOF NF3 (placement) + NF7 + COMPETITIVE §3.1 →
-  **R25**; the earning half split out as **R60** (external).
-- **Post-copy "what happens next"** ← FUNNEL §1 + ACTIVATION AN7 (AN7 explicitly
-  endorses FUNNEL's fix) → **R14**; copy-failure fallback ← FUNNEL §1c + AN8 → **R13**.
-- **Quickstart pill** ← FUNNEL entry-hero + CRO NF1 → **R57** (test; conflict ruled §4).
-- **Chooser overload** ← FUNNEL Choose row + CRO NF7 → **R58** (test).
-- **Standing-audit surfacing** ← RETENTION R11 + COMPETITIVE §6.4 → **R37**; its
-  productization ← COMPETITIVE bet 3 + REVENUE §5 → **R55**.
-- **Contribution path** ← COMPETITIVE §3.5 + AI-IDEAS 1 (Forge is the enabling half) →
-  **R45 + R46**.
-- **SEO-8's noindex** double-counted as metric hygiene for R05 → single item **R06**.
-- **npm publish** ← IMPROVEMENTS 11 + CREDIBILITY 3 + PROOF §4 (honest downloads
-  number) → **R59**.
-- **Product-seen-working** ← SHOWCASE F1 + CREDIBILITY 1: the honest walk-through is
-  `done`; only the real recording remains → **R61**.
-- **BRAND B6** closed by CLAUDE.md's documented icon set; its 🔔 residual (also
-  RETENTION R8c's aside) folded into **R35**.
-- **CHECKOUT.md** merged as a null: its absence-of-payment finding is *by design* per
-  REVENUE §1; the only successors are R53/R55.
+**Ship:** T5 (prune — Subtract on itself) · T6 (diff-loop retention spine, after G3) · T7
+(coverage-gap briefs + A11Y + PERF) · T8 (promote brief shapes) · L3 (breadcrumb residue).
+**Gated:** X2 (`/partners` + backer nudge, after WTP) · L1 (search aliases, after `search_zero`
+data) · L2 (screen recording).
+*Why last:* every item here is deliberately blocked on a positive WTP signal, accumulated data,
+a maintainer decision, or the loop being proven first — starting earlier means building against
+numbers that don't exist yet, exactly the failure mode BLINDSPOTS diagnosed.
 
 ---
 
-*Report only — synthesis, no code changed. Should I adjust the sequence — e.g. pull any
-of the Next differentiation bets (skills output, Brief Forge, SEO-1) into Now, push the
-forms batch back, or reorder the external asks to the maintainer?*
+## 5 · Merge log (deduplications — nothing lost)
+
+- **The pivot decision** ← DEMAND's proceed/pivot/drop question (old **R62**) + all six funnel
+  reports → **VERDICT: PIVOT — axis: product.** R62 is closed, not open.
+- **WTP validation** ← VERDICT act.1 + MOAT kill#2 + DEMAND "ten people" + REVENUE §3.2/§4 +
+  MARKET §4 → **G1**; the `/teams` *surface* it tests is **done** (pivot item c / old R52+R55).
+- **Distribution swing** ← VERDICT act.2 + MOAT kill#3 + NICHE §3 + COMPETITORS traction +
+  old **R60** launch half → **G2** (G2 subsumes R60's "Show HN to earn first stars"; R60's
+  Discussions concern is resolved — CTA repointed to Issues; residuals → M4).
+- **Own the loop** ← VERDICT act.3 + COMPETITORS wedge 1 + POSITIONING Option A + old **R50**
+  (loop-legibility half, now **done**) → the *legibility* shipped; the *external-repo proof*
+  is **G3**; the *retention-spine* half is **T6**.
+- **Revenue model** ← REVENUE.md's five tiers **merged with** MOAT §1 / MARKET Phase 1:
+  strongest framing kept is **MOAT's** (flat team-audit services-first = SKU A; sponsorship
+  audience-gated = SKU B; reject per-seat/usage/transaction/marketplace). The evidence favors
+  MOAT's **sourced 1–3% conversion ceiling** over REVENUE's un-benchmarked optimism, so both
+  SKUs are **gated (X1/X2)**, not scheduled.
+- **Quality bar** ← POSITIONING C + COMPETITORS wedge 2 + NICHE exploit 3 (the *claim*, now
+  **done**/surfaced) **+** BLINDSPOTS F4 (the *proof*, still open) → **T1** makes the shipped
+  claim true.
+- **Measurement** ← old **R05** + FUNNEL §4.3 + REVENUE §4.4 + BLINDSPOTS §1.3/F1 → **M1**,
+  re-ruled from footnote to spine.
+- **Analytics/trust honesty** ← PROOF NF2 + RETENTION R12 (gp-aid disclosure) + BLINDSPOTS
+  §5.4 (gp-aid privacy) + §5.1 (no SECURITY.md) + §5.2 (unversioned prompts) → **T3**.
+- **Proof placement** ← old R25/R27 (**done** — hero pointer, examples section) **+**
+  BLINDSPOTS §4 P0-2 (the reports render as a text dump) → the *new, open* half is **U2**.
+- **Old Themes A–G product backlog** (R01–R52, R54–R56, R63–R66) → rolled into **Already done**
+  (0.14.0), not re-listed.
+- **BREADCRUMBS** ← brief 145 residue; the four headline fixes were **largely applied in
+  0.16.0** (CLAUDE.md now classifies vitals/examples/manifest/metrics); the small remainder →
+  **L3**.
+- **CHECKOUT.md** merged as a null (no payment surface by design); its only successors are the
+  gated revenue SKUs (X1/X2).
+
+---
+
+*Report only — synthesis, no code changed. Should we adjust the sequence — e.g. is the launch
+swing (G2) too early before the P0 fixes (U1/U2) land, should brief-efficacy evals (T1) move
+into Now to defend the quality-bar claim the moment it went live, or should any revenue item be
+un-gated?*
