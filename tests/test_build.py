@@ -884,6 +884,51 @@ class StaticHeadTests(unittest.TestCase):
         self.assertIn('id="copyinstall2" aria-label="copy step 2"', html)
 
 
+class MobileNavTests(unittest.TestCase):
+    """U1 (BLINDSPOTS §4 P0-1): the pre-fix nav dropped Catalog (and, narrower,
+    the CTA) on phones — a launch drives mobile traffic into a dead end. Every
+    nav surface must now keep both reachable through a <details> disclosure.
+    Two nav idioms carry it: .nav-links (landing template + generated NAV_HTML,
+    styled by SITE_CSS) and .topnav .lk (the standalone pages)."""
+
+    TOPNAV_PAGES = ("studio.html", "vitals.html", "examples/index.html")
+
+    def _src(self, name):
+        return (build.ROOT / name).read_text(encoding="utf-8")
+
+    def test_generated_nav_has_the_disclosure_with_catalog_and_cta(self):
+        nav = build.NAV_HTML
+        self.assertIn('class="navmenu"', nav)
+        self.assertIn("<summary", nav)
+        self.assertIn("/#catalog", nav)           # Catalog reachable on mobile
+        self.assertIn('class="cta"', nav)         # CTA lives inside the sheet
+
+    def test_site_css_shows_disclosure_and_hides_inline_links_on_mobile(self):
+        css = build.SITE_CSS
+        self.assertIn(".navmenu{display:none", css)      # hidden on desktop
+        self.assertIn("@media(max-width:720px)", css)
+        self.assertIn(".nav-links{display:none}", css)   # inline row dropped
+        self.assertIn(".navmenu{display:block}", css)    # disclosure flipped on
+
+    def test_landing_template_carries_the_disclosure(self):
+        html = self._src("template.html")
+        self.assertIn('class="navmenu"', html)
+        self.assertIn('href="#catalog"', html)
+
+    def test_standalone_pages_keep_catalog_and_cta_in_the_disclosure(self):
+        for name in self.TOPNAV_PAGES:
+            html = self._src(name)
+            self.assertIn('class="navmenu"', html, name)
+            self.assertIn("#catalog", html, name)               # Catalog link
+            self.assertIn("@media(max-width:720px)", html, name)
+            self.assertIn(".topnav .lk{display:none}", html, name)
+            # the standalone CTA is hidden by a DIRECT-child selector so the
+            # sheet's own CTA (also a .topnav .cta) survives the mobile hide —
+            # a blanket `.topnav .cta{display:none}` would nuke both.
+            self.assertIn(".topnav-in>.cta{display:none}", html, name)
+            self.assertNotIn(".topnav .cta{display:none}", html, name)
+
+
 class DetailPageTests(unittest.TestCase):
     def _prompts(self):
         return [build.parse(f)

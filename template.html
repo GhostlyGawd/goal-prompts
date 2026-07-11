@@ -68,8 +68,20 @@
   :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
   .nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.04em;padding:8px 14px;border-radius:var(--r-sm)}
   .nav-cta:hover{border-color:var(--fc);color:var(--fc)}
-  @media(max-width:720px){.nav-links{gap:12px}.nav-links .mh{display:none}}
-  @media(max-width:480px){.nav-cta{display:none}}
+  /* U1 (BLINDSPOTS P0-1): mobile disclosure menu — keeps Catalog + CTA
+     reachable on phones, where the inline links can't fit. Native <details>,
+     no JS, keyboard- and screen-reader-native. */
+  .navmenu{display:none;position:relative}
+  .navmenu>summary{list-style:none;width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:transparent;color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .navmenu>summary::-webkit-details-marker{display:none}
+  .navmenu>summary:hover{color:var(--text);border-color:var(--line-3)}
+  .navmenu>summary svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+  .navmenu .sheet{position:absolute;right:0;top:44px;min-width:190px;background:var(--panel);border:1px solid var(--line-2);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;box-shadow:0 12px 32px rgba(0,0,0,.32);z-index:40}
+  .navmenu .sheet a{padding:10px 12px;border-radius:7px;color:var(--text);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+  .navmenu .sheet a:hover{background:var(--ink);color:var(--fc)}
+  .navmenu .sheet a.cta{background:var(--btn);color:var(--btn-fg);text-transform:none;font-family:var(--sans);font-size:13px;font-weight:600;text-align:center;letter-spacing:0;margin-top:5px}
+  .navmenu .sheet a.cta:hover{filter:brightness(1.08)}
+  @media(max-width:720px){.nav-links{display:none}.nav-cta{display:none}.navmenu{display:block}}
 
   /* ---------- buttons ---------- */
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:640;border-radius:var(--r-sm);padding:13px 20px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),background var(--dur-state),border-color var(--dur-state),color var(--dur-state);-webkit-tap-highlight-color:transparent}
@@ -457,6 +469,7 @@
   <div class="nav-right">
     <button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button>
     <a class="nav-cta" href="#catalog">Browse catalog</a>
+    <details class="navmenu"><summary aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16 M4 12h16 M4 17h16"/></svg></summary><div class="sheet"><a href="#how">How it works</a><a href="#catalog">Catalog</a><a href="#playbooks">Playbooks</a><a href="/studio">Studio</a><a class="cta" href="#catalog">Browse catalog</a></div></details>
   </div>
 </div></header>
 

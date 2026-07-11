@@ -618,9 +618,19 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
 .nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
 .nav-cta:hover{filter:brightness(1.12)}
-/* under 720px keep Playbooks + Studio reachable — same treatment as the landing page */
-@media(max-width:720px){.nav-links{gap:14px}.nav-links .mh{display:none}}
-@media(max-width:480px){.nav-cta{display:none}}
+/* U1 (BLINDSPOTS P0-1): mobile disclosure menu — native <details>, no JS,
+   keeps Catalog + CTA reachable where the inline links can't fit. */
+.navmenu{display:none;position:relative}
+.navmenu>summary{list-style:none;width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.navmenu>summary::-webkit-details-marker{display:none}
+.navmenu>summary:hover{color:var(--text);border-color:var(--line-3)}
+.navmenu>summary svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.navmenu .sheet{position:absolute;right:0;top:44px;min-width:190px;background:var(--panel);border:1px solid var(--line-2);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:2px;box-shadow:0 12px 32px rgba(0,0,0,.32);z-index:40}
+.navmenu .sheet a{padding:10px 12px;border-radius:7px;color:var(--text);font-size:13px;text-decoration:none}
+.navmenu .sheet a:hover{background:var(--ink);color:var(--fc)}
+.navmenu .sheet a.cta{background:var(--btn);color:var(--btn-fg);font-weight:600;text-align:center;margin-top:5px}
+.navmenu .sheet a.cta:hover{filter:brightness(1.08)}
+@media(max-width:720px){.nav-links{display:none}.nav-cta{display:none}.navmenu{display:block}}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
@@ -806,7 +816,11 @@ NAV_HTML = ('<header class="nav"><div class="nav-in wrap">'
             '<a href="/studio">Studio</a></nav>'
             '<div class="nav-right">'
             '<button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button>'
-            '<a class="nav-cta" href="/#start">Get started</a></div>'
+            '<a class="nav-cta" href="/#start">Get started</a>'
+            '<details class="navmenu"><summary aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16 M4 12h16 M4 17h16"/></svg></summary><div class="sheet">'
+            '<a href="/#how">How it works</a><a href="/#catalog">Catalog</a>'
+            '<a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a>'
+            '<a class="cta" href="/#start">Get started</a></div></details></div>'
             '</div></header>')
 
 
