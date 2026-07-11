@@ -675,6 +675,27 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .prose p{margin:0 0 12px}
 .prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
 .prose strong{color:var(--text);font-weight:600}
+/* U2 (BLINDSPOTS §4 P0-2): the richer constructs the dogfood reports use, so a
+   report renders on-brand instead of as a raw-markdown text dump. */
+.report-prose{max-width:74ch}
+.prose h2{font-family:var(--disp);font-size:1.45em;font-weight:680;letter-spacing:-.01em;line-height:1.15;margin:1.5em 0 .35em;color:var(--text)}
+.prose h3{font-family:var(--disp);font-size:1.18em;font-weight:660;margin:1.3em 0 .3em;color:var(--text)}
+.prose ol{margin:0 0 12px;padding-left:24px}.prose ol li{margin:4px 0}
+.prose em{font-style:italic}
+.prose a{color:var(--amber);text-decoration:underline;text-underline-offset:2px}
+.prose a:hover{color:var(--text)}
+.prose code{font-family:var(--mono);font-size:.85em;background:var(--panel);border:1px solid var(--line-2);border-radius:5px;padding:1px 5px}
+.prose pre{background:var(--panel);border:1px solid var(--line-2);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 14px}
+.prose pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+.prose blockquote{margin:0 0 14px;padding:2px 0 2px 16px;border-left:3px solid var(--fc,var(--amber));color:var(--dim)}
+.prose blockquote p{margin:0}
+.prose hr{border:0;border-top:1px solid var(--line-2);margin:24px 0}
+.prose .tablewrap{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line-2);border-radius:10px}
+.prose table{border-collapse:collapse;width:100%;font-size:13.5px}
+.prose th,.prose td{border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);padding:9px 11px;text-align:left;vertical-align:top}
+.prose tr td:last-child,.prose tr th:last-child{border-right:0}
+.prose tbody tr:last-child td{border-bottom:0}
+.prose th{background:var(--panel);font-weight:640;color:var(--text);white-space:nowrap}
 
 /* method / phases */
 .method{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:var(--s5)}
@@ -997,7 +1018,8 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     cta = [f'<button class="btn btn-primary" {copy_attrs}>Copy this prompt</button>',
            f'<a class="btn btn-ghost" href="#use">How to run it</a>']
     if p.get("example"):
-        ex = p["example"] if p["example"].startswith("/") else p["example"]
+        # U2: link the styled /r/ page, not the raw-.md text dump
+        ex = f'/r/{report_slug(p["example"])}'
         cta.append(f'<a class="btn btn-ghost" href="{ex}">See a real report ↗</a>')
     else:
         # PROOF NF6 (R19): the 121 briefs without their own sample still get
@@ -1072,7 +1094,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
         for i, (name, d) in enumerate(parts["report"], 1))
     rfoot = ['One file. Evidence-backed. It ends by asking before touching anything.']
     if p.get("example"):
-        rfoot.append(f'<a href="{p["example"]}" style="color:var(--fc)">see a real {esc(p["output"])} ↗</a>')
+        rfoot.append(f'<a href="/r/{report_slug(p["example"])}" style="color:var(--fc)">see a real {esc(p["output"])} ↗</a>')
     if p["id"] == "29":
         # R33 (RETENTION R6): the deliverable accrues — say where the history
         # becomes visible, right where the deliverable is described.
@@ -1475,6 +1497,208 @@ def changelog_page(md: str) -> str:
                 f"Every goal-prompts release — new briefs, playbooks, and fixes. "
                 f"Latest: {latest}.",
                 f"{BASE}/changelog", hero + secs + ftr, f"{BASE}/og.png")
+
+
+# ---- U2 (BLINDSPOTS §4 P0-2): styled report pages --------------------------
+# The examples gallery is the launch's proof surface, and it linked straight to
+# /reports/*.md — served as an unstyled text dump. These render the exact
+# markdown the dogfood reports use (headings, tables, blockquotes, fenced code,
+# lists, emphasis, links) into the site's detail-page design, with a
+# breadcrumb, a back link, and a raw-.md escape hatch. A small stdlib parser,
+# not a general CommonMark engine: it covers what the reports contain and
+# degrades to escaped paragraphs on anything else. Everything is HTML-escaped,
+# so a report can never inject markup into the page.
+
+_SAFE_LINK = ("http://", "https://", "mailto:", "#", "/", "./", "../")
+
+
+def report_slug(path: str) -> str:
+    """The /r/<slug> stem for a report path — venture samples are namespaced so
+    reports/DEMAND.md (founder funnel) and examples/venture/DEMAND.md (the
+    flaky-test gut-check) don't collide."""
+    stem = path.rsplit("/", 1)[-1].rsplit(".", 1)[0].lower()
+    return ("venture-" + stem) if "/venture/" in path else stem
+
+
+def _md_link(m) -> str:
+    text, url = m.group(1), m.group(2).strip()
+    if not url.lower().startswith(_SAFE_LINK):
+        return esc(m.group(0))            # unknown scheme — leave as literal text
+    ext = url.lower().startswith(("http://", "https://"))
+    tgt = ' target="_blank" rel="nofollow noopener"' if ext else ""
+    return f'<a href="{attr(url)}"{tgt}>{text}</a>'
+
+
+def md_inline_rich(s: str) -> str:
+    """Inline markdown for reports: `code`, [links](url), **bold**, *em*/_em_.
+    Code spans are lifted out first so their contents are never re-formatted;
+    every segment is HTML-escaped so report text cannot inject markup."""
+    out = []
+    for i, seg in enumerate(re.split(r"(`[^`]+`)", s)):
+        if i % 2:                                       # a `code` span
+            out.append("<code>" + esc(seg[1:-1]) + "</code>")
+            continue
+        t = esc(seg)
+        t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", _md_link, t)
+        t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+        t = re.sub(r"(?<!\*)\*(?!\s)([^*\n]+?)(?<![\s*])\*(?!\*)", r"<em>\1</em>", t)
+        t = re.sub(r"(?<![A-Za-z0-9_])_(?!\s)([^_\n]+?)(?<!\s)_(?![A-Za-z0-9_])",
+                   r"<em>\1</em>", t)
+        out.append(t)
+    return "".join(out)
+
+
+_LIST_RE = re.compile(r"^(\s*)([-*+]|\d+\.)\s+(.*)$")
+
+
+def _render_list(lines: list, start: int) -> tuple:
+    """Render one (possibly nested) list beginning at lines[start]; returns
+    (html, next_index). Nesting is by indentation."""
+    n = len(lines)
+    m0 = _LIST_RE.match(lines[start])
+    base = len(m0.group(1))
+    tag = "ol" if m0.group(2).endswith(".") else "ul"
+    items, i = [], start
+    while i < n:
+        m = _LIST_RE.match(lines[i])
+        if not m:
+            nxt = _LIST_RE.match(lines[i + 1]) if i + 1 < n else None
+            # bridge a single blank only within one loose list: same indent AND
+            # same marker type — a blank before a different-type or differently-
+            # indented list ends this one (else a - list swallows a following
+            # 1. list).
+            if (lines[i].strip() == "" and nxt and len(nxt.group(1)) == base
+                    and nxt.group(2).endswith(".") == (tag == "ol")):
+                i += 1; continue
+            break
+        indent = len(m.group(1))
+        if indent < base:
+            break
+        if indent > base:                               # nested list
+            nested, i = _render_list(lines, i)
+            if items and items[-1].endswith("</li>"):
+                items[-1] = items[-1][:-5] + nested + "</li>"
+            else:
+                items.append("<li>" + nested + "</li>")
+            continue
+        items.append("<li>" + md_inline_rich(m.group(3).strip()) + "</li>")
+        i += 1
+    return f"<{tag}>" + "".join(items) + f"</{tag}>", i
+
+
+def render_report_md(md: str) -> str:
+    """Markdown → HTML for the dogfood reports. Line-based block parse + inline
+    pass; never crashes and never emits unescaped input."""
+    lines = md.splitlines()
+    out, para, i, n = [], [], 0, len(lines)
+    seen_title = False
+
+    def flush_para():
+        if para:
+            out.append("<p>" + md_inline_rich(" ".join(para).strip()) + "</p>")
+            para.clear()
+
+    while i < n:
+        raw, s = lines[i], lines[i].strip()
+
+        if not s:                                        # blank → paragraph break
+            flush_para(); i += 1; continue
+
+        m = re.match(r"^(`{3,}|~{3,})", s)               # fenced code block
+        if m:
+            flush_para()
+            fence = m.group(1)[0]
+            buf, i = [], i + 1
+            while i < n and not re.match(r"^\s*[" + fence + r"]{3,}\s*$", lines[i]):
+                buf.append(lines[i]); i += 1
+            i += 1                                       # skip the closing fence
+            out.append("<pre><code>" + esc("\n".join(buf)) + "</code></pre>")
+            continue
+
+        if re.match(r"^(-{3,}|\*{3,}|_{3,})$", s):       # thematic break
+            flush_para(); out.append("<hr>"); i += 1; continue
+
+        m = re.match(r"^(#{1,6})\s+(.*?)\s*#*\s*$", s)   # ATX heading
+        if m:
+            flush_para()
+            level, text = len(m.group(1)), m.group(2)
+            if level == 1 and not seen_title:
+                seen_title = True; i += 1; continue      # the hero already shows it
+            # cap at h3: the design system is h1→h2→h3 with no skips (R32,
+            # SEO-10). Reports don't use ####, so this only ever demotes.
+            tag = "h2" if level <= 2 else "h3"
+            out.append(f"<{tag}>{md_inline_rich(text)}</{tag}>")
+            i += 1; continue
+
+        if s.startswith(">"):                            # blockquote
+            flush_para()
+            buf = []
+            while i < n and lines[i].strip().startswith(">"):
+                buf.append(re.sub(r"^\s*>\s?", "", lines[i])); i += 1
+            inner = " ".join(x.strip() for x in buf if x.strip())
+            out.append("<blockquote><p>" + md_inline_rich(inner) + "</p></blockquote>")
+            continue
+
+        nxt = lines[i + 1].strip() if i + 1 < n else ""  # pipe table
+        if "|" in s and "|" in nxt and "-" in nxt and re.match(r"^[\s|:-]+$", nxt):
+            flush_para()
+
+            def cells(row):
+                r = row.strip()
+                r = r[1:] if r.startswith("|") else r
+                r = r[:-1] if r.endswith("|") else r
+                return [c.strip() for c in r.split("|")]
+
+            head = cells(s); i += 2
+            body = []
+            while i < n and lines[i].strip() and "|" in lines[i]:
+                body.append(cells(lines[i])); i += 1
+            th = "".join(f"<th>{md_inline_rich(c)}</th>" for c in head)
+            rows = "".join("<tr>" + "".join(f"<td>{md_inline_rich(c)}</td>"
+                                            for c in r) + "</tr>" for r in body)
+            out.append(f'<div class="tablewrap"><table><thead><tr>{th}</tr>'
+                       f'</thead><tbody>{rows}</tbody></table></div>')
+            continue
+
+        if _LIST_RE.match(raw):                          # list
+            flush_para()
+            html, i = _render_list(lines, i)
+            out.append(html); continue
+
+        para.append(s); i += 1                           # default: paragraph
+
+    flush_para()
+    return "\n".join(out)
+
+
+def report_page(slug: str, filename: str, md: str, raw_href: str,
+                kicker: str = "Sample report") -> str:
+    """Wrap a rendered report in the detail-page shell — breadcrumb, hero, the
+    raw-.md escape hatch, and the run-it-yourself footer."""
+    crumb = ('<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+             '<a href="/examples/">Sample reports</a><span class="sep">/</span>'
+             f'<span>{esc(filename)}</span></div>')
+    hero = (f'<section class="dhero"><div class="wrap">{crumb}'
+            f'<div class="kicker">{esc(kicker)}</div>'
+            f'<h1>{esc(filename)}</h1>'
+            f'<p class="lede">A real report from running this catalog\'s briefs '
+            f'against its own repo — every finding cites the code it came from.</p>'
+            f'<div class="cta">'
+            f'<a class="btn btn-ghost" href="{attr(raw_href)}">Raw .md ↗</a>'
+            f'<a class="btn btn-ghost" href="/examples/">← All sample reports</a>'
+            f'</div></div></section>')
+    section = (f'<section class="blk"><div class="wrap">'
+               f'<div class="prose report-prose">{render_report_md(md)}</div>'
+               f'</div></section>')
+    ftr = foot("Run this in your own repo",
+               "Every brief in the catalog files a report like this at your "
+               "repo root — free, open, and yours to keep.",
+               '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
+               '<a class="btn btn-ghost" href="/studio">Open Report Studio</a>')
+    desc = (f"{filename}: a real audit report produced by running a goal-prompts "
+            f"brief against this repo.")
+    return page(f"{filename} — sample report — Goal Prompts", desc,
+                f"{BASE}/r/{slug}", hero + section + ftr, f"{BASE}/og.png")
 
 
 def quality_page(prompts: list) -> str:
@@ -2044,8 +2268,8 @@ def main() -> None:
                           .replace("__BACKER_URL__", BACKER_URL))
     (ROOT / "index.html").write_text(index_html, encoding="utf-8")
 
-    # ---- raw endpoints + full detail pages (brief + playbook) ----
-    for d in ("raw", "b", "p"):
+    # ---- raw endpoints + full detail pages (brief + playbook + report) ----
+    for d in ("raw", "b", "p", "r"):
         shutil.rmtree(ROOT / d, ignore_errors=True)
         (ROOT / d).mkdir()
     for p in prompts:
@@ -2062,6 +2286,26 @@ def main() -> None:
             pb["conductor"], encoding="utf-8")
         (ROOT / "p" / f'{pb["key"]}.html').write_text(
             playbook_detail(pb, by_id), encoding="utf-8")
+
+    # ---- /r/<slug> (U2, BLINDSPOTS §4 P0-2): styled report pages so the proof
+    # surface the launch points at renders on-brand, not as a raw-.md text dump.
+    # The .md files stay in place as the raw escape hatch each page links to. ----
+    report_srcs = {}  # /r/<slug> -> source .md Path (for sitemap lastmod)
+    for md_path in sorted((ROOT / "reports").glob("*.md")):
+        slug = report_slug(md_path.name)
+        (ROOT / "r" / f"{slug}.html").write_text(
+            report_page(slug, md_path.name, md_path.read_text(encoding="utf-8"),
+                        f"/reports/{md_path.name}"), encoding="utf-8")
+        report_srcs[f"/r/{slug}"] = md_path
+    venture_dir = ROOT / "examples" / "venture"
+    for md_path in sorted(venture_dir.glob("*.md")) if venture_dir.is_dir() else []:
+        slug = report_slug(f"/venture/{md_path.name}")
+        (ROOT / "r" / f"{slug}.html").write_text(
+            report_page(slug, md_path.name, md_path.read_text(encoding="utf-8"),
+                        f"/examples/venture/{md_path.name}",
+                        kicker="Venture gut-check · sample report"),
+            encoding="utf-8")
+        report_srcs[f"/r/{slug}"] = md_path
 
     # ---- /changelog (R36, RETENTION R10): the freshness pull for installed
     # surfaces — MCP footers and the installer's outro point here ----
@@ -2194,11 +2438,14 @@ def main() -> None:
             [pb, members], sort_keys=True, ensure_ascii=False).encode("utf-8")
     for p in prompts:
         blobs[f"/b/{p['id']}"] = src_of[p["id"]].read_bytes()
+    for rurl, mdp in report_srcs.items():          # U2: styled report pages
+        blobs[rurl] = mdp.read_bytes()
     lastmod = sitemap_lastmod(blobs)
     paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality",
              "/teams", "/partners"]
     paths += [f"/p/{pb['key']}" for pb in playbooks]
     paths += [f"/b/{p['id']}" for p in prompts]
+    paths += sorted(report_srcs)
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                + "".join(f"  <url><loc>{BASE}{u}</loc>"

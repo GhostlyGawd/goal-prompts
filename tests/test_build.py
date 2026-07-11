@@ -929,6 +929,90 @@ class MobileNavTests(unittest.TestCase):
             self.assertNotIn(".topnav .cta{display:none}", html, name)
 
 
+class ReportPagesTests(unittest.TestCase):
+    """U2 (BLINDSPOTS §4 P0-2): the proof surface must render reports as styled
+    pages, not raw-markdown text dumps. Covers the stdlib renderer, the /r/
+    generation, and the rewiring of every surface that used to link raw .md."""
+
+    def test_render_covers_the_constructs_reports_use(self):
+        md = ("# TITLE.md\n\n## A heading\n"
+              "Some **bold** and *italic* and `code` and a [link](https://x.io).\n\n"
+              "### Sub\n- one\n- two\n\n1. first\n2. second\n\n"
+              "> a quote\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n---\n\n"
+              "```\ncode block\n```\n")
+        h = build.render_report_md(md)
+        self.assertIn("<h2>A heading</h2>", h)
+        self.assertIn("<h3>Sub</h3>", h)
+        self.assertIn("<strong>bold</strong>", h)
+        self.assertIn("<em>italic</em>", h)
+        self.assertIn("<code>code</code>", h)
+        self.assertIn('href="https://x.io"', h)
+        self.assertIn("<ul><li>one</li><li>two</li></ul>", h)
+        self.assertIn("<ol><li>first</li><li>second</li></ol>", h)
+        self.assertIn("<blockquote>", h)
+        self.assertIn("<table>", h)
+        self.assertIn("<th>A</th>", h)
+        self.assertIn("<td>1</td>", h)
+        self.assertIn("<hr>", h)
+        self.assertIn("<pre><code>code block</code></pre>", h)
+
+    def test_leading_h1_title_is_dropped(self):
+        # the hero shows the filename; the body must not repeat it as a heading
+        h = build.render_report_md("# BUGS.md\n\n## Real\nbody\n")
+        self.assertNotIn("BUGS.md</h", h)
+        self.assertIn("<h2>Real</h2>", h)
+
+    def test_report_content_cannot_inject_markup(self):
+        h = build.render_report_md(
+            "## X\nplain <script>alert(1)</script> and <img src=x onerror=y>\n")
+        self.assertNotIn("<script>", h)
+        self.assertNotIn("<img", h)
+        self.assertIn("&lt;script&gt;", h)
+
+    def test_unknown_link_scheme_is_left_as_text(self):
+        h = build.render_report_md("[x](javascript:alert(1))\n")
+        self.assertNotIn("<a ", h)
+        self.assertIn("javascript", h)          # kept as escaped literal text
+
+    def test_report_slug_namespaces_venture(self):
+        self.assertEqual(build.report_slug("/reports/BUGS.md"), "bugs")
+        self.assertEqual(build.report_slug("/reports/SECURITY-AUDIT.md"),
+                         "security-audit")
+        self.assertEqual(build.report_slug("/examples/venture/DEMAND.md"),
+                         "venture-demand")
+
+    def test_report_page_has_breadcrumb_raw_link_and_back(self):
+        html = build.report_page("bugs", "BUGS.md", "# BUGS.md\n\nbody\n",
+                                 "/reports/BUGS.md")
+        self.assertIn("Sample reports", html)              # breadcrumb
+        self.assertIn('href="/reports/BUGS.md"', html)     # raw escape hatch
+        self.assertIn('href="/examples/"', html)           # back to the gallery
+        self.assertIn("<h1>BUGS.md</h1>", html)            # hero title
+
+    # ---- integration: the build produced styled pages and rewired every
+    # surface that used to point at a raw .md text dump ----
+    def test_styled_report_pages_are_generated(self):
+        for slug in ("bugs", "verdict", "venture-demand"):
+            p = build.ROOT / "r" / f"{slug}.html"
+            self.assertTrue(p.exists(), slug)
+            self.assertIn("report-prose", p.read_text(encoding="utf-8"))
+
+    def test_examples_gallery_links_styled_pages_not_raw_md(self):
+        html = (build.ROOT / "examples" / "index.html").read_text(encoding="utf-8")
+        self.assertNotIn('href="/reports/', html)
+        self.assertNotIn('href="/examples/venture/', html)
+        self.assertIn('href="/r/bugs"', html)
+        self.assertIn('href="/r/venture-verdict"', html)
+
+    def test_brief_detail_example_links_the_styled_page(self):
+        prompts = [build.parse(f)
+                   for f in sorted((build.ROOT / "prompts").rglob("*.md"))]
+        ex = next(p for p in prompts if p.get("example") == "/reports/BUGS.md")
+        html = build.brief_detail(ex, [], [])
+        self.assertIn("/r/bugs", html)
+        self.assertNotIn('href="/reports/BUGS.md"', html)
+
+
 class DetailPageTests(unittest.TestCase):
     def _prompts(self):
         return [build.parse(f)
