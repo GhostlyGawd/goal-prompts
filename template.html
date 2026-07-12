@@ -608,21 +608,21 @@
       <div class="ls-scene s2">
         <div class="ls-doc">
           <div class="ls-dochead"><span class="ls-file">→ BUGS.md</span><span class="ls-out">a file, saved in your project</span></div>
-          <div class="ls-reveal r1 ls-sum"><b>5 problems found</b> — 3 serious · 2 minor</div>
+          <div class="ls-reveal r1 ls-sum"><b>5 problems found</b> — 3 serious · 2 minor. One of them:</div>
           <div class="ls-reveal r2 ls-find">
             <div class="ls-meta"><span class="ls-sev">serious · certain</span><span class="ls-loc">template.html · openFromHash()</span></div>
-            <b>Shared links to newer items silently fail</b>
-            <p>Anyone following one hits a dead end. Suggested fix: two lines — widen one check.</p>
+            <b>Share a link to anything past item 99 — it opens nothing</b>
+            <p>Why: the link check only accepts two-digit numbers. Fix: widen that check — two lines.</p>
           </div>
-          <div class="ls-reveal r3 ls-fine">every problem: how bad · where exactly · how a user hits it · how to fix it</div>
+          <div class="ls-reveal r3 ls-fine">that’s the shape of every entry: how bad · where exactly · why it happens · how to fix it</div>
         </div>
-        <div class="ls-cap">You get it in writing. Every claim points at real code — this one’s real, <a href="/r/bugs">read it →</a></div>
+        <div class="ls-cap">Yours will be about <b>your</b> code — this example is from this site’s own audit of itself, <a href="/r/bugs">read it →</a></div>
       </div>
       <div class="ls-scene s3">
         <div class="ls-doc">
           <div class="ls-dochead"><b>Pick what gets fixed</b><span class="ls-out">a checklist · in your browser · no upload</span></div>
-          <div class="ls-reveal c1 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Shared links to newer items fail</div>
-          <div class="ls-reveal c2 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Shared links land hidden behind the menu bar</div>
+          <div class="ls-reveal c1 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Share links past item 99 open nothing</div>
+          <div class="ls-reveal c2 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Share links land hidden behind the menu bar</div>
           <div class="ls-reveal c3 ls-check unpicked"><span class="ls-box"></span><span class="ls-sev s3">minor</span> Copy button mislabels on a double-click</div>
           <div class="ls-reveal b1 ls-btn">Fix the 2 I picked</div>
         </div>
@@ -630,12 +630,12 @@
       </div>
       <div class="ls-scene s4">
         <div class="ls-doc">
-          <div class="ls-dochead"><span class="ls-file">→ fixed, with receipts</span><span class="ls-out">one change per problem, each one checked</span></div>
-          <div class="ls-reveal k1 ls-commit"><span class="ls-hash">683dff5</span> shared links to items 100–999 work <span class="ls-ok">✓ checked</span></div>
-          <div class="ls-reveal k2 ls-commit"><span class="ls-hash">f8ffa35</span> links no longer land hidden behind the bar <span class="ls-ok">✓ checked</span></div>
+          <div class="ls-dochead"><span class="ls-file">→ git log</span><span class="ls-out">one commit per problem, tests run after each</span></div>
+          <div class="ls-reveal k1 ls-commit"><span class="ls-hash">683dff5</span> share links past item 99 open correctly <span class="ls-ok">✓ tests pass</span></div>
+          <div class="ls-reveal k2 ls-commit"><span class="ls-hash">f8ffa35</span> links no longer land hidden behind the bar <span class="ls-ok">✓ tests pass</span></div>
           <div class="ls-reveal e1 ls-end">one prompt → written proof → <b>real fixes</b></div>
         </div>
-        <div class="ls-cap">The AI fixes exactly what you picked — and a log keeps the receipts, <a href="/r/fixlog">real ones →</a></div>
+        <div class="ls-cap">Each fix is its own commit, named after the problem — and a running file lists what changed, why, and how it was checked (<a href="/r/fixlog">this site’s own →</a>).</div>
       </div>
     </div>
     <div class="ls-rail" role="tablist" aria-label="The five steps">
