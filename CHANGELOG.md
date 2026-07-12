@@ -1,14 +1,17 @@
 # Changelog
 
 ## 0.20.0 — 2026-07-12
-- **The product, seen working (SHOWCASE F1, CREDIBILITY 1):** the landing
-  Proof section now opens with a real recorded session — `01 · Bug Hunt`
-  pasted into Claude Code inside **agentic-dev-os**, a repo this catalog was
-  not tuned on — in two real scenes: the session (sped up ~40×, label baked
-  into the frames, output unedited), then the report it filed, readable —
-  summary counts, finding #1 with severity, file:line, and the code. The
-  session ran under a read-only permission gate; its only write was the
-  report.
+- **The system, played end to end (SHOWCASE F1):** "How it works" gains an
+  animated five-scene walkthrough — Brief → Run → Report → Studio → Commits
+  — in the ledger's own voice: paper panels, ruled rows, mono metadata, one
+  vermilion accent. Auto-advances with clickable stage tabs, pauses on
+  hover/focus, honors prefers-reduced-motion (static on the Report scene).
+  Schematic on purpose and labeled as such — but every artifact in it is
+  real and linked: the BUGS.md finding (hash router), its severity and
+  location, and both fix commits (`683dff5`, `f8ffa35`) from this repo's
+  own FIXLOG. Self-contained HTML/CSS/JS; no assets, no dependencies. (The
+  earlier screen-recording experiment is retired — a real terminal at any
+  speed communicated nothing; the walkthrough shows the loop.)
 - **External dogfood (VERDICT act 3):** the Day-1 briefs, run unattended by
   coding agents against agentic-dev-os. Three reports committed unedited
   under `examples/agentic-dev-os/` and rendered at `/r/ado-*` like every
