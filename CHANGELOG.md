@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.17.0 — 2026-07-12
+## 0.18.0 — 2026-07-12
 - New family: **Mission — why does this exist?** The brownfield answer to
   intent drift. Where the Build family (141–144) gates a greenfield build on
   the template harness, Mission gives any existing repo a durable intent
@@ -36,6 +36,50 @@
   neighbor, 3:1+ on all pinned surfaces in both themes) and a compass
   symbol — added per the ADR-2 family recipe (brand.json categorical +
   `FAMILY_ORDER` + `FAM_ICON` + `<symbol>`).
+
+## 0.17.0 — 2026-07-12
+- **Loop-first positioning pass** — the site now leads with the strategy the
+  venture reports chose (POSITIONING.md Option A "own the audit loop";
+  COMPETITIVE §10 bet 1 "lead with the loop, not the catalog size"):
+  - Hero: the sub-head now carries the loop's ending ("a second paste turns
+    the findings into commits"), and the micro-line opens with
+    **brief → report → commits** instead of inventory counts. The H1 stays —
+    every report endorsed it.
+  - Meta/OG/Twitter descriptions rewritten out of the crowded "copy-paste
+    prompts for your agent" register (COMPETITIVE §7's camouflage warning)
+    and into the filed-report + loop claim.
+- **Reports are readable now (BLINDSPOTS P0-2):** every dogfood report in
+  `reports/` — and the three venture demo reports — renders as a styled
+  `/r/<slug>` page (ledger typography, ruled tables, provenance up top:
+  which brief wrote it, run against what, raw `.md` one click away). Built
+  by the new `report_page()`/`md_doc()` in build.py; `reports/` itself stays
+  untouched dogfood output. The examples gallery, the FIXLOG links, and
+  every brief's "see a real report" link now land on the rendered pages;
+  sitemap covers all 38.
+- **No nav link vanishes on mobile (BLINDSPOTS P0-1):** under 720px the nav
+  row scrolls (with an edge fade) instead of amputating How-it-works and
+  Catalog; Examples joins the nav on every surface. Same fix on the landing
+  page, the generated detail pages, and the examples gallery.
+- **Storefront curated (BLINDSPOTS F6, ADR-9):** exactly six featured
+  playbooks (Day-1, Triage & Fix, Face-Lift, Founder Funnel, Harden Before
+  Ship, Zero to Shipped); the long tail collapses behind a "more sequences"
+  disclosure; the sponsored/collab preview placeholders leave the landing
+  page entirely until real partners exist (they keep their `/p/` pages and
+  the /partners walkthrough). The hero and summary playbook count now counts
+  what the storefront shows (previews excluded).
+- **Trust orphans (BLINDSPOTS §5):** a real `SECURITY.md` policy at the root
+  (the old `/SECURITY.md` → audit-report redirect is retired in its favor);
+  the examples gallery gains a "how to read one of these" note (severity /
+  confidence grammar, verify-it-yourself guidance) and is re-cut to the
+  ledger (it still carried the pre-0.15 brand).
+- **README opens by selling the loop** — the problem, the method, a
+  60-second first report, and the dogfood proof, before any inventory —
+  keeping the lint-guarded count line and families table.
+- **docs/launch.md** — the positioning one-pager (distilled from
+  POSITIONING.md/VERDICT.md so copy stays on-register) plus the launch
+  runbook: maintainer checklist (raw-fetch counting on, npm publish, the
+  10–15s run clip, external dogfood), Show HN / awesome-list / r/ClaudeAI /
+  X drafts, and the week-after WTP test from VERDICT act 1.
 
 ## 0.16.0 — 2026-07-10
 - New brief: **145 Breadcrumb Audit** (Team) — walks the doc-and-tooling link
@@ -148,7 +192,6 @@
     test-pinned minimum distance across all 21 families; motion tokens named
     once; `j`/`k` keyboard navigation over visible catalog cards; family
     chips on cards where color was the only family signal.
->>>>>>> origin/main
 
 ## 0.13.0 — 2026-07-10
 - Landing-page redesign: calm, product-grade pass over the whole page.

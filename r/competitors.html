@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMPETITORS.md — a real audit report — Goal Prompts</title>
+<meta name="description" content="COMPETITORS.md — a real audit report, written by 63 · Competitor Teardown, run against this repo and committed unedited.">
+<meta property="og:title" content="COMPETITORS.md — a real audit report — Goal Prompts">
+<meta property="og:description" content="COMPETITORS.md — a real audit report, written by 63 · Competitor Teardown, run against this repo and committed unedited.">
+<meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
+<meta property="og:url" content="https://goal-prompts.vercel.app/r/competitors">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="COMPETITORS.md — a real audit report — Goal Prompts">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="twitter:title" content="COMPETITORS.md — a real audit report — Goal Prompts">
+<meta name="twitter:description" content="COMPETITORS.md — a real audit report, written by 63 · Competitor Teardown, run against this repo and committed unedited.">
+<meta name="theme-color" content="#15120D">
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://goal-prompts.vercel.app/r/competitors">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<link rel="stylesheet" href="/tokens.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--w-doc);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
+code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:.06em .34em;color:var(--text)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ink) 84%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;letter-spacing:-.02em;font-size:16px;color:var(--text)}
+.brand .mark{flex:none}
+.nav-links{display:flex;gap:20px;margin-left:8px;font-size:14px;color:var(--faint)}
+.nav-links a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.themetog{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
+.themetog:hover{color:var(--text);border-color:var(--line-3)}
+.themetog .ic{width:17px;height:17px}
+.themetog .moon{display:none}.themetog .sun{display:block}
+:root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
+@media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
+.nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
+.nav-cta:hover{filter:brightness(1.12)}
+/* BLINDSPOTS P0-1: no link may vanish on mobile — the row scrolls instead
+   (same treatment as the landing page) */
+@media(max-width:720px){.nav-links{gap:14px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap}}
+@media(max-width:480px){.nav-cta{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+
+/* breadcrumb + eyebrow */
+.crumb{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:24px 0 0;flex-wrap:wrap}
+.crumb a:hover{color:var(--dim)}
+.crumb .sep{opacity:.5}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+/* chips + badges */
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px}
+.chip .dot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-fg);background:var(--fc);border-radius:999px;padding:4px 10px}
+.badge.soft{background:color-mix(in srgb,var(--fc) 16%,var(--panel));color:var(--fc);border:1px solid color-mix(in srgb,var(--fc) 40%,transparent)}
+.out{font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+.out::before{content:"→ ";color:var(--fc)}
+
+/* hero */
+.dhero{position:relative;padding:30px 0 34px;border-bottom:1px solid var(--line);overflow:hidden}
+.dhero>*{position:relative}
+.dhero .id{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--fc);display:inline-flex;align-items:center;gap:8px}
+.dhero .id .ic{width:19px;height:19px}
+.dhero h1{font-family:var(--disp);font-size:clamp(30px,5.6vw,50px);font-weight:680;letter-spacing:-.03em;line-height:1.05;margin:12px 0 14px;color:var(--text)}
+.dhero .lede{font-size:clamp(16px,2.4vw,20px);color:var(--text);max-width:60ch;line-height:1.5}
+.dhero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.dhero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.dhero .offer{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.6}
+
+/* section scaffolding */
+section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,30px);font-weight:680;letter-spacing:-.02em;margin:9px 0 6px;color:var(--text)}
+.lead{color:var(--dim);max-width:64ch;font-size:16px}
+.prose{color:var(--text);font-size:16px;max-width:68ch}
+.prose p{margin:0 0 12px}
+.prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
+.prose strong{color:var(--text);font-weight:600}
+
+/* /r/ report documents (BLINDSPOTS P0-2): a whole rendered report, in the
+   ledger — ruled tables, mono metadata, hairline rules. Wider than .prose
+   because the reports carry real tables. */
+.report-doc{max-width:none;line-height:1.65}
+.report-doc h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,24px);font-weight:680;letter-spacing:-.02em;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--line-2);color:var(--text)}
+.report-doc h3{font-family:var(--disp);font-size:17px;font-weight:660;letter-spacing:-.01em;margin:24px 0 8px;color:var(--text)}
+.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
+.report-doc a{color:var(--fc);text-decoration:none}.report-doc a:hover{text-decoration:underline}
+.report-doc code{font-family:var(--mono);font-size:.86em;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1px 5px}
+.report-doc pre{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);padding:14px 16px;overflow-x:auto;margin:0 0 14px}
+.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.55}
+.report-doc blockquote{margin:0 0 14px;padding:10px 16px;border-left:2px solid var(--fc);background:var(--panel);color:var(--dim)}
+.report-doc blockquote p{margin:0}
+.report-doc hr{border:0;border-top:1px solid var(--line-2);margin:26px 0}
+.report-doc .tablewrap{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line-2);border-radius:var(--radius)}
+.report-doc table{border-collapse:collapse;width:100%;font-size:13.5px}
+.report-doc th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2);background:var(--panel)}
+.report-doc td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim);min-width:120px}
+.report-doc td:first-child,.report-doc th:first-child{padding-left:14px}
+.report-doc tr:last-child td{border-bottom:0}
+.report-doc td strong{color:var(--text)}
+
+/* method / phases */
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:var(--s5)}
+.phase{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:var(--radius);padding:16px 15px;position:relative}
+.phase .pn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.phase h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:5px 0 8px;letter-spacing:-.01em;color:var(--text)}
+.phase p{font-size:13px;color:var(--dim);line-height:1.5}
+.phase .step{position:absolute;top:-11px;right:13px;width:22px;height:22px;border-radius:6px;background:var(--fc);color:var(--btn-fg);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+@media(max-width:820px){.method{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.method{grid-template-columns:1fr}}
+
+/* lenses */
+.lenses{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:var(--s5)}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:13px;transition:border-color var(--dur-state),transform var(--dur-state)}
+.lens:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.lens .i{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--fc);flex:none;width:26px;height:26px;border-radius:7px;background:color-mix(in srgb,var(--fc) 14%,var(--panel-2));display:flex;align-items:center;justify-content:center}
+.lens h3{font-family:var(--disp);font-size:15px;font-weight:660;margin-bottom:3px;letter-spacing:-.01em;color:var(--text)}
+.lens p{font-size:13px;color:var(--dim);line-height:1.5}
+@media(max-width:640px){.lenses{grid-template-columns:1fr}}
+
+/* the report doc */
+.report{margin-top:var(--s5);background:var(--panel);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.report .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+.report .fname{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:600}
+.report .fname::before{content:"▸ ";color:var(--faint)}
+.report .doc{padding:6px 10px 14px}
+.report .row{display:flex;gap:13px;padding:12px 8px;border-radius:9px}
+.report .row+.row{border-top:1px solid var(--line)}
+.report .rn{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none;width:22px;text-align:right;font-weight:600}
+.report .rt{font-family:var(--disp);font-weight:640;font-size:14px;color:var(--text)}
+.report .rd{font-size:13px;color:var(--dim);margin-top:2px;line-height:1.45}
+.report .foot{padding:12px 16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* use / commands */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--s5)}
+.way{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-width:0}
+.way h3{font-family:var(--disp);font-size:14px;font-weight:660;margin-bottom:4px;color:var(--text)}
+.way .num{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
+.way p{font-size:13px;color:var(--dim);margin:2px 0 12px;line-height:1.5}
+.cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;overflow-x:auto;min-width:0}
+.cmd+.cmd{margin-top:8px}
+.cmd .cmdstep{flex:none;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fc)}
+.cmd code{flex:1;white-space:nowrap;min-width:0;background:none;border:0;padding:0;color:var(--text)}
+.cmd .cp{flex:none;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;cursor:pointer}
+.cmd .cp:hover{color:var(--text);border-color:var(--line-3)}
+.cmd .cp.done{color:var(--good);border-color:var(--good)}
+@media(max-width:760px){.ways{grid-template-columns:1fr}}
+
+/* full brief + rules */
+.full{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+.full summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:8px}
+.full summary::-webkit-details-marker{display:none}
+.full summary .chev{transition:transform var(--dur-move)}.full[open] summary .chev{transform:rotate(90deg)}
+.full pre{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text);background:var(--ink-2);border-top:1px solid var(--line);padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.rules{margin-top:var(--s5);background:color-mix(in srgb,var(--fc) 7%,var(--panel));border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 18px}
+.rules h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:9px}
+.rules ul{list-style:none;display:grid;gap:8px}
+.rules li{font-size:14px;color:var(--text);padding-left:20px;position:relative}
+.rules li::before{content:"→";position:absolute;left:0;color:var(--fc)}
+
+/* related + cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.pcard{display:block;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:15px 16px;transition:transform var(--dur-state),border-color var(--dur-state)}
+.pcard:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.pcard .pid{font-family:var(--mono);font-size:12px;color:var(--fc)}
+.pcard h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:3px 0 5px;letter-spacing:-.01em;color:var(--text)}
+.pcard p{font-size:13px;color:var(--dim);line-height:1.45}
+@media(max-width:640px){.cards{grid-template-columns:1fr}}
+.pblinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pblink{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px dashed var(--line-2);border-radius:999px;padding:8px 13px}
+.pblink:hover{color:var(--text);border-color:var(--fc)}
+.pblink .len{color:var(--faint)}
+
+/* playbook sequence map */
+.seq{display:flex;flex-direction:column;gap:0;margin-top:var(--s5)}
+.seqstep{display:flex;gap:14px;align-items:stretch}
+.seqstep .rail{display:flex;flex-direction:column;align-items:center;flex:none;width:30px}
+.seqstep .node{width:30px;height:30px;border-radius:9px;background:var(--panel);border:2px solid var(--fc);color:var(--fc);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+.seqstep .wire{flex:1;width:2px;background:var(--line-2);min-height:14px;margin:2px 0}
+.seqstep:last-child .wire{display:none}
+.seqcard{flex:1;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:11px;padding:13px 15px;margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;transition:transform var(--dur-state),border-color var(--dur-state)}
+.seqcard:hover{transform:translateX(3px);border-color:var(--line-2)}
+.seqcard .sid{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none}
+.seqcard .st{font-family:var(--disp);font-weight:640;font-size:15px;flex:1;min-width:120px;letter-spacing:-.01em;color:var(--text)}
+.seqcard .sq{font-size:12px;color:var(--faint);font-family:var(--mono)}
+
+/* partner / monetization */
+.partner{margin-top:24px;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:20px 22px}
+.partner .co{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:14px;color:var(--text);flex-wrap:wrap}
+.partner .co .x{color:var(--faint)}
+.partner .logo{width:34px;height:34px;border-radius:9px;background:var(--fc);color:var(--btn-fg);font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--disp)}
+.partner p{font-size:14px;color:var(--dim);margin:12px 0 14px;max-width:64ch;line-height:1.5}
+.note{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
+
+/* per-step copy on playbook sequence maps */
+.seqstep .stepcopy{flex:none;align-self:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;cursor:pointer;text-decoration:none}
+.seqstep .stepcopy:hover{color:var(--text);border-color:var(--line-3)}
+.seqstep .stepcopy.done{color:var(--good);border-color:var(--good)}
+
+/* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
+.gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+.gp-hint[hidden]{display:none}
+.gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint a{color:var(--fc);text-decoration:underline}
+.gp-hint b{color:var(--text)}
+.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun:disabled{opacity:.6;cursor:default}
+.gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+.gp-hint .x:hover{color:var(--text)}
+
+/* RETENTION R7 (R02): slim welcome-back strip for returning visitors —
+   built by gp-detail.js only when gp-runs has data, dismissible */
+.gp-wb{border-bottom:1px solid var(--line);background:var(--panel);font-size:13px;color:var(--dim)}
+.gp-wb .wrap{display:flex;align-items:center;gap:8px;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.gp-wb b{color:var(--text);font-weight:600}
+.gp-wb a{color:var(--fc,#C4CBD8);font-family:var(--mono);text-decoration:none;white-space:nowrap}
+.gp-wb a:hover{text-decoration:underline}
+.gp-wb .x{margin-left:auto;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.gp-wb .x:hover{color:var(--text)}
+
+/* footer */
+footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
+.foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
+.foot .cta-band h3{font-family:var(--disp);font-size:clamp(20px,3vw,26px);font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:8px}
+.foot .cta-band p{font-size:15px;max-width:52ch;margin:0 auto 18px}
+.foot .links{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
+.foot .links a:hover{color:var(--text)}
+.foot .fine{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<script>try{var _t=localStorage.getItem("gp-theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
+</head>
+<body class="">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-product" viewBox="0 0 24 24"><path d="M12 3 L13.7 10.3 L21 12 L13.7 13.7 L12 21 L10.3 13.7 L3 12 L10.3 10.3 Z"/></symbol>
+<symbol id="i-quality" viewBox="0 0 24 24"><ellipse cx="12" cy="13.5" rx="4" ry="5.3"/><circle cx="12" cy="7.5" r="2.1"/><path d="M8 12 L4.2 10 M8 14.5 L4 14.5 M8.2 17.5 L4.8 19.6 M16 12 L19.8 10 M16 14.5 L20 14.5 M15.8 17.5 L19.2 19.6 M10.6 6.2 L9.4 3.8 M13.4 6.2 L14.6 3.8"/></symbol>
+<symbol id="i-speed" viewBox="0 0 24 24"><path d="M4 17 A8 8 0 0 1 20 17"/><path d="M12 17 L16.5 11.5"/><circle cx="12" cy="17" r="1.3"/></symbol>
+<symbol id="i-trust" viewBox="0 0 24 24"><path d="M12 3 L20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z"/><path d="M8.8 12 L11 14.2 L15.4 9.4"/></symbol>
+<symbol id="i-growth" viewBox="0 0 24 24"><path d="M4 18 L10 12 L13.5 15 L20 7"/><path d="M15 7 L20 7 L20 12"/></symbol>
+<symbol id="i-clarity" viewBox="0 0 24 24"><path d="M2.5 12 C5 7.2 8.8 5.2 12 5.2 C15.2 5.2 19 7.2 21.5 12 C19 16.8 15.2 18.8 12 18.8 C8.8 18.8 5 16.8 2.5 12 Z"/><circle cx="12" cy="12" r="2.7"/></symbol>
+<symbol id="i-design" viewBox="0 0 24 24"><path d="M12 4 L7.5 20 M12 4 L16.5 20 M9.4 13.4 L14.6 13.4"/><circle cx="12" cy="4.4" r="1.5"/></symbol>
+<symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.9"/><path d="M5 6 V18 C5 19.7 8.1 21 12 21 C15.9 21 19 19.7 19 18 V6"/><path d="M5 12 C5 13.7 8.1 15 12 15 C15.9 15 19 13.7 19 12"/></symbol>
+<symbol id="i-ops" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6 V5.2 M12 18.8 V21.4 M2.6 12 H5.2 M18.8 12 H21.4 M5.4 5.4 L7.2 7.2 M16.8 16.8 L18.6 18.6 M18.6 5.4 L16.8 7.2 M7.2 16.8 L5.4 18.6"/></symbol>
+<symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="9" r="2.5"/><circle cx="16" cy="10" r="2"/><path d="M3.5 19 C3.5 15.4 5.8 13.8 9 13.8 C11 13.8 12.6 14.5 13.4 16 M13.6 19 C13.9 16 15.2 15 17 15 C19.2 15 20.5 16.6 20.5 19"/></symbol>
+<symbol id="i-subtract" viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="6.5" cy="17" r="2"/><path d="M8.2 8.2 L20 18 M8.2 15.8 L20 6 M8.4 12 L12.5 9"/></symbol>
+<symbol id="i-meta" viewBox="0 0 24 24"><path d="M12 4 L21 9 L12 14 L3 9 Z"/><path d="M3.5 13 L12 17.6 L20.5 13"/></symbol>
+<symbol id="i-act" viewBox="0 0 24 24"><path d="M13 3 L5.5 13 H11 L10 21 L18.5 10.5 H12.5 Z"/></symbol>
+<symbol id="i-agent" viewBox="0 0 24 24"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"/><circle cx="12" cy="12" r="2.5"/><path d="M12 5.2 V7.4"/></symbol>
+<symbol id="i-automation" viewBox="0 0 24 24"><path d="M6.5 9.5 A6 6 0 0 1 18 8.2"/><path d="M17.5 14.5 A6 6 0 0 1 6 15.8"/><path d="M18.4 4.6 L18.4 8.6 L14.4 8.4 M5.6 19.4 L5.6 15.4 L9.6 15.6"/></symbol>
+<symbol id="i-aiux" viewBox="0 0 24 24"><path d="M12 20 C6.2 15.6 4 12.2 4 9 C4 6.5 6 4.9 8.3 4.9 C9.9 4.9 11.3 5.9 12 7.1 C12.7 5.9 14.1 4.9 15.7 4.9 C18 4.9 20 6.5 20 9 C20 12.2 17.8 15.6 12 20 Z"/></symbol>
+<symbol id="i-venture" viewBox="0 0 24 24"><path d="M12 2.6 C15.2 5 16.8 9.2 16.8 13 L14 16 H10 L7.2 13 C7.2 9.2 8.8 5 12 2.6 Z"/><circle cx="12" cy="10" r="1.7"/><path d="M10 16 L7.8 20.4 M14 16 L16.2 20.4 M12 16.4 V20.6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5 M12 19V21.5 M2.5 12H5 M19 12H21.5 M5.2 5.2l1.8 1.8 M17 17l1.8 1.8 M18.8 5.2 17 7 M7 17l-1.8 1.8"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5 A8 8 0 0 1 9.5 4 A7 7 0 1 0 20 14.5 Z"/></symbol>
+</defs></svg>
+<header class="nav"><div class="nav-in wrap"><a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a><nav class="nav-links"><a href="/#how">How it works</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a><a href="/examples/">Examples</a></nav><div class="nav-right"><button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button><a class="nav-cta" href="/#start">Get started</a></div></div></header>
+<section class="dhero"><div class="wrap"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/examples/">Sample reports</a><span class="sep">/</span><span class="mono">COMPETITORS.md</span></div><h1 style="margin-top:14px">COMPETITORS.md</h1><p class="lede">A real report, written by <a href="/b/63">63 · Competitor Teardown</a>, run against this repo — dogfood output, committed unedited. This is the artifact every brief ends in: findings that cite their evidence, ranked by severity, with a fix sketch each.</p><div class="cta"><a class="btn btn-primary" href="/b/63">Run this audit on your repo</a><a class="btn btn-ghost" href="/reports/COMPETITORS.md">Raw COMPETITORS.md</a></div></div></section><section class="blk"><div class="wrap"><div class="prose report-doc"><p><em>Produced by brief 63 · Competitor Teardown, run against <strong>this repo's own venture: goal-prompts — a catalog of structured audit briefs for coding agents.</strong> Scoped from NICHE.md + DEMAND.md. All sources accessed 2026-07-10 unless dated otherwise. Directly-fetched primaries unmarked; general-web-search synthesis marked <strong>[secondary]</strong>.</em></p>
+<p><strong>Date:</strong> 2026-07-10</p>
+<p>Everyone below competes for one job — <em>"have my repo audited by the coding agent I already run"</em> — at four layers of the stack (NICHE.md §0). The money is proven one layer <strong>over</strong> (execution/outcomes), the attention one layer <strong>under</strong> (free catalogs at 23k–50k★), and goal-prompts is the 0★ entrant in the seam. Prices, star counts, and the CodeRabbit hero were re-verified live today; quotes I couldn't fetch first-hand are marked <strong>[secondary]</strong>, and the silence test is called at the end.</p>
+<h2>The matrix</h2>
+<div class="tablewrap"><table><thead><tr><th>Competitor · layer</th><th>Positioning (their words / page)</th><th>Price</th><th>Traction proxy</th><th>Source (2026-07-10)</th></tr></thead><tbody><tr><td><strong>CodeRabbit</strong> · execution</td><td><em>"Cut code review time &amp; bugs in half, instantly"</em> — AI PR review</td><td>Free · <strong>$24</strong>/user/mo Pro · <strong>$48</strong> Pro+ · Enterprise "Contact us"</td><td><em>"6M Repositories," "75M Defects found," "Most installed AI App," "Trusted by 15,000+ customers"</em>; Jensen Huang: <em>"We're using CodeRabbit all over NVIDIA"</em></td><td><code>coderabbit.ai</code>, <code>coderabbit.ai/pricing</code></td></tr><tr><td><strong>Greptile</strong> · execution</td><td><em>"Greptile Now Runs Your Code"</em> (TREX) — full-codebase-graph review</td><td>Free (50 credits) · <strong>$30</strong>/seat (50 credits, then <strong>$1</strong>/credit) · Enterprise custom</td><td>Series A led by Benchmark; <strong>~$180M</strong> val (DEMAND.md <strong>[secondary]</strong>); free for OSS, 50% off &lt;$2M-rev startups</td><td><code>greptile.com/pricing</code></td></tr><tr><td><strong>Qodo</strong> (ex-CodiumAI) · execution</td><td><em>"Code Quality that Scales with Your Team"</em></td><td><strong>$30</strong>/mo Pro Team (≤30 users, credits <strong>$0.012</strong> ea) · Enterprise custom (30+)</td><td>Customers on page: <strong>Intel, NVIDIA, Walmart, Intuit, Box, monday.com</strong>; ~1M dev users, ~100 staff (DEMAND.md/<strong>[secondary]</strong>)</td><td><code>qodo.ai/pricing</code></td></tr><tr><td><strong>hesreallyhim/awesome-claude-code</strong> · catalog</td><td><em>"A hand-picked collection of the finest resources… quality, security, originality"</em></td><td><strong>$0</strong>, curated list</td><td><strong>49,729★</strong>, 4,325 forks, <strong>613 open issues</strong>, pushed 2026-07-10</td><td>GitHub API (fetched)</td></tr><tr><td><strong>wshobson/agents</strong> · catalog</td><td><em>"Multi-harness agentic plugin marketplace for Claude Code, Codex CLI, Cursor, OpenCode, GitHub Copilot, Gemini CLI"</em></td><td><strong>$0</strong>, MIT</td><td><strong>37,762★</strong>, 4,048 forks, <strong>1</strong> open issue, pushed 2026-07-08</td><td>GitHub API (fetched)</td></tr><tr><td><strong>davila7/claude-code-templates</strong> (aitmpl) · catalog</td><td><em>"CLI tool for configuring and monitoring Claude Code"</em> — 100+ agents/commands/MCPs + dashboard</td><td><strong>$0</strong>, MIT</td><td><strong>28,745★</strong>, 3,156 forks, <strong>191 open issues</strong>, pushed 2026-07-10</td><td>GitHub API (fetched)</td></tr><tr><td><strong>VoltAgent/awesome-claude-code-subagents</strong> · catalog</td><td><em>"100+ specialized Claude Code subagents…"</em></td><td><strong>$0</strong>, sponsor-funded</td><td><strong>23,154★</strong>, 2,704 forks, pushed 2026-07-10</td><td>GitHub API (fetched)</td></tr><tr><td><strong>cursor.directory</strong> · catalog</td><td>Rules + MCP directory + jobs board for Cursor</td><td><strong>$0</strong> (jobs board)</td><td>~250k users/mo, 67k members (COMPETITIVE.md, HN #43412295) <strong>[secondary]</strong></td><td>Show HN #43412295</td></tr><tr><td><strong>claude-autopilot</strong> · catalog/upstart</td><td><em>"Every phase is an editable markdown skill. Not a black-box pipeline"</em></td><td><strong>$0</strong></td><td>Show HN, 2026-05-19 (DEMAND.md)</td><td>HN <code>item?id=48201112</code></td></tr><tr><td><strong>PromptBase</strong> · marketplace</td><td><em>"Prompt Marketplace"</em> — Image/Text/Video/<strong>Code</strong> categories, image-dominant</td><td>Prompts <strong>$1.99–9.99</strong>; Select <strong>$14–19</strong>/mo (DEMAND.md <strong>[secondary]</strong>)</td><td>Largest paid prompt marketplace; category cooling <strong>[secondary]</strong></td><td><code>promptbase.com/marketplace</code></td></tr><tr><td><strong>Anthropic <code>/security-review</code></strong> · platform</td><td><em>"AI-powered security review GitHub Action using Claude…"</em> — first-party, <code>.claude/commands</code>-installable</td><td><strong>$0</strong>, MIT (+ metered agent tokens)</td><td><strong>5,516★</strong>, 585 forks, <strong>76 open issues</strong>; created 2025-08-04, pushed <strong>2026-02-11</strong></td><td>GitHub API (fetched)</td></tr><tr><td><strong>Status quo</strong> · doing-nothing</td><td><em>"I keep a running doc of prompts that work well"</em> (sukit, HN)</td><td><strong>$0</strong></td><td>Ubiquitous default; the real competitor (NICHE.md §1)</td><td>HN <code>item?id=44362244</code></td></tr><tr><td><strong>goal-prompts</strong> <em>(the entrant)</em></td><td><em>"Turn your coding agent into a senior code auditor"</em> — 141 linted 4-phase audit briefs</td><td><strong>$0</strong>, MIT</td><td><strong>0★, 0 forks</strong> (as of COMPETITIVE.md 2026-07-09)</td><td><code>github.com/GhostlyGawd/goal-prompts</code></td></tr></tbody></table></div>
+<p>Also in-field but folded into prose below: <strong>Cursor rules</strong> and <strong>GitHub Copilot</strong> (platform primitives that ship the audit-instruction slot natively), and <code>rohitg00/awesome-claude-code-toolkit</code> (2,278★, DEMAND.md) as a second-tier catalog.</p>
+<h2>Positioning claims — the cluster</h2>
+<p>Three registers, and the whitespace between them:</p>
+<ul><li><strong>Execution vendors lead with the outcome + a number:</strong> <em>"cut… in half," "75M defects," "quality that scales."</em> They sell a metric, not a method. The word they all lean on is <strong>"review"</strong> — and increasingly <strong>"runs your code"</strong> (Greptile's TREX). <em>Grounding the finding</em> is their differentiation axis (CodeRabbit's "judge model," Greptile's codebase graph).</li><li><strong>Catalog vendors lead with a count + a format noun:</strong> <em>"100+ subagents," "92 plugins," "the finest collection."</em> Their free differentiation is <strong>size</strong>; the nouns they own are <strong>agents / subagents / templates / rules / awesome-list</strong> (COMPETITIVE.md §7).</li><li><strong>Platform leads with "first-party + free":</strong> <code>/security-review</code> needs no vendor — <em>"copy <code>security-review.md</code> into <code>.claude/commands/</code>"</em> (DEMAND.md).</li></ul>
+<p>The words <strong>nobody</strong> owns, and goal-prompts already half-claims: <strong>audit · brief · report · evidence.</strong> Every rival says "review" (a verb that ends when the comment is posted) or "agent/prompt" (an input); none says "audit that produces a filed report you can diff." That register is free — but its H1 currently dilutes back into the crowded <em>"copy-paste for Claude Code, Cursor, and any coding agent"</em> line (COMPETITIVE.md §7). Stop saying "prompt"; the tribe already stopped ("harness/context engineering," "prompt engineer" title down ~30%, NICHE.md <strong>[secondary]</strong>).</p>
+<h2>Feature &amp; pricing matrix — the packaging tricks, and what hides behind "Contact us"</h2>
+<p>The execution layer's tricks, from their own pages today:</p>
+<ul><li><strong>CodeRabbit meters <em>reviews per developer</strong></em> — Pro caps <strong>5</strong>, Pro+ <strong>10</strong>; MCP connections <strong>5 → 15</strong>; unit-test generation and merge-conflict resolution are Pro+-only; <strong>RBAC/SSO, API access, self-hosting, SLA, dedicated CSM all sit behind Enterprise "Contact us."</strong> The $24 headline is a throttled tier.</li><li><strong>Greptile meters <em>credits</strong></em> — 50/mo free and per seat, <strong>$1 per extra credit</strong>, and a "TREX review" burns <strong>3 credits</strong>. Self-hosting, SSO/SAML, GitHub Enterprise and a DPA are Enterprise-only. Discounting (OSS-free, 50%-off-startups) is the land-grab lever.</li><li><strong>Qodo meters <em>credits at $0.012</strong></em> (2,500 ≈ 18 reviews) and gates the actually-differentiating features — <strong>self-learning, cross-repo context, BYOK, on-prem, audit logs</strong> — behind Enterprise. The $30 "Pro Team" is a funnel to a demo.</li></ul>
+<p>The catalog layer has no pricing to trick: it is <strong>$0/MIT universally</strong> (NICHE.md §1). Its "packaging" is install friction — aitmpl's <code>npx … --agent X --yes</code> one-item install and VoltAgent's fetch-one skill are the norm; goal-prompts' installer/plugin is all-141-or-nothing (COMPETITIVE.md §3). The hidden cost the free tiers don't print: <strong>they ride metered agents</strong> — every <code>/security-review</code> or catalog run bills Anthropic/Cursor/Copilot by the token, which is why finance now sits in a $0 tool's buying room (NICHE.md §1).</p>
+<h2>Complaint synthesis — market truths vs per-vendor ceilings</h2>
+<p><strong>Market truth #1 — noise is the category disease.</strong> Across the execution layer the shared gripe is signal-to-noise: <em>"if your developers learn to ignore the bot, the bot stops helping."</em> Head-to-head benchmark writeups put <strong>Greptile at 11 false positives to CodeRabbit's 2</strong> (while Greptile caught 82% of bugs to CodeRabbit's 44%), and report teams on large repos triaging <strong>30–50% of Greptile's findings</strong> by hand <strong>[secondary]</strong>. CodeRabbit's own Trustpilot reviewers call the review <em>"really underwhelming… most suggestions completely irrelevant or unhelpful"</em> and <em>"recommending useless things out of context"</em> <strong>[secondary]</strong>. This is the whole market's ceiling: more findings ≠ more trust, and quarantining/commenting isn't fixing. It is <strong>the same "and then what?" the flaky-test sample found</strong> — the field converges on <em>detect → comment → dashboard</em> and buyers ask what changed.</p>
+<p><strong>Market truth #2 — the free catalogs drown their own users in inventory.</strong> The catalog layer's shared gripe is <em>sprawl and lifecycle</em>. First-hand on aitmpl today: <strong>#649 "How to uninstall completely a skill, agent, command, hooks…?"</strong>, <strong>#617 "local components manager dashboard with inventory, safe uninstall, and uninstall history,"</strong> <strong>#621 "Analytics dashboard shows 0 conversations on Windows despite thousands of valid JSONL files,"</strong> <strong>#631 "Support for <code>CLAUDE_CONFIG_DIR</code>"</strong> (<code>github.com/davila7/claude-code-templates/issues</code>, fetched). awesome-claude-code carries <strong>613 open issues</strong> and periodic "legacy" churn; VoltAgent/wshobson ship 100–200 units with no per-item quality gate. <strong>"More = better" is the sacred cow their own users are goring</strong> (NICHE.md §3).</p>
+<p><strong>Per-vendor ceilings:</strong></p>
+<ul><li><strong>CodeRabbit / Greptile / Qodo:</strong> the ceiling is <em>procurement and precision</em> — a new <strong>per-seat/credit line item</strong> that must out-signal free OSS tiers and the platform's own bundled review, on a noise problem none has solved. Qodo's tell is structural: it had to <strong>rebrand from CodiumAI (test-gen) and raise $40M Series A in Sept 2024</strong> to climb from a point tool into a "code-quality platform" <strong>[secondary]</strong> — the single-purpose niche didn't hold.</li><li><strong>aitmpl:</strong> the ceiling is <em>the tooling it chose to build</em> — a dashboard, analytics, Cloudflare tunnels — which contradicts "nothing leaves your machine" and shows the maintenance bill (#621 broken on Windows). Their management pain is the cost of features goal-prompts deliberately didn't build (COMPETITIVE.md §9).</li><li><strong>cursor.directory / rules:</strong> <em>flakiness and staleness</em> — <em>"the rules aren't any better… It doesn't really work,"</em> coverage gaps, newcomers asking how to even use a rule (HN #43412295, prior-fetched) <strong>[secondary]</strong>.</li><li><strong>Anthropic <code>/security-review</code>:</strong> the ceiling is <em>scope and neglect</em> — one narrow security prompt, <strong>76 open issues, and no push since 2026-02-11</strong> (fetched). The platform planted the flag and wandered off; that gap between first-party ambition and first-party upkeep is the entrant's oxygen.</li></ul>
+<p><strong>Honest evidence gap (the silence test):</strong> Reddit, G2 and Capterra hard-block fetch (consistent with DEMAND.md/NICHE.md), so the CodeRabbit/Greptile complaint quotes above are <strong>[secondary]</strong> (Trustpilot + benchmark writeups via search), not primaries. The aitmpl issues and every star count/pricing figure <strong>are</strong> first-hand. And the loudest silence remains: <strong>no one anywhere asks to <em>buy</em> a prompt catalog</strong> (DEMAND.md) — the catalog complaints are about managing free things, never about paying for a better one.</p>
+<h2>Traction proxies — ranked</h2>
+<ul><li><strong>CodeRabbit</strong> — the only competitor citing hard commercial scale: <strong>15,000+ customers, 6M repos, 75M defects, "most installed AI App,"</strong> named CTOs + Jensen Huang. Strongest signal in the set (<code>coderabbit.ai</code>, fetched).</li><li><strong>awesome-claude-code (49,729★)</strong> — the category's front door; still shipping daily (613 open issues = live curation debt <em>and</em> engagement).</li><li><strong>wshobson/agents (37,762★)</strong> — 4,048 forks, <strong>1</strong> open issue: tidy, heavily-forked, now explicitly multi-harness.</li><li><strong>Qodo</strong> — Intel/NVIDIA/Walmart logos + ~1M dev users <strong>[secondary]</strong>; the $40M Series A dates the money. <strong>aitmpl (28,745★)</strong> trails with <strong>191 open issues</strong> — the highest support-load-per-star here.</li><li><strong>VoltAgent (23,154★)</strong> + <strong>Greptile (~$180M val)</strong> — strong, each with an asterisk (sponsor-funded; noise reputation).</li><li><strong>Anthropic <code>/security-review</code> (5,516★)</strong> — small stars, infinite distribution (it's <em>in the product</em>); platform reach is the real proxy.</li><li><strong>goal-prompts (0★)</strong> — invisible. <strong>The headline gap is distribution and proof, not features</strong> (COMPETITIVE.md §1).</li></ul>
+<h2>The ignored segment</h2>
+<p>Every execution vendor's pricing and language points <strong>up-market</strong>: <em>"scales with your team," "institutional security,"</em> RBAC/SSO/SLA behind Enterprise, per-seat/credit meters. That excludes the exact population feeling the pain most acutely — the <strong>individual dev and the small/OSS team running Claude Code on a repo nobody's paying $24–48/seat to review.</strong> The free tiers toss them a bone (50 credits, OSS-free) precisely to convert them later. Meanwhile the catalog layer <em>includes</em> that dev but hands them a <strong>154-item pile to self-assemble</strong>, not a consistent audit. So the ignored segment is specific: <em>someone who wants a repeatable, evidence-producing audit, for $0, without babysitting a bot's false positives or curating a 100-agent inventory.</em> That segment isn't poor — it's the entire bottoms-up install base (NICHE.md's user≠buyer split) — it's merely <strong>unmonetizable per-seat, so everyone underserves the outcome and overserves either the enterprise or the catalog count.</strong></p>
+<h2>Release pulse</h2>
+<ul><li><strong>Catalog layer: sprinting.</strong> awesome-claude-code, aitmpl, and VoltAgent all pushed <strong>2026-07-10</strong>; wshobson <strong>2026-07-08</strong>. This is a knife-fight, not maintenance decay.</li><li><strong>Execution layer: sprinting on precision.</strong> Greptile shipped a <strong>v4</strong> aimed at noise (accepted-comment rate reportedly <strong>30%→43%</strong>, +74% accepted comments) and <strong>TREX</strong> ("now runs your code") <strong>[secondary]</strong>; CodeRabbit ships "Learnings" (stored false-positive corrections) and benchmark-marketing. The direction is unanimous: <strong>fix the noise, move from commenting toward acting.</strong></li><li><strong>Platform: coasting on the specific artifact.</strong> Anthropic's <code>/security-review</code> repo <strong>hasn't been pushed since 2026-02-11</strong> — but the <em>primitive</em> advanced around it (Agent Skills, dynamic workflows, 2026-05). Absorption is happening at the platform level, not in that one repo.</li><li><strong>PromptBase / marketplaces: in decline of thesis</strong> — <em>"browsing Stack Overflow when your IDE already has the answer,"</em> pivoting from prompt-sales to app-sales <strong>[secondary]</strong>.</li></ul>
+<h2>Moat inspection</h2>
+<div class="tablewrap"><table><thead><tr><th>Competitor</th><th>What actually protects it</th><th>Head start, or real moat?</th></tr></thead><tbody><tr><td><strong>CodeRabbit</strong></td><td>15k customers, PR-workflow integration, accumulated "Learnings" per repo, brand ("most installed")</td><td><strong>Real, mild</strong> — a data/relationship moat + distribution; assailable on noise &amp; price, not on logos</td></tr><tr><td><strong>Greptile / Qodo</strong></td><td>Codebase-graph / context-engine tech; enterprise contracts (Qodo)</td><td><strong>Head start</strong> — replicable capability; Qodo's rebrand proves the point tool wasn't defensible alone</td></tr><tr><td><strong>awesome-claude-code</strong></td><td>Curator authority + 49k-star network effect (the front door)</td><td><strong>Real, brand</strong> — hard to unseat as <em>the list</em>; but it curates, it doesn't build</td></tr><tr><td><strong>wshobson / VoltAgent / aitmpl</strong></td><td>Star count, fork base, codegen pipeline (wshobson), sponsor relationships (VoltAgent)</td><td><strong>Head start</strong> — forkable by definition (all MIT); the moat is attention, not code</td></tr><tr><td><strong>Anthropic <code>/security-review</code> + primitives</strong></td><td>It owns the rail — the agent, the plugin spec, the token meter</td><td><strong>The only deep moat in the field</strong> — and the absorption threat (NICHE.md weather)</td></tr><tr><td><strong>Status quo</strong></td><td>Inertia, $0, zero-setup, cultural entrenchment</td><td><strong>The hardest opponent</strong> — you beat another vendor by being better; you beat "just rerun it" only by being <em>effortless</em></td></tr></tbody></table></div>
+<h2>The kill zone — what each incumbent could copy fastest</h2>
+<ul><li><strong>Anthropic</strong> could ship a first-party <strong>audit-workflow catalog</strong> tomorrow — it already has <code>/security-review</code> + Agent Skills + dynamic workflows and the distribution to make it default. <strong>Weeks-to-quarters; most lethal.</strong> This is the kill zone the companion reports keep circling.</li><li><strong>awesome-claude-code</strong> could add an <em>"audits/briefs"</em> section curating goal-prompts' format in <strong>a day</strong> — but it curates links; it won't build the linter or the loop.</li><li><strong>aitmpl / wshobson</strong> could add "audit" agents with a 4-phase skeleton <strong>fast</strong> — the <em>format</em> is copyable in days. What they won't copy (against their own count-maximizing incentive): a <strong>machine-enforced quality gate that caps their catalog size</strong>, and a <strong>report→Fixer→FIXLOG execution loop</strong> nobody in the arena owns (COMPETITIVE.md §6).</li><li><strong>CodeRabbit</strong> could stand up a <strong>free OSS standing-audit action</strong> — but it fights their per-seat model, so they won't.</li></ul>
+<p><strong>Read:</strong> the brief <em>format</em> has no moat (copyable in days); the <strong>linter-enforced curation + published dogfood reports + the post-run loop</strong> are copyable-but-unincentivized for everyone except Anthropic — whose copy is the existential one.</p>
+<h2>Gap analysis</h2>
+<div class="tablewrap"><table><thead><tr><th>Gap</th><th>Evidence it's real</th><th>Why it's open (hard vs worthless)</th><th>Graveyard check</th></tr></thead><tbody><tr><td><strong>Own the post-run loop</strong> — report → checklist → one-commit-per-finding → FIXLOG</td><td>DEMAND.md Sub-pain C: users begging <em>Anthropic</em> for <em>"sharable and repeatable workflows… consistency of quality"</em>; every execution vendor stops at "comment," every catalog stops at "prompt"</td><td><strong>Open because hard</strong> — needs an opinionated report grammar + execution bridge + verification, not text; catalogs chase item count, vendors chase per-seat PR comments — neither is built to own "after the run"</td><td>No entrant owned prompt→report→commit; execution vendors own "fix" but black-box + per-seat. Underserved, empty <strong>[secondary on demand quotes: primary HN]</strong></td></tr><tr><td><strong>Verified curation</strong> — a machine-enforced quality bar vs catalog size</td><td>Rivals' own users goring "more=better": aitmpl #649/#617/#621 (uninstall/inventory/broken analytics), awesome-list 613 open issues, 100–200-item piles with no gate</td><td><strong>Open because unfashionable</strong> — a linter/CI gate <em>caps</em> your count, which fights the star-economy incentive (bigger list = more stars); it's against everyone's growth math, not technically hard</td><td>Curated-but-small lists stay hobby-scale; no one productizes a <em>gated</em> catalog. Underserved, open-against-incentive</td></tr><tr><td><strong>The $0 standing team audit</strong> — free counter to per-seat managed review</td><td>CodeRabbit/Greptile/Qodo all per-seat/credit ($24–48 / $30 / $30), language excludes solo+OSS+small teams; the ignored segment feels flakiness most</td><td><strong>Mixed</strong> — hard on the "produce consistent free output riding metered agents" axis; <strong>worthless-to-monetize</strong> on the revenue axis (the whole DEMAND.md/REVENUE.md finding: catalog price = $0)</td><td>The vendors' own <strong>free OSS tiers already occupy this floor</strong>; the pure-catalog layer has <strong>zero revenue</strong>. Underserved on <em>outcome</em>, unserved-<strong>for-a-reason</strong> on <em>money</em></td></tr><tr><td><strong>Re-badge off "prompt" → audit/brief/evidence</strong></td><td>Field renamed itself harness/context engineering (2026 conf theme); "prompt engineer" −30%; marketplaces cooling (<em>"Stack Overflow when your IDE already has the answer"</em>) <strong>[secondary]</strong></td><td><strong>Open because incumbents are anchored</strong> — everyone's SEO, repo name, and star history is staked to "agents/prompts/rules/templates"; abandoning your own winning noun is unfashionable, not hard</td><td>PromptBase &amp; peers are the graveyard of "sell the prompt" — survivors pivot to <em>apps</em> <strong>[secondary]</strong>. The noun itself is depreciating. Underserved positioning gap</td></tr><tr><td><em>Multi-harness native output (Cursor/Codex/Gemini)</em></td><td>wshobson already ships 5 harnesses; cursor.directory owns Cursor</td><td><strong>Unserved-for-a-reason as a <em>wedge</strong></em> — it's <strong>table stakes</strong> the leaders already fill, not a green field; matching Cursor is catch-up, chasing five is their strategy (COMPETITIVE.md §9)</td><td>Not a graveyard — a crowded field. Listed to show discipline: <strong>not</strong> a gap to build positioning on</td></tr></tbody></table></div>
+<h2>The wedge shortlist</h2>
+<p>The two-to-three a 0★ newcomer could actually win — each traces to something <strong>already in this repo</strong>, so it's execution, not a new build:</p>
+<ul><li><strong>Own "the audit loop."</strong> Lead with <strong>brief → report → Studio → 47·Fixer → FIXLOG</strong> as one motion, not with catalog size. It's the one gap <strong>open because it's hard</strong>, it answers the field's unanimous <em>"and then what?"</em>, and <strong>no rival owns post-run</strong> — the execution vendors black-box it per-seat, the catalogs stop at the prompt. <em>Risk:</em> it's the exact thing Anthropic could absorb first — ship it loud before the platform does. (Traces to <code>studio.html</code>, prompt 47, <code>FIXLOG.md</code>, <code>examples/</code>.)</li><li><strong>Publish the quality bar / verified curation.</strong> A "why these briefs don't rot" page: the linter, the CI gate, the 4k cap, the ask-first gate — aimed squarely at the category's noise-and-sprawl complaints (aitmpl inventory pain, Greptile false positives). It's the <strong>counter-belief no rival can claim</strong> because claiming it caps their count. <em>Risk:</em> it only bites once you have enough briefs and enough proof to matter — pair it with surfacing <code>/examples/</code> where a star count would sit. (Traces to <code>build.py</code> linter, <code>tests/test_build.py</code>.)</li><li><strong>Re-badge to audits/evidence + the $0 standing team audit.</strong> Stop competing as "a prompt catalog" (a depreciating noun in a cooling market) and take the unowned <em>audit/brief/evidence</em> register; package <code>run-brief.example.yml</code> + <code>GOAL_PROMPTS_BASE</code> as the <strong>free, private-catalog counter to CodeRabbit's per-seat</strong> for the ignored solo/OSS/small-team segment. <em>Risk:</em> the free tiers of the paid vendors already sit on this floor and it carries no revenue — win <em>distribution and trust</em> here, then monetize adjacent (sponsorship/private catalogs), never at the tollgate (NICHE.md §3, REVENUE.md).</li></ul>
+<p><em>Report only — which gap should we build positioning around?</em></p></div></div></section><footer class="foot"><div class="wrap"><div class="cta-band"><h3>Get a report like this on your own repo</h3><p>Copy a brief, paste it into your agent, and read what it files. Free, no signup, nothing leaves your machine.</p><div class="row"><a class="btn btn-primary" href="/#catalog">Browse the catalog</a><a class="btn btn-ghost" href="/studio">Open the Report Studio</a></div></div><div class="links"><a href="/">Home</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a><a href="/vitals">Vitals Viewer</a><a href="/examples/">Sample reports</a><a href="/quality">Why briefs don't rot</a><a href="/changelog">Changelog</a><a href="/teams">For teams</a><a href="/partners">Partners</a><a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div><p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · works with Claude Code, Cursor, Copilot &amp; any coding agent</p></div></footer>
+<script src="/js/gp-detail.js"></script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F2EFE6":"#15120D");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+</body>
+</html>

@@ -1921,7 +1921,6 @@
    "badge": "Ends in commits",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-uioverhaul.md",
    "desc": "The interaction-and-UI sweep: navigation, menus, every interactive state, the empty screens, and the icon language — then the Fixer turns the findings into verified commits.",
-   "featured": true,
    "ids": [
     "129",
     "130",
@@ -2019,7 +2018,6 @@
    "badge": "Conversion",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-ecommerce.md",
    "desc": "Optimize the whole funnel for a first-time visitor: audit every conversion surface, then cut friction, sharpen the visual hierarchy, tighten the copy, and make it findable — and the Fixer ships the highest-leverage lifts as commits.",
-   "featured": true,
    "ids": [
     "75",
     "09",
@@ -2038,7 +2036,6 @@
    "badge": "Every surface",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-experience.md",
    "desc": "Get it, want it, keep it — walk every surface a visitor meets and optimize the whole experience: does a newcomer understand it, are the benefits shown not told, do the conversion surfaces and their proof earn the yes, does the first session land a win, and does anything bring them back — then the Fixer ships the biggest lifts as commits.",
-   "featured": true,
    "ids": [
     "76",
     "77",
@@ -2058,7 +2055,6 @@
    "badge": "Themed",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipit.md",
    "desc": "A limited, themed sprint for launch season — hunt the bugs, lock the doors, make it fast, rehearse the bad day, and get found. One themed bundle, five reports, ready to ship.",
-   "featured": true,
    "ids": [
     "01",
     "06",
@@ -2153,7 +2149,6 @@
    "badge": "Ends in commits",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-shipapi.md",
    "desc": "Everything a developer meets when they build on you: webhooks, the SDK, versioning, rate limits, and the first-hour docs — then the Fixer ships the fixes as commits.",
-   "featured": true,
    "ids": [
     "111",
     "112",
@@ -2282,7 +2277,6 @@
    "badge": "New",
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-buildloop.md",
    "desc": "From go verdict to shipped product, in the repo you're standing in: put it on rails, write the machine-checkable spec, implement it test-first one verified commit at a time, then face the adversarial ship gate.",
-   "featured": true,
    "ids": [
     "141",
     "142",
