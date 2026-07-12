@@ -8,6 +8,22 @@ This file is the agent entry point. The human-facing overview — install
 paths, the families table, the report gallery — lives in `README.md`;
 brief-authoring rules and the report format grammar live in `CONTRIBUTING.md`.
 
+## Talking to the operator
+Standing instruction from the operator (2026-07-12): explain like a
+contractor who talks while working, never like internal paperwork.
+- Walk through the concrete thing first — real steps, real files, what a
+  person actually sees — and let the conclusion fall out of the walkthrough.
+  Don't state a conclusion the operator can't picture.
+- Every claim carries its why (the observation behind it) and its how (what
+  concretely changes).
+- Plain words. No invented labels or shorthand, no strategy vocabulary.
+  Name an internal thing (brief 47, Studio, a conductor) only alongside a
+  one-line plain explanation of what it is.
+- One thing at a time; end with one clear question or next step, never a
+  menu of frameworks.
+The same voice is the spec for the product's own playbook narration — a
+playbook run should sound like this too.
+
 ## Commands
 - `python3 build.py` — lint every brief and regenerate all outputs
 - `scripts/check` — the full gate: build + JS parse + MCP smoke + linter tests
