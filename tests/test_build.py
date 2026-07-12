@@ -996,9 +996,16 @@ class StaticCatalogTests(unittest.TestCase):
         playbooks = json.loads(
             (build.ROOT / "playbooks.json").read_text(encoding="utf-8"))
         linked = set(_re.findall(r'href="/p/([\w-]+)"', self._static_index()))
-        missing = {pb["key"] for pb in playbooks} - linked
+        missing = {pb["key"] for pb in playbooks
+                   if not pb.get("preview")} - linked
         self.assertEqual(missing, set(),
                          "playbooks with no static homepage link")
+        # previews stay off the landing storefront (ADR-9) but must remain
+        # statically reachable — /partners carries their /p/ links
+        partners = (build.ROOT / "partners.html").read_text(encoding="utf-8")
+        for pb in playbooks:
+            if pb.get("preview"):
+                self.assertIn(f'href="/p/{pb["key"]}"', partners, pb["key"])
 
     def test_static_list_groups_by_family_with_taglines(self):
         # useful with JS off: family heading + question, title + tagline
@@ -1159,7 +1166,11 @@ class HeadingHierarchyTests(unittest.TestCase):
     def test_site_css_styles_the_promoted_headings(self):
         for sel in (".lens h3", ".way h3", ".rules h3", ".pcard h3"):
             self.assertIn(sel, build.SITE_CSS)
-        self.assertNotIn("h4", build.SITE_CSS)
+        # components never style h4 — the one exception is the /r/ document
+        # renderer (.report-doc), where reports legitimately nest that deep
+        for line in build.SITE_CSS.splitlines():
+            if "h4" in line:
+                self.assertIn(".report-doc", line, line)
 
 
 class PlaybookOgTests(unittest.TestCase):
@@ -1304,7 +1315,7 @@ class QualityPageTests(unittest.TestCase):
         self.assertIn("blob/main/build.py", html)              # the linter source
         self.assertIn(".github/workflows/ci.yml", html)        # the CI gate
         self.assertIn("/examples/", html)                      # dogfooding
-        self.assertIn("/FIXLOG.md", html)
+        self.assertIn("/r/fixlog", html)
 
     def test_quality_page_count_tracks_the_catalog(self):
         prompts = self._prompts()
@@ -1567,7 +1578,7 @@ class ProofLoopTests(unittest.TestCase):
 
     def test_proof_wires_the_loop_links(self):
         pipe = self._pipe_block()
-        for href in ("/studio", "/examples", "FIXLOG.md", "/b/47"):
+        for href in ("/studio", "/examples", "/r/fixlog", "/b/47"):
             self.assertIn(href, pipe, href)   # Studio, reports, FIXLOG, Fixer
 
     def test_proof_stages_appear_in_loop_order(self):

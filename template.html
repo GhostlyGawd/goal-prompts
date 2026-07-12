@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Goal Prompts — turn your coding agent into a senior code auditor</title>
-<meta name="description" content="Copy-paste audit briefs for Claude Code, Cursor, and any coding agent. Each runs the same four-phase audit — explore, audit, curate, report — and leaves one evidence-backed report in your repo. __N_BRIEFS__ briefs across __N_FAMILIES__ families. Free and open.">
+<meta name="description" content="Point your coding agent at your repo and get back a filed, evidence-backed report — the same four-phase audit every run — then turn its findings into commits. __N_BRIEFS__ briefs for Claude Code, Cursor, and any coding agent. Free and open; nothing leaves your machine.">
 <meta property="og:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
-<meta property="og:description" content="Point your agent at your repo. Each brief runs a rigorous four-phase audit and leaves one evidence-backed report you can act on. __N_BRIEFS__ briefs, __N_PLAYBOOKS__ playbooks, free and open.">
+<meta property="og:description" content="Point your agent at your repo. Get back one evidence-backed report — same four phases every run — then turn the findings into commits. Audits that end in commits, not chat scrollback.">
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app">
 <meta property="og:type" content="website">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
 <meta name="twitter:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
-<meta name="twitter:description" content="Point your agent at your repo. Each brief runs a rigorous four-phase audit and leaves one evidence-backed report you can act on. __N_BRIEFS__ briefs, __N_PLAYBOOKS__ playbooks, free and open.">
+<meta name="twitter:description" content="Point your agent at your repo. Get back one evidence-backed report — same four phases every run — then turn the findings into commits. Audits that end in commits, not chat scrollback.">
 <meta name="theme-color" content="#15120D">
 <link rel="canonical" href="https://goal-prompts.vercel.app/">
 <link rel="manifest" href="/manifest.json">
@@ -68,7 +68,8 @@
   :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
   .nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.04em;padding:8px 14px;border-radius:var(--r-sm)}
   .nav-cta:hover{border-color:var(--fc);color:var(--fc)}
-  @media(max-width:720px){.nav-links{gap:12px}.nav-links .mh{display:none}}
+  /* BLINDSPOTS P0-1: no link may vanish on mobile — the row scrolls instead */
+  @media(max-width:720px){.nav-links{gap:12px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap}}
   @media(max-width:480px){.nav-cta{display:none}}
 
   /* ---------- buttons ---------- */
@@ -103,6 +104,7 @@
   .hero .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:30px}
   .hero .micro{margin-top:20px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .hero .micro b{color:var(--dim);font-weight:500}
+  .hero .micro .looparc{color:var(--fc);font-weight:600;letter-spacing:.02em}
 
   /* the hero artifact: a REAL finding from this repo's own BUGS.md */
   .hero-doc{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:0 1px 0 var(--line-2),0 24px 60px -48px rgba(0,0,0,.6);min-width:0}
@@ -204,7 +206,15 @@
   .storecard .cc.done{color:var(--good);border-color:var(--good)}
   @media(max-width:860px){.store{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.store{grid-template-columns:1fr}}
-  .morepb{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;align-items:center}
+  /* T5 (BLINDSPOTS F6): the long tail collapses — six cards up front, the
+     rest one disclosure away, so first contact isn't a wall of 30 pills */
+  .morewrap{margin-top:20px}
+  .morewrap summary{cursor:pointer;padding:7px 0;font-family:var(--mono);font-size:12.5px;color:var(--faint);list-style:none;display:flex;align-items:center;gap:8px;transition:color .15s}
+  .morewrap summary:hover{color:var(--text)}
+  .morewrap summary::-webkit-details-marker{display:none}
+  .morewrap summary .chev{transition:transform var(--dur-move);display:inline-block;color:var(--fc)}
+  .morewrap[open] summary .chev{transform:rotate(90deg)}
+  .morepb{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
   .morelab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-right:4px}
   .pb-pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:transparent;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:7px 12px}
   .pb-pill:hover{color:var(--text);border-color:var(--line-3)}
@@ -449,10 +459,11 @@
 <header class="nav"><div class="nav-in wrap">
   <a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a>
   <nav class="nav-links">
-    <a href="#how" class="mh">How it works</a>
-    <a href="#catalog" class="mh">Catalog</a>
+    <a href="#how">How it works</a>
+    <a href="#catalog">Catalog</a>
     <a href="#playbooks">Playbooks</a>
     <a href="/studio">Studio</a>
+    <a href="/examples/">Examples</a>
   </nav>
   <div class="nav-right">
     <button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button>
@@ -465,12 +476,12 @@
   <div class="hero-in">
     <p class="eyebrow">A free, open catalog of audit briefs for coding agents</p>
     <h1 class="title">Turn your coding agent into a <em>senior code auditor</em>.</h1>
-    <p class="sub">Every brief is a ready-to-run audit that follows the same four-phase method — explore, audit, curate, report — and files <b>one evidence-backed report</b> at your repo root. Paste it into Claude Code, Cursor, or any agent.</p>
+    <p class="sub">Every brief is a ready-to-run audit that follows the same four-phase method — explore, audit, curate, report — and files <b>one evidence-backed report</b> at your repo root. Paste it into Claude Code, Cursor, or any agent; a second paste turns the findings into commits.</p>
     <div class="cta">
       <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
       <a class="btn btn-ghost" href="#how">How it works</a>
     </div>
-    <div class="micro"><b id="herostat">__N_BRIEFS__ briefs · __N_PLAYBOOKS__ playbooks</b> · free &amp; open__GH_STARS_HERO__ · no signup · nothing leaves your machine</div>
+    <div class="micro"><span class="looparc">brief → report → commits</span> · <b id="herostat">__N_BRIEFS__ briefs</b> · free &amp; open__GH_STARS_HERO__ · no signup · nothing leaves your machine</div>
     <!-- PROOF NF3 (R25): the honest substitute for a star count, where rivals put theirs -->
     <div class="micro microproof"><a href="/examples/">run against this repo’s own code — read the reports →</a></div>
     <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first brief</b> — paste it in your agent</button>
@@ -492,7 +503,7 @@
   <div class="kicker"><span class="kno">01</span>The problem</div>
   <h2 class="h2">“Review my repo” gets a different answer every time.</h2>
   <p class="lead">Point an agent at your own code and you get a wall of vibes one run, a shrug the next. The fix isn’t a bigger model — it’s structure: a brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind.</p>
-  <p class="turn">Every brief here is tested on this repo before it ships. <a href="/examples/">The reports are public</a>, and the <a href="/reports/FIXLOG.md">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
+  <p class="turn">Every brief here is tested on this repo before it ships. <a href="/examples/">The reports are public</a>, and the <a href="/r/fixlog">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
 </div></section>
 
 <!-- ============ HOW IT WORKS ============ -->
@@ -501,7 +512,7 @@
   <h2 class="h2">One method. Every audit.</h2>
   <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every brief walks the same arc. That’s what makes the output consistent and repeatable.</p>
   <!-- R50 (COMPETITIVE §10 bet 1): lead with the loop — every rival stops at "here's a prompt"; this catalog owns what happens after the run -->
-  <p class="loopline">The loop: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/reports/FIXLOG.md">FIXLOG</a></b> — audits that end in commits, not chat scrollback. <a href="/quality">Why these briefs don’t rot →</a></p>
+  <p class="loopline">The loop: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/r/fixlog">FIXLOG</a></b> — audits that end in commits, not chat scrollback. <a href="/quality">Why these briefs don’t rot →</a></p>
   <div class="pipe">
     <div class="pnode n1"><div class="dot">1</div><h3>Explore</h3><p>The agent maps the repo and finds where the risk actually lives.</p></div>
     <div class="pnode n2"><div class="dot">2</div><h3>Audit</h3><p>It sweeps through a fixed set of expert lenses, citing file &amp; line.</p></div>
@@ -604,7 +615,10 @@
   <!-- R28 (SEO-1): static storefront from build.py — every playbook page
        linked without JS; renderFeatured() swaps in the interactive cards -->
   <div class="store" id="featured">__STATIC_PB_FEATURED__</div>
-  <div class="morepb" id="morepb">__STATIC_PB_MORE__</div>
+  <details class="morewrap">
+    <summary><span class="chev">▸</span> more sequences — browse all __N_PLAYBOOKS__ playbooks</summary>
+    <div class="morepb" id="morepb">__STATIC_PB_MORE__</div>
+  </details>
 </div></section>
 
 <div class="copyhint" id="copyhint" role="status" hidden><span id="copyhinttext"></span><button class="x" id="copyhintx" type="button" aria-label="Dismiss">×</button></div>
@@ -667,7 +681,7 @@
     <div class="pnode n2"><div class="dot">2</div><h3>Report</h3><p>It files one evidence-backed report at your repo root — the real ones are in the <a href="/examples/">sample gallery</a>.</p></div>
     <div class="pnode n3"><div class="dot">3</div><h3>Studio</h3><p>The <a href="/studio">Report Studio</a> loads those reports as a findings checklist, entirely in your browser.</p></div>
     <div class="pnode n4"><div class="dot">4</div><h3>Fixer</h3><p>One tap turns the findings you checked into a targeted <a href="/b/47">Fixer</a> prompt.</p></div>
-    <div class="pnode n5"><div class="dot">→</div><h3>FIXLOG</h3><p>Shipped fixes land as commits, each traced back to its finding in the <a href="/reports/FIXLOG.md">FIXLOG</a>.</p></div>
+    <div class="pnode n5"><div class="dot">→</div><h3>FIXLOG</h3><p>Shipped fixes land as commits, each traced back to its finding in the <a href="/r/fixlog">FIXLOG</a>.</p></div>
   </div>
   <div class="proof">
     <div class="proofcard">
@@ -1150,12 +1164,9 @@ function renderFeatured(){
   const more = document.getElementById("morepb");
   if(more){
     more.textContent = "";
-    const rest = feat.slice(6).concat(PLAYBOOKS.filter(pb => !pb.featured));
-    if(rest.length){
-      const lab = document.createElement("span");
-      lab.className = "morelab"; lab.textContent = "more sequences";
-      more.append(lab);
-    }
+    /* ADR-9: preview (sponsored/collab) placeholders stay off the landing
+       storefront — mirrors static_playbooks() in build.py */
+    const rest = feat.slice(6).concat(PLAYBOOKS.filter(pb => !pb.featured && !pb.preview));
     for(const pb of rest){
       const first = byId[pb.ids[0]];
       const a = document.createElement("a");
@@ -1176,7 +1187,7 @@ function renderStats(){
   const n = runCount();
   el.textContent = n > 0
     ? DATA.length + " briefs · " + n + " run here"
-    : DATA.length + " briefs · " + PLAYBOOKS.length + " playbooks";
+    : DATA.length + " briefs";
 }
 
 /* ---- chips ---- */
