@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.19.0 — 2026-07-12
+- **Playbook runs talk like a contractor now** (the operator's F1/F2
+  findings in CHARTER.md, plus the ratified charter-as-input ruling).
+  Every conductor — all 39 playbooks and every family sequence — now:
+  reads `CHARTER.md` first when the repo has one (its goals, non-goals,
+  and invariants bound every stage's recommendations); tells the operator
+  what the run will do and asks for a go-ahead before stage 1; narrates
+  every stage handoff in two or three plain sentences instead of
+  advancing in silence; and ends with one ranked plain-words list of the
+  strongest findings plus the offer to run 47 · The Fixer on exactly the
+  operator's picks — no report-reading and no Studio required to act
+  (reports stay on disk as the paper trail). Same text in all three
+  implementations (build.py, mcp/server.cjs, js/catalog-core.js); four
+  new canonical sentences added to the mcp-smoke parity guard.
+
 ## 0.18.0 — 2026-07-12
 - New family: **Mission — why does this exist?** The brownfield answer to
   intent drift. Where the Build family (141–144) gates a greenfield build on
