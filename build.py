@@ -31,10 +31,10 @@ DEFAULT_BASE = "https://goal-prompts.vercel.app"
 BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
 CONDUCTOR_CAP = 16  # max stages in one conductor (mcp/server.cjs matches this)
-FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Compliance",
-                "Growth", "Team", "API", "Clarity", "Design", "Data", "Ops",
-                "Reliability", "Subtract", "Meta", "Act", "Build", "Agent",
-                "Automation", "AI-UX", "AI-Ethics"]
+FAMILY_ORDER = ["Venture", "Mission", "Product", "Quality", "Speed", "Trust",
+                "Compliance", "Growth", "Team", "API", "Clarity", "Design",
+                "Data", "Ops", "Reliability", "Subtract", "Meta", "Act",
+                "Build", "Agent", "Automation", "AI-UX", "AI-Ethics"]
 # family colors — the structural signature: color = family, everywhere.
 # The values live in design-engine/brand.json (palette.categorical); og.py
 # keeps importing build.FAMILY_COLORS, and the compiled tokens.css carries
@@ -60,8 +60,10 @@ DATED_REPORT_EXEMPT = {"47"}
 # primary finding (02 missing tests, 16 missing docs). 06 belongs here too:
 # every repo has an attack surface — its own supply chain, secrets in git,
 # config — so a "no attack surface" escape could never truthfully fire.
+# 149 (the charter) is the same species: every repo has an intent to state,
+# and intent that exists nowhere is exactly what the brief exists to fix.
 NULL_REPORT_EXEMPT = {"00", "01", "02", "06", "13", "16", "26", "27", "28",
-                      "29", "46", "47"}
+                      "29", "46", "47", "149"}
 
 
 def sort_key(p: dict) -> tuple:
@@ -219,19 +221,25 @@ You are working inside this repo. Mission: execute the **{pb['name']}** playbook
 
 {pb['desc']}
 
+## Before stage 1
+- If `CHARTER.md` exists at the repo root or in `reports/`, read it first — its goals, non-goals, and invariants bound every recommendation in every stage. No charter? Proceed, and suggest 149 · The Charter afterwards.
+- Before fetching stage 1, tell the operator in plain words what this playbook will do — one line per stage — and ask for the go-ahead.
+
 ## How to run each stage, in order
 1. Fetch the brief with a read-only web request (for example: curl -s <url>).
 2. If your harness can run subagents or fresh sessions, run each stage in one — a stage needs only the earlier report files at the repo root and in `reports/`, never this conversation.
 3. Execute it exactly as written. Every brief is read-only toward the codebase; its only write is its own report file.
 4. Confirm the report file exists (at the repo root or in `reports/`) before moving on.
-5. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
+5. After each stage, tell the operator in two or three plain sentences what it found — the single biggest finding and why it matters for this repo — and what comes next; never advance in silence.
+6. Proceed to the next stage. Do not parallelize — later briefs may draw on earlier reports.
 
 ## Stages
 {chr(10).join(stages)}
 
 ## After the final stage
-- List every report created, with a one-line takeaway each.
-- Suggest the natural next step: fetch {BASE}/raw/28.md (Roadmap Synthesis) to merge the reports at the repo root and in `reports/` into one sequenced plan.
+- Present the strongest findings across every report as one ranked list, in plain words — each with why it matters for this repo; the operator should not need to open a report file to act.
+- Then ask which findings to fix. Unless 47 · The Fixer already ran as a stage of this playbook, offer to fetch {BASE}/raw/47.md and implement exactly the operator's picks — one verified commit per finding. The report files stay on disk as the paper trail.
+- Prefer a merged plan instead? Fetch {BASE}/raw/28.md (Roadmap Synthesis) to fold the reports at the repo root and in `reports/` into one sequenced plan.
 
 ## Rules
 - If a fetch fails, retry once; if it still fails, use the locally installed /goal:<slug> (or /goal-<slug>) command or the goal-prompts MCP get_brief tool for that stage; if neither exists, say so and stop — never improvise a brief from memory.

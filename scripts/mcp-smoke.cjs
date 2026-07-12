@@ -37,6 +37,13 @@ const CANONICAL = [
   "Confirm the report file exists (at the repo root or in `reports/`) before moving on.",
   "If a stage's report already exists (at the repo root or in `reports/`), ask whether to re-run or skip that stage.",
   "A conductor caps at 16 stages — for a longer campaign, split it into two conductors and run them back-to-back.",
+  // contractor-voice pins (CHARTER.md operator findings F1/F2 + ratified
+  // charter-as-input): read the charter, introduce the run, narrate every
+  // stage, end with a ranked plain-words list — no report-reading to act.
+  "If `CHARTER.md` exists at the repo root or in `reports/`, read it first — its goals, non-goals, and invariants bound every recommendation in every stage. No charter? Proceed, and suggest 149 · The Charter afterwards.",
+  "Before fetching stage 1, tell the operator in plain words what this playbook will do — one line per stage — and ask for the go-ahead.",
+  "After each stage, tell the operator in two or three plain sentences what it found — the single biggest finding and why it matters for this repo — and what comes next; never advance in silence.",
+  "Present the strongest findings across every report as one ranked list, in plain words — each with why it matters for this repo; the operator should not need to open a report file to act.",
 ];
 ["build.py", "mcp/server.cjs", "js/catalog-core.js"].forEach(function (f) {
   const src = fs.readFileSync(path.join(ROOT, f), "utf8");

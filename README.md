@@ -3,7 +3,7 @@
 **Point your coding agent at your repo and get back evidence, not vibes.**
 
 "Review my repo" gets a different answer every time — a wall of opinions one
-run, a shrug the next. A **brief** fixes that: 149 mission briefs for Claude
+run, a shrug the next. A **brief** fixes that: 152 mission briefs for Claude
 Code (or any coding agent), each a ready-to-run audit that walks the same
 4-phase method — **Explore → Audit → Curate → Report** — and files one
 evidence-backed report at your repo root. Every finding cites file and line,
@@ -167,6 +167,7 @@ Curated sequences on the site, for when you don't want to choose:
 | Retrieval Tune-Up | 33 → 49 → 34 | for RAG-shaped agents: context, retrieval, evals |
 | Face-Lift | 54 → 57 → 55 → 56 → 47 | the visual overhaul, ending in commits |
 | Founder Funnel | 61 → 62 → 63 → 64 → 65 → 66 → 67 | one niche, end to end, ruled on |
+| Stay on Mission | 149 → 150 → 47 | when projects keep losing the plot |
 | Gut Check | 62 → 63 → 67 | 72 hours of truth for one idea |
 | Experience Optimization | 76 → 77 → 75 → 79 → 80 → 78 → 47 | optimize every surface: comprehension → conversion → retention, ending in commits |
 
@@ -182,6 +183,7 @@ Curated sequences on the site, for when you don't want to choose:
 | Family | Question | Prompts |
 |---|---|---|
 | Venture | is it worth building? | 60–67 |
+| Mission | why does this exist? | 149–151 |
 | Product | what could this be? | 00, 45, 106–108 |
 | Quality | does it work? | 01–03, 98–102 |
 | Speed | does it scale? | 04, 05, 51, 87, 88, 140 |

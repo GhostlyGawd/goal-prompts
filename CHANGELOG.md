@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.18.0 — 2026-07-12
+## 0.20.0 — 2026-07-12
 - **The product, seen working (SHOWCASE F1, CREDIBILITY 1):** the landing
   Proof section now opens with a real recorded session — `01 · Bug Hunt`
   pasted into Claude Code inside **agentic-dev-os**, a repo this catalog was
@@ -17,6 +17,58 @@
   unpublished until its top finding is fixed — the withholding is stated on
   the gallery, because the evidence rules apply to the marketing as much as
   the briefs.
+
+## 0.19.0 — 2026-07-12
+- **Playbook runs talk like a contractor now** (the operator's F1/F2
+  findings in CHARTER.md, plus the ratified charter-as-input ruling).
+  Every conductor — all 39 playbooks and every family sequence — now:
+  reads `CHARTER.md` first when the repo has one (its goals, non-goals,
+  and invariants bound every stage's recommendations); tells the operator
+  what the run will do and asks for a go-ahead before stage 1; narrates
+  every stage handoff in two or three plain sentences instead of
+  advancing in silence; and ends with one ranked plain-words list of the
+  strongest findings plus the offer to run 47 · The Fixer on exactly the
+  operator's picks — no report-reading and no Studio required to act
+  (reports stay on disk as the paper trail). Same text in all three
+  implementations (build.py, mcp/server.cjs, js/catalog-core.js); four
+  new canonical sentences added to the mcp-smoke parity guard.
+
+## 0.18.0 — 2026-07-12
+- New family: **Mission — why does this exist?** The brownfield answer to
+  intent drift. Where the Build family (141–144) gates a greenfield build on
+  the template harness, Mission gives any existing repo a durable intent
+  layer plus the recurring audits that hold work to it — the goal-prompts
+  answer to heavyweight `.ai/` planning-folder systems: a one-page contract
+  and scheduled cross-examination instead of forty process files.
+  - **149 · The Charter** — excavates intent from README promises, docs, and
+    the commit record, then *interviews the operator*: the seven charter
+    decisions arrive as numbered questions with evidence-backed candidates,
+    and the brief hard-stops before drafting (141/143's mid-brief gate;
+    unattended runs write the question sheet as a DRAFT charter and stop).
+    Only the operator's answers plus undisputed evidence become
+    `CHARTER.md` — problem, user, the job, non-goals, invariants,
+    Now/Next/Not-now, done-looks-like; unanswered questions stay marked
+    open, never quietly filled. The report *is* the artifact (142's
+    pattern, no harness needed); ends by asking the operator to ratify and
+    to wire a read-this-first pointer into the agent entry file.
+  - **150 · Drift Audit** — holds what the repo *is* against what it *says
+    it is*: orphan surfaces, phantom promises, non-goal breaches, half-built
+    wings, effort drift, creep vectors. Every item gets a verdict candidate
+    — formalize, finish, park, or kill — and re-runs turn drift into trend
+    arrows; findings are Studio/Fixer-shaped.
+  - **151 · The Debrief** — the milestone-boundary review: the mandate as it
+    stood when the window opened, what actually landed, stowaways,
+    shortfall, silent re-scopes, verification honesty. Verdicts
+    (keep/finish/formalize/revert) append to a run history, and each run
+    opens by checking whether the last run's verdicts were executed.
+- New playbook: **Stay on Mission** (149 → 150 → 47) — charter the product,
+  measure the drift, ship the deletions.
+- 46 · Audit Triage now routes to the family: 149–151 when intent lives
+  only in old chats.
+- Mission wears bronze-umber `#AA7A55` (ΔE ≥ 20 to its nearest categorical
+  neighbor, 3:1+ on all pinned surfaces in both themes) and a compass
+  symbol — added per the ADR-2 family recipe (brand.json categorical +
+  `FAMILY_ORDER` + `FAM_ICON` + `<symbol>`).
 
 ## 0.17.0 — 2026-07-12
 - **Loop-first positioning pass** — the site now leads with the strategy the
@@ -173,7 +225,6 @@
     test-pinned minimum distance across all 21 families; motion tokens named
     once; `j`/`k` keyboard navigation over visible catalog cards; family
     chips on cards where color was the only family signal.
->>>>>>> origin/main
 
 ## 0.13.0 — 2026-07-10
 - Landing-page redesign: calm, product-grade pass over the whole page.
