@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROADMAP.md — a real audit report — Goal Prompts</title>
+<meta name="description" content="ROADMAP.md — a real audit report, written by 28 · Roadmap Synthesis, run against this repo and committed unedited.">
+<meta property="og:title" content="ROADMAP.md — a real audit report — Goal Prompts">
+<meta property="og:description" content="ROADMAP.md — a real audit report, written by 28 · Roadmap Synthesis, run against this repo and committed unedited.">
+<meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
+<meta property="og:url" content="https://goal-prompts.vercel.app/r/roadmap">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Goal Prompts">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ROADMAP.md — a real audit report — Goal Prompts">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
+<meta name="twitter:title" content="ROADMAP.md — a real audit report — Goal Prompts">
+<meta name="twitter:description" content="ROADMAP.md — a real audit report, written by 28 · Roadmap Synthesis, run against this repo and committed unedited.">
+<meta name="theme-color" content="#15120D">
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://goal-prompts.vercel.app/r/roadmap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plexmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<link rel="stylesheet" href="/tokens.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--dim);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--w-doc);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+svg.ic{display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--fc);outline-offset:2px;border-radius:4px}
+code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:.06em .34em;color:var(--text)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ink) 84%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:700;letter-spacing:-.02em;font-size:16px;color:var(--text)}
+.brand .mark{flex:none}
+.nav-links{display:flex;gap:20px;margin-left:8px;font-size:14px;color:var(--faint)}
+.nav-links a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.themetog{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
+.themetog:hover{color:var(--text);border-color:var(--line-3)}
+.themetog .ic{width:17px;height:17px}
+.themetog .moon{display:none}.themetog .sun{display:block}
+:root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
+@media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
+.nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
+.nav-cta:hover{filter:brightness(1.12)}
+/* BLINDSPOTS P0-1: no link may vanish on mobile — the row scrolls instead
+   (same treatment as the landing page) */
+@media(max-width:720px){.nav-links{gap:14px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap}}
+@media(max-width:480px){.nav-cta{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+
+/* breadcrumb + eyebrow */
+.crumb{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:24px 0 0;flex-wrap:wrap}
+.crumb a:hover{color:var(--dim)}
+.crumb .sep{opacity:.5}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+/* chips + badges */
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px}
+.chip .dot{width:8px;height:8px;border-radius:2px;background:var(--fc);flex:none}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--btn-fg);background:var(--fc);border-radius:999px;padding:4px 10px}
+.badge.soft{background:color-mix(in srgb,var(--fc) 16%,var(--panel));color:var(--fc);border:1px solid color-mix(in srgb,var(--fc) 40%,transparent)}
+.out{font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+.out::before{content:"→ ";color:var(--fc)}
+
+/* hero */
+.dhero{position:relative;padding:30px 0 34px;border-bottom:1px solid var(--line);overflow:hidden}
+.dhero>*{position:relative}
+.dhero .id{font-family:var(--mono);font-weight:600;font-size:15px;color:var(--fc);display:inline-flex;align-items:center;gap:8px}
+.dhero .id .ic{width:19px;height:19px}
+.dhero h1{font-family:var(--disp);font-size:clamp(30px,5.6vw,50px);font-weight:680;letter-spacing:-.03em;line-height:1.05;margin:12px 0 14px;color:var(--text)}
+.dhero .lede{font-size:clamp(16px,2.4vw,20px);color:var(--text);max-width:60ch;line-height:1.5}
+.dhero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.dhero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.dhero .offer{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.6}
+
+/* section scaffolding */
+section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,30px);font-weight:680;letter-spacing:-.02em;margin:9px 0 6px;color:var(--text)}
+.lead{color:var(--dim);max-width:64ch;font-size:16px}
+.prose{color:var(--text);font-size:16px;max-width:68ch}
+.prose p{margin:0 0 12px}
+.prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
+.prose strong{color:var(--text);font-weight:600}
+
+/* /r/ report documents (BLINDSPOTS P0-2): a whole rendered report, in the
+   ledger — ruled tables, mono metadata, hairline rules. Wider than .prose
+   because the reports carry real tables. */
+.report-doc{max-width:none;line-height:1.65}
+.report-doc h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,24px);font-weight:680;letter-spacing:-.02em;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--line-2);color:var(--text)}
+.report-doc h3{font-family:var(--disp);font-size:17px;font-weight:660;letter-spacing:-.01em;margin:24px 0 8px;color:var(--text)}
+.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
+.report-doc a{color:var(--fc);text-decoration:none}.report-doc a:hover{text-decoration:underline}
+.report-doc code{font-family:var(--mono);font-size:.86em;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1px 5px}
+.report-doc pre{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);padding:14px 16px;overflow-x:auto;margin:0 0 14px}
+.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.55}
+.report-doc blockquote{margin:0 0 14px;padding:10px 16px;border-left:2px solid var(--fc);background:var(--panel);color:var(--dim)}
+.report-doc blockquote p{margin:0}
+.report-doc hr{border:0;border-top:1px solid var(--line-2);margin:26px 0}
+.report-doc .tablewrap{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line-2);border-radius:var(--radius)}
+.report-doc table{border-collapse:collapse;width:100%;font-size:13.5px}
+.report-doc th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2);background:var(--panel)}
+.report-doc td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim);min-width:120px}
+.report-doc td:first-child,.report-doc th:first-child{padding-left:14px}
+.report-doc tr:last-child td{border-bottom:0}
+.report-doc td strong{color:var(--text)}
+
+/* method / phases */
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:var(--s5)}
+.phase{background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--fc);border-radius:var(--radius);padding:16px 15px;position:relative}
+.phase .pn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.phase h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:5px 0 8px;letter-spacing:-.01em;color:var(--text)}
+.phase p{font-size:13px;color:var(--dim);line-height:1.5}
+.phase .step{position:absolute;top:-11px;right:13px;width:22px;height:22px;border-radius:6px;background:var(--fc);color:var(--btn-fg);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+@media(max-width:820px){.method{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.method{grid-template-columns:1fr}}
+
+/* lenses */
+.lenses{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:var(--s5)}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;display:flex;gap:13px;transition:border-color var(--dur-state),transform var(--dur-state)}
+.lens:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.lens .i{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--fc);flex:none;width:26px;height:26px;border-radius:7px;background:color-mix(in srgb,var(--fc) 14%,var(--panel-2));display:flex;align-items:center;justify-content:center}
+.lens h3{font-family:var(--disp);font-size:15px;font-weight:660;margin-bottom:3px;letter-spacing:-.01em;color:var(--text)}
+.lens p{font-size:13px;color:var(--dim);line-height:1.5}
+@media(max-width:640px){.lenses{grid-template-columns:1fr}}
+
+/* the report doc */
+.report{margin-top:var(--s5);background:var(--panel);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.report .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+.report .fname{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:600}
+.report .fname::before{content:"▸ ";color:var(--faint)}
+.report .doc{padding:6px 10px 14px}
+.report .row{display:flex;gap:13px;padding:12px 8px;border-radius:9px}
+.report .row+.row{border-top:1px solid var(--line)}
+.report .rn{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none;width:22px;text-align:right;font-weight:600}
+.report .rt{font-family:var(--disp);font-weight:640;font-size:14px;color:var(--text)}
+.report .rd{font-size:13px;color:var(--dim);margin-top:2px;line-height:1.45}
+.report .foot{padding:12px 16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--faint);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* use / commands */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--s5)}
+.way{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;min-width:0}
+.way h3{font-family:var(--disp);font-size:14px;font-weight:660;margin-bottom:4px;color:var(--text)}
+.way .num{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.1em}
+.way p{font-size:13px;color:var(--dim);margin:2px 0 12px;line-height:1.5}
+.cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;overflow-x:auto;min-width:0}
+.cmd+.cmd{margin-top:8px}
+.cmd .cmdstep{flex:none;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fc)}
+.cmd code{flex:1;white-space:nowrap;min-width:0;background:none;border:0;padding:0;color:var(--text)}
+.cmd .cp{flex:none;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;cursor:pointer}
+.cmd .cp:hover{color:var(--text);border-color:var(--line-3)}
+.cmd .cp.done{color:var(--good);border-color:var(--good)}
+@media(max-width:760px){.ways{grid-template-columns:1fr}}
+
+/* full brief + rules */
+.full{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+.full summary{cursor:pointer;list-style:none;padding:14px 16px;font-family:var(--mono);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:8px}
+.full summary::-webkit-details-marker{display:none}
+.full summary .chev{transition:transform var(--dur-move)}.full[open] summary .chev{transform:rotate(90deg)}
+.full pre{font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text);background:var(--ink-2);border-top:1px solid var(--line);padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.rules{margin-top:var(--s5);background:color-mix(in srgb,var(--fc) 7%,var(--panel));border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:16px 18px}
+.rules h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:9px}
+.rules ul{list-style:none;display:grid;gap:8px}
+.rules li{font-size:14px;color:var(--text);padding-left:20px;position:relative}
+.rules li::before{content:"→";position:absolute;left:0;color:var(--fc)}
+
+/* related + cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.pcard{display:block;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:var(--radius);padding:15px 16px;transition:transform var(--dur-state),border-color var(--dur-state)}
+.pcard:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.pcard .pid{font-family:var(--mono);font-size:12px;color:var(--fc)}
+.pcard h3{font-family:var(--disp);font-size:16px;font-weight:660;margin:3px 0 5px;letter-spacing:-.01em;color:var(--text)}
+.pcard p{font-size:13px;color:var(--dim);line-height:1.45}
+@media(max-width:640px){.cards{grid-template-columns:1fr}}
+.pblinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pblink{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--panel);border:1px dashed var(--line-2);border-radius:999px;padding:8px 13px}
+.pblink:hover{color:var(--text);border-color:var(--fc)}
+.pblink .len{color:var(--faint)}
+
+/* playbook sequence map */
+.seq{display:flex;flex-direction:column;gap:0;margin-top:var(--s5)}
+.seqstep{display:flex;gap:14px;align-items:stretch}
+.seqstep .rail{display:flex;flex-direction:column;align-items:center;flex:none;width:30px}
+.seqstep .node{width:30px;height:30px;border-radius:9px;background:var(--panel);border:2px solid var(--fc);color:var(--fc);font-family:var(--mono);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center}
+.seqstep .wire{flex:1;width:2px;background:var(--line-2);min-height:14px;margin:2px 0}
+.seqstep:last-child .wire{display:none}
+.seqcard{flex:1;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--fc);border-radius:11px;padding:13px 15px;margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;transition:transform var(--dur-state),border-color var(--dur-state)}
+.seqcard:hover{transform:translateX(3px);border-color:var(--line-2)}
+.seqcard .sid{font-family:var(--mono);font-size:12px;color:var(--fc);flex:none}
+.seqcard .st{font-family:var(--disp);font-weight:640;font-size:15px;flex:1;min-width:120px;letter-spacing:-.01em;color:var(--text)}
+.seqcard .sq{font-size:12px;color:var(--faint);font-family:var(--mono)}
+
+/* partner / monetization */
+.partner{margin-top:24px;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:20px 22px}
+.partner .co{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:14px;color:var(--text);flex-wrap:wrap}
+.partner .co .x{color:var(--faint)}
+.partner .logo{width:34px;height:34px;border-radius:9px;background:var(--fc);color:var(--btn-fg);font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--disp)}
+.partner p{font-size:14px;color:var(--dim);margin:12px 0 14px;max-width:64ch;line-height:1.5}
+.note{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint);background:var(--panel);border:1px dashed var(--line-2);border-radius:10px;padding:11px 14px}
+
+/* per-step copy on playbook sequence maps */
+.seqstep .stepcopy{flex:none;align-self:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--dim);background:var(--panel-2);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;cursor:pointer;text-decoration:none}
+.seqstep .stepcopy:hover{color:var(--text);border-color:var(--line-3)}
+.seqstep .stepcopy.done{color:var(--good);border-color:var(--good)}
+
+/* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
+.gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+.gp-hint[hidden]{display:none}
+.gp-hint code{font-family:var(--mono);color:var(--fc)}
+.gp-hint a{color:var(--fc);text-decoration:underline}
+.gp-hint b{color:var(--text)}
+.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun:disabled{opacity:.6;cursor:default}
+.gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
+.gp-hint .x:hover{color:var(--text)}
+
+/* RETENTION R7 (R02): slim welcome-back strip for returning visitors —
+   built by gp-detail.js only when gp-runs has data, dismissible */
+.gp-wb{border-bottom:1px solid var(--line);background:var(--panel);font-size:13px;color:var(--dim)}
+.gp-wb .wrap{display:flex;align-items:center;gap:8px;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.gp-wb b{color:var(--text);font-weight:600}
+.gp-wb a{color:var(--fc,#C4CBD8);font-family:var(--mono);text-decoration:none;white-space:nowrap}
+.gp-wb a:hover{text-decoration:underline}
+.gp-wb .x{margin-left:auto;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.gp-wb .x:hover{color:var(--text)}
+
+/* footer */
+footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
+.foot .cta-band{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 26px;text-align:center;margin-bottom:34px}
+.foot .cta-band h3{font-family:var(--disp);font-size:clamp(20px,3vw,26px);font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:8px}
+.foot .cta-band p{font-size:15px;max-width:52ch;margin:0 auto 18px}
+.foot .links{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}
+.foot .links a:hover{color:var(--text)}
+.foot .fine{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<script>try{var _t=localStorage.getItem("gp-theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
+</head>
+<body class="">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-product" viewBox="0 0 24 24"><path d="M12 3 L13.7 10.3 L21 12 L13.7 13.7 L12 21 L10.3 13.7 L3 12 L10.3 10.3 Z"/></symbol>
+<symbol id="i-quality" viewBox="0 0 24 24"><ellipse cx="12" cy="13.5" rx="4" ry="5.3"/><circle cx="12" cy="7.5" r="2.1"/><path d="M8 12 L4.2 10 M8 14.5 L4 14.5 M8.2 17.5 L4.8 19.6 M16 12 L19.8 10 M16 14.5 L20 14.5 M15.8 17.5 L19.2 19.6 M10.6 6.2 L9.4 3.8 M13.4 6.2 L14.6 3.8"/></symbol>
+<symbol id="i-speed" viewBox="0 0 24 24"><path d="M4 17 A8 8 0 0 1 20 17"/><path d="M12 17 L16.5 11.5"/><circle cx="12" cy="17" r="1.3"/></symbol>
+<symbol id="i-trust" viewBox="0 0 24 24"><path d="M12 3 L20 6 V11 C20 16 16.5 19.5 12 21 C7.5 19.5 4 16 4 11 V6 Z"/><path d="M8.8 12 L11 14.2 L15.4 9.4"/></symbol>
+<symbol id="i-growth" viewBox="0 0 24 24"><path d="M4 18 L10 12 L13.5 15 L20 7"/><path d="M15 7 L20 7 L20 12"/></symbol>
+<symbol id="i-clarity" viewBox="0 0 24 24"><path d="M2.5 12 C5 7.2 8.8 5.2 12 5.2 C15.2 5.2 19 7.2 21.5 12 C19 16.8 15.2 18.8 12 18.8 C8.8 18.8 5 16.8 2.5 12 Z"/><circle cx="12" cy="12" r="2.7"/></symbol>
+<symbol id="i-design" viewBox="0 0 24 24"><path d="M12 4 L7.5 20 M12 4 L16.5 20 M9.4 13.4 L14.6 13.4"/><circle cx="12" cy="4.4" r="1.5"/></symbol>
+<symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.9"/><path d="M5 6 V18 C5 19.7 8.1 21 12 21 C15.9 21 19 19.7 19 18 V6"/><path d="M5 12 C5 13.7 8.1 15 12 15 C15.9 15 19 13.7 19 12"/></symbol>
+<symbol id="i-ops" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6 V5.2 M12 18.8 V21.4 M2.6 12 H5.2 M18.8 12 H21.4 M5.4 5.4 L7.2 7.2 M16.8 16.8 L18.6 18.6 M18.6 5.4 L16.8 7.2 M7.2 16.8 L5.4 18.6"/></symbol>
+<symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="9" r="2.5"/><circle cx="16" cy="10" r="2"/><path d="M3.5 19 C3.5 15.4 5.8 13.8 9 13.8 C11 13.8 12.6 14.5 13.4 16 M13.6 19 C13.9 16 15.2 15 17 15 C19.2 15 20.5 16.6 20.5 19"/></symbol>
+<symbol id="i-subtract" viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2"/><circle cx="6.5" cy="17" r="2"/><path d="M8.2 8.2 L20 18 M8.2 15.8 L20 6 M8.4 12 L12.5 9"/></symbol>
+<symbol id="i-meta" viewBox="0 0 24 24"><path d="M12 4 L21 9 L12 14 L3 9 Z"/><path d="M3.5 13 L12 17.6 L20.5 13"/></symbol>
+<symbol id="i-act" viewBox="0 0 24 24"><path d="M13 3 L5.5 13 H11 L10 21 L18.5 10.5 H12.5 Z"/></symbol>
+<symbol id="i-agent" viewBox="0 0 24 24"><path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"/><circle cx="12" cy="12" r="2.5"/><path d="M12 5.2 V7.4"/></symbol>
+<symbol id="i-automation" viewBox="0 0 24 24"><path d="M6.5 9.5 A6 6 0 0 1 18 8.2"/><path d="M17.5 14.5 A6 6 0 0 1 6 15.8"/><path d="M18.4 4.6 L18.4 8.6 L14.4 8.4 M5.6 19.4 L5.6 15.4 L9.6 15.6"/></symbol>
+<symbol id="i-aiux" viewBox="0 0 24 24"><path d="M12 20 C6.2 15.6 4 12.2 4 9 C4 6.5 6 4.9 8.3 4.9 C9.9 4.9 11.3 5.9 12 7.1 C12.7 5.9 14.1 4.9 15.7 4.9 C18 4.9 20 6.5 20 9 C20 12.2 17.8 15.6 12 20 Z"/></symbol>
+<symbol id="i-venture" viewBox="0 0 24 24"><path d="M12 2.6 C15.2 5 16.8 9.2 16.8 13 L14 16 H10 L7.2 13 C7.2 9.2 8.8 5 12 2.6 Z"/><circle cx="12" cy="10" r="1.7"/><path d="M10 16 L7.8 20.4 M14 16 L16.2 20.4 M12 16.4 V20.6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5V5 M12 19V21.5 M2.5 12H5 M19 12H21.5 M5.2 5.2l1.8 1.8 M17 17l1.8 1.8 M18.8 5.2 17 7 M7 17l-1.8 1.8"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5 A8 8 0 0 1 9.5 4 A7 7 0 1 0 20 14.5 Z"/></symbol>
+</defs></svg>
+<header class="nav"><div class="nav-in wrap"><a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a><nav class="nav-links"><a href="/#how">How it works</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a><a href="/examples/">Examples</a></nav><div class="nav-right"><button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button><a class="nav-cta" href="/#start">Get started</a></div></div></header>
+<section class="dhero"><div class="wrap"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/examples/">Sample reports</a><span class="sep">/</span><span class="mono">ROADMAP.md</span></div><h1 style="margin-top:14px">ROADMAP.md — Unified Roadmap Synthesis</h1><p class="lede">A real report, written by <a href="/b/28">28 · Roadmap Synthesis</a>, run against this repo — dogfood output, committed unedited. This is the artifact every brief ends in: findings that cite their evidence, ranked by severity, with a fix sketch each.</p><div class="cta"><a class="btn btn-primary" href="/b/28">Run this audit on your repo</a><a class="btn btn-ghost" href="/reports/ROADMAP.md">Raw ROADMAP.md</a></div></div></section><section class="blk"><div class="wrap"><div class="prose report-doc"><p><strong>Date: 2026-07-11</strong> · produced by brief 28 · Roadmap Synthesis (re-run), read-only over every audit report at the repo root and in <code>reports/</code>. <strong>Second run</strong> — a prior <code>ROADMAP.md</code> (2026-07-09) synthesized the <em>product-improvement</em> reports; this run leads with what changed, then folds the seven <strong>Founder Funnel</strong> venture reports + the <strong>PIVOT</strong> verdict on top.</p>
+<p><strong>How to read this.</strong> Every item traces to a source report; nothing new is smuggled in. Tags: <strong><code>test</code></strong> — a $0 validation gate (the pivot's pre-tests) · <strong><code>ship</code></strong> — buildable in this repo now · <strong><code>ext</code></strong> — needs maintainer accounts/decisions (cannot be built here) · <strong><code>gated</code></strong> — deliberately blocked on a signal, data, or decision · <strong><code>done</code></strong> — shipped. Impact/effort are recalibrated on the <strong>pivot's</strong> scale: "impact" now means <em>moves the validation question or protects the moat/trust</em>, not <em>storefront optimization</em>.</p>
+<hr>
+<h2>What changed since 2026-07-09</h2>
+<p>The last roadmap was a <strong>product-optimization</strong> plan: see the funnel, close the silent stalls, patch honesty drift, then spend the visibility. Its ~50 ship items were built (0.14.0, PR #27), and 0.15.0/0.16.0 added the ledger redesign, the design engine, BLINDSPOTS, and the breadcrumb pass. Three things then changed the frame underneath it:</p>
+<ul><li>**A full Founder Funnel ran (NICHE · DEMAND · COMPETITORS · MARKET · POSITIONING · MOAT ·</li></ul>
+<p>VERDICT) and returned a verdict: PIVOT — axis: product.<strong> Not a kill (pain is real, recurring, sufferer-verbatim; the first ten are nameable; timing is genuinely 2026), and not "keep optimizing the storefront." Two bars hard-failed: </strong>competitive survivability<strong> (the "own-the-loop" wedge has no moat against an Anthropic that can copy it <em>trivially and profitably</em> — MOAT: "no moat today, only head starts") and </strong>economics<strong> (at the sourced 1–3% dev-tool conversion floor the dollar thesis collapses ~20× into $9k–58k side income — MOAT napkin). Both fails share one root: </strong>the money and the only path to a moat live in the outcome/loop (report→Studio→47·Fixer→FIXLOG), not in the $0 forkable catalog text.<strong> The ruling: keep the customer and the pain, move the paid surface to the loop, and </strong>validate willingness-to-pay CHEAPLY before building anything more.**</p>
+<ul><li><strong>BLINDSPOTS.md (2026-07-10, meta-audit) independently reached the same conclusion</strong> the</li></ul>
+<p>old roadmap didn't digest: "a beautifully machined answer to the wrong layer… verifying the verifiable proxy instead of the value." It ruled the old plan's own tell — <em>50 storefront items shipped while the three audience-creating items (measurement, npm, launch) stayed open and the R62 pivot decision stayed deferred.</em> That decision is <strong>now taken</strong> (VERDICT = pivot). BLINDSPOTS also contributes a fresh backlog the old roadmap never saw.</p>
+<ul><li><strong>Four pivot changes shipped to <code>main</code></strong> (commits 54ae65f, ae724d5) — marked <strong>done</strong></li></ul>
+<p>below, not re-listed as todo: (a) re-badged the register to <em>audit/brief/evidence</em>; (b) made the report→Fixer→FIXLOG loop legible in the Proof section; (c) locked the <code>/teams</code> WTP surface (competitor $24–48 anchor, $0 DIY floor, "on request", one intent CTA); (d) surfaced the machine-enforced quality-bar claim, linking <code>/quality</code>. All four are TDD-locked in <code>tests/test_build.py</code>.</p>
+<p><strong>Net effect on the roadmap.</strong> The product backlog is <em>substantially built</em>. The frontier is no longer construction — it is <strong>validation</strong>. The old Themes A–H (funnel, handoff, trust, SEO, retention, forms, differentiation, revenue rails) are ~90% shipped and roll up into "Already done." What re-organizes everything now is one thesis:</p>
+<blockquote><p><strong>Own the audit loop — and prove the hope for ~$0 before building against it.</strong> The evidence says the catalog-as-company fails on moat and conversion; the operator's hope (that free attention converts, that the loop accretes switching cost, that the flag gets planted before Anthropic bothers) is <em>plausible but unproven</em>. The whole "Now" is the six cheap pre-tests that test that hope — and the one measurement that reads them.</p></blockquote>
+<p>The single biggest re-prioritization: the old roadmap filed raw-fetch counting (R05) as a low-drama "flag to the maintainer." <strong>Post-pivot it is the measurement spine</strong> — every validation gate returns an unreadable signal without it (BLINDSPOTS F1: "optimizing a ratio whose numerator is invisible").</p>
+<hr>
+<h2>1 · Sources</h2>
+<p><strong>Read this run — the seven venture reports (fresh effort):</strong> NICHE (61) · DEMAND (62) · COMPETITORS (63) · MARKET (64) · POSITIONING (65) · MOAT (66) · VERDICT (67). <strong>Read this run — reports the old roadmap predates:</strong> BLINDSPOTS (meta-audit, 2026-07-10) · BREADCRUMBS (145). <strong>Carried forward from the 2026-07-09 synthesis</strong> (their product items already digested there, statuses updated below): FUNNEL · COMPETITIVE · REVENUE · AI-IDEAS · SEO · CRO · RETENTION · PROOF · ACTIVATION · FORMS · CHECKOUT (null) · BUGS · SECURITY-AUDIT · IMPROVEMENTS · DX · CREDIBILITY · COMPREHENSION · BRAND · HIERARCHY · COLOR · LAYOUT · TYPOGRAPHY · STATES · SHOWCASE · FIXLOG. <strong>Total on hand:</strong> 34 audit reports (27 product + 7 venture) + this ROADMAP. <code>reports/</code> is the write target and it exists — writing here.</p>
+<p><strong>Missing — and which absence would most change this roadmap:</strong></p>
+<ul><li>**The WTP / launch signal is the missing evidence that would most change the roadmap — and</li></ul>
+<p>it is not an in-repo audit.<strong> VERDICT, MARKET §4 and NICHE §4 all rule that the one number that decides the thesis (does free attention convert to a paid dollar; does a genuine launch clear a few hundred stars) is knowable <em>only</em> from real customer conversations + a real launch. No further desk audit substitutes. </strong>Run the pre-tests (§4 Now), not another brief.**</p>
+<ul><li><strong>An EVALS / brief-efficacy report — the highest-value absent <em>in-repo</em> audit.</strong> BLINDSPOTS</li></ul>
+<p>F4/§8.4: the linter verifies <em>shape</em> (4-phase, ask-first, 4k cap), never <em>substance</em> — "a hollow brief that pattern-matches passes clean." The pivot just made the quality-bar claim prominent (shipped item d); nothing proves it. Seeded-defect fixtures + expected-findings assertions would convert the claim from shape to truth. No brief for this exists yet.</p>
+<ul><li><strong>A11Y.md (brief 86)</strong> — still absent; FORMS FV3 (every error unannounced to screen readers)</li></ul>
+<p>+ BLINDSPOTS §5.5 (zero a11y verification while selling brief 86) make it the top product-hygiene gap. It won't change the <em>strategic</em> sequence, so it sits in Later.</p>
+<ul><li><strong>PERF.md</strong> — SEO-2's 572 KB homepage + BLINDSPOTS #6 (catalog ships twice, 228 KB;</li></ul>
+<p>bodies.json 420 KB precached) would size the payoff of the body-stripping work. Later.</p>
+<ul><li><strong>OPPORTUNITIES.md (Founder Funnel stage 60)</strong> — absent <em>by design</em>; the funnel starts at 61</li></ul>
+<p>and the venture is fixed. VERDICT confirms the ruling survives its absence completely.</p>
+<hr>
+<h2>2 · Unified backlog (deduped)</h2>
+<p>Grouped by the pivot's logic. <code>sources</code> cite the reports each item traces to; nothing here is new. The ~50 shipped product items + the 4 pivot changes are rolled into <strong>Already done</strong> at the end rather than re-listed.</p>
+<h3>A — Validation gates (the pivot's $0 pre-tests) — <em>the whole reason to re-run</em></h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>G1</td><td><strong>Test WTP before building</strong> — point a little attention at the (now-locked) <code>/teams</code> surface, <strong>count inbound intent</strong>, and in parallel ask DEMAND's ten named sufferers the flat-fee-team-audit question to their face. 3–5 real "what does it cost / can you do this for us" emails = the cheapest proof of non-zero WTP. Zero intent → demote to attention-play + SKU B only.</td><td>test</td><td>VERDICT act.1 · MOAT kill#2 · DEMAND "ten people" · REVENUE §3.2/§4 · MARKET §4</td><td>H</td><td>S</td><td>M1 (counting) + G2 (attention to measure)</td></tr><tr><td>G2</td><td><strong>One loud distribution swing</strong> — Show HN + an <code>awesome-claude-code</code> inclusion PR + this repo's own BUGS.md hero finding as the dogfood hook; measure the star/fetch response. Can't clear a few hundred stars → the base-rate bear is confirmed and the funnel is moot. Doubles as the only lever the survivability fail leaves: <strong>speed</strong> — plant "audits/briefs" as the category noun before the platform owns it.</td><td>test/ext</td><td>VERDICT act.2 · MOAT kill#3 · NICHE §3 · COMPETITORS traction · (old R60 launch half)</td><td>H</td><td>S</td><td>M1, M2 (install path), U1+U2 (don't launch into a broken funnel)</td></tr><tr><td>G3</td><td><strong>Prove the loop is the product</strong> — demonstrate report→Studio→47·Fixer→FIXLOG as one motion <strong>end-to-end on a real external repo</strong>, not self-dogfood. The only surface with a <em>path</em> to a moat (accreting per-repo report+fix history → switching cost). Can't beat "just rerun it" → the product-axis pivot reverts toward kill.</td><td>test</td><td>VERDICT act.3 · MOAT §3 loop · COMPETITORS wedge 1 · BLINDSPOTS §7</td><td>H</td><td>M</td><td>none (uses shipped loop)</td></tr><tr><td>G4</td><td><strong>Submit goal-prompts to <code>anthropics/claude-plugins-official</code></strong> — the absorption pre-test. Distributed → absorption becomes co-option; rejected on its quality bar → you learned the rail is closed before betting on it.</td><td>test/ext</td><td>MOAT kill#1 pre-test</td><td>M-H</td><td>S</td><td>M2 helps</td></tr><tr><td>G5</td><td><strong>Publish the honest token cost</strong> of the heaviest brief run at current API rates — confirm a full audit is cents-to-low-dollars. If one run costs more than it returns to a solo dev, the "effortless vs. doing-nothing" wedge is dead on arrival.</td><td>test</td><td>MOAT kill#4 pre-test · NICHE §1</td><td>M</td><td>S</td><td>none</td></tr><tr><td>G6</td><td><strong>Ask the beachhead the privacy-vs-"learnings" question</strong> — would they trade privacy for a compounding cross-run feature? A "no" (likely) means the ceiling is a head-start business; size ambition to match, don't raise against a moat that structurally can't exist.</td><td>test</td><td>MOAT kill#5 pre-test · NICHE §4</td><td>M</td><td>S</td><td>part of G1 interviews</td></tr></tbody></table></div>
+<h3>B — Measurement &amp; external unlocks (carried open; they <em>enable</em> the gates)</h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>M1</td><td><strong>Turn on <code>/raw/*</code> + <code>commands.tar.gz</code> fetch counting</strong> (Vercel log filter, zero code — <code>middleware.js.example</code> is inert on purpose). <em>Re-prioritized from a footnote to the measurement spine:</em> without it G1/G2 return no readable signal.</td><td>ext</td><td>old R05 · FUNNEL §4.3 · REVENUE §4.4 · BLINDSPOTS §1.3/F1</td><td>H</td><td>S</td><td>Vercel dashboard</td></tr><tr><td>M2</td><td><strong>npm publish + MCP-registry listing</strong> — package is publish-ready, workflow ships; gives the launch (G2) an install path and feeds G4.</td><td>ext</td><td>old R59 · IMPROVEMENTS 11 · CREDIBILITY 3 · BLINDSPOTS §1.2</td><td>H</td><td>S</td><td>NPM_TOKEN + release</td></tr><tr><td>M3</td><td><strong><code>.github/FUNDING.yml</code> + Sponsors footer link</strong> — SKU B's only rail; one file. Expect ~$0 until stars exist; ship anyway (MOAT: "backers are gratitude, not a model").</td><td>ext</td><td>old R53 · REVENUE §2/§4.5 · MOAT §2</td><td>L-M</td><td>S</td><td>Sponsors profile exists</td></tr><tr><td>M4</td><td><strong>R60 residuals</strong> — confirm the dormant hero star-badge threshold (25); rule quotes real-or-illustrative. <em>The Discussions dead-end is resolved:</em> <code>PARTNER_CTA_URL</code> now points at a GitHub <strong>issue</strong>, which resolves.</td><td>ext</td><td>old R60 · CREDIBILITY · PROOF NF3</td><td>M</td><td>—</td><td>maintainer calls</td></tr></tbody></table></div>
+<h3>C — Launch-blockers (BLINDSPOTS P0s the pivot pulls INTO Now — you can't Show HN into these)</h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>U1</td><td><strong>Mobile nav amputates the catalog</strong> — at ≤720px the nav drops <em>Catalog</em>; Studio/Vitals/Examples show zero nav links; the mobile landing is 12,418px of scroll. A launch drives mobile traffic into a dead end. Add a disclosure menu; keep Catalog + CTA.</td><td>ship</td><td>BLINDSPOTS §4 P0-1</td><td>H</td><td>S-M</td><td>none</td></tr><tr><td>U2</td><td><strong>The proof surface dead-ends into raw markdown</strong> — <code>examples/</code> cards link to <code>/reports/*.md</code> as an unstyled text dump with no nav or way back. The single most persuasive artifact (the dogfood report the launch points at) renders as a wall of text. Render reports to styled HTML (the CHANGELOG→changelog.html machinery exists) or open in Studio.</td><td>ship</td><td>BLINDSPOTS §4 P0-2 · SHOWCASE · PROOF</td><td>H</td><td>M</td><td>none</td></tr></tbody></table></div>
+<h3>D — Claim-defense &amp; product-truth (BLINDSPOTS, re-weighted by the pivot)</h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>T1</td><td><strong>Brief-efficacy evals</strong> — seeded-defect fixtures + expected-findings assertions; publish pass rates on <code>/quality</code>. <em>The pivot made the quality-bar claim load-bearing (shipped item d); this is the audit that makes it true.</em></td><td>ship</td><td>BLINDSPOTS F4/§8.4 · POSITIONING C · COMPETITORS wedge 2 · FABLE_BUILD_QUEUE 2</td><td>H</td><td>M</td><td>none</td></tr><tr><td>T2</td><td><strong>Search silently collapses recall</strong> — landing search runs metadata-only, merges bodies in only on <em>zero</em> results ("top 1 for 'security'" while the chip says 11). Idle-prefetch <code>bodies.json</code> (already SW-precached) and always full-text.</td><td>ship</td><td>BLINDSPOTS §3.1/§4 P1-3/F5</td><td>M-H</td><td>S-M</td><td>none</td></tr><tr><td>T3</td><td><strong>Trust orphans</strong> — no <code>SECURITY.md</code> (and <code>vercel.json</code> redirects <code>/SECURITY.md</code> to a marketing report); copied prompts are unversioned (a report can't be traced to the brief text that made it); <code>gp-aid</code> persistent id vs the "no tracking" claim has no privacy page/opt-out; no consumer-side "spot-check citations before ticking Fixer boxes" guidance. <em>These defend the "evidence, not vibes" moat the pivot leans on.</em></td><td>ship</td><td>BLINDSPOTS §5.1/§5.2/§5.4/§5.6 · PROOF NF2 · RETENTION R12</td><td>M-H</td><td>S-M</td><td>none</td></tr><tr><td>T4</td><td><strong>Architecture paydown</strong> — search logic triplicated (site fuzzy vs MCP word-boundary; parity guard misses the divergence — highest-leverage fix); detail-page inline JS never syntax-checked (183 pages); 16-stage conductor cap is a build failure Design is one brief from hitting; SITE_CSS inlined into 183 committed files.</td><td>ship</td><td>BLINDSPOTS §3.1/§3.2/§3.5/§3.3</td><td>M</td><td>M-L</td><td>none</td></tr><tr><td>T5</td><td><strong>Prune — apply Subtract to itself</strong> — 37 playbooks → ~15; designate a hub brief per large family; mandate <code>related:</code> inside the overlap clusters (Design 54–59/132, growth 09/75/80/109/110, testing 02/100–102); trim the 7-channel/21-family surface.</td><td>ship</td><td>BLINDSPOTS F6/§6/§8.7</td><td>M</td><td>M</td><td>none</td></tr><tr><td>T6</td><td><strong>Commit to the diff loop as the retention spine</strong> — generalize vitals/HEALTH.md and the universal dated re-run rule to every report re-run (the compounding-switching-cost mechanism G3 tests).</td><td>ship</td><td>BLINDSPOTS §7/§8.6 · MOAT §3 · RETENTION</td><td>M</td><td>M</td><td>after G3 proves it</td></tr><tr><td>T7</td><td><strong>Coverage-gap briefs</strong> (demand-ranked) — mobile-native, supply-chain security, pricing &amp; packaging, background jobs/queues, alert/pager health, realtime/offline sync. Plus <strong>A11Y (86)</strong> + a PERF pass.</td><td>ship</td><td>BLINDSPOTS §6 · FORMS FV3</td><td>M</td><td>M-L</td><td>none</td></tr><tr><td>T8</td><td><strong>Promote three brief shapes to first-class</strong> — Monitor (29), Generator (47/142 gate → artifact), Scored-gate (144 → machine-parseable), the shapes the Studio parser most wants.</td><td>ship</td><td>BLINDSPOTS §6/F2</td><td>M</td><td>M</td><td>none</td></tr></tbody></table></div>
+<h3>E — Revenue (built; deliberately HELD until G1 returns a positive signal)</h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>X1</td><td><strong>SKU A — flat team-audit, services-first</strong> (private catalog + custom linted briefs + standing CI audits + support; <em>never</em> per-seat). The survivor model, delivered as an engagement first, productized only if WTP proves out.</td><td>gated/ext</td><td>MOAT §1 · MARKET Phase 1 · REVENUE §2</td><td>M</td><td>—</td><td><strong>hard-gated on G1</strong></td></tr><tr><td>X2</td><td><strong><code>/partners</code> rate-card upgrade + post-activation backer nudge</strong> — do NOT build further until audience/WTP exists; the surfaces already ship.</td><td>gated</td><td>REVENUE §4.3/§3.3 · old R55/R56 · BLINDSPOTS §8.7</td><td>L</td><td>S-M</td><td>G1 + M1 numbers + M3</td></tr></tbody></table></div>
+<h3>F — Carried Later (data- / decision- / moat-gated)</h3>
+<div class="tablewrap"><table><thead><tr><th>id</th><th>item</th><th>tag</th><th>sources</th><th>impact</th><th>effort</th><th>deps</th></tr></thead><tbody><tr><td>L1</td><td>Offline search-alias table, tuned by <code>search_zero</code> misses</td><td>gated</td><td>old R51 · AI-IDEAS 5</td><td>M-L</td><td>M</td><td><code>search_zero</code> data (needs M1)</td></tr><tr><td>L2</td><td>Real 10–15s screen recording of a brief run</td><td>ext</td><td>old R61 · SHOWCASE F1 · CREDIBILITY 1</td><td>M</td><td>—</td><td>capture tooling</td></tr><tr><td>L3</td><td>BREADCRUMBS residue — <em>largely applied in 0.16.0</em> (vitals/examples/manifest/metrics now classified in CLAUDE.md); remaining: name <code>vercel.json</code> in README, the two unwritten build gates in CONTRIBUTING, the CONTRIBUTING→CLAUDE.md backlink</td><td>ship</td><td>BREADCRUMBS §Fixes</td><td>L</td><td>S</td><td>none</td></tr></tbody></table></div>
+<h3>Already done (rolled up — so nothing looks lost)</h3>
+<p><strong>Shipped in 0.14.0 (PR #27):</strong> the entire old Themes A–H product backlog — R01–R52, R54–R56, R63–R66 (funnel instrumentation, handoff/copy-hint fixes, honesty-drift batch, SEO quick-wins + static catalog, Weekly-Vitals loop, forms integrity, skills-tree/Brief-Forge/differentiation bets, revenue rails incl. <code>/teams</code> + <code>/partners</code> pages). <strong>Shipped 0.15.0/0.16.0:</strong> ledger redesign, design engine, breadcrumb cross-links, dogfood reports to <code>reports/</code>. <strong>Shipped in the pivot (54ae65f/ae724d5):</strong> register re-badge (POSITIONING/COMPETITORS/NICHE) · loop legible in Proof (VERDICT act.3 / old R50) · <code>/teams</code> WTP surface locked (VERDICT act.1 / old R52+R55) · quality-bar claim surfaced (COMPETITORS wedge 2 / old R50). <strong>Decision taken:</strong> <strong>R62</strong> (proceed/pivot/drop) — VERDICT ruled <strong>PIVOT — axis: product</strong>. <strong>Closed earlier:</strong> BUGS 1–5, SECURITY 1–4, COMPREHENSION, LAYOUT, TYPOGRAPHY, STATES, HIERARCHY, COLOR, BRAND, SHOWCASE F2–7, DX, IMPROVEMENTS (except publish = M2). CHECKOUT: null by design.</p>
+<hr>
+<h2>3 · Themes — root causes worth one structural fix</h2>
+<ul><li><strong>The whole product was built to verify the proxy, not the value</strong> (BLINDSPOTS' one-line</li></ul>
+<p>verdict, and VERDICT's independently). Lint the skeleton not the efficacy; guard the conductor text not the search semantics; optimize the funnel not the traffic; mark the finding fixed without wiring the fix. <strong>One structural fix, not five patches:</strong> stop building storefront and <em>measure the value</em> — G1+G2+M1 turn "installs → confirmed run → inbound WTP" into observable numbers. Everything tagged <code>gated</code> is downstream of this.</p>
+<ul><li><strong>The money and the only moat-path both sit one layer over, in the loop — not the catalog.</strong></li></ul>
+<p>DEMAND ("WTP is High for execution, ~Zero for the catalog"), MARKET (catalog TAM = $0), MOAT (no data moat by design; the loop is the only candidate with a compounding mechanism), COMPETITORS (post-run loop is "the one gap open because hard") all name the same seam. <strong>One fix:</strong> make the loop the product — G3 proves it on a real repo, T6 makes the diff-history the retention spine, and the catalog demotes to a top-of-funnel <em>attention</em> asset.</p>
+<ul><li>**Distribution is the gate and the clock — 0★ is invisible, and the window closes when</li></ul>
+<p>Anthropic decides to own "audits."<strong> NICHE §3 (the star economy is border control), MARKET §3 (first-mover matters only for the noun + loop, <em>only if the flag is planted loudly first</em>), MOAT kill#1 (negative strategy tax; "not a moat, a countdown"). </strong>One fix:** the loud launch (G2) is not marketing polish — it is the existential first test <em>and</em> the only defense the survivability fail leaves (speed).</p>
+<ul><li><strong>The quality-bar claim is now load-bearing but unproven.</strong> The pivot surfaced</li></ul>
+<p>"machine-enforced quality bar" as a headline differentiator (shipped) precisely because POSITIONING/COMPETITORS/NICHE agree it's the one counter-belief no rival can copy — while BLINDSPOTS F4 shows the linter checks shape, not substance. <strong>One fix:</strong> T1 (efficacy evals published on <code>/quality</code>) makes the claim true, or the pivot's own differentiation is vibes.</p>
+<ul><li><strong>Honesty drift is now a moat threat, not cosmetics.</strong> The pivot bets everything on</li></ul>
+<p>"evidence, not vibes"; T3's orphans (no SECURITY.md, unversioned copied prompts, the gp-aid vs "no tracking" gap, no consumer-side report-judgment guidance) each quietly contradict it. Cheap to fix, expensive to be caught on at launch.</p>
+<hr>
+<h2>4 · Sequence &amp; milestones</h2>
+<h3>Conflicts, ruled</h3>
+<ul><li><strong>THE hinge: venture "test WTP before building revenue" vs product "build the rails now."</strong></li></ul>
+<p>REVENUE.md sequenced monetization as <em>plumbing built now, sold later</em> and proposed the <code>/partners</code> rate-card + backer nudge as next steps. MOAT/MARKET/VERDICT overrule that: at the <strong>sourced 1–3% dev-tool conversion floor</strong> (MOAT corrected MARKET's optimistic 5–20% against a benchmark — and won the argument, because the number is <em>sourced</em>, more conservative, and structurally right: converting free→paid <em>with no wall</em> is strictly harder than the walled comparable). <strong>Ruled with MOAT/VERDICT:</strong> the rails are already built; more revenue plumbing is wasted motion until <em>one team says "I'd pay."</em> The next revenue action is a <strong>$0 WTP test (G1)</strong>, not a rate card. X1/X2 are <code>gated</code> on G1's signal. <em>The evidence favors the pessimist here, and the pivot's discipline forbids letting optimism launder the napkin.</em></p>
+<ul><li>**BLINDSPOTS "demote /teams+/partners to a contact line" vs VERDICT "keep /teams as the WTP</li></ul>
+<p>test surface."<strong> Reconciled: </strong>keep<strong> the minimal, now-locked <code>/teams</code> surface (it <em>is</em> the cheap test the pivot needs — price anchor + one intent CTA already shipped); </strong>hold** any further <code>/partners</code> build (X2). Minimal surface as instrument, no further plumbing.</p>
+<ul><li><strong>Old roadmap's Theme H "revenue rails = inventory to accumulate" is downgraded.</strong> It wasn't</li></ul>
+<p>wrong in 0.14.0 (rails are cheap); the pivot re-weights it: inventory with a structurally-null conversion step is not an asset until the step is proven non-zero.</p>
+<ul><li><strong>R05 (raw-fetch counting): old "low-drama external" → now the measurement spine.</strong> Re-ruled</li></ul>
+<p>up (M1, H-impact) because every validation gate is unreadable without it (BLINDSPOTS F1).</p>
+<ul><li><strong>Carried from 2026-07-09 (still valid):</strong> homepage weight — SEO-1 static cards shipped;</li></ul>
+<p>SEO-2 body-stripping stays sequenced behind, now folded into a PERF pass (T7/Later).</p>
+<h3>Now (1–2 weeks) — <em>prove the hope for ~$0, and don't launch into a broken funnel</em></h3>
+<p>The pivot's entire near-term: run the six cheap pre-tests, turn on the one measurement that reads them, give the launch an install path, and fix the two P0s a Show HN would expose. Nothing here builds new product surface; it <em>tests the surface that exists.</em></p>
+<p><strong>Test (gates):</strong> G1 · G2 · G4 · G5 · G6 · (G3 kick-off). <strong>Enable — flag to maintainer immediately (they gate the gates):</strong> M1 (raw-fetch counting) · M2 (npm publish) · M3 (FUNDING.yml). <strong>Ship (launch-blockers):</strong> U1 (mobile nav) · U2 (styled report pages). <em>Why this order:</em> the launch (G2) is the gate everything upstream feeds and the only defense speed buys — but it is worthless if the numerator is invisible (M1), has no install path (M2), or drives mobile traffic into a dead end and the proof into a text dump (U1/U2). WTP (G1) is measured <em>from</em> the attention G2 creates, so they run together, not in series.</p>
+<h3>Next (a month) — <em>react to the signal; make the two claims the pivot leaned on TRUE</em></h3>
+<p>Branch on what Now returned. If WTP/distribution fire: stand up the SKU-A delivery motion (X1) and pay down what a scaling launch would strain. Either way: defend the differentiation the pivot made prominent.</p>
+<p><strong>Ship:</strong> T1 (efficacy evals — make the quality bar true) · T2 (full-text search) · T3 (trust orphans — defend "evidence not vibes") · T4 (architecture paydown) · G3 (finish the external-repo loop proof) · M4 (R60 residuals). <strong>Gated:</strong> X1 (SKU-A engagement) — <em>only if G1 returned real intent.</em> <em>Why this order:</em> Now proved (or killed) the thesis; Next spends the proof — T1/T3 close the gap between the claims the pivot shipped and the substance behind them, before a bigger audience arrives to check.</p>
+<h3>Later — <em>moat-, data-, and decision-gated</em></h3>
+<p><strong>Ship:</strong> T5 (prune — Subtract on itself) · T6 (diff-loop retention spine, after G3) · T7 (coverage-gap briefs + A11Y + PERF) · T8 (promote brief shapes) · L3 (breadcrumb residue). <strong>Gated:</strong> X2 (<code>/partners</code> + backer nudge, after WTP) · L1 (search aliases, after <code>search_zero</code> data) · L2 (screen recording). <em>Why last:</em> every item here is deliberately blocked on a positive WTP signal, accumulated data, a maintainer decision, or the loop being proven first — starting earlier means building against numbers that don't exist yet, exactly the failure mode BLINDSPOTS diagnosed.</p>
+<hr>
+<h2>5 · Merge log (deduplications — nothing lost)</h2>
+<ul><li><strong>The pivot decision</strong> ← DEMAND's proceed/pivot/drop question (old <strong>R62</strong>) + all six funnel</li></ul>
+<p>reports → <strong>VERDICT: PIVOT — axis: product.</strong> R62 is closed, not open.</p>
+<ul><li><strong>WTP validation</strong> ← VERDICT act.1 + MOAT kill#2 + DEMAND "ten people" + REVENUE §3.2/§4 +</li></ul>
+<p>MARKET §4 → <strong>G1</strong>; the <code>/teams</code> <em>surface</em> it tests is <strong>done</strong> (pivot item c / old R52+R55).</p>
+<ul><li><strong>Distribution swing</strong> ← VERDICT act.2 + MOAT kill#3 + NICHE §3 + COMPETITORS traction +</li></ul>
+<p>old <strong>R60</strong> launch half → <strong>G2</strong> (G2 subsumes R60's "Show HN to earn first stars"; R60's Discussions concern is resolved — CTA repointed to Issues; residuals → M4).</p>
+<ul><li><strong>Own the loop</strong> ← VERDICT act.3 + COMPETITORS wedge 1 + POSITIONING Option A + old <strong>R50</strong></li></ul>
+<p>(loop-legibility half, now <strong>done</strong>) → the <em>legibility</em> shipped; the <em>external-repo proof</em> is <strong>G3</strong>; the <em>retention-spine</em> half is <strong>T6</strong>.</p>
+<ul><li><strong>Revenue model</strong> ← REVENUE.md's five tiers <strong>merged with</strong> MOAT §1 / MARKET Phase 1:</li></ul>
+<p>strongest framing kept is <strong>MOAT's</strong> (flat team-audit services-first = SKU A; sponsorship audience-gated = SKU B; reject per-seat/usage/transaction/marketplace). The evidence favors MOAT's <strong>sourced 1–3% conversion ceiling</strong> over REVENUE's un-benchmarked optimism, so both SKUs are <strong>gated (X1/X2)</strong>, not scheduled.</p>
+<ul><li><strong>Quality bar</strong> ← POSITIONING C + COMPETITORS wedge 2 + NICHE exploit 3 (the <em>claim</em>, now</li></ul>
+<p><strong>done</strong>/surfaced) <strong>+</strong> BLINDSPOTS F4 (the <em>proof</em>, still open) → <strong>T1</strong> makes the shipped claim true.</p>
+<ul><li><strong>Measurement</strong> ← old <strong>R05</strong> + FUNNEL §4.3 + REVENUE §4.4 + BLINDSPOTS §1.3/F1 → <strong>M1</strong>,</li></ul>
+<p>re-ruled from footnote to spine.</p>
+<ul><li><strong>Analytics/trust honesty</strong> ← PROOF NF2 + RETENTION R12 (gp-aid disclosure) + BLINDSPOTS</li></ul>
+<p>§5.4 (gp-aid privacy) + §5.1 (no SECURITY.md) + §5.2 (unversioned prompts) → <strong>T3</strong>.</p>
+<ul><li><strong>Proof placement</strong> ← old R25/R27 (<strong>done</strong> — hero pointer, examples section) <strong>+</strong></li></ul>
+<p>BLINDSPOTS §4 P0-2 (the reports render as a text dump) → the <em>new, open</em> half is <strong>U2</strong>.</p>
+<ul><li><strong>Old Themes A–G product backlog</strong> (R01–R52, R54–R56, R63–R66) → rolled into <strong>Already done</strong></li></ul>
+<p>(0.14.0), not re-listed.</p>
+<ul><li><strong>BREADCRUMBS</strong> ← brief 145 residue; the four headline fixes were **largely applied in</li></ul>
+<p>0.16.0<strong> (CLAUDE.md now classifies vitals/examples/manifest/metrics); the small remainder → </strong>L3**.</p>
+<ul><li><strong>CHECKOUT.md</strong> merged as a null (no payment surface by design); its only successors are the</li></ul>
+<p>gated revenue SKUs (X1/X2).</p>
+<hr>
+<p><em>Report only — synthesis, no code changed. Should we adjust the sequence — e.g. is the launch swing (G2) too early before the P0 fixes (U1/U2) land, should brief-efficacy evals (T1) move into Now to defend the quality-bar claim the moment it went live, or should any revenue item be un-gated?</em></p></div></div></section><footer class="foot"><div class="wrap"><div class="cta-band"><h3>Get a report like this on your own repo</h3><p>Copy a brief, paste it into your agent, and read what it files. Free, no signup, nothing leaves your machine.</p><div class="row"><a class="btn btn-primary" href="/#catalog">Browse the catalog</a><a class="btn btn-ghost" href="/studio">Open the Report Studio</a></div></div><div class="links"><a href="/">Home</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a><a href="/vitals">Vitals Viewer</a><a href="/examples/">Sample reports</a><a href="/quality">Why briefs don't rot</a><a href="/changelog">Changelog</a><a href="/teams">For teams</a><a href="/partners">Partners</a><a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div><p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · works with Claude Code, Cursor, Copilot &amp; any coding agent</p></div></footer>
+<script src="/js/gp-detail.js"></script>
+<script>(function(){var KEY="gp-theme",root=document.documentElement,btn=document.getElementById("themetog");function isLight(){var t=root.getAttribute("data-theme");if(t==="light"||t==="dark")return t==="light";try{return window.matchMedia("(prefers-color-scheme: light)").matches;}catch(e){return false;}}function paint(){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",isLight()?"#F2EFE6":"#15120D");}paint();if(btn)btn.onclick=function(){var next=isLight()?"dark":"light";root.setAttribute("data-theme",next);try{localStorage.setItem(KEY,next);}catch(e){}paint();};})();</script>
+</body>
+</html>
