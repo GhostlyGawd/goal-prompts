@@ -4,6 +4,7 @@ title: The Charter
 family: Mission
 question: why does this exist?
 output: CHARTER.md
+example: /CHARTER.md
 related: 150 142 52
 tagline: Excavates the evidence, then interviews you — questions with evidence-backed candidates, your answers, no guesses — into the one-page contract every session starts from.
 ---
