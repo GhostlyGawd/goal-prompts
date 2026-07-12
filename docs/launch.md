@@ -53,10 +53,12 @@ Maintainer-only, before announcing (each blocks reading or riding the launch):
       filter `pathname:/raw/` — confirm you can see per-path counts. Better:
       a Log Drain (docs/usage-metrics.md, Option 1). The middleware+KV path
       (Option 2) can wait.
-- [ ] **npm publish + MCP registry** (CREDIBILITY 3): set `NPM_TOKEN` in repo
-      secrets, copy `.github/npm-publish.example.yml` into workflows, cut a
-      release. Makes `npx -y goal-prompts` real and lists the server where
-      MCP clients look.
+- [ ] **npm publish + MCP registry** (CREDIBILITY 3): create an npm
+      automation token, add it as the `NPM_TOKEN` repo secret, copy
+      `.github/publish.example.yml` to `.github/workflows/publish.yml`, then
+      publish a GitHub Release tagged `v<package.json version>` — the
+      workflow gates on `scripts/check` and publishes. Makes
+      `npx -y goal-prompts` real and lists the server where MCP clients look.
 - [ ] **Record the 10–15s run clip** (SHOWCASE F1 — "the single biggest
       unlock"): screen-record `/goal:bug-hunt` running in Claude Code on a
       real repo → BUGS.md appearing → one finding scrolled. No narration, no
