@@ -93,6 +93,39 @@
    "title": "Venture Verdict"
   },
   {
+   "chars": 3450,
+   "family": "Mission",
+   "id": "149",
+   "output": "CHARTER.md",
+   "question": "why does this exist?",
+   "raw": "https://goal-prompts.vercel.app/raw/149.md",
+   "slug": "the-charter",
+   "tagline": "Excavates what this product is meant to be — from README promises, docs, and the commit record — and drafts the one-page contract every future session starts from.",
+   "title": "The Charter"
+  },
+  {
+   "chars": 3174,
+   "family": "Mission",
+   "id": "150",
+   "output": "DRIFT.md",
+   "question": "why does this exist?",
+   "raw": "https://goal-prompts.vercel.app/raw/150.md",
+   "slug": "drift-audit",
+   "tagline": "Holds what the repo is against what it says it is — every surface traced to a goal, every goal to working code — and files each drift: formalize, finish, park, or kill.",
+   "title": "Drift Audit"
+  },
+  {
+   "chars": 3089,
+   "family": "Mission",
+   "id": "151",
+   "output": "DEBRIEF.md",
+   "question": "why does this exist?",
+   "raw": "https://goal-prompts.vercel.app/raw/151.md",
+   "slug": "the-debrief",
+   "tagline": "The milestone-boundary review — what was agreed, what landed, and a verdict on every piece: keep, finish, formalize, or revert — logged so decided stays decided.",
+   "title": "The Debrief"
+  },
+  {
    "chars": 3463,
    "example": "https://goal-prompts.vercel.app/reports/IMPROVEMENTS.md",
    "family": "Product",
@@ -1331,7 +1364,7 @@
    "title": "Recurring Health Check"
   },
   {
-   "chars": 3964,
+   "chars": 3995,
    "family": "Act",
    "id": "46",
    "output": "TRIAGE.md",
@@ -1664,6 +1697,7 @@
  ],
  "families": [
   "Venture",
+  "Mission",
   "Product",
   "Quality",
   "Speed",
@@ -1703,6 +1737,7 @@
   ],
   "Growth": "https://goal-prompts.vercel.app/raw/family-growth.md",
   "Meta": "https://goal-prompts.vercel.app/raw/family-meta.md",
+  "Mission": "https://goal-prompts.vercel.app/raw/family-mission.md",
   "Ops": "https://goal-prompts.vercel.app/raw/family-ops.md",
   "Product": "https://goal-prompts.vercel.app/raw/family-product.md",
   "Quality": "https://goal-prompts.vercel.app/raw/family-quality.md",
@@ -2281,6 +2316,22 @@
    "name": "Zero to Shipped",
    "page": "https://goal-prompts.vercel.app/p/zerotoship",
    "tagline": "Eleven stages, one repo: from is-it-worth-building to shipped.",
+   "type": "standard"
+  },
+  {
+   "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-mission.md",
+   "desc": "Stop the drift loop: write the one-page charter this repo has been missing, hold every shipped surface against it, then let the Fixer delete what nobody asked for — and leave with a contract every future session reads before touching product code.",
+   "featured": true,
+   "ids": [
+    "149",
+    "150",
+    "47"
+   ],
+   "key": "mission",
+   "name": "Stay on Mission",
+   "page": "https://goal-prompts.vercel.app/p/mission",
+   "tagline": "Charter the product, measure the drift, ship the deletions — and stop losing the plot.",
    "type": "standard"
   },
   {

@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.17.0 — 2026-07-12
+- New family: **Mission — why does this exist?** The brownfield answer to
+  intent drift. Where the Build family (141–144) gates a greenfield build on
+  the template harness, Mission gives any existing repo a durable intent
+  layer plus the recurring audits that hold work to it — the goal-prompts
+  answer to heavyweight `.ai/` planning-folder systems: a one-page contract
+  and scheduled cross-examination instead of forty process files.
+  - **149 · The Charter** — excavates intent from README promises, docs, and
+    the commit record, then drafts `CHARTER.md`: problem, user, the job,
+    non-goals, invariants, Now/Next/Not-now, done-looks-like. The report
+    *is* the artifact (142's pattern, no harness needed); ends by asking the
+    operator to ratify it and to wire a read-this-first pointer into the
+    agent entry file.
+  - **150 · Drift Audit** — holds what the repo *is* against what it *says
+    it is*: orphan surfaces, phantom promises, non-goal breaches, half-built
+    wings, effort drift, creep vectors. Every item gets a verdict candidate
+    — formalize, finish, park, or kill — and re-runs turn drift into trend
+    arrows; findings are Studio/Fixer-shaped.
+  - **151 · The Debrief** — the milestone-boundary review: the mandate as it
+    stood when the window opened, what actually landed, stowaways,
+    shortfall, silent re-scopes, verification honesty. Verdicts
+    (keep/finish/formalize/revert) append to a run history, and each run
+    opens by checking whether the last run's verdicts were executed.
+- New playbook: **Stay on Mission** (149 → 150 → 47) — charter the product,
+  measure the drift, ship the deletions.
+- 46 · Audit Triage now routes to the family: 149–151 when intent lives
+  only in old chats.
+- Mission wears bronze-umber `#AA7A55` (ΔE ≥ 20 to its nearest categorical
+  neighbor, 3:1+ on all pinned surfaces in both themes) and a compass
+  symbol — added per the ADR-2 family recipe (brand.json categorical +
+  `FAMILY_ORDER` + `FAM_ICON` + `<symbol>`).
+
 ## 0.16.0 — 2026-07-10
 - New brief: **145 Breadcrumb Audit** (Team) — walks the doc-and-tooling link
   graph from the agent entry file (CLAUDE.md / AGENTS.md, README, CONTRIBUTING)

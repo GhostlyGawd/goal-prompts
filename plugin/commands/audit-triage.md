@@ -32,7 +32,7 @@ Evidence → the family it implicates, named by its question, with marquee ids. 
 ## Phase 3 — Curate
 - Pick 3–7 briefs, no more. Triage that recommends everything recommends nothing.
 - Sequence them: cheap-and-revealing first, deep-and-dependent later.
-- Default adds worth considering: 00 for anything with users; 28 to merge the reports after any multi-brief run; 74 when the question is one diff, not the repo.
+- Default adds worth considering: 00 for anything with users; 28 to merge the reports after any multi-brief run; 74 when the question is one diff; 149–151 when intent lives only in old chats.
 - Name every family you skipped and the evidence that made skipping safe.
 
 ## Phase 4 — Report
