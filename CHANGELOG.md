@@ -4,11 +4,11 @@
 - **The product, seen working (SHOWCASE F1, CREDIBILITY 1):** the landing
   Proof section now opens with a real recorded session — `01 · Bug Hunt`
   pasted into Claude Code inside **agentic-dev-os**, a repo this catalog was
-  not tuned on — shown end to end and independently re-verifying all 10
-  findings of the filed BUGS.md. Real session sped up ~21×, output
-  unedited, and the label saying so is baked into the frames
-  (`img/run-bug-hunt.mp4` + poster). The session ran under a read-only
-  permission gate; its only write was the report.
+  not tuned on — in two real scenes: the session (sped up ~40×, label baked
+  into the frames, output unedited), then the report it filed, readable —
+  summary counts, finding #1 with severity, file:line, and the code. The
+  session ran under a read-only permission gate; its only write was the
+  report.
 - **External dogfood (VERDICT act 3):** the Day-1 briefs, run unattended by
   coding agents against agentic-dev-os. Three reports committed unedited
   under `examples/agentic-dev-os/` and rendered at `/r/ado-*` like every
