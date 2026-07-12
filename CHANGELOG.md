@@ -8,11 +8,16 @@
   answer to heavyweight `.ai/` planning-folder systems: a one-page contract
   and scheduled cross-examination instead of forty process files.
   - **149 · The Charter** — excavates intent from README promises, docs, and
-    the commit record, then drafts `CHARTER.md`: problem, user, the job,
-    non-goals, invariants, Now/Next/Not-now, done-looks-like. The report
-    *is* the artifact (142's pattern, no harness needed); ends by asking the
-    operator to ratify it and to wire a read-this-first pointer into the
-    agent entry file.
+    the commit record, then *interviews the operator*: the seven charter
+    decisions arrive as numbered questions with evidence-backed candidates,
+    and the brief hard-stops before drafting (141/143's mid-brief gate;
+    unattended runs write the question sheet as a DRAFT charter and stop).
+    Only the operator's answers plus undisputed evidence become
+    `CHARTER.md` — problem, user, the job, non-goals, invariants,
+    Now/Next/Not-now, done-looks-like; unanswered questions stay marked
+    open, never quietly filled. The report *is* the artifact (142's
+    pattern, no harness needed); ends by asking the operator to ratify and
+    to wire a read-this-first pointer into the agent entry file.
   - **150 · Drift Audit** — holds what the repo *is* against what it *says
     it is*: orphan surfaces, phantom promises, non-goal breaches, half-built
     wings, effort drift, creep vectors. Every item gets a verdict candidate

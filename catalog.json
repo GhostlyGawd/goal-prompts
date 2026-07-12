@@ -93,14 +93,14 @@
    "title": "Venture Verdict"
   },
   {
-   "chars": 3450,
+   "chars": 3966,
    "family": "Mission",
    "id": "149",
    "output": "CHARTER.md",
    "question": "why does this exist?",
    "raw": "https://goal-prompts.vercel.app/raw/149.md",
    "slug": "the-charter",
-   "tagline": "Excavates what this product is meant to be — from README promises, docs, and the commit record — and drafts the one-page contract every future session starts from.",
+   "tagline": "Excavates the evidence, then interviews you — questions with evidence-backed candidates, your answers, no guesses — into the one-page contract every session starts from.",
    "title": "The Charter"
   },
   {
