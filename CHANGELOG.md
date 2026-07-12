@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.18.0 — 2026-07-12
+- **The product, seen working (SHOWCASE F1, CREDIBILITY 1):** the landing
+  Proof section now opens with a real recorded session — `01 · Bug Hunt`
+  pasted into Claude Code inside **agentic-dev-os**, a repo this catalog was
+  not tuned on — shown end to end and independently re-verifying all 10
+  findings of the filed BUGS.md. Real session sped up ~21×, output
+  unedited, and the label saying so is baked into the frames
+  (`img/run-bug-hunt.mp4` + poster). The session ran under a read-only
+  permission gate; its only write was the report.
+- **External dogfood (VERDICT act 3):** the Day-1 briefs, run unattended by
+  coding agents against agentic-dev-os. Three reports committed unedited
+  under `examples/agentic-dev-os/` and rendered at `/r/ado-*` like every
+  other report; the examples gallery gains a "Day-1, on a repo that isn't
+  this one" section. The security audit (06) ran too and is deliberately
+  unpublished until its top finding is fixed — the withholding is stated on
+  the gallery, because the evidence rules apply to the marketing as much as
+  the briefs.
+
 ## 0.17.0 — 2026-07-12
 - **Loop-first positioning pass** — the site now leads with the strategy the
   venture reports chose (POSITIONING.md Option A "own the audit loop";

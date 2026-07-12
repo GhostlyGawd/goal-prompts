@@ -2277,6 +2277,21 @@ def main() -> None:
                         ran_on="run against a candidate niche — flaky-test "
                                "tooling for CI — before any product existed"),
             encoding="utf-8")
+    # External dogfood (VERDICT act 3): the same briefs, run by a coding
+    # agent against a repo this catalog was NOT tuned on. Reports are copied
+    # in under examples/<dir>/ and rendered like every other report.
+    ado_names = sorted(f.stem for f in
+                       (ROOT / "examples" / "agentic-dev-os").glob("*.md"))
+    ado_slugs = [f"ado-{n.lower()}" for n in ado_names]
+    for name, slug in zip(ado_names, ado_slugs):
+        md = (ROOT / "examples" / "agentic-dev-os" / f"{name}.md").read_text(encoding="utf-8")
+        (ROOT / "r" / f"{slug}.html").write_text(
+            report_page(name, md, prompts, slug=slug,
+                        raw_href=f"/examples/agentic-dev-os/{name}.md",
+                        ran_on="run by Claude Code against agentic-dev-os — "
+                               "the maintainer's agent-governance repo, a "
+                               "codebase this catalog was not tuned on"),
+            encoding="utf-8")
 
     # ---- /quality (R50): the published quality bar — "why these briefs
     # don't rot", linked from the loop copy and every footer ----
@@ -2407,6 +2422,8 @@ def main() -> None:
         blobs[f"/r/{name.lower()}"] = (ROOT / "reports" / f"{name}.md").read_bytes()
     for name, slug in zip(venture_names, venture_slugs):
         blobs[f"/r/{slug}"] = (ROOT / "examples" / "venture" / f"{name}.md").read_bytes()
+    for name, slug in zip(ado_names, ado_slugs):
+        blobs[f"/r/{slug}"] = (ROOT / "examples" / "agentic-dev-os" / f"{name}.md").read_bytes()
     lastmod = sitemap_lastmod(blobs)
     paths = ["/", "/studio", "/vitals", "/examples/", "/changelog", "/quality",
              "/teams", "/partners"]
@@ -2414,6 +2431,7 @@ def main() -> None:
     paths += [f"/b/{p['id']}" for p in prompts]
     paths += [f"/r/{name.lower()}" for name in report_names]
     paths += [f"/r/{slug}" for slug in venture_slugs]
+    paths += [f"/r/{slug}" for slug in ado_slugs]
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                + "".join(f"  <url><loc>{BASE}{u}</loc>"

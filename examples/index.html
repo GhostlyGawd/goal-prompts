@@ -126,6 +126,27 @@
 
   <div class="note"><b>How to read one of these:</b> every finding carries a severity (S1 data loss / security · S2 broken for some users · S3 annoyance) and a confidence (certain / likely / worth-verifying). Findings cite file and line, so you can open the code and check the claim yourself — start with the verification plan for anything marked worth-verifying, and treat a report as testimony, not verdict: the agent argues, the evidence decides.</div>
 
+  <h2>Day-1, on a repo that isn't this one</h2>
+  <p class="sub" style="margin-bottom:4px">The obvious objection to self-dogfood: "of course it works on the repo it was tuned on." So the same Day-1 briefs were run — by coding agents, unattended — against <b>agentic-dev-os</b>, the maintainer's agent-governance repo. Same method, foreign codebase, reports committed unedited.</p>
+
+  <a class="card f-product" href="/r/ado-improvements">
+    <span class="id">00</span><b>Product Improvement Discovery</b>
+    <p>15 evidenced items, every one empirically reproduced — led by a governance loop whose dry-run can fabricate passing verification events, and a demo that deletes the real event history.</p>
+    <p class="file">→ examples/agentic-dev-os/IMPROVEMENTS.md</p>
+  </a>
+  <a class="card f-quality" href="/r/ado-bugs">
+    <span class="id">01</span><b>Bug Hunt</b>
+    <p>10 findings — 2 S1, 6 S2, 2 S3. The scariest: the repo's own <code>make demo</code>, listed as a ticket verification step, irreversibly wipes the real event log. A second recorded session re-verified every finding.</p>
+    <p class="file">→ examples/agentic-dev-os/BUGS.md</p>
+  </a>
+  <a class="card f-team" href="/r/ado-dx">
+    <span class="id">14</span><b>New-Dev Onboarding Audit</b>
+    <p>Setup is flawless — verify green in 0.8 s — but the first PR takes 3.5–5 hours of undocumented process traps; 12 staged fixes, and the one-hour change that removes most of them.</p>
+    <p class="file">→ examples/agentic-dev-os/DX.md</p>
+  </a>
+
+  <div class="note">The security audit (<b>06</b>) ran too — and it's deliberately <b>not published</b>: its top finding is an unpatched command-execution path, so the report went to the maintainer privately until the fix ships. That's the house style working: evidence rules apply to marketing, and ask-first applies to disclosure.</div>
+
   <h2 class="f-venture">Venture · Gut Check</h2>
   <p class="sub" style="margin-bottom:4px">A second dogfood: the Venture family run <em>before</em> a product exists. Briefs 62 → 63 → 67 research one candidate niche — flaky-test tooling for CI — entirely from sourced web evidence, and rule on it. Every claim carries a link and an access date; the bear case gets equal weight; the verdict comes out <em>pivot</em>, not a reflexive go.</p>
 
