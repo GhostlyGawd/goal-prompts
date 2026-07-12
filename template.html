@@ -166,6 +166,71 @@
   .loopline a:hover{color:var(--fc)}
   @media(max-width:420px){.pipe{grid-template-columns:1fr}}
 
+  /* ---------- the loop, played (SHOWCASE F1) ----------
+     An illustrated walkthrough in the ledger's own voice: paper panels,
+     ruled rows, mono metadata, ONE vermilion accent. Scenes swap on
+     [data-scene]; inner rows stagger in via per-scene delays. */
+  .loopshow{margin-top:26px;border:1px solid var(--line-2);border-radius:var(--r-md);background:var(--panel);overflow:hidden}
+  .ls-stage{position:relative;min-height:clamp(315px,30vw,352px)}
+  .ls-scene{position:absolute;inset:0;padding:clamp(16px,3vw,28px);display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(10px);visibility:hidden;transition:opacity var(--dur-move),transform var(--dur-move),visibility 0s var(--dur-move)}
+  .loopshow[data-scene="0"] .s0,.loopshow[data-scene="1"] .s1,.loopshow[data-scene="2"] .s2,.loopshow[data-scene="3"] .s3,.loopshow[data-scene="4"] .s4{opacity:1;transform:none;visibility:visible;transition:opacity var(--dur-move),transform var(--dur-move)}
+  .ls-doc,.ls-term{background:var(--ink);border:1px solid var(--line-2);border-radius:var(--r-sm);padding:16px 18px;max-width:640px;width:100%}
+  .ls-dochead{display:flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:12px;color:var(--dim);border-bottom:1px solid var(--line-2);padding-bottom:9px;margin-bottom:11px}
+  .ls-dochead b{color:var(--text);font-family:var(--disp);font-size:16px;letter-spacing:-.01em}
+  .ls-id{color:var(--fc);font-weight:600}
+  .ls-file{color:var(--fc);font-weight:600}
+  .ls-out{margin-left:auto;color:var(--faint)}
+  .ls-tag{font-size:14px;color:var(--dim);line-height:1.55;max-width:52ch}
+  .ls-phases{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  .ls-phases span{border:1px solid var(--line-2);border-radius:var(--r-sm);padding:5px 9px;color:var(--faint);opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s,color .3s,border-color .3s}
+  .loopshow[data-scene="0"] .ls-phases span{opacity:1;transform:none;color:var(--dim)}
+  .loopshow[data-scene="0"] .p1{transition-delay:.25s}.loopshow[data-scene="0"] .p2{transition-delay:.55s}.loopshow[data-scene="0"] .p3{transition-delay:.85s}.loopshow[data-scene="0"] .p4{transition-delay:1.15s;border-color:var(--fc);color:var(--fc)}
+  .ls-fine{margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .ls-cap{font-family:var(--mono);font-size:12.5px;color:var(--dim);max-width:640px}
+  .ls-cap a,.ls-note a{color:var(--fc);text-decoration:none}
+  .ls-cap a:hover,.ls-note a:hover{text-decoration:underline}
+  .ls-termbar{display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line-2);padding-bottom:9px;margin-bottom:11px}
+  .ls-termbar i{width:9px;height:9px;border-radius:50%;background:var(--line-3)}
+  .ls-termbar span{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .ls-line{font-family:var(--mono);font-size:13px;color:var(--text);line-height:1.9;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+  .ls-line .ls-dim,.ls-dim{color:var(--faint)}
+  .loopshow[data-scene="1"] .ls-line{opacity:1;transform:none}
+  .loopshow[data-scene="1"] .t1{transition-delay:.15s}.loopshow[data-scene="1"] .t2{transition-delay:.7s}.loopshow[data-scene="1"] .t3{transition-delay:1.3s}.loopshow[data-scene="1"] .t4{transition-delay:1.9s}.loopshow[data-scene="1"] .t5{transition-delay:2.5s}
+  .ls-line.t1{color:var(--fc)}
+  .ls-reveal{opacity:0;transform:translateY(5px);transition:opacity .35s,transform .35s}
+  .loopshow[data-scene="2"] .s2 .ls-reveal,.loopshow[data-scene="3"] .s3 .ls-reveal,.loopshow[data-scene="4"] .s4 .ls-reveal{opacity:1;transform:none}
+  .loopshow[data-scene="2"] .r1{transition-delay:.2s}.loopshow[data-scene="2"] .r2{transition-delay:.8s}.loopshow[data-scene="2"] .r3{transition-delay:1.6s}
+  .ls-sum{font-size:14px;color:var(--dim)}
+  .ls-sum b{color:var(--text)}
+  .ls-find{border:1px solid var(--line-2);border-left:2px solid var(--fc);border-radius:var(--r-sm);padding:12px 14px;margin-top:11px}
+  .ls-find b{display:block;font-family:var(--disp);font-size:15px;color:var(--text);margin-top:7px;letter-spacing:-.01em}
+  .ls-find p{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.55}
+  .ls-meta{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:11px}
+  .ls-sev{border:1px solid color-mix(in srgb,var(--fc) 55%,transparent);color:var(--fc);border-radius:var(--r-sm);padding:2px 7px;letter-spacing:.06em}
+  .ls-sev.s3{border-color:var(--line-3);color:var(--faint)}
+  .ls-loc{color:var(--faint)}
+  .ls-check{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
+  .ls-check.unpicked{color:var(--dim)}
+  .ls-box{width:15px;height:15px;flex:none;border:1px solid var(--line-3);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--fc)}
+  .ls-box::after{content:"✓";opacity:0;transform:scale(.5);transition:opacity .25s,transform .25s}
+  .loopshow[data-scene="3"] .c1 .ls-box::after{opacity:1;transform:none;transition-delay:.9s}
+  .loopshow[data-scene="3"] .c2 .ls-box::after{opacity:1;transform:none;transition-delay:1.5s}
+  .loopshow[data-scene="3"] .c1{transition-delay:.2s}.loopshow[data-scene="3"] .c2{transition-delay:.45s}.loopshow[data-scene="3"] .c3{transition-delay:.7s}.loopshow[data-scene="3"] .b1{transition-delay:2.1s}
+  .ls-btn{margin-top:13px;display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--btn-fg);background:var(--btn);border-radius:var(--r-sm);padding:9px 14px}
+  .ls-commit{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:12.5px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
+  .ls-hash{color:var(--fc);font-weight:600}
+  .ls-ok{margin-left:auto;color:var(--good,#3E9B6B)}
+  .loopshow[data-scene="4"] .k1{transition-delay:.25s}.loopshow[data-scene="4"] .k2{transition-delay:.85s}.loopshow[data-scene="4"] .e1{transition-delay:1.7s}
+  .ls-end{margin-top:15px;font-family:var(--disp);font-weight:700;font-size:clamp(19px,2.6vw,24px);letter-spacing:-.02em;color:var(--dim)}
+  .ls-end b{color:var(--fc)}
+  .ls-rail{display:flex;gap:2px;border-top:1px solid var(--line-2);background:color-mix(in srgb,var(--ink) 55%,var(--panel))}
+  .ls-dot{flex:1;background:transparent;border:0;border-top:2px solid transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:11px 4px 12px;transition:color var(--dur-state),border-color var(--dur-state)}
+  .ls-dot:hover{color:var(--text)}
+  .ls-dot[aria-selected="true"]{color:var(--fc);border-top-color:var(--fc)}
+  .ls-note{margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  @media(max-width:560px){.ls-stage{min-height:430px}.ls-out{display:none}}
+  @media (prefers-reduced-motion:reduce){.ls-scene,.ls-line,.ls-reveal,.ls-phases span,.ls-box::after{transition:none!important}.loopshow .ls-line,.loopshow .ls-reveal,.loopshow .ls-phases span{opacity:1;transform:none}}
+
   /* ---------- value / report anatomy ---------- */
   .val{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:16px}
   .val ul{list-style:none;display:grid;gap:15px;margin-top:22px}
@@ -513,7 +578,101 @@
   <h2 class="h2">One method. Every audit.</h2>
   <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every brief walks the same arc. That’s what makes the output consistent and repeatable.</p>
   <!-- R50 (COMPETITIVE §10 bet 1): lead with the loop — every rival stops at "here's a prompt"; this catalog owns what happens after the run -->
-  <p class="loopline">The loop: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/r/fixlog">FIXLOG</a></b> — audits that end in commits, not chat scrollback. <a href="/quality">Why these briefs don’t rot →</a></p>
+  <!-- SHOWCASE F1: the system, played end to end, in the visitor's language
+       (plain words first; the catalog's own nouns arrive only in the recap
+       line below, once the concepts exist). Schematic on purpose and labeled
+       — but every artifact is real: the bug, its location, and both fix
+       commits are this repo's own BUGS.md → FIXLOG chain. -->
+  <div class="loopshow" id="loopshow" data-scene="0" aria-label="What actually happens, in five steps">
+    <div class="ls-stage">
+      <div class="ls-scene s0">
+        <div class="ls-doc">
+          <div class="ls-dochead"><span class="ls-id">01</span><b>Bug Hunt</b><span class="ls-out">an instruction sheet · one of __N_BRIEFS__</span></div>
+          <p class="ls-tag">An instruction sheet for the AI: what to look for in your code, how to judge what it finds, and what to write down.</p>
+          <div class="ls-phases"><span class="p1">look around</span><span class="p2">check for problems</span><span class="p3">keep only what’s provable</span><span class="p4">write it up</span></div>
+          <div class="ls-fine">short enough to read yourself · it cannot change your code</div>
+        </div>
+        <div class="ls-cap">Instead of asking “review my repo” and getting vibes — copy one prompt off this site.</div>
+      </div>
+      <div class="ls-scene s1">
+        <div class="ls-term">
+          <div class="ls-termbar"><i></i><i></i><i></i><span>the AI coding tool you already use · on your computer</span></div>
+          <div class="ls-line t1">› paste the prompt</div>
+          <div class="ls-line t2">● Reading your code <span class="ls-dim">· stays on your machine, nothing is uploaded</span></div>
+          <div class="ls-line t3">● Checking 8 kinds of bugs <span class="ls-dim">· crashes, race conditions, bad edge cases…</span></div>
+          <div class="ls-line t4">● Dropping anything it can’t prove</div>
+          <div class="ls-line t5">✓ Saving what it found to one file: BUGS.md</div>
+        </div>
+        <div class="ls-cap">Paste it into Claude Code, Cursor — whatever you already use. Then go get coffee.</div>
+      </div>
+      <div class="ls-scene s2">
+        <div class="ls-doc">
+          <div class="ls-dochead"><span class="ls-file">→ BUGS.md</span><span class="ls-out">a file, saved in your project</span></div>
+          <div class="ls-reveal r1 ls-sum"><b>5 problems found</b> — 3 serious · 2 minor. One of them:</div>
+          <div class="ls-reveal r2 ls-find">
+            <div class="ls-meta"><span class="ls-sev">serious · certain</span><span class="ls-loc">template.html · openFromHash()</span></div>
+            <b>Share a link to anything past item 99 — it opens nothing</b>
+            <p>Why: the link check only accepts two-digit numbers. Fix: widen that check — two lines.</p>
+          </div>
+          <div class="ls-reveal r3 ls-fine">that’s the shape of every entry: how bad · where exactly · why it happens · how to fix it</div>
+        </div>
+        <div class="ls-cap">Yours will be about <b>your</b> code — this example is from this site’s own audit of itself, <a href="/r/bugs">read it →</a></div>
+      </div>
+      <div class="ls-scene s3">
+        <div class="ls-doc">
+          <div class="ls-dochead"><b>Pick what gets fixed</b><span class="ls-out">a checklist · in your browser · no upload</span></div>
+          <div class="ls-reveal c1 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Share links past item 99 open nothing</div>
+          <div class="ls-reveal c2 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Share links land hidden behind the menu bar</div>
+          <div class="ls-reveal c3 ls-check unpicked"><span class="ls-box"></span><span class="ls-sev s3">minor</span> Copy button mislabels on a double-click</div>
+          <div class="ls-reveal b1 ls-btn">Fix the 2 I picked</div>
+        </div>
+        <div class="ls-cap">Nothing changes unless you tick it. You stay in charge.</div>
+      </div>
+      <div class="ls-scene s4">
+        <div class="ls-doc">
+          <div class="ls-dochead"><span class="ls-file">→ git log</span><span class="ls-out">one commit per problem, tests run after each</span></div>
+          <div class="ls-reveal k1 ls-commit"><span class="ls-hash">683dff5</span> share links past item 99 open correctly <span class="ls-ok">✓ tests pass</span></div>
+          <div class="ls-reveal k2 ls-commit"><span class="ls-hash">f8ffa35</span> links no longer land hidden behind the bar <span class="ls-ok">✓ tests pass</span></div>
+          <div class="ls-reveal e1 ls-end">one prompt → written proof → <b>real fixes</b></div>
+        </div>
+        <div class="ls-cap">Each fix is its own commit, named after the problem — and a running file lists what changed, why, and how it was checked (<a href="/r/fixlog">this site’s own →</a>).</div>
+      </div>
+    </div>
+    <div class="ls-rail" role="tablist" aria-label="The five steps">
+      <button class="ls-dot" type="button" data-go="0" role="tab" aria-selected="true">1 · Copy</button>
+      <button class="ls-dot" type="button" data-go="1" role="tab" aria-selected="false">2 · Run</button>
+      <button class="ls-dot" type="button" data-go="2" role="tab" aria-selected="false">3 · Results</button>
+      <button class="ls-dot" type="button" data-go="3" role="tab" aria-selected="false">4 · Pick</button>
+      <button class="ls-dot" type="button" data-go="4" role="tab" aria-selected="false">5 · Fixed</button>
+    </div>
+    <p class="ls-note">Drawn, not screenshots — but the bug and both fixes are real, from this site auditing itself: <a href="/r/bugs">the report</a> · <a href="/r/fixlog">the fix log</a>.</p>
+  </div>
+  <!-- the same five steps, in this catalog's own words — a recap, now that
+       the concepts exist; each noun links to the real thing -->
+  <p class="loopline">In this catalog’s words: the prompt is a <b>brief</b>, the written results are its <b>report</b>, the checklist is the <a href="/studio">Studio</a>, the fix run is the <a href="/b/47">Fixer</a>, and the receipts are the <a href="/r/fixlog">FIXLOG</a>. <a href="/quality">Why these briefs don’t rot →</a></p>
+  <script>
+  (function(){
+    var box = document.getElementById("loopshow");
+    if(!box) return;
+    var dots = [].slice.call(box.querySelectorAll(".ls-dot"));
+    var N = dots.length, cur = 0, timer = null, paused = false;
+    var reduced = false;
+    try{ reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+    function go(n){
+      cur = (n + N) % N;
+      box.setAttribute("data-scene", String(cur));
+      dots.forEach(function(d, i){ d.setAttribute("aria-selected", i === cur ? "true" : "false"); });
+    }
+    function tick(){ if(!paused) go(cur + 1); }
+    function arm(){ if(timer) clearInterval(timer); if(!reduced) timer = setInterval(tick, 3600); }
+    dots.forEach(function(d){ d.addEventListener("click", function(){ go(+d.getAttribute("data-go")); arm(); }); });
+    box.addEventListener("mouseenter", function(){ paused = true; });
+    box.addEventListener("mouseleave", function(){ paused = false; });
+    box.addEventListener("focusin", function(){ paused = true; });
+    box.addEventListener("focusout", function(){ paused = false; });
+    if(reduced) go(2); else arm();
+  })();
+  </script>
   <div class="pipe">
     <div class="pnode n1"><div class="dot">1</div><h3>Explore</h3><p>The agent maps the repo and finds where the risk actually lives.</p></div>
     <div class="pnode n2"><div class="dot">2</div><h3>Audit</h3><p>It sweeps through a fixed set of expert lenses, citing file &amp; line.</p></div>
