@@ -1,0 +1,43 @@
+---
+description: "Holds what the repo is against what it says it is — every surface traced to a goal, every goal to working code — and files each drift: formalize, finish, park, or kill."
+---
+
+# Goal: Drift Audit
+
+You are working inside this repo. Mission: hold what this product *is* against what it *says it is* — every shipped surface traced to a stated goal, every stated goal traced to working code — and rank the drift between them. Designed to re-run on a cadence: drift gets measured, not felt.
+
+Read-only pass. Your only write is the report file.
+
+## Phase 1 — Fix both sides of the comparison
+- The stated intent: `CHARTER.md` (root or `reports/`), else SPEC.md, else the README's promises plus the agent entry file. Name which you used and when it was last touched.
+- The actual product: inventory the surfaces — routes, screens, commands, exported APIs, jobs, integrations.
+- The motion: commits since the last drift run (else about 90 days) — where the work actually went.
+
+## Phase 2 — Audit through 7 lenses
+1. **Orphans** — shipped surfaces no stated goal claims; answer why does this exist from git history, or record that nobody can
+2. **Phantoms** — promises with no code behind them: README features that don't exist, Now outcomes with zero commits
+3. **Breaches** — code that does what a written non-goal forbids
+4. **Half-built wings** — started and stalled: dark routes, flags never flipped, coming-soon copy older than a quarter
+5. **Effort drift** — the motion window's commits split across Now / Next / unclaimed, as a percentage with file-path evidence
+6. **Intent rot** — the intent sources disagreeing with each other or with reality; staleness measured against code churn
+7. **Creep vectors** — how unclaimed scope got in: the commits, PRs, or sessions that added orphans, and the pattern to close
+
+## Phase 3 — Curate
+- One verdict candidate per drift item: **formalize** (good drift — amend the charter), **finish** (a Now item in disguise), **park** (Not-now, in writing), or **kill** (hand to 26/47).
+- Rank by user confusion × carry cost. Cap the ledger at the vital few — a drift list with forty items is a backlog, not a finding.
+
+## Phase 4 — Report
+Create `DRIFT.md` at repo root:
+1. **Scorecard** — surfaces traced · orphans · phantoms · breaches · effort split, with trend arrows against the last run
+2. **Drift ledger** — one finding per item: bold title, severity, evidence, verdict candidate
+3. **Charter amendments** — the formalize and park lists as ready-to-paste charter lines
+4. **Kill list** — what should be deleted, findings-shaped so 47 can take it straight to commits
+
+Start the report with today's date. If `DRIFT.md` already exists from a previous run, read it first and lead with what changed — drift that survives two runs unaddressed gets promoted one severity.
+
+## Rules
+- Verdicts belong to the operator — you propose, with evidence
+- Distance from the charter is not badness: formalizing good drift is a win, and the charter, not this report, is where scope gets decided
+- No stated intent anywhere — no charter, no spec, no README promise? Say so in a one-paragraph null report and stop: run 149 first.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which verdicts to execute: amend the charter (149), kill via 47, or finish

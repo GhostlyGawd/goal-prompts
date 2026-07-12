@@ -31,10 +31,10 @@ DEFAULT_BASE = "https://goal-prompts.vercel.app"
 BASE = os.environ.get("GOAL_PROMPTS_BASE", DEFAULT_BASE).rstrip("/")
 LIMIT = 4000
 CONDUCTOR_CAP = 16  # max stages in one conductor (mcp/server.cjs matches this)
-FAMILY_ORDER = ["Venture", "Product", "Quality", "Speed", "Trust", "Compliance",
-                "Growth", "Team", "API", "Clarity", "Design", "Data", "Ops",
-                "Reliability", "Subtract", "Meta", "Act", "Build", "Agent",
-                "Automation", "AI-UX", "AI-Ethics"]
+FAMILY_ORDER = ["Venture", "Mission", "Product", "Quality", "Speed", "Trust",
+                "Compliance", "Growth", "Team", "API", "Clarity", "Design",
+                "Data", "Ops", "Reliability", "Subtract", "Meta", "Act",
+                "Build", "Agent", "Automation", "AI-UX", "AI-Ethics"]
 # family colors — the structural signature: color = family, everywhere.
 # The values live in design-engine/brand.json (palette.categorical); og.py
 # keeps importing build.FAMILY_COLORS, and the compiled tokens.css carries
@@ -60,8 +60,10 @@ DATED_REPORT_EXEMPT = {"47"}
 # primary finding (02 missing tests, 16 missing docs). 06 belongs here too:
 # every repo has an attack surface — its own supply chain, secrets in git,
 # config — so a "no attack surface" escape could never truthfully fire.
+# 149 (the charter) is the same species: every repo has an intent to state,
+# and intent that exists nowhere is exactly what the brief exists to fix.
 NULL_REPORT_EXEMPT = {"00", "01", "02", "06", "13", "16", "26", "27", "28",
-                      "29", "46", "47"}
+                      "29", "46", "47", "149"}
 
 
 def sort_key(p: dict) -> tuple:

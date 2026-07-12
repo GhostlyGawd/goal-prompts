@@ -60,7 +60,7 @@
       "Meta": "#C4CBD8", "Act": "#E84C3D", "Agent": "#8B7CF8",
       "Automation": "#E8DE5A", "AI-UX": "#F06FD8", "Compliance": "#8892B0",
       "API": "#36B3EC", "Reliability": "#8CA878", "AI-Ethics": "#6E8AF0",
-      "Build": "#8CD94C"
+      "Build": "#8CD94C", "Mission": "#AA7A55"
     },
     "categorical_prefix": "f-",
     "categorical_var": "fc",
