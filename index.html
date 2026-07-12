@@ -578,76 +578,78 @@
   <h2 class="h2">One method. Every audit.</h2>
   <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every brief walks the same arc. That’s what makes the output consistent and repeatable.</p>
   <!-- R50 (COMPETITIVE §10 bet 1): lead with the loop — every rival stops at "here's a prompt"; this catalog owns what happens after the run -->
-  <p class="loopline">The loop: <b>brief → report → <a href="/studio">Studio</a> → <a href="/b/47">Fixer</a> → <a href="/r/fixlog">FIXLOG</a></b> — audits that end in commits, not chat scrollback. <a href="/quality">Why these briefs don’t rot →</a></p>
-
-  <!-- SHOWCASE F1: the system, played end to end. An illustrated walkthrough
-       (schematic on purpose, and labeled) — but every artifact in it is real:
-       the finding, its severity and location, and both commits are this
-       repo's own BUGS.md → FIXLOG chain (/r/bugs · /r/fixlog). -->
-  <div class="loopshow" id="loopshow" data-scene="0" aria-label="How the loop works, played through five stages">
+  <!-- SHOWCASE F1: the system, played end to end, in the visitor's language
+       (plain words first; the catalog's own nouns arrive only in the recap
+       line below, once the concepts exist). Schematic on purpose and labeled
+       — but every artifact is real: the bug, its location, and both fix
+       commits are this repo's own BUGS.md → FIXLOG chain. -->
+  <div class="loopshow" id="loopshow" data-scene="0" aria-label="What actually happens, in five steps">
     <div class="ls-stage">
       <div class="ls-scene s0">
         <div class="ls-doc">
-          <div class="ls-dochead"><span class="ls-id">01</span><b>Bug Hunt</b><span class="ls-out">→ writes BUGS.md</span></div>
-          <p class="ls-tag">Find the bugs already here — latent, intermittent, or quietly shipping — and rank them by user pain.</p>
-          <div class="ls-phases"><span class="p1">1 · Explore</span><span class="p2">2 · Audit</span><span class="p3">3 · Curate</span><span class="p4">4 · Report</span></div>
-          <div class="ls-fine">under 4,000 characters · read-only · ends by asking</div>
+          <div class="ls-dochead"><span class="ls-id">01</span><b>Bug Hunt</b><span class="ls-out">an instruction sheet · one of 152</span></div>
+          <p class="ls-tag">An instruction sheet for the AI: what to look for in your code, how to judge what it finds, and what to write down.</p>
+          <div class="ls-phases"><span class="p1">look around</span><span class="p2">check for problems</span><span class="p3">keep only what’s provable</span><span class="p4">write it up</span></div>
+          <div class="ls-fine">short enough to read yourself · it cannot change your code</div>
         </div>
-        <div class="ls-cap">A brief: one ready-to-run audit, four fixed phases. Copy it.</div>
+        <div class="ls-cap">Instead of asking “review my repo” and getting vibes — copy one prompt off this site.</div>
       </div>
       <div class="ls-scene s1">
         <div class="ls-term">
-          <div class="ls-termbar"><i></i><i></i><i></i><span>your agent · your repo · local</span></div>
-          <div class="ls-line t1">› /goal:bug-hunt</div>
-          <div class="ls-line t2">● Explore — mapping the blast zones: money, auth, irreversible writes</div>
-          <div class="ls-line t3">● Audit — 8 lenses <span class="ls-dim">· reading files · git log · running the tests</span></div>
-          <div class="ls-line t4">● Curate — evidence or it doesn’t exist; every finding cites code</div>
-          <div class="ls-line t5">✓ Report — writing BUGS.md <span class="ls-dim">· its only write</span></div>
+          <div class="ls-termbar"><i></i><i></i><i></i><span>the AI coding tool you already use · on your computer</span></div>
+          <div class="ls-line t1">› paste the prompt</div>
+          <div class="ls-line t2">● Reading your code <span class="ls-dim">· stays on your machine, nothing is uploaded</span></div>
+          <div class="ls-line t3">● Checking 8 kinds of bugs <span class="ls-dim">· crashes, race conditions, bad edge cases…</span></div>
+          <div class="ls-line t4">● Dropping anything it can’t prove</div>
+          <div class="ls-line t5">✓ Saving what it found to one file: BUGS.md</div>
         </div>
-        <div class="ls-cap">It runs in <b>your</b> agent — read-only, nothing leaves your machine.</div>
+        <div class="ls-cap">Paste it into Claude Code, Cursor — whatever you already use. Then go get coffee.</div>
       </div>
       <div class="ls-scene s2">
         <div class="ls-doc">
-          <div class="ls-dochead"><span class="ls-file">→ BUGS.md</span><span class="ls-out">filed at your repo root</span></div>
-          <div class="ls-reveal r1 ls-sum"><b>5 findings</b> — 0 × S1 · 3 × S2 · 2 × S3</div>
+          <div class="ls-dochead"><span class="ls-file">→ BUGS.md</span><span class="ls-out">a file, saved in your project</span></div>
+          <div class="ls-reveal r1 ls-sum"><b>5 problems found</b> — 3 serious · 2 minor</div>
           <div class="ls-reveal r2 ls-find">
-            <div class="ls-meta"><span class="ls-sev">S2 · certain</span><span class="ls-loc">template.html · openFromHash()</span></div>
-            <b>Hash router caps at two-digit ids</b>
-            <p>A deep link to brief 100+ silently fails to open. Fix sketch: widen the regex behind the existing guard.</p>
+            <div class="ls-meta"><span class="ls-sev">serious · certain</span><span class="ls-loc">template.html · openFromHash()</span></div>
+            <b>Shared links to newer items silently fail</b>
+            <p>Anyone following one hits a dead end. Suggested fix: two lines — widen one check.</p>
           </div>
-          <div class="ls-reveal r3 ls-fine">each finding: severity + confidence · file:line · trigger · fix sketch</div>
+          <div class="ls-reveal r3 ls-fine">every problem: how bad · where exactly · how a user hits it · how to fix it</div>
         </div>
-        <div class="ls-cap">One evidence-backed report. This finding is real — <a href="/r/bugs">read it →</a></div>
+        <div class="ls-cap">You get it in writing. Every claim points at real code — this one’s real, <a href="/r/bugs">read it →</a></div>
       </div>
       <div class="ls-scene s3">
         <div class="ls-doc">
-          <div class="ls-dochead"><b>Report Studio</b><span class="ls-out">in your browser · no upload</span></div>
-          <div class="ls-reveal c1 ls-check"><span class="ls-box"></span><span class="ls-sev">S2</span> Hash router caps at two-digit ids</div>
-          <div class="ls-reveal c2 ls-check"><span class="ls-box"></span><span class="ls-sev">S2</span> Deep links hide under the sticky toolbar</div>
-          <div class="ls-reveal c3 ls-check unpicked"><span class="ls-box"></span><span class="ls-sev s3">S3</span> Copy-label race on double-click</div>
-          <div class="ls-reveal b1 ls-btn">Copy Fixer prompt — 2 findings</div>
+          <div class="ls-dochead"><b>Pick what gets fixed</b><span class="ls-out">a checklist · in your browser · no upload</span></div>
+          <div class="ls-reveal c1 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Shared links to newer items fail</div>
+          <div class="ls-reveal c2 ls-check"><span class="ls-box"></span><span class="ls-sev">serious</span> Shared links land hidden behind the menu bar</div>
+          <div class="ls-reveal c3 ls-check unpicked"><span class="ls-box"></span><span class="ls-sev s3">minor</span> Copy button mislabels on a double-click</div>
+          <div class="ls-reveal b1 ls-btn">Fix the 2 I picked</div>
         </div>
-        <div class="ls-cap">Drop the report in, tick what matters — one tap builds a targeted <a href="/b/47">Fixer</a> prompt.</div>
+        <div class="ls-cap">Nothing changes unless you tick it. You stay in charge.</div>
       </div>
       <div class="ls-scene s4">
         <div class="ls-doc">
-          <div class="ls-dochead"><span class="ls-file">→ git log</span><span class="ls-out">one finding = one verified commit</span></div>
-          <div class="ls-reveal k1 ls-commit"><span class="ls-hash">683dff5</span> three-digit hash router — ids 100–999 route <span class="ls-ok">✓ verified</span></div>
-          <div class="ls-reveal k2 ls-commit"><span class="ls-hash">f8ffa35</span> deep-link scroll clears the sticky toolbar <span class="ls-ok">✓ verified</span></div>
-          <div class="ls-reveal e1 ls-end">brief → report → <b>commits</b></div>
+          <div class="ls-dochead"><span class="ls-file">→ fixed, with receipts</span><span class="ls-out">one change per problem, each one checked</span></div>
+          <div class="ls-reveal k1 ls-commit"><span class="ls-hash">683dff5</span> shared links to items 100–999 work <span class="ls-ok">✓ checked</span></div>
+          <div class="ls-reveal k2 ls-commit"><span class="ls-hash">f8ffa35</span> links no longer land hidden behind the bar <span class="ls-ok">✓ checked</span></div>
+          <div class="ls-reveal e1 ls-end">one prompt → written proof → <b>real fixes</b></div>
         </div>
-        <div class="ls-cap">Both commits are real — traced in the <a href="/r/fixlog">FIXLOG →</a></div>
+        <div class="ls-cap">The AI fixes exactly what you picked — and a log keeps the receipts, <a href="/r/fixlog">real ones →</a></div>
       </div>
     </div>
-    <div class="ls-rail" role="tablist" aria-label="Walkthrough stages">
-      <button class="ls-dot" type="button" data-go="0" role="tab" aria-selected="true">Brief</button>
-      <button class="ls-dot" type="button" data-go="1" role="tab" aria-selected="false">Run</button>
-      <button class="ls-dot" type="button" data-go="2" role="tab" aria-selected="false">Report</button>
-      <button class="ls-dot" type="button" data-go="3" role="tab" aria-selected="false">Studio</button>
-      <button class="ls-dot" type="button" data-go="4" role="tab" aria-selected="false">Commits</button>
+    <div class="ls-rail" role="tablist" aria-label="The five steps">
+      <button class="ls-dot" type="button" data-go="0" role="tab" aria-selected="true">1 · Copy</button>
+      <button class="ls-dot" type="button" data-go="1" role="tab" aria-selected="false">2 · Run</button>
+      <button class="ls-dot" type="button" data-go="2" role="tab" aria-selected="false">3 · Results</button>
+      <button class="ls-dot" type="button" data-go="3" role="tab" aria-selected="false">4 · Pick</button>
+      <button class="ls-dot" type="button" data-go="4" role="tab" aria-selected="false">5 · Fixed</button>
     </div>
-    <p class="ls-note">Illustrated walkthrough — schematic on purpose. The finding, the severities, and both commits are real, from this repo’s own <a href="/r/bugs">BUGS.md</a> and <a href="/r/fixlog">FIXLOG</a>.</p>
+    <p class="ls-note">Drawn, not screenshots — but the bug and both fixes are real, from this site auditing itself: <a href="/r/bugs">the report</a> · <a href="/r/fixlog">the fix log</a>.</p>
   </div>
+  <!-- the same five steps, in this catalog's own words — a recap, now that
+       the concepts exist; each noun links to the real thing -->
+  <p class="loopline">In this catalog’s words: the prompt is a <b>brief</b>, the written results are its <b>report</b>, the checklist is the <a href="/studio">Studio</a>, the fix run is the <a href="/b/47">Fixer</a>, and the receipts are the <a href="/r/fixlog">FIXLOG</a>. <a href="/quality">Why these briefs don’t rot →</a></p>
   <script>
   (function(){
     var box = document.getElementById("loopshow");
