@@ -1,6 +1,6 @@
 ---
 name: goal-the-debrief
-description: "The milestone-boundary review — what was agreed, what landed, and a verdict on every piece: keep, finish, formalize, or revert — logged so decided stays decided. Audit brief 151 · Mission — runs a four-phase audit of the current repo and writes DEBRIEF.md at the repo root."
+description: "The milestone-boundary review — what was agreed, what landed, and a verdict on every piece: keep, finish, formalize, or revert — logged so decided stays decided. Goal Prompt 151 · Mission — inspects the current repo and writes DEBRIEF.md at the repo root."
 ---
 
 # Goal: The Debrief

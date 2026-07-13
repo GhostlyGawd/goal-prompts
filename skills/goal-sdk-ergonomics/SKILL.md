@@ -1,6 +1,6 @@
 ---
 name: goal-sdk-ergonomics
-description: "The client libraries developers use to call this product — how fast they reach a first successful call, and how the SDK behaves when things go wrong. Audit brief 112 · API — runs a four-phase audit of the current repo and writes SDK.md at the repo root."
+description: "The client libraries developers use to call this product — how fast they reach a first successful call, and how the SDK behaves when things go wrong. Goal Prompt 112 · API — inspects the current repo and writes SDK.md at the repo root."
 ---
 
 # Goal: SDK Ergonomics Audit

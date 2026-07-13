@@ -1,6 +1,6 @@
 ---
 name: goal-decision-records
-description: "Whether the consequential technical decisions are written down — or whether the why lives only in people's heads and git archaeology. Audit brief 97 · Team — runs a four-phase audit of the current repo and writes DECISIONS.md at the repo root."
+description: "Whether the consequential technical decisions are written down — or whether the why lives only in people's heads and git archaeology. Goal Prompt 97 · Team — inspects the current repo and writes DECISIONS.md at the repo root."
 ---
 
 # Goal: Decision-Record Audit

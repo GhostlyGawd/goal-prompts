@@ -1,6 +1,6 @@
 ---
 name: goal-forms-validation
-description: "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something. Audit brief 109 · Growth — runs a four-phase audit of the current repo and writes FORMS.md at the repo root."
+description: "Every form in the product — whether it asks the least, validates kindly, and recovers gracefully, or leaks users at the moment they try to give you something. Goal Prompt 109 · Growth — inspects the current repo and writes FORMS.md at the repo root."
 ---
 
 # Goal: Forms & Validation Audit

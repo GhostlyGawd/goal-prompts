@@ -1,6 +1,6 @@
 ---
 name: goal-telemetry-slos
-description: "The positive side of observability — whether metrics, traces, and SLOs let you answer any question about the running system, not just whether it crashed. Audit brief 73 · Ops — runs a four-phase audit of the current repo and writes TELEMETRY.md at the repo root."
+description: "The positive side of observability — whether metrics, traces, and SLOs let you answer any question about the running system, not just whether it crashed. Goal Prompt 73 · Ops — inspects the current repo and writes TELEMETRY.md at the repo root."
 ---
 
 # Goal: Telemetry & SLOs

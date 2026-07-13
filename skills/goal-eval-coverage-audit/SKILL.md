@@ -1,6 +1,6 @@
 ---
 name: goal-eval-coverage-audit
-description: "The test-gap audit for nondeterminism — golden sets, regression evals, judge quality, and the drift between eval and production. Audit brief 34 · Agent — runs a four-phase audit of the current repo and writes EVALS.md at the repo root."
+description: "The test-gap audit for nondeterminism — golden sets, regression evals, judge quality, and the drift between eval and production. Goal Prompt 34 · Agent — inspects the current repo and writes EVALS.md at the repo root."
 ---
 
 # Goal: Eval Coverage Audit

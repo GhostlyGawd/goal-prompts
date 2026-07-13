@@ -1,6 +1,6 @@
 ---
 name: goal-metric-definition-consistency
-description: "Whether the numbers the product reports mean the same thing everywhere — so active user, revenue, and signup are not defined three different ways. Audit brief 90 · Data — runs a four-phase audit of the current repo and writes METRICS.md at the repo root."
+description: "Whether the numbers the product reports mean the same thing everywhere — so active user, revenue, and signup are not defined three different ways. Goal Prompt 90 · Data — inspects the current repo and writes METRICS.md at the repo root."
 ---
 
 # Goal: Metric Definition Consistency

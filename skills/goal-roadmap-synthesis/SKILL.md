@@ -1,6 +1,6 @@
 ---
 name: goal-roadmap-synthesis
-description: "The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan. Audit brief 28 · Meta — runs a four-phase audit of the current repo and writes ROADMAP.md at the repo root."
+description: "The capstone. Reads every audit report in the repo, dedupes overlapping findings, and merges them into one sequenced plan. Goal Prompt 28 · Meta — inspects the current repo and writes ROADMAP.md at the repo root."
 ---
 
 # Goal: Roadmap Synthesis

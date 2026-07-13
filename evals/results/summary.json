@@ -1,0 +1,189 @@
+{
+  "efficacy": {
+    "goal-v2": {
+      "runs": 3,
+      "mean_found": 5.67,
+      "mean_false_alarms": 1.33,
+      "evidence_rate": 1.0,
+      "preexisting_flagged_rate": 0.0,
+      "saved_file_rate": 1.0,
+      "mean_wall_s": 229.83,
+      "mean_cost_usd": 0.83,
+      "found_by_defect": {
+        "D1": 3,
+        "D2": 0,
+        "D3": 3,
+        "D4": 3,
+        "D6": 3,
+        "D7": 3,
+        "D8": 2
+      }
+    },
+    "plain": {
+      "runs": 3,
+      "mean_found": 5.0,
+      "mean_false_alarms": 1.67,
+      "evidence_rate": 1.0,
+      "preexisting_flagged_rate": 0.0,
+      "saved_file_rate": 0.0,
+      "mean_wall_s": 87.23,
+      "mean_cost_usd": 0.31,
+      "found_by_defect": {
+        "D1": 3,
+        "D2": 0,
+        "D3": 3,
+        "D4": 3,
+        "D6": 3,
+        "D7": 3,
+        "D8": 0
+      }
+    }
+  },
+  "scenarios": {
+    "s2_ends_inviting": true,
+    "s3_commits": [
+      "7c0263d Fix off-by-one in pagination.page_of"
+    ],
+    "s3_scoped_to_one": true,
+    "s6_leads_with_delta": true,
+    "s1_commits": [
+      "0f5f3b6 Implement Cart.refund to make the test suite pass",
+      "25b09d7 Add bug-hunt report (BUGS.md)",
+      "2015a22 Serialize db.json reads/writes to fix reserve/record_order race",
+      "1ab398f Reject non-positive quantities in Cart.add"
+    ],
+    "s1_acted_without_reask": true,
+    "s1_preexisting_flagged": true,
+    "s4_no_false_success": true,
+    "s4_final_tail": "art.refund(order)` calls it and raises `valueerror` if the order was never checked out through this store (no `id`), or `runtimeerror` if the refund itself is rejected.\n- updated the readme, which previously said refunds weren't implemented.\n\nadded three tests covering the new behavior (restores stock, rejects double-refund, rejects an unrecorded order) alongside the existing `test_refund_exists`.",
+    "s5_null_honest": true
+  },
+  "runs": {
+    "eff-goalv2-1": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7",
+        "D8"
+      ],
+      "missed": [
+        "D2"
+      ],
+      "false_alarms": 0,
+      "findings_counted": 6,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": true,
+      "saved_file": true,
+      "wall": 211.3,
+      "cost": 0.6785167000000001
+    },
+    "eff-goalv2-2": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7",
+        "D8"
+      ],
+      "missed": [
+        "D2"
+      ],
+      "false_alarms": 2,
+      "findings_counted": 8,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": true,
+      "saved_file": true,
+      "wall": 221.0,
+      "cost": 0.7884831999999999
+    },
+    "eff-goalv2-3": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7"
+      ],
+      "missed": [
+        "D2",
+        "D8"
+      ],
+      "false_alarms": 2,
+      "findings_counted": 7,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": true,
+      "saved_file": true,
+      "wall": 257.2,
+      "cost": 1.0280700999999999
+    },
+    "eff-plain-1": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7"
+      ],
+      "missed": [
+        "D2",
+        "D8"
+      ],
+      "false_alarms": 2,
+      "findings_counted": 7,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": false,
+      "saved_file": false,
+      "wall": 70.4,
+      "cost": 0.28513649999999996
+    },
+    "eff-plain-2": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7"
+      ],
+      "missed": [
+        "D2",
+        "D8"
+      ],
+      "false_alarms": 2,
+      "findings_counted": 7,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": false,
+      "saved_file": false,
+      "wall": 71.9,
+      "cost": 0.2565573
+    },
+    "eff-plain-3": {
+      "found": [
+        "D1",
+        "D3",
+        "D4",
+        "D6",
+        "D7"
+      ],
+      "missed": [
+        "D2",
+        "D8"
+      ],
+      "false_alarms": 1,
+      "findings_counted": 6,
+      "evidence_rate": 1.0,
+      "preexisting_flagged": false,
+      "verification_vocab": false,
+      "saved_file": false,
+      "wall": 119.4,
+      "cost": 0.3892602
+    }
+  }
+}

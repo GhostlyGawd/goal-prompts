@@ -1,6 +1,6 @@
 ---
 name: goal-product-improvement
-description: "The flagship. Understand the whole product, then surface prioritized opportunities across UI, UX, retention, engagement, community, and beauty. Audit brief 00 · Product — runs a four-phase audit of the current repo and writes IMPROVEMENTS.md at the repo root."
+description: "The flagship. Understand the whole product, then surface prioritized opportunities across UI, UX, retention, engagement, community, and beauty. Goal Prompt 00 · Product — inspects the current repo and writes IMPROVEMENTS.md at the repo root."
 ---
 
 # Goal: Product Improvement Discovery

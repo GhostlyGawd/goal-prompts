@@ -1,6 +1,6 @@
 ---
 name: goal-git-hotspot-mining
-description: "Mine the git history for churn, bug magnets, coupled files, and bus-factor silos — predict where the next bug lands. Audit brief 22 · Data — runs a four-phase audit of the current repo and writes HOTSPOTS.md at the repo root."
+description: "Mine the git history for churn, bug magnets, coupled files, and bus-factor silos — predict where the next bug lands. Goal Prompt 22 · Data — inspects the current repo and writes HOTSPOTS.md at the repo root."
 ---
 
 # Goal: Git Hotspot Mining

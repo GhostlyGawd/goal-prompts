@@ -1,6 +1,6 @@
 ---
 name: goal-onboarding-audit
-description: "Walk clone → install → run → change → PR like a brand-new developer and log every stumble on the way to a first contribution. Audit brief 14 · Team — runs a four-phase audit of the current repo and writes DX.md at the repo root."
+description: "Walk clone → install → run → change → PR like a brand-new developer and log every stumble on the way to a first contribution. Goal Prompt 14 · Team — inspects the current repo and writes DX.md at the repo root."
 ---
 
 # Goal: New-Dev Onboarding Audit

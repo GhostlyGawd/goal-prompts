@@ -1,6 +1,6 @@
 ---
 name: goal-performance-audit
-description: "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths. Audit brief 04 · Speed — runs a four-phase audit of the current repo and writes PERF.md at the repo root."
+description: "The broad latency pass — wasted renders, main-thread stalls, startup waterfalls — ranked by what the user actually feels on common paths. Goal Prompt 04 · Speed — inspects the current repo and writes PERF.md at the repo root."
 ---
 
 # Goal: Performance Audit

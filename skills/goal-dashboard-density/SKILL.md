@@ -1,6 +1,6 @@
 ---
 name: goal-dashboard-density
-description: "Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental. Audit brief 132 · Design — runs a four-phase audit of the current repo and writes DASHBOARD.md at the repo root."
+description: "Whether a dashboard answers its question in one glance — the metric that matters winning the top-left, signal over decoration, and density chosen, not accidental. Goal Prompt 132 · Design — inspects the current repo and writes DASHBOARD.md at the repo root."
 ---
 
 # Goal: Dashboard & Density Audit

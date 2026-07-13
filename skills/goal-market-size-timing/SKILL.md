@@ -1,6 +1,6 @@
 ---
 name: goal-market-size-timing
-description: "Bottom-up sizing with the arithmetic shown, growth read from primary signals, and the why-now case argued both ways — no analyst-deck TAM theater. Audit brief 64 · Venture — runs a four-phase audit of the current repo and writes MARKET.md at the repo root."
+description: "Bottom-up sizing with the arithmetic shown, growth read from primary signals, and the why-now case argued both ways — no analyst-deck TAM theater. Goal Prompt 64 · Venture — inspects the current repo and writes MARKET.md at the repo root."
 ---
 
 # Goal: Market Size & Timing

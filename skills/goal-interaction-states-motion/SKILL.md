@@ -1,6 +1,6 @@
 ---
 name: goal-interaction-states-motion
-description: "The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle. Audit brief 58 · Design — runs a four-phase audit of the current repo and writes STATES.md at the repo root."
+description: "The state matrix every element owes you — hover, focus, active, disabled, loading, error — plus motion that means something versus transitions that just jiggle. Goal Prompt 58 · Design — inspects the current repo and writes STATES.md at the repo root."
 ---
 
 # Goal: Interaction States & Motion Audit

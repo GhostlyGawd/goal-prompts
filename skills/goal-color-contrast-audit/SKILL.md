@@ -1,6 +1,6 @@
 ---
 name: goal-color-contrast-audit
-description: "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology. Audit brief 56 · Design — runs a four-phase audit of the current repo and writes COLOR.md at the repo root."
+description: "The palette as it actually ships — every hex in the codebase, contrast ratios computed, semantic drift named, and whether dark mode is a theme or an apology. Goal Prompt 56 · Design — inspects the current repo and writes COLOR.md at the repo root."
 ---
 
 # Goal: Color & Contrast Audit

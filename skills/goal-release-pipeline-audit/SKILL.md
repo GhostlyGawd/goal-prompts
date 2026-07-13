@@ -1,6 +1,6 @@
 ---
 name: goal-release-pipeline-audit
-description: "Map merged-PR to production; every manual step is a finding. Includes the rollback-readiness verdict. Audit brief 23 · Ops — runs a four-phase audit of the current repo and writes RELEASE.md at the repo root."
+description: "Map merged-PR to production; every manual step is a finding. Includes the rollback-readiness verdict. Goal Prompt 23 · Ops — inspects the current repo and writes RELEASE.md at the repo root."
 ---
 
 # Goal: Release Pipeline Audit

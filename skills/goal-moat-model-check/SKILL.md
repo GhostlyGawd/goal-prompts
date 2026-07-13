@@ -1,6 +1,6 @@
 ---
 name: goal-moat-model-check
-description: "Why this survives contact with incumbents and arithmetic — monetization options, napkin unit economics, defensibility paths, and the kill risks named out loud. Audit brief 66 · Venture — runs a four-phase audit of the current repo and writes MOAT.md at the repo root."
+description: "Why this survives contact with incumbents and arithmetic — monetization options, napkin unit economics, defensibility paths, and the kill risks named out loud. Goal Prompt 66 · Venture — inspects the current repo and writes MOAT.md at the repo root."
 ---
 
 # Goal: Moat & Model Check

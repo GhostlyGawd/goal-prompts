@@ -1,6 +1,6 @@
 ---
 name: goal-human-in-the-loop-placement
-description: "Approval gates audited for rubber-stamp fatigue and silent damage — who reviews what, when, with enough context to actually judge. Audit brief 43 · AI-UX — runs a four-phase audit of the current repo and writes HITL.md at the repo root."
+description: "Approval gates audited for rubber-stamp fatigue and silent damage — who reviews what, when, with enough context to actually judge. Goal Prompt 43 · AI-UX — inspects the current repo and writes HITL.md at the repo root."
 ---
 
 # Goal: Human-in-the-Loop Placement

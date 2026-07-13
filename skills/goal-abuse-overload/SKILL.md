@@ -1,6 +1,6 @@
 ---
 name: goal-abuse-overload
-description: "Whether the system defends itself against traffic that is not a well-behaved user — bots, scrapers, floods, and expensive requests that can exhaust it. Audit brief 124 · Reliability — runs a four-phase audit of the current repo and writes ABUSE.md at the repo root."
+description: "Whether the system defends itself against traffic that is not a well-behaved user — bots, scrapers, floods, and expensive requests that can exhaust it. Goal Prompt 124 · Reliability — inspects the current repo and writes ABUSE.md at the repo root."
 ---
 
 # Goal: Abuse & Overload Protection

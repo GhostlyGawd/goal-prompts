@@ -1,6 +1,6 @@
 ---
 name: goal-cost-audit
-description: "Expensive queries, chatty API loops, unbounded storage, oversized resources — savings ranked by effort. Audit brief 24 · Ops — runs a four-phase audit of the current repo and writes COSTS.md at the repo root."
+description: "Expensive queries, chatty API loops, unbounded storage, oversized resources — savings ranked by effort. Goal Prompt 24 · Ops — inspects the current repo and writes COSTS.md at the repo root."
 ---
 
 # Goal: Cost Audit

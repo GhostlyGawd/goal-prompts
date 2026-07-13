@@ -1,6 +1,6 @@
 ---
 name: goal-data-integrity
-description: "Whether the data can be trusted — the constraints and checks that prevent the corrupt, orphaned, and contradictory rows that quietly accumulate. Audit brief 89 · Data — runs a four-phase audit of the current repo and writes INTEGRITY.md at the repo root."
+description: "Whether the data can be trusted — the constraints and checks that prevent the corrupt, orphaned, and contradictory rows that quietly accumulate. Goal Prompt 89 · Data — inspects the current repo and writes INTEGRITY.md at the repo root."
 ---
 
 # Goal: Data Integrity Audit

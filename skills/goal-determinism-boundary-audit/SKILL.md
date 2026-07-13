@@ -1,6 +1,6 @@
 ---
 name: goal-determinism-boundary-audit
-description: "LLM calls that should be plain code, rigid code that should be judgment — redraw the line between deterministic and model-driven. Audit brief 40 · Automation — runs a four-phase audit of the current repo and writes BOUNDARIES.md at the repo root."
+description: "LLM calls that should be plain code, rigid code that should be judgment — redraw the line between deterministic and model-driven. Goal Prompt 40 · Automation — inspects the current repo and writes BOUNDARIES.md at the repo root."
 ---
 
 # Goal: Determinism Boundary Audit

@@ -1,6 +1,6 @@
 ---
 name: goal-guardrails-audit
-description: "A defensive review of your agent's blast radius — injection paths, unvalidated outputs, over-broad permissions, ungated irreversible actions. Audit brief 35 · Agent — runs a four-phase audit of the current repo and writes GUARDRAILS.md at the repo root."
+description: "A defensive review of your agent's blast radius — injection paths, unvalidated outputs, over-broad permissions, ungated irreversible actions. Goal Prompt 35 · Agent — inspects the current repo and writes GUARDRAILS.md at the repo root."
 ---
 
 # Goal: Guardrails Audit

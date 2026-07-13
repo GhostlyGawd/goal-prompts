@@ -1,6 +1,6 @@
 ---
 name: goal-checkout-payment
-description: "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery. Audit brief 110 · Growth — runs a four-phase audit of the current repo and writes CHECKOUT.md at the repo root."
+description: "The path from intent to paid — whether checkout converts or leaks, and whether the payment integration survives declines, retries, and webhook redelivery. Goal Prompt 110 · Growth — inspects the current repo and writes CHECKOUT.md at the repo root."
 ---
 
 # Goal: Checkout & Payment Flow Audit

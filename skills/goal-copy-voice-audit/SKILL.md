@@ -1,6 +1,6 @@
 ---
 name: goal-copy-voice-audit
-description: "Extract every user-facing string; hunt jargon, vague CTAs, and unhelpful errors; rewrite the worst ten before/after. Audit brief 17 · Clarity — runs a four-phase audit of the current repo and writes COPY.md at the repo root."
+description: "Extract every user-facing string; hunt jargon, vague CTAs, and unhelpful errors; rewrite the worst ten before/after. Goal Prompt 17 · Clarity — inspects the current repo and writes COPY.md at the repo root."
 ---
 
 # Goal: Copy & Voice Audit

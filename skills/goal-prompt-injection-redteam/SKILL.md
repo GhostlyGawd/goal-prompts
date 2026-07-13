@@ -1,6 +1,6 @@
 ---
 name: goal-prompt-injection-redteam
-description: "Attack the product's own AI like an adversary — make it ignore instructions, leak secrets, or misuse tools — and find where untrusted input can hijack it. Audit brief 118 · AI-Ethics — runs a four-phase audit of the current repo and writes REDTEAM.md at the repo root."
+description: "Attack the product's own AI like an adversary — make it ignore instructions, leak secrets, or misuse tools — and find where untrusted input can hijack it. Goal Prompt 118 · AI-Ethics — inspects the current repo and writes REDTEAM.md at the repo root."
 ---
 
 # Goal: Prompt-Injection Red-Team

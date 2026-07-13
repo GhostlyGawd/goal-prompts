@@ -1,6 +1,6 @@
 ---
 name: goal-flaky-test
-description: "The tests that fail intermittently — the ones eroding trust in the suite until a red build stops meaning anything. Audit brief 101 · Quality — runs a four-phase audit of the current repo and writes FLAKY.md at the repo root."
+description: "The tests that fail intermittently — the ones eroding trust in the suite until a red build stops meaning anything. Goal Prompt 101 · Quality — inspects the current repo and writes FLAKY.md at the repo root."
 ---
 
 # Goal: Flaky-Test Audit

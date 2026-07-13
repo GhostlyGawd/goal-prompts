@@ -1,6 +1,6 @@
 ---
 name: goal-navigation-wayfinding
-description: "The three questions every screen owes a user — where am I, where can I go, how do I get back — plus the nav that hides, the dead ends, and the jargon labels. Audit brief 129 · Design — runs a four-phase audit of the current repo and writes NAVIGATION.md at the repo root."
+description: "The three questions every screen owes a user — where am I, where can I go, how do I get back — plus the nav that hides, the dead ends, and the jargon labels. Goal Prompt 129 · Design — inspects the current repo and writes NAVIGATION.md at the repo root."
 ---
 
 # Goal: Navigation & Wayfinding Audit

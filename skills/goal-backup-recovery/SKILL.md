@@ -1,6 +1,6 @@
 ---
 name: goal-backup-recovery
-description: "Whether this system could actually come back from data loss — whether backups exist, cover what matters, and have ever been proven to restore. Audit brief 91 · Ops — runs a four-phase audit of the current repo and writes RECOVERY.md at the repo root."
+description: "Whether this system could actually come back from data loss — whether backups exist, cover what matters, and have ever been proven to restore. Goal Prompt 91 · Ops — inspects the current repo and writes RECOVERY.md at the repo root."
 ---
 
 # Goal: Backup & Recovery Audit

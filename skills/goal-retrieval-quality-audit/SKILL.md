@@ -1,6 +1,6 @@
 ---
 name: goal-retrieval-quality-audit
-description: "The RAG pipeline end to end — chunking that respects meaning, embeddings that don't drift, a relevance floor, and evals that catch regressions before users do. Audit brief 49 · Agent — runs a four-phase audit of the current repo and writes RETRIEVAL.md at the repo root."
+description: "The RAG pipeline end to end — chunking that respects meaning, embeddings that don't drift, a relevance floor, and evals that catch regressions before users do. Goal Prompt 49 · Agent — inspects the current repo and writes RETRIEVAL.md at the repo root."
 ---
 
 # Goal: Retrieval Quality Audit

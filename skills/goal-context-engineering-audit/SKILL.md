@@ -1,6 +1,6 @@
 ---
 name: goal-context-engineering-audit
-description: "Reconstruct what actually enters the model's window each step — stale payloads, token hogs, retrieval junk, and buried instructions. Audit brief 33 · Agent — runs a four-phase audit of the current repo and writes CONTEXT.md at the repo root."
+description: "Reconstruct what actually enters the model's window each step — stale payloads, token hogs, retrieval junk, and buried instructions. Goal Prompt 33 · Agent — inspects the current repo and writes CONTEXT.md at the repo root."
 ---
 
 # Goal: Context Engineering Audit

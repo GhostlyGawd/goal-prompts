@@ -139,11 +139,11 @@ def render_home(briefs):
     d.rectangle([LEFT, 290, LEFT + span, 293], fill=ACCENT)
     sf = font(DISPLAY, 48, 640)
     y = 340
-    for line in wrap(d, "Turn your coding agent into a senior code auditor.", sf, span)[:2]:
+    for line in wrap(d, "Know what to ask your coding agent.", sf, span)[:2]:
         d.text((LEFT, y), line, font=sf, fill=TEXT)
         y += 60
     fams = build.FAMILY_ORDER
-    foot = f"{len(briefs)} briefs / {len(fams)} families / {DOMAIN}"
+    foot = f"{len(briefs)} Goal Prompts / {len(fams)} families / {DOMAIN}"
     d.text((LEFT, 548), foot, font=font(MONO, 24), fill=DIM)
     return im
 

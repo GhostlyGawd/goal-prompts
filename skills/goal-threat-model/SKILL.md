@@ -1,6 +1,6 @@
 ---
 name: goal-threat-model
-description: "An attacker's-eye map — the assets worth stealing, the surfaces that reach them, and the abuse cases the product does not yet defend. Audit brief 84 · Trust — runs a four-phase audit of the current repo and writes THREATS.md at the repo root."
+description: "An attacker's-eye map — the assets worth stealing, the surfaces that reach them, and the abuse cases the product does not yet defend. Goal Prompt 84 · Trust — inspects the current repo and writes THREATS.md at the repo root."
 ---
 
 # Goal: Threat Model & Abuse Cases

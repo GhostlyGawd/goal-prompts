@@ -1,6 +1,6 @@
 ---
 name: goal-audit-trail
-description: "Whether the system keeps a trustworthy record of who did what — the audit trail that compliance, incident response, and forensics all depend on. Audit brief 128 · Compliance — runs a four-phase audit of the current repo and writes AUDITLOG.md at the repo root."
+description: "Whether the system keeps a trustworthy record of who did what — the audit trail that compliance, incident response, and forensics all depend on. Goal Prompt 128 · Compliance — inspects the current repo and writes AUDITLOG.md at the repo root."
 ---
 
 # Goal: Audit-Trail Audit

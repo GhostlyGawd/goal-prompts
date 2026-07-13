@@ -1,6 +1,6 @@
 ---
 name: goal-scaffold-the-rails
-description: "Installs the golden-path harness into this repo — greenfield or grafted onto existing code — and proves the gate bites, red fails, green passes, before more code lands. Audit brief 141 · Build — runs a four-phase audit of the current repo and writes SCAFFOLD.md at the repo root."
+description: "Installs the golden-path harness into this repo — greenfield or grafted onto existing code — and proves the gate bites, red fails, green passes, before more code lands. Goal Prompt 141 · Build — inspects the current repo and writes SCAFFOLD.md at the repo root."
 ---
 
 # Goal: Scaffold the Rails

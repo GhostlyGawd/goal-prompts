@@ -1,6 +1,6 @@
 ---
 name: goal-typography-audit
-description: "The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size. Audit brief 55 · Design — runs a four-phase audit of the current repo and writes TYPOGRAPHY.md at the repo root."
+description: "The type scale, or the lack of one — sizes, weights, line lengths and heights, font loading, and every place text is asked to do a job at the wrong size. Goal Prompt 55 · Design — inspects the current repo and writes TYPOGRAPHY.md at the repo root."
 ---
 
 # Goal: Typography Audit

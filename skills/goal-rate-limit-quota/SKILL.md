@@ -1,6 +1,6 @@
 ---
 name: goal-rate-limit-quota
-description: "The API's rate limits and quotas as a product surface — whether they protect the system while staying fair, predictable, and workable for real consumers. Audit brief 114 · API — runs a four-phase audit of the current repo and writes QUOTAS.md at the repo root."
+description: "The API's rate limits and quotas as a product surface — whether they protect the system while staying fair, predictable, and workable for real consumers. Goal Prompt 114 · API — inspects the current repo and writes QUOTAS.md at the repo root."
 ---
 
 # Goal: Rate-Limit & Quota Design

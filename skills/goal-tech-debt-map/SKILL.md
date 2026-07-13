@@ -1,6 +1,6 @@
 ---
 name: goal-tech-debt-map
-description: "Duplication, tangles, and dead patterns — mapped as interest paid vs principal owed, with a refactor sequence that pays for itself. Audit brief 13 · Team — runs a four-phase audit of the current repo and writes DEBT.md at the repo root."
+description: "Duplication, tangles, and dead patterns — mapped as interest paid vs principal owed, with a refactor sequence that pays for itself. Goal Prompt 13 · Team — inspects the current repo and writes DEBT.md at the repo root."
 ---
 
 # Goal: Tech Debt Map

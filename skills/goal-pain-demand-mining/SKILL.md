@@ -1,6 +1,6 @@
 ---
 name: goal-pain-demand-mining
-description: "Proof people actually hurt — verbatim complaints mined from reviews and forums, search and hiring signals, and what they already pay to make the pain stop. Audit brief 62 · Venture — runs a four-phase audit of the current repo and writes DEMAND.md at the repo root."
+description: "Proof people actually hurt — verbatim complaints mined from reviews and forums, search and hiring signals, and what they already pay to make the pain stop. Goal Prompt 62 · Venture — inspects the current repo and writes DEMAND.md at the repo root."
 ---
 
 # Goal: Pain & Demand Mining

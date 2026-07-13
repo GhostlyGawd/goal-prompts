@@ -1,6 +1,6 @@
 ---
 name: goal-graceful-degradation
-description: "What happens when a dependency is slow or down — whether the product degrades gracefully with timeouts, fallbacks, and breakers, or cascades into a full outage. Audit brief 121 · Reliability — runs a four-phase audit of the current repo and writes DEGRADE.md at the repo root."
+description: "What happens when a dependency is slow or down — whether the product degrades gracefully with timeouts, fallbacks, and breakers, or cascades into a full outage. Goal Prompt 121 · Reliability — inspects the current repo and writes DEGRADE.md at the repo root."
 ---
 
 # Goal: Graceful Degradation Audit

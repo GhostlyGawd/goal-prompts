@@ -1,6 +1,6 @@
 ---
 name: goal-hallucination-grounding
-description: "Whether the product's AI outputs are grounded in real sources or confidently invented — and whether it cites, hedges, and refuses when it should. Audit brief 117 · AI-Ethics — runs a four-phase audit of the current repo and writes GROUNDING.md at the repo root."
+description: "Whether the product's AI outputs are grounded in real sources or confidently invented — and whether it cites, hedges, and refuses when it should. Goal Prompt 117 · AI-Ethics — inspects the current repo and writes GROUNDING.md at the repo root."
 ---
 
 # Goal: Hallucination & Grounding Audit

@@ -1,6 +1,6 @@
 ---
 name: goal-error-message-audit
-description: "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck. Audit brief 103 · Clarity — runs a four-phase audit of the current repo and writes ERRORS.md at the repo root."
+description: "Every message the product shows when something goes wrong — whether it says what happened, why, and what to do next, or leaves the user stuck. Goal Prompt 103 · Clarity — inspects the current repo and writes ERRORS.md at the repo root."
 ---
 
 # Goal: Error-Message Audit

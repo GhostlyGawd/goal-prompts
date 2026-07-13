@@ -1,6 +1,6 @@
 ---
 name: goal-social-proof-credibility
-description: "Testimonials, logos, counts, reviews, and guarantees — the evidence that turns a skeptical stranger into a believer, and the credibility gaps where doubt wins. Audit brief 79 · Growth — runs a four-phase audit of the current repo and writes PROOF.md at the repo root."
+description: "Testimonials, logos, counts, reviews, and guarantees — the evidence that turns a skeptical stranger into a believer, and the credibility gaps where doubt wins. Goal Prompt 79 · Growth — inspects the current repo and writes PROOF.md at the repo root."
 ---
 
 # Goal: Social Proof & Credibility

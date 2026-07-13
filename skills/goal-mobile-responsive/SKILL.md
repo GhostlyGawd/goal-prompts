@@ -1,6 +1,6 @@
 ---
 name: goal-mobile-responsive
-description: "The product on a phone — whether layouts, touch targets, and performance hold up on small screens and real devices, or quietly assume a desktop. Audit brief 104 · Design — runs a four-phase audit of the current repo and writes MOBILE.md at the repo root."
+description: "The product on a phone — whether layouts, touch targets, and performance hold up on small screens and real devices, or quietly assume a desktop. Goal Prompt 104 · Design — inspects the current repo and writes MOBILE.md at the repo root."
 ---
 
 # Goal: Mobile & Responsive Audit

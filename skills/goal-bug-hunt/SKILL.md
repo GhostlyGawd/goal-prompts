@@ -1,6 +1,6 @@
 ---
 name: goal-bug-hunt
-description: "Trace latent bugs, unhandled edge cases, and race conditions; rank by user pain with repro paths and fix sketches. Audit brief 01 · Quality — runs a four-phase audit of the current repo and writes BUGS.md at the repo root."
+description: "Trace latent bugs, unhandled edge cases, and race conditions; rank by user pain with repro paths and fix sketches. Goal Prompt 01 · Quality — inspects the current repo and writes BUGS.md at the repo root."
 ---
 
 # Goal: Bug Hunt

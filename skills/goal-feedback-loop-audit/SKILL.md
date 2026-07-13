@@ -1,6 +1,6 @@
 ---
 name: goal-feedback-loop-audit
-description: "How user signal re-enters the product — corrections captured or evaporating, thumbs nobody reads, and the complaint-to-fix path. Audit brief 45 · Product — runs a four-phase audit of the current repo and writes FEEDBACK.md at the repo root."
+description: "How user signal re-enters the product — corrections captured or evaporating, thumbs nobody reads, and the complaint-to-fix path. Goal Prompt 45 · Product — inspects the current repo and writes FEEDBACK.md at the repo root."
 ---
 
 # Goal: Feedback Loop Audit

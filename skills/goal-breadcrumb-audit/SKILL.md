@@ -1,6 +1,6 @@
 ---
 name: goal-breadcrumb-audit
-description: "Walk the doc-and-tooling link graph from the agent entry file — orphaned docs, unreachable scripts, files outside every stated taxonomy, and unwritten rules. Audit brief 145 · Team — runs a four-phase audit of the current repo and writes BREADCRUMBS.md at the repo root."
+description: "Walk the doc-and-tooling link graph from the agent entry file — orphaned docs, unreachable scripts, files outside every stated taxonomy, and unwritten rules. Goal Prompt 145 · Team — inspects the current repo and writes BREADCRUMBS.md at the repo root."
 ---
 
 # Goal: Breadcrumb Audit

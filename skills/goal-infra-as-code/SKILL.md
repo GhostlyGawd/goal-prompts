@@ -1,6 +1,6 @@
 ---
 name: goal-infra-as-code
-description: "Read the Terraform, K8s, and Dockerfiles the way the machine will — :latest tags, plaintext secrets, copy-pasted stanzas — and map the blast radius of one bad apply. Audit brief 137 · Ops — runs a four-phase audit of the current repo and writes INFRA.md at the repo root."
+description: "Read the Terraform, K8s, and Dockerfiles the way the machine will — :latest tags, plaintext secrets, copy-pasted stanzas — and map the blast radius of one bad apply. Goal Prompt 137 · Ops — inspects the current repo and writes INFRA.md at the repo root."
 ---
 
 # Goal: Infra-as-Code Audit

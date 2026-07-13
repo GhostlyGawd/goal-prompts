@@ -1,6 +1,6 @@
 ---
 name: goal-loop-termination-audit
-description: "How runs end — iteration caps, stop conditions, stuck-state detection, and the true cost of one pathological run. Audit brief 32 · Agent — runs a four-phase audit of the current repo and writes LOOPS.md at the repo root."
+description: "How runs end — iteration caps, stop conditions, stuck-state detection, and the true cost of one pathological run. Goal Prompt 32 · Agent — inspects the current repo and writes LOOPS.md at the repo root."
 ---
 
 # Goal: Loop & Termination Audit

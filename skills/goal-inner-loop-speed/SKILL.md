@@ -1,6 +1,6 @@
 ---
 name: goal-inner-loop-speed
-description: "The edit to build to test to see-it-work cycle, timed — and the daily friction that taxes every change the team makes. Audit brief 94 · Team — runs a four-phase audit of the current repo and writes INNERLOOP.md at the repo root."
+description: "The edit to build to test to see-it-work cycle, timed — and the daily friction that taxes every change the team makes. Goal Prompt 94 · Team — inspects the current repo and writes INNERLOOP.md at the repo root."
 ---
 
 # Goal: Inner-Loop Speed Audit

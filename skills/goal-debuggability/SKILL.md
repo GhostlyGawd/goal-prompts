@@ -1,6 +1,6 @@
 ---
 name: goal-debuggability
-description: "How hard it is to find out why something broke — whether the system helps a developer localize a failure or forces guesswork. Audit brief 95 · Team — runs a four-phase audit of the current repo and writes DEBUG.md at the repo root."
+description: "How hard it is to find out why something broke — whether the system helps a developer localize a failure or forces guesswork. Goal Prompt 95 · Team — inspects the current repo and writes DEBUG.md at the repo root."
 ---
 
 # Goal: Debuggability Audit

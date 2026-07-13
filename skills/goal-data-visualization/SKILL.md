@@ -1,6 +1,6 @@
 ---
 name: goal-data-visualization
-description: "Every chart, graph, and metric put to the truth test — right form, honest axes, labeled and legible, accessible beyond color, and numbers that match their source. Audit brief 131 · Design — runs a four-phase audit of the current repo and writes DATAVIZ.md at the repo root."
+description: "Every chart, graph, and metric put to the truth test — right form, honest axes, labeled and legible, accessible beyond color, and numbers that match their source. Goal Prompt 131 · Design — inspects the current repo and writes DATAVIZ.md at the repo root."
 ---
 
 # Goal: Data Visualization Audit

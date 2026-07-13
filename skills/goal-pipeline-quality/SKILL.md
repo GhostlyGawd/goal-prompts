@@ -1,6 +1,6 @@
 ---
 name: goal-pipeline-quality
-description: "Run every job twice on paper and yesterday once more — duplicates, half-written partitions, now() in a backfill — and a ledger of who notices stale data. Audit brief 139 · Data — runs a four-phase audit of the current repo and writes PIPELINES.md at the repo root."
+description: "Run every job twice on paper and yesterday once more — duplicates, half-written partitions, now() in a backfill — and a ledger of who notices stale data. Goal Prompt 139 · Data — inspects the current repo and writes PIPELINES.md at the repo root."
 ---
 
 # Goal: Data Pipeline Quality

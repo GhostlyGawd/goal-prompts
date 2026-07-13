@@ -280,3 +280,67 @@ design-engine/library/proposals/ (brand v1, the rejected Auditorium).
 og.py still carries local color constants — re-pointing it at brand.json
 is queued. css_hex_lint joins scripts/check only once the three
 inline-<style> surfaces are var-clean.
+
+## ADR-14 — PRODUCT_ALIGNMENT.md is the master product contract; delivery is gated (new)
+
+Status: accepted (operator-directed, 2026-07-12)
+Context: The operator ran a product-alignment interview in a separate session
+and delivered PRODUCT_ALIGNMENT.md with the instruction to implement it in
+full. The document defines its own maintenance rules, a gated delivery plan
+(A–E) with operator review stops, and seven pending confirmations that block
+implementation beyond Gate A.
+Decision: PRODUCT_ALIGNMENT.md lives at the repo root as the master direction
+document. specs/ALIGNMENT_BUILD.md carries the requirement-by-requirement
+traceability ledger and build state; specs/GOAL_CONTRACT.md carries the
+shared safety/result/continuation schema (draft until ratified). Any change
+that alters what the product is, who it is for, how it starts, what it
+writes, when it changes files, or what the site promises updates
+PRODUCT_ALIGNMENT.md in the same commit. Contradictions between it and
+CHARTER.md, this file, specs, prompts, or site copy block release.
+Consequences: The CHARTER "ask-first on every brief" invariant will need a
+ratified amendment to the authorization-aware gate (GOAL_CONTRACT §4) at
+Gate C. The 0.14 "brief" vocabulary is under an explicit operator ruling
+(ALIGNMENT_BUILD ratification item 8) and is not silently renamed.
+
+## ADR-15 — Ratification of the alignment pending items (operator, 2026-07-13)
+
+Status: accepted
+Context: specs/ALIGNMENT_BUILD.md presented the eight-item ratification
+block required by PRODUCT_ALIGNMENT.md before implementation. The operator
+replied "Aligned on all."
+Decision: Items 1–6 ratified as written. 7a: the Claude Code plugin renames
+to the full product namespace `goal-prompts` (commands become
+/goal-prompts:<slug>) at Gate C. 7b: saved-result location stays the
+current contract — repo root, or reports/ when it already exists — written
+into GOAL_CONTRACT verbatim. Item 8 interpreted per the master document's
+own usage: the public unit name migrates to **Goal Prompt** and the catalog
+to **Goal Library** (Gate D copy work; ids, slugs, file layout, and
+internal grammar unchanged). Interpretation flagged to the operator with a
+cheap veto.
+Consequences: Gate B open. GOAL_CONTRACT v1 is the ratified contract;
+CHARTER's "ask-first on every brief" invariant is amended to the
+authorization-aware gate at Gate C alongside the lint change.
+
+## ADR-16 — Plain-register landing, situation front door; migration parked (operator, 2026-07-13)
+
+Status: accepted
+Context: The operator ruled, emphatically and twice, that the goal is
+fixing product positioning/marketing and making the product match its
+goal — not rewriting 152 working prompt bodies. Separately the operator
+confirmed all four value axes (know what to run · encoded judgment,
+persona-free · a process you can trust · skip the prompt-writing) and
+banned engineer-persona framing after "senior code auditor" was found as
+the live hero headline.
+Decision: (1) Prompt bodies are frozen; the GOAL_CONTRACT §10 catalog
+migration is parked until the operator explicitly reopens it. (2) The
+landing register moves to plain words: hero "Know what to ask your coding
+agent.", no persona phrases, no internal taxonomy (explore/audit/curate,
+"four-phase") in the hero; og/title/meta/JSON-LD match. (3) The catalog
+opens with PRODUCT_ALIGNMENT's six recognizable situations, hand-curated
+to 3–4 briefs + honest playbooks; search/families/browse-all stay directly
+beneath. Register + front door are pinned by RegisterBadgeTests and
+SituationFrontDoorTests.
+Consequences: Supersedes ADR-15's Gate C sequencing while parked (the
+contract itself stays ratified); the "audit register" pin from the
+founder-funnel pivot is retired. PRODUCT_ALIGNMENT §Delivery order needs
+an operator-approved amendment to match.

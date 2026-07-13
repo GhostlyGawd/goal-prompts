@@ -1,6 +1,6 @@
 ---
 name: goal-show-dont-tell
-description: "Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith? Audit brief 77 · Design — runs a four-phase audit of the current repo and writes SHOWCASE.md at the repo root."
+description: "Are the benefits and the how-it-works shown — product shots, demos, diagrams, before-and-afters — or buried in paragraphs a visitor has to take on faith? Goal Prompt 77 · Design — inspects the current repo and writes SHOWCASE.md at the repo root."
 ---
 
 # Goal: Show, Don't Tell

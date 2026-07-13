@@ -1,6 +1,6 @@
 ---
 name: goal-accessibility-audit
-description: "Keyboard navigation, contrast, labels, and screen-reader flow — audited end-to-end along the core user journey. Audit brief 08 · Trust — runs a four-phase audit of the current repo and writes A11Y.md at the repo root."
+description: "Keyboard navigation, contrast, labels, and screen-reader flow — audited end-to-end along the core user journey. Goal Prompt 08 · Trust — inspects the current repo and writes A11Y.md at the repo root."
 ---
 
 # Goal: Accessibility Audit

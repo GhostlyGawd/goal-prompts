@@ -1,6 +1,6 @@
 ---
 name: goal-conversion-rate-optimization
-description: "Audit every conversion surface — hero, pricing, signup, checkout — against eCommerce best practices, and rank the highest-leverage lifts for a first-time visitor. Audit brief 75 · Growth — runs a four-phase audit of the current repo and writes CRO.md at the repo root."
+description: "Audit every conversion surface — hero, pricing, signup, checkout — against eCommerce best practices, and rank the highest-leverage lifts for a first-time visitor. Goal Prompt 75 · Growth — inspects the current repo and writes CRO.md at the repo root."
 ---
 
 # Goal: Conversion Rate Optimization

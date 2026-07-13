@@ -1,6 +1,6 @@
 ---
 name: goal-handoff-audit
-description: "Every agent-to-human and agent-to-agent baton pass — context dropped, work duplicated, escalations landing where nobody looks. Audit brief 41 · Automation — runs a four-phase audit of the current repo and writes HANDOFFS.md at the repo root."
+description: "Every agent-to-human and agent-to-agent baton pass — context dropped, work duplicated, escalations landing where nobody looks. Goal Prompt 41 · Automation — inspects the current repo and writes HANDOFFS.md at the repo root."
 ---
 
 # Goal: Handoff Audit

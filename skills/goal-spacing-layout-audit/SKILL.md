@@ -1,6 +1,6 @@
 ---
 name: goal-spacing-layout-audit
-description: "The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen. Audit brief 57 · Design — runs a four-phase audit of the current repo and writes LAYOUT.md at the repo root."
+description: "The spacing scale nobody wrote down — margins and paddings inventoried, grid discipline checked, alignment breaks found, and density judged screen by screen. Goal Prompt 57 · Design — inspects the current repo and writes LAYOUT.md at the repo root."
 ---
 
 # Goal: Spacing & Layout Audit

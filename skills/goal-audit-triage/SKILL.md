@@ -1,6 +1,6 @@
 ---
 name: goal-audit-triage
-description: "The router. Fifteen minutes of recon that names which briefs this repo actually needs, in what order, and which families it can skip with a clear conscience. Audit brief 46 · Act — runs a four-phase audit of the current repo and writes TRIAGE.md at the repo root."
+description: "The router. Fifteen minutes of recon that names which briefs this repo actually needs, in what order, and which families it can skip with a clear conscience. Goal Prompt 46 · Act — inspects the current repo and writes TRIAGE.md at the repo root."
 ---
 
 # Goal: Audit Triage

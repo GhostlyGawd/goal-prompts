@@ -1,6 +1,6 @@
 ---
 name: goal-tool-design-review
-description: "Your tools are an API whose consumer is a model — audit names, descriptions, error contracts, and guards on destructive actions. Audit brief 31 · Agent — runs a four-phase audit of the current repo and writes TOOLS.md at the repo root."
+description: "Your tools are an API whose consumer is a model — audit names, descriptions, error contracts, and guards on destructive actions. Goal Prompt 31 · Agent — inspects the current repo and writes TOOLS.md at the repo root."
 ---
 
 # Goal: Tool Design Review

@@ -1,6 +1,6 @@
 ---
 name: goal-niche-map
-description: "One niche, fully mapped — the players, buyers, channels, watering holes, jargon, money flows, and unwritten rules — before you decide to enter it. Audit brief 61 · Venture — runs a four-phase audit of the current repo and writes NICHE.md at the repo root."
+description: "One niche, fully mapped — the players, buyers, channels, watering holes, jargon, money flows, and unwritten rules — before you decide to enter it. Goal Prompt 61 · Venture — inspects the current repo and writes NICHE.md at the repo root."
 ---
 
 # Goal: Niche Map

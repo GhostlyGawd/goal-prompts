@@ -1,6 +1,6 @@
 ---
 name: goal-ship-gate
-description: "The adversarial go/no-go. Re-runs every check fresh, sabotages code to prove the tests bite, walks the revenue path end to end, and rules ship or hold. Audit brief 144 · Build — runs a four-phase audit of the current repo and writes SHIP-GATE.md at the repo root."
+description: "The adversarial go/no-go. Re-runs every check fresh, sabotages code to prove the tests bite, walks the revenue path end to end, and rules ship or hold. Goal Prompt 144 · Build — inspects the current repo and writes SHIP-GATE.md at the repo root."
 ---
 
 # Goal: Ship Gate

@@ -1,6 +1,6 @@
 ---
 name: goal-api-versioning
-description: "How the API evolves without breaking the people who built on it — the versioning scheme, breaking-change discipline, and how deprecations are announced and retired. Audit brief 113 · API — runs a four-phase audit of the current repo and writes VERSIONING.md at the repo root."
+description: "How the API evolves without breaking the people who built on it — the versioning scheme, breaking-change discipline, and how deprecations are announced and retired. Goal Prompt 113 · API — inspects the current repo and writes VERSIONING.md at the repo root."
 ---
 
 # Goal: API Versioning & Deprecation

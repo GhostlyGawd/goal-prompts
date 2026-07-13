@@ -1,6 +1,6 @@
 ---
 name: goal-agent-experience-audit
-description: "What waiting on an agent feels like — progress honesty, interruptibility, showing the work, and salvaging partial results. Audit brief 42 · AI-UX — runs a four-phase audit of the current repo and writes AGENT-UX.md at the repo root."
+description: "What waiting on an agent feels like — progress honesty, interruptibility, showing the work, and salvaging partial results. Goal Prompt 42 · AI-UX — inspects the current repo and writes AGENT-UX.md at the repo root."
 ---
 
 # Goal: Agent Experience Audit

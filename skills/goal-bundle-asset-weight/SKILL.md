@@ -1,6 +1,6 @@
 ---
 name: goal-bundle-asset-weight
-description: "What the browser actually downloads — oversized bundles, unsplit code, heavy dependencies, and unoptimized assets that slow first paint. Audit brief 88 · Speed — runs a four-phase audit of the current repo and writes BUNDLE.md at the repo root."
+description: "What the browser actually downloads — oversized bundles, unsplit code, heavy dependencies, and unoptimized assets that slow first paint. Goal Prompt 88 · Speed — inspects the current repo and writes BUNDLE.md at the repo root."
 ---
 
 # Goal: Bundle & Asset Weight Audit

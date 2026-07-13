@@ -1,6 +1,6 @@
 ---
 name: goal-model-strategy-review
-description: "Model-to-task fit across every call site — where cheaper and faster would do, where quality is starved, and what happens when a provider blinks. Audit brief 36 · Agent — runs a four-phase audit of the current repo and writes MODELS.md at the repo root."
+description: "Model-to-task fit across every call site — where cheaper and faster would do, where quality is starved, and what happens when a provider blinks. Goal Prompt 36 · Agent — inspects the current repo and writes MODELS.md at the repo root."
 ---
 
 # Goal: Model Strategy Review

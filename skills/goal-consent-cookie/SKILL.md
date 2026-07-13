@@ -1,6 +1,6 @@
 ---
 name: goal-consent-cookie
-description: "Whether the product collects consent honestly and honors it — the cookies, trackers, and data collection that fire before or despite the user's choice. Audit brief 125 · Compliance — runs a four-phase audit of the current repo and writes CONSENT.md at the repo root."
+description: "Whether the product collects consent honestly and honors it — the cookies, trackers, and data collection that fire before or despite the user's choice. Goal Prompt 125 · Compliance — inspects the current repo and writes CONSENT.md at the repo root."
 ---
 
 # Goal: Consent & Cookie Audit

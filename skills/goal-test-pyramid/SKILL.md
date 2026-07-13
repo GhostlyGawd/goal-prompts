@@ -1,6 +1,6 @@
 ---
 name: goal-test-pyramid
-description: "Count and time the suite by layer, draw the shape it actually makes, and compute confidence-per-second — the number that says which tests earn their runtime. Audit brief 102 · Quality — runs a four-phase audit of the current repo and writes PYRAMID.md at the repo root."
+description: "Count and time the suite by layer, draw the shape it actually makes, and compute confidence-per-second — the number that says which tests earn their runtime. Goal Prompt 102 · Quality — inspects the current repo and writes PYRAMID.md at the repo root."
 ---
 
 # Goal: Test-Pyramid Balance

@@ -1,6 +1,6 @@
 ---
 name: goal-empty-zero-data-states
-description: "The screens users meet with nothing yet — first run, no results, cleared, deleted, error-empty — and whether each teaches the next step or just shows a blank and a shrug. Audit brief 133 · Design — runs a four-phase audit of the current repo and writes EMPTYSTATES.md at the repo root."
+description: "The screens users meet with nothing yet — first run, no results, cleared, deleted, error-empty — and whether each teaches the next step or just shows a blank and a shrug. Goal Prompt 133 · Design — inspects the current repo and writes EMPTYSTATES.md at the repo root."
 ---
 
 # Goal: Empty & Zero-Data States Audit

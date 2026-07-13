@@ -1,6 +1,6 @@
 ---
 name: goal-failure-injection
-description: "Kill every dependency on paper — trace the actual catch, timeout, and fallback code, or its absence — and script the game day before production improvises one. Audit brief 122 · Reliability — runs a four-phase audit of the current repo and writes CHAOS.md at the repo root."
+description: "Kill every dependency on paper — trace the actual catch, timeout, and fallback code, or its absence — and script the game day before production improvises one. Goal Prompt 122 · Reliability — inspects the current repo and writes CHAOS.md at the repo root."
 ---
 
 # Goal: Failure-Injection Readiness

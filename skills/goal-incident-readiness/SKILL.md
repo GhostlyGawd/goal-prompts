@@ -1,6 +1,6 @@
 ---
 name: goal-incident-readiness
-description: "The 3am table — for each failure scenario: how you'd detect it, how you'd respond, and the gap in between. Audit brief 25 · Ops — runs a four-phase audit of the current repo and writes RELIABILITY.md at the repo root."
+description: "The 3am table — for each failure scenario: how you'd detect it, how you'd respond, and the gap in between. Goal Prompt 25 · Ops — inspects the current repo and writes RELIABILITY.md at the repo root."
 ---
 
 # Goal: Incident Readiness Review
