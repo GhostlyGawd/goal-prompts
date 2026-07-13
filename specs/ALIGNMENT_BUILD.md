@@ -32,11 +32,11 @@ before the change); **bdd** = scenario walked end-to-end and transcript kept;
 | R11 | Shared 6-step baseline in every prompt (inspect→lenses→evidence→save→continue→verify) (Current contract) | C | lint: new contract grammar | todo |
 | R12 | Read-only default; action-capable exceptions keep approval gates (Current contract) | C | lint (exists; extend to contract classes) | todo |
 | R13 | No invented code churn; artifact-only endings are legitimate (Current contract) | B/C | contract wording + bdd | todo |
-| R14 | Actionable findings continue in SAME conversation; no second session; no required "Fixer" knowledge (Current contract + Fixer) | B/C | bdd on 4 goal classes + lint on ending grammar | todo |
+| R14 | Actionable findings continue in SAME conversation; no second session; no required "Fixer" knowledge (Current contract + Fixer) | B/C | bdd on 4 goal classes + lint on ending grammar | B-validated (S1–S4); lint at C |
 | R15 | "Not every goal produces a report" proposal is rejected — report stays universal (Current contract) | A | recorded; enforced by R10 | done |
 | R16 | The 7-step user-visible loop (Choose→Copy→Paste→Run→Understand→Choose scope→Act+check) | B/C/D | bdd transcript + site copy match | todo |
-| R17 | Explicit change request = authorization; no redundant approval ritual (User-visible loop) | B/C | lint: authorization-aware gate grammar + bdd | todo |
-| R18 | Exploratory/audit request ≠ permission for unrequested edits (User-visible loop) | B/C | same gate grammar + bdd | todo |
+| R17 | Explicit change request = authorization; no redundant approval ritual (User-visible loop) | B/C | lint: authorization-aware gate grammar + bdd | B-validated (S1); lint at C |
+| R18 | Exploratory/audit request ≠ permission for unrequested edits (User-visible loop) | B/C | same gate grammar + bdd | B-validated (S2/S3); lint at C |
 | R19 | Publish/deploy/send/merge external actions need own authority (User-visible loop) | C | contract clause + lint token check | todo |
 | R20 | Same visible conversation; subagents internal only, no new approval surfaces (User-visible loop) | B/C | contract clause + bdd | todo |
 | R21 | Browse/choose/copy/paste = primary path, explicit invocation (How people start) | D | site copy test | todo |
@@ -55,16 +55,16 @@ before the change); **bdd** = scenario walked end-to-end and transcript kept;
 | R34 | Normal findings→action path works without Studio (Studio) | B/C | bdd | todo |
 | R35 | Studio value validated in beta; demote/remove if unused (Studio) | E | beta signal + op | todo |
 | R36 | Fixer behaviors kept; experienced as same-conversation continuation; name not required vocabulary (Fixer) | C/D | lint ending grammar + copy test | todo |
-| R37 | One reasoned recommended scope, not a menu; ordinary-language corrections (Recommendations) | B/C | contract grammar + bdd | todo |
+| R37 | One reasoned recommended scope, not a menu; ordinary-language corrections (Recommendations) | B/C | contract grammar + bdd | B-validated w/ open ruling: quick-wins bundle counts as one scope? |
 | R38 | Recommendation explains: evidence, causal impact, confidence, what changes, effort, what's left alone, how checked (Recommendations) | C | lint: recommendation section fields | todo |
 | R39 | Result file = durable memory + inspectable evidence (Saved results) | C | contract copy; existing behavior | todo |
-| R40 | Repeat runs read previous result; lead with delta: fixed / still present / new / regressed (Saved results) | C | lint: re-run clause present + bdd repeat run | todo |
+| R40 | Repeat runs read previous result; lead with delta: fixed / still present / new / regressed (Saved results) | C | lint: re-run clause present + bdd repeat run | B-validated (S6); lint at C |
 | R41 | Compounding loop: charter constrains; no rediscovery-as-new; fixes traceable; deltas (Saved results) | B/C | bdd + contract | todo |
 | R42 | Saved-result location: root-or-`reports/` ratified (ADR-15); wording pinned by lint | C | lint | todo |
 | R43 | Stickiness framings are hypotheses; no browser-reminder positioning; learn triggers from real use (Saved results) | D/E | copy test bans claims; beta notes | todo |
-| R44 | Internal efficacy test harness: frozen snapshot, plain-request vs Goal Prompt, scored, repeated (Efficacy) | B | harness built + first results committed | todo |
+| R44 | Internal efficacy test harness: frozen snapshot, plain-request vs Goal Prompt, scored, repeated (Efficacy) | B | harness built + first results committed | done (evals/, GATE_B_RESULTS.md) |
 | R45 | Efficacy is internal QA — never a user-facing step (Efficacy) | D | copy review | todo |
-| R46 | Prototype contract privately on representative types before catalog-wide rewrite (Efficacy) | B | bdd fixtures | todo |
+| R46 | Prototype contract privately on representative types before catalog-wide rewrite (Efficacy) | B | bdd fixtures | done for investigate+act (S1–S6); decide/verify prototypes written, matrix-run pending |
 | R47 | Migrate all 152 or version/deprecate/remove before presenting as coherent (Efficacy + Gate C) | C | lint over full catalog + count check | todo |
 | R48 | Marketing: concrete object+motion before internal nouns (Marketing) | D | hero-copy test: banned lead words | todo |
 | R49 | Marketing shows the 6 concrete things (copy from site→paste→inspects your files→named result→continuation→informed next run) (Marketing) | D | copy test + demo content | todo |
@@ -175,3 +175,13 @@ Reply "ratify all with recommendations" or list exceptions by number.
   (01/149/47/144 classes), BDD scenarios S1–S7, first efficacy runs
   plain-vs-goal. Results land in evals/results/ + GATE_B_RESULTS.md, then
   operator review stop.
+
+- **2026-07-13 · session 2 (Gate B complete — review stop).** Matrix run:
+  plain vs goal-v2 N=3 (7 valid seeds; D5 excluded after a plain run
+  proved it commutative), scenarios S1–S6 all pass (S2 adjudicated; S7
+  observational pass). Headline: finding-count edge modest (5.67 vs 5.0),
+  structural edge total (saved-file 3/3 vs 0/3; deltas, gates, receipts),
+  cost 2.7×. Harness bugs found+fixed (write-allowlist, report detector);
+  denied runs kept as evidence. Open: cross-host smoke (R26), decide/verify
+  matrix runs, R37 bundle ruling, contract amendments (a)/(b) proposed in
+  evals/GATE_B_RESULTS.md. Awaiting operator review to open Gate C.

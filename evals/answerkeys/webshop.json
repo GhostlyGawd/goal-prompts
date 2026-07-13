@@ -1,22 +1,115 @@
 {
   "fixture": "webshop",
-  "pre_existing_failing_tests": ["test_refund_exists"],
+  "pre_existing_failing_tests": [
+    "test_refund_exists"
+  ],
   "defects": [
-    {"id": "D1", "file": "store.py", "fn": "reserve", "kind": "race", "severity": "S2",
-     "match": ["race", "lock", "concurren", "read-modify-write", "oversell", "TOCTOU"]},
-    {"id": "D2", "file": "pricing.py", "fn": "subtotal", "kind": "float-money", "severity": "S2",
-     "match": ["float", "decimal", "rounding", "binary", "cents"]},
-    {"id": "D3", "file": "pagination.py", "fn": "page_of", "kind": "off-by-one", "severity": "S2",
-     "match": ["off-by-one", "1-based", "one-based", "page * size", "page*size", "first page", "skips"]},
-    {"id": "D4", "file": "app.py", "fn": "checkout", "kind": "unhandled-empty", "severity": "S2",
-     "match": ["empty cart", "max(", "ValueError", "empty sequence", "crash"]},
-    {"id": "D5", "file": "pricing.py", "fn": "total", "kind": "spec-mismatch-discount", "severity": "S3",
-     "match": ["discount", "before tax", "after tax", "order of operations"]},
-    {"id": "D6", "file": "store.py", "fn": "record_order", "kind": "timezone", "severity": "S3",
-     "match": ["UTC", "local time", "timezone", "utcnow", "naive"]},
-    {"id": "D7", "file": "app.py", "fn": "add", "kind": "validation-negative", "severity": "S2",
-     "match": ["negative", "validation", "qty", "quantity"]},
-    {"id": "D8", "file": "app.py", "fn": "checkout", "kind": "state-not-cleared", "severity": "S2",
-     "match": ["not cleared", "clear", "double", "second checkout", "re-charge", "recharge"]}
+    {
+      "id": "D1",
+      "file": "store.py",
+      "fn": "reserve",
+      "kind": "race",
+      "severity": "S2",
+      "match": [
+        "race",
+        "lock",
+        "concurren",
+        "read-modify-write",
+        "oversell",
+        "TOCTOU"
+      ]
+    },
+    {
+      "id": "D2",
+      "file": "pricing.py",
+      "fn": "subtotal",
+      "kind": "float-money",
+      "severity": "S2",
+      "match": [
+        "float",
+        "decimal",
+        "rounding",
+        "binary",
+        "cents"
+      ]
+    },
+    {
+      "id": "D3",
+      "file": "pagination.py",
+      "fn": "page_of",
+      "kind": "off-by-one",
+      "severity": "S2",
+      "match": [
+        "off-by-one",
+        "1-based",
+        "one-based",
+        "page * size",
+        "page*size",
+        "first page",
+        "skips"
+      ]
+    },
+    {
+      "id": "D4",
+      "file": "app.py",
+      "fn": "checkout",
+      "kind": "unhandled-empty",
+      "severity": "S2",
+      "match": [
+        "empty cart",
+        "max(",
+        "ValueError",
+        "empty sequence",
+        "crash"
+      ]
+    },
+    {
+      "id": "D6",
+      "file": "store.py",
+      "fn": "record_order",
+      "kind": "timezone",
+      "severity": "S3",
+      "match": [
+        "UTC",
+        "local time",
+        "timezone",
+        "utcnow",
+        "naive"
+      ]
+    },
+    {
+      "id": "D7",
+      "file": "app.py",
+      "fn": "add",
+      "kind": "validation-negative",
+      "severity": "S2",
+      "match": [
+        "negative",
+        "validation",
+        "qty",
+        "quantity"
+      ]
+    },
+    {
+      "id": "D8",
+      "file": "app.py",
+      "fn": "checkout",
+      "kind": "state-not-cleared",
+      "severity": "S2",
+      "match": [
+        "not cleared",
+        "clear",
+        "double",
+        "second checkout",
+        "re-charge",
+        "recharge"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "id": "D5",
+      "reason": "invalid seed: (1-d)*(1+t) is commutative \u2014 discount-before-vs-after-tax has no behavioral difference; caught by eff-plain-1's own reasoning. Excluded from scoring for ALL arms."
+    }
   ]
 }

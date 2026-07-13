@@ -1,0 +1,44 @@
+{
+  "run_id": "s1",
+  "arm": "s1",
+  "fixture": "webshop",
+  "mode": "act",
+  "model": "sonnet",
+  "wall_seconds": 345.2,
+  "exit_code": 0,
+  "report": "BUGS.md",
+  "scratch": "/tmp/gp-eval-s1",
+  "session_id": "adb9c013-f2c9-4372-bdf0-e79734e0c9ad",
+  "usage": {
+    "input_tokens": 100,
+    "cache_creation_input_tokens": 45461,
+    "cache_read_input_tokens": 2628977,
+    "output_tokens": 26849,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 45461,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 592,
+        "cache_read_input_tokens": 70150,
+        "cache_creation_input_tokens": 297,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 297
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_usd": 1.4658531,
+  "resumed_from": null
+}

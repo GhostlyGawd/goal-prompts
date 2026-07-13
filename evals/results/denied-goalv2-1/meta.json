@@ -1,0 +1,44 @@
+{
+  "run_id": "eff-goalv2-1",
+  "arm": "goal-v2",
+  "fixture": "webshop",
+  "mode": "investigate",
+  "model": "sonnet",
+  "wall_seconds": 241.7,
+  "exit_code": 0,
+  "report": null,
+  "scratch": "/tmp/gp-eval-eff-goalv2-1",
+  "session_id": "41608108-f735-48a8-adbc-fd95bc948f8f",
+  "usage": {
+    "input_tokens": 30,
+    "cache_creation_input_tokens": 32488,
+    "cache_read_input_tokens": 608195,
+    "output_tokens": 21389,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 32488,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1455,
+        "cache_read_input_tokens": 53526,
+        "cache_creation_input_tokens": 3948,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3948
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_usd": 0.6996595000000001,
+  "resumed_from": null
+}

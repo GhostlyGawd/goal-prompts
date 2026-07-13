@@ -45,8 +45,7 @@ class ScoreTests(unittest.TestCase):
         r = score(STRONG, KEY)
         for d in ["D1", "D2", "D3", "D4", "D7", "D8"]:
             self.assertIn(d, r["found"], d)
-        self.assertIn("D5", r["missed"])
-        self.assertIn("D6", r["missed"])
+        self.assertIn("D6", r["missed"])  # D5 excluded from key (invalid seed)
         self.assertEqual(r["false_alarms"], 0)
         self.assertGreaterEqual(r["evidence_rate"], 0.99)
         self.assertTrue(r["preexisting_flagged"])

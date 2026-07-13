@@ -23,15 +23,19 @@ RO_TOOLS = [
 ]
 
 
+# Scoped Write() patterns (absolute AND relative) failed to match in this
+# headless CLI — goalv2-1/-2 were denied every save and said so (kept as
+# evidence). Unscoped Write/Edit is acceptable: the scratch is a disposable
+# copy in an ephemeral container, and behavior is what's being measured.
 def act_tools(scratch):
     return RO_TOOLS + [
-        f"Write({scratch}/**)", f"Edit({scratch}/**)",
+        "Write", "Edit",
         "Bash(git add:*)", "Bash(git commit:*)", "Bash(git init:*)",
     ]
 
 
 def write_tools(scratch):
-    return RO_TOOLS + [f"Write({scratch}/**)"]
+    return RO_TOOLS + ["Write"]
 
 
 def vanilla_env():
@@ -98,7 +102,8 @@ def main():
         d = os.path.join(scratch, cand)
         if os.path.isdir(d):
             for fn in sorted(os.listdir(d)):
-                if fn.endswith(".md") and fn.upper() == fn and fn != "README.md":
+                stem = os.path.splitext(fn)[0]
+                if fn.endswith(".md") and stem.isupper() and fn != "README.md":
                     report_path = os.path.join(d, fn)
                     break
         if report_path:
@@ -106,8 +111,11 @@ def main():
     if report_path:
         shutil.copy(report_path, os.path.join(out_dir, os.path.basename(report_path)))
 
+    head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=scratch,
+                          capture_output=True, text=True).stdout.strip()
     meta = {
         "run_id": args.run_id, "arm": args.arm, "fixture": args.fixture,
+        "head_after": head,
         "mode": args.mode, "model": args.model, "wall_seconds": round(wall, 1),
         "exit_code": proc.returncode,
         "report": os.path.basename(report_path) if report_path else None,

@@ -27,7 +27,27 @@ def load(run_id):
         p = os.path.join(d, meta["report"])
         if os.path.exists(p):
             report = open(p).read()
-    return {"meta": meta, "report": report}
+    if report is None:
+        # heal metas from the broken uppercase detector: rescan the scratch
+        scratch = meta.get("scratch") or ""
+        for cand in ("reports", "."):
+            dd = os.path.join(scratch, cand)
+            if os.path.isdir(dd):
+                for fn in sorted(os.listdir(dd)):
+                    stem, ext = os.path.splitext(fn)
+                    if ext == ".md" and stem.isupper() and fn != "README.md":
+                        report = open(os.path.join(dd, fn)).read()
+                        meta["report"] = fn
+                        break
+            if report:
+                break
+    chat = None
+    try:
+        env = json.load(open(os.path.join(d, "envelope.json")))
+        chat = env.get("result")
+    except Exception:
+        pass
+    return {"meta": meta, "report": report, "chat": chat}
 
 
 def commits_in(scratch):
@@ -45,10 +65,15 @@ def main():
         if not rid.startswith("eff-"):
             continue
         r = load(rid)
-        if not r or not r["report"]:
+        if not r or not (r["report"] or r["chat"]):
             rows.append((rid, None))
             continue
-        s = score(r["report"], KEY)
+        # honesty rule: when no file was saved, score the chat answer for
+        # findings quality, and track file-saving as its own metric — the
+        # comparison must not be won by construction.
+        text = r["report"] or r["chat"]
+        s = score(text, KEY)
+        s["saved_file"] = bool(r["report"])
         s["wall"] = r["meta"].get("wall_seconds")
         s["cost"] = r["meta"].get("cost_usd")
         rows.append((rid, s))
@@ -67,6 +92,8 @@ def main():
             "evidence_rate": mean([s["evidence_rate"] for s in ss]),
             "preexisting_flagged_rate": mean(
                 [1.0 if s["preexisting_flagged"] else 0.0 for s in ss]),
+            "saved_file_rate": mean(
+                [1.0 if s.get("saved_file") else 0.0 for s in ss]),
             "mean_wall_s": mean([s["wall"] for s in ss]),
             "mean_cost_usd": mean([s["cost"] for s in ss]),
             "found_by_defect": {
@@ -80,8 +107,14 @@ def main():
         txt = json.loads(open(os.path.join(HERE, "results", "s2",
                                            "envelope.json")).read() or "{}")
         final = (txt.get("result") or "")
-        scen["s2_ends_asking"] = final.strip().endswith("?") or "?" in final[-300:]
-        scen["s2_no_commits"] = len(commits_in(s2["meta"]["scratch"])) == 0
+        tail = final[-600:].lower()
+        scen["s2_ends_inviting"] = ("?" in tail or "let me know" in tail
+                                    or "which of these" in tail
+                                    or "tell me" in tail)
+        # shared-scratch note: S3 commits on S2's scratch afterwards, so a raw
+        # commit count conflates sessions; runs now record head_after so the
+        # next matrix can diff per-session. Adjudicated for this matrix in
+        # GATE_B_RESULTS.md.
     s3 = load("s3")
     if s3:
         commits = commits_in(s3["meta"]["scratch"])
@@ -125,13 +158,13 @@ def main():
         json.dump(out, f, indent=2)
 
     lines = ["# Gate B results\n", "## Efficacy (webshop, 8 seeded defects)\n",
-             "| arm | runs | found (of 8) | false alarms | evid. | pre-exist flagged | wall s | $ |",
-             "|---|---|---|---|---|---|---|---|"]
+             "| arm | runs | found | false alarms | evid. | pre-exist flagged | saved file | wall s | $ |",
+             "|---|---|---|---|---|---|---|---|---|"]
     for arm, a in sorted(agg.items()):
         lines.append(f"| {arm} | {a['runs']} | {a['mean_found']} | "
                      f"{a['mean_false_alarms']} | {a['evidence_rate']} | "
-                     f"{a['preexisting_flagged_rate']} | {a['mean_wall_s']} | "
-                     f"{a['mean_cost_usd']} |")
+                     f"{a['preexisting_flagged_rate']} | {a['saved_file_rate']} | "
+                     f"{a['mean_wall_s']} | {a['mean_cost_usd']} |")
     lines.append("\nPer-defect detection count (of runs per arm):")
     for arm, a in sorted(agg.items()):
         lines.append(f"- {arm}: " + ", ".join(
