@@ -1,6 +1,6 @@
 ---
 name: goal-model-transparency
-description: "Diff what the UI says about the AI against what the code does — disclosure strings quoted, dropped confidence traced, retention claims checked against real payloads. Audit brief 119 · AI-Ethics — runs a four-phase audit of the current repo and writes TRANSPARENCY.md at the repo root."
+description: "Diff what the UI says about the AI against what the code does — disclosure strings quoted, dropped confidence traced, retention claims checked against real payloads. Goal Prompt 119 · AI-Ethics — inspects the current repo and writes TRANSPARENCY.md at the repo root."
 ---
 
 # Goal: Model Transparency Audit

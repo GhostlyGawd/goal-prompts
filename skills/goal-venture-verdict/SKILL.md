@@ -1,6 +1,6 @@
 ---
 name: goal-venture-verdict
-description: "The decider. Reads every venture report at this root, scores the candidate against bars set before scoring, and rules go, pivot, or kill — reasoning shown. Audit brief 67 · Venture — runs a four-phase audit of the current repo and writes VERDICT.md at the repo root."
+description: "The decider. Reads every venture report at this root, scores the candidate against bars set before scoring, and rules go, pivot, or kill — reasoning shown. Goal Prompt 67 · Venture — inspects the current repo and writes VERDICT.md at the repo root."
 ---
 
 # Goal: Venture Verdict

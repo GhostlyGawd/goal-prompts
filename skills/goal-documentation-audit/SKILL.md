@@ -1,6 +1,6 @@
 ---
 name: goal-documentation-audit
-description: "Follow the docs literally to find where they lie, then rank the gaps by who gets blocked — and which wrong docs to delete. Audit brief 16 · Clarity — runs a four-phase audit of the current repo and writes DOCS.md at the repo root."
+description: "Follow the docs literally to find where they lie, then rank the gaps by who gets blocked — and which wrong docs to delete. Goal Prompt 16 · Clarity — inspects the current repo and writes DOCS.md at the repo root."
 ---
 
 # Goal: Documentation Audit

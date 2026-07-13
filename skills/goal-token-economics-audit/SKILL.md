@@ -1,6 +1,6 @@
 ---
 name: goal-token-economics-audit
-description: "Cost per completed task, not per call — retry waste, context bloat priced out, cache leverage, and the margin math. Audit brief 38 · Agent — runs a four-phase audit of the current repo and writes TOKENS.md at the repo root."
+description: "Cost per completed task, not per call — retry waste, context bloat priced out, cache leverage, and the margin math. Goal Prompt 38 · Agent — inspects the current repo and writes TOKENS.md at the repo root."
 ---
 
 # Goal: Token Economics Audit

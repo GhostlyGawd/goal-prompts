@@ -1,6 +1,6 @@
 ---
 name: goal-the-charter
-description: "Excavates the evidence, then interviews you — questions with evidence-backed candidates, your answers, no guesses — into the one-page contract every session starts from. Audit brief 149 · Mission — runs a four-phase audit of the current repo and writes CHARTER.md at the repo root."
+description: "Excavates the evidence, then interviews you — questions with evidence-backed candidates, your answers, no guesses — into the one-page contract every session starts from. Goal Prompt 149 · Mission — inspects the current repo and writes CHARTER.md at the repo root."
 ---
 
 # Goal: The Charter

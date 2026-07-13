@@ -1,6 +1,6 @@
 ---
 name: goal-bias-fairness
-description: "Find the code that ranks, scores, or filters people, list the exact fields it consumes, and check whether any eval ever sliced results by group — suspicions labeled. Audit brief 116 · AI-Ethics — runs a four-phase audit of the current repo and writes FAIRNESS.md at the repo root."
+description: "Find the code that ranks, scores, or filters people, list the exact fields it consumes, and check whether any eval ever sliced results by group — suspicions labeled. Goal Prompt 116 · AI-Ethics — inspects the current repo and writes FAIRNESS.md at the repo root."
 ---
 
 # Goal: Bias & Fairness Audit

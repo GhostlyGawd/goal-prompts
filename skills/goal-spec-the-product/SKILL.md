@@ -1,6 +1,6 @@
 ---
 name: goal-spec-the-product
-description: "Turns venture research and operator intent into SPEC.md — a contract where every acceptance criterion carries a command a machine can run. Audit brief 142 · Build — runs a four-phase audit of the current repo and writes SPEC.md at the repo root."
+description: "Turns venture research and operator intent into SPEC.md — a contract where every acceptance criterion carries a command a machine can run. Goal Prompt 142 · Build — inspects the current repo and writes SPEC.md at the repo root."
 ---
 
 # Goal: Spec the Product

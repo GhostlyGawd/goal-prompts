@@ -1,6 +1,6 @@
 ---
 name: goal-iconography-visual-language
-description: "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check. Audit brief 134 · Design — runs a four-phase audit of the current repo and writes ICONOGRAPHY.md at the repo root."
+description: "The icon set as it actually ships — one visual language or a ransom note, every glyph readable and labeled, meanings consistent, and weight kept in check. Goal Prompt 134 · Design — inspects the current repo and writes ICONOGRAPHY.md at the repo root."
 ---
 
 # Goal: Iconography & Visual Language Audit

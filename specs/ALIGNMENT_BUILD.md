@@ -222,3 +222,21 @@ Reply "ratify all with recommendations" or list exceptions by number.
   status "parked". The three Gate B rulings are moot while migration is
   parked. Next: situation-first front door + plain-words hero + honest
   claims (Gate D scope), preview link to operator.
+
+- **2026-07-13 · session 3 (six-findings copy pass).** Operator: "fix all
+  findings in order." Shipped in one pass: (6) detail pages + skills
+  descriptions lose "four-phase audit" register; (1) public noun migrated
+  to **Goal Prompt / Goal Library** across landing, detail, playbook,
+  quality pages, JS-built strings, og image (ADR-15 item 8 executed;
+  prompt bodies, conductor prompts, code identifiers, Brief Forge, and
+  brief titles untouched); (2) Studio out of the header nav, proof pipe
+  renamed to outcome words (Goal Prompt → Report → Pick findings →
+  Checked fixes → Paper trail), Fixer/fix log demoted to inline links;
+  (3) "audit" dropped as the universal verb ("check"); (4) hero proof
+  card swapped to the plain-harm pagination finding (real: openFromHash,
+  commit 683dff5); (5) redundant 3-question picker quiz removed —
+  situation cards are the one guided door. Tests updated with the copy
+  (RegisterBadge, ProofLoop, quality-bar, install-labels); 163 green +
+  scripts/check green; screenshots reviewed. Known remainders: brief-00
+  tagline says "briefs" (frozen prompt front matter), README repo-facing
+  sections keep "brief" as the internal term.

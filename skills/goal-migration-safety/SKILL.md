@@ -1,6 +1,6 @@
 ---
 name: goal-migration-safety
-description: "Schema and data migrations under real traffic — table locks, reversibility, timed-out backfills, and the deploy ordering that turns a change into an outage. Audit brief 71 · Data — runs a four-phase audit of the current repo and writes MIGRATIONS.md at the repo root."
+description: "Schema and data migrations under real traffic — table locks, reversibility, timed-out backfills, and the deploy ordering that turns a change into an outage. Goal Prompt 71 · Data — inspects the current repo and writes MIGRATIONS.md at the repo root."
 ---
 
 # Goal: Migration Safety

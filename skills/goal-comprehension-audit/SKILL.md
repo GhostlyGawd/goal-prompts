@@ -1,6 +1,6 @@
 ---
 name: goal-comprehension-audit
-description: "Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing? Audit brief 76 · Clarity — runs a four-phase audit of the current repo and writes COMPREHENSION.md at the repo root."
+description: "Can a newcomer explain back what this is, who it's for, and how it works after one screen — or does the curse of knowledge leave them guessing? Goal Prompt 76 · Clarity — inspects the current repo and writes COMPREHENSION.md at the repo root."
 ---
 
 # Goal: Comprehension Audit

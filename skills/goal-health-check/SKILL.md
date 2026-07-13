@@ -1,6 +1,6 @@
 ---
 name: goal-health-check
-description: "A fast weekly vitals pass — tests, build, deps, TODOs — diffed against the last run so drift shows up as trend arrows. Audit brief 29 · Meta — runs a four-phase audit of the current repo and writes HEALTH.md at the repo root."
+description: "A fast weekly vitals pass — tests, build, deps, TODOs — diffed against the last run so drift shows up as trend arrows. Goal Prompt 29 · Meta — inspects the current repo and writes HEALTH.md at the repo root."
 ---
 
 # Goal: Recurring Health Check

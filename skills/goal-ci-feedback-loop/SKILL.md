@@ -1,6 +1,6 @@
 ---
 name: goal-ci-feedback-loop
-description: "CI as a feedback loop — how fast, trustworthy, and clear the signal is between pushing code and knowing it is safe to merge. Audit brief 96 · Team — runs a four-phase audit of the current repo and writes CIFEEDBACK.md at the repo root."
+description: "CI as a feedback loop — how fast, trustworthy, and clear the signal is between pushing code and knowing it is safe to merge. Goal Prompt 96 · Team — inspects the current repo and writes CIFEEDBACK.md at the repo root."
 ---
 
 # Goal: CI Feedback-Loop Audit

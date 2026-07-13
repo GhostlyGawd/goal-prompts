@@ -1,6 +1,6 @@
 ---
 name: goal-retention-lifecycle-audit
-description: "The return trip: the saved state, resurfaced value, and well-timed nudges that earn a second visit — and the churn cliffs that quietly lose it. Audit brief 78 · Growth — runs a four-phase audit of the current repo and writes RETENTION.md at the repo root."
+description: "The return trip: the saved state, resurfaced value, and well-timed nudges that earn a second visit — and the churn cliffs that quietly lose it. Goal Prompt 78 · Growth — inspects the current repo and writes RETENTION.md at the repo root."
 ---
 
 # Goal: Retention & Lifecycle Audit

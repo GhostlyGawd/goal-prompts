@@ -1,6 +1,6 @@
 ---
 name: goal-simplification-pass
-description: "Abstractions with one implementation, pass-through layers, config nobody changes — ranked by clarity gained per risk. Audit brief 27 · Subtract — runs a four-phase audit of the current repo and writes SIMPLIFY.md at the repo root."
+description: "Abstractions with one implementation, pass-through layers, config nobody changes — ranked by clarity gained per risk. Goal Prompt 27 · Subtract — inspects the current repo and writes SIMPLIFY.md at the repo root."
 ---
 
 # Goal: Simplification Pass

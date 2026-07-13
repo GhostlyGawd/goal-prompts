@@ -1,6 +1,6 @@
 ---
 name: goal-concurrency-audit
-description: "The bugs that only appear under load — races, shared mutable state, and ordering assumptions that hold on a quiet laptop and break in production. Audit brief 98 · Quality — runs a four-phase audit of the current repo and writes CONCURRENCY.md at the repo root."
+description: "The bugs that only appear under load — races, shared mutable state, and ordering assumptions that hold on a quiet laptop and break in production. Goal Prompt 98 · Quality — inspects the current repo and writes CONCURRENCY.md at the repo root."
 ---
 
 # Goal: Concurrency & Race-Condition Audit

@@ -1,6 +1,6 @@
 ---
 name: goal-encryption-key-management
-description: "How the product protects data with encryption — in transit, at rest, and at the field level — and whether the keys that unlock it are managed safely. Audit brief 127 · Compliance — runs a four-phase audit of the current repo and writes ENCRYPTION.md at the repo root."
+description: "How the product protects data with encryption — in transit, at rest, and at the field level — and whether the keys that unlock it are managed safely. Goal Prompt 127 · Compliance — inspects the current repo and writes ENCRYPTION.md at the repo root."
 ---
 
 # Goal: Encryption & Key Management

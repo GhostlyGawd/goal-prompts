@@ -1,6 +1,6 @@
 ---
 name: goal-activation-first-win-audit
-description: "The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing. Audit brief 80 · Growth — runs a four-phase audit of the current repo and writes ACTIVATION.md at the repo root."
+description: "The first session: empty states, a guided first action, and the fastest path to a first win that leaves a newcomer inspired to build the next thing. Goal Prompt 80 · Growth — inspects the current repo and writes ACTIVATION.md at the repo root."
 ---
 
 # Goal: Activation & First-Win Audit

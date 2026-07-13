@@ -1,6 +1,6 @@
 ---
 name: goal-account-lifecycle
-description: "The whole arc of an account beyond signup — settings, export, plan changes, and deletion — and whether the product treats users with dignity, even leaving. Audit brief 108 · Product — runs a four-phase audit of the current repo and writes LIFECYCLE.md at the repo root."
+description: "The whole arc of an account beyond signup — settings, export, plan changes, and deletion — and whether the product treats users with dignity, even leaving. Goal Prompt 108 · Product — inspects the current repo and writes LIFECYCLE.md at the repo root."
 ---
 
 # Goal: Account Lifecycle Audit

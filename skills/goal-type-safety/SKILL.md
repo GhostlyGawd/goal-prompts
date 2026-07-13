@@ -1,6 +1,6 @@
 ---
 name: goal-type-safety
-description: "Where the type system has been defeated or never engaged — the casts, anys, and untyped boundaries where the compiler stops protecting you. Audit brief 99 · Quality — runs a four-phase audit of the current repo and writes TYPES.md at the repo root."
+description: "Where the type system has been defeated or never engaged — the casts, anys, and untyped boundaries where the compiler stops protecting you. Goal Prompt 99 · Quality — inspects the current repo and writes TYPES.md at the repo root."
 ---
 
 # Goal: Type-Safety Audit

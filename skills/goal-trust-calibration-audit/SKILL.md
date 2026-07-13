@@ -1,6 +1,6 @@
 ---
 name: goal-trust-calibration-audit
-description: "Confidence theater vs honest hedging — uncertainty channels, citation integrity, and what the product does after being wrong. Audit brief 44 · AI-UX — runs a four-phase audit of the current repo and writes TRUST.md at the repo root."
+description: "Confidence theater vs honest hedging — uncertainty channels, citation integrity, and what the product does after being wrong. Goal Prompt 44 · AI-UX — inspects the current repo and writes TRUST.md at the repo root."
 ---
 
 # Goal: Trust Calibration Audit

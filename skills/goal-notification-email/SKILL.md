@@ -1,6 +1,6 @@
 ---
 name: goal-notification-email
-description: "Every message the product sends out of the app — transactional email, push, in-app — for whether it is timely, wanted, clear, and controllable. Audit brief 106 · Product — runs a four-phase audit of the current repo and writes NOTIFICATIONS.md at the repo root."
+description: "Every message the product sends out of the app — transactional email, push, in-app — for whether it is timely, wanted, clear, and controllable. Goal Prompt 106 · Product — inspects the current repo and writes NOTIFICATIONS.md at the repo root."
 ---
 
 # Goal: Notification & Email Audit

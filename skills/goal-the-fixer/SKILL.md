@@ -1,6 +1,6 @@
 ---
 name: goal-the-fixer
-description: "Turns your root reports into commits. Asks the scope — all, high-priority, or its pick — then builds them in dependency order, one verified commit each. Audit brief 47 · Act — runs a four-phase audit of the current repo and writes FIXLOG.md at the repo root."
+description: "Turns your root reports into commits. Asks the scope — all, high-priority, or its pick — then builds them in dependency order, one verified commit each. Goal Prompt 47 · Act — inspects the current repo and writes FIXLOG.md at the repo root."
 ---
 
 # Goal: The Fixer

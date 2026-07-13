@@ -1,6 +1,6 @@
 ---
 name: goal-cli-ux
-description: "Run the binary like a stranger — help screens, wrong flags, bad input, exit codes, --json — an annotated transcript of where the CLI teaches and where it bites. Audit brief 135 · Clarity — runs a four-phase audit of the current repo and writes CLI.md at the repo root."
+description: "Run the binary like a stranger — help screens, wrong flags, bad input, exit codes, --json — an annotated transcript of where the CLI teaches and where it bites. Goal Prompt 135 · Clarity — inspects the current repo and writes CLI.md at the repo root."
 ---
 
 # Goal: CLI Tool UX Audit

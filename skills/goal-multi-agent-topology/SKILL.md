@@ -1,6 +1,6 @@
 ---
 name: goal-multi-agent-topology
-description: "Is the org chart of agents earning its overhead — role clarity, orchestration fit, the communication tax, and what one agent with better tools would do instead. Audit brief 50 · Agent — runs a four-phase audit of the current repo and writes TOPOLOGY.md at the repo root."
+description: "Is the org chart of agents earning its overhead — role clarity, orchestration fit, the communication tax, and what one agent with better tools would do instead. Goal Prompt 50 · Agent — inspects the current repo and writes TOPOLOGY.md at the repo root."
 ---
 
 # Goal: Multi-Agent Topology Review

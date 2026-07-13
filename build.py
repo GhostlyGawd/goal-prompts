@@ -1021,7 +1021,7 @@ def static_playbooks(playbooks, by_id) -> tuple:
             f'<a class="storecard{cls}" href="/p/{pb["key"]}"{style}>'
             f'<h3>{esc(pb["name"])}</h3>'
             f'<p class="tl">{esc(pb.get("tagline") or pb["desc"])}</p>'
-            f'<span class="seqdots"><span class="cnt">{n} brief'
+            f'<span class="seqdots"><span class="cnt">{n} Goal Prompt'
             f'{"s" if n > 1 else ""}</span></span>'
             f'<span class="go">Explore playbook →</span></a>')
     # the "more sequences" label moved to the <details> summary that wraps
@@ -1085,16 +1085,16 @@ def foot(head, sub, buttons_html) -> str:
             f'<div class="cta-band"><h3>{esc(head)}</h3><p>{esc(sub)}</p>'
             f'<div class="row">{buttons_html}</div></div>'
             '<div class="links">'
-            '<a href="/">Home</a><a href="/#catalog">Catalog</a>'
-            '<a href="/#playbooks">Playbooks</a><a href="/studio">Report Studio</a>'
+            '<a href="/">Home</a><a href="/#catalog">Library</a>'
+            '<a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a>'
             '<a href="/vitals">Vitals Viewer</a>'
             '<a href="/examples/">Sample reports</a>'
-            '<a href="/quality">Why briefs don\'t rot</a>'
+            '<a href="/quality">Why Goal Prompts don\'t rot</a>'
             '<a href="/changelog">Changelog</a>'
             '<a href="/teams">For teams</a>'
             '<a href="/partners">Partners</a>'
             '<a href="https://github.com/GhostlyGawd/goal-prompts">GitHub</a></div>'
-            '<p class="fine">Free &amp; open source · MIT licensed · every brief under 4,000 characters · '
+            '<p class="fine">Free &amp; open source · MIT licensed · every Goal Prompt under 4,000 characters · '
             'works with Claude Code, Cursor, Copilot &amp; any coding agent</p>'
             '</div></footer>')
 
@@ -1124,7 +1124,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     meta = [f'<span class="out">{esc(p["output"])}</span>',
             f'<span class="chip">{len(parts["phases"])} phases</span>']
     if parts["lenses"]:
-        meta.append(f'<span class="chip">{len(parts["lenses"])} audit {lens_word}</span>')
+        meta.append(f'<span class="chip">{len(parts["lenses"])} {lens_word}</span>')
     meta.append(f'<span class="chip">~{p["chars"]/1000:.1f}k chars</span>')
 
     cta = [f'<button class="btn btn-primary" {copy_attrs}>Copy this prompt</button>',
@@ -1172,9 +1172,9 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
                       f'<h3>{esc(ph["name"])}</h3><p>{esc(ph["gist"])}</p></div>')
     method = (f'<section class="blk"><div class="wrap">'
               f'<div class="kicker">How it works</div>'
-              f'<h2 class="h2">The four-phase method</h2>'
-              f'<p class="lead">Every brief follows the same arc, so results are consistent '
-              f'and repeatable — no matter which audit you run.</p>'
+              f'<h2 class="h2">What it makes the agent do</h2>'
+              f'<p class="lead">Every Goal Prompt follows the same four steps, so results are consistent '
+              f'and repeatable — no matter which one you run.</p>'
               f'<div class="method">{"".join(pcards)}</div>'
               f'</div></section>')
 
@@ -1185,7 +1185,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             lcards.append(f'<div class="lens"><div class="i">{i}</div><div>'
                           f'<h3>{esc(name)}</h3><p>{md_inline(d)}</p></div></div>')
         lenses = (f'<section class="blk"><div class="wrap">'
-                  f'<div class="kicker">The audit</div>'
+                  f'<div class="kicker">What it looks for</div>'
                   f'<h2 class="h2">{len(parts["lenses"])} {lens_word} it looks through</h2>'
                   f'<p class="lead">Phase 2 sweeps the codebase through every one of these, '
                   f'citing file and line for each finding.</p>'
@@ -1193,7 +1193,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     else:
         pr = next((ph.get("prose", "") for ph in parts["phases"] if ph["n"] == 2), "")
         lenses = (f'<section class="blk"><div class="wrap">'
-                  f'<div class="kicker">The audit</div>'
+                  f'<div class="kicker">What it looks for</div>'
                   f'<h2 class="h2">How the pass runs</h2>'
                   f'<div class="prose" style="margin-top:14px">{pr}</div></div></section>')
 
@@ -1215,7 +1215,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
               f'<h2 class="h2">What lands in your repo</h2>'
               f'<p class="lead">One structured report at the repo root — or in <code>reports/</code>, '
               f'if you keep one — the same shape every time, '
-              f'ready for the Report Studio or a teammate to act on.</p>'
+              f'ready for a teammate — or the optional Studio — to act on.</p>'
               f'<div class="report"><div class="bar"><div class="dots"><i></i><i></i><i></i></div>'
               f'<span class="fname">{esc(p["output"])}</span></div>'
               f'<div class="doc">{rrows}</div>'
@@ -1223,24 +1223,24 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
 
     # use it
     per_brief_cmd = f'curl -fsSL {BASE}/install | BRIEF={p["id"]} sh'
-    per_brief_label = f'copy the install command for just brief {p["id"]}'
+    per_brief_label = f'copy the install command for just Goal Prompt {p["id"]}'
     ways = (f'<section class="blk" id="use"><div class="wrap">'
             f'<div class="kicker">Get started</div>'
-            f'<h2 class="h2">Three ways to run this brief</h2>'
+            f'<h2 class="h2">Three ways to run this Goal Prompt</h2>'
             f'<div class="ways">'
             f'<div class="way"><div class="num">01 · COPY</div><h3>Paste it in</h3>'
-            f'<p>Copy the prompt and paste it into your agent inside the repo you want audited.</p>'
+            f'<p>Copy it and paste it into your agent inside the repo you want checked.</p>'
             f'<button class="btn btn-primary" style="width:100%;justify-content:center" {copy_attrs}>Copy this prompt</button></div>'
             f'<div class="way"><div class="num">02 · INSTALL</div><h3>As a slash command</h3>'
             f'<p>Install the <b>goal</b> plugin once — two commands — then just type <code>/goal:{esc(slug)}</code>.</p>'
             f'{cmd_html("/plugin marketplace add GhostlyGawd/goal-prompts", step=1)}'
             f'{cmd_html("/plugin install goal@goal-prompts", step=2)}'
             # R43 (COMPETITIVE §3.3): install just this brief — no all-or-nothing
-            f'<p style="margin:12px 0 8px">Or install only this brief as <code>/goal-{esc(slug)}</code>:</p>'
+            f'<p style="margin:12px 0 8px">Or install only this Goal Prompt as <code>/goal-{esc(slug)}</code>:</p>'
             f'{cmd_html(per_brief_cmd, label=per_brief_label)}</div>'
             f'<div class="way"><div class="num">03 · AGENT</div><h3>From an agent (MCP)</h3>'
-            f'<p>Let an agent fetch it mid-conversation, or pull the raw brief by URL.</p>'
-            f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw brief URL")}</div>'
+            f'<p>Let an agent fetch it mid-conversation, or pull the raw Goal Prompt by URL.</p>'
+            f'{cmd_html(BASE + "/raw/" + p["id"] + ".md", label="copy raw Goal Prompt URL")}</div>'
             f'</div></div></section>')
 
     # R33/R37 (RETENTION R6/R11): brief 29 is a weekly ritual — its page names
@@ -1256,7 +1256,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
             f'<p class="lead">Each run appends one dated row to <code>{esc(p["output"])}</code> — '
             f'drop the file on the <a href="/vitals" style="color:var(--fc)">Vitals Viewer</a> and '
             f'every vital becomes a sparkline with run-over-run deltas. And a ready-made GitHub '
-            f'Action runs this brief every Monday and files the report as an issue, so the ritual '
+            f'Action runs this Goal Prompt every Monday and files the report as an issue, so the ritual '
             f'survives without your memory: '
             f'<a href="{WORKFLOW_URL}" style="color:var(--fc)">copy the workflow ↗</a></p>'
             f'</div></section>')
@@ -1264,13 +1264,13 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
     # full brief + rules
     rules = ""
     if parts["rules"]:
-        rules = ('<div class="rules"><h3>House rules for this brief</h3><ul>'
+        rules = ('<div class="rules"><h3>House rules for this Goal Prompt</h3><ul>'
                  + "".join(f"<li>{md_inline(r)}</li>" for r in parts["rules"])
                  + "</ul></div>")
     full = (f'<section class="blk"><div class="wrap">'
             f'<div class="kicker">Transparency</div>'
             f'<h2 class="h2">The exact prompt</h2>'
-            f'<p class="lead">Nothing hidden — this is the whole brief, verbatim. '
+            f'<p class="lead">Nothing hidden — this is the whole Goal Prompt, verbatim. '
             f'Read it in a minute, edit it, or copy it as-is.</p>'
             f'<details class="full"><summary><span class="chev">▸</span> Read the full brief '
             f'({p["chars"]:,} characters)</summary>'
@@ -1289,7 +1289,7 @@ def brief_detail(p, siblings, in_playbooks, related=()) -> str:
         # checked findings become this brief's targeted form
         rel_cards += ('<a class="pcard" href="/studio">'
                       '<div class="pid">Studio · Act</div>'
-                      '<h3>Report Studio</h3>'
+                      '<h3>Studio</h3>'
                       '<p>Drop the reports your audits produced — findings become a '
                       'checklist, and checked findings become a targeted Fixer run.</p></a>')
     sib_cards = "".join(_pcard(s) for s in siblings[:4])
@@ -1461,7 +1461,7 @@ def playbook_detail(pb, by_id) -> str:
            f'<div class="doc" style="padding:16px"><div class="prose">'
            f'<p><strong>{n} report{"s" if n>1 else ""}</strong> at the repo root (or in <code>reports/</code>): '
            f'<span class="mono" style="font-size:13px;color:var(--dim)">{esc(outputs)}</span>. '
-           f'Feed them to <a href="/studio" style="color:var(--fc)">Report Studio</a> to turn findings '
+           f'Feed them to the optional <a href="/studio" style="color:var(--fc)">Studio</a> to turn findings '
            f'into commits, or run <a href="/b/28" style="color:var(--fc)">28 · Roadmap Synthesis</a> '
            f'to merge them into one plan.{vitals_line}</p></div></div></div>'
            f'</div></section>')
@@ -1470,8 +1470,8 @@ def playbook_detail(pb, by_id) -> str:
     run = (f'<section class="blk" {style}><div class="wrap">'
            f'<div class="kicker">Get started</div>'
            f'<h2 class="h2">One paste runs the whole thing</h2>'
-           f'<p class="lead">Copy the conductor into your agent inside the repo you want audited. '
-           f'It runs each brief in sequence, honoring every brief\'s ask-first rule.</p>'
+           f'<p class="lead">Copy the conductor into your agent inside the repo you want checked. '
+           f'It runs each Goal Prompt in sequence, honoring each one\'s ask-first rule.</p>'
            f'<div class="cta" style="margin-top:18px">'
            f'<button class="btn btn-primary" data-copy="#rawcond" data-pb="{pb["key"]}" '
            f'data-raw="{BASE}/raw/playbook-{pb["key"]}.md">Copy the conductor</button>'
@@ -1660,7 +1660,7 @@ def report_page(name: str, md: str, prompts: list,
                "Copy a brief, paste it into your agent, and read what it "
                "files. Free, no signup, nothing leaves your machine.",
                '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
-               '<a class="btn btn-ghost" href="/studio">Open the Report Studio</a>')
+               '<a class="btn btn-ghost" href="/studio">Open the Studio</a>')
 
     desc = (f"{name}.md — a real audit report, "
             + (f"written by {writer['id']} · {writer['title']}, " if writer else "")
@@ -1708,23 +1708,23 @@ def quality_page(prompts: list) -> str:
         f'<a href="{gh}build.py" style="color:var(--fc)">build.py</a>, in the open, and the '
         f'linter has <a href="{gh}tests/test_build.py" style="color:var(--fc)">its own test '
         f'suite</a> so the bar itself can’t silently loosen.</p>'
-        + rules_block("Structure — enforced on all " + str(n) + " briefs", [
+        + rules_block("Structure — enforced on all " + str(n) + " Goal Prompts", [
             'The four-phase skeleton: <code>## Phase 1–4</code> — Explore → '
             'Audit → Curate → Report — plus a <code>## Rules</code> section.',
             f'Body under {LIMIT:,} characters — short enough to read before you run it.',
-            'Phase 2 audits through 4–12 named lenses; each report section has a defined shape.',
-            'The brief names its one report file (<code>REPORT.md</code>-shaped, ALL-CAPS), '
-            'and no two briefs may write the same file.',
+            'Phase 2 checks through 4–12 named lenses; each report section has a defined shape.',
+            'Each Goal Prompt names its one report file (<code>REPORT.md</code>-shaped, ALL-CAPS), '
+            'and no two may write the same file.',
             'Re-runs are first-class: the report is dated, and a report that already exists '
             'is read first so the new one leads with what changed.',
         ])
         + rules_block("Safety — the ask-first gate", [
-            'Every brief ends with the literal gate: “Report only — end by asking …” '
+            'Every Goal Prompt ends with the literal gate: “Report only — end by asking …” '
             '— the linter greps for it and fails the build without it.',
-            'Audit briefs are read-only toward your code; the only write is the report itself '
+            'Goal Prompts are read-only toward your code; the only write is the report itself '
             '(honest exception: <a href="/b/47" style="color:var(--fc)">47 · The Fixer</a> '
             'modifies code, and gates on your explicit selection first).',
-            'A brief whose subject a repo simply doesn’t have must say so in a one-paragraph '
+            'A Goal Prompt whose subject a repo simply doesn’t have must say so in a one-paragraph '
             'null report and stop — no invented findings.',
         ])
         + '</div></section>')
@@ -1958,8 +1958,8 @@ def skill_md(p: dict) -> str:
     Taglines are linted double-quote-free, so the quoted YAML scalar is safe."""
     return (f'---\n'
             f'name: goal-{p["slug"]}\n'
-            f'description: "{p["tagline"]} Audit brief {p["id"]} · '
-            f'{p["family"]} — runs a four-phase audit of the current repo '
+            f'description: "{p["tagline"]} Goal Prompt {p["id"]} · '
+            f'{p["family"]} — inspects the current repo '
             f'and writes {p["output"]} at the repo root."\n'
             f'---\n\n{p["body"]}\n')
 

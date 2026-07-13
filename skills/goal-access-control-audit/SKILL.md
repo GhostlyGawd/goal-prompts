@@ -1,6 +1,6 @@
 ---
 name: goal-access-control-audit
-description: "Who can do what — whether every sensitive action and record checks the caller's permission, not just that they are logged in. Audit brief 82 · Trust — runs a four-phase audit of the current repo and writes ACCESS.md at the repo root."
+description: "Who can do what — whether every sensitive action and record checks the caller's permission, not just that they are logged in. Goal Prompt 82 · Trust — inspects the current repo and writes ACCESS.md at the repo root."
 ---
 
 # Goal: Access-Control & Authorization Audit

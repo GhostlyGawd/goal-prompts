@@ -1,6 +1,6 @@
 ---
 name: goal-ai-opportunity-scan
-description: "Where an LLM feature genuinely earns its place — automation, drafting, summarization — and where it would be a gimmick. Audit brief 12 · Growth — runs a four-phase audit of the current repo and writes AI-IDEAS.md at the repo root."
+description: "Where an LLM feature genuinely earns its place — automation, drafting, summarization — and where it would be a gimmick. Goal Prompt 12 · Growth — inspects the current repo and writes AI-IDEAS.md at the repo root."
 ---
 
 # Goal: AI Opportunity Scan

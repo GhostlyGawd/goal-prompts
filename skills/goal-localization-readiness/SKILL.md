@@ -1,6 +1,6 @@
 ---
 name: goal-localization-readiness
-description: "Hardcoded strings, locale-blind number and date formatting, and layouts that break in translation — every gap between you and a non-default-locale user. Audit brief 68 · Trust — runs a four-phase audit of the current repo and writes I18N.md at the repo root."
+description: "Hardcoded strings, locale-blind number and date formatting, and layouts that break in translation — every gap between you and a non-default-locale user. Goal Prompt 68 · Trust — inspects the current repo and writes I18N.md at the repo root."
 ---
 
 # Goal: Localization Readiness

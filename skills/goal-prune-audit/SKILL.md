@@ -1,6 +1,6 @@
 ---
 name: goal-prune-audit
-description: "Dead code, unreachable routes, stale flags, unused deps — a deletion list grouped by confidence. Git makes it reversible; bias to delete. Audit brief 26 · Subtract — runs a four-phase audit of the current repo and writes PRUNE.md at the repo root."
+description: "Dead code, unreachable routes, stale flags, unused deps — a deletion list grouped by confidence. Git makes it reversible; bias to delete. Goal Prompt 26 · Subtract — inspects the current repo and writes PRUNE.md at the repo root."
 ---
 
 # Goal: Prune Audit

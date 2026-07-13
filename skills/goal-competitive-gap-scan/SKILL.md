@@ -1,6 +1,6 @@
 ---
 name: goal-competitive-gap-scan
-description: "Research real rivals on the web, then split the gaps: table stakes you must match vs differentiation bets only you can make. Audit brief 10 · Growth — runs a four-phase audit of the current repo and writes COMPETITIVE.md at the repo root."
+description: "Research real rivals on the web, then split the gaps: table stakes you must match vs differentiation bets only you can make. Goal Prompt 10 · Growth — inspects the current repo and writes COMPETITIVE.md at the repo root."
 ---
 
 # Goal: Competitive Gap Scan

@@ -1,6 +1,6 @@
 ---
 name: goal-event-contracts
-description: "Diff what producers write against what consumers assume — schema drift, ordering bets, missing idempotency keys — and find the message that breaks when a deploy staggers. Audit brief 138 · Data — runs a four-phase audit of the current repo and writes EVENTS.md at the repo root."
+description: "Diff what producers write against what consumers assume — schema drift, ordering bets, missing idempotency keys — and find the message that breaks when a deploy staggers. Goal Prompt 138 · Data — inspects the current repo and writes EVENTS.md at the repo root."
 ---
 
 # Goal: Event & Message Contracts

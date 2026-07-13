@@ -1,6 +1,6 @@
 ---
 name: goal-stress-review-10x
-description: "Simulate 10x users, data, and traffic on paper — find what breaks first, at what threshold, and the cheapest mitigation. Audit brief 05 · Speed — runs a four-phase audit of the current repo and writes SCALE.md at the repo root."
+description: "Simulate 10x users, data, and traffic on paper — find what breaks first, at what threshold, and the cheapest mitigation. Goal Prompt 05 · Speed — inspects the current repo and writes SCALE.md at the repo root."
 ---
 
 # Goal: 10x Stress Review

@@ -1,6 +1,6 @@
 ---
 name: goal-trace-replay-audit
-description: "Can you see why a run did what it did — per-step traces, failure taxonomy, and replaying yesterday's bad run today. Audit brief 37 · Agent — runs a four-phase audit of the current repo and writes TRACES.md at the repo root."
+description: "Can you see why a run did what it did — per-step traces, failure taxonomy, and replaying yesterday's bad run today. Goal Prompt 37 · Agent — inspects the current repo and writes TRACES.md at the repo root."
 ---
 
 # Goal: Trace & Replay Audit

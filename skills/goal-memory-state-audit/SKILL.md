@@ -1,6 +1,6 @@
 ---
 name: goal-memory-state-audit
-description: "What the agent remembers between runs — where memories get written, when they go stale, how a wrong fact gets in, and whether anything can ever be forgotten. Audit brief 48 · Agent — runs a four-phase audit of the current repo and writes MEMORY.md at the repo root."
+description: "What the agent remembers between runs — where memories get written, when they go stale, how a wrong fact gets in, and whether anything can ever be forgotten. Goal Prompt 48 · Agent — inspects the current repo and writes MEMORY.md at the repo root."
 ---
 
 # Goal: Memory & State Audit

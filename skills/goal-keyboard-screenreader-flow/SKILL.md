@@ -1,6 +1,6 @@
 ---
 name: goal-keyboard-screenreader-flow
-description: "Walk the product the way assistive-tech users do — keyboard only, then with a screen reader — and find every place that path breaks. Audit brief 86 · Trust — runs a four-phase audit of the current repo and writes A11Y-DEEP.md at the repo root."
+description: "Walk the product the way assistive-tech users do — keyboard only, then with a screen reader — and find every place that path breaks. Goal Prompt 86 · Trust — inspects the current repo and writes A11Y-DEEP.md at the repo root."
 ---
 
 # Goal: Keyboard & Screen-Reader Flow

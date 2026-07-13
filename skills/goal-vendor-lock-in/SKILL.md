@@ -1,6 +1,6 @@
 ---
 name: goal-vendor-lock-in
-description: "How tightly the code is bound to specific vendors and clouds — and what it would cost to leave if pricing, terms, or reliability forced the issue. Audit brief 93 · Ops — runs a four-phase audit of the current repo and writes LOCKIN.md at the repo root."
+description: "How tightly the code is bound to specific vendors and clouds — and what it would cost to leave if pricing, terms, or reliability forced the issue. Goal Prompt 93 · Ops — inspects the current repo and writes LOCKIN.md at the repo root."
 ---
 
 # Goal: Vendor Lock-In Audit

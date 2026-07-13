@@ -1,6 +1,6 @@
 ---
 name: goal-tables-data-grid
-description: "The tables people work in — scannable rows, sortable and filterable, paginated not endless, responsive on a phone, and honest about loading, empty, and error. Audit brief 147 · Design — runs a four-phase audit of the current repo and writes TABLES.md at the repo root."
+description: "The tables people work in — scannable rows, sortable and filterable, paginated not endless, responsive on a phone, and honest about loading, empty, and error. Goal Prompt 147 · Design — inspects the current repo and writes TABLES.md at the repo root."
 ---
 
 # Goal: Tables & Data-Grid Audit

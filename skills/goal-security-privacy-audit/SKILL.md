@@ -1,6 +1,6 @@
 ---
 name: goal-security-privacy-audit
-description: "A defensive review of your own codebase — auth gaps, injection surfaces, exposed secrets, and data leaks, ranked by exploitability. Audit brief 06 · Trust — runs a four-phase audit of the current repo and writes SECURITY-AUDIT.md at the repo root."
+description: "A defensive review of your own codebase — auth gaps, injection surfaces, exposed secrets, and data leaks, ranked by exploitability. Goal Prompt 06 · Trust — inspects the current repo and writes SECURITY-AUDIT.md at the repo root."
 ---
 
 # Goal: Security & Privacy Audit

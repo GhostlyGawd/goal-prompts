@@ -1,6 +1,6 @@
 ---
 name: goal-brand-coherence-audit
-description: "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be. Audit brief 59 · Design — runs a four-phase audit of the current repo and writes BRAND.md at the repo root."
+description: "Does this look like one thing made on purpose — logo usage, icon language, imagery, radius and shadow DNA — audited against what the brand claims to be. Goal Prompt 59 · Design — inspects the current repo and writes BRAND.md at the repo root."
 ---
 
 # Goal: Brand Coherence Audit

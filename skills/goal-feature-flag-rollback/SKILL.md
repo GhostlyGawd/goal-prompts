@@ -1,6 +1,6 @@
 ---
 name: goal-feature-flag-rollback
-description: "Whether a bad change can be undone fast — whether the system ships behind flags, rolls back cleanly, and has kill switches for its riskiest paths. Audit brief 92 · Ops — runs a four-phase audit of the current repo and writes ROLLBACK.md at the repo root."
+description: "Whether a bad change can be undone fast — whether the system ships behind flags, rolls back cleanly, and has kill switches for its riskiest paths. Goal Prompt 92 · Ops — inspects the current repo and writes ROLLBACK.md at the repo root."
 ---
 
 # Goal: Feature-Flag & Rollback Readiness

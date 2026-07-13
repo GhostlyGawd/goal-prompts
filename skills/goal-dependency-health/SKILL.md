@@ -1,6 +1,6 @@
 ---
 name: goal-dependency-health
-description: "Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named. Audit brief 07 · Trust — runs a four-phase audit of the current repo and writes DEPS.md at the repo root."
+description: "Vulnerable, abandoned, oversized, or duplicated packages — the full health check on every dependency this project stands on, with removal candidates named. Goal Prompt 07 · Trust — inspects the current repo and writes DEPS.md at the repo root."
 ---
 
 # Goal: Dependency Health Check

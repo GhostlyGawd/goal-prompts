@@ -1,6 +1,6 @@
 ---
 name: goal-capacity-scalability
-description: "Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today. Audit brief 123 · Reliability — runs a four-phase audit of the current repo and writes CAPACITY.md at the repo root."
+description: "Every ceiling the config actually sets — pools, workers, queue bounds — read into a headroom ledger naming what saturates first, and at what multiple of today. Goal Prompt 123 · Reliability — inspects the current repo and writes CAPACITY.md at the repo root."
 ---
 
 # Goal: Capacity & Scalability Audit

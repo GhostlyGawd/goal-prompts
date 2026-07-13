@@ -1,6 +1,6 @@
 ---
 name: goal-developer-portal
-description: "The first hour a developer spends with this API — from landing on the docs to a working integration — and where they stall, guess, or give up. Audit brief 115 · API — runs a four-phase audit of the current repo and writes DEVPORTAL.md at the repo root."
+description: "The first hour a developer spends with this API — from landing on the docs to a working integration — and where they stall, guess, or give up. Goal Prompt 115 · API — inspects the current repo and writes DEVPORTAL.md at the repo root."
 ---
 
 # Goal: Developer Portal & Onboarding

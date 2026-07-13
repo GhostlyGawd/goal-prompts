@@ -1,6 +1,6 @@
 ---
 name: goal-in-app-search
-description: "The product's own search — whether users can find what they are looking for: relevance, recall, forgiveness, and what happens on zero results. Audit brief 107 · Product — runs a four-phase audit of the current repo and writes SEARCH.md at the repo root."
+description: "The product's own search — whether users can find what they are looking for: relevance, recall, forgiveness, and what happens on zero results. Goal Prompt 107 · Product — inspects the current repo and writes SEARCH.md at the repo root."
 ---
 
 # Goal: In-App Search Audit

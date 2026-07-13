@@ -1,6 +1,6 @@
 ---
 name: goal-ui-microcopy
-description: "The words inside the interface — buttons, labels, tooltips, placeholders, helper text — do they say what happens next in plain language, or leave the user guessing? Audit brief 148 · Clarity — runs a four-phase audit of the current repo and writes MICROCOPY.md at the repo root."
+description: "The words inside the interface — buttons, labels, tooltips, placeholders, helper text — do they say what happens next in plain language, or leave the user guessing? Goal Prompt 148 · Clarity — inspects the current repo and writes MICROCOPY.md at the repo root."
 ---
 
 # Goal: UI Microcopy & Labeling Audit

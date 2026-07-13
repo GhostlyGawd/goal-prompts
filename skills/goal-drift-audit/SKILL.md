@@ -1,6 +1,6 @@
 ---
 name: goal-drift-audit
-description: "Holds what the repo is against what it says it is — every surface traced to a goal, every goal to working code — and files each drift: formalize, finish, park, or kill. Audit brief 150 · Mission — runs a four-phase audit of the current repo and writes DRIFT.md at the repo root."
+description: "Holds what the repo is against what it says it is — every surface traced to a goal, every goal to working code — and files each drift: formalize, finish, park, or kill. Goal Prompt 150 · Mission — inspects the current repo and writes DRIFT.md at the repo root."
 ---
 
 # Goal: Drift Audit

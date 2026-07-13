@@ -1,6 +1,6 @@
 ---
 name: goal-license-compliance
-description: "Every dependency's license, the ones incompatible with how you ship, the attribution you owe, and the copyleft reaching into your own source. Audit brief 69 · Trust — runs a four-phase audit of the current repo and writes LICENSES.md at the repo root."
+description: "Every dependency's license, the ones incompatible with how you ship, the attribution you owe, and the copyleft reaching into your own source. Goal Prompt 69 · Trust — inspects the current repo and writes LICENSES.md at the repo root."
 ---
 
 # Goal: License & Compliance

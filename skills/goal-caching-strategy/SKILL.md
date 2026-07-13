@@ -1,6 +1,6 @@
 ---
 name: goal-caching-strategy
-description: "Every cache from CDN headers to that module-level dict — keys, TTLs, who invalidates what — the stale read, the stampede, and the key that leaks between users. Audit brief 140 · Speed — runs a four-phase audit of the current repo and writes CACHES.md at the repo root."
+description: "Every cache from CDN headers to that module-level dict — keys, TTLs, who invalidates what — the stale read, the stampede, and the key that leaks between users. Goal Prompt 140 · Speed — inspects the current repo and writes CACHES.md at the repo root."
 ---
 
 # Goal: Caching Strategy Audit

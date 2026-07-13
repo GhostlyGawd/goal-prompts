@@ -1,6 +1,6 @@
 ---
 name: goal-competitor-teardown
-description: "Everyone already fighting for this money — features, pricing, positioning, and traction compared, their customers' complaints mined, and the gaps nobody covers. Audit brief 63 · Venture — runs a four-phase audit of the current repo and writes COMPETITORS.md at the repo root."
+description: "Everyone already fighting for this money — features, pricing, positioning, and traction compared, their customers' complaints mined, and the gaps nobody covers. Goal Prompt 63 · Venture — inspects the current repo and writes COMPETITORS.md at the repo root."
 ---
 
 # Goal: Competitor Teardown

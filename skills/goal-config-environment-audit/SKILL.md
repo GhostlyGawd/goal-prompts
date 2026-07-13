@@ -1,6 +1,6 @@
 ---
 name: goal-config-environment-audit
-description: "Every knob, var, and magic value — where config sprawls, where environments drift, what explodes at boot versus at 3am, and which secrets hide in plain sight. Audit brief 53 · Ops — runs a four-phase audit of the current repo and writes CONFIG.md at the repo root."
+description: "Every knob, var, and magic value — where config sprawls, where environments drift, what explodes at boot versus at 3am, and which secrets hide in plain sight. Goal Prompt 53 · Ops — inspects the current repo and writes CONFIG.md at the repo root."
 ---
 
 # Goal: Config & Environment Audit

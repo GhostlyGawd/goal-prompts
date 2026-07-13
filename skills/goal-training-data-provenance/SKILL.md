@@ -1,6 +1,6 @@
 ---
 name: goal-training-data-provenance
-description: "Whether the data used to train, fine-tune, or retrieve is licensed, clean, and free of the PII and contamination that create legal and quality risk. Audit brief 120 · AI-Ethics — runs a four-phase audit of the current repo and writes PROVENANCE.md at the repo root."
+description: "Whether the data used to train, fine-tune, or retrieve is licensed, clean, and free of the PII and contamination that create legal and quality risk. Goal Prompt 120 · AI-Ethics — inspects the current repo and writes PROVENANCE.md at the repo root."
 ---
 
 # Goal: Training-Data Provenance

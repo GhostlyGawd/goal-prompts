@@ -1,6 +1,6 @@
 ---
 name: goal-silent-failure-audit
-description: "Find swallowed errors, missing logs, and monitoring blind spots — everywhere the system can break without anyone knowing. Audit brief 03 · Quality — runs a four-phase audit of the current repo and writes OBSERVABILITY.md at the repo root."
+description: "Find swallowed errors, missing logs, and monitoring blind spots — everywhere the system can break without anyone knowing. Goal Prompt 03 · Quality — inspects the current repo and writes OBSERVABILITY.md at the repo root."
 ---
 
 # Goal: Silent Failure Audit

@@ -1,6 +1,6 @@
 ---
 name: goal-data-subject-rights
-description: "Whether the product can honor the rights users have over their data — access, export, correction, and deletion — operationally, not just in the privacy policy. Audit brief 126 · Compliance — runs a four-phase audit of the current repo and writes DSAR.md at the repo root."
+description: "Whether the product can honor the rights users have over their data — access, export, correction, and deletion — operationally, not just in the privacy policy. Goal Prompt 126 · Compliance — inspects the current repo and writes DSAR.md at the repo root."
 ---
 
 # Goal: Data-Subject-Rights Readiness

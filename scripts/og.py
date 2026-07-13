@@ -143,7 +143,7 @@ def render_home(briefs):
         d.text((LEFT, y), line, font=sf, fill=TEXT)
         y += 60
     fams = build.FAMILY_ORDER
-    foot = f"{len(briefs)} briefs / {len(fams)} families / {DOMAIN}"
+    foot = f"{len(briefs)} Goal Prompts / {len(fams)} families / {DOMAIN}"
     d.text((LEFT, 548), foot, font=font(MONO, 24), fill=DIM)
     return im
 

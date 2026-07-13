@@ -1,6 +1,6 @@
 ---
 name: goal-seo-discoverability
-description: "Titles, metadata, structured data, crawlability, and social unfurls — every place a search engine or a shared link fails to find, index, or render your pages. Audit brief 70 · Growth — runs a four-phase audit of the current repo and writes SEO.md at the repo root."
+description: "Titles, metadata, structured data, crawlability, and social unfurls — every place a search engine or a shared link fails to find, index, or render your pages. Goal Prompt 70 · Growth — inspects the current repo and writes SEO.md at the repo root."
 ---
 
 # Goal: SEO & Discoverability

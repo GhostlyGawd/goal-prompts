@@ -1,6 +1,6 @@
 ---
 name: goal-secrets-credential-hygiene
-description: "Every hardcoded key, token, and password the repo carries — in source, config, and git history — plus how they rotate and who can read them. Audit brief 81 · Trust — runs a four-phase audit of the current repo and writes SECRETS.md at the repo root."
+description: "Every hardcoded key, token, and password the repo carries — in source, config, and git history — plus how they rotate and who can read them. Goal Prompt 81 · Trust — inspects the current repo and writes SECRETS.md at the repo root."
 ---
 
 # Goal: Secrets & Credential Hygiene

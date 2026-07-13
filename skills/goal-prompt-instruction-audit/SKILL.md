@@ -1,6 +1,6 @@
 ---
 name: goal-prompt-instruction-audit
-description: "Every system prompt in the repo: contradictions, dead instructions, bloat, and injection surface — with a consolidation plan. Audit brief 30 · Agent — runs a four-phase audit of the current repo and writes PROMPTS.md at the repo root."
+description: "Every system prompt in the repo: contradictions, dead instructions, bloat, and injection surface — with a consolidation plan. Goal Prompt 30 · Agent — inspects the current repo and writes PROMPTS.md at the repo root."
 ---
 
 # Goal: Prompt & Instruction Audit

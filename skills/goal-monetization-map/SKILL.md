@@ -1,6 +1,6 @@
 ---
 name: goal-monetization-map
-description: "Find the premium-worthy features, the natural upgrade moments, and the billing friction between users and paying you. Audit brief 11 · Growth — runs a four-phase audit of the current repo and writes REVENUE.md at the repo root."
+description: "Find the premium-worthy features, the natural upgrade moments, and the billing friction between users and paying you. Goal Prompt 11 · Growth — inspects the current repo and writes REVENUE.md at the repo root."
 ---
 
 # Goal: Monetization Map

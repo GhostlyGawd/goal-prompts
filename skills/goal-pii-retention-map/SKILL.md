@@ -1,6 +1,6 @@
 ---
 name: goal-pii-retention-map
-description: "Trace where personal data enters, spreads, and lingers — then run the delete-request test: could you honor one today? Audit brief 21 · Data — runs a four-phase audit of the current repo and writes PRIVACY.md at the repo root."
+description: "Trace where personal data enters, spreads, and lingers — then run the delete-request test: could you honor one today? Goal Prompt 21 · Data — inspects the current repo and writes PRIVACY.md at the repo root."
 ---
 
 # Goal: PII & Retention Map

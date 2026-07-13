@@ -1,6 +1,6 @@
 ---
 name: goal-modal-overlay
-description: "Every floating layer — modals, drawers, popovers, sheets — does each earn its interruption, trap focus, dismiss cleanly, and never stack into a maze? Audit brief 146 · Design — runs a four-phase audit of the current repo and writes OVERLAYS.md at the repo root."
+description: "Every floating layer — modals, drawers, popovers, sheets — does each earn its interruption, trap focus, dismiss cleanly, and never stack into a maze? Goal Prompt 146 · Design — inspects the current repo and writes OVERLAYS.md at the repo root."
 ---
 
 # Goal: Modal, Dialog & Overlay Audit

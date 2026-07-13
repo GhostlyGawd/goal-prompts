@@ -1,6 +1,6 @@
 ---
 name: goal-package-api-design
-description: "Read the package the way a stranger's bundler does — every export weighed, typed, and judged: the accidental API, the semver debt, and what the next major must break. Audit brief 136 · API — runs a four-phase audit of the current repo and writes PACKAGE.md at the repo root."
+description: "Read the package the way a stranger's bundler does — every export weighed, typed, and judged: the accidental API, the semver debt, and what the next major must break. Goal Prompt 136 · API — inspects the current repo and writes PACKAGE.md at the repo root."
 ---
 
 # Goal: Library & Package API Design

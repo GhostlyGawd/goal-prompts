@@ -1,6 +1,6 @@
 ---
 name: goal-test-quality
-description: "Whether the tests actually protect the code — asserting meaningful behavior, or merely executing lines and passing no matter what. Audit brief 100 · Quality — runs a four-phase audit of the current repo and writes TESTQUALITY.md at the repo root."
+description: "Whether the tests actually protect the code — asserting meaningful behavior, or merely executing lines and passing no matter what. Goal Prompt 100 · Quality — inspects the current repo and writes TESTQUALITY.md at the repo root."
 ---
 
 # Goal: Test-Quality Audit

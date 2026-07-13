@@ -1,6 +1,6 @@
 ---
 name: goal-ownership-bus-factor
-description: "Read git history for the human risks — files only one person understands, critical paths with a truck factor of one, and the knowledge that leaves when they do. Audit brief 72 · Team — runs a four-phase audit of the current repo and writes OWNERSHIP.md at the repo root."
+description: "Read git history for the human risks — files only one person understands, critical paths with a truck factor of one, and the knowledge that leaves when they do. Goal Prompt 72 · Team — inspects the current repo and writes OWNERSHIP.md at the repo root."
 ---
 
 # Goal: Ownership & Bus Factor

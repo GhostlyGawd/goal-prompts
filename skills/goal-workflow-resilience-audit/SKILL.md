@@ -1,6 +1,6 @@
 ---
 name: goal-workflow-resilience-audit
-description: "Crash the automation at step 3 of 7 on paper — resumability, idempotency, duplicate side effects, poison inputs, dead letters. Audit brief 39 · Automation — runs a four-phase audit of the current repo and writes WORKFLOWS.md at the repo root."
+description: "Crash the automation at step 3 of 7 on paper — resumability, idempotency, duplicate side effects, poison inputs, dead letters. Goal Prompt 39 · Automation — inspects the current repo and writes WORKFLOWS.md at the repo root."
 ---
 
 # Goal: Workflow Resilience Audit

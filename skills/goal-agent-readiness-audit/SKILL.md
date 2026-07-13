@@ -1,6 +1,6 @@
 ---
 name: goal-agent-readiness-audit
-description: "Can a coding agent work here? Entry files, one-command checks, discoverable conventions, and a mechanical definition of done — audited by attempting the work. Audit brief 52 · Team — runs a four-phase audit of the current repo and writes AGENT-READINESS.md at the repo root."
+description: "Can a coding agent work here? Entry files, one-command checks, discoverable conventions, and a mechanical definition of done — audited by attempting the work. Goal Prompt 52 · Team — inspects the current repo and writes AGENT-READINESS.md at the repo root."
 ---
 
 # Goal: Agent Readiness Audit

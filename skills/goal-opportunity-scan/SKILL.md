@@ -1,6 +1,6 @@
 ---
 name: goal-opportunity-scan
-description: "The candidate field. Turns your edges, interests, and constraints plus live market signals into 10-15 scored venture candidates — divergence before any deep dive. Audit brief 60 · Venture — runs a four-phase audit of the current repo and writes OPPORTUNITIES.md at the repo root."
+description: "The candidate field. Turns your edges, interests, and constraints plus live market signals into 10-15 scored venture candidates — divergence before any deep dive. Goal Prompt 60 · Venture — inspects the current repo and writes OPPORTUNITIES.md at the repo root."
 ---
 
 # Goal: Opportunity Scan

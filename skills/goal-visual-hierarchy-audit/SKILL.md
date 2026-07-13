@@ -1,6 +1,6 @@
 ---
 name: goal-visual-hierarchy-audit
-description: "Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once. Audit brief 54 · Design — runs a four-phase audit of the current repo and writes HIERARCHY.md at the repo root."
+description: "Where the eye actually goes versus where it should — focal points, size and weight and contrast doing real work, and the screens where everything shouts at once. Goal Prompt 54 · Design — inspects the current repo and writes HIERARCHY.md at the repo root."
 ---
 
 # Goal: Visual Hierarchy Audit

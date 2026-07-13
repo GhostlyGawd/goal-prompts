@@ -1,6 +1,6 @@
 ---
 name: goal-input-injection-audit
-description: "Trace untrusted input to dangerous sinks — where attacker-controlled data becomes a query, a command, markup, a request, or a file path. Audit brief 83 · Trust — runs a four-phase audit of the current repo and writes INJECTION.md at the repo root."
+description: "Trace untrusted input to dangerous sinks — where attacker-controlled data becomes a query, a command, markup, a request, or a file path. Goal Prompt 83 · Trust — inspects the current repo and writes INJECTION.md at the repo root."
 ---
 
 # Goal: Input & Injection Audit

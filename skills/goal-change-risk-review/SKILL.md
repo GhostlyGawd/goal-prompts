@@ -1,6 +1,6 @@
 ---
 name: goal-change-risk-review
-description: "Point it at a diff, branch, or PR: blast radius, the tests that should exist, the migration and rollback story, and a go / no-go with the risks ranked. Audit brief 74 · Act — runs a four-phase audit of the current repo and writes CHANGE-RISK.md at the repo root."
+description: "Point it at a diff, branch, or PR: blast radius, the tests that should exist, the migration and rollback story, and a go / no-go with the risks ranked. Goal Prompt 74 · Act — inspects the current repo and writes CHANGE-RISK.md at the repo root."
 ---
 
 # Goal: Change Risk Review

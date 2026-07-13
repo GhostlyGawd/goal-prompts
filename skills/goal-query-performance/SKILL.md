@@ -1,6 +1,6 @@
 ---
 name: goal-query-performance
-description: "The database access patterns that fall over as data and traffic grow — N+1s, missing indexes, unbounded reads, and lock contention. Audit brief 87 · Speed — runs a four-phase audit of the current repo and writes QUERIES.md at the repo root."
+description: "The database access patterns that fall over as data and traffic grow — N+1s, missing indexes, unbounded reads, and lock contention. Goal Prompt 87 · Speed — inspects the current repo and writes QUERIES.md at the repo root."
 ---
 
 # Goal: Query Performance & N+1 Audit

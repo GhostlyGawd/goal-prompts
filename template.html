@@ -6,7 +6,7 @@
 <title>Goal Prompts — know what to ask your coding agent</title>
 <meta name="description" content="__N_BRIEFS__ ready-to-paste instruction sheets for Claude Code, Cursor, and any coding agent. Each tells the AI what to inspect in your project, what counts as proof, and what to write down — one saved, evidence-backed file every run. Free and open; nothing leaves your machine.">
 <meta property="og:title" content="Goal Prompts — know what to ask your coding agent">
-<meta property="og:description" content="Point your agent at your repo. Get back one evidence-backed report — same four phases every run — then turn the findings into commits. Audits that end in commits, not chat scrollback.">
+<meta property="og:description" content="Ready-to-paste instruction sheets for the AI coding tool you already use. Each one says what to inspect, what counts as proof, and what to write down — you keep one saved, evidence-backed file.">
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app">
 <meta property="og:type" content="website">
@@ -407,11 +407,6 @@
 
   /* ---------- question-led finder ---------- */
   .finder{margin-top:28px}
-  #picker .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
-  #picker .goallab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-right:2px}
-  #picker .goal{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:var(--r-sm);padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s,background .15s}
-  #picker .goal:hover{border-color:var(--fc);color:var(--fc)}
-  #picker .goal[aria-pressed="true"]{border-color:var(--text);background:var(--btn);color:var(--btn-fg)}
   .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(24px,4.5vw,56px)}
   @media(max-width:720px){.qgrid{grid-template-columns:1fr}}
   .qrow{display:grid;grid-template-columns:24px 1fr auto;gap:14px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;transition:padding-left var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
@@ -537,14 +532,13 @@
   <a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a>
   <nav class="nav-links">
     <a href="#how">How it works</a>
-    <a href="#catalog">Catalog</a>
+    <a href="#catalog">Library</a>
     <a href="#playbooks">Playbooks</a>
-    <a href="/studio">Studio</a>
     <a href="/examples/">Examples</a>
   </nav>
   <div class="nav-right">
     <button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button>
-    <a class="nav-cta" href="#catalog">Browse catalog</a>
+    <a class="nav-cta" href="#catalog">Browse the library</a>
   </div>
 </div></header>
 
@@ -553,23 +547,23 @@
   <div class="hero-in">
     <p class="eyebrow">Ready-to-paste instructions for coding agents — free &amp; open</p>
     <h1 class="title">Know <em>what to ask</em> your coding agent.</h1>
-    <p class="sub">Each of the __N_BRIEFS__ instruction sheets here tells the AI you already use — Claude Code, Cursor, any of them — what to inspect in your project, what counts as proof, and what to write down. You keep <b>one saved, evidence-backed file</b> you can read, share, and act on. It asks before changing anything.</p>
+    <p class="sub">Each of the __N_BRIEFS__ Goal Prompts here is a ready-to-paste instruction sheet: it tells the AI you already use — Claude Code, Cursor, any of them — what to inspect in your project, what counts as proof, and what to write down. You keep <b>one saved, evidence-backed file</b> you can read, share, and act on. It asks before changing anything.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
+      <a class="btn btn-primary" href="#catalog">Browse the library</a>
       <a class="btn btn-ghost" href="#how">How it works</a>
     </div>
-    <div class="micro"><span class="looparc">copy → paste → one saved file</span> · <b id="herostat">__N_BRIEFS__ briefs</b> · free &amp; open__GH_STARS_HERO__ · no signup · nothing leaves your machine</div>
+    <div class="micro"><span class="looparc">copy → paste → one saved file</span> · <b id="herostat">__N_BRIEFS__ Goal Prompts</b> · free &amp; open__GH_STARS_HERO__ · no signup · nothing leaves your machine</div>
     <!-- PROOF NF3 (R25): the honest substitute for a star count, where rivals put theirs -->
     <div class="micro microproof"><a href="/examples/">run against this repo’s own code — read the reports →</a></div>
-    <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first brief</b> — paste it in your agent</button>
+    <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first Goal Prompt</b> — paste it in your agent</button>
   </div>
-  <aside class="hero-doc" aria-label="A real finding from BUGS.md, this repo's own bug audit">
+  <aside class="hero-doc" aria-label="A real finding from BUGS.md — Goal Prompt 01, run on this repo">
     <div class="doc-top"><span class="doc-name">BUGS.md</span><span class="doc-cap">filed by 01 · Bug Hunt, run on this repo</span></div>
     <div class="doc-finding">
-      <div class="doc-meta"><span class="sevchip">S2 · certain</span><span class="doc-loc">template.html · render(), empty branch</span></div>
-      <h3>Self-XSS in the empty state</h3>
-      <p>Type <code>&lt;img src=x onerror=…&gt;</code> into search with zero matches — the query met <code>innerHTML</code>. Self-only today, one refactor away from reflected.</p>
-      <div class="doc-fix"><b>Fix sketch</b> build the empty state with <code>textContent</code> · <span class="ok">✓ shipped in 0.4</span></div>
+      <div class="doc-meta"><span class="sevchip">S2 · certain</span><span class="doc-loc">template.html · openFromHash()</span></div>
+      <h3>Share a link past item 99 — nothing opens</h3>
+      <p>The link router only accepted two-digit ids, so a shared link to anything numbered 100+ loaded the page and silently opened nothing. No error, no clue.</p>
+      <div class="doc-fix"><b>Fix sketch</b> widen the id check to three digits · <span class="ok">✓ shipped — commit 683dff5</span></div>
     </div>
     <div class="doc-foot"><span>5 findings · 0×S1 · 3×S2 · 2×S3 — each cites file &amp; line</span><a href="/examples/">read the full report →</a></div>
   </aside>
@@ -579,15 +573,15 @@
 <section class="blk"><div class="wrap">
   <div class="kicker"><span class="kno">01</span>The problem</div>
   <h2 class="h2">“Review my repo” gets a different answer every time.</h2>
-  <p class="lead">Point an agent at your own code and you get a wall of vibes one run, a shrug the next. The fix isn’t a bigger model — it’s structure: a brief that tells the agent exactly what to look for, how to weigh it, and what to leave behind.</p>
-  <p class="turn">Every brief here is tested on this repo before it ships. <a href="/examples/">The reports are public</a>, and the <a href="/r/fixlog">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
+  <p class="lead">Point an agent at your own code and you get a wall of vibes one run, a shrug the next. The fix isn’t a bigger model — it’s structure: a Goal Prompt that tells the agent exactly what to look for, how to weigh it, and what to leave behind.</p>
+  <p class="turn">Every Goal Prompt here is tested on this repo before it ships. <a href="/examples/">The reports are public</a>, and the <a href="/r/fixlog">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
 </div></section>
 
 <!-- ============ HOW IT WORKS ============ -->
 <section class="blk" id="how"><div class="wrap">
   <div class="kicker"><span class="kno">02</span>How it works</div>
-  <h2 class="h2">One method. Every audit.</h2>
-  <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every brief walks the same arc. That’s what makes the output consistent and repeatable.</p>
+  <h2 class="h2">One method. Every check.</h2>
+  <p class="lead">Whatever you’re checking — bugs, speed, security, design, your AI agent itself — every Goal Prompt walks the same arc. That’s what makes the output consistent and repeatable.</p>
   <!-- R50 (COMPETITIVE §10 bet 1): lead with the loop — every rival stops at "here's a prompt"; this catalog owns what happens after the run -->
   <!-- SHOWCASE F1: the system, played end to end, in the visitor's language
        (plain words first; the catalog's own nouns arrive only in the recap
@@ -627,7 +621,7 @@
           </div>
           <div class="ls-reveal r3 ls-fine">that’s the shape of every entry: how bad · where exactly · why it happens · how to fix it</div>
         </div>
-        <div class="ls-cap">Yours will be about <b>your</b> code — this example is from this site’s own audit of itself, <a href="/r/bugs">read it →</a></div>
+        <div class="ls-cap">Yours will be about <b>your</b> code — this example is from this site’s own check of itself, <a href="/r/bugs">read it →</a></div>
       </div>
       <div class="ls-scene s3">
         <div class="ls-doc">
@@ -656,11 +650,11 @@
       <button class="ls-dot" type="button" data-go="3" role="tab" aria-selected="false">4 · Pick</button>
       <button class="ls-dot" type="button" data-go="4" role="tab" aria-selected="false">5 · Fixed</button>
     </div>
-    <p class="ls-note">Drawn, not screenshots — but the bug and both fixes are real, from this site auditing itself: <a href="/r/bugs">the report</a> · <a href="/r/fixlog">the fix log</a>.</p>
+    <p class="ls-note">Drawn, not screenshots — but the bug and both fixes are real, from this site checking itself: <a href="/r/bugs">the report</a> · <a href="/r/fixlog">the fix log</a>.</p>
   </div>
   <!-- the same five steps, in this catalog's own words — a recap, now that
        the concepts exist; each noun links to the real thing -->
-  <p class="loopline">In this catalog’s words: the prompt is a <b>brief</b>, the written results are its <b>report</b>, the checklist is the <a href="/studio">Studio</a>, the fix run is the <a href="/b/47">Fixer</a>, and the receipts are the <a href="/r/fixlog">FIXLOG</a>. <a href="/quality">Why these briefs don’t rot →</a></p>
+  <p class="loopline">In this catalog’s words: the prompt is a <b>Goal Prompt</b>, the written results are its <b>report</b>, the checklist is the <a href="/studio">Studio</a>, the fix run is the <a href="/b/47">Fixer</a>, and the receipts are the <a href="/r/fixlog">FIXLOG</a>. <a href="/quality">Why these Goal Prompts don’t rot →</a></p>
   <script>
   (function(){
     var box = document.getElementById("loopshow");
@@ -685,18 +679,18 @@
   })();
   </script>
   <div class="pipe">
-    <div class="pnode n1"><div class="dot">1</div><h3>Explore</h3><p>The agent maps the repo and finds where the risk actually lives.</p></div>
-    <div class="pnode n2"><div class="dot">2</div><h3>Audit</h3><p>It sweeps through a fixed set of expert lenses, citing file &amp; line.</p></div>
-    <div class="pnode n3"><div class="dot">3</div><h3>Curate</h3><p>It keeps only what it can prove, ranked by real user impact.</p></div>
-    <div class="pnode n4"><div class="dot">4</div><h3>Report</h3><p>It writes one structured file at your repo root — the deliverable.</p></div>
-    <div class="pnode n5"><div class="dot">→</div><h3>Act</h3><p>Turn findings into commits with the Studio &amp; the Fixer brief.</p></div>
+    <div class="pnode n1"><div class="dot">1</div><h3>Look around</h3><p>The agent maps the repo and finds where the risk actually lives.</p></div>
+    <div class="pnode n2"><div class="dot">2</div><h3>Check</h3><p>It sweeps through a fixed set of expert lenses, citing file &amp; line.</p></div>
+    <div class="pnode n3"><div class="dot">3</div><h3>Keep what’s provable</h3><p>It keeps only what it can prove, ranked by real user impact.</p></div>
+    <div class="pnode n4"><div class="dot">4</div><h3>Write it up</h3><p>It writes one structured file at your repo root — the deliverable.</p></div>
+    <div class="pnode n5"><div class="dot">→</div><h3>Fix what you approve</h3><p>Say which findings to fix — each fix lands as its own checked commit.</p></div>
   </div>
   <div class="guards">
-    <div class="guard"><b>Read-only by default</b><p>Every audit brief reads your code and runs read-only checks. Its only write is its own report.</p></div>
-    <div class="guard"><b>It ends by asking</b><p>No brief changes your code on its own — each one stops and asks before anything is touched.</p></div>
-    <div class="guard"><b>Everything stays local</b><p>Briefs run in your repo, in your agent. Nothing is uploaded; there’s no backend to trust.</p></div>
+    <div class="guard"><b>Read-only by default</b><p>Every Goal Prompt reads your code and runs read-only checks. Its only write is its own report.</p></div>
+    <div class="guard"><b>It ends by asking</b><p>None of them change your code on their own — each one stops and asks before anything is touched.</p></div>
+    <div class="guard"><b>Everything stays local</b><p>Goal Prompts run in your repo, in your agent. Nothing is uploaded; there’s no backend to trust.</p></div>
   </div>
-  <p class="turn">On top of that, every brief passes a <b>machine-enforced quality bar</b> — 4-phase, ask-first, size-capped, CI-gated — the same published linter and CI gate on every entry, or the build fails. <a href="/quality">See the quality bar →</a></p>
+  <p class="turn">On top of that, every Goal Prompt passes a <b>machine-enforced quality bar</b> — structure, safety wording, a size cap, CI — the same published linter and CI gate on every entry, or the build fails. <a href="/quality">See the quality bar →</a></p>
 </div></section>
 
 <!-- ============ VALUE ============ -->
@@ -705,12 +699,12 @@
   <h2 class="h2">Evidence, not vibes.</h2>
   <div class="val">
     <div>
-      <p class="lead">A brief doesn’t hand you a wall of opinions. It hands you one file where every finding is defensible — the difference between “this feels off” and a bug report you can hand to anyone.</p>
+      <p class="lead">A Goal Prompt doesn’t hand you a wall of opinions. It hands you one file where every finding is defensible — the difference between “this feels off” and a bug report you can hand to anyone.</p>
       <ul>
         <li><b>Every finding cites code</b> — file and line, or it doesn’t make the cut.</li>
         <li><b>Ranked by user pain</b> — severity and confidence on each one, so you know what to fix first.</li>
         <li><b>Fix sketches included</b> — a two-line plan and an effort estimate per finding.</li>
-        <li><b>One clean file per audit</b> — ready for a teammate, the Report Studio, or the Fixer.</li>
+        <li><b>One clean file per run</b> — ready for a teammate, or to turn the findings you pick into checked commits.</li>
       </ul>
     </div>
     <div class="report" role="img" aria-label="Schematic showing the shape of every report — 1 Summary, 2 Findings, 3 Verification plan, 4 Top 3 to fix first. Real reports are in the sample gallery.">
@@ -728,9 +722,9 @@
 <!-- ============ CATALOG ============ -->
 <main>
 <section class="blk" id="catalog"><div class="wrap">
-  <div class="kicker"><span class="kno">04</span>The catalog</div>
+  <div class="kicker"><span class="kno">04</span>The Goal Library</div>
   <h2 class="h2">What do you want to know about your code?</h2>
-  <p class="lead">Start from where you are — each card links straight to the right instructions. Or skip ahead: search all __N_BRIEFS__ briefs and browse by family below, __N_FAMILIES__ families with one question each. <a href="/examples/">See a real result →</a></p>
+  <p class="lead">Start from where you are — each card links straight to the right instructions. Or skip ahead: search all __N_BRIEFS__ Goal Prompts and browse by family below, __N_FAMILIES__ families with one question each. <a href="/examples/">See a real result →</a></p>
 
   <!-- SITUATIONS (PRODUCT_ALIGNMENT front door): recognizable situations lead;
        search, families, and browse-all stay directly beneath. Curation is
@@ -798,10 +792,6 @@
   <div class="finder" id="finder"></div>
 
   <div class="helpers">
-    <details class="ctx" id="picker">
-      <summary><span class="chev">▸</span> help me choose — three quick questions</summary>
-      <div class="ctxbody" id="pickerbody"></div>
-    </details>
     <details class="ctx" id="reporec">
       <summary><span class="chev">▸</span> recommend for my repo — point it at owner/repo</summary>
       <div class="ctxbody">
@@ -811,13 +801,13 @@
       </div>
     </details>
     <details class="ctx" id="ctxbox">
-      <summary><span class="chev">▸</span> aim the briefs at your repo <span class="on" id="ctxon" hidden>· applied to every copy</span></summary>
+      <summary><span class="chev">▸</span> aim the Goal Prompts at your repo <span class="on" id="ctxon" hidden>· applied to every copy</span></summary>
       <div class="ctxbody">
         <div><label for="cstack">stack</label><input id="cstack" data-ctx="stack" placeholder="e.g. Next.js + Supabase + Claude API" autocomplete="off"></div>
         <div><label for="ctype">product</label><input id="ctype" data-ctx="product" placeholder="e.g. AI agent that automates invoice processing" autocomplete="off"></div>
         <div><label for="cstage">stage</label><input id="cstage" data-ctx="stage" placeholder="e.g. beta, ~200 users, solo dev" autocomplete="off"></div>
         <div><label for="cnotes">watch out for</label><input id="cnotes" data-ctx="notes" placeholder="e.g. payments code is fragile" autocomplete="off"></div>
-        <p class="hint">saved on this device · appended to every brief you copy as an “Operator context” section</p>
+        <p class="hint">saved on this device · appended to every Goal Prompt you copy as an “Operator context” section</p>
         <!-- R49 (AI-IDEAS 4): the agent has the repo — let it draft the four lines the human would otherwise compose from memory -->
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="iconbtn" id="ctxagent" type="button">have your agent fill this in — copy the prompt</button><span class="hint">paste it into your agent inside the repo; it answers in four lines you paste back into these fields</span></div>
         <button class="iconbtn clearctx" id="ctxclear">clear</button>
@@ -828,7 +818,7 @@
   <div class="toolbar">
     <div class="search">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Search briefs — try “errors”, “funnel”, “delete”…" autocomplete="off" aria-label="Search prompts">
+      <input id="q" type="search" placeholder="Search the library — try “errors”, “funnel”, “delete”…" autocomplete="off" aria-label="Search the Goal Library">
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by family"></div>
   </div>
@@ -844,7 +834,7 @@
 <section class="blk" id="playbooks"><div class="wrap">
   <div class="kicker"><span class="kno">05</span>Playbooks</div>
   <h2 class="h2">Want a running start? Grab a playbook.</h2>
-  <p class="lead">Curated sequences that run several briefs in the right order — one paste, a whole stack of reports. Each one is tuned for a moment: a fresh repo, launch night, a visual overhaul, a startup idea.</p>
+  <p class="lead">Curated sequences that run several Goal Prompts in the right order — one paste, a whole stack of reports. Each one is tuned for a moment: a fresh repo, launch night, a visual overhaul, a startup idea.</p>
   <!-- R28 (SEO-1): static storefront from build.py — every playbook page
        linked without JS; renderFeatured() swaps in the interactive cards -->
   <div class="store" id="featured">__STATIC_PB_FEATURED__</div>
@@ -860,7 +850,7 @@
   <div class="wrap seqbar-in">
     <span class="lab">conductor</span>
     <span class="ord" id="seqorder"></span>
-    <button class="seqcopy" id="seqcopy" title="A conductor is one prompt that runs these briefs in order — paste it into your agent and it fetches and runs each one.">copy conductor</button>
+    <button class="seqcopy" id="seqcopy" title="A conductor is one prompt that runs these Goal Prompts in order — paste it into your agent and it fetches and runs each one.">copy conductor</button>
     <button class="iconbtn" id="seqclear" aria-label="Clear the custom sequence">clear</button>
   </div>
 </div>
@@ -873,8 +863,8 @@
     <div class="way way-primary">
       <div class="num2">01 · COPY</div>
       <h4>Copy &amp; paste</h4>
-      <p>Tap Copy on any brief and paste it into your agent inside the repo you want audited. Nothing to install.</p>
-      <a class="btn btn-primary" href="#catalog" style="width:100%;justify-content:center">Browse the catalog</a>
+      <p>Tap Copy on any Goal Prompt and paste it into your agent inside the repo you want checked. Nothing to install.</p>
+      <a class="btn btn-primary" href="#catalog" style="width:100%;justify-content:center">Browse the library</a>
     </div>
     <div class="way">
       <div class="num2">02 · INSTALL</div>
@@ -884,7 +874,7 @@
            step 2 used to be fine print, and a step-1-only install looks broken -->
       <div class="cmd"><span class="cmdstep">1</span><code id="installcmd">/plugin marketplace add GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copyinstall" aria-label="copy step 1">copy</button></div>
       <div class="cmd"><span class="cmdstep">2</span><code id="installcmd2">/plugin install goal@goal-prompts</code><button class="iconbtn" id="copyinstall2" aria-label="copy step 2">copy</button></div>
-      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same briefs as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
+      <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">No plugin support? <code>curl -fsSL https://goal-prompts.vercel.app/install | sh</code> lands the same Goal Prompts as <code>/goal-bug-hunt</code>… — SHA-256 verified when your shell has a hash tool · <a href="/install" style="color:var(--dim);text-decoration:underline">read the script first</a></p>
       <a class="more" href="/commands.zip">prefer a file? commands.zip →</a>
       <!-- R44 (COMPETITIVE §3.4): the Cursor half of the meta claim, made true — native project commands, not just paste -->
       <a class="more" href="/cursor-commands.zip">on Cursor? cursor-commands.zip → unzip at your repo root</a>
@@ -892,7 +882,7 @@
     <div class="way">
       <div class="num2">03 · AGENT</div>
       <h4>Call it from an agent</h4>
-      <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every brief as a <code>goal-&lt;slug&gt;</code> prompt in your client's picker.</p>
+      <p>An MCP (Model Context Protocol) server gives any agent six tools — <code>suggest_briefs</code>, <code>get_brief</code>, <code>make_conductor</code> &amp; more — plus every Goal Prompt as a <code>goal-&lt;slug&gt;</code> entry in your client's picker.</p>
       <div class="cmd"><code id="mcpcmd">claude mcp add goal-prompts -- npx -y github:GhostlyGawd/goal-prompts</code><button class="iconbtn" id="copymcp" aria-label="copy MCP add command">copy</button></div>
       <!-- PROOF NF5 (R24): the npx line gets the same inspect-the-source reassurance the curl line has -->
       <p style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:8px">Runs the zero-dependency server straight from the public source — <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/mcp/server.cjs" style="color:var(--dim);text-decoration:underline">inspect mcp/server.cjs first ↗</a></p>
@@ -900,45 +890,45 @@
     </div>
   </div>
   <!-- FUNNEL silent stall 3 (R17): the page assumes a coding agent exists -->
-  <p class="noagent">New to coding agents? Start with <a href="https://claude.com/claude-code">Claude Code ↗</a> — every brief here runs in it with a plain paste.</p>
+  <p class="noagent">New to coding agents? Start with <a href="https://claude.com/claude-code">Claude Code ↗</a> — every Goal Prompt here runs in it with a plain paste.</p>
 </div></section>
 
 <!-- ============ PROOF ============ -->
 <section class="blk"><div class="wrap">
   <div class="kicker"><span class="kno">07</span>Proof</div>
-  <h2 class="h2">It audits its own code, too.</h2>
-  <p class="lead">The best demo is the repo itself. These briefs were run against this very project — the reports, and the commits they turned into, are all in the open.</p>
-  <p class="loopline">Every stage below is a real artifact from this repo — <a href="/examples/">a report you can open</a>, a Studio you can run, a commit you can inspect — not a mock-up.</p>
+  <h2 class="h2">It checks its own code, too.</h2>
+  <p class="lead">The best demo is the repo itself. These Goal Prompts were run against this very project — the reports, and the commits they turned into, are all in the open.</p>
+  <p class="loopline">Every stage below is a real artifact from this repo — <a href="/examples/">a report you can open</a>, a checklist you can run, a commit you can inspect — not a mock-up.</p>
   <div class="pipe">
-    <div class="pnode n1"><div class="dot">1</div><h3>Brief</h3><p>Paste an audit brief into your agent inside the repo you want checked.</p></div>
+    <div class="pnode n1"><div class="dot">1</div><h3>Goal Prompt</h3><p>Paste a Goal Prompt into your agent inside the repo you want checked.</p></div>
     <div class="pnode n2"><div class="dot">2</div><h3>Report</h3><p>It files one evidence-backed report at your repo root — the real ones are in the <a href="/examples/">sample gallery</a>.</p></div>
-    <div class="pnode n3"><div class="dot">3</div><h3>Studio</h3><p>The <a href="/studio">Report Studio</a> loads those reports as a findings checklist, entirely in your browser.</p></div>
-    <div class="pnode n4"><div class="dot">4</div><h3>Fixer</h3><p>One tap turns the findings you checked into a targeted <a href="/b/47">Fixer</a> prompt.</p></div>
-    <div class="pnode n5"><div class="dot">→</div><h3>FIXLOG</h3><p>Shipped fixes land as commits, each traced back to its finding in the <a href="/r/fixlog">FIXLOG</a>.</p></div>
+    <div class="pnode n3"><div class="dot">3</div><h3>Pick findings</h3><p>The optional <a href="/studio">Studio</a> loads your reports as a checklist, entirely in your browser.</p></div>
+    <div class="pnode n4"><div class="dot">4</div><h3>Checked fixes</h3><p>One tap builds the fix instruction (<a href="/b/47">the Fixer</a>) from exactly the findings you ticked.</p></div>
+    <div class="pnode n5"><div class="dot">→</div><h3>Paper trail</h3><p>Shipped fixes land as commits, each traced back to its finding in the running <a href="/r/fixlog">fix log</a>.</p></div>
   </div>
   <div class="proof">
     <div class="proofcard">
       <h4>Real reports, not screenshots</h4>
-      <p>The Day-1 playbook, run against this repo: the actual BUGS.md, IMPROVEMENTS.md, and more — plus the FIXLOG showing those findings turned into commits.</p>
+      <p>The Day-1 playbook, run against this repo: the actual BUGS.md, IMPROVEMENTS.md, and more — plus the running fix log showing those findings turned into commits.</p>
       <a href="/examples/">See the sample reports →</a>
     </div>
     <div class="proofcard">
       <h4>Act on what you find</h4>
-      <p>Audits leave reports; the Report Studio turns them into a checklist and one tap builds a targeted Fixer prompt. Everything runs in your browser — no upload, no backend.</p>
-      <a href="/studio">Open the Report Studio →</a>
+      <p>Runs leave reports; the optional Studio turns them into a checklist, and one tap builds the fix instruction from the findings you tick. Everything runs in your browser — no upload, no backend.</p>
+      <a href="/studio">Open the Studio →</a>
     </div>
   </div>
 
   <figure class="shotfig">
     <a href="/studio" aria-label="Open the Report Studio"><img class="shot" src="/img/studio.png" width="1280" height="860" loading="lazy" decoding="async" alt="The Report Studio mid-use: this repo's own reports (IMPROVEMENTS.md, BUGS.md, SECURITY-AUDIT.md, DX.md) loaded as a findings checklist, three findings checked, and a 'Copy Fixer prompt' bar showing 3 of 40 findings selected."></a>
-    <figcaption>The Report Studio, live: drop the reports an audit wrote, check the findings that matter, and one tap builds a targeted Fixer prompt — no upload, no backend. <a href="/studio">Open it →</a></figcaption>
+    <figcaption>The Studio, live: drop in the reports your runs wrote, tick the findings that matter, and one tap builds the fix instruction — no upload, no backend. <a href="/studio">Open it →</a></figcaption>
   </figure>
 
   <div class="ba-lead">One finding, from report to commit</div>
   <div class="beforeafter">
     <div class="ba-col ba-before">
       <div class="ba-h">The finding <span class="ba-src">BUGS.md · 01 · Bug Hunt</span></div>
-      <p class="ba-desc">Hash router caps at two-digit ids — a deep link to brief 100+ would silently fail to open.</p>
+      <p class="ba-desc">Hash router caps at two-digit ids — a deep link to item 100+ would silently fail to open.</p>
       <pre class="ba-code">openFromHash():  /^\d\d$/.test(h)</pre>
     </div>
     <div class="ba-arrow" aria-hidden="true">→</div>
@@ -954,7 +944,7 @@
   <div class="footrow">
     <a class="brand" href="/"><svg class="mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a>
     <nav class="footlinks">
-      <a href="#catalog">Catalog</a>
+      <a href="#catalog">Library</a>
       <a href="#playbooks">Playbooks</a>
       <a href="/studio">Studio</a>
       <a href="/vitals">Vitals</a>
@@ -969,11 +959,11 @@
   </div>
   <p class="buildnote">Built by <a href="https://github.com/GhostlyGawd">@GhostlyGawd</a>, an independent developer · <a href="https://github.com/GhostlyGawd/goal-prompts/issues/new">using it? tell me how ↗</a>__GH_STARS__</p>
   <!-- R45 (COMPETITIVE §3.5): the on-site contribution ask — one honest line; the linter is the moderation story -->
-  <p class="buildnote">Missing an audit you need? <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CONTRIBUTING.md">add a brief →</a> — every submission passes the same <a href="/quality">published linter</a> that gates the whole catalog, and the <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/docs/brief-forge.md">Brief Forge prompt</a> drafts one with you.</p>
+  <p class="buildnote">Missing a check you need? <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/CONTRIBUTING.md">add one →</a> — every submission passes the same <a href="/quality">published linter</a> that gates the whole catalog, and the <a href="https://github.com/GhostlyGawd/goal-prompts/blob/main/docs/brief-forge.md">Brief Forge prompt</a> drafts one with you.</p>
   <p class="buildnote">Free &amp; MIT-licensed · source of truth <code>prompts/&lt;family&gt;/*.md</code>, rebuilt with <code>python3 build.py</code> · <button class="reset" id="reset">reset run tracker</button></p>
   <p class="buildnote">Your setup lives on this device only · <button class="reset" id="exportstate">export setup</button> · <button class="reset" id="importstate">import a backup</button> · <button class="reset" id="remindtog">weekly Vitals reminder: off</button><input type="file" id="importfile" accept="application/json,.json" hidden></p>
   <!-- PROOF NF2 / RETENTION R12 (R21): reconcile the privacy promise with the site beacon, in the open -->
-  <p class="buildnote">Your code, reports, and setup never leave your device — the briefs run in your agent, locally. The site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking, no report or repo contents collected — the feature events carry a random local id (<code>gp-aid</code>), and zero-result catalog search terms are counted so search can improve.</p>
+  <p class="buildnote">Your code, reports, and setup never leave your device — the Goal Prompts run in your agent, locally. The site itself counts anonymous page views and feature events via Vercel Analytics: no cookies, no cross-site tracking, no report or repo contents collected — the feature events carry a random local id (<code>gp-aid</code>), and zero-result catalog search terms are counted so search can improve.</p>
 </div></footer>
 
 <script src="/js/catalog-core.js"></script>
@@ -1108,9 +1098,9 @@ function renderCtxWarm(){
   if(!ctxActive()){ el.hidden = true; el.textContent = ""; return; }
   el.hidden = false; el.textContent = "";
   const bits = [ctx.stack, ctx.product, ctx.stage].filter(v => v && String(v).trim());
-  el.append("Welcome back \u2014 your briefs are tuned to ");
+  el.append("Welcome back \u2014 your Goal Prompts are tuned to ");
   const b = document.createElement("b"); b.textContent = bits.slice(0, 2).join(" \u00b7 ") || "your repo";
-  el.append(b, ", applied to every brief you copy. ");
+  el.append(b, ", applied to every Goal Prompt you copy. ");
   const edit = document.createElement("button"); edit.className = "ctxwarm-edit"; edit.textContent = "change \u2192";
   edit.onclick = ()=>{ const box = document.getElementById("ctxbox"); if(box){ box.open = true; box.scrollIntoView({block:"center"}); const f = box.querySelector("input"); if(f) f.focus(); } };
   el.append(edit);
@@ -1212,7 +1202,7 @@ function showCopyHint(output, id, tee){
     var cu = document.createElement("button"); cu.type = "button"; cu.className = "iconbtn";
     cu.textContent = "copy URL";
     cu.onclick = function(){ copyText(url, cu, "✓"); };
-    toast(["On your phone? Copy this URL instead and open the raw brief on the machine your agent runs on → ", ra, " ", cu]);
+    toast(["On your phone? Copy this URL instead and open the raw Goal Prompt on the machine your agent runs on → ", ra, " ", cu]);
     return;
   }
   var b = document.createElement("b"); b.textContent = "inside your repo";
@@ -1245,7 +1235,7 @@ function showConductorHint(ids){
   }
   var b = document.createElement("b"); b.textContent = "inside your repo";
   var parts = ["Paste into your agent ", b, " — one paste runs " + ids.length +
-               " brief" + (ids.length === 1 ? "" : "s") + " in order and writes "];
+               " Goal Prompt" + (ids.length === 1 ? "" : "s") + " in order and writes "];
   outs.slice(0, 3).forEach(function(o, i){
     if(i) parts.push(", ");
     var c = document.createElement("code"); c.textContent = o;
@@ -1364,7 +1354,7 @@ function seqDots(ids){
     const p = byId[id];
     return '<i style="background:' + (p ? famColor(p.family) : "var(--fc)") + '"></i>';
   }).join("");
-  return '<span class="seqdots">' + dots + '<span class="cnt">' + ids.length + ' brief' + (ids.length>1?"s":"") + '</span></span>';
+  return '<span class="seqdots">' + dots + '<span class="cnt">' + ids.length + ' Goal Prompt' + (ids.length>1?"s":"") + '</span></span>';
 }
 function renderFeatured(){
   const host = document.getElementById("featured");
@@ -1419,8 +1409,8 @@ function renderStats(){
   if(!el) return;
   const n = runCount();
   el.textContent = n > 0
-    ? DATA.length + " briefs · " + n + " run here"
-    : DATA.length + " briefs";
+    ? DATA.length + " Goal Prompts · " + n + " run here"
+    : DATA.length + " Goal Prompts";
 }
 
 /* ---- chips ---- */
@@ -1602,7 +1592,7 @@ function fillQuick(cardEl){
     b.textContent = "";
     const a = document.createElement("a"); a.className = "iconbtn";
     a.href = "/raw/" + p.id + ".md";
-    a.textContent = "couldn't load here — open the raw brief ↗";
+    a.textContent = "couldn't load here — open the raw file ↗";
     b.append(a);
     b.dataset.failed = "1";
   }
@@ -1637,7 +1627,7 @@ function renderBackerNudge(){
   if(old) return; /* exactly one, ever */
   var d = document.createElement("p");
   d.className = "buildnote"; d.id = "backernudge";
-  d.append("Five audits in — this stays free either way. If these have earned their keep, there’s a backer button: ");
+  d.append("Five runs in — this stays free either way. If these have earned their keep, there’s a backer button: ");
   var a = document.createElement("a"); a.href = BACKER_URL;
   a.textContent = "back the project ↗";
   a.addEventListener("click", function(){ track("nudge_clicked", {kind:"backer"}); });
@@ -1661,7 +1651,7 @@ function renderNudge(){
   let kind = null, html = null;
   if(n >= 5 && !runs["28"]){
     kind = "roadmap";
-    html = "You've run <b style='color:var(--text)'>"+n+"</b> briefs — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
+    html = "You've run <b style='color:var(--text)'>"+n+"</b> Goal Prompts — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
   } else if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
     kind = "vitals";
     /* R33 (RETENTION R6): the nudge also points at the Vitals Viewer — the
@@ -1713,7 +1703,7 @@ function render(){
     const g = document.createElement("div"); g.className = "browsegate";
     g.append("Pick a question above, search, or ");
     const b = document.createElement("button"); b.className = "iconbtn";
-    b.textContent = "browse all " + DATA.length + " briefs";
+    b.textContent = "browse all " + DATA.length + " Goal Prompts";
     b.onclick = ()=>{ browsing = true; sync(); };
     g.append(b);
     listEl.append(g);
@@ -1762,7 +1752,7 @@ function render(){
     fh.innerHTML = '<span class="name" style="color:var(--amber)">'+pb.name+'</span><span class="q">'+pb.desc+'</span><span class="rule"></span>';
     listEl.append(fh);
     const cbar = document.createElement("div"); cbar.className = "nudge";
-    cbar.append("Run the whole playbook with one paste — the conductor fetches each brief in order and writes every report. ");
+    cbar.append("Run the whole playbook with one paste — the conductor fetches each Goal Prompt in order and writes every report. ");
     const cbtn = document.createElement("button"); cbtn.className = "iconbtn";
     cbtn.textContent = "copy conductor";
     cbtn.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cbtn, "✓ copied", {name:"copy_conductor", data:{key:pb.key}},
@@ -1789,10 +1779,10 @@ function render(){
         const fam = p.family;
         const fb = document.createElement("button"); fb.className = "iconbtn";
         fb.textContent = "run all " + famIds.length;
-        fb.setAttribute("aria-label", "Copy a conductor that runs every " + fam + " brief");
+        fb.setAttribute("aria-label", "Copy a conductor that runs every " + fam + " Goal Prompt");
         fb.onclick = () => copyText(
-          makeConductor("All " + fam + " briefs",
-            "Every " + fam + " brief in the catalog, in order — " + famIds[0] + " through " + famIds[famIds.length-1] + ", one report each.",
+          makeConductor("All " + fam + " Goal Prompts",
+            "Every " + fam + " Goal Prompt in the catalog, in order — " + famIds[0] + " through " + famIds[famIds.length-1] + ", one report each.",
             famIds),
           fb, "✓ copied", {name:"copy_family_conductor", data:{family:fam}},
           () => showConductorHint(famIds));
@@ -1873,7 +1863,7 @@ document.querySelectorAll("[data-ctx]").forEach(el=>{
   var b = document.getElementById("ctxagent"); if(!b) return;
   var prompt = 'Inspect this repository and answer in EXACTLY four lines, nothing else — ' +
     'each under ~90 characters. I will paste them into the goal-prompts ' +
-    '"aim the briefs at your repo" box, so they must be honest and specific to this repo:\n' +
+    '"aim the Goal Prompts at your repo" box, so they must be honest and specific to this repo:\n' +
     'Stack: <the real frameworks, services, and APIs, e.g. Next.js + Supabase + Claude API>\n' +
     'Product: <what this software actually does, in one line>\n' +
     'Stage: <maturity, scale, team — e.g. beta, ~200 users, solo dev>\n' +
@@ -2045,7 +2035,7 @@ document.getElementById("seqcopy").onclick = function(){
   if(!seq.length) return;
   var ids = seq.slice();   /* snapshot — seq can change before the async hint */
   copyText(makeConductor("Custom sequence",
-    "A custom sequence of " + ids.length + " brief" + (ids.length>1?"s":"") + ", assembled by the operator in the goal-prompts catalog.",
+    "A custom sequence of " + ids.length + " Goal Prompt" + (ids.length>1?"s":"") + ", assembled by the operator in the goal-prompts catalog.",
     ids), this, "✓ copied", {name:"copy_custom_conductor", data:{n:ids.length}},
     function(){ showConductorHint(ids); });
 };
@@ -2115,66 +2105,6 @@ function buildFinder(){
 }
 buildFinder();
 
-/* ---- 3-question picker — answers map through CC.pickerPlan (Node-tested) ---- */
-(function(){
-  const host = document.getElementById("pickerbody"); if(!host) return;
-  const QS = [
-    {k:"situation", lab:"1 · where are you?", opts:[["new","brand-new repo"],["inherited","inherited a codebase"],["prelaunch","about to launch"],["slow","users say it's slow"],["ai","building an AI feature"],["idea","idea stage, little code"]]},
-    {k:"hurt", lab:"2 · what hurts most?", opts:[["breaks","it breaks"],["slow","it drags"],["security","security worries"],["conversion","users drop off"],["design","the UI feels off"],["data","the data layer"],["agent","my AI agent"],["unsure","not sure"]]},
-    {k:"time", lab:"3 · how much time?", opts:[["brief","~15 min — one brief"],["playbook","an afternoon — a playbook"]]}
-  ];
-  const ans = {};
-  const out = document.createElement("div");
-  for(const q of QS){
-    const row = document.createElement("div"); row.className = "goals";
-    const lab = document.createElement("span"); lab.className = "goallab"; lab.textContent = q.lab;
-    row.append(lab);
-    for(const opt of q.opts){
-      const b = document.createElement("button"); b.type = "button"; b.className = "goal";
-      b.textContent = opt[1]; b.setAttribute("aria-pressed", "false");
-      b.onclick = ()=>{
-        ans[q.k] = ans[q.k] === opt[0] ? undefined : opt[0];
-        row.querySelectorAll(".goal").forEach(x=>x.setAttribute("aria-pressed", "false"));
-        if(ans[q.k]) b.setAttribute("aria-pressed", "true");
-        paint();
-      };
-      row.append(b);
-    }
-    host.append(row);
-  }
-  host.append(out);
-  function paint(){
-    out.textContent = "";
-    if(!ans.situation && !ans.hurt) return;
-    const plan = CC.pickerPlan(ans, DATA, PLAYBOOKS);
-    const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 4px";
-    if(plan.kind === "playbook"){
-      const pb = PLAYBOOKS.find(x=>x.key===plan.key);
-      const a = document.createElement("a"); a.href = "/p/" + pb.key; a.textContent = pb.name;
-      d.append("Run the ", a, " playbook — " + (pb.tagline || pb.desc) + " (" + pb.ids.length + " briefs, one paste). ");
-      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy conductor";
-      cb.onclick = ()=>copyText(makeConductor(pb.name, pb.desc, pb.ids), cb, "✓ copied", {name:"copy_conductor", data:{key:pb.key, src:"picker"}},
-        ()=>showConductorHint(pb.ids));
-      d.append(cb);
-    } else {
-      const p = byId[plan.id];
-      const a = document.createElement("a"); a.href = "/b/" + p.id; a.textContent = p.id + " · " + p.title;
-      d.append("Run ", a, " — " + p.tagline + " → " + p.output + " ");
-      const cb = document.createElement("button"); cb.className = "iconbtn"; cb.type = "button"; cb.textContent = "copy the brief";
-      cb.onclick = ()=>copyBrief(p, cb, "✓ copied", {name:"copy_prompt", data:{id:p.id, src:"picker"}},
-        ()=>showCopyHint(p.output, p.id), ()=>rawLink(cb, p.id));
-      d.append(cb);
-    }
-    if(!(plan.kind === "brief" && plan.id === plan.alt) && byId[plan.alt]){
-      const aa = document.createElement("a"); aa.href = "/b/" + plan.alt;
-      aa.textContent = plan.alt + " · " + byId[plan.alt].title;
-      d.append(" · or let the agent decide: ", aa);
-    }
-    out.append(d);
-    try{ track("picker_plan", {kind:plan.kind, pick:plan.key || plan.id}); }catch(e){}
-  }
-})();
-
 /* ---- per-repo recommendation — same public-GitHub loader pattern as the Studio ---- */
 (function(){
   const btn = document.getElementById("rrgo"), input = document.getElementById("rrin"),
@@ -2237,9 +2167,9 @@ buildFinder();
       if(!ctx.stack){
         ctx.stack = rec.stack.join(" + "); saveCtx();
         const cs = document.getElementById("cstack"); if(cs) cs.value = ctx.stack;
-        fine.textContent = "✓ saved as your Operator-context stack — every brief you copy is now aimed at it";
+        fine.textContent = "✓ saved as your Operator-context stack — every Goal Prompt you copy is now aimed at it";
       } else {
-        fine.textContent = "your saved Operator context was left untouched — edit it under “aim the briefs at your repo”";
+        fine.textContent = "your saved Operator context was left untouched — edit it under “aim the Goal Prompts at your repo”";
       }
       d.append(fine);
     }
@@ -2255,7 +2185,7 @@ buildFinder();
 (function(){
   var qb = document.getElementById("quickstart"); if(!qb) return;
   var starter = byId["01"] || DATA[0]; if(!starter) return;
-  var lbl = qb.querySelector("b"); if(lbl) lbl.textContent = "Copy the " + starter.title + " brief";
+  var lbl = qb.querySelector("b"); if(lbl) lbl.textContent = "Copy " + starter.id + " · " + starter.title;
   qb.hidden = false;
   /* ACTIVATION AN2 (R09): the shared copyText owns the fallback + failure
      state — success UI (event, hint) only fires when the copy landed, and a
@@ -2263,7 +2193,7 @@ buildFinder();
   qb.onclick = function(){
     copyBrief(starter, qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
       function(){ showCopyHint(starter.output, starter.id, true); },
-      function(){ rawLink(qb, starter.id, "copy failed — open the raw brief ↗"); });
+      function(){ rawLink(qb, starter.id, "copy failed — open the raw file ↗"); });
   };
 })();
 

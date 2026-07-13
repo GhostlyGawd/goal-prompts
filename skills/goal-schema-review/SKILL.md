@@ -1,6 +1,6 @@
 ---
 name: goal-schema-review
-description: "Missing indexes, absent constraints, JSON blobs hiding structure — with a migration plan sequenced safest-first. Audit brief 19 · Data — runs a four-phase audit of the current repo and writes SCHEMA.md at the repo root."
+description: "Missing indexes, absent constraints, JSON blobs hiding structure — with a migration plan sequenced safest-first. Goal Prompt 19 · Data — inspects the current repo and writes SCHEMA.md at the repo root."
 ---
 
 # Goal: Schema Review

@@ -1,6 +1,6 @@
 ---
 name: goal-latency-budget-audit
-description: "Where the seconds go. Decomposes p50 and p95 of the runs users feel into stages — queue, retrieval, first token, tools — and names the stage worth attacking. Audit brief 51 · Speed — runs a four-phase audit of the current repo and writes LATENCY.md at the repo root."
+description: "Where the seconds go. Decomposes p50 and p95 of the runs users feel into stages — queue, retrieval, first token, tools — and names the stage worth attacking. Goal Prompt 51 · Speed — inspects the current repo and writes LATENCY.md at the repo root."
 ---
 
 # Goal: Latency Budget Audit

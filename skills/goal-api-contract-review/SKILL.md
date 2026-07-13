@@ -1,6 +1,6 @@
 ---
 name: goal-api-contract-review
-description: "Naming, error shapes, status codes, and versioning — find the inconsistencies and sequence fixes from non-breaking to breaking. Audit brief 18 · Clarity — runs a four-phase audit of the current repo and writes API.md at the repo root."
+description: "Naming, error shapes, status codes, and versioning — find the inconsistencies and sequence fixes from non-breaking to breaking. Goal Prompt 18 · Clarity — inspects the current repo and writes API.md at the repo root."
 ---
 
 # Goal: API Contract Review

@@ -1,6 +1,6 @@
 ---
 name: goal-menu-command-surface
-description: "Menus, dropdowns, context menus, and command palettes — do they reveal what is inside, work by keyboard and thumb, and still find things as the list grows? Audit brief 130 · Design — runs a four-phase audit of the current repo and writes MENUS.md at the repo root."
+description: "Menus, dropdowns, context menus, and command palettes — do they reveal what is inside, work by keyboard and thumb, and still find things as the list grows? Goal Prompt 130 · Design — inspects the current repo and writes MENUS.md at the repo root."
 ---
 
 # Goal: Menu & Command Surface Audit

@@ -1,6 +1,6 @@
 ---
 name: goal-design-token-adoption
-description: "Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync. Audit brief 105 · Design — runs a four-phase audit of the current repo and writes TOKEN-ADOPTION.md at the repo root."
+description: "Whether the design system's tokens are actually used — or whether hardcoded colors, spacing, and type have crept back in and drifted the UI out of sync. Goal Prompt 105 · Design — inspects the current repo and writes TOKEN-ADOPTION.md at the repo root."
 ---
 
 # Goal: Design-Token Adoption Audit

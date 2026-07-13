@@ -1,6 +1,6 @@
 ---
 name: goal-implement-to-spec
-description: "The build loop. Takes the open acceptance criteria, asks the scope, then lands each one as a failing test, the least code to pass it, and a verified commit. Audit brief 143 · Build — runs a four-phase audit of the current repo and writes BUILDLOG.md at the repo root."
+description: "The build loop. Takes the open acceptance criteria, asks the scope, then lands each one as a failing test, the least code to pass it, and a verified commit. Goal Prompt 143 · Build — inspects the current repo and writes BUILDLOG.md at the repo root."
 ---
 
 # Goal: Implement to Spec

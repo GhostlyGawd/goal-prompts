@@ -1,6 +1,6 @@
 ---
 name: goal-funnel-friction-audit
-description: "Reconstruct the signup → activation → habit funnel from code, count the steps, and rank every drop-off point. Audit brief 09 · Growth — runs a four-phase audit of the current repo and writes FUNNEL.md at the repo root."
+description: "Reconstruct the signup → activation → habit funnel from code, count the steps, and rank every drop-off point. Goal Prompt 09 · Growth — inspects the current repo and writes FUNNEL.md at the repo root."
 ---
 
 # Goal: Funnel Friction Audit

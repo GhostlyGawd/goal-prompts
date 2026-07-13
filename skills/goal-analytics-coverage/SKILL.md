@@ -1,6 +1,6 @@
 ---
 name: goal-analytics-coverage
-description: "Which user behaviors are invisible today — and the tracking plan that makes the five questions that matter answerable. Audit brief 20 · Data — runs a four-phase audit of the current repo and writes ANALYTICS.md at the repo root."
+description: "Which user behaviors are invisible today — and the tracking plan that makes the five questions that matter answerable. Goal Prompt 20 · Data — inspects the current repo and writes ANALYTICS.md at the repo root."
 ---
 
 # Goal: Analytics Coverage Audit

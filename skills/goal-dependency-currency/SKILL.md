@@ -1,6 +1,6 @@
 ---
 name: goal-dependency-currency
-description: "Run the outdated command and read the lockfile's birthdays — majors behind, EOL dates, the two packages pinning everything — and the forced jump the drift is scheduling. Audit brief 85 · Trust — runs a four-phase audit of the current repo and writes UPGRADES.md at the repo root."
+description: "Run the outdated command and read the lockfile's birthdays — majors behind, EOL dates, the two packages pinning everything — and the forced jump the drift is scheduling. Goal Prompt 85 · Trust — inspects the current repo and writes UPGRADES.md at the repo root."
 ---
 
 # Goal: Dependency Currency Audit

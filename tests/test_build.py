@@ -790,7 +790,7 @@ class DetailPageAnalyticsTests(unittest.TestCase):
         html = self._brief_html()
         self.assertIn('aria-label="copy step 1"', html)
         self.assertIn('aria-label="copy step 2"', html)
-        self.assertIn('aria-label="copy raw brief URL"', html)
+        self.assertIn('aria-label="copy raw Goal Prompt URL"', html)
 
     def test_conductor_copy_buttons_carry_key_and_raw_fallback(self):
         # gp-detail.js needs the playbook key (copy_conductor event) and the
@@ -1513,7 +1513,7 @@ class RevenueRailsTests(unittest.TestCase):
         fn = t[start:end]
         self.assertIn("runCount() < 5", fn)               # R01's honest marks gate
         self.assertIn("gp-backer-done", fn)               # permanent dismissal
-        self.assertIn("Five audits in", fn)               # REVENUE §3.3 copy
+        self.assertIn("Five runs in", fn)                 # REVENUE §3.3 copy
         self.assertIn("stays free", fn)
 
 
@@ -1558,10 +1558,12 @@ class RegisterBadgeTests(unittest.TestCase):
         self.assertNotIn("explore, audit, curate", hero)
         self.assertNotIn("four-phase", hero)
 
-    def test_guard_card_calls_them_briefs_not_prompts(self):
+    def test_guard_card_uses_the_goal_prompt_noun(self):
+        # one public noun (ADR-15 item 8 / ADR-16): the unit is a Goal
+        # Prompt — never a bare "prompt", no longer "brief" in public copy
         html = self._index()
-        self.assertNotIn("Prompts run in your repo", html)
-        self.assertIn("Briefs run in your repo", html)
+        self.assertIn("Goal Prompts run in your repo", html)
+        self.assertNotIn("Briefs run in your repo", html)
 
 
 class SituationFrontDoorTests(unittest.TestCase):
@@ -1623,7 +1625,7 @@ class ProofLoopTests(unittest.TestCase):
     @staticmethod
     def _proof_section():
         html = (build.ROOT / "index.html").read_text(encoding="utf-8")
-        start = html.index("It audits its own code, too.")
+        start = html.index("It checks its own code, too.")
         end = html.index("<footer", start)
         return html[start:end]
 
@@ -1640,8 +1642,11 @@ class ProofLoopTests(unittest.TestCase):
         return proof[start:end]
 
     def test_proof_names_every_loop_stage(self):
+        # plain-register ruling: outcome names lead; the internal nouns
+        # (Studio, Fixer, fix log) survive as inline links inside the steps
         pipe = self._pipe_block()
-        for stage in ("Brief", "Report", "Studio", "Fixer", "FIXLOG"):
+        for stage in ("Goal Prompt", "Report", "Pick findings",
+                      "Checked fixes", "Paper trail"):
             self.assertIn("<h3>%s</h3>" % stage, pipe, stage)
 
     def test_proof_wires_the_loop_links(self):
@@ -1655,7 +1660,8 @@ class ProofLoopTests(unittest.TestCase):
         # lead-copy rewrite elsewhere in Proof can't flip it.
         pipe = self._pipe_block()
         order = [pipe.index("<h3>%s</h3>" % s) for s in
-                 ("Brief", "Report", "Studio", "Fixer", "FIXLOG")]
+                 ("Goal Prompt", "Report", "Pick findings",
+                  "Checked fixes", "Paper trail")]
         self.assertEqual(order, sorted(order), order)
 
 
@@ -1695,7 +1701,9 @@ class QualityBarClaimTests(unittest.TestCase):
     def test_landing_surfaces_the_quality_bar_claim(self):
         html = (build.ROOT / "index.html").read_text(encoding="utf-8")
         self.assertIn("machine-enforced quality bar", html)
-        for prop in ("4-phase", "ask-first", "size-capped", "CI-gated"):
+        # plain-register ruling: the bar's properties in plain words, not
+        # internal tokens ("4-phase", "size-capped")
+        for prop in ("structure", "safety wording", "a size cap", "CI"):
             self.assertIn(prop, html, prop)
         # the claim links out to the page that proves it
         idx = html.index("machine-enforced quality bar")

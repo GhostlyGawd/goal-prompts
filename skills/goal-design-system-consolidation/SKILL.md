@@ -1,6 +1,6 @@
 ---
 name: goal-design-system-consolidation
-description: "Census the drifted colors, spacing, and duplicate components; propose the token set and migration order to unify them. Audit brief 15 · Team — runs a four-phase audit of the current repo and writes DESIGN-SYSTEM.md at the repo root."
+description: "Census the drifted colors, spacing, and duplicate components; propose the token set and migration order to unify them. Goal Prompt 15 · Team — inspects the current repo and writes DESIGN-SYSTEM.md at the repo root."
 ---
 
 # Goal: Design System Consolidation

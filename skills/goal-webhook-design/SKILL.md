@@ -1,6 +1,6 @@
 ---
 name: goal-webhook-design
-description: "The webhooks this product sends and receives — delivery guarantees, retries, signing, and whether a consumer can actually build on them reliably. Audit brief 111 · API — runs a four-phase audit of the current repo and writes WEBHOOKS.md at the repo root."
+description: "The webhooks this product sends and receives — delivery guarantees, retries, signing, and whether a consumer can actually build on them reliably. Goal Prompt 111 · API — inspects the current repo and writes WEBHOOKS.md at the repo root."
 ---
 
 # Goal: Webhook Design Audit

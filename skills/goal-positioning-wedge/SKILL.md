@@ -1,6 +1,6 @@
 ---
 name: goal-positioning-wedge
-description: "How to enter and be understood — the beachhead customer, the against-what frame, the category call, and message options tested against real competitor language. Audit brief 65 · Venture — runs a four-phase audit of the current repo and writes POSITIONING.md at the repo root."
+description: "How to enter and be understood — the beachhead customer, the against-what frame, the category call, and message options tested against real competitor language. Goal Prompt 65 · Venture — inspects the current repo and writes POSITIONING.md at the repo root."
 ---
 
 # Goal: Positioning & Wedge

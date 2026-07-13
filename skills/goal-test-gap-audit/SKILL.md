@@ -1,6 +1,6 @@
 ---
 name: goal-test-gap-audit
-description: "Map what is tested against what is riskiest, and produce a test-writing plan that buys the most safety per hour. Audit brief 02 · Quality — runs a four-phase audit of the current repo and writes TESTING.md at the repo root."
+description: "Map what is tested against what is riskiest, and produce a test-writing plan that buys the most safety per hour. Goal Prompt 02 · Quality — inspects the current repo and writes TESTING.md at the repo root."
 ---
 
 # Goal: Test Gap Audit
