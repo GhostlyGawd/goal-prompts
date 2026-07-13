@@ -205,3 +205,20 @@ Reply "ratify all with recommendations" or list exceptions by number.
   alone; each public claim still needs observed evidence. Three Gate B
   rulings (bundle-as-one-scope, delta-open lint, decide/verify runs)
   still pending; Gate C remains closed.
+
+- **2026-07-13 · session 3 (operator override — migration parked, marketing
+  direct).** Operator, twice and emphatically: the goal is fixing product
+  positioning + marketing and making the product match its goal — NOT
+  rewriting prompts. Reality check supports it: current prompt bodies
+  already carry the trust behaviors (named dated report, re-run delta
+  lead, evidence rule, null escape, reports/ option, ask-first gate);
+  the contract migration is refinement, not a prerequisite for honest
+  copy. **Ruling recorded: prompt bodies are FROZEN; the 152-prompt
+  migration (doc §10, Gate C) is parked and must not start without an
+  explicit operator request. Site/positioning work proceeds now against
+  observed current behavior.** PRODUCT_ALIGNMENT §Delivery order and §10
+  conflict with this ruling and need an operator-approved amendment;
+  until then the ruling governs. Gate C rows in the ledger inherit
+  status "parked". The three Gate B rulings are moot while migration is
+  parked. Next: situation-first front door + plain-words hero + honest
+  claims (Gate D scope), preview link to operator.
