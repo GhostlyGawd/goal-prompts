@@ -36,7 +36,7 @@ live in [`reports/`](reports/).
 ## The site
 
 The catalog is a conversion-shaped storefront: a landing page that explains the
-idea to a newcomer (the problem, the four-phase method, the report you get),
+idea to a newcomer (the problem, what a brief tells the agent, the file you get),
 then the shop floor — every brief searchable and filterable, colored by family.
 Each brief has its own page at **`/b/<id>`** — a visual walkthrough of its
 method, its audit lenses, and the report it writes — every playbook has one

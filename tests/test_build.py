@@ -1518,30 +1518,98 @@ class RevenueRailsTests(unittest.TestCase):
 
 
 class RegisterBadgeTests(unittest.TestCase):
-    """Founder-funnel PIVOT item 1 (POSITIONING): the landing owns the
-    audit·brief·report·evidence register — a brief is never sold as a
-    generic 'prompt'. These lock the re-badge so the noun can't drift back,
-    while the load-bearing 'prompt' uses (product name, paths, slugs,
-    analytics events) stay untouched."""
+    """Operator register ruling (2026-07-13, ALIGNMENT_BUILD state log): the
+    landing speaks plain words to any builder. No engineer persona, no
+    internal process taxonomy in the hero — the product is an instruction
+    sheet you paste, and the deliverable is one saved, evidence-backed file.
+    Load-bearing 'prompt' uses (product name, paths, slugs, analytics
+    events) stay untouched."""
 
     @staticmethod
     def _index():
         return (build.ROOT / "index.html").read_text(encoding="utf-8")
 
+    def _hero(self):
+        html = self._index()
+        return html[html.index('class="hero"'):html.index("PROBLEM")]
+
     def test_hero_drops_prompt_as_the_product_noun(self):
-        # a brief is an audit/brief, not a "ready-made prompt"
+        # a brief is an instruction sheet, not a "ready-made prompt"
         self.assertNotIn("ready-made prompt", self._index())
 
-    def test_hero_uses_the_audit_register_and_keeps_the_substance(self):
-        html = self._index()
-        self.assertIn("ready-to-run audit", html)        # audit-register noun
-        self.assertIn("four-phase", html)                # the method, kept
-        self.assertIn("one evidence-backed report", html)  # the deliverable, kept
+    def test_no_engineer_persona_anywhere_on_the_landing(self):
+        # operator ban: the product is for any builder with files an agent
+        # can read — never framed as an engineers-only auditor persona
+        html = self._index().lower()
+        for phrase in ("senior code auditor", "senior engineer",
+                       "senior developer", "senior auditor"):
+            self.assertNotIn(phrase, html, phrase)
+
+    def test_hero_leads_plain_and_concrete(self):
+        hero = self._hero()
+        self.assertIn("Know <em>what to ask</em> your coding agent.", hero)
+        self.assertIn("what counts as proof", hero)
+        self.assertIn("one saved, evidence-backed file", hero)
+
+    def test_hero_sub_drops_the_internal_taxonomy(self):
+        # "what is explore audit curate?" — the process names are internal;
+        # the hero explains the same thing in plain words instead
+        hero = self._hero()
+        self.assertNotIn("explore, audit, curate", hero)
+        self.assertNotIn("four-phase", hero)
 
     def test_guard_card_calls_them_briefs_not_prompts(self):
         html = self._index()
         self.assertNotIn("Prompts run in your repo", html)
         self.assertIn("Briefs run in your repo", html)
+
+
+class SituationFrontDoorTests(unittest.TestCase):
+    """PRODUCT_ALIGNMENT front door: the catalog opens with recognizable
+    situations (the doc's six, verbatim), each linking a small hand-curated
+    set of briefs; full search/families/browse-all stay directly beneath."""
+
+    SITUATIONS = [
+        "I don’t know what to check first.",
+        "Something is broken or unreliable.",
+        "Users aren’t understanding, signing up, or coming back.",
+        "The product feels messy and I need priorities.",
+        "I’m making a risky change.",
+        "I need to prove a specific thing works.",
+    ]
+
+    @staticmethod
+    def _index():
+        return (build.ROOT / "index.html").read_text(encoding="utf-8")
+
+    def test_all_six_situations_render(self):
+        html = self._index()
+        for s in self.SITUATIONS:
+            self.assertIn(s, html, s)
+
+    def test_each_card_links_at_least_three_briefs(self):
+        import re
+        html = self._index()
+        cards = re.findall(r'<div class="sitcard">(.*?)</div>\s*</div>',
+                           html, re.S)
+        self.assertEqual(len(cards), 6)
+        for card in cards:
+            self.assertGreaterEqual(len(re.findall(r'href="/b/\d+"', card)),
+                                    3, card[:120])
+
+    def test_situation_brief_links_point_at_real_pages(self):
+        import re
+        html = self._index()
+        sits = html[html.index('class="sits"'):html.index('id="finder"')]
+        for bid in set(re.findall(r'href="/b/(\d+)"', sits)):
+            self.assertTrue((build.ROOT / "b" / f"{bid}.html").exists(), bid)
+        for key in set(re.findall(r'href="/p/([a-z0-9-]+)"', sits)):
+            self.assertTrue((build.ROOT / "p" / f"{key}.html").exists(), key)
+
+    def test_situations_lead_and_browse_all_survives_beneath(self):
+        html = self._index()
+        self.assertLess(html.index('class="sits"'), html.index('id="finder"'))
+        self.assertIn("browse by family below", html)
 
 
 class ProofLoopTests(unittest.TestCase):

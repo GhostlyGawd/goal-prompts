@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Goal Prompts — turn your coding agent into a senior code auditor</title>
-<meta name="description" content="Point your coding agent at your repo and get back a filed, evidence-backed report — the same four-phase audit every run — then turn its findings into commits. 152 briefs for Claude Code, Cursor, and any coding agent. Free and open; nothing leaves your machine.">
-<meta property="og:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
+<title>Goal Prompts — know what to ask your coding agent</title>
+<meta name="description" content="152 ready-to-paste instruction sheets for Claude Code, Cursor, and any coding agent. Each tells the AI what to inspect in your project, what counts as proof, and what to write down — one saved, evidence-backed file every run. Free and open; nothing leaves your machine.">
+<meta property="og:title" content="Goal Prompts — know what to ask your coding agent">
 <meta property="og:description" content="Point your agent at your repo. Get back one evidence-backed report — same four phases every run — then turn the findings into commits. Audits that end in commits, not chat scrollback.">
 <meta property="og:image" content="https://goal-prompts.vercel.app/og.png">
 <meta property="og:url" content="https://goal-prompts.vercel.app">
@@ -13,16 +13,16 @@
 <meta property="og:site_name" content="Goal Prompts">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Goal Prompts — turn your coding agent into a senior code auditor">
+<meta property="og:image:alt" content="Goal Prompts — know what to ask your coding agent">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://goal-prompts.vercel.app/og.png">
-<meta name="twitter:title" content="Goal Prompts — turn your coding agent into a senior code auditor">
-<meta name="twitter:description" content="Point your agent at your repo. Get back one evidence-backed report — same four phases every run — then turn the findings into commits. Audits that end in commits, not chat scrollback.">
+<meta name="twitter:title" content="Goal Prompts — know what to ask your coding agent">
+<meta name="twitter:description" content="Ready-to-paste instruction sheets for the AI coding tool you already use. Each one says what to inspect, what counts as proof, and what to write down — you keep one saved, evidence-backed file.">
 <meta name="theme-color" content="#15120D">
 <link rel="canonical" href="https://goal-prompts.vercel.app/">
 <link rel="manifest" href="/manifest.json">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Goal Prompts","url":"https://goal-prompts.vercel.app","applicationCategory":"DeveloperApplication","operatingSystem":"Any","description":"A free, open catalog of 152 copy-paste audit briefs for Claude Code, Cursor, and any coding agent — each runs the same four-phase audit and leaves one evidence-backed report at your repo root.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Goal Prompts","url":"https://goal-prompts.vercel.app","applicationCategory":"DeveloperApplication","operatingSystem":"Any","description":"A free, open catalog of 152 ready-to-paste instruction sheets for Claude Code, Cursor, and any coding agent — each tells the AI what to inspect, what counts as proof, and what to write down, and leaves one evidence-backed file in your project.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT"}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2315120D'/%3E%3Cg transform='translate(10 9.2) scale(1.9)'%3E%3Crect x='1' y='9' width='3.4' height='9' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='6.9' y='3' width='3.4' height='15' rx='0.8' fill='%23FF6B47'/%3E%3Crect x='12.8' y='7' width='3.4' height='11' rx='0.8' fill='%23F0EADC'/%3E%3Crect x='18.7' y='12' width='3.4' height='6' rx='0.8' fill='%23F0EADC'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preload" href="/fonts/schibstedgrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/plexsans-latin-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -394,6 +394,17 @@
   .empty b{color:var(--dim);font-weight:500}
   .empty .nearrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
+  /* ---------- situation front door ---------- */
+  .sits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+  .sitcard{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-md);padding:16px 16px 14px;display:flex;flex-direction:column;gap:11px;min-width:0}
+  .sitcard h3{font-family:var(--disp);font-weight:660;font-size:clamp(16px,1.9vw,17.5px);letter-spacing:-.015em;line-height:1.32;color:var(--text)}
+  .sitlinks{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:12.5px;line-height:1.4;margin-top:auto}
+  .sitlinks a{color:var(--dim);text-decoration:none;transition:color var(--dur-state)}
+  .sitlinks a:hover{color:var(--text)}
+  .sitlinks .sitpb{color:var(--fc);margin-top:2px}
+  @media(max-width:900px){.sits{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.sits{grid-template-columns:1fr}}
+
   /* ---------- question-led finder ---------- */
   .finder{margin-top:28px}
   #picker .goals{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
@@ -540,14 +551,14 @@
 <!-- ============ HERO ============ -->
 <section class="hero"><div class="wrap hero-grid">
   <div class="hero-in">
-    <p class="eyebrow">A free, open catalog of audit briefs for coding agents</p>
-    <h1 class="title">Turn your coding agent into a <em>senior code auditor</em>.</h1>
-    <p class="sub">Every brief is a ready-to-run audit that follows the same four-phase method — explore, audit, curate, report — and files <b>one evidence-backed report</b> at your repo root. Paste it into Claude Code, Cursor, or any agent; a second paste turns the findings into commits.</p>
+    <p class="eyebrow">Ready-to-paste instructions for coding agents — free &amp; open</p>
+    <h1 class="title">Know <em>what to ask</em> your coding agent.</h1>
+    <p class="sub">Each of the 152 instruction sheets here tells the AI you already use — Claude Code, Cursor, any of them — what to inspect in your project, what counts as proof, and what to write down. You keep <b>one saved, evidence-backed file</b> you can read, share, and act on. It asks before changing anything.</p>
     <div class="cta">
       <a class="btn btn-primary" href="#catalog">Browse the catalog</a>
       <a class="btn btn-ghost" href="#how">How it works</a>
     </div>
-    <div class="micro"><span class="looparc">brief → report → commits</span> · <b id="herostat">152 briefs</b> · free &amp; open · no signup · nothing leaves your machine</div>
+    <div class="micro"><span class="looparc">copy → paste → one saved file</span> · <b id="herostat">152 briefs</b> · free &amp; open · no signup · nothing leaves your machine</div>
     <!-- PROOF NF3 (R25): the honest substitute for a star count, where rivals put theirs -->
     <div class="micro microproof"><a href="/examples/">run against this repo’s own code — read the reports →</a></div>
     <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first brief</b> — paste it in your agent</button>
@@ -719,7 +730,69 @@
 <section class="blk" id="catalog"><div class="wrap">
   <div class="kicker"><span class="kno">04</span>The catalog</div>
   <h2 class="h2">What do you want to know about your code?</h2>
-  <p class="lead">23 families, one question each. Pick a question, or search all 152 briefs — then copy a brief straight into your agent. <a href="/examples/">See a real report one wrote →</a></p>
+  <p class="lead">Start from where you are — each card links straight to the right instructions. Or skip ahead: search all 152 briefs and browse by family below, 23 families with one question each. <a href="/examples/">See a real result →</a></p>
+
+  <!-- SITUATIONS (PRODUCT_ALIGNMENT front door): recognizable situations lead;
+       search, families, and browse-all stay directly beneath. Curation is
+       hand-authored — each card names 3–4 briefs plus a playbook when an
+       honest one exists (labels match catalog titles; ids are lint-pinned). -->
+  <div class="sits" aria-label="Start from your situation">
+    <div class="sitcard">
+      <h3>“I don’t know what to check first.”</h3>
+      <div class="sitlinks">
+        <a href="/b/00">00 · Product Improvement Discovery</a>
+        <a href="/b/01">01 · Bug Hunt</a>
+        <a href="/b/22">22 · Git Hotspot Mining</a>
+        <a class="sitpb" href="/p/day1">playbook: Day-1 New Repo →</a>
+      </div>
+    </div>
+    <div class="sitcard">
+      <h3>“Something is broken or unreliable.”</h3>
+      <div class="sitlinks">
+        <a href="/b/03">03 · Silent Failure Audit</a>
+        <a href="/b/101">101 · Flaky-Test Audit</a>
+        <a href="/b/98">98 · Concurrency &amp; Race-Condition Audit</a>
+        <a class="sitpb" href="/p/triagefix">playbook: Triage &amp; Fix →</a>
+      </div>
+    </div>
+    <div class="sitcard">
+      <h3>“Users aren’t understanding, signing up, or coming back.”</h3>
+      <div class="sitlinks">
+        <a href="/b/76">76 · Comprehension Audit</a>
+        <a href="/b/09">09 · Funnel Friction Audit</a>
+        <a href="/b/78">78 · Retention &amp; Lifecycle Audit</a>
+        <a href="/b/80">80 · Activation &amp; First-Win Audit</a>
+      </div>
+    </div>
+    <div class="sitcard">
+      <h3>“The product feels messy and I need priorities.”</h3>
+      <div class="sitlinks">
+        <a href="/b/13">13 · Tech Debt Map</a>
+        <a href="/b/26">26 · Prune Audit</a>
+        <a href="/b/28">28 · Roadmap Synthesis</a>
+        <a class="sitpb" href="/p/cleaning">playbook: Spring Cleaning →</a>
+      </div>
+    </div>
+    <div class="sitcard">
+      <h3>“I’m making a risky change.”</h3>
+      <div class="sitlinks">
+        <a href="/b/74">74 · Change Risk Review</a>
+        <a href="/b/71">71 · Migration Safety</a>
+        <a href="/b/92">92 · Feature-Flag &amp; Rollback Readiness</a>
+        <a class="sitpb" href="/p/refactor">playbook: Refactor Safely →</a>
+      </div>
+    </div>
+    <div class="sitcard">
+      <h3>“I need to prove a specific thing works.”</h3>
+      <div class="sitlinks">
+        <a href="/b/144">144 · Ship Gate</a>
+        <a href="/b/02">02 · Test Gap Audit</a>
+        <a href="/b/100">100 · Test-Quality Audit</a>
+        <a class="sitpb" href="/p/testconfidence">playbook: Test Confidence →</a>
+      </div>
+    </div>
+  </div>
+
   <div class="ctxwarm" id="ctxwarm" hidden></div>
 
   <div class="finder" id="finder"></div>

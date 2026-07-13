@@ -139,7 +139,7 @@ def render_home(briefs):
     d.rectangle([LEFT, 290, LEFT + span, 293], fill=ACCENT)
     sf = font(DISPLAY, 48, 640)
     y = 340
-    for line in wrap(d, "Turn your coding agent into a senior code auditor.", sf, span)[:2]:
+    for line in wrap(d, "Know what to ask your coding agent.", sf, span)[:2]:
         d.text((LEFT, y), line, font=sf, fill=TEXT)
         y += 60
     fams = build.FAMILY_ORDER

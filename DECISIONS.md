@@ -320,3 +320,27 @@ cheap veto.
 Consequences: Gate B open. GOAL_CONTRACT v1 is the ratified contract;
 CHARTER's "ask-first on every brief" invariant is amended to the
 authorization-aware gate at Gate C alongside the lint change.
+
+## ADR-16 — Plain-register landing, situation front door; migration parked (operator, 2026-07-13)
+
+Status: accepted
+Context: The operator ruled, emphatically and twice, that the goal is
+fixing product positioning/marketing and making the product match its
+goal — not rewriting 152 working prompt bodies. Separately the operator
+confirmed all four value axes (know what to run · encoded judgment,
+persona-free · a process you can trust · skip the prompt-writing) and
+banned engineer-persona framing after "senior code auditor" was found as
+the live hero headline.
+Decision: (1) Prompt bodies are frozen; the GOAL_CONTRACT §10 catalog
+migration is parked until the operator explicitly reopens it. (2) The
+landing register moves to plain words: hero "Know what to ask your coding
+agent.", no persona phrases, no internal taxonomy (explore/audit/curate,
+"four-phase") in the hero; og/title/meta/JSON-LD match. (3) The catalog
+opens with PRODUCT_ALIGNMENT's six recognizable situations, hand-curated
+to 3–4 briefs + honest playbooks; search/families/browse-all stay directly
+beneath. Register + front door are pinned by RegisterBadgeTests and
+SituationFrontDoorTests.
+Consequences: Supersedes ADR-15's Gate C sequencing while parked (the
+contract itself stays ratified); the "audit register" pin from the
+founder-funnel pivot is retired. PRODUCT_ALIGNMENT §Delivery order needs
+an operator-approved amendment to match.
