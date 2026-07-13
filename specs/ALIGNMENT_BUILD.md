@@ -42,7 +42,7 @@ before the change); **bdd** = scenario walked end-to-end and transcript kept;
 | R21 | Browse/choose/copy/paste = primary path, explicit invocation (How people start) | D | site copy test | todo |
 | R22 | No generic /goal entry, no automatic router at launch (How people start) | A | recorded; nothing to build | done |
 | R23 | Optional integrations expose same catalog (plugin, other hosts, MCP) (How people start) | C | existing surfaces kept green in scripts/check | todo |
-| R24 | Plugin namespace decision (leading: full product namespace, not /goal:*) (How people start) | A→C | operator choice, then test pins plugin.json name | ratify |
+| R24 | Plugin namespace → `goal-prompts` (ratified, ADR-15) | C | test pins plugin.json name | todo |
 | R25 | Prompts describe capabilities, not host commands; native adapters need portable fallback (Portable) | C | lint R08 + adapter doc | todo |
 | R26 | Compatibility smoke: 1 primary agent + ≥1 non-Claude before claiming support (Portable) | B/E | bdd checklist per host, kept in repo | todo |
 | R27 | Library front door = 6 concrete situations; not stacked taxonomies (Goal Library) | D | test: static HTML has situation entries | todo |
@@ -60,7 +60,7 @@ before the change); **bdd** = scenario walked end-to-end and transcript kept;
 | R39 | Result file = durable memory + inspectable evidence (Saved results) | C | contract copy; existing behavior | todo |
 | R40 | Repeat runs read previous result; lead with delta: fixed / still present / new / regressed (Saved results) | C | lint: re-run clause present + bdd repeat run | todo |
 | R41 | Compounding loop: charter constrains; no rediscovery-as-new; fixes traceable; deltas (Saved results) | B/C | bdd + contract | todo |
-| R42 | Saved-result location decision (current: root, or reports/ if exists) + migration compat (Saved results) | A→C | operator choice, then lint pins wording | ratify |
+| R42 | Saved-result location: root-or-`reports/` ratified (ADR-15); wording pinned by lint | C | lint | todo |
 | R43 | Stickiness framings are hypotheses; no browser-reminder positioning; learn triggers from real use (Saved results) | D/E | copy test bans claims; beta notes | todo |
 | R44 | Internal efficacy test harness: frozen snapshot, plain-request vs Goal Prompt, scored, repeated (Efficacy) | B | harness built + first results committed | todo |
 | R45 | Efficacy is internal QA — never a user-facing step (Efficacy) | D | copy review | todo |
@@ -83,8 +83,7 @@ before the change); **bdd** = scenario walked end-to-end and transcript kept;
 
 1. `PRODUCT_ALIGNMENT.md` committed at repo root — **done**.
 2. This roadmap/ledger — **done**.
-3. `specs/GOAL_CONTRACT.md` — draft shared safety + result + continuation
-   schema — **done, awaiting ratification**.
+3. `specs/GOAL_CONTRACT.md` — **ratified v1 (ADR-15)**.
 4. Reconciliation (below) — **done**.
 5. Namespace + saved-result decision memos (below) — **prepared, awaiting
    operator choice**.
@@ -167,3 +166,12 @@ Reply "ratify all with recommendations" or list exceptions by number.
   build efficacy harness + continuation prototypes on 4 goal classes
   (investigation: 01; artifact: 142 or 149; action: 47; verification: 144),
   fixtures under a private scratch area, transcripts kept for the Gate D demo.
+
+- **2026-07-13 · session 2 (Gate B opens).** Operator: "Aligned on all" —
+  ADR-15 records it (item 8 read as Goal Prompt/Goal Library vocabulary,
+  veto offered). Gate B in progress: evals/ harness (fixture webshop with
+  8 seeded, answer-keyed defects + 1 pre-existing failing test), scorer
+  with unit tests (TDD), 4 contract-prototype prompt bodies
+  (01/149/47/144 classes), BDD scenarios S1–S7, first efficacy runs
+  plain-vs-goal. Results land in evals/results/ + GATE_B_RESULTS.md, then
+  operator review stop.

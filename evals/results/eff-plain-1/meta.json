@@ -1,0 +1,44 @@
+{
+  "run_id": "eff-plain-1",
+  "arm": "plain",
+  "fixture": "webshop",
+  "mode": "investigate",
+  "model": "sonnet",
+  "wall_seconds": 120.4,
+  "exit_code": 0,
+  "report": null,
+  "scratch": "/tmp/gp-eval-eff-plain-1",
+  "session_id": "6b09af6c-980e-4947-a115-54c9f70cc52a",
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 16813,
+    "cache_read_input_tokens": 483848,
+    "output_tokens": 9924,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16813,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4357,
+        "cache_read_input_tokens": 41585,
+        "cache_creation_input_tokens": 214,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 214
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_usd": 0.3955584,
+  "resumed_from": null
+}

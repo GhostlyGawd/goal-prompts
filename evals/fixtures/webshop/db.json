@@ -1,0 +1,1 @@
+{"inventory": {"apple": 8, "pear": 5, "plum": 0}, "orders": [{"items": {"apple": 1}, "total": 0.44, "largest_line": 1, "at": "2026-07-13T03:10:12.356193"}, {"items": {"apple": 1}, "total": 0.44, "largest_line": 1, "at": "2026-07-13T03:10:31.562793"}]}

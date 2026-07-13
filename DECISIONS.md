@@ -301,3 +301,22 @@ Consequences: The CHARTER "ask-first on every brief" invariant will need a
 ratified amendment to the authorization-aware gate (GOAL_CONTRACT §4) at
 Gate C. The 0.14 "brief" vocabulary is under an explicit operator ruling
 (ALIGNMENT_BUILD ratification item 8) and is not silently renamed.
+
+## ADR-15 — Ratification of the alignment pending items (operator, 2026-07-13)
+
+Status: accepted
+Context: specs/ALIGNMENT_BUILD.md presented the eight-item ratification
+block required by PRODUCT_ALIGNMENT.md before implementation. The operator
+replied "Aligned on all."
+Decision: Items 1–6 ratified as written. 7a: the Claude Code plugin renames
+to the full product namespace `goal-prompts` (commands become
+/goal-prompts:<slug>) at Gate C. 7b: saved-result location stays the
+current contract — repo root, or reports/ when it already exists — written
+into GOAL_CONTRACT verbatim. Item 8 interpreted per the master document's
+own usage: the public unit name migrates to **Goal Prompt** and the catalog
+to **Goal Library** (Gate D copy work; ids, slugs, file layout, and
+internal grammar unchanged). Interpretation flagged to the operator with a
+cheap veto.
+Consequences: Gate B open. GOAL_CONTRACT v1 is the ratified contract;
+CHARTER's "ask-first on every brief" invariant is amended to the
+authorization-aware gate at Gate C alongside the lint change.

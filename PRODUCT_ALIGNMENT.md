@@ -441,6 +441,15 @@ corrections below.
 
 ## Decision history
 
+- **2026-07-13 — Pending items ratified.** The operator ratified all seven
+  pending confirmations ("Aligned on all"): shared contract, copy/paste
+  primary, coding-agents scope, Studio as optional triage, internal-QA
+  efficacy + smoke tests, situation-first front door, plugin namespace
+  `goal-prompts`, saved results at root-or-`reports/`. Vocabulary ruling:
+  the public unit name is **Goal Prompt**, catalog **Goal Library**,
+  migrating at Gate D. Ledger: specs/ALIGNMENT_BUILD.md; contract:
+  specs/GOAL_CONTRACT.md (now ratified v1). ADR-15.
+
 - **2026-07-12 — Initial consolidation.** Captured the operator-approved direction
   from the product-alignment conversation and recorded the latest challenged items as
   pending confirmation. The proposed corrections preserve reports as a universal
