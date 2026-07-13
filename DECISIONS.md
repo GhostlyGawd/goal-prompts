@@ -280,3 +280,24 @@ design-engine/library/proposals/ (brand v1, the rejected Auditorium).
 og.py still carries local color constants — re-pointing it at brand.json
 is queued. css_hex_lint joins scripts/check only once the three
 inline-<style> surfaces are var-clean.
+
+## ADR-14 — PRODUCT_ALIGNMENT.md is the master product contract; delivery is gated (new)
+
+Status: accepted (operator-directed, 2026-07-12)
+Context: The operator ran a product-alignment interview in a separate session
+and delivered PRODUCT_ALIGNMENT.md with the instruction to implement it in
+full. The document defines its own maintenance rules, a gated delivery plan
+(A–E) with operator review stops, and seven pending confirmations that block
+implementation beyond Gate A.
+Decision: PRODUCT_ALIGNMENT.md lives at the repo root as the master direction
+document. specs/ALIGNMENT_BUILD.md carries the requirement-by-requirement
+traceability ledger and build state; specs/GOAL_CONTRACT.md carries the
+shared safety/result/continuation schema (draft until ratified). Any change
+that alters what the product is, who it is for, how it starts, what it
+writes, when it changes files, or what the site promises updates
+PRODUCT_ALIGNMENT.md in the same commit. Contradictions between it and
+CHARTER.md, this file, specs, prompts, or site copy block release.
+Consequences: The CHARTER "ask-first on every brief" invariant will need a
+ratified amendment to the authorization-aware gate (GOAL_CONTRACT §4) at
+Gate C. The 0.14 "brief" vocabulary is under an explicit operator ruling
+(ALIGNMENT_BUILD ratification item 8) and is not silently renamed.

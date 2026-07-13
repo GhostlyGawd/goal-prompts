@@ -55,6 +55,14 @@ Edit these (source of truth):
   reports/POSITIONING.md + VERDICT.md) and the launch runbook: checklist,
   Show HN / channel drafts, the WTP test. Marketing copy anywhere on the
   site must agree with its one-page register.
+- `PRODUCT_ALIGNMENT.md` — the operator's master product contract (ADR-14).
+  Changes that alter what the product is, who it is for, how it starts, what
+  it writes, when it changes files, or what the site promises update it in
+  the same commit; contradictions block release.
+- `specs/ALIGNMENT_BUILD.md` — the alignment build's traceability ledger and
+  cross-session state; `specs/GOAL_CONTRACT.md` — the shared prompt contract
+  (draft until ratified). Resume alignment work from ALIGNMENT_BUILD's State
+  log.
 - `design-engine/` — the portable branding & design engine (ADR-13) and the
   second Claude Code plugin. `brand.json` is the single source of brand
   truth (the ledger palette incl. the severity ramp + family colors, type,
