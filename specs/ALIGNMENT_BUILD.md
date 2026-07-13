@@ -185,3 +185,23 @@ Reply "ratify all with recommendations" or list exceptions by number.
   denied runs kept as evidence. Open: cross-host smoke (R26), decide/verify
   matrix runs, R37 bundle ruling, contract amendments (a)/(b) proposed in
   evals/GATE_B_RESULTS.md. Awaiting operator review to open Gate C.
+
+- **2026-07-13 · session 3 (value-axes ruling; Gate B stop holds).**
+  Operator confirmed ALL FOUR value axes as the product's true value:
+  (1) knowing what to run — the catalog/curation itself; (2) encoded
+  judgment — what to inspect, what counts as evidence, what a good result
+  looks like (doc line 31 phrasing); (3) a process you can trust — the
+  axis Gate B proved 100% vs 0% (saved result, scope safety, honest
+  verification, re-run deltas); (4) skip the prompt-writing — instant
+  well-formed request. **Register rule (operator, explicit):** never frame
+  the product around "senior engineer" or any engineers-only persona, and
+  never as an overly-technical code thing — the audience is the doc's
+  §Who-it-is-for (solo builders/maintainers, any digital product in
+  files). That phrase appears nowhere in the doc or product surfaces
+  (grepped) — it was assistant framing; banned from all future copy,
+  specs, and prompts. Gate D consequence: add engineer-persona phrases to
+  the banned-copy test list (with R48/R50/R51). Efficacy consequence:
+  future harness rounds should exercise all four axes, not bug-count
+  alone; each public claim still needs observed evidence. Three Gate B
+  rulings (bundle-as-one-scope, delta-open lint, decide/verify runs)
+  still pending; Gate C remains closed.
