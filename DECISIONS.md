@@ -344,3 +344,33 @@ Consequences: Supersedes ADR-15's Gate C sequencing while parked (the
 contract itself stays ratified); the "audit register" pin from the
 founder-funnel pivot is retired. PRODUCT_ALIGNMENT §Delivery order needs
 an operator-approved amendment to match.
+
+## ADR-17 — Playbook runs hand off to sessions that didn't run them (2026-07-24)
+
+Status: accepted
+Context: The operator's bug report (2026-07-23, the growth family conductor
+run against GhostlyGawd/codeweb): a follow-up session on the same repo was
+asked to list the run's findings and confidently enumerated the wrong corpus
+twice — the 11 reports were loose generic-named files at the repo root of a
+work branch with no PR, and nothing anywhere announced that a run had
+happened. Only the per-stage commit convention (`reports: FUNNEL.md — Funnel
+Friction Audit (growth playbook 1/11)`) made recovery possible, via
+`git log --all --grep`.
+Decision: Fixed at the conductor layer; the per-brief result contract
+(GOAL_CONTRACT §2.2 — repo root, or `reports/` when it already exists,
+ratified as ADR-15 item 7b) is untouched. Every conductor now: (1) creates
+`reports/` before stage 1, so each brief's own existing rule routes the whole
+run into one folder; (2) stamps a provenance line under each report's title
+(`<playbook> · stage <N>/<M> · brief <id>`); (3) commits each report as it
+lands with the proven-recoverable message convention, asked once as part of
+the go-ahead; (4) writes `INDEX.md` next to the reports as the run's last
+write — date, stages with URLs, per-report finding counts (null reports
+marked), next steps; (5) closes by offering a PR whose body is the index and
+printing a paste-ready handoff block. Six sentences added or amended in the
+mcp-smoke parity guard; `INDEX.md` joins RESERVED_OUTPUTS so no brief can
+claim it.
+Consequences: A playbook run is discoverable by a session with no memory of
+it — through `reports/INDEX.md`, the PR list, or `git log --grep`. Repos
+whose earlier runs wrote to the root keep working: conductors still check
+both locations for prior reports. Single-brief runs are unchanged.
+PRODUCT_ALIGNMENT's saved-results section records the same decision.

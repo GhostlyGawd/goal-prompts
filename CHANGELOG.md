@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.21.0 — 2026-07-24
+- **Playbook runs are self-announcing now** (the operator's cross-session
+  bug report, 2026-07-23: a follow-up session on the same repo was asked
+  for a finished growth run's findings and confidently enumerated the wrong
+  corpus twice — the 11 reports were loose generic-named files at the repo
+  root of a branch with no PR, and only the per-stage commit messages made
+  them findable at all). Every conductor — all 39 playbooks, every family
+  sequence, and the MCP server's make_conductor — now: creates `reports/`
+  before stage 1, so each brief's unchanged root-or-`reports/` rule lands
+  the whole run in one folder; stamps a provenance line under every report
+  title (`<playbook> · stage <N>/<M> · brief <id>`); commits each report as
+  it lands with the proven-recoverable message convention (`reports: <FILE>
+  — <stage title> (<playbook> <N>/<M>)`), asked once at the go-ahead;
+  writes `INDEX.md` next to the reports as the run's last write — date,
+  stages with URLs, per-report finding counts (null reports marked as
+  such), next steps — the one file a cold session starts from; and closes
+  by offering a pull request whose body is the index plus a paste-ready
+  handoff block (branch, directory, file list, read `INDEX.md` first).
+  Same text in all three implementations (build.py, mcp/server.cjs,
+  js/catalog-core.js); six sentences added or amended in the mcp-smoke
+  parity guard. `INDEX.md` joins the reserved outputs no brief may claim.
+  (ADR-17)
+
 ## 0.20.0 — 2026-07-12
 - **The system, played end to end (SHOWCASE F1):** "How it works" gains an
   animated five-scene walkthrough — Brief → Run → Report → Studio → Commits
