@@ -133,7 +133,8 @@ class LintTests(unittest.TestCase):
     def test_reserved_output_filename_fails(self):
         # SECURITY.md, README.md & co. mean something else on GitHub — a
         # brief that writes one would shadow the repo's community files.
-        for name in ("SECURITY.md", "README.md", "CHANGELOG.md"):
+        # INDEX.md is the playbook runs' own handoff index (ADR-17).
+        for name in ("SECURITY.md", "README.md", "CHANGELOG.md", "INDEX.md"):
             v = build.lint(brief(
                 body=GOOD_BODY.replace("`X.md`", f"`{name}`"), output=name))
             self.assertTrue(any("reserved" in x for x in v), (name, v))

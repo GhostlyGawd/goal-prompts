@@ -60,6 +60,25 @@ Buyer sections; `SPEC.md` binds 143 and 144; `SHIP-GATE.md` seeds 29.
 No stage needs conversation memory — which is exactly the conductors' own
 rule ("a stage needs only the earlier report files").
 
+## Cross-session handoff (2026-07-24, ADR-17)
+
+The state contract above covers the *next stage* reading the files; the
+operator's 2026-07-23 bug report showed the weaker link is the *next
+session* — one that didn't run the stages and has no trace of them (11
+generic-named reports at a repo root, on a branch with no PR, were invisible
+to a follow-up session until `git log --all --grep` recovered them). Every
+conductor therefore now: creates `reports/` before stage 1, so each brief's
+own root-or-`reports/` rule lands the whole run in one folder; stamps a
+provenance line under each report's title (`<playbook> · stage <N>/<M> ·
+brief <id>`); commits each report as it lands — message `reports: <FILE> —
+<stage title> (<playbook> <N>/<M>)`, asked once at the go-ahead — because
+that commit trail is what made the original run recoverable at all; writes
+`INDEX.md` next to the reports as the run's last write (date, stages with
+URLs, per-report finding counts with null reports marked, next steps); and
+closes by offering a PR whose body is the index plus a paste-ready handoff
+block (branch, directory, file list, "read `INDEX.md` first"). All of it is
+pinned by the mcp-smoke canonical sentences.
+
 ## What the operator actually runs
 
 In the actual repo, one line:

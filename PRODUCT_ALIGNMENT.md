@@ -265,6 +265,15 @@ when that directory already exists. Whatever replaces or preserves it must stay 
 for agents and humans to find, must not create unexplained clutter, and must keep old
 collectors and reports working.
 
+Playbook runs made that compatibility decision first (operator bug report,
+2026-07-23; ADR-17): a conductor creates `reports/` before stage 1 — so every stage's
+result lands there under the unchanged per-prompt rule — stamps a provenance line
+under each report's title, commits each report as it lands (asked once at the
+go-ahead), and ends by writing `reports/INDEX.md`, the run's own index, plus a
+paste-ready handoff block and the offer of a pull request whose body is that index.
+A session with no memory of the run starts from the index, the PR list, or
+`git log --grep`. Single-prompt runs keep the contract above verbatim.
+
 Stickiness is not “browser reminders.” The product hypothesis is that a user returns
 because the same high-quality goals recur and the saved history makes the next run
 more useful. The natural repeat-use trigger must be learned from real use; “before
@@ -440,6 +449,18 @@ corrections below.
    namespace and the long-term saved-result location before Gate A is closed.
 
 ## Decision history
+
+- **2026-07-24 — Playbook runs must be self-announcing.** From the operator's
+  bug report of 2026-07-23 (a follow-up session on the same repo could not
+  find a finished growth-playbook run — loose generic-named reports at the
+  repo root of a branch with no PR): conductors now create `reports/` before
+  stage 1, stamp a provenance line under each report's title, commit each
+  report as it lands (`reports: <FILE> — <stage title> (<playbook> <N>/<M>)`,
+  asked once at the go-ahead), write `reports/INDEX.md` as the run's last
+  write, and close with a pull-request offer plus a paste-ready handoff
+  block. The per-prompt saved-result contract (root-or-`reports/`, ADR-15
+  item 7b) is unchanged — the directory now simply exists when a playbook
+  runs. ADR-17.
 
 - **2026-07-13 — Pending items ratified.** The operator ratified all seven
   pending confirmations ("Aligned on all"): shared contract, copy/paste
