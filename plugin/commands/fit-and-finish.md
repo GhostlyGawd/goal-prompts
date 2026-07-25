@@ -1,0 +1,45 @@
+---
+description: "The hundred small behaviors between works and feels good — undo, preserved state, focus, forgiveness — the joinery a user can't name but always notices."
+---
+
+# Goal: Fit & Finish Audit
+
+You are working inside this repo. Mission: audit the interaction-level craft — the small behaviors that separate a product that works from one that feels expensive. Users can't name this layer, but they feel its absence instantly. 58 covers the visual state matrix; this brief covers what the product *does* at the seams.
+
+Read-only pass. Trace the handlers, forms, and flows in code, and run the app to feel them; your only write is the report file.
+
+## Phase 1 — Walk the seams
+- Identify the 3–5 flows users repeat most (create, edit, search, save) — craft matters most where hands land daily.
+- Walk each one deliberately roughly: navigate away mid-edit, refresh mid-form, press Escape, hit back, double-click submit, paste messy input.
+- Note where the code centralizes these behaviors (a form library, a router guard) versus re-solving them ad hoc per screen.
+
+## Phase 2 — Audit through 7 lenses
+Cite file and flow for every finding.
+1. **Undo over confirm** — consequential actions reversible after the fact (undo toast, trash, version) instead of interrogated before; the "Are you sure?" standing where an undo belongs
+2. **Nothing lost** — drafts, scroll position, filters, and half-filled forms survive navigation, refresh, expiry, and error; the flow that eats work
+3. **Focus flows** — after every action, focus and viewport land where the eye goes next: the new item, the first error, the next field — not back to the top
+4. **Keyboard reach** — Enter submits, Escape closes, the daily flow has a hands-on-keyboard path; shortcuts exist and are discoverable where repetition is high
+5. **Forgiving input** — pasted whitespace, mixed-case emails, trailing slashes, lenient date formats accepted and normalized, never bounced back as the user's error
+6. **Interruptions handled** — network drop, tab close with unsaved work, session expiry mid-task: warned, saved, or resumed — never silently discarded
+7. **Detail integrity** — "1 items", raw timestamps, unformatted numbers, truncation without a way to see the whole value; the tells of an unfinished surface
+
+## Phase 3 — Curate
+- Rank by frequency × cost: lost work in a daily flow outranks a plural bug on a settings page.
+- Separate "loses user work", "breaks flow", and "reads unfinished" — they are different severities of the same craft gap.
+- For each, name the flow, the file, and the concrete behavior change.
+
+## Phase 4 — Report
+Create `POLISH.md` at repo root:
+1. **Craft findings** — each: lens · flow · file · current behavior · the fix
+2. **The work-loss list** — every place user input can be destroyed, first
+3. **Systemic gaps** — behaviors to centralize once (draft persistence, focus management) instead of patching per screen
+4. **The feel delta** — the 3 changes that would most move this product toward feeling finished
+
+Start the report with today's date. If `POLISH.md` already exists from a previous run, read it first and lead with what changed since.
+
+## Rules
+- Every finding names a real flow and file — no generic polish advice
+- Reproduce each rough edge before reporting it; "probably loses state" is not a finding
+- No interactive user-facing surface in this repo (pure library, pipeline)? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Report only — end by asking which rough edge to smooth first

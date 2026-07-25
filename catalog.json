@@ -1079,6 +1079,61 @@
    "title": "Tables & Data-Grid Audit"
   },
   {
+   "chars": 3459,
+   "family": "Craft",
+   "id": "152",
+   "output": "POLISH.md",
+   "question": "does it feel right?",
+   "raw": "https://goal-prompts.vercel.app/raw/152.md",
+   "slug": "fit-and-finish",
+   "tagline": "The hundred small behaviors between works and feels good — undo, preserved state, focus, forgiveness — the joinery a user can't name but always notices.",
+   "title": "Fit & Finish Audit"
+  },
+  {
+   "chars": 3522,
+   "family": "Craft",
+   "id": "153",
+   "output": "DEFAULTS.md",
+   "question": "does it feel right?",
+   "raw": "https://goal-prompts.vercel.app/raw/153.md",
+   "slug": "smart-defaults",
+   "tagline": "What the product decides so the user doesn't have to — prefilled forms, remembered choices, resume where you left off — and every question it had no right to ask.",
+   "title": "Smart Defaults & Anticipation Audit"
+  },
+  {
+   "chars": 3611,
+   "family": "Craft",
+   "id": "154",
+   "output": "PERCEIVED-SPEED.md",
+   "question": "does it feel right?",
+   "raw": "https://goal-prompts.vercel.app/raw/154.md",
+   "slug": "perceived-speed",
+   "tagline": "Not how fast it is — how fast it feels. Instant acknowledgment, optimistic writes, skeletons over spinners, honest progress for the waits that remain.",
+   "title": "Perceived Speed Audit"
+  },
+  {
+   "chars": 3691,
+   "family": "Craft",
+   "id": "155",
+   "output": "COMPOUNDING.md",
+   "question": "does it feel right?",
+   "raw": "https://goal-prompts.vercel.app/raw/155.md",
+   "slug": "compounding-value",
+   "tagline": "What grows the more it's used — history, saved work, personalization — and whether it's surfaced back as value or sits inert in a table nobody reads.",
+   "title": "Compounding Value Audit"
+  },
+  {
+   "chars": 3698,
+   "family": "Craft",
+   "id": "156",
+   "output": "SIGNATURE.md",
+   "question": "does it feel right?",
+   "raw": "https://goal-prompts.vercel.app/raw/156.md",
+   "slug": "signature-moments",
+   "tagline": "The moments users remember and retell — the first win, the share-worthy output, the one interaction worth a demo — placed with restraint, never confetti on command.",
+   "title": "Signature Moments Audit"
+  },
+  {
    "chars": 2648,
    "family": "Data",
    "id": "19",
@@ -1709,6 +1764,7 @@
   "API",
   "Clarity",
   "Design",
+  "Craft",
   "Data",
   "Ops",
   "Reliability",
@@ -1731,6 +1787,7 @@
   "Build": "https://goal-prompts.vercel.app/raw/family-build.md",
   "Clarity": "https://goal-prompts.vercel.app/raw/family-clarity.md",
   "Compliance": "https://goal-prompts.vercel.app/raw/family-compliance.md",
+  "Craft": "https://goal-prompts.vercel.app/raw/family-craft.md",
   "Data": "https://goal-prompts.vercel.app/raw/family-data.md",
   "Design": [
    "https://goal-prompts.vercel.app/raw/family-design-1.md",
