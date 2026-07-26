@@ -41,4 +41,5 @@ Start the report with today's date. If `RECOVERY.md` already exists from a previ
 - Recovery is measured in data lost and time down, not in jobs configured
 - No data to back up in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which recovery gaps to close first

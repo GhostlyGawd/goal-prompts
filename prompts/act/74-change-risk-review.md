@@ -47,4 +47,5 @@ Start the report with today's date and name the change under review. If `CHANGE-
 - Every risk cites a hunk and names a concrete failure mode
 - No pending or recent change to review in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which blockers to resolve before merge

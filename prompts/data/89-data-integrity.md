@@ -46,4 +46,5 @@ Start the report with today's date. If `INTEGRITY.md` already exists from a prev
 - Every finding names a query that surfaces the rows already breaking it
 - No stored data to keep consistent in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which constraints to enforce first

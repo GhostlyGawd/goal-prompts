@@ -104,6 +104,15 @@ t("conductor: text contains every stage id and output", () => {
   }
   assert(text.includes("A conductor caps at 16 stages"));
 });
+t("conductor: the debrief shape is pinned — ranked list · ask · handoff (SIGNATURE §2)", () => {
+  /* the closing debrief is the product's signature moment; its shape lived
+     only as prompt text and could drift silently — pin its three beats */
+  const pb = PLAYBOOKS.find(p => p.key === "day1");
+  const text = CC.makeConductor(pb.name, pb.desc, pb.ids, BY_ID, BASE);
+  assert(text.includes("one ranked list, in plain words"), "debrief ranked list missing");
+  assert(text.includes("Then ask which findings to fix"), "debrief ask missing");
+  assert(text.includes("paste-ready handoff block"), "debrief handoff missing");
+});
 t("conductor: matches build.py's committed raw/playbook-*.md byte for byte, all " + PLAYBOOKS.length + " playbooks", () => {
   for (const pb of PLAYBOOKS) {
     const built = fs.readFileSync(path.join(ROOT, "raw", "playbook-" + pb.key + ".md"), "utf8");

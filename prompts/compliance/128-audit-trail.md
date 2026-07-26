@@ -45,4 +45,5 @@ Start the report with today's date. If `AUDITLOG.md` already exists from a previ
 - Capture who, what, when, and the before/after, or it will not answer the question
 - No actions worth an audit trail in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which audit-trail gaps to close first

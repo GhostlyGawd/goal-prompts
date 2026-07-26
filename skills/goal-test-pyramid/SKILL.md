@@ -42,4 +42,5 @@ Start the report with today's date. If `PYRAMID.md` already exists from a previo
 - A redundant slow test is deleted only after its replacement exists; order matters
 - No test suite to balance in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which rebalancing to do first

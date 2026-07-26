@@ -34,11 +34,12 @@ Overwrite `HEALTH.md` at repo root (append to history, replace the rest):
 3. **Three actions** — the most valuable things to do before next check
 4. **History table** — one dated row per run, appended; never edit old rows
 
-Start the report with today's date. If `HEALTH.md` already exists, the baseline parsed in Phase 1 is the diff target — lead with what changed since.
+Start the report with today's date. If `HEALTH.md` already exists, the baseline parsed in Phase 1 is the diff target — lead with what changed since. If `FIXLOG.md` exists, credit fixed findings to their logged commits in the diff.
 
 ## Rules
 - Speed is a feature: minutes, or it won't get re-run
 - Numbers over prose; the format must stay stable so diffs stay meaningful
 - Same vitals every run — consistency is what makes trends real
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking whether to act on the regressions

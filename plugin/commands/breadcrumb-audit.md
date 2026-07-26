@@ -41,4 +41,5 @@ Start the report with today's date. If `BREADCRUMBS.md` already exists from a pr
 - Distinguish unreachable from deliberately internal — flag it, don't presume intent
 - No documentation surface at all, not even a README? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which breadcrumbs to lay first

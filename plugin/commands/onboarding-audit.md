@@ -42,4 +42,5 @@ Start the report with today's date. If `DX.md` already exists from a previous ru
 - A setup script beats a setup document
 - No expected contributors beyond the author in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make

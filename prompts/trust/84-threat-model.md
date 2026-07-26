@@ -45,4 +45,5 @@ Start the report with today's date. If `THREATS.md` already exists from a previo
 - A control you cannot detect being bypassed is not a control
 - No assets worth attacking in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which threats to mitigate first

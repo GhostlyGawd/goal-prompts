@@ -42,4 +42,5 @@ Start the report with today's date. If `ROLLBACK.md` already exists from a previ
 - Every flag is debt; the ones without owners are the expensive kind
 - No deploys to roll back in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which rollback gaps to close first

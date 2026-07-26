@@ -40,4 +40,5 @@ Start the report with today's date. If `POSITIONING.md` already exists from a pr
 - Positioning that requires educating the market is a cost, not a cleverness
 - No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which option to carry into the verdict

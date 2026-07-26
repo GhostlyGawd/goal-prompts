@@ -39,4 +39,5 @@ Start the report with today's date. If `DEBRIEF.md` already exists from a previo
 - Judge against the mandate as it stood when the window opened — later edits to it are lens-4 evidence, not the bar
 - An empty window — no commits since the last debrief? Say so in a one-paragraph null report and stop; there is nothing to review.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which verdicts to execute, and whether to fold the formalize list into the charter (149)

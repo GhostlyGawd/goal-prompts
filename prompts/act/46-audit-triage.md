@@ -9,15 +9,15 @@ tagline: The router. Fifteen minutes of recon that names which briefs this repo 
 ---
 # Goal: Audit Triage
 
-You are working inside this repo. Mission: run a fast recon — fifteen minutes, not a deep audit — and decide which goal-prompts briefs this repo actually needs, in what order, and which it can safely skip.
+You are working inside this repo. Mission: a fast recon — fifteen minutes, not a deep audit — deciding which goal-prompts briefs this repo needs, in what order, and which to skip.
 
 Read-only pass. Your only write is the report file.
 
 ## Phase 1 — Fingerprint the repo
-- What is it: product type, stack, rough size, age, activity (skim the last 90 days of git log)?
-- What exists: tests? CI? deploy config? docs? schema/migrations? auth? payments? LLM calls, agent loops, tool definitions, vector stores?
-- Prior audit reports at the repo root or in `reports/`? Note them — they change what to recommend.
-- Fetch the full index once: `curl -s https://goal-prompts.vercel.app/catalog.json`. The signal map below routes by family question and names only marquee ids; the catalog carries the rest.
+- What is it: product type, stack, size, age, activity (skim 90 days of git log)?
+- What exists: tests? CI? deploy config? docs? migrations? auth? payments? LLM calls, agent loops, tools, vector stores?
+- Prior reports at the root or in `reports/`? They change what to recommend.
+- Fetch the index once: `curl -s https://goal-prompts.vercel.app/catalog.json`. The signal map below names only marquee ids; the catalog carries the rest.
 
 ## Phase 2 — Score through 12 signals
 Evidence → the family it implicates, named by its question, with marquee ids. Cite the evidence, not vibes.
@@ -44,13 +44,14 @@ Evidence → the family it implicates, named by its question, with marquee ids. 
 Create `TRIAGE.md` at repo root:
 1. **Fingerprint** — the repo in five lines
 2. **Run these** — order · brief id and title · the evidence that earns it · the report it writes
-3. **Skipped** — family · why this repo doesn't need it (yet)
-4. **After the run** — 28 merges the reports into a roadmap; 47 turns findings into commits
+3. **Skipped** — family · why this repo doesn't need it yet
+4. **After the run** — 28 merges reports into a roadmap; 47 turns findings into commits
 
-Start the report with today's date. If `TRIAGE.md` already exists from a previous run, read it first and lead with what changed since.
+Start the report with today's date. If `TRIAGE.md` already exists from a previous run, read it first and lead with what changed since. If `FIXLOG.md` exists, credit fixed findings to their logged commits in the diff.
 
 ## Rules
-- Every recommendation cites this repo's evidence, never generic best practice
-- Fifteen minutes of recon; if a question needs deeper digging, that is what the recommended brief is for
+- Every recommendation cites this repo's evidence, never generic advice
+- Fifteen minutes of recon; deeper digging is what the recommended briefs are for
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which of the recommended briefs to run

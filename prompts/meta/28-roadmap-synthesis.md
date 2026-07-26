@@ -41,4 +41,5 @@ Start the report with today's date. If `ROADMAP.md` already exists from a previo
 - Every roadmap item traces to a source report — no new findings smuggled in
 - When reports disagree on priority, say so and rule with reasoning
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking whether to adjust the sequence

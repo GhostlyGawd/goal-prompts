@@ -46,4 +46,5 @@ If `BUILDLOG.md` already exists from previous sessions, append below the last en
 - A new dependency requires a `DECISIONS.md` entry in the same commit; the gate checks for it
 - No `SPEC.md` at this root? Say so in a one-paragraph null report and stop — run 141 and 142 first.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking the scope at the Phase 2 gate before writing any code

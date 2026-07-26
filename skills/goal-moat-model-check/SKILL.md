@@ -40,4 +40,5 @@ Start the report with today's date. If `MOAT.md` already exists from a previous 
 - Every moat claim states its compounding mechanism and timeline, or gets demoted to head start
 - No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which risks to pre-test before the verdict

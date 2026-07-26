@@ -39,4 +39,5 @@ Start the report with today's date. If `SHIP-GATE.md` already exists from a prev
 - Sabotage is always reverted: `git status` must be clean when this brief ends
 - No `SPEC.md`, or no implementation to judge at this root? Say so in a one-paragraph null report and stop.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking whether to ship, or which blocker to send back first

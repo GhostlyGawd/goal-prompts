@@ -42,4 +42,5 @@ Start the report with today's date. If `TESTING.md` already exists from a previo
 - Judge tests by the failures they would catch, not by coverage percentage
 - Prefer a few integration tests on critical seams over many trivial units
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which tests to write

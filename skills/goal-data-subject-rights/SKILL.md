@@ -44,4 +44,5 @@ Start the report with today's date. If `DSAR.md` already exists from a previous 
 - Deletion that skips backups, logs, and vendors is not deletion
 - No stored personal data in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which rights-readiness gaps to close first

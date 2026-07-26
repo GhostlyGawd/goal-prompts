@@ -120,6 +120,12 @@ def lint(p: dict) -> list:
         v.append("missing '## Rules' section")
     if "Report only — end by asking" not in body:
         v.append("missing the ask-first ending ('Report only — end by asking …')")
+    # SIGNATURE M4 (156, 2026-07-26): the ending must be FELT, not just filed —
+    # every brief presents its top findings as a ranked list in plain words
+    # before it asks, the conductor debrief's shape at single-brief scale.
+    if "ranked list in plain words" not in body:
+        v.append("missing the debrief ending ('… ranked list in plain words …' "
+                 "before the ask-first gate)")
     if not re.fullmatch(r"[A-Z0-9-]+\.md", p["output"]):
         v.append(f"output '{p['output']}' must look like REPORT.md")
     if f"`{p['output']}` at repo root" not in body:

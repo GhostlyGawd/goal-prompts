@@ -44,4 +44,5 @@ Start the report with today's date. If `RETENTION.md` already exists from a prev
 - Count from real user rhythm, not from how often you wish they'd return
 - No returning-user surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make

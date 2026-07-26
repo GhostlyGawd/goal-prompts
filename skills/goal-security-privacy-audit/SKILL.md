@@ -43,4 +43,5 @@ Start the report with today's date. If `SECURITY-AUDIT.md` already exists from a
 - Their own severity labels must survive scrutiny — justify critical/high
 - One systemic fix beats ten spot patches; say when that's the case
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make

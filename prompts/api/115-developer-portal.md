@@ -48,4 +48,5 @@ Start the report with today's date. If `DEVPORTAL.md` already exists from a prev
 - A quickstart that does not run is worse than none; it burns trust
 - No developer portal or public API docs in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which onboarding fixes to make first

@@ -46,4 +46,5 @@ Start the report with today's date. If `TELEMETRY.md` already exists from a prev
 - Every gap names a service and the signal it lacks
 - No running service to observe in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which instrumentation to add first
