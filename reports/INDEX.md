@@ -41,6 +41,13 @@ and re-verified), so a third same-day run would have diffed against itself.
    danger-red and its permanently visible paste box (`[hidden]` CSS pin);
    give single briefs the conductor's debrief ending.
 
+**Addendum, 2026-07-26 (later the same day):** every finding from stages 2–5
+was fixed, browser-verified, and merged (#42) — the four reports above are
+now dated second runs with per-finding `FIXED` markers, and the session
+ledger lives in `FIXLOG.md` ("every finding, worked through"). The two
+remaining items are artifacts to capture, not code: a real external run's
+debrief transcript and before/after (SIGNATURE §2).
+
 ## Where to start
 
 A session with no memory of this run: read this file, then the report whose
