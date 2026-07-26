@@ -112,6 +112,11 @@
     font-size:13px;padding:0 5px;border-radius:50%;
   }
   .repchip .x:hover{color:var(--act)}
+  .repchip.undo{
+    background:none;border-style:dashed;color:var(--dim);cursor:pointer;padding:7px 12px;
+  }
+  .repchip.undo b{color:var(--text);font-weight:600}
+  .repchip.undo:hover{border-color:var(--line-3);color:var(--text)}
 
   /* ---------- findings ---------- */
   .rephead{
@@ -481,7 +486,20 @@ function render(){
     n.textContent = "· " + r.findings.length + " finding" + (r.findings.length === 1 ? "" : "s");
     const x = document.createElement("button"); x.className = "x"; x.textContent = "×";
     x.setAttribute("aria-label", "Remove " + r.name);
-    x.onclick = () => { reports = reports.filter(q => q.name !== r.name); save("gp-studio-reports", reports); render(); };
+    /* POLISH S2 (152, 2026-07-26): this × used to be a bare one-click remove —
+       and the next render pruned the report's saved checks, so a slip on a
+       12px target silently destroyed an afternoon of triage decisions.
+       Undo over confirm: snapshot the report + its checked keys before the
+       prune runs, and offer an undo chip in place. */
+    x.onclick = () => {
+      const i = reports.findIndex(q => q.name === r.name);
+      const snap = { index: i, report: reports[i], checks: {} };
+      for(const f of r.findings) if(checks[f.key]) snap.checks[f.key] = 1;
+      reports = reports.filter(q => q.name !== r.name);
+      save("gp-studio-reports", reports);
+      render();
+      offerUndo(snap);
+    };
     c.append(nm, n, x);
     repchipsEl.append(c);
   }
@@ -786,6 +804,38 @@ function armConfirm(btn, armText, fn){
   const disarm = () => { if(btn.dataset.arm){ delete btn.dataset.arm; btn.textContent = btn.dataset.armLabel; } };
   clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
   btn.addEventListener("blur", disarm, { once: true });
+}
+/* the undo half of POLISH S2: a transient chip where the removed one stood.
+   Single-level on purpose — any later state change re-renders the chips and
+   the offer quietly expires with them. Restores the report at its old index
+   and re-saves its checked keys (the prune already ran); skips the report if
+   an identical name was re-added meanwhile, but still restores the checks. */
+let _undoT = null;
+function offerUndo(snap){
+  if(!snap.report) return;
+  clearTimeout(_undoT);
+  const old = document.getElementById("undopill"); if(old) old.remove();
+  const pill = document.createElement("button");
+  pill.id = "undopill"; pill.className = "repchip undo";
+  const b = document.createElement("b"); b.textContent = snap.report.name;
+  pill.append("removed ", b, " — undo");
+  pill.setAttribute("aria-label", "Undo removing " + snap.report.name);
+  pill.onclick = () => {
+    clearTimeout(_undoT);
+    if(!reports.some(q => q.name === snap.report.name)){
+      reports.splice(Math.min(snap.index, reports.length), 0, snap.report);
+      save("gp-studio-reports", reports);
+    }
+    Object.assign(checks, snap.checks);
+    save("gp-studio-checks", checks);
+    render();
+  };
+  repchipsEl.append(pill);
+  _undoT = setTimeout(function tick(){
+    /* don't yank it out from under keyboard focus — re-check in 4s */
+    if(document.activeElement === pill){ _undoT = setTimeout(tick, 4000); return; }
+    pill.remove();
+  }, 8000);
 }
 document.getElementById("clearall").onclick = function(){
   const n = reports.length;

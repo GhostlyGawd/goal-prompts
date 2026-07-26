@@ -4,6 +4,7 @@ title: Fit & Finish Audit
 family: Craft
 question: does it feel right?
 output: POLISH.md
+example: /reports/POLISH.md
 tagline: The hundred small behaviors between works and feels good — undo, preserved state, focus, forgiveness — the joinery a user can't name but always notices.
 related: 58 133 148 153
 ---
