@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://goal-prompts.vercel.app/</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/studio</loc><lastmod>2026-07-26</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/vitals</loc><lastmod>2026-07-10</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/vitals</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/examples/</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/changelog</loc><lastmod>2026-07-24</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/quality</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/teams</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/partners</loc><lastmod>2026-07-13</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/quality</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/teams</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/partners</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/day1</loc><lastmod>2026-07-24</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/prelaunch</loc><lastmod>2026-07-24</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/cleaning</loc><lastmod>2026-07-24</lastmod></url>
@@ -215,9 +215,11 @@
   <url><loc>https://goal-prompts.vercel.app/r/color</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/competitive</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/competitors</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/compounding</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/comprehension</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/credibility</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/cro</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/defaults</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/demand</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/dx</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/fixlog</loc><lastmod>2026-07-12</lastmod></url>
@@ -225,10 +227,12 @@
   <url><loc>https://goal-prompts.vercel.app/r/funnel</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/hierarchy</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/improvements</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/index</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/layout</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/market</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/moat</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/niche</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/perceived-speed</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/polish</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/positioning</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/proof</loc><lastmod>2026-07-12</lastmod></url>
@@ -238,6 +242,7 @@
   <url><loc>https://goal-prompts.vercel.app/r/security-audit</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/seo</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/showcase</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/signature</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/states</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/typography</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/verdict</loc><lastmod>2026-07-12</lastmod></url>

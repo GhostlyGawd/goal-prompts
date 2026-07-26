@@ -31,18 +31,23 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+  /* SIGNATURE M3: author display on .pastebox/.iconbtn beats the UA's [hidden]
+     rule — same one-line pin Studio carries, so hidden means hidden */
+  [hidden]{display:none!important}
   .wrap{max-width:var(--w-read);margin:0 auto;padding:0 var(--gutter)}
   a{color:var(--amber)}
   /* shared top nav — matches the redesigned catalog & detail pages */
   .topnav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav a{text-decoration:none}
-  .topnav-in{display:flex;align-items:center;gap:18px;height:58px;max-width:760px;margin:0 auto;padding:0 20px}
-  .topnav .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--text)}
+  .topnav-in{display:flex;align-items:center;gap:18px;height:58px;max-width:var(--w-read);margin:0 auto;padding:0 var(--gutter)} /* LAYOUT L1 */
+  /* TYPO T1: real 740 on the display face, not a faux-bold 800 on PSans */
+  .topnav .brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:740;font-size:16px;letter-spacing:-.01em;color:var(--text)}
   .topnav .brand svg{flex:none}
   .topnav .lk{display:flex;gap:18px;margin-left:6px;font-size:14px}
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
-  .topnav .cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
+  /* HIERARCHY F1: one filled primary per page — the nav CTA goes ghost */
+  .topnav .cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
   .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .topnav .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -50,8 +55,9 @@
   :root[data-theme="light"] .topnav .themetog .moon{display:block}:root[data-theme="light"] .topnav .themetog .sun{display:none}
   @media (prefers-color-scheme:light){:root:not([data-theme]) .topnav .themetog .moon{display:block}:root:not([data-theme]) .topnav .themetog .sun{display:none}}
   .topnav .cta:hover{filter:brightness(1.08)}
-  @media(max-width:640px){.topnav .lk{display:none}}
-  header{padding:34px 0 8px}
+  /* LAYOUT L3: links scroll on narrow screens instead of vanishing (P0-1) */
+  @media(max-width:720px){.topnav .lk{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.topnav .lk::-webkit-scrollbar{display:none}}
+  header{padding:var(--s6) 0 var(--s2)} /* LAYOUT L4 */
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
@@ -63,7 +69,7 @@
   .sub a:hover{text-decoration:underline}
   main{padding:var(--s5) 0 var(--s7)}
   .drop{border:1.5px dashed var(--line);border-radius:var(--radius);background:var(--panel);padding:34px 20px;text-align:center;cursor:pointer;transition:border-color var(--dur-state),background var(--dur-state)}
-  .drop:hover,.drop.over{border-color:var(--meta);background:color-mix(in srgb,#C4CBD8 6%,var(--panel))}
+  .drop:hover,.drop.over{border-color:var(--meta);background:color-mix(in srgb,var(--meta) 6%,var(--panel))}
   .drop:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .drop-big{font-family:var(--disp);font-weight:700;font-size:17px}
   .drop-big b{color:var(--meta);font-family:var(--mono);font-weight:600}
@@ -91,7 +97,7 @@
   .spark{grid-column:1/-1;margin-top:2px}
   .mseries{font-family:var(--mono);font-size:11px;color:var(--faint);grid-column:1/-1;overflow-x:auto;white-space:nowrap}
   .empty{text-align:center;color:var(--faint);font-family:var(--mono);font-size:13px;padding:44px 0}
-  footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
+  footer{border-top:1px solid var(--line);margin-top:var(--s2);padding:var(--s5) 0 var(--s9)}
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
   .buildnote a{color:var(--dim)}
   .buildnote a:hover{text-decoration:underline}
@@ -340,7 +346,7 @@ function render(){
     if(cur !== null && prev !== null && cur !== prev){
       const d = cur - prev;
       const s = document.createElement("span");
-      s.className = "delta " + (d > 0 ? "up" : "down");
+      s.className = "delta " + deltaClass(key, d);
       s.textContent = (d > 0 ? "▲ +" : "▼ ") + (Math.round(d * 100) / 100);
       val.append(s);
     } else if(cur !== null && prev !== null){
@@ -356,6 +362,19 @@ function render(){
     metricsEl.append(el);
   }
   track("vitals_render", { runs: runs.length, metrics: metricKeys.length });
+}
+
+/* SIGNATURE M2: color meaning, not direction — a build getting faster and a
+   TODO count falling are the good weeks this ritual exists to produce, so the
+   delta color follows a lower-is-better map for brief 29's canonical vitals.
+   A metric the map can't judge (LOC…) gets the neutral tone it can honestly
+   claim, arrow intact. */
+const LOWER_BETTER = /fail|error|warn|vuln|outdated|todo|fixme|debt|flak|lint|type ?error|build|bundle|size|\b(kb|mb)\b|slow|latency|p9\d|duration|time|sec/i;
+const HIGHER_BETTER = /pass|coverage|cover|\btests?\b|stars|uptime/i;
+function deltaClass(key, d){
+  if(LOWER_BETTER.test(key)) return d < 0 ? "up" : "down";
+  if(HIGHER_BETTER.test(key)) return d > 0 ? "up" : "down";
+  return "flat";
 }
 
 /* ---------- input ---------- */
@@ -378,6 +397,37 @@ function readFiles(list){
 const dropEl = document.getElementById("drop");
 const fileEl = document.getElementById("file");
 dropEl.onclick = () => fileEl.click();
+
+/* DEFAULTS Q10 (155): the weekly page gets a fetch path — one tap re-pulls
+   HEALTH.md from the repo Studio last loaded (gp-repo), reports/ first, so
+   the ritual stops meaning re-dropping the same file every Monday. The
+   button only exists once a repo ref has been remembered. */
+(function(){
+  const last = load("gp-repo", "");
+  const m = String(last || "").match(/^([\w.-]+)\/([\w.-]+?)(?:@([\w.\/-]+))?$/);
+  if(!m) return;
+  const btn = document.createElement("button");
+  btn.className = "iconbtn";
+  btn.textContent = "refresh HEALTH.md from " + m[1] + "/" + m[2];
+  btn.onclick = async function(){
+    if(!this.dataset.label) this.dataset.label = this.textContent;
+    this.disabled = true; this.textContent = "fetching…";
+    const branches = m[3] ? [m[3]] : ["main", "master"];
+    let text = null;
+    outer: for(const br of branches){
+      for(const p of ["reports/HEALTH.md", "HEALTH.md"]){
+        try{
+          const res = await fetch("https://raw.githubusercontent.com/" + m[1] + "/" + m[2] + "/" + br + "/" + p);
+          if(res.ok){ const t = await res.text(); if(t.trim()){ text = t; break outer; } }
+        }catch(e){}
+      }
+    }
+    this.disabled = false; this.textContent = this.dataset.label;
+    if(text) addText(text, "HEALTH.md");
+    else note("Couldn't find HEALTH.md in " + m[1] + "/" + m[2] + " (root or reports/) — run 29 · Health Check there first, or drop the file here.");
+  };
+  document.querySelector(".altrow").append(btn);
+})();
 dropEl.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); fileEl.click(); } };
 fileEl.onchange = () => { readFiles(fileEl.files); fileEl.value = ""; };
 ["dragenter", "dragover"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.add("over"); }));

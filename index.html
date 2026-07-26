@@ -58,7 +58,7 @@
   .nav-in{display:flex;align-items:center;gap:18px;height:60px}
   .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:740;letter-spacing:-.02em;font-size:17px;color:var(--text);white-space:nowrap}
   .brand .mark{flex:none}
-  .nav-links{display:flex;gap:18px;margin-left:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .nav-links{display:flex;gap:18px;margin-left:14px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
   .nav-links a:hover{color:var(--fc)}
   .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
   .themetog{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:transparent;color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
@@ -79,14 +79,14 @@
   .btn-primary:hover{background:var(--fc);border-color:var(--fc);color:#FFF8EE}
   .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
   .btn-ghost:hover{border-color:var(--fc);color:var(--fc)}
-  .btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+  .btn.done{background:var(--good);color:var(--sev-ink);border-color:var(--good)}
 
   /* ---------- section grammar: numbered ledger headers ---------- */
   .kicker{display:flex;align-items:baseline;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:600}
   .kicker .kno{color:var(--fc);font-weight:600;letter-spacing:0}
   .kicker::after{content:"";flex:1;height:1px;background:var(--line-2);align-self:center}
-  .h2{font-family:var(--disp);font-size:clamp(28px,3.8vw,44px);font-weight:730;letter-spacing:-.03em;line-height:1.04;margin:16px 0 10px;color:var(--text)}
-  .lead{color:var(--dim);max-width:62ch;font-size:16.5px}
+  .h2{font-family:var(--disp);font-size:clamp(28px,3.8vw,44px);font-weight:730;letter-spacing:-.03em;line-height:1.05;margin:16px 0 10px;color:var(--text)}
+  .lead{color:var(--dim);max-width:62ch;font-size:16px}
   .lead a,.turn a{color:var(--text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--fc);text-decoration-thickness:1.5px}
   .lead a:hover,.turn a:hover{color:var(--fc)}
   section{scroll-margin-top:72px}
@@ -111,19 +111,19 @@
   .doc-top{display:flex;align-items:baseline;gap:10px;padding:12px 18px;border-bottom:2px solid var(--text)}
   .doc-name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text)}
   .doc-name::before{content:"→ ";color:var(--fc)}
-  .doc-cap{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.04em;text-align:right}
+  .doc-cap{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em;text-align:right}
   .doc-finding{padding:18px;border-bottom:1px solid var(--line)}
   .doc-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.05em}
   /* severity speaks through the shared ramp (--sev-2 = S2), not a second accent */
   .sevchip{color:var(--sev-2);border:1px solid color-mix(in srgb,var(--sev-2) 55%,transparent);border-radius:var(--r-sm);padding:2px 7px;font-weight:600;text-transform:uppercase}
   .doc-loc{color:var(--faint)}
   .doc-finding h3{font-family:var(--disp);font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--text);margin:10px 0 6px}
-  .doc-finding p{font-size:13.5px;color:var(--dim);line-height:1.55}
+  .doc-finding p{font-size:13px;color:var(--dim);line-height:1.5}
   .doc-finding code{color:var(--text);background:var(--panel-2);padding:1px 5px;border-radius:2px;font-size:.85em}
   .doc-fix{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--dim)}
-  .doc-fix b{color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:10.5px;margin-right:6px}
+  .doc-fix b{color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:11px;margin-right:6px}
   .doc-fix .ok{color:var(--good)}
-  .doc-foot{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .doc-foot{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .doc-foot a{margin-left:auto;color:var(--fc);font-weight:600}
   .doc-foot a:hover{text-decoration:underline}
   @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}.hero-doc{max-width:560px}}
@@ -132,9 +132,12 @@
   .hero .microproof{margin-top:7px}
   /* ACTIVATION A3 / CRO F7 (+R16 canonical door): the copyable starter brief,
      typeset as a ledger annotation — mono, square, dashed rule. */
-  .quickstart{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--text);background:none;border:1px dashed var(--line-3);border-radius:var(--r-sm);padding:8px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state)}
+  /* CRO NF1 / FUNNEL §1: the one-tap conversion wears button weight — solid
+     border, panel fill, 13px — not a dashed footnote (TYPO T1: mono b at a
+     real 600, and the size sits on the integer scale, T3) */
+  .quickstart{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--text);background:var(--panel);border:1px solid var(--line-3);border-radius:var(--r-sm);padding:10px 16px;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent;transition:border-color var(--dur-state),color var(--dur-state)}
   .quickstart:hover{border-color:var(--fc);color:var(--fc)}
-  .quickstart b{font-weight:700}
+  .quickstart b{font-weight:600}
   .quickstart .qs-dot{width:7px;height:7px;border-radius:1px;background:var(--fc);flex:none}
 
   /* ---------- generic section ---------- */
@@ -151,13 +154,13 @@
   .pnode{padding:18px 18px 4px 0;text-align:left;border-right:1px solid var(--line);margin-right:18px}
   .pnode:last-child{border-right:0;margin-right:0}
   .pnode .dot{width:auto;height:auto;margin:0 0 10px;border:0;background:none;display:block;font-family:var(--mono);font-size:26px;font-weight:600;color:var(--fc);line-height:1}
-  .pnode h3{font-family:var(--disp);font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:var(--text)}
+  .pnode h3{font-family:var(--disp);font-size:16px;font-weight:700;letter-spacing:-.01em;color:var(--text)}
   .pnode p{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.5}
   .guards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
   .guard{border-top:1px solid var(--line-2);padding:14px 2px 0}
-  .guard b{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;color:var(--good);font-weight:600}
+  .guard b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;color:var(--good);font-weight:600}
   .guard b::before{content:"✓ "}
-  .guard p{font-size:13.5px;color:var(--dim)}
+  .guard p{font-size:13px;color:var(--dim)}
   @media(max-width:760px){.pipe{grid-template-columns:1fr 1fr}.pnode{border-right:0;border-top:1px solid var(--line);margin-right:0;padding-top:14px}.pipe{border-top-width:2px}.guards{grid-template-columns:1fr;gap:14px}}
   /* R50 (COMPETITIVE §10 bet 1): the loop line — the post-run motion no rival owns */
   .loopline{margin-top:18px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--dim);background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-sm);padding:11px 14px;max-width:760px}
@@ -180,18 +183,18 @@
   .ls-id{color:var(--fc);font-weight:600}
   .ls-file{color:var(--fc);font-weight:600}
   .ls-out{margin-left:auto;color:var(--faint)}
-  .ls-tag{font-size:14px;color:var(--dim);line-height:1.55;max-width:52ch}
+  .ls-tag{font-size:14px;color:var(--dim);line-height:1.5;max-width:52ch}
   .ls-phases{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
   .ls-phases span{border:1px solid var(--line-2);border-radius:var(--r-sm);padding:5px 9px;color:var(--faint);opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s,color .3s,border-color .3s}
   .loopshow[data-scene="0"] .ls-phases span{opacity:1;transform:none;color:var(--dim)}
   .loopshow[data-scene="0"] .p1{transition-delay:.25s}.loopshow[data-scene="0"] .p2{transition-delay:.55s}.loopshow[data-scene="0"] .p3{transition-delay:.85s}.loopshow[data-scene="0"] .p4{transition-delay:1.15s;border-color:var(--fc);color:var(--fc)}
-  .ls-fine{margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
-  .ls-cap{font-family:var(--mono);font-size:12.5px;color:var(--dim);max-width:640px}
+  .ls-fine{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .ls-cap{font-family:var(--mono);font-size:12px;color:var(--dim);max-width:640px}
   .ls-cap a,.ls-note a{color:var(--fc);text-decoration:none}
   .ls-cap a:hover,.ls-note a:hover{text-decoration:underline}
   .ls-termbar{display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line-2);padding-bottom:9px;margin-bottom:11px}
   .ls-termbar i{width:9px;height:9px;border-radius:50%;background:var(--line-3)}
-  .ls-termbar span{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .ls-termbar span{margin-left:8px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .ls-line{font-family:var(--mono);font-size:13px;color:var(--text);line-height:1.9;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
   .ls-line .ls-dim,.ls-dim{color:var(--faint)}
   .loopshow[data-scene="1"] .ls-line{opacity:1;transform:none}
@@ -204,20 +207,20 @@
   .ls-sum b{color:var(--text)}
   .ls-find{border:1px solid var(--line-2);border-left:2px solid var(--fc);border-radius:var(--r-sm);padding:12px 14px;margin-top:11px}
   .ls-find b{display:block;font-family:var(--disp);font-size:15px;color:var(--text);margin-top:7px;letter-spacing:-.01em}
-  .ls-find p{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.55}
+  .ls-find p{font-size:13px;color:var(--dim);margin-top:5px;line-height:1.5}
   .ls-meta{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:11px}
   .ls-sev{border:1px solid color-mix(in srgb,var(--fc) 55%,transparent);color:var(--fc);border-radius:var(--r-sm);padding:2px 7px;letter-spacing:.06em}
   .ls-sev.s3{border-color:var(--line-3);color:var(--faint)}
   .ls-loc{color:var(--faint)}
-  .ls-check{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
+  .ls-check{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
   .ls-check.unpicked{color:var(--dim)}
   .ls-box{width:15px;height:15px;flex:none;border:1px solid var(--line-3);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--fc)}
   .ls-box::after{content:"✓";opacity:0;transform:scale(.5);transition:opacity .25s,transform .25s}
   .loopshow[data-scene="3"] .c1 .ls-box::after{opacity:1;transform:none;transition-delay:.9s}
   .loopshow[data-scene="3"] .c2 .ls-box::after{opacity:1;transform:none;transition-delay:1.5s}
   .loopshow[data-scene="3"] .c1{transition-delay:.2s}.loopshow[data-scene="3"] .c2{transition-delay:.45s}.loopshow[data-scene="3"] .c3{transition-delay:.7s}.loopshow[data-scene="3"] .b1{transition-delay:2.1s}
-  .ls-btn{margin-top:13px;display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--btn-fg);background:var(--btn);border-radius:var(--r-sm);padding:9px 14px}
-  .ls-commit{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:12.5px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
+  .ls-btn{margin-top:13px;display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border-radius:var(--r-sm);padding:9px 14px}
+  .ls-commit{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:12px;color:var(--text);padding:9px 2px;border-bottom:1px solid var(--line)}
   .ls-hash{color:var(--fc);font-weight:600}
   .ls-ok{margin-left:auto;color:var(--good,#3E9B6B)}
   .loopshow[data-scene="4"] .k1{transition-delay:.25s}.loopshow[data-scene="4"] .k2{transition-delay:.85s}.loopshow[data-scene="4"] .e1{transition-delay:1.7s}
@@ -227,7 +230,7 @@
   .ls-dot{flex:1;background:transparent;border:0;border-top:2px solid transparent;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:11px 4px 12px;transition:color var(--dur-state),border-color var(--dur-state)}
   .ls-dot:hover{color:var(--text)}
   .ls-dot[aria-selected="true"]{color:var(--fc);border-top-color:var(--fc)}
-  .ls-note{margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .ls-note{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   @media(max-width:560px){.ls-stage{min-height:430px}.ls-out{display:none}}
   @media (prefers-reduced-motion:reduce){.ls-scene,.ls-line,.ls-reveal,.ls-phases span,.ls-box::after{transition:none!important}.loopshow .ls-line,.loopshow .ls-reveal,.loopshow .ls-phases span{opacity:1;transform:none}}
 
@@ -242,13 +245,13 @@
   .report .dots{display:none}
   .report .fname{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:600}
   .report .fname::before{content:"→ ";color:var(--fc)}
-  .report .mockcap{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.04em}
+  .report .mockcap{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.04em}
   .report .doc{padding:4px 17px 14px}
   .report .row{display:flex;gap:14px;padding:13px 0}
   .report .row+.row{border-top:1px solid var(--line)}
   .report .rn{font-family:var(--mono);font-size:13px;color:var(--fc);flex:none;width:20px;font-weight:600}
-  .report .rt{font-family:var(--disp);font-weight:680;font-size:14.5px;color:var(--text)}
-  .report .rd{font-size:12.5px;color:var(--dim);margin-top:2px;line-height:1.5}
+  .report .rt{font-family:var(--disp);font-weight:680;font-size:14px;color:var(--text)}
+  .report .rd{font-size:12px;color:var(--dim);margin-top:2px;line-height:1.5}
   @media(max-width:820px){.val{grid-template-columns:1fr;gap:28px}}
 
   /* ---------- playbook storefront ---------- */
@@ -256,7 +259,7 @@
   .storecard{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--fc);border-radius:var(--r-sm);padding:20px;transition:border-color var(--dur-state),background var(--dur-state)}
   .storecard:hover{border-color:var(--line-3);border-left-color:var(--fc);background:var(--panel-2)}
   .storecard .top{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-  .badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);background:transparent;border:1px solid var(--line-3);border-radius:var(--r-sm);padding:3px 8px}
+  .badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);background:transparent;border:1px solid var(--line-3);border-radius:var(--r-sm);padding:3px 8px}
   .badge.soft{color:var(--faint);border-color:var(--line-2)}
   .storecard h3{font-family:var(--disp);font-size:19px;font-weight:720;letter-spacing:-.02em;color:var(--text)}
   .storecard .tl{font-size:14px;color:var(--dim);margin-top:7px;line-height:1.5;flex:1}
@@ -264,7 +267,7 @@
   .seqdots i{width:9px;height:9px;border-radius:1px;background:var(--fc)}
   .seqdots .cnt{font-family:var(--mono);font-size:12px;color:var(--faint);margin-left:5px}
   .storecard .acts{display:flex;gap:8px;align-items:center}
-  .storecard .go{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--text);flex:1}
+  .storecard .go{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text);flex:1}
   .storecard:hover .go{color:var(--fc)}
   .storecard .cc{font-family:var(--mono);font-size:12px;color:var(--dim);background:transparent;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:8px 11px;cursor:pointer;transition:border-color var(--dur-state),color var(--dur-state)}
   .storecard .cc:hover{color:var(--text);border-color:var(--line-3)}
@@ -274,7 +277,7 @@
   /* T5 (BLINDSPOTS F6): the long tail collapses — six cards up front, the
      rest one disclosure away, so first contact isn't a wall of 30 pills */
   .morewrap{margin-top:20px}
-  .morewrap summary{cursor:pointer;padding:7px 0;font-family:var(--mono);font-size:12.5px;color:var(--faint);list-style:none;display:flex;align-items:center;gap:8px;transition:color .15s}
+  .morewrap summary{cursor:pointer;padding:7px 0;font-family:var(--mono);font-size:12px;color:var(--faint);list-style:none;display:flex;align-items:center;gap:8px;transition:color .15s}
   .morewrap summary:hover{color:var(--text)}
   .morewrap summary::-webkit-details-marker{display:none}
   .morewrap summary .chev{transition:transform var(--dur-move);display:inline-block;color:var(--fc)}
@@ -289,7 +292,7 @@
   /* ---------- catalog ---------- */
   #catalog .lead{margin-bottom:0}
   .helpers{margin-top:26px;max-width:760px}
-  .ctx summary{cursor:pointer;padding:7px 0;font-family:var(--mono);font-size:12.5px;color:var(--faint);list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;transition:color .15s}
+  .ctx summary{cursor:pointer;padding:7px 0;font-family:var(--mono);font-size:12px;color:var(--faint);list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;transition:color .15s}
   .ctx summary:hover{color:var(--text)}
   .ctx summary::-webkit-details-marker{display:none}
   .ctx summary .chev{transition:transform var(--dur-move);display:inline-block;color:var(--fc)}
@@ -355,14 +358,14 @@
   .num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--fc);line-height:1.8;flex:none;min-width:28px}
   .stepno{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fc);border:1px solid color-mix(in srgb,var(--fc) 55%,transparent);border-radius:var(--r-sm);padding:1px 7px;margin-bottom:4px}
   .card h3.ct{font-family:var(--disp);font-size:18px;font-weight:720;letter-spacing:-.017em;line-height:1.22;color:var(--text)}
-  .tagline{color:var(--dim);font-size:13.5px;margin-top:4px;line-height:1.5}
+  .tagline{color:var(--dim);font-size:13px;margin-top:4px;line-height:1.5}
   .copy{flex:none;margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line-3);border-radius:var(--r-sm);padding:8px 14px;min-height:36px;cursor:pointer;transition:transform var(--dur-press),border-color var(--dur-state),background var(--dur-state),color var(--dur-state);-webkit-tap-highlight-color:transparent}
   .copy:hover{border-color:var(--fc);color:var(--fc)}.copy:active{transform:scale(.96)}
-  .copy.done{background:var(--good);border-color:var(--good);color:#0c1510}
+  .copy.done{background:var(--good);border-color:var(--good);color:var(--sev-ink)}
   .card-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--faint)}
   .card-meta .cardmore{display:inline-flex;align-items:center;gap:10px}
   .card-meta .cardmore[hidden]{display:none}
-  .card-meta .cardmore-t{font-weight:700;letter-spacing:.05em}
+  .card-meta .cardmore-t{font-weight:600;letter-spacing:.05em} /* T1: mono ships 400/600 — 700 was faux */
   /* COLOR C8 / R64: icon + name so family is never signaled by color alone —
      rendered in the ungrouped views (playbook, ranked search), where no
      family section header names it for the card. Under the ledger the family
@@ -391,14 +394,14 @@
   .sbriefs a:hover{color:var(--fc)}
   .sbriefs .st{color:var(--dim);font-size:13px}
   .empty{text-align:center;color:var(--dim);font-family:var(--mono);font-size:13px;padding:56px 0}
-  .empty b{color:var(--dim);font-weight:500}
+  .empty b{color:var(--dim);font-weight:600} /* T1: no 500 face exists in the mono */
   .empty .nearrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
 
   /* ---------- situation front door ---------- */
   .sits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
   .sitcard{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r-md);padding:16px 16px 14px;display:flex;flex-direction:column;gap:11px;min-width:0}
-  .sitcard h3{font-family:var(--disp);font-weight:660;font-size:clamp(16px,1.9vw,17.5px);letter-spacing:-.015em;line-height:1.32;color:var(--text)}
-  .sitlinks{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:12.5px;line-height:1.4;margin-top:auto}
+  .sitcard h3{font-family:var(--disp);font-weight:660;font-size:clamp(16px,1.9vw,17.5px);letter-spacing:-.015em;line-height:1.3;color:var(--text)}
+  .sitlinks{display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:12px;line-height:1.4;margin-top:auto}
   .sitlinks a{color:var(--dim);text-decoration:none;transition:color var(--dur-state)}
   .sitlinks a:hover{color:var(--text)}
   .sitlinks .sitpb{color:var(--fc);margin-top:2px}
@@ -422,11 +425,14 @@
   /* ---------- custom conductor bar ---------- */
   .seqbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:color-mix(in srgb,var(--ink) 94%,transparent);backdrop-filter:blur(8px);border-top:2px solid var(--text)}
   .seqbar-in{display:flex;align-items:center;gap:10px;padding-top:11px;padding-bottom:max(11px,env(safe-area-inset-bottom))}
+  .seqgloss{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+  @media(max-width:700px){.seqgloss{display:none}}
+  .seqname{font-family:var(--mono);font-size:12px;background:var(--ink);border:1px solid var(--line-2);border-radius:8px;color:var(--text);padding:6px 10px;width:150px}
   .seqbar .lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fc);flex:none}
   .seqbar .ord{font-family:var(--mono);font-size:12px;color:var(--text);flex:1;min-width:0;overflow-x:auto;white-space:nowrap}
   .seqcopy{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--btn-fg);background:var(--btn);border:0;border-radius:var(--r-sm);padding:9px 12px;min-height:36px;cursor:pointer;transition:transform var(--dur-press),background var(--dur-state);-webkit-tap-highlight-color:transparent;white-space:nowrap}
   .seqcopy:hover{background:var(--fc);color:#FFF8EE}.seqcopy:active{transform:scale(.96)}
-  .seqcopy.done{background:var(--good);color:#0c1510}
+  .seqcopy.done{background:var(--good);color:var(--sev-ink)}
   body.hasseq main{padding-bottom:92px}
 
   /* ---------- guided next-step hint after a copy ---------- */
@@ -434,7 +440,7 @@
   .copyhint[hidden]{display:none}
   .copyhint code{font-family:var(--mono);color:var(--fc)}
   .copyhint a{color:var(--fc);text-decoration:underline}
-  .copyhint .markrun{margin-left:6px;background:var(--good);color:#0C1510;border:0;border-radius:var(--r-sm);font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+  .copyhint .markrun{margin-left:6px;background:var(--good);color:var(--sev-ink);border:0;border-radius:var(--r-sm);font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
   .copyhint .markrun:disabled{opacity:.6;cursor:default}
   .copyhint .x{margin-left:2px;flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
   .copyhint .x:hover{color:var(--text)}
@@ -446,7 +452,7 @@
   .way-primary{border-top-color:var(--fc)}
   .way .num2{font-family:var(--mono);font-size:11px;color:var(--fc);letter-spacing:.12em;font-weight:600}
   .way h4{font-family:var(--disp);font-size:17px;font-weight:720;margin:8px 0 5px;color:var(--text)}
-  .way p{font-size:13.5px;color:var(--dim);margin-bottom:14px;line-height:1.55}
+  .way p{font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.5}
   .cmd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;overflow-x:auto;min-width:0}
   .cmd+.cmd{margin-top:8px}
   .cmd .cmdstep{flex:none;font-size:11px;font-weight:600;color:var(--fc)}
@@ -462,7 +468,7 @@
   .proof{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:26px}
   .proofcard{border-top:2px solid var(--line-3);padding:16px 0 0}
   .proofcard h4{font-family:var(--disp);font-size:17px;font-weight:720;margin-bottom:6px;color:var(--text)}
-  .proofcard p{font-size:14px;color:var(--dim);line-height:1.55}
+  .proofcard p{font-size:14px;color:var(--dim);line-height:1.5}
   .proofcard a{color:var(--fc);font-family:var(--mono);font-size:13px;display:inline-block;margin-top:10px}
   .proofcard a:hover{text-decoration:underline}
   @media(max-width:700px){.proof{grid-template-columns:1fr}}
@@ -553,10 +559,14 @@
       <a class="btn btn-primary" href="#catalog">Browse the library</a>
       <a class="btn btn-ghost" href="#how">How it works</a>
     </div>
+    <!-- PERCEIVED-SPEED W6 / CRO NF1 / FUNNEL §1: the one-tap conversion ships
+         visible in the HTML as a plain link (no-JS fallback; no 6-second
+         hidden wait on a slow first load) — JS upgrades it in place to a
+         one-click copy. It sits with the CTAs, not as a footnote below them. -->
+    <a class="quickstart" id="quickstart" href="/b/01"><span class="qs-dot"></span>New here? <b>Copy your first Goal Prompt</b> — paste it in your agent</a>
     <div class="micro"><span class="looparc">copy → paste → one saved file</span> · <b id="herostat">157 Goal Prompts</b> · free &amp; open · no signup · nothing leaves your machine</div>
     <!-- PROOF NF3 (R25): the honest substitute for a star count, where rivals put theirs -->
     <div class="micro microproof"><a href="/examples/">run against this repo’s own code — read the reports →</a></div>
-    <button class="quickstart" id="quickstart" type="button" hidden><span class="qs-dot"></span>New here? <b>Copy your first Goal Prompt</b> — paste it in your agent</button>
   </div>
   <aside class="hero-doc" aria-label="A real finding from BUGS.md — Goal Prompt 01, run on this repo">
     <div class="doc-top"><span class="doc-name">BUGS.md</span><span class="doc-cap">filed by 01 · Bug Hunt, run on this repo</span></div>
@@ -575,7 +585,9 @@
   <div class="kicker"><span class="kno">01</span>The problem</div>
   <h2 class="h2">“Review my repo” gets a different answer every time.</h2>
   <p class="lead">Point an agent at your own code and you get a wall of vibes one run, a shrug the next. The fix isn’t a bigger model — it’s structure: a Goal Prompt that tells the agent exactly what to look for, how to weigh it, and what to leave behind.</p>
-  <p class="turn">Every Goal Prompt here is tested on this repo before it ships. <a href="/examples/">The reports are public</a>, and the <a href="/r/fixlog">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
+  <!-- PROOF NF1: scoped to what's verifiable — 36 public reports, not a
+       per-brief guarantee no policy enforces -->
+  <p class="turn">The Day-1, design, growth, venture, and craft playbooks have all been run against this repo — <a href="/examples/">every report they wrote is public</a>, and the <a href="/r/fixlog">fix log</a> traces each shipped fix back to the finding that surfaced it.</p>
 </div></section>
 
 <!-- ============ HOW IT WORKS ============ -->
@@ -610,6 +622,9 @@
           <div class="ls-line t5">✓ Saving what it found to one file: BUGS.md</div>
         </div>
         <div class="ls-cap">Paste it into Claude Code, Cursor — whatever you already use. Then go get coffee.</div>
+        <!-- FUNNEL §1 stall 4: the post-run failure was invisible — one honest
+             recovery line where the wait is explained -->
+        <div class="ls-cap" id="noreport">No file appeared after the run? Make sure you pasted <b>inside the repo</b> (the agent needs the code in front of it), and check the end of the conversation — every Goal Prompt finishes by <em>asking</em> before it writes or changes anything beyond its one report.</div>
       </div>
       <div class="ls-scene s2">
         <div class="ls-doc">
@@ -792,6 +807,17 @@
 
   <div class="finder" id="finder"></div>
 
+  <div class="toolbar">
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search the library — try “errors”, “funnel”, “delete”…" autocomplete="off" aria-label="Search the Goal Library">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by family"></div>
+  </div>
+
+  <!-- CRO NF7 / FUNNEL §1 (156-run era): the two tuning disclosures sit BELOW
+       the toolbar now — at peak intent the visitor meets the search box and
+       the family chips first, and the helpers wait until they're wanted -->
   <div class="helpers">
     <details class="ctx" id="reporec">
       <summary><span class="chev">▸</span> recommend for my repo — point it at owner/repo</summary>
@@ -814,14 +840,6 @@
         <button class="iconbtn clearctx" id="ctxclear">clear</button>
       </div>
     </details>
-  </div>
-
-  <div class="toolbar">
-    <div class="search">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Search the library — try “errors”, “funnel”, “delete”…" autocomplete="off" aria-label="Search the Goal Library">
-    </div>
-    <div class="chips" id="chips" role="group" aria-label="Filter by family"></div>
   </div>
 
   <!-- R28 (SEO-1): build.py emits the full, crawlable catalog here — every
@@ -851,7 +869,11 @@
   <div class="wrap seqbar-in">
     <span class="lab">conductor</span>
     <span class="ord" id="seqorder"></span>
+    <!-- COMPREHENSION F4 residual: the tooltip gloss, visible — touch and
+         keyboard users never see a title attribute -->
+    <span class="seqgloss">one prompt runs these in order</span>
     <button class="seqcopy" id="seqcopy" title="A conductor is one prompt that runs these Goal Prompts in order — paste it into your agent and it fetches and runs each one.">copy conductor</button>
+    <button class="iconbtn" id="seqsave" aria-label="Save this sequence under a name">save as…</button>
     <button class="iconbtn" id="seqclear" aria-label="Clear the custom sequence">clear</button>
   </div>
 </div>
@@ -1040,10 +1062,29 @@ function ago(ts){
   const d = Math.floor((Date.now() - ts) / DAY);
   return d <= 0 ? "today" : d === 1 ? "1d ago" : d + "d ago";
 }
+/* COMPOUNDING C5 (155): gp-runs keeps only the latest stamp (readers depend
+   on that shape), so the history lives beside it — a capped per-brief array
+   under its own gp- key, which the export sweep covers automatically. */
+function recordRunHist(id){
+  try{
+    const h = JSON.parse(localStorage.getItem("gp-runhist") || "{}") || {};
+    (h[id] = h[id] || []).push(Date.now());
+    if(h[id].length > 12) h[id] = h[id].slice(-12);
+    localStorage.setItem("gp-runhist", JSON.stringify(h));
+  }catch(e){}
+}
+function runHistCount(id){
+  try{
+    const h = JSON.parse(localStorage.getItem("gp-runhist") || "{}") || {};
+    return (h[id] || []).length;
+  }catch(e){ return 0; }
+}
 function runLabel(id){
   if(!runs[id]) return "mark run";
   const a = ago(runs[id]);
-  return a ? "✓ run · " + a : "✓ run";
+  const n = runHistCount(id);
+  const times = n > 1 ? " ×" + n : "";   /* C5: the ritual's rhythm, visible */
+  return a ? "✓ run" + times + " · " + a : "✓ run" + times;
 }
 
 /* ---- custom conductor sequence ---- */
@@ -1067,7 +1108,11 @@ function toggleSeq(id){
   saveSeq(); syncSeqUi();
 }
 function makeConductor(name, desc, ids){
-  return CC.makeConductor(name, desc, ids, byId, RAW_BASE);
+  /* DEFAULTS Q6 (155): the flagship one-paste path used to be the one place
+     the saved Operator context vanished — the conductor now carries the same
+     block every single-brief copy appends (its preamble already reads the
+     charter, so only the context rides here). */
+  return ctxBlock(CC.makeConductor(name, desc, ids, byId, RAW_BASE));
 }
 function syncSeqUi(){
   for(const id in seqBtns){
@@ -1089,7 +1134,7 @@ let ctx = {};
 try{ ctx = JSON.parse(localStorage.getItem("gp-ctx") || "{}") || {}; }catch(e){ ctx = {}; }
 function ctxActive(){ return Object.values(ctx).some(v => v && String(v).trim()); }
 function saveCtx(){ try{ localStorage.setItem("gp-ctx", JSON.stringify(ctx)); }catch(e){} syncCtxUi(); }
-function withContext(body){
+function ctxBlock(body){
   if(!ctxActive()) return body;
   const L = [];
   if(ctx.stack) L.push("- Stack: " + ctx.stack);
@@ -1097,6 +1142,13 @@ function withContext(body){
   if(ctx.stage) L.push("- Stage: " + ctx.stage);
   if(ctx.notes) L.push("- Watch out for: " + ctx.notes);
   return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
+}
+/* COMPOUNDING C1 (155): the repo's charter is its standing contract — every
+   single-brief copy now tells the agent to read it, not just conductor runs.
+   Twin of gp-detail.js withContext — edit them together. */
+var CHARTER_LINE = "\n\nIf CHARTER.md exists at the repo root or in reports/, read it first — its goals, non-goals, and invariants bound every recommendation. No charter? Proceed.";
+function withContext(body){
+  return ctxBlock(body) + CHARTER_LINE;
 }
 function syncCtxUi(){ const o = document.getElementById("ctxon"); if(o) o.hidden = !ctxActive(); renderCtxWarm(); }
 /* On a return with saved Operator context, surface it warmly instead of leaving
@@ -1113,6 +1165,11 @@ function renderCtxWarm(){
   const edit = document.createElement("button"); edit.className = "ctxwarm-edit"; edit.textContent = "change \u2192";
   edit.onclick = ()=>{ const box = document.getElementById("ctxbox"); if(box){ box.open = true; box.scrollIntoView({block:"center"}); const f = box.querySelector("input"); if(f) f.focus(); } };
   el.append(edit);
+  /* FUNNEL \u00a71 Habit (c): the moment the banner proves there's device-bound
+     state worth keeping is the moment to offer the backup */
+  const exp = document.createElement("button"); exp.className = "ctxwarm-edit"; exp.textContent = "export setup \u2192";
+  exp.onclick = ()=>{ const e2 = document.getElementById("exportstate"); if(e2) e2.click(); };
+  el.append(" ", exp);
 }
 
 /* ---- copy ---- */
@@ -1120,6 +1177,7 @@ function feedback(btn, ok){
   /* restore innerHTML, not textContent — buttons like the quickstart pill
      carry markup (dot + <b>) that a text-only restore would flatten */
   if(btn._label === undefined) btn._label = btn.innerHTML;
+  btn.removeAttribute && btn.removeAttribute("aria-busy");  /* W1: clear the busy ack */
   clearTimeout(btn._t);
   btn.textContent = ok; btn.classList.add("done");
   btn._t = setTimeout(()=>{btn.innerHTML = btn._label; btn.classList.remove("done");}, 1600);
@@ -1192,39 +1250,57 @@ try{ COARSE = window.matchMedia && window.matchMedia("(pointer:coarse)").matches
    like?" at the moment the doubt starts. The run-replay figure left with the
    0.13 redesign, so #how (the four-phase pipeline + loop line) is the target. */
 function whatNext(){
-  var a = document.createElement("a"); a.href = "#how";
-  a.textContent = "what happens next →";
-  a.onclick = function(){
+  /* FUNNEL §1 stall 4: pair the forward link with the recovery link — the
+     silent failure mode ("no report ever appeared") now has a named exit */
+  var s = document.createElement("span");
+  var close = function(){
     var el = document.getElementById("copyhint");
     if(el) el.hidden = true;
     clearTimeout(_copyhintT);
   };
-  return a;
+  var a = document.createElement("a"); a.href = "#how";
+  a.textContent = "what happens next →"; a.onclick = close;
+  var n = document.createElement("a"); n.href = "#noreport";
+  n.textContent = "no report? →"; n.onclick = close;
+  s.append(a, " · ", n);
+  return s;
 }
 function showCopyHint(output, id, tee){
   /* FUNNEL §1/§3 (R12): on a touch device the clipboard is on the wrong
      machine — offer the raw-brief URL as the bridge instead of "paste". */
+  var b = document.createElement("b"); b.textContent = "inside your repo";
+  var code = document.createElement("code"); code.textContent = output || "the report";
+  var parts;
+  /* SIGNATURE M5/R1 (156): the first acknowledgment carries one next step —
+     paste — plus "what happens next"; the full menu was a toast-sized
+     buffet. Once any run is marked, the whole explainer decays to one line
+     (the 200th copy needs no tutorial). PERCEIVED-SPEED W7: both forms name
+     the ~15 min the wait costs. */
+  if(runCount() > 0){
+    var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
+    parts = ["Copied ✓ — it writes ", code, " (~15 min), then the ", a, ". ", whatNext()];
+  } else {
+    parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
+             " (~15 min) at the root. ", whatNext()];
+  }
+  /* R16 (ACTIVATION AN3) amended by M5/R3: the Day-1 tee now waits for the
+     proven-intent moment — it rides the hint only once a run is marked */
+  if(tee && runCount() > 0 && !runs["01"]){
+    var t2 = document.createElement("a"); t2.href = "/p/day1";
+    t2.textContent = "then run the rest of Day-1 →";
+    parts.push(" ", t2);
+  }
   if(COARSE && id){
+    /* DEFAULTS Q9 (155): a coarse pointer used to REPLACE the paste guidance
+       with the phone detour — an iPad next to the agent lost the real next
+       step. Show both: the guidance above, the raw-URL bridge beside it. */
     var url = location.origin + "/raw/" + id + ".md";
     var ra = document.createElement("a"); ra.href = "/raw/" + id + ".md";
     ra.textContent = "/raw/" + id + ".md";
     var cu = document.createElement("button"); cu.type = "button"; cu.className = "iconbtn";
     cu.textContent = "copy URL";
     cu.onclick = function(){ copyText(url, cu, "✓"); };
-    toast(["On your phone? Copy this URL instead and open the raw Goal Prompt on the machine your agent runs on → ", ra, " ", cu]);
-    return;
-  }
-  var b = document.createElement("b"); b.textContent = "inside your repo";
-  var code = document.createElement("code"); code.textContent = output || "the report";
-  var a = document.createElement("a"); a.href = "/studio"; a.textContent = "Report Studio";
-  var parts = ["Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
-               " at the root, then drop it in the ", a, ". ", whatNext()];
-  /* R16 (ACTIVATION AN3): the canonical first win tees up Day-1 as step 2 —
-     the hero quickstart passes tee, so the two "new here" doors stop competing */
-  if(tee){
-    var t2 = document.createElement("a"); t2.href = "/p/day1";
-    t2.textContent = "then run the rest of Day-1 →";
-    parts.push(" ", t2);
+    parts.push(" On another machine? ", ra, " ", cu);
   }
   if(id){
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
@@ -1262,7 +1338,7 @@ document.addEventListener("click", function(e){
   if(t && t.classList && t.classList.contains("markrun")){
     var id = t.getAttribute("data-id");
     if(id && !runs[id]){
-      runs[id] = Date.now(); saveRuns(); renderStats(); renderNudge();
+      runs[id] = Date.now(); recordRunHist(id); saveRuns(); renderStats(); renderNudge();
       track("mark_run", {id:id, from:"hint"});
       var rc = document.querySelector('[data-run="' + id + '"]');
       if(rc){ rc.className = "iconbtn on"; rc.textContent = runLabel(id); rc.setAttribute("aria-pressed", "true"); }
@@ -1315,6 +1391,15 @@ function copyBrief(p, btn, ok, evt, onOk, onFail){
     else fail();
     return;
   }
+  /* PERCEIVED-SPEED W1 (154): on a slow first visit the click used to freeze
+     for the length of the bodies.json download — same label, no busy state,
+     inviting a re-click. Acknowledge synchronously; feedback()/fail() below
+     restore the label whichever way the write resolves. */
+  if(btn._label === undefined) btn._label = btn.innerHTML;  /* before the busy label, so feedback() restores the real markup */
+  btn.textContent = "copying…";
+  btn.setAttribute("aria-busy", "true");
+  var _fl = fail;
+  fail = function(){ btn.removeAttribute("aria-busy"); btn.innerHTML = btn._label; _fl(); };
   /* Cold cache: WebKit rejects clipboard writes that happen after an await,
      and even Chromium's transient-activation window can expire on a slow
      fetch — so invoke the write SYNCHRONOUSLY in the gesture and hand it a
@@ -1534,7 +1619,7 @@ function card(p, idx, stepNo, famTag){
   run.onclick = ()=>{
     if(runs[p.id]) delete runs[p.id];
     else {
-      runs[p.id] = Date.now(); track("mark_run", {id:p.id, from:"toggle"});
+      runs[p.id] = Date.now(); recordRunHist(p.id); track("mark_run", {id:p.id, from:"toggle"});
       if(p.id === "29") vitalsMarkedFollowup();
     }
     saveRuns(); renderStats();
@@ -1592,6 +1677,7 @@ function fillQuick(cardEl){
   delete b.dataset.failed;
   b.textContent = "";
   const pre = document.createElement("pre"); pre.textContent = "loading…";
+  pre.style.minHeight = "140px";   /* W8: reserve room so the body lands in one motion, not two */
   b.append(pre);
   loadBodies().then(function(bodies){
     pre.textContent = bodies[p.id] || "";
@@ -1657,16 +1743,24 @@ function renderNudge(){
   if(old) old.remove();
   if(activePb || query || activeFam!=="All") return;
   const n = runCount();
-  let kind = null, html = null;
-  if(n >= 5 && !runs["28"]){
-    kind = "roadmap";
-    html = "You've run <b style='color:var(--text)'>"+n+"</b> Goal Prompts — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
-  } else if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
+  let kind = null, html = null, dismissKey = null;
+  /* DEFAULTS Q3 (155): recurring, time-keyed staleness outranks the one-shot
+     milestone — the roadmap ask used to permanently mask the weekly ritual
+     for anyone who chose never to run 28. */
+  if(typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY){
     kind = "vitals";
+    /* SIGNATURE M6/R2 (156): dismissible within the same stale period — the
+       key carries the last-run stamp, so a NEW staleness may return. */
+    dismissKey = "gp-nudge-vitals-" + runs["29"];
     /* R33 (RETENTION R6): the nudge also points at the Vitals Viewer — the
        page where the history this ritual accrues is actually visible. */
     html = "Weekly Vitals is stale — last run <b style='color:var(--text)'>" + ago(runs["29"]) + "</b>. Ten minutes for fresh trend arrows: <a href='#29'>#29 · Health Check →</a> · <a href='/vitals' data-kind='vitals_viewer'>your trend history →</a>";
+  } else if(n >= 5 && !runs["28"]){
+    kind = "roadmap";
+    dismissKey = "gp-nudge-roadmap";   /* M6: dismissed = gone forever, like the backer nudge */
+    html = "You've run <b style='color:var(--text)'>"+n+"</b> Goal Prompts — their reports are sitting in your repo. Ready to compose them into one plan: <a href='#28'>#28 · Roadmap Synthesis →</a>";
   } else return;
+  try{ if(dismissKey && localStorage.getItem(dismissKey)) return; }catch(e){}
   const d = document.createElement("div");
   d.className = "nudge"; d.id = "nudge"; d.innerHTML = html;
   /* through track() like every other event, so the anonymous R5 cohort fields
@@ -1675,6 +1769,16 @@ function renderNudge(){
     const k = a.getAttribute("data-kind") || kind;
     a.addEventListener("click", ()=>{ track("nudge_clicked", {kind:k}); });
   });
+  /* M6/R2: the milestone's voice may acknowledge, but it must be refusable */
+  const x = document.createElement("button");
+  x.type = "button"; x.className = "x"; x.textContent = "×";
+  x.setAttribute("aria-label", "Dismiss this suggestion");
+  x.style.cssText = "background:none;border:0;color:var(--faint);cursor:pointer;font-family:var(--mono);padding:0 4px;margin-left:8px";
+  x.onclick = ()=>{
+    try{ if(dismissKey) localStorage.setItem(dismissKey, "1"); }catch(e){}
+    d.remove(); track("nudge_dismissed", {kind:kind});
+  };
+  d.append(" ", x);
   listEl.prepend(d);
   if(!_nudgeSeen[kind]){ _nudgeSeen[kind] = 1; track("nudge_shown", {kind:kind}); }
 }
@@ -1852,6 +1956,10 @@ try{
   const f0 = u0.get("f");
   if(q0){ query = q0; qEl.value = q0; browsing = true; }
   if(f0 && FAMILIES.some(x => x[0] === f0)){ activeFam = f0; browsing = true; }
+  /* DEFAULTS Q5 (155): any run mark is standing intent — a regular boots
+     into their catalog, not the first-contact gate. The gate's own controls
+     remain the override. */
+  if(runCount() > 0) browsing = true;
 }catch(e){}
 qEl.addEventListener("input", ()=>{query = qEl.value.trim().toLowerCase(); render();});
 document.addEventListener("keydown", e=>{
@@ -2092,6 +2200,132 @@ document.getElementById("seqclear").onclick = function(){
     });
 };
 
+/* COMPOUNDING C3 (155): the sequence builder invited ownership, then capped
+   it at one unnamed slot and told the user to destroy it at the 16-stage
+   limit. Named saves live under gp-seqs — any gp- key rides the export
+   sweep automatically — and render as "your conductors" under the storefront. */
+document.getElementById("seqsave").onclick = function(){
+  if(!seq.length || document.getElementById("seqnamein")) return;
+  const inp = document.createElement("input");
+  inp.className = "seqname"; inp.id = "seqnamein";
+  inp.placeholder = "name it — Enter saves"; inp.maxLength = 40;
+  inp.setAttribute("aria-label", "Name this sequence");
+  inp.onkeydown = (e)=>{
+    if(e.key === "Escape"){ inp.remove(); return; }
+    if(e.key !== "Enter") return;
+    const name = inp.value.trim(); if(!name) return;
+    try{
+      let all = JSON.parse(localStorage.getItem("gp-seqs") || "[]") || [];
+      all = all.filter(s => s.name !== name).concat([{name: name, ids: seq.slice()}]).slice(-12);
+      localStorage.setItem("gp-seqs", JSON.stringify(all));
+    }catch(e2){}
+    inp.remove(); toast(["saved ✓ — your conductors live under the playbooks"]);
+    renderSavedSeqs();
+  };
+  this.after(inp); inp.focus();
+};
+function renderSavedSeqs(){
+  const old = document.getElementById("myseqs"); if(old) old.remove();
+  let all = [];
+  try{ all = (JSON.parse(localStorage.getItem("gp-seqs") || "[]") || []).filter(s => s && s.name && Array.isArray(s.ids)); }catch(e){}
+  if(!all.length) return;
+  const host = document.getElementById("morepb"); if(!host) return;
+  const d = document.createElement("div"); d.id = "myseqs";
+  d.style.cssText = "margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap";
+  const lab = document.createElement("span");
+  lab.style.cssText = "font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)";
+  lab.textContent = "your conductors";
+  d.append(lab);
+  for(const s of all){
+    const ids = s.ids.filter(id => byId[id]).slice(0, CC.SEQ_CAP);
+    if(!ids.length) continue;
+    const b = document.createElement("button"); b.className = "iconbtn";
+    b.textContent = s.name + " · " + ids.length;
+    b.title = ids.join(" → ");
+    b.onclick = ()=>copyText(makeConductor(s.name, "A saved custom sequence, assembled by the operator in the goal-prompts catalog.", ids),
+      b, "✓ copied", {name:"copy_custom_conductor", data:{n: ids.length, saved: 1}},
+      ()=>showConductorHint(ids));
+    const x = document.createElement("button"); x.className = "iconbtn";
+    x.textContent = "×"; x.setAttribute("aria-label", "Delete saved sequence " + s.name);
+    x.onclick = ()=>{
+      try{
+        const rest = all.filter(q => q.name !== s.name);
+        localStorage.setItem("gp-seqs", JSON.stringify(rest));
+      }catch(e){}
+      renderSavedSeqs();
+    };
+    d.append(b, x);
+  }
+  host.after(d);
+}
+renderSavedSeqs();
+
+/* COMPOUNDING C6 (155): recent searches, accrued from natural use — a saved
+   query pays back in the same session; an archive would be hoarding. Only
+   queries that actually found something are kept, capped at five. */
+let _recentT = null;
+qEl.addEventListener("input", ()=>{
+  clearTimeout(_recentT);
+  if(!query) renderRecent();
+  _recentT = setTimeout(()=>{
+    try{
+      if(!query || query.length < 3) return;
+      if(!listEl.querySelector(".card")) return;
+      let r = JSON.parse(localStorage.getItem("gp-recent") || "[]") || [];
+      r = [query].concat(r.filter(q => q !== query)).slice(0, 5);
+      localStorage.setItem("gp-recent", JSON.stringify(r));
+      renderRecent();
+    }catch(e){}
+  }, 1500);
+});
+function renderRecent(){
+  const old = document.getElementById("recentrow"); if(old) old.remove();
+  if(query) return;
+  let r = [];
+  try{ r = JSON.parse(localStorage.getItem("gp-recent") || "[]") || []; }catch(e){}
+  if(!r.length) return;
+  const tb = document.querySelector(".toolbar"); if(!tb) return;
+  const d = document.createElement("div"); d.id = "recentrow";
+  d.style.cssText = "display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px";
+  const lab = document.createElement("span");
+  lab.style.cssText = "font-family:var(--mono);font-size:11px;color:var(--faint)";
+  lab.textContent = "recent:";
+  d.append(lab);
+  for(const q of r){
+    const b = document.createElement("button"); b.className = "iconbtn"; b.textContent = q;
+    b.onclick = ()=>{ qEl.value = q; query = q; render(); };
+    d.append(b);
+  }
+  tb.after(d);
+}
+renderRecent();
+
+/* COMPOUNDING C4 (155): state what the user has built — inventory, never
+   guilt — right beside the export control, so the backup button finally has
+   a visible referent. */
+(function(){
+  try{
+    const bn = document.getElementById("exportstate");
+    const host = bn && bn.closest(".buildnote"); if(!host) return;
+    const bits = [];
+    const n = runCount();
+    if(n){
+      const fams = new Set(Object.keys(runs).map(id => byId[id] && byId[id].family).filter(Boolean));
+      bits.push(n + " Goal Prompt" + (n === 1 ? "" : "s") + " run across " + fams.size + " famil" + (fams.size === 1 ? "y" : "ies"));
+    }
+    const vt = JSON.parse(localStorage.getItem("gp-vitals-texts") || "[]") || [];
+    if(vt.length) bits.push(vt.length + " vitals source" + (vt.length === 1 ? "" : "s"));
+    const sr = JSON.parse(localStorage.getItem("gp-studio-reports") || "[]") || [];
+    const sc = Object.keys(JSON.parse(localStorage.getItem("gp-studio-checks") || "{}") || {}).length;
+    if(sr.length) bits.push(sr.length + " report" + (sr.length === 1 ? "" : "s") + (sc ? " (" + sc + " in triage)" : "") + " in the Studio");
+    if(ctxActive()) bits.push("Operator context saved");
+    if(!bits.length) return;
+    const d = document.createElement("p"); d.className = "buildnote";
+    d.textContent = "What you've built here: " + bits.join(" · ") + " — all on this device.";
+    host.parentNode.insertBefore(d, host);
+  }catch(e){}
+})();
+
 renderFeatured();
 renderStats();
 sync();
@@ -2182,14 +2416,27 @@ buildFinder();
       let pkg = null;
       const pj = list.find(f => f.name === "package.json" && f.download_url);
       if(pj){ try{ pkg = await (await fetch(pj.download_url)).json(); }catch(e){} }
-      paint(r, CC.repoRecommend(list.map(f => f.name), pkg, DATA));
+      /* DEFAULTS Q8 (155): the same API surface carries the repo description —
+         the "product" line the context form asks the user to compose from
+         memory. Fetch it only when that field is still blank. */
+      let desc = null;
+      if(!ctx.product){
+        try{
+          const meta = await (await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo)).json();
+          if(meta && typeof meta.description === "string" && meta.description.trim()) desc = meta.description.trim();
+        }catch(e){}
+      }
+      /* DEFAULTS Q2 (155): a ref that just worked is remembered (gp-repo) —
+         it prefills this box, Studio's, and Vitals' fetch button */
+      try{ localStorage.setItem("gp-repo", JSON.stringify(r.owner + "/" + r.repo)); }catch(e){}
+      paint(r, CC.repoRecommend(list.map(f => f.name), pkg, DATA), desc);
     }catch(e){
       note("Couldn't reach GitHub (offline or blocked) — browse the catalog below, or run 46 · Audit Triage in the repo instead.");
     }finally{
       btn.disabled = false; btn.textContent = "analyze";
     }
   }
-  function paint(r, rec){
+  function paint(r, rec, desc){
     out.textContent = "";
     const d = document.createElement("div"); d.className = "nudge"; d.style.margin = "4px 0 0";
     const bb = document.createElement("b"); bb.style.color = "var(--text)"; bb.textContent = r.owner + "/" + r.repo;
@@ -2214,12 +2461,23 @@ buildFinder();
       }
       d.append(fine);
     }
+    /* Q8: same pattern as the stack — only when empty, announced, editable */
+    if(desc && !ctx.product){
+      ctx.product = desc; saveCtx();
+      const cp = document.getElementById("cproduct"); if(cp) cp.value = ctx.product;
+      const fine2 = document.createElement("div"); fine2.className = "hint"; fine2.style.marginTop = "6px";
+      fine2.textContent = "✓ saved “" + desc + "” as your product line — edit it under “aim the Goal Prompts at your repo”";
+      d.append(fine2);
+    }
     out.append(d);
     track("repo_recommend", {n: rec.ids.length});
   }
   btn.onclick = analyze;
   input.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); analyze(); } });
   input.addEventListener("input", () => { hint.textContent = HINT0; hint.style.color = ""; clearErr(); });
+  /* DEFAULTS Q2 (155): prefill from the last ref that worked — here or in
+     Studio — instead of starting blank on every visit */
+  try{ if(!input.value){ const last = JSON.parse(localStorage.getItem("gp-repo") || '""'); if(last) input.value = last; } }catch(e){}
 })();
 
 // ACTIVATION A3 / CRO F7: a copyable starter brief in the hero, for the ready-to-act newcomer.
@@ -2227,11 +2485,13 @@ buildFinder();
   var qb = document.getElementById("quickstart"); if(!qb) return;
   var starter = byId["01"] || DATA[0]; if(!starter) return;
   var lbl = qb.querySelector("b"); if(lbl) lbl.textContent = "Copy " + starter.id + " · " + starter.title;
-  qb.hidden = false;
-  /* ACTIVATION AN2 (R09): the shared copyText owns the fallback + failure
+  /* PERCEIVED-SPEED W6: the pill is a real link in the HTML (visible from
+     first paint, works without JS); this upgrade makes it a one-click copy.
+     ACTIVATION AN2 (R09): the shared copyText owns the fallback + failure
      state — success UI (event, hint) only fires when the copy landed, and a
      failed copy degrades to the raw-brief link instead of claiming success. */
-  qb.onclick = function(){
+  qb.onclick = function(e){
+    e.preventDefault();
     copyBrief(starter, qb, "Copied ✓", {name:"copy_prompt", data:{id:starter.id, src:"hero"}},
       function(){ showCopyHint(starter.output, starter.id, true); },
       function(){ rawLink(qb, starter.id, "copy failed — open the raw file ↗"); });

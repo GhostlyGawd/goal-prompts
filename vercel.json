@@ -28,6 +28,12 @@
       ]
     },
     {
+      "source": "/reports/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
       "source": "/bodies.json",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex" }
