@@ -971,6 +971,14 @@
 <script>
 const DATA = __PROMPTS_JSON__;
 const FAMILIES = __FAMILIES_JSON__; /* [name, question] pairs, injected by build.py from the briefs' own front matter */
+/* declared with FAMILIES, above the boot render: a ?q= restored at load
+   (POLISH S3) renders the ranked view — and its famchips — on first paint */
+const FAM_ICON = {Product:"i-product",Quality:"i-quality",Speed:"i-speed",Trust:"i-trust",
+  Growth:"i-growth",Clarity:"i-clarity",Design:"i-design",Data:"i-data",Ops:"i-ops",Team:"i-team",
+  Subtract:"i-subtract",Meta:"i-meta",Act:"i-act",Build:"i-build",Agent:"i-agent",Automation:"i-automation",
+  "AI-UX":"i-aiux",Venture:"i-venture",Compliance:"i-compliance",API:"i-api",
+  Reliability:"i-reliability","AI-Ethics":"i-aiethics",Mission:"i-mission",Craft:"i-craft"};
+function shortFam(n){ return n==="Automation" ? "Auto" : n; } /* famchip label */
 const PLAYBOOKS = __PLAYBOOKS_JSON__;
 const CC = window.GPCatalogCore; /* pure logic lives in /js/catalog-core.js (Node-tested) */
 const fkey = f => "f-" + f.toLowerCase();
@@ -1672,6 +1680,7 @@ function renderNudge(){
 }
 let entranced = false;
 function render(){
+  mirrorFilterUrl();   /* render is the one choke point every filter change passes through */
   for(const k in seqBtns) delete seqBtns[k];
   listEl.textContent = "";
   clearTimeout(zeroT);
@@ -1813,11 +1822,37 @@ function openFromHash(){
   const v = el.querySelector(".view");
   if(v) v.setAttribute("aria-expanded","true");
   el.scrollIntoView({block:"start"});
+  /* POLISH S3 (152): hand the keyboard the card, not just the eye — the
+     flash showed where the link landed but focus stayed at the top, so
+     Tab and j/k resumed from the wrong place. Cards are j/k focus targets
+     already (tabIndex -1). */
+  el.focus({preventScroll:true});
   setTimeout(()=>el.classList.remove("flash"), 2000);
 }
 
 /* ---- search ---- */
 const qEl = document.getElementById("q");
+/* POLISH S3 (152, 2026-07-26): the query and family chip lived only in JS
+   variables, so a reload reset the view to zero. Mirror them into ?q=&f=
+   (replaceState — no history spam) and read them back before the first
+   render; a filtered view is now also a shareable link. The reminder-return
+   stripper above deletes only its own src param, so these survive it. */
+function mirrorFilterUrl(){
+  try{
+    const u = new URLSearchParams(location.search);
+    if(query) u.set("q", query); else u.delete("q");
+    if(activeFam !== "All" && !activePb) u.set("f", activeFam); else u.delete("f");
+    const qs = u.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+  }catch(e){}
+}
+try{
+  const u0 = new URLSearchParams(location.search);
+  const q0 = (u0.get("q") || "").trim().toLowerCase();
+  const f0 = u0.get("f");
+  if(q0){ query = q0; qEl.value = q0; browsing = true; }
+  if(f0 && FAMILIES.some(x => x[0] === f0)){ activeFam = f0; browsing = true; }
+}catch(e){}
 qEl.addEventListener("input", ()=>{query = qEl.value.trim().toLowerCase(); render();});
 document.addEventListener("keydown", e=>{
   if(e.key==="/" && document.activeElement!==qEl){e.preventDefault(); qEl.focus();}
@@ -2043,7 +2078,18 @@ document.getElementById("seqcopy").onclick = function(){
 document.getElementById("seqclear").onclick = function(){
   if(!seq.length) return;
   armConfirm(this, "clear " + seq.length + " stage" + (seq.length === 1 ? "" : "s") + "? click again",
-    () => { seq = []; saveSeq(); syncSeqUi(); });
+    () => {
+      /* POLISH systemic (152, 2026-07-26): arm-confirm guards the click,
+         undo forgives it — the toast already takes DOM nodes, so it can
+         carry a live undo button and its own 9s expiry. */
+      const snap = seq, n = snap.length;
+      seq = []; saveSeq(); syncSeqUi();
+      const u = document.createElement("button");
+      u.className = "iconbtn"; u.textContent = "undo";
+      u.setAttribute("aria-label", "Undo clearing the sequence");
+      u.onclick = () => { seq = snap.slice(0, CC.SEQ_CAP); saveSeq(); syncSeqUi(); toast("sequence restored ✓"); };
+      toast(["cleared " + n + " stage" + (n === 1 ? "" : "s") + " — ", u]);
+    });
 };
 
 renderFeatured();
@@ -2080,12 +2126,6 @@ window.addEventListener("load", function(){
 })();
 
 /* ---- family icon map — lint_family_icons keeps this in step with FAMILY_ORDER ---- */
-const FAM_ICON = {Product:"i-product",Quality:"i-quality",Speed:"i-speed",Trust:"i-trust",
-  Growth:"i-growth",Clarity:"i-clarity",Design:"i-design",Data:"i-data",Ops:"i-ops",Team:"i-team",
-  Subtract:"i-subtract",Meta:"i-meta",Act:"i-act",Build:"i-build",Agent:"i-agent",Automation:"i-automation",
-  "AI-UX":"i-aiux",Venture:"i-venture",Compliance:"i-compliance",API:"i-api",
-  Reliability:"i-reliability","AI-Ethics":"i-aiethics",Mission:"i-mission",Craft:"i-craft"};
-function shortFam(n){ return n==="Automation" ? "Auto" : n; } /* famchip label */
 
 /* ---- question-led finder — the catalog's primary navigation ---- */
 function buildFinder(){
