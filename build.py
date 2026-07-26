@@ -33,7 +33,7 @@ LIMIT = 4000
 CONDUCTOR_CAP = 16  # max stages in one conductor (mcp/server.cjs matches this)
 FAMILY_ORDER = ["Venture", "Mission", "Product", "Quality", "Speed", "Trust",
                 "Compliance", "Growth", "Team", "API", "Clarity", "Design",
-                "Data", "Ops", "Reliability", "Subtract", "Meta", "Act",
+                "Craft", "Data", "Ops", "Reliability", "Subtract", "Meta", "Act",
                 "Build", "Agent", "Automation", "AI-UX", "AI-Ethics"]
 # family colors — the structural signature: color = family, everywhere.
 # The values live in design-engine/brand.json (palette.categorical); og.py

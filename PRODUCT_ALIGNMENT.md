@@ -55,7 +55,7 @@ Claude Code is a first-class integration, not a dependency in the core prompts.
 
 ## The current product contract that must be preserved
 
-The existing catalog has 152 Goal Prompts. The build currently enforces that every
+The existing catalog has 157 Goal Prompts. The build currently enforces that every
 one names and writes exactly one Markdown result. This is core functionality, not an
 optional side effect.
 
@@ -306,7 +306,7 @@ stabilize the plain request should be rewritten, narrowed, combined, or removed.
 
 Prototype this contract privately across representative goal types before applying a
 mechanical rewrite to the whole catalog. Once the contract is ratified, migrate all
-152 public Goal Prompts—or explicitly version, deprecate, or remove incompatible
+157 public Goal Prompts—or explicitly version, deprecate, or remove incompatible
 ones—before presenting the new behavior as one coherent product.
 
 ## Marketing and demonstration rules
@@ -388,7 +388,7 @@ corrections below.
 
 ### Gate C — Coherent catalog
 
-- Migrate all 152 Goal Prompts to the approved contract or explicitly version,
+- Migrate all 157 Goal Prompts to the approved contract or explicitly version,
   deprecate, or remove exceptions.
 - Update playbooks, conductors, Fixer behavior, integrations, collectors, examples,
   schemas, linters, and compatibility paths together.

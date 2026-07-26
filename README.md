@@ -3,7 +3,7 @@
 **Point your coding agent at your repo and get back evidence, not vibes.**
 
 "Review my repo" gets a different answer every time — a wall of opinions one
-run, a shrug the next. A **brief** fixes that: 152 mission briefs for Claude
+run, a shrug the next. A **brief** fixes that: 157 mission briefs for Claude
 Code (or any coding agent), each a ready-to-run audit that walks the same
 4-phase method — **Explore → Audit → Curate → Report** — and files one
 evidence-backed report at your repo root. Every finding cites file and line,
@@ -194,6 +194,7 @@ Curated sequences on the site, for when you don't want to choose:
 | API | will developers adopt it? | 111–115, 136 |
 | Clarity | is it understood? | 16–18, 76, 103, 135 |
 | Design | is it beautiful? | 54–59, 77, 104, 105, 129–134 |
+| Craft | does it feel right? | 152–156 |
 | Data | is it sound? | 19–22, 71, 89, 90, 138, 139 |
 | Ops | does it run? | 23–25, 53, 73, 91–93, 137 |
 | Reliability | will it stay up? | 121–124 |
