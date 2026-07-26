@@ -46,4 +46,5 @@ Start the report with today's date. If `WORKFLOWS.md` already exists from a prev
 - Side effects are forever; design for at-least-once delivery or prove exactly-once
 - No automated workflows in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to build

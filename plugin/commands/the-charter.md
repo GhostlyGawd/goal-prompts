@@ -4,7 +4,7 @@ description: "Excavates the evidence, then interviews you — questions with evi
 
 # Goal: The Charter
 
-You are working inside this repo. Mission: recover this product's intent from the evidence, put the decisions to the operator as questions, and only then write `CHARTER.md` — one page stating problem, user, job, non-goals, and what done means now — so every future session, human or agent, starts from the same contract instead of the memory of an old chat.
+You are working inside this repo. Mission: recover the product's intent from evidence, put the decisions to the operator as questions, and only then write `CHARTER.md` — one page: problem, user, job, non-goals, what done means now — so every future session starts from the same contract, not the memory of an old chat.
 
 This brief interviews before it writes. Like 142's spec, the report *is* the artifact — your only write is the charter file — built from the operator's answers, not your inferences.
 
@@ -23,7 +23,7 @@ Turn the evidence into the seven decisions only the operator can make: per lens,
 6. **Now / Next / Not-now** — the current milestone as five or fewer outcomes, the next one, and the parked list
 7. **Done looks like** — one observable check per candidate Now outcome, runnable by a stranger
 
-Then stop. Report only — end by asking the operator the numbered questions before drafting anything: a charter written from guesses is the drift it exists to prevent. Unattended, nobody to answer? Write the question sheet to `CHARTER.md`, headed DRAFT — questions and candidates, no invented answers — and stop.
+Then stop. Report only — end by asking the operator the numbered questions first: a charter written from guesses is the drift it exists to prevent. Unattended? Write the question sheet to `CHARTER.md`, headed DRAFT — questions and candidates, no invented answers — and stop.
 
 ## Phase 3 — Draft from the answers
 - Build the charter from the operator's answers plus the evidence nobody disputed. A line that traces to neither gets cut.
@@ -41,4 +41,5 @@ Date the header. If `CHARTER.md` already exists from a previous run, this is an 
 - Answers you don't have come from the operator or stay open in the file; imagination is not a source
 - One page. Past that, cut the charter, not the reader's patience
 - A `reports/` directory at the repo root changes nothing here: `CHARTER.md` always lives at the root, where every future session can meet it
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking the operator to ratify the charter, settle what is still open, and approve the entry-file pointer

@@ -50,6 +50,10 @@ in from the start:
 - **null report**: unless the brief's subject is universal (the exemption
   list lives in `build.py`), Rules name its surface and allow a
   one-paragraph null report when the repo simply doesn't have one.
+- **debrief ending**: before the ask-first gate, the brief tells the agent to
+  present the top findings as a **ranked list in plain words** — the operator
+  should never need to open the report file to act. (Linted: the phrase
+  "ranked list in plain words" must appear in the body.)
 
 ## Optional `related:` front matter
 

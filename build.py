@@ -120,6 +120,12 @@ def lint(p: dict) -> list:
         v.append("missing '## Rules' section")
     if "Report only — end by asking" not in body:
         v.append("missing the ask-first ending ('Report only — end by asking …')")
+    # SIGNATURE M4 (156, 2026-07-26): the ending must be FELT, not just filed —
+    # every brief presents its top findings as a ranked list in plain words
+    # before it asks, the conductor debrief's shape at single-brief scale.
+    if "ranked list in plain words" not in body:
+        v.append("missing the debrief ending ('… ranked list in plain words …' "
+                 "before the ask-first gate)")
     if not re.fullmatch(r"[A-Z0-9-]+\.md", p["output"]):
         v.append(f"output '{p['output']}' must look like REPORT.md")
     if f"`{p['output']}` at repo root" not in body:
@@ -286,12 +292,27 @@ self.addEventListener("fetch", function (e) {
   var isHTML = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
   if (isHTML) {
-    e.respondWith(fetch(req).then(function (res) {
-      var copy = res.clone();
-      caches.open(CACHE).then(function (c) { c.put(req, copy); });
-      return res;
-    }).catch(function () {
-      return caches.match(req).then(function (m) { return m || caches.match("/"); });
+    /* PERCEIVED-SPEED W2: network-first, but raced against a 2.5s timeout
+       that falls back to the warm cache — a slow or lie-fi network stops
+       costing returning visitors the page they already have. The deploy
+       story tolerates a briefly-stale page: the cache version is a content
+       hash, so a deploy self-invalidates on the next successful fetch. */
+    e.respondWith(new Promise(function (resolve) {
+      var settled = false;
+      var timer = setTimeout(function () {
+        caches.match(req).then(function (m) {
+          if (!settled && m) { settled = true; resolve(m); }
+        });
+      }, 2500);
+      fetch(req).then(function (res) {
+        var copy = res.clone();
+        caches.open(CACHE).then(function (c) { c.put(req, copy); });
+        if (!settled) { settled = true; clearTimeout(timer); resolve(res); }
+      }).catch(function () {
+        caches.match(req).then(function (m) {
+          if (!settled) { settled = true; clearTimeout(timer); resolve(m || caches.match("/")); }
+        });
+      });
     }));
     return;
   }
@@ -741,8 +762,11 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .themetog .moon{display:none}.themetog .sun{display:block}
 :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
-.nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
-.nav-cta:hover{filter:brightness(1.12)}
+/* HIERARCHY F1: one filled primary per page — the nav CTA is a ghost so the
+   hero's .btn-primary (the page's actual ask) stands alone */
+.nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
+.nav-cta:hover{border-color:var(--text)}
+.nav-cta:active{transform:scale(.97)}
 /* BLINDSPOTS P0-1: no link may vanish on mobile — the row scrolls instead
    (same treatment as the landing page) */
 @media(max-width:720px){.nav-links{gap:14px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap}}
@@ -751,11 +775,15 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
 .btn:active{transform:translateY(1px)}
+/* STATES S5/S6: shared disabled + press states for every control on the
+   generated pages — the landing and tools carry the same pair */
+button:active{transform:scale(.97)}
+button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
 .btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .btn-primary:hover{filter:brightness(1.12)}
 .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
 .btn-ghost:hover{border-color:var(--text)}
-.btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+.btn.done{background:var(--good);color:var(--sev-ink);border-color:var(--good)}
 
 /* breadcrumb + eyebrow */
 .crumb{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:24px 0 0;flex-wrap:wrap}
@@ -787,6 +815,9 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,30px);font-weight:680;letter-spacing:-.02em;margin:9px 0 6px;color:var(--text)}
 .lead{color:var(--dim);max-width:64ch;font-size:16px}
+/* STATES S7: inline prose links are underlined, not color-only */
+.lead a,.prose a{color:var(--fc);text-decoration:underline;text-underline-offset:3px}
+.lead a:hover,.prose a:hover{text-decoration-thickness:2px}
 .prose{color:var(--text);font-size:16px;max-width:68ch}
 .prose p{margin:0 0 12px}
 .prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
@@ -795,19 +826,19 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 /* /r/ report documents (BLINDSPOTS P0-2): a whole rendered report, in the
    ledger — ruled tables, mono metadata, hairline rules. Wider than .prose
    because the reports carry real tables. */
-.report-doc{max-width:none;line-height:1.65}
+.report-doc{max-width:none;line-height:1.6}
 .report-doc h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,24px);font-weight:680;letter-spacing:-.02em;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--line-2);color:var(--text)}
 .report-doc h3{font-family:var(--disp);font-size:17px;font-weight:660;letter-spacing:-.01em;margin:24px 0 8px;color:var(--text)}
-.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
+.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
 .report-doc a{color:var(--fc);text-decoration:none}.report-doc a:hover{text-decoration:underline}
 .report-doc code{font-family:var(--mono);font-size:.86em;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1px 5px}
 .report-doc pre{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);padding:14px 16px;overflow-x:auto;margin:0 0 14px}
-.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.55}
+.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.5}
 .report-doc blockquote{margin:0 0 14px;padding:10px 16px;border-left:2px solid var(--fc);background:var(--panel);color:var(--dim)}
 .report-doc blockquote p{margin:0}
 .report-doc hr{border:0;border-top:1px solid var(--line-2);margin:26px 0}
 .report-doc .tablewrap{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line-2);border-radius:var(--radius)}
-.report-doc table{border-collapse:collapse;width:100%;font-size:13.5px}
+.report-doc table{border-collapse:collapse;width:100%;font-size:13px}
 .report-doc th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2);background:var(--panel)}
 .report-doc td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim);min-width:120px}
 .report-doc td:first-child,.report-doc th:first-child{padding-left:14px}
@@ -914,11 +945,13 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 
 /* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
 .gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+/* DEFAULTS Q4: the run-state chip gp-detail.js renders from gp-runs */
+.gp-runchip{font-family:var(--mono);font-size:11px;color:var(--success);margin-left:8px;white-space:nowrap}
 .gp-hint[hidden]{display:none}
 .gp-hint code{font-family:var(--mono);color:var(--fc)}
 .gp-hint a{color:var(--fc);text-decoration:underline}
 .gp-hint b{color:var(--text)}
-.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun{flex:none;background:var(--good);color:var(--sev-ink);border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
 .gp-hint .markrun:disabled{opacity:.6;cursor:default}
 .gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
 .gp-hint .x:hover{color:var(--text)}

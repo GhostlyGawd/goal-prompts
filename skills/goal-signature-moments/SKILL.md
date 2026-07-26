@@ -42,4 +42,5 @@ Start the report with today's date. If `SIGNATURE.md` already exists from a prev
 - Any proposed flourish states its decay rule: what happens on the tenth time
 - No user-facing journeys in this repo (pure library, infra)? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which moment to make the signature first

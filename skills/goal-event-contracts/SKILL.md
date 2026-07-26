@@ -45,4 +45,5 @@ Start the report with today's date. If `EVENTS.md` already exists from a previou
 - Assume every message arrives twice, late, and out of order — the transport's fine print says it may
 - No queues, topics, webhooks, or event streams in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which contract gaps to close first

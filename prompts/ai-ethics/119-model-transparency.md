@@ -45,4 +45,5 @@ Start the report with today's date. If `TRANSPARENCY.md` already exists from a p
 - Under-disclosure and over-warning are both findings; noise teaches users to ignore the truth
 - No model output reaching a user in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which transparency gaps to close first

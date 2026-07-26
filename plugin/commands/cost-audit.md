@@ -41,4 +41,5 @@ Start the report with today's date. If `COSTS.md` already exists from a previous
 - Never save money by making failures more likely — flag those tradeoffs
 - No traceable infrastructure or service spend in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which savings to take

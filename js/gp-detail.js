@@ -29,7 +29,7 @@ try {
 function track(name, data) {
   try { window.va("event", {name: name, data: Object.assign({aid: _AID, fsw: _FSW}, data || {})}); } catch (e) {}
 }
-function withContext(body) {
+function ctxBlock(body) {
   var ctx = load("gp-ctx", {}) || {};
   var L = [];
   if (ctx.stack) L.push("- Stack: " + ctx.stack);
@@ -39,11 +39,23 @@ function withContext(body) {
   if (!L.length) return body;
   return body + "\n\n## Operator context\nSupplied by the operator of this repo — weigh it while auditing.\n" + L.join("\n");
 }
+/* COMPOUNDING C1 (155): the repo's charter is its standing contract — every
+ * single-brief copy now tells the agent to read it, not just conductor runs
+ * (which carry their own copy of this line in the preamble). */
+var CHARTER_LINE = "\n\nIf CHARTER.md exists at the repo root or in reports/, read it first — its goals, non-goals, and invariants bound every recommendation. No charter? Proceed.";
+function withContext(body) {
+  return ctxBlock(body) + CHARTER_LINE;
+}
 function markRun(id) {
   try {
     var runs = JSON.parse(localStorage.getItem("gp-runs") || "{}") || {};
     runs[id] = Date.now();
     localStorage.setItem("gp-runs", JSON.stringify(runs));
+    /* COMPOUNDING C5 (155): the capped history array beside the latest stamp */
+    var h = JSON.parse(localStorage.getItem("gp-runhist") || "{}") || {};
+    (h[id] = h[id] || []).push(Date.now());
+    if (h[id].length > 12) h[id] = h[id].slice(-12);
+    localStorage.setItem("gp-runhist", JSON.stringify(h));
     mirrorVitalsState(runs);
   } catch (e) {}
 }
@@ -116,11 +128,20 @@ function showHint(output, id) {
   el.textContent = "";
   var b = document.createElement("b"); b.textContent = "inside your repo";
   var code = document.createElement("code"); code.textContent = output || "the report";
-  /* ACTIVATION AN6 (R11): same second step the landing hint tees up */
-  var studio = document.createElement("a");
-  studio.href = "/studio"; studio.textContent = "Report Studio";
-  el.append("Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
-            " at the root (or in reports/), then drop it in the ", studio, ".");
+  /* ACTIVATION AN6 (R11): same second step the landing hint tees up.
+   * SIGNATURE R1: the full explainer is for people the product hasn't met —
+   * once any run is marked it decays to the short form. PERCEIVED-SPEED W7:
+   * both forms state the ~15 min price of the wait that starts now. */
+  var seasoned = false;
+  try { seasoned = Object.keys(JSON.parse(localStorage.getItem("gp-runs") || "{}") || {}).length > 0; } catch (e) {}
+  if (seasoned) {
+    el.append("Copied ✓ — it writes ", code, " (~15 min).");
+  } else {
+    var studio = document.createElement("a");
+    studio.href = "/studio"; studio.textContent = "Report Studio";
+    el.append("Paste into Claude Code, Cursor, or any agent ", b, " — it writes ", code,
+              " (~15 min) at the root (or in reports/), then drop it in the ", studio, ".");
+  }
   if (id) {
     var mr = document.createElement("button"); mr.type = "button"; mr.className = "markrun";
     if (hasRun(id)) { mr.textContent = "✓ run"; mr.disabled = true; }
@@ -183,6 +204,9 @@ document.addEventListener("click", function (e) {
     var brief = b.getAttribute("data-brief");
     var pbkey = b.getAttribute("data-pb");
     if (b.hasAttribute("data-ctx")) txt = withContext(txt);
+    /* DEFAULTS Q6 (155): the conductor CTA gets the same Operator context the
+     * per-step copies honor — the charter line it already carries itself */
+    else if (pbkey) txt = ctxBlock(txt);
     var raw = b.getAttribute("data-raw") || (brief ? "/raw/" + brief + ".md" : null);
     /* events fire only on a confirmed copy (FUNNEL §4.1: copy_prompt with
      * src:"detail"; the conductor CTA is the playbook page's equivalent) */
@@ -196,31 +220,103 @@ document.addEventListener("click", function (e) {
     }, raw ? rawFail(b, raw) : null);
     return;
   }
-  /* per-step playbook copy: fetch the brief body on demand */
+  /* per-step playbook copy — PERCEIVED-SPEED W4/W5: the copy starts a
+   * gesture-synchronous ClipboardItem write whose text resolves when the
+   * body lands (the await-then-copy pattern loses the copy on WebKit), the
+   * button disables during the fetch (an impatient re-click used to fire a
+   * duplicate request), and the body comes from bodies.json — SW-precached
+   * and idle-warm — so /raw/ stays the agents' endpoint and its fetch
+   * counts stay an honest usage metric. */
   var f = e.target.closest("[data-fetch]");
   if (!f) return;
   e.preventDefault();
+  if (f.disabled) return;
   var id = f.getAttribute("data-brief");
   var out = f.getAttribute("data-output");
   var rawUrl = f.getAttribute("data-raw") || f.getAttribute("data-fetch");
   function stepOk() { track("copy_step", {id: id}); showHint(out, id); }
-  if (f._body) { copy(withContext(f._body), f, stepOk, rawFail(f, rawUrl)); return; }
-  f.textContent = "…";
-  fetch(f.getAttribute("data-fetch"))
-    .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
-    .then(function (text) {
-      f._body = text.replace(/\n+$/, "");
-      f.textContent = f.dataset.label || "copy";
-      copy(withContext(f._body), f, stepOk, rawFail(f, rawUrl));
-    })
-    .catch(function () {
+  var textP;
+  if (f._body) {
+    textP = Promise.resolve(withContext(f._body));
+  } else {
+    if (!f.dataset.label) f.dataset.label = f.textContent;
+    f.disabled = true; f.textContent = "…";
+    textP = bodyFor(id).catch(function () {
+      return fetch(f.getAttribute("data-fetch"))
+        .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); });
+    }).then(function (text) {
+      f._body = String(text).replace(/\n+$/, "");
+      f.disabled = false; f.textContent = f.dataset.label;
+      return withContext(f._body);
+    }, function (err) {
+      f.disabled = false; f.textContent = f.dataset.label;
       /* graceful fallback: hand over a plain link to the raw brief */
       var a = document.createElement("a");
-      a.className = f.className; a.textContent = "open raw ↗";
-      a.href = f.getAttribute("data-raw") || f.getAttribute("data-fetch");
+      a.className = f.className; a.textContent = "open raw ↗"; a.href = rawUrl;
       f.replaceWith(a);
+      throw err;
     });
+  }
+  copyPromise(textP, f, stepOk, rawFail(f, rawUrl));
 });
+
+/* one bodies.json fetch per page, shared across steps (W5) */
+var _bodiesP = null;
+function bodyFor(id) {
+  if (!id) return Promise.reject(new Error("no id"));
+  if (!_bodiesP) _bodiesP = fetch("/bodies.json").then(function (r) {
+    if (!r.ok) throw new Error(r.status); return r.json();
+  });
+  return _bodiesP.then(function (m) {
+    if (!m || typeof m[id] !== "string") throw new Error("missing " + id);
+    return m[id];
+  });
+}
+/* gesture-synchronous promise copy — mirrors template.html's copyBrief (W4) */
+function copyPromise(textP, b, then, onFail) {
+  if (navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem !== "undefined") {
+    try {
+      var item = new ClipboardItem({
+        "text/plain": textP.then(function (t) { return new Blob([t], { type: "text/plain" }); })
+      });
+      navigator.clipboard.write([item]).then(function () {
+        flash(b, b.classList.contains("cp") || b.classList.contains("stepcopy") ? "✓" : "Copied ✓");
+        if (then) then();
+      }, function () {
+        textP.then(function (t) { copy(t, b, then, onFail); }, function () { if (onFail) onFail(); });
+      });
+      return;
+    } catch (e) { /* fall through */ }
+  }
+  textP.then(function (t) { copy(t, b, then, onFail); }, function () { if (onFail) onFail(); });
+}
+
+/* DEFAULTS Q4 (155): show the run state this device already stores — a
+ * "✓ run · 3d ago" chip beside the brief CTA and a mark on each sequence
+ * step already run. Display only; the run toggle stays the only writer. */
+(function () {
+  var runs = load("gp-runs", {}) || {};
+  if (!Object.keys(runs).length) return;
+  function ago(ts) {
+    var d = Math.floor((Date.now() - ts) / 864e5);
+    return d <= 0 ? "today" : d === 1 ? "1d ago" : d + "d ago";
+  }
+  function chipFor(el, ts, long) {
+    var c = document.createElement("span");
+    c.className = "gp-runchip";
+    c.textContent = (long ? "✓ run · " : "✓ ") + ago(ts);
+    el.parentNode.insertBefore(c, el.nextSibling);
+  }
+  var main = document.querySelector("[data-copy][data-brief]");
+  if (main && typeof runs[main.getAttribute("data-brief")] === "number") {
+    chipFor(main, runs[main.getAttribute("data-brief")], true);
+  }
+  var steps = document.querySelectorAll("[data-fetch][data-brief]");
+  for (var i = 0; i < steps.length; i++) {
+    var sid = steps[i].getAttribute("data-brief");
+    if (typeof runs[sid] === "number") chipFor(steps[i], runs[sid], false);
+  }
+})();
 
 /* RETENTION R7 (R02): the side doors get the landing page's welcome-back
  * state. A returning visitor with run marks (shared gp-runs key) sees one
@@ -234,17 +330,19 @@ document.addEventListener("click", function (e) {
   if (!n) return;
   try { if (Date.now() - (+localStorage.getItem("gp-wb-hide") || 0) < 14 * DAY) return; } catch (e) {}
   var kind, lead, href, label, extraHref, extraLabel;
-  if (n >= 5 && !runs["28"]) {
-    kind = "roadmap";
-    lead = "you've run " + n + " briefs — their reports can become one plan: ";
-    href = "/b/28"; label = "28 · Roadmap Synthesis →";
-  } else if (typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY) {
+  /* DEFAULTS Q3 (155): recurring, time-keyed staleness outranks the one-shot
+   * milestone — the roadmap ask used to permanently mask the weekly ritual */
+  if (typeof runs["29"] === "number" && Date.now() - runs["29"] > 7 * DAY) {
     kind = "vitals";
     lead = "Weekly Vitals is stale — ten minutes for fresh trend arrows: ";
     href = "/b/29"; label = "29 · Health Check →";
     /* R33 (RETENTION R6): the stale-Vitals strip also points at the Vitals
      * Viewer, where the history this ritual accrues is visible */
     extraHref = "/vitals"; extraLabel = "your trend history →";
+  } else if (n >= 5 && !runs["28"]) {
+    kind = "roadmap";
+    lead = "you've run " + n + " briefs — their reports can become one plan: ";
+    href = "/b/28"; label = "28 · Roadmap Synthesis →";
   } else {
     kind = "back";
     lead = "you've run " + n + " brief" + (n === 1 ? "" : "s") + " — resume where you left off: ";

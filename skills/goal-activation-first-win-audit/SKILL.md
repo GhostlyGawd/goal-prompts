@@ -47,4 +47,5 @@ Start the report with today's date. If `ACTIVATION.md` already exists from a pre
 - Inspire the next action — activation that ends at one win leaks tomorrow's habit
 - No first-run experience in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make

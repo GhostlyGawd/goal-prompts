@@ -45,4 +45,5 @@ Start the report with today's date. If `VERSIONING.md` already exists from a pre
 - A deprecation without a date and a migration path is just a warning nobody acts on
 - No public API surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which versioning changes to make first

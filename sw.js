@@ -4,7 +4,7 @@
  * cached when not); static assets are cache-first. Version is a content
  * hash, so a deploy makes a new cache and the old one is purged. */
 "use strict";
-var CACHE = "goal-prompts-7427cbfd476d";
+var CACHE = "goal-prompts-034c713c59e0";
 var PRECACHE = ["/", "/studio", "/vitals", "/examples/", "/manifest.json", "/tokens.css", "/bodies.json", "/js/catalog-core.js", "/js/report-parser.js", "/js/gp-detail.js", "/fonts/schibstedgrotesk-latin-var.woff2", "/fonts/plexsans-latin-400.woff2", "/fonts/plexsans-latin-600.woff2", "/fonts/plexmono-latin-400.woff2", "/fonts/plexmono-latin-600.woff2", "/icons/icon-192.png", "/icons/icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
@@ -27,12 +27,27 @@ self.addEventListener("fetch", function (e) {
   var isHTML = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
   if (isHTML) {
-    e.respondWith(fetch(req).then(function (res) {
-      var copy = res.clone();
-      caches.open(CACHE).then(function (c) { c.put(req, copy); });
-      return res;
-    }).catch(function () {
-      return caches.match(req).then(function (m) { return m || caches.match("/"); });
+    /* PERCEIVED-SPEED W2: network-first, but raced against a 2.5s timeout
+       that falls back to the warm cache — a slow or lie-fi network stops
+       costing returning visitors the page they already have. The deploy
+       story tolerates a briefly-stale page: the cache version is a content
+       hash, so a deploy self-invalidates on the next successful fetch. */
+    e.respondWith(new Promise(function (resolve) {
+      var settled = false;
+      var timer = setTimeout(function () {
+        caches.match(req).then(function (m) {
+          if (!settled && m) { settled = true; resolve(m); }
+        });
+      }, 2500);
+      fetch(req).then(function (res) {
+        var copy = res.clone();
+        caches.open(CACHE).then(function (c) { c.put(req, copy); });
+        if (!settled) { settled = true; clearTimeout(timer); resolve(res); }
+      }).catch(function () {
+        caches.match(req).then(function (m) {
+          if (!settled) { settled = true; clearTimeout(timer); resolve(m || caches.match("/")); }
+        });
+      });
     }));
     return;
   }

@@ -9,7 +9,7 @@ tagline: Installs the golden-path harness into this repo — greenfield or graft
 ---
 # Goal: Scaffold the Rails
 
-You are working inside this repo — the repo the product actually lives in, whether it is empty or already full of code. Mission: install the goal-prompts golden-path harness here and prove it bites — red fails, green passes — before any further product code lands.
+You are working inside this repo — empty or already full of code. Mission: install the goal-prompts golden-path harness and prove it bites — red fails, green passes — before more product code lands.
 
 This is a Build brief: it writes files, but only after the operator approves the plan at the Phase 2 gate.
 
@@ -50,4 +50,5 @@ Start the report with today's date. If `SCAFFOLD.md` already exists from a previ
 - The installed harness layer (`scripts/`, `.githooks/`, `.github/`, `.claude/`, `tests/harness/`) is operator-owned from the moment it lands
 - No go verdict and no operator ask to put this repo on rails? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking at the Phase 2 gate before creating anything

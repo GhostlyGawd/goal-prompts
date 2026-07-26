@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://goal-prompts.vercel.app/</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/studio</loc><lastmod>2026-07-26</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/vitals</loc><lastmod>2026-07-10</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/vitals</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/examples/</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/changelog</loc><lastmod>2026-07-24</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/quality</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/teams</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/partners</loc><lastmod>2026-07-13</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/quality</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/teams</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/partners</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/day1</loc><lastmod>2026-07-24</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/prelaunch</loc><lastmod>2026-07-24</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/cleaning</loc><lastmod>2026-07-24</lastmod></url>
@@ -48,163 +48,163 @@
   <url><loc>https://goal-prompts.vercel.app/p/feelsright</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/newyear</loc><lastmod>2026-07-24</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/p/sponsored-example</loc><lastmod>2026-07-24</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/60</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/61</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/62</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/63</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/64</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/65</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/66</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/67</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/149</loc><lastmod>2026-07-12</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/150</loc><lastmod>2026-07-12</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/151</loc><lastmod>2026-07-12</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/00</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/45</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/106</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/107</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/108</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/01</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/02</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/03</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/98</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/99</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/100</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/101</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/102</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/04</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/05</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/51</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/87</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/88</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/140</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/06</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/07</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/08</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/68</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/69</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/81</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/82</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/83</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/84</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/85</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/86</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/125</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/126</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/127</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/128</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/09</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/10</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/11</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/12</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/70</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/75</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/78</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/79</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/80</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/109</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/110</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/13</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/14</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/15</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/52</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/72</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/94</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/95</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/96</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/97</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/145</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/111</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/112</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/113</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/114</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/115</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/136</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/16</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/17</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/18</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/76</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/103</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/135</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/148</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/54</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/55</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/56</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/57</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/58</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/59</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/77</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/104</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/105</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/129</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/130</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/131</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/132</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/133</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/134</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/146</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/147</loc><lastmod>2026-07-10</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/60</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/61</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/62</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/63</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/64</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/65</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/66</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/67</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/149</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/150</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/151</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/00</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/45</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/106</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/107</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/108</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/01</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/02</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/03</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/98</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/99</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/100</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/101</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/102</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/04</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/05</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/51</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/87</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/88</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/140</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/06</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/07</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/08</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/68</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/69</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/81</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/82</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/83</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/84</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/85</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/86</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/125</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/126</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/127</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/128</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/09</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/10</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/11</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/12</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/70</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/75</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/78</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/79</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/80</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/109</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/110</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/13</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/14</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/15</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/52</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/72</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/94</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/95</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/96</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/97</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/145</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/111</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/112</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/113</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/114</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/115</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/136</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/16</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/17</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/18</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/76</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/103</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/135</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/148</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/54</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/55</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/56</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/57</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/58</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/59</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/77</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/104</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/105</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/129</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/130</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/131</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/132</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/133</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/134</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/146</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/147</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/b/152</loc><lastmod>2026-07-26</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/153</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/154</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/155</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/156</loc><lastmod>2026-07-25</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/19</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/20</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/21</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/22</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/71</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/89</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/90</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/138</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/139</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/23</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/24</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/25</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/53</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/73</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/91</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/92</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/93</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/137</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/121</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/122</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/123</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/124</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/26</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/27</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/28</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/29</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/46</loc><lastmod>2026-07-12</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/47</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/74</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/141</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/142</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/143</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/144</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/30</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/31</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/32</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/33</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/34</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/35</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/36</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/37</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/38</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/48</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/49</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/50</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/39</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/40</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/41</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/42</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/43</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/44</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/116</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/117</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/118</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/119</loc><lastmod>2026-07-10</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/b/120</loc><lastmod>2026-07-10</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/153</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/154</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/155</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/156</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/19</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/20</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/21</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/22</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/71</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/89</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/90</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/138</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/139</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/23</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/24</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/25</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/53</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/73</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/91</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/92</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/93</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/137</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/121</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/122</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/123</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/124</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/26</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/27</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/28</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/29</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/46</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/47</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/74</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/141</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/142</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/143</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/144</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/30</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/31</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/32</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/33</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/34</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/35</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/36</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/37</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/38</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/48</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/49</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/50</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/39</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/40</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/41</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/42</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/43</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/44</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/116</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/117</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/118</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/119</loc><lastmod>2026-07-26</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/b/120</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/activation</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/ai-ideas</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/blindspots</loc><lastmod>2026-07-12</lastmod></url>
@@ -215,20 +215,24 @@
   <url><loc>https://goal-prompts.vercel.app/r/color</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/competitive</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/competitors</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/compounding</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/comprehension</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/credibility</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/cro</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/defaults</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/demand</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/dx</loc><lastmod>2026-07-12</lastmod></url>
-  <url><loc>https://goal-prompts.vercel.app/r/fixlog</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/fixlog</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/forms</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/funnel</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/hierarchy</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/improvements</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/index</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/layout</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/market</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/moat</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/niche</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/perceived-speed</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/polish</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/positioning</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/proof</loc><lastmod>2026-07-12</lastmod></url>
@@ -238,6 +242,7 @@
   <url><loc>https://goal-prompts.vercel.app/r/security-audit</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/seo</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/showcase</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://goal-prompts.vercel.app/r/signature</loc><lastmod>2026-07-26</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/states</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/typography</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://goal-prompts.vercel.app/r/verdict</loc><lastmod>2026-07-12</lastmod></url>

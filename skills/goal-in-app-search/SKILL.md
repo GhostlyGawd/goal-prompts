@@ -43,4 +43,5 @@ Start the report with today's date. If `SEARCH.md` already exists from a previou
 - A confident wrong result is worse than an honest empty state
 - No in-app search in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which search fixes to make first

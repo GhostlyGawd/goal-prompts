@@ -48,4 +48,5 @@ Start the report with today's date. If `SDK.md` already exists from a previous r
 - A good default removes a decision; a typed error removes a support ticket
 - No SDK or client library in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which SDK improvements to make first

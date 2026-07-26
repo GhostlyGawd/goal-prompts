@@ -41,4 +41,5 @@ Start the report with today's date. If `MODELS.md` already exists from a previou
 - Match the model to the step, not the brand to the product
 - No model calls in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which changes to make

@@ -43,4 +43,5 @@ Start the report with today's date. If `MENUS.md` already exists from a previous
 - An action nobody can find is an action that does not exist
 - No menus or command surfaces in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which menu fixes to make

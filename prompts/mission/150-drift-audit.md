@@ -45,4 +45,5 @@ Start the report with today's date. If `DRIFT.md` already exists from a previous
 - Distance from the charter is not badness: formalizing good drift is a win, and the charter, not this report, is where scope gets decided
 - No stated intent anywhere — no charter, no spec, no README promise? Say so in a one-paragraph null report and stop: run 149 first.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which verdicts to execute: amend the charter (149), kill via 47, or finish

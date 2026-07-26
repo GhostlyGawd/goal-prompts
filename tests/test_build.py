@@ -42,6 +42,7 @@ Start the report with today's date. If `X.md` already exists from a previous run
 - Be good
 - No example surface in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make
 """
 
@@ -603,6 +604,7 @@ Create `X.md` at repo root:
 
 ## Rules
 - Evidence or it doesn't exist
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which fixes to make
 """
 

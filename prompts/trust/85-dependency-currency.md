@@ -48,4 +48,5 @@ Start the report with today's date. If `UPGRADES.md` already exists from a previ
 - A major bump is a project, not a bump; size it like one
 - No dependency manifest in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which upgrades to take on first

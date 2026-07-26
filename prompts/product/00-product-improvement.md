@@ -57,4 +57,5 @@ Start the report with today's date. If `IMPROVEMENTS.md` already exists from a p
 - Prefer removing friction over adding features; synergies over net-new complexity
 - Think PM + designer + engineer at once: desirable, usable, feasible
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking me which items to build

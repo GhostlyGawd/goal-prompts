@@ -53,8 +53,11 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 .themetog .moon{display:none}.themetog .sun{display:block}
 :root[data-theme="light"] .themetog .moon{display:block}:root[data-theme="light"] .themetog .sun{display:none}
 @media (prefers-color-scheme:light){:root:not([data-theme]) .themetog .moon{display:block}:root:not([data-theme]) .themetog .sun{display:none}}
-.nav-cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
-.nav-cta:hover{filter:brightness(1.12)}
+/* HIERARCHY F1: one filled primary per page — the nav CTA is a ghost so the
+   hero's .btn-primary (the page's actual ask) stands alone */
+.nav-cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:9px 15px;border-radius:8px;font-family:var(--sans)}
+.nav-cta:hover{border-color:var(--text)}
+.nav-cta:active{transform:scale(.97)}
 /* BLINDSPOTS P0-1: no link may vanish on mobile — the row scrolls instead
    (same treatment as the landing page) */
 @media(max-width:720px){.nav-links{gap:14px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap}}
@@ -63,11 +66,15 @@ code{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1p
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;border-radius:8px;padding:12px 18px;cursor:pointer;border:1px solid transparent;transition:transform var(--dur-press),filter var(--dur-state),background var(--dur-state),border-color var(--dur-state);-webkit-tap-highlight-color:transparent}
 .btn:active{transform:translateY(1px)}
+/* STATES S5/S6: shared disabled + press states for every control on the
+   generated pages — the landing and tools carry the same pair */
+button:active{transform:scale(.97)}
+button:disabled,[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
 .btn-primary{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .btn-primary:hover{filter:brightness(1.12)}
 .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-3)}
 .btn-ghost:hover{border-color:var(--text)}
-.btn.done{background:var(--good);color:#0c1510;border-color:var(--good)}
+.btn.done{background:var(--good);color:var(--sev-ink);border-color:var(--good)}
 
 /* breadcrumb + eyebrow */
 .crumb{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:24px 0 0;flex-wrap:wrap}
@@ -99,6 +106,9 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,30px);font-weight:680;letter-spacing:-.02em;margin:9px 0 6px;color:var(--text)}
 .lead{color:var(--dim);max-width:64ch;font-size:16px}
+/* STATES S7: inline prose links are underlined, not color-only */
+.lead a,.prose a{color:var(--fc);text-decoration:underline;text-underline-offset:3px}
+.lead a:hover,.prose a:hover{text-decoration-thickness:2px}
 .prose{color:var(--text);font-size:16px;max-width:68ch}
 .prose p{margin:0 0 12px}
 .prose ul{margin:0 0 12px;padding-left:20px}.prose li{margin:4px 0}
@@ -107,19 +117,19 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 /* /r/ report documents (BLINDSPOTS P0-2): a whole rendered report, in the
    ledger — ruled tables, mono metadata, hairline rules. Wider than .prose
    because the reports carry real tables. */
-.report-doc{max-width:none;line-height:1.65}
+.report-doc{max-width:none;line-height:1.6}
 .report-doc h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,24px);font-weight:680;letter-spacing:-.02em;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--line-2);color:var(--text)}
 .report-doc h3{font-family:var(--disp);font-size:17px;font-weight:660;letter-spacing:-.01em;margin:24px 0 8px;color:var(--text)}
-.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
+.report-doc h4,.report-doc h5{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
 .report-doc a{color:var(--fc);text-decoration:none}.report-doc a:hover{text-decoration:underline}
 .report-doc code{font-family:var(--mono);font-size:.86em;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1px 5px}
 .report-doc pre{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);padding:14px 16px;overflow-x:auto;margin:0 0 14px}
-.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.55}
+.report-doc pre code{background:none;border:0;padding:0;font-size:13px;line-height:1.5}
 .report-doc blockquote{margin:0 0 14px;padding:10px 16px;border-left:2px solid var(--fc);background:var(--panel);color:var(--dim)}
 .report-doc blockquote p{margin:0}
 .report-doc hr{border:0;border-top:1px solid var(--line-2);margin:26px 0}
 .report-doc .tablewrap{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line-2);border-radius:var(--radius)}
-.report-doc table{border-collapse:collapse;width:100%;font-size:13.5px}
+.report-doc table{border-collapse:collapse;width:100%;font-size:13px}
 .report-doc th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-2);background:var(--panel)}
 .report-doc td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim);min-width:120px}
 .report-doc td:first-child,.report-doc th:first-child{padding-left:14px}
@@ -226,11 +236,13 @@ section.blk{padding:var(--s7) 0;border-bottom:1px solid var(--line)}
 
 /* post-copy hint (gp-detail.js) — same shape as the landing page's toast */
 .gp-hint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px;max-width:min(92vw,470px);background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;padding:11px 14px;font-size:13px;line-height:1.45;color:var(--text);box-shadow:0 12px 40px -14px rgba(0,0,0,.55)}
+/* DEFAULTS Q4: the run-state chip gp-detail.js renders from gp-runs */
+.gp-runchip{font-family:var(--mono);font-size:11px;color:var(--success);margin-left:8px;white-space:nowrap}
 .gp-hint[hidden]{display:none}
 .gp-hint code{font-family:var(--mono);color:var(--fc)}
 .gp-hint a{color:var(--fc);text-decoration:underline}
 .gp-hint b{color:var(--text)}
-.gp-hint .markrun{flex:none;background:var(--good);color:#0C1510;border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
+.gp-hint .markrun{flex:none;background:var(--good);color:var(--sev-ink);border:0;border-radius:6px;font-family:var(--sans);font-size:12px;font-weight:600;padding:4px 9px;cursor:pointer;white-space:nowrap}
 .gp-hint .markrun:disabled{opacity:.6;cursor:default}
 .gp-hint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
 .gp-hint .x:hover{color:var(--text)}
@@ -282,6 +294,25 @@ footer.foot{padding:var(--s7) 0 var(--s9);color:var(--dim)}
 </defs></svg>
 <header class="nav"><div class="nav-in wrap"><a class="brand" href="/"><svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="9" width="3.4" height="9" rx="0.8" fill="currentColor"/><rect x="6.9" y="3" width="3.4" height="15" rx="0.8" fill="var(--fc,#C8451F)"/><rect x="12.8" y="7" width="3.4" height="11" rx="0.8" fill="currentColor"/><rect x="18.7" y="12" width="3.4" height="6" rx="0.8" fill="currentColor"/></svg>Goal Prompts</a><nav class="nav-links"><a href="/#how">How it works</a><a href="/#catalog">Catalog</a><a href="/#playbooks">Playbooks</a><a href="/studio">Studio</a><a href="/examples/">Examples</a></nav><div class="nav-right"><button class="themetog" id="themetog" type="button" aria-label="Toggle light or dark theme"><svg class="ic sun"><use href="#i-sun"></use></svg><svg class="ic moon"><use href="#i-moon"></use></svg></button><a class="nav-cta" href="/#start">Get started</a></div></div></header>
 <section class="dhero"><div class="wrap"><div class="crumb"><a href="/">Home</a><span class="sep">/</span><a href="/examples/">Sample reports</a><span class="sep">/</span><span class="mono">FIXLOG.md</span></div><h1 style="margin-top:14px">FIXLOG.md</h1><p class="lede">A real report, written by <a href="/b/47">47 · The Fixer</a>, run against this repo — dogfood output, committed unedited. This is the artifact every brief ends in: findings that cite their evidence, ranked by severity, with a fix sketch each.</p><div class="cta"><a class="btn btn-primary" href="/b/47">Run this audit on your repo</a><a class="btn btn-ghost" href="/reports/FIXLOG.md">Raw FIXLOG.md</a></div></div></section><section class="blk"><div class="wrap"><div class="prose report-doc"><p><em>Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.</em></p>
+<h2>Session — every finding, worked through (2026-07-26)</h2>
+<ul><li>Branch: <code>claude/product-engagement-stickiness-1cril7</code></li><li>Focus: the operator's "work through every finding" — all 8 findings from the</li></ul>
+<p>same-day POLISH run (shipped earlier on this branch), all 32 findings from the fresh All-Craft run (DEFAULTS, PERCEIVED-SPEED, COMPOUNDING, SIGNATURE), and a full re-verification of the 18 defect-shaped legacy reports (~300 findings triaged against current code by 11 parallel read-only passes; the venture and strategy reports are analysis artifacts and were left out of fixing scope). Triage verdict on the legacy backlog: the overwhelming majority had already shipped in rounds R01–R66 — 26 items were still live, and all are closed below or declined with reasons. Every behavioral fix was verified in a real browser.</p>
+<h3>Fixed (this round)</h3>
+<div class="tablewrap"><table><thead><tr><th>Finding</th><th>Source</th><th>What shipped</th></tr></thead><tbody><tr><td>Studio's GitHub loader blind to <code>reports/</code>, the product's own default output dir</td><td>DEFAULTS Q1 (S1)</td><td>loader lists <code>/contents/reports</code> beside the root; probe tries <code>reports/&lt;name&gt;</code> first</td></tr><tr><td>Repo ref asked twice, remembered never</td><td>DEFAULTS Q2</td><td><code>gp-repo</code> saved on success; prefills Studio, the landing analyzer, and Vitals</td></tr><tr><td>One-shot roadmap milestone permanently masked the stale-Vitals nudge</td><td>DEFAULTS Q3 + SIGNATURE M6/R2</td><td>staleness outranks the milestone on landing + detail pages; both nudges dismissible (per-stale-period / forever)</td></tr><tr><td>Detail pages hid run state the device stores</td><td>DEFAULTS Q4</td><td>"✓ run · 3d ago" chips beside CTAs and sequence steps</td></tr><tr><td>Browse gate re-asked a proven regular</td><td>DEFAULTS Q5</td><td>any run mark boots into the catalog</td></tr><tr><td>Conductor copies dropped Operator context</td><td>DEFAULTS Q6</td><td>ctx block rides <code>makeConductor()</code> and the playbook-page CTA</td></tr><tr><td>Fallback probe guessed 11 names while the catalog knows 157</td><td>DEFAULTS Q7</td><td>run-marked briefs' outputs probed first via catalog.json</td></tr><tr><td><code>product</code> field blank after a call that carries it</td><td>DEFAULTS Q8</td><td>repo description prefills it — only when empty, announced, editable</td></tr><tr><td>Coarse pointer lost the real next step</td><td>DEFAULTS Q9</td><td>toast shows paste guidance AND the raw-URL bridge</td></tr><tr><td>Vitals had no fetch path</td><td>DEFAULTS Q10</td><td>one-tap "refresh HEALTH.md from ⟨repo⟩" (reports/ first)</td></tr><tr><td>Hero copy frozen for the bodies.json download</td><td>SPEED W1 (S2)</td><td>synchronous "copying…" + aria-busy; feedback/fail restore</td></tr><tr><td>Warm cache bought returning visitors nothing (lie-fi worst case)</td><td>SPEED W2 (S2)</td><td>SW races network vs 2.5s timeout → cache; content-hash cache self-invalidates on deploy</td></tr><tr><td>GH load: flat "loading…" over 22 requests; 403 reported as "no reports"</td><td>SPEED W3 (S2)</td><td>phase narration on the button; rate limit named honestly</td></tr><tr><td>Step copy double-fetched and lost the copy on WebKit</td><td>SPEED W4</td><td>disabled during fetch; gesture-synchronous ClipboardItem</td></tr><tr><td>Step copies polluted the /raw/ usage metric</td><td>SPEED W5</td><td>steps source bodies.json; /raw/ stays the agents' endpoint</td></tr><tr><td>Quickstart hidden until full parse (6.2s at 40KB/s)</td><td>SPEED W6 + CRO NF1 + FUNNEL entry</td><td>server-rendered visible link at button weight beside the CTAs; JS upgrades in place</td></tr><tr><td>The ~15 min wait started unstated on the majority path</td><td>SPEED W7</td><td>both toast forms name it</td></tr><tr><td>Quick view popped in two motions</td><td>SPEED W8</td><td>min-height reserved while loading</td></tr><tr><td>Demo fetched 4 samples serially</td><td>SPEED W9</td><td>parallel fetch, ordered add</td></tr><tr><td>The charter fed back only through conductors</td><td>COMPOUNDING C1 (S1)</td><td>charter line on every copy: both <code>withContext</code> twins</td></tr><tr><td>Weekly re-run wiped Studio triage</td><td>COMPOUNDING C2 (S2)</td><td>checks re-attach by normalized title across re-adds</td></tr><tr><td>Sequence builder: one unnamed slot, "destroy it" at the cap</td><td>COMPOUNDING C3 (S2)</td><td>named saves under <code>gp-seqs</code>; "your conductors" row under the storefront</td></tr><tr><td>Nothing stated what the user built</td><td>COMPOUNDING C4 (S2)</td><td>inventory line beside the export controls</td></tr><tr><td>Run history overwritten to one timestamp</td><td>COMPOUNDING C5</td><td>capped <code>gp-runhist</code> array; "✓ run ×3" labels</td></tr><tr><td>Searches evaporated</td><td>COMPOUNDING C6</td><td>recent-searches row, cap 5, saved only when a query found something</td></tr><tr><td>Nothing read FIXLOG.md back</td><td>COMPOUNDING C7</td><td>briefs 29 + 46 credit fixed findings to their logged commits in the diff</td></tr><tr><td>The loop's proof moment was silent</td><td>SIGNATURE M1</td><td>"N findings closed since the last load" receipt; fixed rows sink, dimmed, deduped</td></tr><tr><td>Vitals painted wins red</td><td>SIGNATURE M2</td><td>lower-is-better map; unknown metrics honestly neutral</td></tr><tr><td>Vitals shipped half-open ([hidden] unpinned)</td><td>SIGNATURE M3</td><td>Studio's one-line pin copied over</td></tr><tr><td>Single briefs ended as a file path, not a felt win</td><td>SIGNATURE M4</td><td>"ranked list in plain words" bullet in all 157 briefs + linter rule + CONTRIBUTING grammar</td></tr><tr><td>First-copy toast was a four-path menu that never decayed</td><td>SIGNATURE M5/R1/R3</td><td>first form: paste + what-next; decays to one line after the first run; Day-1 tee waits for proven intent</td></tr><tr><td>Debrief shape unpinned, could drift silently</td><td>SIGNATURE §2</td><td>three-beat shape (ranked list · ask · handoff) pinned in the conductor test</td></tr><tr><td>Overclaim: "Every Goal Prompt is tested on this repo"</td><td>PROOF NF1</td><td>rescoped to the playbook families whose reports are public</td></tr><tr><td>Studio events lacked the cohort ids</td><td>RETENTION §4</td><td>same 8-line track() helper the other pages carry</td></tr><tr><td>Double-filled primaries on every generated page</td><td>HIERARCHY F1/F3</td><td>nav CTA ghosted site-wide; Studio's drop/demo own the fill</td></tr><tr><td>Four inherited faux-bolds</td><td>TYPO T1</td><td>real faces/weights (display 740, mono 600)</td></tr><tr><td>29 half-pixel sizes + line-height sprawl regressed since round 3</td><td>TYPO T3/T5</td><td>re-folded to the round-3 map (visually indistinguishable)</td></tr><tr><td>Detail pages lacked disabled/press/link-affordance states</td><td>STATES S5/S6/S7</td><td>three SITE_CSS rules; checkbox hover added</td></tr><tr><td>Tool navs bypassed width tokens, dropped links at 640px, off-scale pads</td><td>LAYOUT L1/L3/L4</td><td><code>--w-read</code>/<code>--gutter</code> navs; scroll-not-vanish links; 4pt-scale pads</td></tr><tr><td>Conductor gloss was tooltip-only; raw report .md indexable</td><td>COMPREHENSION F4 · SEO-8</td><td>visible seqbar gloss; <code>/reports/(.*)</code> noindexed</td></tr><tr><td>Post-run failure was invisible</td><td>FUNNEL stall 4</td><td>"no report? →" recovery line in #how, linked from every copy toast</td></tr><tr><td>Device-bound state, export buried</td><td>FUNNEL habit (c)</td><td>"export setup →" rides the welcome-back banner</td></tr></tbody></table></div>
+<h3>Declined by design, with reasons</h3>
+<ul><li><strong>COLOR C7 (merge/retire family hues):</strong> 24 families now share the hue wheel,</li></ul>
+<p>but color stopped being the sole family signal when C8 shipped famchips (icon + name). Recoloring families is an identity decision ADR-12/13 reserve for the operator — flagged, not executed.</p>
+<ul><li><strong>LAYOUT L5 (collapse 11 breakpoints to 3):</strong> rewriting @media literals</li></ul>
+<p>changes real behavior at in-between widths for near-zero user-visible payoff — fails the round-3 "no perceptible change" bar for value remaps.</p>
+<ul><li><strong>LAYOUT L6 tail (map 14/18/26/34px onto the 4pt grid):</strong> those maps ARE</li></ul>
+<p>perceptible 2px shifts at dozens of call sites; the on-scale values are tokenized, the off-scale tail is documented instead of silently moved.</p>
+<ul><li><strong>TYPO T3's aggressive half (a 5-step type scale in brand.json):</strong> folding</li></ul>
+<p>14/15/16 into one step shifts running text — same decline as round 3; the half-pixel defect itself is re-fixed.</p>
+<h3>Ops-only remainder (no code path)</h3>
+<ul><li>Raw-fetch counting (FUNNEL §4.3/§4.4, RETENTION): enable the Vercel</li></ul>
+<p>Observability filter on <code>pathname:/raw/</code> (+ commands archives) and date it in docs/usage-metrics.md — dashboard access only the operator has.</p>
+<ul><li>SIGNATURE §2's gallery transcript: wants the debrief of a <em>real</em> external</li></ul>
+<p>run, not a mockup — becomes available the first time one is captured.</p>
 <h2>Session — open-items backlog, round 3 (2026-07-09)</h2>
 <ul><li>Branch: <code>claude/open-items-backlog-rm6wzx</code></li><li>Focus: build the "irreducible remainder" round 2 left behind — the spacing/type</li></ul>
 <p><em>value</em> remap and the "product seen working" visual — anything buildable without fabricating a credential or a fake media asset. Every change verified in headless Chromium at desktop + mobile, dark + light, with a hard rule: no <em>perceptible</em> visual change from the remaps (they were called "indistinguishable"; if a fold would actually shift what a reader sees, it wasn't done).</p>

@@ -40,13 +40,17 @@
   /* shared top nav — matches the redesigned catalog & detail pages */
   .topnav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topnav a{text-decoration:none}
-  .topnav-in{display:flex;align-items:center;gap:18px;height:58px;max-width:760px;margin:0 auto;padding:0 20px}
-  .topnav .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--text)}
+  .topnav-in{display:flex;align-items:center;gap:18px;height:58px;max-width:var(--w-read);margin:0 auto;padding:0 var(--gutter)} /* LAYOUT L1: nav edge = content edge */
+  /* TYPO T1: the brand wordmark wears the display face (real 740 weight) —
+     PSans ships 400/600 only, so a bare font-weight:800 was faux-bold */
+  .topnav .brand{display:flex;align-items:center;gap:8px;font-family:var(--disp);font-weight:740;font-size:16px;letter-spacing:-.01em;color:var(--text)}
   .topnav .brand svg{flex:none}
   .topnav .lk{display:flex;gap:18px;margin-left:6px;font-size:14px}
   .topnav .lk a{color:var(--dim)}
   .topnav .lk a:hover{color:var(--text)}
-  .topnav .cta{background:var(--btn);color:var(--btn-fg);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
+  /* HIERARCHY F1/F3: ghost the nav CTA — the page's one filled control should
+     be its own primary (the demo button / drop zone), not a link off-page */
+  .topnav .cta{background:transparent;color:var(--text);border:1px solid var(--line-3);font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;font-family:var(--sans)}
   .topnav .themetog{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--dim);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:border-color var(--dur-state),color var(--dur-state)}
   .topnav .themetog:hover{color:var(--text);border-color:var(--line-3)}
   .topnav .themetog svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -54,8 +58,10 @@
   :root[data-theme="light"] .topnav .themetog .moon{display:block}:root[data-theme="light"] .topnav .themetog .sun{display:none}
   @media (prefers-color-scheme:light){:root:not([data-theme]) .topnav .themetog .moon{display:block}:root:not([data-theme]) .topnav .themetog .sun{display:none}}
   .topnav .cta:hover{filter:brightness(1.08)}
-  @media(max-width:640px){.topnav .lk{display:none}}
-  header{padding:34px 0 8px}
+  /* LAYOUT L3: same treatment as the landing nav (BLINDSPOTS P0-1) — links
+     scroll on narrow screens instead of vanishing */
+  @media(max-width:720px){.topnav .lk{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.topnav .lk::-webkit-scrollbar{display:none}}
+  header{padding:var(--s6) 0 var(--s2)} /* LAYOUT L4: pads on the 4pt scale */
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
   .eyebrow a{color:var(--dim);text-decoration:none}
   .eyebrow a:hover{color:var(--text)}
@@ -140,8 +146,12 @@
     display:inline-grid;place-content:center;
   }
   .find input[type=checkbox]::before{content:"✓";font-size:12px;font-weight:700;color:var(--ink);transform:scale(0);transition:transform var(--dur-press)}
+  .find input[type=checkbox]:hover{border-color:var(--act)} /* STATES: the row's one control gets a hover */
   .find input[type=checkbox]:checked{background:var(--act);border-color:var(--act)}
   .find input[type=checkbox]:checked::before{transform:scale(1)}
+  /* SIGNATURE M1: closed findings sink — fixed border color, dimmed, sorted
+     after the open ones so the ledger reads "what's left" at a glance */
+  .find.fixed{border-left-color:var(--sev-fixed);opacity:.72}
   .ft{flex:1;min-width:0}
   .ftitle{font-size:14px;font-weight:600;line-height:1.35;cursor:pointer;overflow-wrap:break-word}
   .ftitle:hover{color:var(--amber)}
@@ -199,7 +209,7 @@
   .copyhint .x{flex:none;background:none;border:0;color:var(--faint);cursor:pointer;font-size:16px;line-height:1;padding:2px}
   .copyhint .x:hover{color:var(--text)}
 
-  footer{border-top:1px solid var(--line);margin-top:8px;padding:26px 0 60px}
+  footer{border-top:1px solid var(--line);margin-top:var(--s2);padding:var(--s5) 0 var(--s9)}
   .buildnote{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.7}
   .buildnote a{color:var(--dim)}
   .buildnote a:hover{text-decoration:underline}
@@ -318,6 +328,19 @@ try{
 /* ---------- parsing — shared with Node tests via js/report-parser.js ---------- */
 const parseReport = window.GPReportParser.parseReport;
 
+/* RETENTION §4 residual: Studio events used to ship without the cohort ids
+   every other page attaches — the same eight lines Vitals carries. */
+let _AID = "", _FSW = "";
+try{
+  _AID = localStorage.getItem("gp-aid") || Math.random().toString(36).slice(2, 10);
+  localStorage.setItem("gp-aid", _AID);
+  _FSW = localStorage.getItem("gp-fsw") || String(Math.floor(Date.now() / 6048e5));
+  localStorage.setItem("gp-fsw", _FSW);
+}catch(e){}
+function track(name, data){
+  try{ window.va("event", { name: name, data: Object.assign({ aid: _AID, fsw: _FSW }, data || {}) }); }catch(e){}
+}
+
 /* ---------- clipboard ---------- */
 function feedback(btn, ok){
   if(!btn.dataset.label) btn.dataset.label = btn.textContent;
@@ -328,7 +351,7 @@ function feedback(btn, ok){
 function copyText(txt, btn, ok, evt){
   const done = () => {
     feedback(btn, ok || "Copied ✓");
-    if(evt){ try{ window.va("event", evt); }catch(e){} }
+    if(evt){ track(evt.name, evt.data); }
   };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done).catch(fallback);
@@ -412,7 +435,7 @@ function chip(text, cls){
 }
 function findingRow(f){
   const row = document.createElement("div");
-  row.className = "find" + (checks[f.key] ? " checked" : "");
+  row.className = "find" + (checks[f.key] ? " checked" : "") + (f.fixed ? " fixed" : "");
   const top = document.createElement("div"); top.className = "find-top";
 
   const cb = document.createElement("input");
@@ -427,7 +450,10 @@ function findingRow(f){
 
   const ft = document.createElement("div"); ft.className = "ft";
   const title = document.createElement("label");
-  title.className = "ftitle"; title.htmlFor = cb.id; title.textContent = f.title;
+  /* SIGNATURE M1: the ✓ fixed chip already says it — drop the redundant
+     FIXED prefix from the visible title on closed rows */
+  title.className = "ftitle"; title.htmlFor = cb.id;
+  title.textContent = f.fixed ? f.title.replace(/^FIXED\s*[·:—-]?\s*/i, "") : f.title;
   const meta = document.createElement("div"); meta.className = "fmeta";
   if(f.sev === "S1") meta.append(chip("S1 · critical", "c-s1"));
   if(f.sev === "S2") meta.append(chip("S2 · high", "c-s2"));
@@ -540,16 +566,26 @@ function render(){
       body.append(pre); row.append(body); findingsEl.append(row);
       continue;
     }
-    let lastSec = null;
+    /* SIGNATURE M1: within each section, open findings first, fixed sink */
+    const groups = [];
     for(const f of r.findings){
-      if(f.section !== lastSec){
-        lastSec = f.section;
-        if(f.section){
-          const sh = document.createElement("div"); sh.className = "sechead"; sh.textContent = f.section;
-          findingsEl.append(sh);
+      const g = groups.length && groups[groups.length - 1].sec === (f.section || "")
+        ? groups[groups.length - 1]
+        : (groups.push({ sec: f.section || "", items: [] }), groups[groups.length - 1]);
+      g.items.push(f);
+    }
+    let lastSec = null;
+    for(const g of groups){
+      for(const f of g.items.filter(x => !x.fixed).concat(g.items.filter(x => x.fixed))){
+        if(f.section !== lastSec){
+          lastSec = f.section;
+          if(f.section){
+            const sh = document.createElement("div"); sh.className = "sechead"; sh.textContent = f.section;
+            findingsEl.append(sh);
+          }
         }
+        findingsEl.append(findingRow(f));
       }
-      findingsEl.append(findingRow(f));
     }
   }
 
@@ -601,19 +637,48 @@ function syncBar(){
 function addReport(name, text){
   name = (name || "report.md").trim();
   if(!text || !text.trim()){ note("That file looked empty — nothing added."); return; }
-  const replacing = reports.some(r => r.name === name);
-  const before = Object.keys(checks).length;
+  const old = reports.find(r => r.name === name);
+  /* COMPOUNDING C2 (155): finding keys are content hashes, so a re-run report
+     used to shed every check — the weekly loop reset its own triage. Diff the
+     old and new versions by report|title (the stable half of the key), carry
+     checks across, and — SIGNATURE M1 — post the loop's receipt: how many
+     findings closed since the last load. */
+  let closed = 0, stillOpen = 0, lostTitles = 0;
+  if(old){
+    try{
+      const po = parseReport(name, old.text), pn = parseReport(name, String(text));
+      /* a re-run marks closures by prefixing FIXED to the same title — strip
+         the tag vocabulary before comparing, or nothing ever matches */
+      const norm = t => String(t).replace(/^(FIXED|FIX|IMPROVE|NEW)\s*[·:—-]?\s*/i, "").trim();
+      const oldChecked = new Set(), oldOpen = new Set();
+      for(const f of po.findings){
+        if(checks[f.key]) oldChecked.add(norm(f.title));
+        if(!f.fixed) oldOpen.add(norm(f.title));
+      }
+      const carried = new Set();
+      for(const f of pn.findings){
+        const t = norm(f.title);
+        if(f.fixed){ if(oldOpen.has(t)) closed++; }
+        else {
+          stillOpen++;
+          if(oldChecked.has(t)){ checks[f.key] = 1; carried.add(t); }
+        }
+      }
+      for(const t of oldChecked) if(!carried.has(t) && !pn.findings.some(f => f.fixed && norm(f.title) === t)) lostTitles++;
+      if(Object.keys(checks).length) save("gp-studio-checks", checks);
+    }catch(e){}
+  }
   reports = reports.filter(r => r.name !== name);
   reports.push({ name: name, text: String(text) });
   if(save("gp-studio-reports", reports)) note("");   // a quota failure keeps its own note (FV10)
-  try{ window.va("event", { name: "studio_load_report" }); }catch(e){}
+  track("studio_load_report");
   render();
-  /* say so when re-adding a changed report dropped checked findings — the keys
-     are content hashes, so edited findings can't keep their old check state */
-  const lost = before - Object.keys(checks).length;
-  if(replacing && lost > 0){
-    note(lost + " previously checked finding" + (lost === 1 ? "" : "s") + " in " + name +
-         " changed in the new version, so the selection" + (lost === 1 ? "" : "s") +
+  if(old && closed > 0){
+    note(name + ": " + closed + " finding" + (closed === 1 ? "" : "s") + " closed since the last load" +
+         (stillOpen ? " · " + stillOpen + " still open" : " · none still open") + ".");
+  } else if(old && lostTitles > 0){
+    note(lostTitles + " previously checked finding" + (lostTitles === 1 ? "" : "s") + " in " + name +
+         " changed in the new version, so the selection" + (lostTitles === 1 ? "" : "s") +
          " cleared — re-check what still applies.");
   }
 }
@@ -716,42 +781,77 @@ function parseRepoRef(s){
 function reportLike(name){
   return /^[A-Z0-9_-]+\.md$/.test(name) && !GH_SKIP.has(name.toUpperCase());
 }
+/* DEFAULTS Q7 (155): the catalog knows every brief's output file and gp-runs
+   knows which this user actually runs — probe those before the generic
+   standbys when the listing API is out of reach. */
+async function ghProbeNames(){
+  let names = [];
+  try{
+    const runs = load("gp-runs", {});
+    const ids = Object.keys(runs);
+    if(ids.length){
+      const cat = await (await fetch("/catalog.json")).json();
+      const byId = {};
+      for(const b of cat.briefs || []) byId[b.id] = b;
+      names = ids.map(id => byId[id] && byId[id].output).filter(Boolean);
+    }
+  }catch(e){}
+  for(const n of GH_COMMON) if(names.indexOf(n) === -1) names.push(n);
+  return names.slice(0, 12);
+}
 async function ghProbeCommon(r){
+  const names = await ghProbeNames();
   const branches = r.branch ? [r.branch] : ["main", "master"];
   for(const br of branches){
     const found = [];
-    await Promise.all(GH_COMMON.map(async n => {
-      try{
-        const res = await fetch("https://raw.githubusercontent.com/" + r.owner + "/" + r.repo + "/" + br + "/" + n);
-        if(res.ok){ const t = await res.text(); if(t.trim()) found.push({ name: n, text: t }); }
-      }catch(e){}
+    /* DEFAULTS Q1: reports/ is the product's own default output dir — probe
+       it first, then the root, per filename */
+    await Promise.all(names.map(async n => {
+      for(const p of ["reports/" + n, n]){
+        try{
+          const res = await fetch("https://raw.githubusercontent.com/" + r.owner + "/" + r.repo + "/" + br + "/" + p);
+          if(res.ok){ const t = await res.text(); if(t.trim()){ found.push({ name: n, text: t }); return; } }
+        }catch(e){}
+      }
     }));
     if(found.length) return found;
   }
   return [];
 }
-async function loadFromGitHub(refStr){
+/* DEFAULTS Q1 (155): every brief writes to reports/ when it exists and every
+   conductor creates it — so the loader lists reports/ alongside the root.
+   PERCEIVED-SPEED W3: the button narrates each phase, and a rate limit is
+   reported as a rate limit, never as "no reports". */
+async function loadFromGitHub(refStr, btn){
   const r = parseRepoRef(refStr);
   if(!r){ note("That doesn't look like owner/repo or a GitHub URL."); return 0; }
-  let files = null, over = 0;
-  try{
-    const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo +
-      "/contents" + (r.branch ? "?ref=" + encodeURIComponent(r.branch) : ""));
-    if(res.ok){
-      const list = await res.json();
-      if(Array.isArray(list)){
-        const all = list.filter(f => f.type === "file" && reportLike(f.name) && f.download_url);
-        files = all.slice(0, 12);
-        over = all.length - files.length;   // FORMS FV9 (R41): say so when the cap bites
-      }
-    } else if(res.status === 404){
-      note("GitHub can't find " + r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : "") + " — private repos need their reports dropped or pasted here instead.");
-      return 0;
-    }
-    /* other statuses (403 rate limit…) fall through to the raw-URL probe */
-  }catch(e){ /* offline or blocked — probe below */ }
+  const phase = t => { if(btn) btn.textContent = t; };
+  let files = null, over = 0, limited = false;
+  phase("listing repo…");
+  for(const p of ["", "/reports"]){
+    try{
+      const res = await fetch("https://api.github.com/repos/" + r.owner + "/" + r.repo +
+        "/contents" + p + (r.branch ? "?ref=" + encodeURIComponent(r.branch) : ""));
+      if(res.ok){
+        const list = await res.json();
+        if(Array.isArray(list)){
+          const all = list.filter(f => f.type === "file" && reportLike(f.name) && f.download_url);
+          files = (files || []).concat(all);
+        }
+      } else if(res.status === 404 && p === ""){
+        note("GitHub can't find " + r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : "") + " — private repos need their reports dropped or pasted here instead.");
+        return 0;
+      } else if(res.status === 403){ limited = true; files = null; break; }
+      /* a 404 on /reports just means the directory doesn't exist */
+    }catch(e){ /* offline or blocked — probe below */ }
+  }
   let loaded;
   if(files){
+    /* prefer the reports/ copy when both paths carry the same filename */
+    const seen = new Set();
+    files = files.reverse().filter(f => seen.has(f.name) ? false : (seen.add(f.name), true));
+    if(files.length > 12){ over = files.length - 12; files = files.slice(0, 12); }  // FORMS FV9
+    phase("fetching " + files.length + " report" + (files.length === 1 ? "" : "s") + "…");
     loaded = [];
     await Promise.all(files.map(async f => {
       try{
@@ -760,10 +860,13 @@ async function loadFromGitHub(refStr){
       }catch(e){}
     }));
   } else {
+    phase(limited ? "rate-limited — probing likely filenames…" : "probing likely filenames…");
     loaded = await ghProbeCommon(r);
   }
   if(!loaded.length){
-    note("No report-shaped .md files (ALL-CAPS names) at that repo's root — run some briefs on it first, or drop files here.");
+    note(limited
+      ? "GitHub rate-limited the folder listing, and the fallback probe of likely filenames found none — wait a few minutes and retry, or drop the files here."
+      : "No report-shaped .md files (ALL-CAPS names) at that repo's root or in reports/ — run some briefs on it first, or drop files here.");
     return 0;
   }
   loaded.sort((a, b) => a.name < b.name ? -1 : 1);
@@ -771,15 +874,28 @@ async function loadFromGitHub(refStr){
   if(over > 0){
     note("That repo has " + (over + 12) + " report-shaped .md files — loaded the first 12 (alphabetical). Drop the rest here if you need them.");
   }
-  try{ window.va("event", { name: "studio_load_github", data: { n: loaded.length } }); }catch(e){}
+  /* DEFAULTS Q2: a ref that just worked is worth remembering — it prefills
+     this box (and the landing page's) next time, editable as ever */
+  save("gp-repo", r.owner + "/" + r.repo + (r.branch ? "@" + r.branch : ""));
+  track("studio_load_github", { n: loaded.length });
   return loaded.length;
 }
 disclosure("ghbtn", "ghbox", "ghref");
+/* DEFAULTS Q2: prefill the box with the last ref that worked (saved by
+   loadFromGitHub) — a prefilled field, edit or clear it */
+(function(){
+  const b = document.getElementById("ghbtn"), open = b.onclick;
+  b.onclick = () => {
+    open();
+    const g = document.getElementById("ghref");
+    if(!g.value){ const last = load("gp-repo", ""); if(last) g.value = last; }
+  };
+})();
 document.getElementById("ghload").onclick = async function(){
   const ghref = document.getElementById("ghref");
   const ref = ghref.value;
   this.disabled = true; this.textContent = "loading…";
-  const n = await loadFromGitHub(ref);
+  const n = await loadFromGitHub(ref, this);   // W3: the button narrates each phase
   this.disabled = false;
   ghref.classList.toggle("is-error", !n);
   if(n){ ghref.removeAttribute("aria-invalid"); } else { ghref.setAttribute("aria-invalid", "true"); }
@@ -799,11 +915,13 @@ document.getElementById("demobtn").onclick = async function(){
   if(!this.dataset.label) this.dataset.label = this.textContent;
   this.disabled = true; this.textContent = "loading…";
   try{
-    for(const n of names){
+    /* PERCEIVED-SPEED W9: fetch the four samples in parallel, add in order */
+    const texts = await Promise.all(names.map(async n => {
       const res = await fetch("/reports/" + n);
       if(!res.ok) throw new Error(n);
-      addReport(n, await res.text());
-    }
+      return res.text();
+    }));
+    names.forEach((n, i) => addReport(n, texts[i]));
     /* FORMS FV6 (R41): the old permanent "loaded ✓" left a dead control —
        feedback() resets the label, and re-enabling lets a cleared Studio
        re-run the demo without a reload */

@@ -14,7 +14,7 @@ This is the acting half of the catalog: every other brief reports; this one impl
 - Set aside items already marked fixed or shipped; note them as done.
 
 ## Phase 2 — Present, then ask the scope
-- Show the menu: a numbered table of findings — id (like BUGS-3) · what · severity · effort · files it will touch.
+- Show the menu: a numbered table of findings as a ranked list in plain words — id (like BUGS-3) · what · severity · effort · files it will touch.
 - Map dependencies: which findings must land before others — a schema before the code that uses it, a rename before its callers, a shared util before its consumers.
 - Then stop and ask how much to take on. Report only — end by asking which scope to run:
   - **Everything** — every finding, sequenced into a dependency-ordered plan and built in that order

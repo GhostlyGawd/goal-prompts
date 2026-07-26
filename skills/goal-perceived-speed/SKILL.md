@@ -43,4 +43,5 @@ Start the report with today's date. If `PERCEIVED-SPEED.md` already exists from 
 - Optimistic UI is only recommended with its failure story: what the user sees when the write fails
 - No interactive user-facing surface in this repo (pure library, batch pipeline)? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which wait to make disappear first

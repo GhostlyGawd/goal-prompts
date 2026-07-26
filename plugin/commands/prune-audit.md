@@ -41,4 +41,5 @@ Start the report with today's date. If `PRUNE.md` already exists from a previous
 - Provably unreferenced or verifiably dead — no vibes-based deletion
 - Deleting code you might need later is what git history is for
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which deletions to make

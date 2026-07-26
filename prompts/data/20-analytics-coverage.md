@@ -45,4 +45,5 @@ Start the report with today's date. If `ANALYTICS.md` already exists from a prev
 - Properties are where the insight lives; name them explicitly
 - No product events to instrument in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which events to implement

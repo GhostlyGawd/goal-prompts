@@ -1,6 +1,86 @@
 # FIXLOG.md
 *Produced by brief 47 · The Fixer, run against this repo (goal-prompts). Part of the sample-report gallery — this is the acting half of the catalog dogfooding itself: the reports at this root became the commits below. Newest session first.*
 
+## Session — every finding, worked through (2026-07-26)
+- Branch: `claude/product-engagement-stickiness-1cril7`
+- Focus: the operator's "work through every finding" — all 8 findings from the
+  same-day POLISH run (shipped earlier on this branch), all 32 findings from the
+  fresh All-Craft run (DEFAULTS, PERCEIVED-SPEED, COMPOUNDING, SIGNATURE), and a
+  full re-verification of the 18 defect-shaped legacy reports (~300 findings
+  triaged against current code by 11 parallel read-only passes; the venture and
+  strategy reports are analysis artifacts and were left out of fixing scope).
+  Triage verdict on the legacy backlog: the overwhelming majority had already
+  shipped in rounds R01–R66 — 26 items were still live, and all are closed below
+  or declined with reasons. Every behavioral fix was verified in a real browser.
+
+### Fixed (this round)
+| Finding | Source | What shipped |
+|---|---|---|
+| Studio's GitHub loader blind to `reports/`, the product's own default output dir | DEFAULTS Q1 (S1) | loader lists `/contents/reports` beside the root; probe tries `reports/<name>` first |
+| Repo ref asked twice, remembered never | DEFAULTS Q2 | `gp-repo` saved on success; prefills Studio, the landing analyzer, and Vitals |
+| One-shot roadmap milestone permanently masked the stale-Vitals nudge | DEFAULTS Q3 + SIGNATURE M6/R2 | staleness outranks the milestone on landing + detail pages; both nudges dismissible (per-stale-period / forever) |
+| Detail pages hid run state the device stores | DEFAULTS Q4 | "✓ run · 3d ago" chips beside CTAs and sequence steps |
+| Browse gate re-asked a proven regular | DEFAULTS Q5 | any run mark boots into the catalog |
+| Conductor copies dropped Operator context | DEFAULTS Q6 | ctx block rides `makeConductor()` and the playbook-page CTA |
+| Fallback probe guessed 11 names while the catalog knows 157 | DEFAULTS Q7 | run-marked briefs' outputs probed first via catalog.json |
+| `product` field blank after a call that carries it | DEFAULTS Q8 | repo description prefills it — only when empty, announced, editable |
+| Coarse pointer lost the real next step | DEFAULTS Q9 | toast shows paste guidance AND the raw-URL bridge |
+| Vitals had no fetch path | DEFAULTS Q10 | one-tap "refresh HEALTH.md from ⟨repo⟩" (reports/ first) |
+| Hero copy frozen for the bodies.json download | SPEED W1 (S2) | synchronous "copying…" + aria-busy; feedback/fail restore |
+| Warm cache bought returning visitors nothing (lie-fi worst case) | SPEED W2 (S2) | SW races network vs 2.5s timeout → cache; content-hash cache self-invalidates on deploy |
+| GH load: flat "loading…" over 22 requests; 403 reported as "no reports" | SPEED W3 (S2) | phase narration on the button; rate limit named honestly |
+| Step copy double-fetched and lost the copy on WebKit | SPEED W4 | disabled during fetch; gesture-synchronous ClipboardItem |
+| Step copies polluted the /raw/ usage metric | SPEED W5 | steps source bodies.json; /raw/ stays the agents' endpoint |
+| Quickstart hidden until full parse (6.2s at 40KB/s) | SPEED W6 + CRO NF1 + FUNNEL entry | server-rendered visible link at button weight beside the CTAs; JS upgrades in place |
+| The ~15 min wait started unstated on the majority path | SPEED W7 | both toast forms name it |
+| Quick view popped in two motions | SPEED W8 | min-height reserved while loading |
+| Demo fetched 4 samples serially | SPEED W9 | parallel fetch, ordered add |
+| The charter fed back only through conductors | COMPOUNDING C1 (S1) | charter line on every copy: both `withContext` twins |
+| Weekly re-run wiped Studio triage | COMPOUNDING C2 (S2) | checks re-attach by normalized title across re-adds |
+| Sequence builder: one unnamed slot, "destroy it" at the cap | COMPOUNDING C3 (S2) | named saves under `gp-seqs`; "your conductors" row under the storefront |
+| Nothing stated what the user built | COMPOUNDING C4 (S2) | inventory line beside the export controls |
+| Run history overwritten to one timestamp | COMPOUNDING C5 | capped `gp-runhist` array; "✓ run ×3" labels |
+| Searches evaporated | COMPOUNDING C6 | recent-searches row, cap 5, saved only when a query found something |
+| Nothing read FIXLOG.md back | COMPOUNDING C7 | briefs 29 + 46 credit fixed findings to their logged commits in the diff |
+| The loop's proof moment was silent | SIGNATURE M1 | "N findings closed since the last load" receipt; fixed rows sink, dimmed, deduped |
+| Vitals painted wins red | SIGNATURE M2 | lower-is-better map; unknown metrics honestly neutral |
+| Vitals shipped half-open ([hidden] unpinned) | SIGNATURE M3 | Studio's one-line pin copied over |
+| Single briefs ended as a file path, not a felt win | SIGNATURE M4 | "ranked list in plain words" bullet in all 157 briefs + linter rule + CONTRIBUTING grammar |
+| First-copy toast was a four-path menu that never decayed | SIGNATURE M5/R1/R3 | first form: paste + what-next; decays to one line after the first run; Day-1 tee waits for proven intent |
+| Debrief shape unpinned, could drift silently | SIGNATURE §2 | three-beat shape (ranked list · ask · handoff) pinned in the conductor test |
+| Overclaim: "Every Goal Prompt is tested on this repo" | PROOF NF1 | rescoped to the playbook families whose reports are public |
+| Studio events lacked the cohort ids | RETENTION §4 | same 8-line track() helper the other pages carry |
+| Double-filled primaries on every generated page | HIERARCHY F1/F3 | nav CTA ghosted site-wide; Studio's drop/demo own the fill |
+| Four inherited faux-bolds | TYPO T1 | real faces/weights (display 740, mono 600) |
+| 29 half-pixel sizes + line-height sprawl regressed since round 3 | TYPO T3/T5 | re-folded to the round-3 map (visually indistinguishable) |
+| Detail pages lacked disabled/press/link-affordance states | STATES S5/S6/S7 | three SITE_CSS rules; checkbox hover added |
+| Tool navs bypassed width tokens, dropped links at 640px, off-scale pads | LAYOUT L1/L3/L4 | `--w-read`/`--gutter` navs; scroll-not-vanish links; 4pt-scale pads |
+| Conductor gloss was tooltip-only; raw report .md indexable | COMPREHENSION F4 · SEO-8 | visible seqbar gloss; `/reports/(.*)` noindexed |
+| Post-run failure was invisible | FUNNEL stall 4 | "no report? →" recovery line in #how, linked from every copy toast |
+| Device-bound state, export buried | FUNNEL habit (c) | "export setup →" rides the welcome-back banner |
+
+### Declined by design, with reasons
+- **COLOR C7 (merge/retire family hues):** 24 families now share the hue wheel,
+  but color stopped being the sole family signal when C8 shipped famchips
+  (icon + name). Recoloring families is an identity decision ADR-12/13 reserve
+  for the operator — flagged, not executed.
+- **LAYOUT L5 (collapse 11 breakpoints to 3):** rewriting @media literals
+  changes real behavior at in-between widths for near-zero user-visible payoff —
+  fails the round-3 "no perceptible change" bar for value remaps.
+- **LAYOUT L6 tail (map 14/18/26/34px onto the 4pt grid):** those maps ARE
+  perceptible 2px shifts at dozens of call sites; the on-scale values are
+  tokenized, the off-scale tail is documented instead of silently moved.
+- **TYPO T3's aggressive half (a 5-step type scale in brand.json):** folding
+  14/15/16 into one step shifts running text — same decline as round 3; the
+  half-pixel defect itself is re-fixed.
+
+### Ops-only remainder (no code path)
+- Raw-fetch counting (FUNNEL §4.3/§4.4, RETENTION): enable the Vercel
+  Observability filter on `pathname:/raw/` (+ commands archives) and date it in
+  docs/usage-metrics.md — dashboard access only the operator has.
+- SIGNATURE §2's gallery transcript: wants the debrief of a *real* external
+  run, not a mockup — becomes available the first time one is captured.
+
 ## Session — open-items backlog, round 3 (2026-07-09)
 - Branch: `claude/open-items-backlog-rm6wzx`
 - Focus: build the "irreducible remainder" round 2 left behind — the spacing/type

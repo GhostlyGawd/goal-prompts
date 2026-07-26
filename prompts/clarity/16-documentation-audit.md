@@ -44,4 +44,5 @@ Start the report with today's date. If `DOCS.md` already exists from a previous 
 - Test docs by following them, not by reading them
 - Fewer, accurate docs beat many stale ones
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
+- Before asking, present the top findings as a ranked list in plain words
 - Report only — end by asking which docs to fix first
