@@ -2401,6 +2401,26 @@
    "type": "standard"
   },
   {
+   "badge": "New",
+   "conductor": "https://goal-prompts.vercel.app/raw/playbook-feelsright.md",
+   "desc": "The billion-dollar-feel pass: land the first win, teach the empty screens, then run the five Craft audits — fit and finish, smart defaults, perceived speed, compounding value, signature moments — and close the return trip.",
+   "ids": [
+    "80",
+    "133",
+    "152",
+    "153",
+    "154",
+    "155",
+    "156",
+    "78"
+   ],
+   "key": "feelsright",
+   "name": "Feels Right",
+   "page": "https://goal-prompts.vercel.app/p/feelsright",
+   "tagline": "Eight audits that turn a product that works into one that feels expensively made.",
+   "type": "standard"
+  },
+  {
    "conductor": "https://goal-prompts.vercel.app/raw/playbook-newyear.md",
    "desc": "A themed start-of-year sweep: read the vitals, prune the dead weight, simplify what remains, and synthesize next year's roadmap — one seasonal bundle.",
    "ids": [
