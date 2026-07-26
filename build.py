@@ -1679,6 +1679,36 @@ def report_page(name: str, md: str, prompts: list,
                 f"{BASE}/og.png", og_type="article")
 
 
+def notfound_page(prompts: list) -> str:
+    """POLISH S3 (152): the branded 404. Before this, a mistyped /b/999 or a
+    stale link landed on the host's stock error page — the one screen with no
+    ledger type, no mark, and no way back. Same shell as every other page;
+    noindexed and deliberately absent from the sitemap."""
+    n = len(prompts)
+    body = (
+        '<section class="dhero"><div class="wrap">'
+        '<div class="crumb"><a href="/">Home</a><span class="sep">/</span>'
+        '<span>404</span></div>'
+        '<h1 style="margin-top:14px">Not in the ledger.</h1>'
+        '<p class="lede">That address doesn’t match a brief, a playbook, or a '
+        'report here — the link may predate a move, or a digit went astray. '
+        'Nothing is lost: everything this site serves is one hop from the catalog.</p>'
+        '<div class="cta">'
+        '<a class="btn btn-primary" href="/#catalog">Browse the catalog</a>'
+        '<a class="btn btn-ghost" href="/examples/">See real reports</a>'
+        '</div></div></section>'
+        + foot("Looking for a specific brief?",
+               f"All {n} Goal Prompts are searchable from the landing page — "
+               "press / and type.",
+               '<a class="btn btn-primary" href="/#catalog">Open the library</a>'
+               '<a class="btn btn-ghost" href="/#playbooks">Grab a playbook</a>'))
+    return page("Not found — Goal Prompts",
+                "That address doesn’t match anything in the catalog — "
+                f"browse all {n} Goal Prompts instead.",
+                f"{BASE}/", body, f"{BASE}/og.png",
+                head_extra='<meta name="robots" content="noindex">\n')
+
+
 def quality_page(prompts: list) -> str:
     """R50 (COMPETITIVE §10 bet 2, §6.1): /quality — why these briefs don't
     rot. The category's complaint record is flaky, stale, unmanageable
@@ -2314,6 +2344,11 @@ def main() -> None:
     # don't rot", linked from the loop copy and every footer ----
     quality_html = quality_page(prompts)
     (ROOT / "quality.html").write_text(quality_html, encoding="utf-8")
+
+    # ---- 404 (POLISH S3, 152): Vercel serves a root 404.html for missing
+    # paths on static deploys — without one, the lost visitor got the only
+    # unbranded screen in the product. noindex; not in the sitemap. ----
+    (ROOT / "404.html").write_text(notfound_page(prompts), encoding="utf-8")
 
     # ---- /teams + /partners (R55): the revenue rails — the offer page and
     # the rate-card structure; pricing/audience numbers stay "on request" ----

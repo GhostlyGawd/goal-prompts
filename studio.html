@@ -633,11 +633,21 @@ fileEl.onchange = () => { readFiles(fileEl.files); fileEl.value = ""; };
 ["dragleave", "drop"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.remove("over"); }));
 dropEl.addEventListener("drop", e => { if(e.dataTransfer && e.dataTransfer.files) readFiles(e.dataTransfer.files); });
 
-document.getElementById("pastebtn").onclick = () => {
-  const box = document.getElementById("pastebox");
-  box.hidden = !box.hidden;
-  if(!box.hidden) document.getElementById("pastename").focus();
-};
+/* POLISH S3 + systemic (152, 2026-07-26): every disclosure used to hand-roll
+   its own toggle, which is exactly how Escape came to close boxes on the
+   landing page but not here. One helper: toggle, focus the first field on
+   open, close on Escape anywhere inside and hand focus back to the button. */
+function disclosure(btnId, boxId, firstId){
+  const btn = document.getElementById(btnId), box = document.getElementById(boxId);
+  btn.onclick = () => {
+    box.hidden = !box.hidden;
+    if(!box.hidden) document.getElementById(firstId).focus();
+  };
+  box.addEventListener("keydown", e => {
+    if(e.key === "Escape"){ box.hidden = true; btn.focus(); }
+  });
+}
+disclosure("pastebtn", "pastebox", "pastename");
 document.getElementById("pasteadd").onclick = () => {
   const nameEl = document.getElementById("pastename");
   const textEl = document.getElementById("pastetext");
@@ -663,8 +673,28 @@ document.getElementById("pasteadd").onclick = () => {
   }
   addReport(name, text);
   textEl.value = ""; nameEl.value = "";
+  try{ sessionStorage.removeItem("gp-studio-draft"); }catch(e){}
   document.getElementById("pastebox").hidden = true;
 };
+/* POLISH S3 (152, 2026-07-26): a half-written paste died with a reload — the
+   one unprotected input on the page (reports persist only after "add").
+   Mirror the draft into sessionStorage on input, restore it on load with the
+   box reopened, and clear it the moment the add lands. */
+(function(){
+  const textEl = document.getElementById("pastetext"), nameEl = document.getElementById("pastename");
+  const saveDraft = () => {
+    try{ sessionStorage.setItem("gp-studio-draft",
+      JSON.stringify({ name: nameEl.value, text: textEl.value })); }catch(e){}
+  };
+  textEl.addEventListener("input", saveDraft);
+  nameEl.addEventListener("input", saveDraft);
+  let d = null;
+  try{ d = JSON.parse(sessionStorage.getItem("gp-studio-draft")); }catch(e){}
+  if(d && (d.text || "").trim()){
+    nameEl.value = d.name || ""; textEl.value = d.text;
+    document.getElementById("pastebox").hidden = false;
+  }
+})();
 /* Enter in the name field submits the add — same handler its twin ghref has (FV2) */
 document.getElementById("pastename").addEventListener("keydown", e => {
   if(e.key === "Enter"){ e.preventDefault(); document.getElementById("pasteadd").click(); }
@@ -744,11 +774,7 @@ async function loadFromGitHub(refStr){
   try{ window.va("event", { name: "studio_load_github", data: { n: loaded.length } }); }catch(e){}
   return loaded.length;
 }
-document.getElementById("ghbtn").onclick = () => {
-  const box = document.getElementById("ghbox");
-  box.hidden = !box.hidden;
-  if(!box.hidden) document.getElementById("ghref").focus();
-};
+disclosure("ghbtn", "ghbox", "ghref");
 document.getElementById("ghload").onclick = async function(){
   const ghref = document.getElementById("ghref");
   const ref = ghref.value;
@@ -805,31 +831,19 @@ function armConfirm(btn, armText, fn){
   clearTimeout(btn._armT); btn._armT = setTimeout(disarm, 4000);
   btn.addEventListener("blur", disarm, { once: true });
 }
-/* the undo half of POLISH S2: a transient chip where the removed one stood.
-   Single-level on purpose — any later state change re-renders the chips and
-   the offer quietly expires with them. Restores the report at its old index
-   and re-saves its checked keys (the prune already ran); skips the report if
-   an identical name was re-added meanwhile, but still restores the checks. */
+/* the undo half of POLISH S2, generalized per the report's systemic finding:
+   one snapshot → chip → restore primitive for every destructive act on this
+   page. Single-level on purpose — a new offer replaces the last, and any
+   later re-render clears the chip with the rest of the row. */
 let _undoT = null;
-function offerUndo(snap){
-  if(!snap.report) return;
+function undoChip(labelNodes, ariaLabel, restore){
   clearTimeout(_undoT);
   const old = document.getElementById("undopill"); if(old) old.remove();
   const pill = document.createElement("button");
   pill.id = "undopill"; pill.className = "repchip undo";
-  const b = document.createElement("b"); b.textContent = snap.report.name;
-  pill.append("removed ", b, " — undo");
-  pill.setAttribute("aria-label", "Undo removing " + snap.report.name);
-  pill.onclick = () => {
-    clearTimeout(_undoT);
-    if(!reports.some(q => q.name === snap.report.name)){
-      reports.splice(Math.min(snap.index, reports.length), 0, snap.report);
-      save("gp-studio-reports", reports);
-    }
-    Object.assign(checks, snap.checks);
-    save("gp-studio-checks", checks);
-    render();
-  };
+  pill.append.apply(pill, labelNodes);
+  pill.setAttribute("aria-label", ariaLabel);
+  pill.onclick = () => { clearTimeout(_undoT); restore(); render(); };
   repchipsEl.append(pill);
   _undoT = setTimeout(function tick(){
     /* don't yank it out from under keyboard focus — re-check in 4s */
@@ -837,20 +851,49 @@ function offerUndo(snap){
     pill.remove();
   }, 8000);
 }
+/* single-report removal: restores the report at its old index and re-saves
+   its checked keys (the prune already ran); skips the report if an identical
+   name was re-added meanwhile, but still restores the checks. */
+function offerUndo(snap){
+  if(!snap.report) return;
+  const b = document.createElement("b"); b.textContent = snap.report.name;
+  undoChip(["removed ", b, " — undo"], "Undo removing " + snap.report.name, () => {
+    if(!reports.some(q => q.name === snap.report.name)){
+      reports.splice(Math.min(snap.index, reports.length), 0, snap.report);
+      save("gp-studio-reports", reports);
+    }
+    Object.assign(checks, snap.checks);
+    save("gp-studio-checks", checks);
+  });
+}
 document.getElementById("clearall").onclick = function(){
   const n = reports.length;
   if(!n) return;
   armConfirm(this, "remove " + n + " report" + (n === 1 ? "" : "s") + " + selections? click again", () => {
+    /* POLISH systemic (152): arm-confirm guards the click, undo forgives it */
+    const snapR = reports, snapC = checks;
     reports = []; checks = {};
     save("gp-studio-reports", reports); save("gp-studio-checks", checks);
     render();
+    const b = document.createElement("b");
+    b.textContent = n + " report" + (n === 1 ? "" : "s");
+    undoChip(["removed ", b, " — undo"], "Undo removing all reports", () => {
+      reports = snapR; checks = snapC;
+      save("gp-studio-reports", reports); save("gp-studio-checks", checks);
+    });
   });
 };
 document.getElementById("unsel").onclick = function(){
   const n = selected().length;
   if(!n) return;
   armConfirm(this, "clear " + n + " selected? click again", () => {
+    const snapC = checks;
     checks = {}; save("gp-studio-checks", checks); render();
+    const b = document.createElement("b");
+    b.textContent = n + " selected";
+    undoChip(["cleared ", b, " — undo"], "Undo clearing the selection", () => {
+      checks = snapC; save("gp-studio-checks", checks);
+    });
   });
 };
 var _hintT;

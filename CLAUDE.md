@@ -95,7 +95,9 @@ network-only endpoint so its fetch counts stay an honest usage metric),
 edit that), `quality.html` (the `/quality` page — its copy lives in
 `build.py`'s `quality_page`), `teams.html`, `partners.html` (the `/teams`
 and `/partners` offer pages — copy in `build.py`'s `teams_page` /
-`partners_page`), `checksums.txt`, `commands.tar.gz`,
+`partners_page`), `404.html` (the branded not-found page Vercel serves for
+missing paths — copy in `build.py`'s `notfound_page`; noindexed, not in the
+sitemap), `checksums.txt`, `commands.tar.gz`,
 `commands.zip`, `cursor-commands.zip` (Cursor's `.cursor/commands/*.md`
 project-commands format),
 `sitemap.xml`, `robots.txt`, `sw.js`, `tokens.css`.

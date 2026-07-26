@@ -1,53 +1,54 @@
 # POLISH.md — Fit & Finish Audit
 
-2026-07-26 · brief 152 · first run
+2026-07-26 · brief 152 · second run (same day as the first)
 
-The flows walked, deliberately roughly: catalog search and filtering on the
-landing page, the quick-view and deep-link path, the copy buttons, the custom
-conductor sequence, and the whole Report Studio loop — paste, load from
-GitHub, check findings off, remove reports — refreshing mid-task, pressing
-Escape, and clicking × along the way. Every finding below was reproduced in a
-real browser against the built site, not inferred from code.
+What changed since the last run: everything. The first run's eight
+findings were worked through in order, and every fix below was re-verified
+in a real browser the same way the original findings were reproduced. One
+new seam was found *during* the fixing — restoring a search query at page
+load exposed a constant declared below the boot render (the ranked view had
+simply never run that early before) — caught, fixed, and folded into the
+search-state item. Nothing in this run's re-walk of the original flows
+turned up a new work-loss path.
 
-The baseline is high. Copy buttons only claim "Copied ✓" when the clipboard
-write actually lands and degrade to a raw-file link when it doesn't; bulk
-destructive buttons arm ("click again") instead of throwing dialogs; unnamed
-pastes get names inferred from their own markdown and suffix instead of
-overwriting; the repo box accepts a full GitHub URL, `owner/repo`, or a
-`.git` suffix without complaint; run chips say "1d ago", not a raw
-timestamp; the search box is `type="search"`, so Escape clears it natively;
-`/`, Cmd+K, and j/k give the whole catalog a hands-on-keyboard path. The
-findings are the seams left after all that.
+The re-walk covered the same ground: catalog search and filtering, the
+quick-view and deep-link path, the copy buttons, the custom conductor
+sequence, and the full Report Studio loop — refreshed mid-task, Escape
+pressed everywhere, every × and clear button exercised and undone.
 
 ## Loses user work
 
-- **FIX S2 · Removing one report in Studio destroys its checklist progress with a single click** — effort S · impact H. The per-report × (`studio.html:484`) filters the report out and re-renders; the re-render immediately prunes every saved checkbox that no longer matches a loaded finding (`studio.html:471-474`, `gp-studio-checks`). Reproduced: check a finding, click the chip's ×, re-add the identical file — the findings return, the check state is gone. The × has no armed confirm (its own sibling "remove all reports" arms at `studio.html:790-799`) and no undo. An operator mid-triage who slips on the 12px × loses an afternoon of decisions silently. Fix, in order of craft: keep an in-memory copy of the removed report + its checks and show a one-line undo ("removed BUGS.md — undo") for ~8s before pruning; or at minimum give × the same armConfirm its bulk sibling has and defer pruning until a different report overwrites the key.
+- **FIXED S2 · Removing one report in Studio destroys its checklist progress with a single click** — shipped in the previous release: the × now snapshots the report and its checked keys and offers a transient "removed X — undo" chip; undo restores both at the old position. Re-verified this run.
 
-- **FIX S3 · A half-written paste dies with the tab** — effort S · impact M. The Studio paste box (`studio.html:623-649`) keeps the typed name and pasted markdown only in the live DOM; reload mid-edit and both are empty (reproduced). Reports themselves persist to localStorage the moment "add" is clicked — the draft *before* add is the only unprotected input on the page. Fix: mirror `#pastetext`/`#pastename` into sessionStorage on input, restore on load, clear on successful add. No unload dialog needed once the draft survives.
+- **FIXED S3 · A half-written paste dies with the tab** — the paste box now mirrors its name and text into sessionStorage on input, restores them (box reopened) on reload, and clears the draft the moment "add" lands. Verified: reload mid-draft returns the draft; a successful add leaves no residue. Honest scope: sessionStorage survives reload and restore-tab, not a deliberate tab close — reload was the loss path users actually hit.
 
-- **FIX S3 · Search and filter state vanish on reload** — effort S · impact M. `query`, the active family chip, and the active playbook filter live only in JS variables (`template.html:1820-1825`); reload and the filtered view resets to zero (reproduced: "error" → 8 cards → reload → all cards, empty box). The page already rewrites its URL with `history.replaceState` to strip tracking params (`template.html:1140`) and already owns `#NN` deep links, so the machinery exists. Fix: mirror `?q=…&f=…` into the URL via replaceState on input, restore them before first render. A filtered catalog view also becomes shareable for free, which the hash deep-links already proved people use.
+- **FIXED S3 · Search and filter state vanish on reload** — the query and family chip now mirror into `?q=…&f=…` via `replaceState` (no history spam) and restore before first paint; a filtered view is a shareable link for free. The fix surfaced a latent boot-order bug — the ranked view's family chips read `FAM_ICON` before its declaration when rendered at load — now declared beside `FAMILIES`, above the boot render. Verified: `?q=error` boot-renders 8 ranked cards, `?f=Craft` boot-renders the family with its chip pressed, and the URL cleans itself when filters reset. Scope note: the playbook filter deliberately stays out of the URL — playbooks already have their own `/p/<key>` pages as the shareable form.
 
 ## Breaks flow
 
-- **FIX S3 · Escape closes disclosures on the landing page but not in Studio** — effort S · impact M. The landing page's "⋯" more-rows close on Escape like any disclosure (`template.html:1613`); Studio's paste box and GitHub box don't — Escape inside `#pastetext` leaves the box open (reproduced; `studio.html:618-622`, `729-733` toggle only from their buttons). Same product, same key, different answer. Fix: one Studio keydown handler — Escape hides whichever box is open and returns focus to the button that opened it.
+- **FIXED S3 · Escape closes disclosures on the landing page but not in Studio** — fixed by the systemic cure rather than a patch: both Studio boxes now go through one `disclosure()` helper (below). Escape inside either box closes it and hands focus back to the button that opened it. Verified on both boxes.
 
-- **FIX S3 · Deep links flash the card but never hand it focus** — effort S · impact M. `openFromHash` (`template.html:1803-1817`) scrolls to the card, flashes it for two seconds, and sets the expander's aria state — but never calls `focus()`. The eye lands; the keyboard doesn't. j/k then starts from the top of the list, not from the card the link named, and Tab resumes from the document top. Cards are already focusable (j/k focuses them at `template.html:1842`), so the fix is one line: `el.focus({preventScroll:true})` after the scroll.
+- **FIXED S3 · Deep links flash the card but never hand it focus** — `openFromHash` now calls `el.focus({preventScroll:true})` after the scroll; cards were already j/k focus targets. Verified: landing on `/#152` puts `document.activeElement` on the card itself, so Tab and j/k resume from where the eye landed.
 
 ## Reads unfinished
 
-- **NEW S3 · The only unbranded screen in the product is the error screen** — effort S · impact M. There is no `404.html` in the repo, `build.py` doesn't generate one, and `vercel.json` doesn't configure one — a mistyped `/b/999` or a stale link lands on Vercel's stock 404, the one screen with no ledger type, no mark, and no way back. For a site whose whole pitch is craft, the lost visitor gets the least-crafted moment. Fix: emit a `404.html` from `build.py` (mark, one line of copy, a search link and "browse all briefs") — Vercel serves a root `404.html` automatically for static deploys.
+- **FIXED S3 · The only unbranded screen in the product was the error screen** — `build.py` now emits a `404.html` in the site shell ("Not in the ledger."), with the catalog and gallery one tap away and the full footer link row for orientation; noindexed and absent from the sitemap. Vercel serves a root `404.html` automatically for static deploys. Rendered and reviewed.
 
 ## Systemic gaps
 
-- **IMPROVE · There is no undo primitive anywhere** — effort M · impact H. The codebase's only answer to destructive acts is armConfirm ("click again"), which is good, and used on the bulk paths — but nothing in the product can *reverse* anything. One tiny shared helper (snapshot state → toast with "undo" → restore on click, expire after ~8s) would fix the S2 above, cover the sequence-clear and selection-clear paths, and set the pattern brief 152 preaches: undo over confirm.
+- **FIXED · There is no undo primitive anywhere** — Studio's one-off undo was extracted into `undoChip(label, aria, restore)` — snapshot → chip → restore, single-level, self-expiring, never expiring under keyboard focus — and now covers all three Studio destructive acts: single-report ×, "remove all reports", and "clear selection". On the landing page, clearing a conductor sequence now posts its toast with a live undo button (the toast already took DOM nodes; it brings its own 9-second expiry). Arm-confirm still guards every bulk click; undo now forgives it. All four paths verified round-trip: destroy → undo → state and storage identical.
 
-- **IMPROVE · Each disclosure box hand-rolls its own open/close** — effort S · impact M. The paste box, GitHub box, more-rows, and context box each wire their own toggle, hidden flag, and (sometimes) Escape/focus behavior — which is exactly how the Escape inconsistency crept in. A ten-line shared `disclosure(btn, box)` helper would give every current and future box Escape-to-close and focus-return for free.
+- **FIXED · Each disclosure box hand-rolls its own open/close** — Studio's paste and GitHub boxes now share one ten-line `disclosure(btn, box, firstField)` helper: toggle, focus the first field on open, Escape closes and returns focus. Any future box gets the same behavior by construction — which is the point.
 
 ## The feel delta
 
-The three changes that would most move this product toward feeling finished:
-1. The undo toast in Studio (kills the only real work-loss path and plants the undo primitive).
-2. Search/filter state in the URL (nothing lost on reload, filtered views become links).
-3. The branded 404 (the last unbranded pixel in the product).
+The first run named three changes that would most move the product toward
+feeling finished — the undo toast, search state in the URL, the branded 404.
+All three are shipped, along with the rest of the list. What this run leaves
+behind is a standard, not a backlog: destructive acts offer undo, drafts
+survive reloads, view state survives refreshes, Escape means one thing, and
+the lost visitor sees the same ledger as everyone else.
 
-Report only — which rough edge should be smoothed first?
+Report only — the previous run's findings are all closed; re-run this brief
+after the next stretch of UI work to see what new seams have crept in. Which
+surface should the next craft pass walk first?
