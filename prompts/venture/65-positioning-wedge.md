@@ -8,40 +8,40 @@ tagline: How to enter and be understood — the beachhead customer, the against-
 ---
 # Goal: Positioning & Wedge
 
-You are working inside this repo — the research workspace for this venture. Mission: turn the research at this root into positioning options — who it is for first, what it is against, what category it claims — and pressure-test each against the competitor language already live in the market.
+Mission: Choose an evidence-backed beachhead and positioning wedge for the selected venture.
 
-Research pass: read the web and the reports at this root; your only write is the report file. Every factual claim carries a source link and access date.
+Read repo instructions, CHARTER.md and relevant notes/reports at root and in reports/. Charter constraints bound recommendations. In a conductor, read INDEX.md and venture-run.json for scope, criteria, decisions and input versions; otherwise record these in this report. Your only write is this report. No outreach, purchases or code changes.
 
-## Phase 1 — Load the research
-- Read NICHE.md, DEMAND.md, COMPETITORS.md, and MARKET.md at this root; extract the beachhead candidates, the shared complaints, and the crowded claim-space.
-- Name which inputs are missing and what that absence costs this brief's confidence.
+## Phase 1 — Anchor
+- Read applicable NICHE.md, DEMAND.md, COMPETITORS.md and MARKET.md from root/reports/. Extract buyer, pain, budget and credible gaps.
+- Resolve scope conflicts; name missing inputs and uncertainty. Do not present a recommendation as an operator selection.
 
-## Phase 2 — Audit through 7 lenses
-1. **Beachhead selection** — the narrowest customer definition that still contains enough buyers; desperate beats big
-2. **The against-frame** — positioned against a competitor, against a workaround, or against a habit of doing nothing; choose per option and defend it
-3. **Category strategy** — join an existing category (cheap to explain, hard to win) or claim a niche of one (the reverse); what the search and review ecosystems reward here
-4. **The onlyness claim** — complete the sentence: the only X that does Y for Z — then verify no competitor page already says it
-5. **Objection map** — the top five reasons the beachhead says no, taken from real review and forum language, with the positioning answer to each
-6. **Pricing posture** — premium, mid, or disruptor entry given the matrix from 63; what the wedge price signals about the product
-7. **Message stress test** — each option's one-liner placed beside competitors' actual homepage copy: distinct, believable, and wanted — or camouflage
+## Phase 2 — Investigate
+1. **Beachhead** — narrow buyer with acute pain, sufficient reachable demand and operator access.
+2. **Alternative** — competitor, workaround or doing nothing; why switch now?
+3. **Category** — existing category versus a new explanation, including education cost.
+4. **Difference** — compare proposed claim with live competitor pages. Limited search cannot prove universal uniqueness.
+5. **Objections** — real buyer/review language and evidence-based responses; label hypotheses.
+6. **Price** — posture and billing unit tied to value and competitive options; mark untested willingness to pay.
+7. **Message** — compare drafts against actual competitor copy for clarity, credibility and relevance.
 
-## Phase 3 — Curate
-- Assemble 2–3 complete positioning options, each internally consistent: beachhead + frame + category + claim + price.
-- Recommend one, and name the evidence that would flip the recommendation.
+## Phase 3 — Decide
+- Produce two or three internally consistent options if evidence supports them; do not pad.
+- Recommend one and state flip conditions. Obtain selection or exercise explicit delegation before 66–67. A changed buyer/pain is a pivot requiring upstream revalidation.
 
 ## Phase 4 — Report
 Create `POSITIONING.md` at repo root:
-1. **Options table** — the 2–3 candidates, side by side
-2. **The recommended wedge** — argued, with its objection map
-3. **Message drafts** — a homepage one-liner and three supporting claims per option, each traceable to research
-4. **Flip conditions** — the new facts that would change the pick
+1. **Options** — buyer, alternative, category, claim, price, evidence and counterevidence.
+2. **Recommended wedge** — reasoning, objections, scope and selection status/authority.
+3. **Draft messages** — one-liner and supporting claims traceable to research; hypotheses labeled.
+4. **Next test** — cheapest message/price test, success/stop criteria and flip conditions.
 
-Start the report with today's date. If `POSITIONING.md` already exists from a previous run, read it first and lead with what changed since.
+Start with today's date. If `POSITIONING.md` already exists, read it first and lead with what changed; preserve prior work before an authorized replacement. Include scope, input versions, stable finding IDs, evidence, counterevidence and next steps; use the conductor's metadata when supplied.
 
 ## Rules
-- Every differentiation claim is checked against competitors' live pages and quoted
-- Positioning that requires educating the market is a cost, not a cleverness
-- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- Separate direct evidence, proxies, inference and assumptions. Material factual claims need source links and access dates; date events too. Repeated citations are not independent evidence. Disclose inaccessible sources and shortfalls; never invent quotes or numbers.
+- Include meaningful counterevidence and what would change the recommendation. Stop at the agreed research budget; if none, state a bounded search plan and unresolved gaps.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Before asking, present the top findings as a ranked list in plain words
-- Report only — end by asking which option to carry into the verdict
+- Before asking, present the top findings as a ranked list in plain words.
+- No defined venture after clarification? Write a one-paragraph null report. Thin research yields provisional positioning with limits, not confident differentiation.
+- Report only — end by asking which wedge to select; record authority before carrying it into the model and verdict.

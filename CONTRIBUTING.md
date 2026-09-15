@@ -76,3 +76,12 @@ Phase 4 inside this grammar:
   `effort S|M|L`, `impact L|M|H`, a leading `FIX`/`IMPROVE`/`NEW` tag in
   the title, and `FIXED`/`shipped` on resolved items.
 - `## headings` group findings into sections.
+
+## Venture contract
+
+Briefs 60–67 additionally retain charter/scope context, evidence links and dates,
+input versions, counterevidence and the report-only write boundary (linted).
+`workflows/venture-conductor.md` is the canonical template for every sequence that
+contains Venture briefs. `build.py` exports it to browser data and catalog.json;
+MCP reads catalog.json. Run `scripts/check` to verify full/partial/mixed parity and
+the disposable-repo state scenarios. See [workflow docs](docs/venture-workflow.md).

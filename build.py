@@ -151,6 +151,11 @@ def lint(p: dict) -> list:
                  "or the id joins NULL_REPORT_EXEMPT in build.py")
     if p["chars"] > LIMIT:
         v.append(f"body is {p['chars']} chars (max {LIMIT})")
+    if p.get("family") == "Venture":
+        for token in ("CHARTER.md", "venture-run.json", "source links and access dates",
+                      "counterevidence", "input versions", "Your only write is this report"):
+            if token not in body:
+                v.append(f"Venture contract missing '{token}'")
     if p["output"] in RESERVED_OUTPUTS:
         v.append(f"output '{p['output']}' is a reserved GitHub/community "
                  f"filename — pick one that can't shadow it")
@@ -205,6 +210,17 @@ def lint_family_icons(template: str) -> list:
     return v
 
 
+VENTURE_TEMPLATE = ROOT / "workflows" / "venture-conductor.md"
+
+
+def venture_conductor(pb, stages):
+    text = VENTURE_TEMPLATE.read_text(encoding="utf-8")
+    values = {"NAME": pb["name"], "DESC": pb["desc"],
+              "COUNT": str(len(pb["ids"])), "STAGES": "\n".join(stages), "BASE": BASE}
+    return re.sub(r"\{\{(NAME|DESC|COUNT|STAGES|BASE)\}\}",
+                  lambda m: values[m[1]], text)
+
+
 def conductor(pb: dict, by_id: dict) -> str:
     """A meta-prompt that runs every brief in a playbook, in order.
 
@@ -223,6 +239,8 @@ def conductor(pb: dict, by_id: dict) -> str:
         p = by_id[pid]
         stages.append(f"{n}. **{pid} · {p['title']}** — fetch {BASE}/raw/{pid}.md"
                       f" → writes `{p['output']}`")
+    if any(pid in {str(i) for i in range(60, 68)} for pid in pb["ids"]):
+        return venture_conductor(pb, stages)
     plural = "briefs" if len(pb["ids"]) > 1 else "brief"
     return f"""# Playbook: {pb['name']} (conductor)
 
@@ -2165,6 +2183,16 @@ def main() -> None:
     files = sorted((ROOT / "prompts").rglob("*.md"))
     if not files:
         fail("no prompt files found under prompts/")
+    # Browser data is generated from the same template used by Python and MCP.
+    core = ROOT / "js" / "catalog-core.js"
+    source = core.read_text(encoding="utf-8")
+    template_json = json.dumps(VENTURE_TEMPLATE.read_text(encoding="utf-8"), ensure_ascii=False)
+    source, replacements = re.subn(r"// BEGIN GENERATED VENTURE.*?// END GENERATED VENTURE",
+                    lambda _: "// BEGIN GENERATED VENTURE\nvar VENTURE_TEMPLATE = " + template_json + ";\n// END GENERATED VENTURE",
+                    source, flags=re.S)
+    if replacements != 1:
+        fail("js/catalog-core.js must contain exactly one generated Venture data block")
+    core.write_text(source, encoding="utf-8")
     prompts = [parse(f) for f in files]
     # source path per brief — feeds the sitemap's content-keyed <lastmod>
     src_of = {p["id"]: f for p, f in zip(prompts, files)}
@@ -2317,6 +2345,8 @@ def main() -> None:
     for d in ("raw", "b", "p", "r"):
         shutil.rmtree(ROOT / d, ignore_errors=True)
         (ROOT / d).mkdir()
+    for name in ("venture_check.py", "venture-run.schema.json"):
+        (ROOT / "raw" / name).write_bytes((ROOT / "workflows" / name).read_bytes())
     for p in prompts:
         (ROOT / "raw" / f'{p["id"]}.md').write_text(p["body"] + "\n", encoding="utf-8")
         siblings = [s for s in prompts
@@ -2426,6 +2456,7 @@ def main() -> None:
     # ---- machine-readable catalog ----
     catalog = {
         "name": "goal-prompts",
+        "venture_conductor": VENTURE_TEMPLATE.read_text(encoding="utf-8"),
         "base": BASE,
         "families": FAMILY_ORDER,
         "playbooks": [{**{k: pb[k] for k in ("key", "name", "desc", "ids")},

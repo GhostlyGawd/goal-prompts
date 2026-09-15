@@ -16,3 +16,10 @@ externally (R43).
 - score.py         mechanical scorer vs answer key
 - driver.sh        full Gate B matrix
 - results/, transcripts/  committed evidence (sanitized fixtures only)
+
+## Venture workflow trial
+
+[results/venture-workflow-v1/README.md](results/venture-workflow-v1/README.md)
+retains a synthetic eight-stage agent run, independent recovery review, original
+source bytes, checks, and a preserved report-quality repair/revalidation trail.
+It exercises workflow behavior, not live-market evidence or comparative efficacy.

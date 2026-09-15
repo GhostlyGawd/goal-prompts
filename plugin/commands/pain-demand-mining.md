@@ -4,40 +4,40 @@ description: "Proof people actually hurt — verbatim complaints mined from revi
 
 # Goal: Pain & Demand Mining
 
-You are working inside this repo — the research workspace for this venture. Mission: establish whether the pain behind this idea is real, frequent, and monetizable — from what people say unprompted and what they already spend — not from imagined personas.
+Mission: Determine whether the selected pain is frequent, severe and connected to actual spending; complaints alone do not prove demand.
 
-Research pass: read the web and any reports at this root; your only write is the report file. Every factual claim carries a source link and access date.
+Read repo instructions, CHARTER.md and relevant notes/reports at root and in reports/. Charter constraints bound recommendations. In a conductor, read INDEX.md and venture-run.json for scope, criteria, decisions and input versions; otherwise record these in this report. Your only write is this report. No outreach, purchases or code changes.
 
-## Phase 1 — Define the pain hypothesis
-- State the pain precisely: who hurts, when, doing what — from the operator's message or the reports at this root.
-- List where evidence would live if the pain were real: which review sites, forums, communities, job boards, and search patterns. This list is the search plan.
+## Phase 1 — Anchor
+- State who hurts, when, doing what, using the selected venture and NICHE.md where applicable. Explicitly label missing inputs and provisional hypotheses.
+- List sources where evidence should exist and the search budget before mining. Preserve decision bars; do not lower them after seeing evidence.
 
-## Phase 2 — Mine through 7 lenses
-1. **Verbatim complaints** — collect 15–30 real quotes about this pain from reviews, forums, and social posts; note recency and how often it recurs
-2. **The workaround census** — duct-tape in the wild: spreadsheets, automation chains, hired help, internal tools; every workaround is a purchase order waiting for a product
-3. **Existing spend** — what partial or adjacent solutions cost and their apparent adoption; people paying badly beats people not paying at all
-4. **Search and hiring signals** — the query language sufferers use and its apparent direction; job posts that exist to do this task manually
-5. **Severity markers** — nightmare, hours every week, compliance, losing revenue — versus mild-annoyance vocabulary; quote the difference
-6. **Frequency and trigger** — daily, per-deal, monthly-close, annual; pain without a recurring trigger churns
-7. **The silence test** — where evidence should exist but doesn't; absence in the obvious places is data too
+## Phase 2 — Investigate
+1. **Complaints** — aim for 15–30 short accurate quotes from independent people, linked and dated. Respect quotation limits; report fewer with the reason rather than pad.
+2. **Workarounds** — spreadsheets, automation, staff or services actually used; quantify costs only when supported.
+3. **Spend** — evidence people buy a remedy, with buyer, amount and context; vendor pricing alone is not adoption.
+4. **Signals** — search language and hiring needs; distinguish measured trends from impressions.
+5. **Severity** — concrete lost time, revenue or operational consequences versus mild annoyance.
+6. **Frequency** — recurring trigger and affected workflow; note sampling bias.
+7. **Silence** — search coverage, missing evidence, restricted access and evidence against the hypothesis; absence is not automatically no demand.
 
-## Phase 3 — Curate
-- Grade the pain: severity × frequency × evidence density × spend proof, arithmetic visible.
-- Write the honest counter-read of the same evidence — the interpretation under which this pain is not worth a company.
+## Phase 3 — Decide
+- Grade severity, frequency, independent evidence and spend separately with scales and reasons. Show arithmetic if combining scores, and never average away an unmet hard bar.
+- Give the strongest opposing interpretation equal effort. Recommend continue, refine/pivot, stop or gather evidence; distinguish unknown from demonstrated failure.
 
 ## Phase 4 — Report
 Create `DEMAND.md` at repo root:
-1. **The evidence wall** — quotes, linked and dated, grouped by sub-pain
-2. **Spend and workaround table** — solution · price · adoption signal
-3. **The verdict** — graded, with the disconfirming read given equal column inches
-4. **The ten people** — where to find ten sufferers to actually talk to this week
+1. **Evidence wall** — source, short quote, date, sub-pain, independence and limitations.
+2. **Spend/workarounds** — solution, cost, adoption evidence and unknowns.
+3. **Assessment** — criteria versus evidence, counter-read and uncertainty.
+4. **Next test** — where to reach ten relevant people, questions, success/stop criteria; no outreach.
 
-Start the report with today's date. If `DEMAND.md` already exists from a previous run, read it first and lead with what changed since.
+Start with today's date. If `DEMAND.md` already exists, read it first and lead with what changed; preserve prior work before an authorized replacement. Include scope, input versions, stable finding IDs, evidence, counterevidence and next steps; use the conductor's metadata when supplied.
 
 ## Rules
-- Real quotes with links; paraphrase is contamination
-- The disconfirming read is mandatory, not decorative
-- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- Separate direct evidence, proxies, inference and assumptions. Material factual claims need source links and access dates; date events too. Repeated citations are not independent evidence. Disclose inaccessible sources and shortfalls; never invent quotes or numbers.
+- Include meaningful counterevidence and what would change the recommendation. Stop at the agreed research budget; if none, state a bounded search plan and unresolved gaps.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Before asking, present the top findings as a ranked list in plain words
-- Report only — end by asking whether to proceed, pivot the pain, or drop it
+- Before asking, present the top findings as a ranked list in plain words.
+- No identifiable pain hypothesis after scope clarification? Write a one-paragraph null report. Sparse evidence for a defined pain instead yields an insufficient-evidence assessment.
+- Report only — end by asking whether to continue, pivot the pain or gather evidence; record a necessary decision before dependent work.

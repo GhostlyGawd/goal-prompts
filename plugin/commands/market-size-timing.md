@@ -4,40 +4,40 @@ description: "Bottom-up sizing with the arithmetic shown, growth read from prima
 
 # Goal: Market Size & Timing
 
-You are working inside this repo — the research workspace for this venture. Mission: size this market from the bottom up — countable buyers × plausible price — and judge the timing: what changed that makes this possible or urgent now, and what says it is early or late.
+Mission: Estimate the reachable market and timing for the selected venture with visible arithmetic and conservative assumptions.
 
-Research pass: read the web and any reports at this root; your only write is the report file. Every factual claim carries a source link and access date.
+Read repo instructions, CHARTER.md and relevant notes/reports at root and in reports/. Charter constraints bound recommendations. In a conductor, read INDEX.md and venture-run.json for scope, criteria, decisions and input versions; otherwise record these in this report. Your only write is this report. No outreach, purchases or code changes.
 
-## Phase 1 — Define the unit
-- Define the buyer unit precisely — a company of type X, a professional in role Y — and the annual-value hypothesis per unit.
-- Gather countable proxies: directories, associations, job-title counts, marketplace install counts, industry statistics — sources someone could actually enumerate.
+## Phase 1 — Anchor
+- Define the buyer unit, geography, wedge and annual value hypothesis from the selected scope and applicable NICHE/DEMAND/COMPETITORS reports.
+- Collect countable primary proxies; separate total buyers, addressable buyers and buyers the operator could actually acquire.
 
-## Phase 2 — Audit through 7 lenses
-1. **Bottom-up count** — buyers reachable in the wedge segment, then the expansion rings; every input sourced, every multiplication written out
-2. **Top-down sanity check** — published market figures used only to bound the bottom-up, never to replace it; explain any large gap between the two
-3. **Growth reading** — the countables over time: hiring trends, search-interest direction, community growth, funding flowing into the space
-4. **Why now** — the enabling shifts, with dates: a capability that got cheap, a regulation that landed, a behavior that changed; what exactly was impossible or unnecessary three years ago
-5. **Why not before** — prior attempts and precisely which constraint killed them; verify that constraint is actually gone rather than merely older
-6. **Window shape** — is early advantage real here (compounding data, standards, land-grab) or is fast-follow the smarter seat
-7. **Concentration risk** — a thousand small checks or five big ones; the platform dependencies that could reprice the whole market overnight
+## Phase 2 — Investigate
+1. **Bottom-up** — count × annual price, with units, source dates and double-counting checks.
+2. **Sanity check** — published totals only bound the model; explain large differences.
+3. **Growth** — comparable observations over time; do not invent trends from one snapshot.
+4. **Why now** — dated capability, behavior or regulatory shifts relevant to this buyer.
+5. **Why not before** — prior attempts and evidence that their binding constraint changed.
+6. **Window** — mechanism for early advantage versus waiting; strongest rebuttal.
+7. **Concentration** — buyer/supplier dependencies and exposure to repricing.
 
-## Phase 3 — Curate
-- State the obtainable market for years one and two as a range, assumptions explicit.
-- Write the bear case with the same rigor as the bull; this report exists to be wrong early and cheaply.
+## Phase 3 — Decide
+- Model years one and two as conservative/base/upside ranges constrained by channel access, conversion, sales cycle and operator capacity; label unsupported inputs as assumptions.
+- Show sensitivity and the bear case with equal effort. Market size does not establish demand.
 
 ## Phase 4 — Report
 Create `MARKET.md` at repo root:
-1. **The arithmetic** — the bottom-up model, every input sourced
-2. **Growth and timing** — the why-now case and its strongest rebuttal, side by side
-3. **The window** — the mover-advantage verdict with reasoning
-4. **Sensitivity** — the single assumption that, if wrong, most changes the answer
+1. **Arithmetic** — input table, sources, assumptions and visible calculations.
+2. **Timing** — why-now and strongest counterevidence side by side.
+3. **Window** — reachable revenue ranges and operational constraints.
+4. **Sensitivity/next test** — assumption most likely to flip the decision, and success/stop criterion.
 
-Start the report with today's date. If `MARKET.md` already exists from a previous run, read it first and lead with what changed since.
+Start with today's date. If `MARKET.md` already exists, read it first and lead with what changed; preserve prior work before an authorized replacement. Include scope, input versions, stable finding IDs, evidence, counterevidence and next steps; use the conductor's metadata when supplied.
 
 ## Rules
-- Show every multiplication; a number without visible arithmetic is a vibe
-- Bull and bear get equal effort
-- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- Separate direct evidence, proxies, inference and assumptions. Material factual claims need source links and access dates; date events too. Repeated citations are not independent evidence. Disclose inaccessible sources and shortfalls; never invent quotes or numbers.
+- Include meaningful counterevidence and what would change the recommendation. Stop at the agreed research budget; if none, state a bounded search plan and unresolved gaps.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Before asking, present the top findings as a ranked list in plain words
-- Report only — end by asking whether size and timing justify the next brief
+- Before asking, present the top findings as a ranked list in plain words.
+- No defined buyer unit after clarification? Write a one-paragraph null report naming what is needed. Missing counts yield ranges or insufficient evidence, not invented totals.
+- Report only — end by asking whether evidence supports the next stage or requires a narrower scope; honor an already delegated continuation.

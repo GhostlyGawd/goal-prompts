@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "run_id": "simulation-tutorfollowup-20260914",
+  "status": "complete",
+  "scope": {
+    "id": "tutorfollowup-us",
+    "revision": 1,
+    "buyer": "US independent tutors",
+    "pain": "missed payment follow-up",
+    "solution": "automated reminders"
+  },
+  "operator": {
+    "skills": "solo developer",
+    "hours_per_week": 5,
+    "monthly_budget_usd": 100,
+    "access": "12 tutor contacts (simulation)",
+    "goal": "part-time viability is provisional; no income target supplied"
+  },
+  "criteria": [
+    {
+      "id": "pain",
+      "threshold": "At least 3 independent buyers report a recurring missed-payment problem with a concrete consequence in last 90 days.",
+      "evidence": "Dated buyer accounts with frequency, consequence, and source independence.",
+      "recorded_at": "2026-09-15T04:06:42.873146+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    },
+    {
+      "id": "reachable_buyers",
+      "threshold": "At least 10 relevant US independent tutors are credibly contactable.",
+      "evidence": "Operator access plus confirmation of relevance and geography; contactability is not conversion.",
+      "recorded_at": "2026-09-15T04:06:42.873153+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    },
+    {
+      "id": "economics",
+      "threshold": "At least 2 relevant buyers commit to a tested price and conservative positive monthly contribution fits USD 100/month cap.",
+      "evidence": "Price commitments; measured variable and support costs; acquisition effort.",
+      "recorded_at": "2026-09-15T04:06:42.873155+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    },
+    {
+      "id": "operator_fit",
+      "threshold": "Pilot delivery plus support and selling fits 5 hours/week and USD 100/month.",
+      "evidence": "Timed pilot task and conservative support/sales workload.",
+      "recorded_at": "2026-09-15T04:06:42.873156+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    },
+    {
+      "id": "timing",
+      "threshold": "A current purchase trigger or dated enabling change with a credible reason to act now.",
+      "evidence": "Dated buyer trigger or primary evidence of changed constraint.",
+      "recorded_at": "2026-09-15T04:06:42.873157+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    },
+    {
+      "id": "unacceptable_risks",
+      "threshold": "No demonstrated unmitigable consent, privacy, or delivery blocker for the proposed pilot.",
+      "evidence": "Reviewed minimal data flow, permissions and delivery design; unknown is not cleared.",
+      "recorded_at": "2026-09-15T04:06:42.873159+00:00",
+      "exposure": "Before report conclusions; synthetic fixture facts already supplied, so not blind preregistration. Researcher-proposed provisional bars; no revisions."
+    }
+  ],
+  "decisions": [
+    {
+      "at": "2026-09-15T04:06:42.873161+00:00",
+      "authority": "supplied operator fixture",
+      "decision": "Evaluate TutorFollowup; keep buyer, pain, solution, geography fixed. All research authorized; commits no; wedge and continuation delegated; pivots not delegated. Offline installed sources expressly authorized."
+    },
+    {
+      "at": "2026-09-15T04:06:42.898667+00:00",
+      "authority": "operator selection",
+      "decision": "Revalidate scan for fixed TutorFollowup scope; proceed without candidate switch."
+    },
+    {
+      "at": "2026-09-15T04:06:43.038011+00:00",
+      "authority": "explicit operator delegation",
+      "decision": "Continue remaining research; gather missing evidence recommendation does not authorize outward tests or pivot."
+    },
+    {
+      "at": "2026-09-15T04:06:43.220740+00:00",
+      "authority": "explicit operator delegation",
+      "decision": "Select provisional payment-follow-up wedge within existing scope before 66\u201367."
+    },
+    {
+      "at": "2026-09-15T04:10:06.262357+00:00",
+      "authority": "explicit parent review-fix task within authorized simulation",
+      "decision": "Archive originals; repair local Niche test criteria; mark 62\u201367 stale and revalidate sequentially. Scope and original bars unchanged: this is an input-change recovery, not a pivot."
+    },
+    {
+      "at": "2026-09-15T04:10:06.464563+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 62 explicitly revalidated: Niche local interview criteria match existing Demand test: 3 recent recurring-consequence accounts and 2 price commitments. No new testimony or spending proof; demand remains unknown."
+    },
+    {
+      "at": "2026-09-15T04:10:06.567747+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 63 explicitly revalidated: Added interview plan supplies no competitor facts, adoption, or weak-supply evidence; gap classification remains unknown."
+    },
+    {
+      "at": "2026-09-15T04:10:06.667066+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 64 explicitly revalidated: Added local thresholds do not change network size, geography uncertainty, conversion assumptions or timing; scenario arithmetic unchanged."
+    },
+    {
+      "at": "2026-09-15T04:10:06.759518+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 65 explicitly revalidated: Added questions retain buyer/pain/product/geography and calendar counterevidence. Existing delegated provisional wedge selection remains applicable; no pivot."
+    },
+    {
+      "at": "2026-09-15T04:10:06.847190+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 66 explicitly revalidated: Added tests do not measure willingness to pay, variable costs, labor or consent; economics assumptions and ranked risk tests remain provisional."
+    },
+    {
+      "at": "2026-09-15T04:10:06.942630+00:00",
+      "authority": "authorized research continuation and review repair",
+      "decision": "Brief 67 explicitly revalidated: Rechecked all six unchanged bars against refreshed prior reports; proposed interviews are not executed evidence. All six remain unknown and ruling remains insufficient evidence."
+    },
+    {
+      "at": "2026-09-15T04:12:41.238116+00:00",
+      "authority": "explicit parent fresh-session review repair task",
+      "decision": "Archive current originals; mark 60\u201367 stale; add proposed local test thresholds and timing gate, then revalidate sequentially. No new evidence, scope change or bar revision."
+    },
+    {
+      "at": "2026-09-15T04:12:41.331270+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 60 revalidated: Added local pain/access success criteria and bounded stop rules from original bars; no new candidate or evidence."
+    },
+    {
+      "at": "2026-09-15T04:12:41.418718+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 61 revalidated: Reviewed revised Opportunity test against local Niche questions and thresholds: aligned; fixed scope and access uncertainty unchanged."
+    },
+    {
+      "at": "2026-09-15T04:12:41.517996+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 62 revalidated: Reviewed upstream local thresholds: unchanged pain/spend bars and shared batch. Complaints still do not establish willingness to pay."
+    },
+    {
+      "at": "2026-09-15T04:12:41.615911+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 63 revalidated: Added bounded calendar-sufficiency definitions and provisional test thresholds; no observed competitor or buyer evidence added. Gap remains unknown."
+    },
+    {
+      "at": "2026-09-15T04:12:41.705015+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 64 revalidated: Reviewed revised test plans: no new counts, conversions, price acceptance or dates; market scenarios and timing uncertainty unchanged."
+    },
+    {
+      "at": "2026-09-15T04:12:41.796384+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 65 revalidated: Reviewed refined gap test: it proposes evidence collection only; fixed provisional wedge remains selected under existing delegation, no pivot."
+    },
+    {
+      "at": "2026-09-15T04:12:41.899802+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 66 revalidated: Reviewed refined upstream tests: no measured costs, adoption or defense; economics/fit uncertainty and model assumptions remain unchanged."
+    },
+    {
+      "at": "2026-09-15T04:12:42.021365+00:00",
+      "authority": "authorized research continuation and explicit review repair",
+      "decision": "Brief 67 revalidated: Added timing follow-up within the existing first experiment and explicit unknown-timing gate. Original six bars unchanged; all remain unknown, ruling remains insufficient evidence."
+    }
+  ],
+  "commit_preference": "no",
+  "next_step": "Present insufficient-evidence ruling; obtain operator response on accepting it or challenging a bar. Any outreach requires explicit authorization.",
+  "stages": [
+    {
+      "brief": "60",
+      "output": "reports/OPPORTUNITIES.md",
+      "status": "complete",
+      "inputs": {},
+      "note": "Added local pain/access success criteria and bounded stop rules from original bars; no new candidate or evidence.",
+      "report_sha256": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/60.md",
+        "retrieved_at": "2026-09-15T04:06:42.898603+00:00",
+        "sha256": "c26b22df1e95977ca4b6ba92fab82a276abc7aaee955aa6d78d7140a1253badf"
+      }
+    },
+    {
+      "brief": "61",
+      "output": "reports/NICHE.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7"
+      },
+      "note": "Reviewed revised Opportunity test against local Niche questions and thresholds: aligned; fixed scope and access uncertainty unchanged.",
+      "report_sha256": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/61.md",
+        "retrieved_at": "2026-09-15T04:06:42.971813+00:00",
+        "sha256": "de638cfd8ecb236f3522a462c13af5a83bb6e99b9bd60a49f0035989fb3a6931"
+      }
+    },
+    {
+      "brief": "62",
+      "output": "reports/DEMAND.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1"
+      },
+      "note": "Reviewed upstream local thresholds: unchanged pain/spend bars and shared batch. Complaints still do not establish willingness to pay.",
+      "report_sha256": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/62.md",
+        "retrieved_at": "2026-09-15T04:06:43.037983+00:00",
+        "sha256": "110481024002f977ad0f484a7f7ec67de423c639fc609bad08605f5e3ca36744"
+      }
+    },
+    {
+      "brief": "63",
+      "output": "reports/COMPETITORS.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+        "reports/DEMAND.md": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c"
+      },
+      "note": "Added bounded calendar-sufficiency definitions and provisional test thresholds; no observed competitor or buyer evidence added. Gap remains unknown.",
+      "report_sha256": "62f8613d86fce0412a78b6793c1b1a14225941d37a532f7bdf9a70006c0a16fd",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/63.md",
+        "retrieved_at": "2026-09-15T04:06:43.101571+00:00",
+        "sha256": "6d88b59a78ad1dddc9fccdbd4bb2dc82099ab3a6ecdd7de88dad75bc796800bc"
+      }
+    },
+    {
+      "brief": "64",
+      "output": "reports/MARKET.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+        "reports/DEMAND.md": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c",
+        "reports/COMPETITORS.md": "62f8613d86fce0412a78b6793c1b1a14225941d37a532f7bdf9a70006c0a16fd"
+      },
+      "note": "Reviewed revised test plans: no new counts, conversions, price acceptance or dates; market scenarios and timing uncertainty unchanged.",
+      "report_sha256": "62c8be8f4d47aacdae7f84ef9d2fe3c3261b63c16182c06220dac8ce116ff19d",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/64.md",
+        "retrieved_at": "2026-09-15T04:06:43.158660+00:00",
+        "sha256": "5e7cc16895ffcab9782f919cc61e3b37ebb07a3866413b9b950f157ca3079246"
+      }
+    },
+    {
+      "brief": "65",
+      "output": "reports/POSITIONING.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+        "reports/DEMAND.md": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c",
+        "reports/COMPETITORS.md": "62f8613d86fce0412a78b6793c1b1a14225941d37a532f7bdf9a70006c0a16fd",
+        "reports/MARKET.md": "62c8be8f4d47aacdae7f84ef9d2fe3c3261b63c16182c06220dac8ce116ff19d"
+      },
+      "note": "Reviewed refined gap test: it proposes evidence collection only; fixed provisional wedge remains selected under existing delegation, no pivot.",
+      "report_sha256": "614382bb421f5bf6bfc71153fdec3b4372e8e0606844fd4b811b7a449435fe55",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/65.md",
+        "retrieved_at": "2026-09-15T04:06:43.220701+00:00",
+        "sha256": "ae6bc0b60704e87dc97933a0238718fdc6759463b6dba5ff727e0b2cf48b641a"
+      }
+    },
+    {
+      "brief": "66",
+      "output": "reports/MOAT.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+        "reports/DEMAND.md": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c",
+        "reports/COMPETITORS.md": "62f8613d86fce0412a78b6793c1b1a14225941d37a532f7bdf9a70006c0a16fd",
+        "reports/MARKET.md": "62c8be8f4d47aacdae7f84ef9d2fe3c3261b63c16182c06220dac8ce116ff19d",
+        "reports/POSITIONING.md": "614382bb421f5bf6bfc71153fdec3b4372e8e0606844fd4b811b7a449435fe55"
+      },
+      "note": "Reviewed refined upstream tests: no measured costs, adoption or defense; economics/fit uncertainty and model assumptions remain unchanged.",
+      "report_sha256": "12574f8accbfd7c198123c1a4342de18cae4c1466acdee83791506e0ff8dd60f",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/66.md",
+        "retrieved_at": "2026-09-15T04:06:43.287969+00:00",
+        "sha256": "8990c6c18425ed35834c5992d470ec95423a51c1c2ecaa433085c5b571be8300"
+      }
+    },
+    {
+      "brief": "67",
+      "output": "reports/VERDICT.md",
+      "status": "complete",
+      "inputs": {
+        "reports/OPPORTUNITIES.md": "62cc4fba4384b94077ccb393b763fa5d3b48f61c73ee0398bf0242bbe0fee0a7",
+        "reports/NICHE.md": "6918bad9d89c53748a1125563caf39d3ce195b625c8d6e20a4228c7f4e9328c1",
+        "reports/DEMAND.md": "7d85f09a46b4b69531754c79548c02ba530a400dcefc1868772c33540f2e491c",
+        "reports/COMPETITORS.md": "62f8613d86fce0412a78b6793c1b1a14225941d37a532f7bdf9a70006c0a16fd",
+        "reports/MARKET.md": "62c8be8f4d47aacdae7f84ef9d2fe3c3261b63c16182c06220dac8ce116ff19d",
+        "reports/POSITIONING.md": "614382bb421f5bf6bfc71153fdec3b4372e8e0606844fd4b811b7a449435fe55",
+        "reports/MOAT.md": "12574f8accbfd7c198123c1a4342de18cae4c1466acdee83791506e0ff8dd60f"
+      },
+      "note": "Added timing follow-up within the existing first experiment and explicit unknown-timing gate. Original six bars unchanged; all remain unknown, ruling remains insufficient evidence.",
+      "report_sha256": "7c4719d3ec18cda935dc2486596f620ceda85c12ff38f0068d61e76198072fdd",
+      "source": {
+        "url": "file:///tmp/venture-trial.OqM7Pp/sources/67.md",
+        "retrieved_at": "2026-09-15T04:06:43.347757+00:00",
+        "sha256": "a501794c9e3e2575ce3f2fdd448300f1b28120d27f6b7ef92e95813332003314"
+      }
+    }
+  ]
+}

@@ -116,3 +116,12 @@ trend arrows moving the right way.
   Studio") while the ICP finds it skippable friction (F2) — and the direct path (an
   "Ends in commits" playbook chaining straight into 47) already exists but is buried.
   → resolved by Now #6: the conversation is the loop; Studio is optional triage.
+
+## Venture workflow amendment — 2026-09-14
+
+Operator-authorized Venture-first improvement preserves report-only briefs and
+root-or-reports paths. Venture conductors additionally own an incrementally updated
+INDEX.md and venture-run.json, beginning at preflight; this is an explicit metadata
+write allowance, not an additional per-brief report. No orchestrator/runtime is
+introduced. An optional stdlib validator checks structural consistency, while agents
+remain responsible for evidence and decisions. See docs/venture-workflow.md.

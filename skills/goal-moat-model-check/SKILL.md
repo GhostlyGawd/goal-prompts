@@ -5,40 +5,40 @@ description: "Why this survives contact with incumbents and arithmetic — monet
 
 # Goal: Moat & Model Check
 
-You are working inside this repo — the research workspace for this venture. Mission: pressure-test survivability — how it makes money, whether the unit economics work at wedge scale, what compounds into a moat, and the specific ways this dies.
+Mission: Test whether the selected wedge can survive competition and produce viable economics within the operator’s resources.
 
-Research pass: read the web and the reports at this root; your only write is the report file. Every factual claim carries a source link and access date.
+Read repo instructions, CHARTER.md and relevant notes/reports at root and in reports/. Charter constraints bound recommendations. In a conductor, read INDEX.md and venture-run.json for scope, criteria, decisions and input versions; otherwise record these in this report. Your only write is this report. No outreach, purchases or code changes.
 
-## Phase 1 — Assemble the premises
-- Pull the wedge and pricing posture from POSITIONING.md, the buying rituals from NICHE.md, and the incumbent moats from COMPETITORS.md, where present.
-- State the revenue-model candidates: subscription, usage, transaction take, marketplace, services-into-product.
+## Phase 1 — Anchor
+- Read selected POSITIONING.md wedge, NICHE.md buying process and COMPETITORS.md defenses, plus relevant demand/market evidence.
+- Resolve wedge selection by operator or recorded delegation. State model candidates and missing inputs; preserve scope and decision bars.
 
-## Phase 2 — Audit through 7 lenses
-1. **Model fit** — which revenue model matches the buying rituals and the value event; name the mismatches, like annual contracts sold against a sporadic pain
-2. **Napkin unit economics** — price × plausible conversion versus cost to serve and cost to acquire, as sourced ranges; find where the model breaks
-3. **Moat candidates** — what compounds here: proprietary data, network effects, integration lock, workflow depth, brand-in-niche, regulatory blessing — each with the honest timeline it needs
-4. **Incumbent response** — for the top two competitors: could they ship this in a quarter, and would their pricing and positioning let them; the strategy-tax read
-5. **Platform and supplier risk** — the APIs, marketplaces, or models this depends on, and the historical repricing behavior of those dependencies
-6. **Founder-scale reality** — can the wedge be reached with the operator's actual resources; the choke points: sales-cycle length, compliance, capital
-7. **The kill list** — the three to five most probable causes of death, each paired with an early-warning signal worth watching
+## Phase 2 — Investigate
+1. **Model fit** — subscription, usage, transaction or services against the value event and buying process.
+2. **Economics** — revenue per customer minus variable service/support costs gives contribution margin; compare acquisition cost and payback. State currency, period and units. Conversion affects acquisition, not price units.
+3. **Compounding** — data, networks, integration, workflow or brand: mechanism, ownership, timeline and evidence, not mere head start.
+4. **Response** — top competitors’ ability and incentive to copy; timelines are hypotheses unless sourced.
+5. **Dependencies** — platform/supplier terms, switching options and repricing scenarios.
+6. **Operator fit** — capital, time, sales cycle and delivery capacity under conservative assumptions.
+7. **Failure modes** — three to five material risks if supported, each with an observable warning.
 
-## Phase 3 — Curate
-- Rule on each model candidate; pick the survivor and defend it.
-- Convert every kill risk that permits it into a cheap pre-test runnable before real building starts.
+## Phase 3 — Decide
+- Compare models using sourced ranges and explicit assumptions; show break-even and sensitivity. No survivor is a valid answer.
+- Convert testable risks into cheap pre-tests with cost/time, pass/fail threshold and stop rule. Do not run customer outreach or purchases.
 
 ## Phase 4 — Report
 Create `MOAT.md` at repo root:
-1. **Model verdicts** — the candidates, compared
-2. **The napkin** — unit economics with the arithmetic visible
-3. **Moat and response** — what compounds, who reacts, and how fast
-4. **Kill list** — ranked, with tripwires and pre-tests
+1. **Models** — comparison, selected/provisional model and reasoning.
+2. **Economics** — input provenance, formulas, conservative scenario and uncertainty.
+3. **Defenses/response** — mechanisms, timelines and strongest counterevidence.
+4. **Risk tests** — ranked risks, tripwires, test costs, thresholds and next decision.
 
-Start the report with today's date. If `MOAT.md` already exists from a previous run, read it first and lead with what changed since.
+Start with today's date. If `MOAT.md` already exists, read it first and lead with what changed; preserve prior work before an authorized replacement. Include scope, input versions, stable finding IDs, evidence, counterevidence and next steps; use the conductor's metadata when supplied.
 
 ## Rules
-- Optimism is allowed in the plan, never in the arithmetic
-- Every moat claim states its compounding mechanism and timeline, or gets demoted to head start
-- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- Separate direct evidence, proxies, inference and assumptions. Material factual claims need source links and access dates; date events too. Repeated citations are not independent evidence. Disclose inaccessible sources and shortfalls; never invent quotes or numbers.
+- Include meaningful counterevidence and what would change the recommendation. Stop at the agreed research budget; if none, state a bounded search plan and unresolved gaps.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Before asking, present the top findings as a ranked list in plain words
-- Report only — end by asking which risks to pre-test before the verdict
+- Before asking, present the top findings as a ranked list in plain words.
+- No selected or explicitly provisional wedge after clarification? Write a one-paragraph null report naming the missing decision. Unknown economics can support an insufficient-evidence conclusion.
+- Report only — end by asking which risks to validate next; research authorization alone does not authorize running outward tests.
