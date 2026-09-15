@@ -374,3 +374,23 @@ it — through `reports/INDEX.md`, the PR list, or `git log --grep`. Repos
 whose earlier runs wrote to the root keep working: conductors still check
 both locations for prior reports. Single-brief runs are unchanged.
 PRODUCT_ALIGNMENT's saved-results section records the same decision.
+
+## ADR-18 — Venture decisions and resumable research (2026-09-14)
+
+Context: the all-Venture conductor did not lock a candidate, left verdict bars until
+after conclusions, treated report existence as completion, and saved its index only
+at the end. Its generic code-fixing handoff did not fit market uncertainty.
+
+Decision: operator-authorized Venture-first contract in specs/VENTURE_WORKFLOW.md.
+Preserve report filenames and paths; specialize any conductor containing 60–67,
+including mixed/partial sequences. A canonical template feeds Python, browser and
+MCP. Record operator context, decision bars, scope/authority, stage state and input
+hashes from preflight. One selected candidate and wedge; pauses/pivots are durable.
+Allow insufficient evidence and recommend falsifiable experiments. Add an optional
+read-only stdlib checker, explicitly limited to structural consistency.
+
+Consequences: Venture's index timing supersedes ADR-17's final-only write, with
+venture-run.json as an explicit coordinator artifact. Existing root reports remain
+adoptable after review. Other families, public URLs and individual report contracts
+stay stable. No UI redesign, hosted state, mandatory runtime or automatic outreach.
+Verification evidence lives in specs/VENTURE_WORKFLOW_TASKS.md.

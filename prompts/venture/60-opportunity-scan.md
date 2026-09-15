@@ -8,42 +8,41 @@ tagline: The candidate field. Turns your edges, interests, and constraints plus 
 ---
 # Goal: Opportunity Scan
 
-You are working inside this repo — treat it as the research workspace for a venture that does not exist yet. Mission: generate and roughly score a field of venture candidates, combining the operator's unfair advantages with live market signals, so the deep-dive briefs have something worth aiming at.
+Mission: Generate and compare venture candidates that fit the operator, or assess an already selected venture without silently replacing it.
 
-Research pass: read the web and any notes at this root; your only write is the report file. Every factual claim carries a source link and access date.
+Read repo instructions, CHARTER.md and relevant notes/reports at root and in reports/. Charter constraints bound recommendations. In a conductor, read INDEX.md and venture-run.json for scope, criteria, decisions and input versions; otherwise record these in this report. Your only write is this report. No outreach, purchases or code changes.
 
-## Phase 1 — Anchor the operator
-- Collect the raw material: the operator's skills, background, audience, capital, and time — from their message, a README or notes at this root. Constraints in means better ideas out.
-- If nothing is supplied, proceed under a stated persona assumption and flag every place it shaped the output.
+## Phase 1 — Anchor
+- Establish skills, audience/access, time, capital, goals and exclusions. Use supplied context; ask for missing constraints that change selection. An empty codebase is valid. Do not invent a founder persona.
+- Record discovery versus evaluation mode and decision bars before research conclusions. Label bars retrospective if prior conclusions were seen. For an existing venture, keep it fixed unless a switch is authorized.
 
-## Phase 2 — Scan through 8 lenses
-Each lens is a source of candidates. Cite where each candidate's pain shows up in the wild.
-1. **Complaint mining** — recurring gripes in reviews, forums, and communities: what people hate paying for or can't get done
-2. **Trend collision** — two rising curves crossing: a technology meeting a behavior, a regulation meeting an industry; name both curves with evidence
-3. **Unbundling and rebundling** — bloated horizontal tools whose one feature deserves a product; fragmented point tools begging for a bundle
-4. **Sophistication arbitrage** — practices standard in one industry, absent in an adjacent one
-5. **Picks and shovels** — wherever a gold rush is running, what every participant needs regardless of who wins
-6. **Regulation and platform shifts** — new rules, new APIs, new form factors creating fresh obligations or capabilities, with dates
-7. **The operator's unfair edge** — distribution, domain knowledge, or skill that makes a hard idea easy for this operator specifically
-8. **Dying incumbents** — products with rising complaints, stalled releases, or acquisition decay; their users are pre-qualified leads
+## Phase 2 — Investigate
+1. **Complaints** — recurring task failures, linked to real people and current workarounds.
+2. **Shifts** — dated technical, behavioral, regulatory or platform changes; why they enable an entry now.
+3. **Unbundling** — expensive bundles or fragmented workflows with observable switching demand.
+4. **Transfer** — practices useful in one industry that might solve an evidenced problem in another.
+5. **Infrastructure** — recurring needs behind a growing activity, with reachable buyers.
+6. **Operator edge** — specific access, distribution or expertise; distinguish known assets from assumptions.
+7. **Incumbent decay** — verified complaints and release history, without equating silence to abandonment.
+8. **Disconfirmation** — failed attempts, switching barriers and evidence the buyer will not pay.
 
-## Phase 3 — Curate
-- Dedupe to 10–15 candidates. Score each 1–5 on pain intensity, buyer reachability, operator fit, competitive heat, and why-now — one line of justification per score.
-- Kill the obvious losers and say what killed them; a scan that keeps everything chose nothing.
+## Phase 3 — Decide
+- In discovery, aim for 10–15 distinct candidates if evidence supports them; explain shortfalls. Score pain, reachability, operator fit and timing 1–5 (higher is better); score competitive pressure separately (higher is worse). Justify each score; do not hide hard failures in totals.
+- Recommend one candidate against the top alternatives. Selection requires the operator or explicit delegation; record authority before deep research.
 
 ## Phase 4 — Report
 Create `OPPORTUNITIES.md` at repo root:
-1. **Operator profile** — the edges and constraints this scan assumed
-2. **The field** — candidate · one-liner · who pays · pain evidence (linked) · scores
-3. **Top 3** — a paragraph each, including the strongest disconfirming fact found so far
-4. **Next** — which candidates to send through 61–66, and in what order
+1. **Operator and bars** — resources, constraints, assumptions and criteria with timing.
+2. **Field** — candidate ID, buyer, pain, solution hypothesis, geography, evidence and scores.
+3. **Shortlist** — top three with strongest counterevidence; fewer if justified.
+4. **Next decision** — recommended candidate, tradeoff, selection authority and cheapest test with success/stop criteria.
 
-Start the report with today's date. If `OPPORTUNITIES.md` already exists from a previous run, read it first and lead with what changed since.
+Start with today's date. If `OPPORTUNITIES.md` already exists, read it first and lead with what changed; preserve prior work before an authorized replacement. Include scope, input versions, stable finding IDs, evidence, counterevidence and next steps; use the conductor's metadata when supplied.
 
 ## Rules
-- Every pain claim links to where real people expressed it — no invented personas
-- Each top candidate ships with its best reason to be a bad idea
-- No discernible product or idea to research in this repo? Say so in a one-paragraph null report and stop — a null result is a valid finding.
+- Separate direct evidence, proxies, inference and assumptions. Material factual claims need source links and access dates; date events too. Repeated citations are not independent evidence. Disclose inaccessible sources and shortfalls; never invent quotes or numbers.
+- Include meaningful counterevidence and what would change the recommendation. Stop at the agreed research budget; if none, state a bounded search plan and unresolved gaps.
 - If a `reports/` directory exists at the repo root, write the report there instead of the root.
-- Before asking, present the top findings as a ranked list in plain words
-- Report only — end by asking which candidates to research deeply
+- Before asking, present the top findings as a ranked list in plain words.
+- No usable operator context or research direction after intake? Write a one-paragraph null report explaining what is needed; do not treat absence of product code as inapplicability.
+- Report only — end by asking which candidate to select; use a selection already supplied or explicitly delegated.

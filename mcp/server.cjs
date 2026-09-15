@@ -199,6 +199,10 @@ function conductorText(name, desc, ids) {
     return (i + 1) + ". **" + id + " · " + p.title + "** — fetch " + base +
       "/raw/" + id + ".md → writes `" + p.output + "`";
   });
+  if (ids.some(function (id) { return /^(60|61|62|63|64|65|66|67)$/.test(id); })) {
+    var values = {NAME: name, DESC: desc, COUNT: String(ids.length), STAGES: stages.join("\n"), BASE: base};
+    return catalog.venture_conductor.replace(/\{\{(NAME|DESC|COUNT|STAGES|BASE)\}\}/g, function (_, key) { return values[key]; });
+  }
   var plural = ids.length > 1 ? "briefs" : "brief";
   return "# Playbook: " + name + " (conductor)\n\n" +
 "You are working inside this repo. Mission: execute the **" + name + "** playbook — " +

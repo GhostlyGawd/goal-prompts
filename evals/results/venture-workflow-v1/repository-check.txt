@@ -1,0 +1,206 @@
+
+== 1/8  build (lints all briefs, regenerates every surface) ==
+OK  157 briefs, 40 playbooks -> index.html (275,414 b), raw/, b/, catalog.json, bodies.json, sitemap.xml, robots.txt, commands.tar.gz, commands.zip, cursor-commands.zip, plugin/, skills/
+
+== 2/8  design gates (brand.json lint + WCAG contrast matrix) ==
+OK  brand.json v3: 2 themes × 32 roles, 24 categorical hues, 3 type faces — schema + invariants clean
+OK  contrast: 232 pairs checked across 2 themes, all above declared minimums
+
+== 3/8  linter + engine tests ==
+----------------------------------------------------------------------
+Ran 179 tests in 0.696s
+
+OK
+----------------------------------------------------------------------
+Ran 41 tests in 0.029s
+
+OK (skipped=6)
+
+== 4/8  installer (hermetic, against a local server) ==
+OK  install: 157 commands, v0.21.0, stale-file removal, corrupt-tarball abort, BRIEF flag
+scripts/test-install.sh: line 17: 89466 Terminated: 15          python3 - "$TMPD/www" "$TMPD/port"  <<'EOF'
+import http.server, socketserver, sys, os
+os.chdir(sys.argv[1])
+class Quiet(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, *args): pass
+socketserver.TCPServer.allow_reuse_address = True
+with socketserver.TCPServer(("127.0.0.1", 0), Quiet) as srv:
+    with open(sys.argv[2], "w") as f:
+        f.write(str(srv.server_address[1]))
+    srv.serve_forever()
+EOF
+  (wd: ~/repositories/goal-prompts)
+
+== 5/8  mcp server syntax ==
+OK  mcp/server.cjs
+OK  sw.js
+OK  design-engine/tools/shots.cjs
+OK  design-engine/tools/motion_preview.cjs
+
+== 6/8  site script syntax (index.html + studio.html + vitals.html) ==
+OK  index.html (4 script blocks)
+OK  studio.html (4 script blocks)
+OK  vitals.html (4 script blocks)
+
+== 7/8  site js modules (js/*.js syntax + unit tests) ==
+OK  js/catalog-core.js
+OK  js/gp-detail.js
+OK  js/report-parser.js
+  ok    closest: 'speed' puts 04 · Performance Audit in the top 5
+  ok    closest: 'bug' ranks 01 · Bug Hunt first
+  ok    closest: 'checkout drop-off' surfaces 110 first
+  ok    closest: 'prompt injection' ranks 118 · Prompt-Injection Red-Team first
+  ok    closest: stemmer leaves 'needs' family words intact (eed exemption)
+  ok    closest: empty and sub-3-char queries return nothing
+  ok    fuzzy: typo 'preformance' (transposition) still finds 04 · Performance Audit
+  ok    fuzzy: typo 'secruity' (transposition) surfaces a security brief
+  ok    fuzzy: typo 'cachng' (dropped letter) finds cache briefs
+  ok    fuzzy: gibberish 'zzqxzz' still returns nothing
+  ok    fuzzy: never fires when the exact query already matches
+  ok    matches: family filter + query compose (AND, within the family)
+  ok    matches: playbook filter restricts to the playbook's ids
+  ok    matches: no state matches everything
+  ok    conductor: text contains every stage id and output
+  ok    conductor: the debrief shape is pinned — ranked list · ask · handoff (SIGNATURE §2)
+  ok    conductor: matches build.py's committed raw/playbook-*.md byte for byte, all 40 playbooks
+  ok    conductor: SEQ_CAP is the documented 16
+  ok    picker: situation=new repo → the day1 playbook
+  ok    picker: hurt=breaks + time=brief → 01 · Bug Hunt
+  ok    picker: an explicit 'not sure' answer → the 46 · Audit Triage escape, never day1
+  ok    picker: 'not sure' defers to a real situation answer
+  ok    picker: nothing answered → 46 · Audit Triage as the fallback
+  ok    picker: every mapped playbook key and brief id exists in the catalog
+  ok    repoRecommend: React + Stripe + Docker repo → relevant briefs + stack
+  ok    repoRecommend: bare repo still recommends 3 universal briefs
+  ok    repoRecommend: every recommendable id exists in the catalog
+  ok    property: 200 seeded random queries — no throw, bounded, finite scores
+  ok    metadata-only: matches() works without a body field
+  ok    withBodies: body-only terms rank again after the zero-state upgrade
+  ok    withBodies: missing map entries become empty bodies, not crashes
+  ok    metadata-only: closest() still ranks on title/family/tagline
+
+OK  catalog-core: all tests passed
+  ok    ### numbered heading + body paragraphs become one finding
+  ok    #### headings become findings too
+  ok    ### finding body may span several heading-free blocks
+  ok    bold-led block still parses, and its key scheme is byte-stable
+  ok    numbered and dashed list items still parse; short nav lines still skipped
+  ok    effort/impact/tag chips still extract
+  ok    plain prose blocks are context, not findings
+  ok    severity read from the finding's first line
+  ok    explicit 'Severity: high' label anywhere in the body counts
+  ok    'high-traffic' in prose must NOT set a severity
+  ok    'critical' inside a fix description must NOT mark S1
+  ok    'low-hanging' in the first line must not read as severity Low
+  ok    ### finding title carries severity like a bold title does
+  ok    FIXED in the title line marks done (the BUGS.md house style)
+  ok    'Status: shipped' line marks done
+  ok    a line starting with 'Fixed …' marks done
+  ok    a checked checkbox marks done
+  ok    'shipped'/'fixed' in mid-sentence prose must NOT mark done
+  ok    a fenced ### heading does not mint a finding
+  ok    a fence containing blank lines and a ### stays one inert region
+  ok    a fenced 'Severity: S1' line does not grade the finding
+  ok    ### finding keeps its fenced example verbatim in the body
+  ok    fenced 'Status: fixed' does not mark a finding done
+  ok    parseReport reports skipped blocks so the Studio can say so
+  ok    a fully recognized report has zero skipped blocks
+  ok    a dropped short ###-block counts as unrecognized
+  ok    BUGS.md in reports/ parses to its 5 findings, all severity-tagged and fixed
+  ok    IMPROVEMENTS.md parses to a non-trivial finding list
+  ok    property: 300 seeded random reports — no throw, no empty titles, ### blocks ≥30 chars captured
+  ok    inferReportName: ALL-CAPS .md token in the first heading wins
+  ok    inferReportName: heading without a token slugifies to a .md name
+  ok    inferReportName: ALL-CAPS token in early lines works without a heading
+  ok    inferReportName: lowercase .md tokens and plain prose infer nothing
+
+OK  report-parser: all tests passed
+  ok    no mirror at all → notify (legacy opt-in fallback)
+  ok    reminders mirrored off → never notify
+  ok    Vitals ran 1 day ago → skip
+  ok    Vitals ran 6.9 days ago → still fresh, skip
+  ok    Vitals 7+ days stale → notify
+  ok    opted in but never ran Vitals (runs29 0) → notify
+  ok    periodicsync + fresh mirror → no notification
+  ok    periodicsync + reminders off → no notification
+  ok    periodicsync + stale mirror → notifies, landing on /vitals?src=reminder
+  ok    periodicsync + missing mirror → notifies (never silently dead)
+  ok    foreign periodicsync tag is ignored
+sw reminder: all assertions passed
+
+== 8/8  mcp smoke (spawns the real server) ==
+  ok    conductor parity: sentence 1 in build.py
+  ok    conductor parity: sentence 2 in build.py
+  ok    conductor parity: sentence 3 in build.py
+  ok    conductor parity: sentence 4 in build.py
+  ok    conductor parity: sentence 5 in build.py
+  ok    conductor parity: sentence 6 in build.py
+  ok    conductor parity: sentence 7 in build.py
+  ok    conductor parity: sentence 8 in build.py
+  ok    conductor parity: sentence 9 in build.py
+  ok    conductor parity: sentence 10 in build.py
+  ok    conductor parity: sentence 11 in build.py
+  ok    conductor parity: sentence 12 in build.py
+  ok    conductor parity: sentence 13 in build.py
+  ok    conductor parity: sentence 14 in build.py
+  ok    conductor parity: sentence 1 in mcp/server.cjs
+  ok    conductor parity: sentence 2 in mcp/server.cjs
+  ok    conductor parity: sentence 3 in mcp/server.cjs
+  ok    conductor parity: sentence 4 in mcp/server.cjs
+  ok    conductor parity: sentence 5 in mcp/server.cjs
+  ok    conductor parity: sentence 6 in mcp/server.cjs
+  ok    conductor parity: sentence 7 in mcp/server.cjs
+  ok    conductor parity: sentence 8 in mcp/server.cjs
+  ok    conductor parity: sentence 9 in mcp/server.cjs
+  ok    conductor parity: sentence 10 in mcp/server.cjs
+  ok    conductor parity: sentence 11 in mcp/server.cjs
+  ok    conductor parity: sentence 12 in mcp/server.cjs
+  ok    conductor parity: sentence 13 in mcp/server.cjs
+  ok    conductor parity: sentence 14 in mcp/server.cjs
+  ok    conductor parity: sentence 1 in js/catalog-core.js
+  ok    conductor parity: sentence 2 in js/catalog-core.js
+  ok    conductor parity: sentence 3 in js/catalog-core.js
+  ok    conductor parity: sentence 4 in js/catalog-core.js
+  ok    conductor parity: sentence 5 in js/catalog-core.js
+  ok    conductor parity: sentence 6 in js/catalog-core.js
+  ok    conductor parity: sentence 7 in js/catalog-core.js
+  ok    conductor parity: sentence 8 in js/catalog-core.js
+  ok    conductor parity: sentence 9 in js/catalog-core.js
+  ok    conductor parity: sentence 10 in js/catalog-core.js
+  ok    conductor parity: sentence 11 in js/catalog-core.js
+  ok    conductor parity: sentence 12 in js/catalog-core.js
+  ok    conductor parity: sentence 13 in js/catalog-core.js
+  ok    conductor parity: sentence 14 in js/catalog-core.js
+  ok    initialize returns serverInfo
+  ok    initialize declares the prompts capability
+  ok    tools/list exposes 6 tools (list_briefs, suggest_briefs, get_brief, make_conductor, list_playbooks, get_playbook)
+  ok    get_playbook points at list_playbooks instead of enumerating keys
+  ok    make_conductor documents the 16-stage cap
+  ok    suggest('looping') ranks 32 · Loop & Termination in the top 3
+  ok    suggest output states its scoring method
+  ok    suggest('costs exploding') surfaces 24 · Cost Audit in results
+  ok    make_conductor(['46','47']) builds a two-stage conductor
+  ok    conductor text carries every canonical instruction sentence
+  ok    get_brief('47') returns the ask-first gate
+  ok    get_brief('6') normalizes to 06
+  ok    get_brief(' 47 ') trims whitespace
+  ok    get_brief('999') error names the real id range (00–156)
+  ok    list_playbooks names all 40 playbooks
+  ok    list_playbooks includes ids and taglines
+  ok    list_playbooks footer pins v0.21.0 + /changelog
+  ok    prompts/list returns all 157 briefs
+  ok    prompts/list names goal-<slug> with tagline as description
+  ok    prompts/get('goal-bug-hunt') returns the brief body as a user message
+  ok    make_conductor accepts 13 stages under the new 16 cap
+  ok    make_conductor refuses 17 stages, naming the 16 cap
+  ok    suggest('bug') ranks 01 · Bug Hunt in the top 3
+  ok    suggest('slow queries') ranks 87 · Query Performance in the top 3
+  ok    suggest('prompt injection') ranks 118 · Prompt-Injection Red-Team in the top 3
+  ok    suggest('checkout drop-off') ranks 110 · Checkout & Payment in the top 3
+  ok    suggest('dependency licenses') ranks 69 · License & Compliance in the top 3
+  ok    get_brief('007') strips leading zeros before padding
+  ok    make_conductor(' 46, 47') drops empty tokens from a string id list
+  ok    list_briefs footer pins v0.21.0 + /changelog
+MCP smoke: all assertions passed
+
+ALL CHECKS PASSED

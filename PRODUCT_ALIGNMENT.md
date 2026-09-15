@@ -479,3 +479,22 @@ corrections below.
   visible conversation for continuation, Studio as a report-findings selector,
   efficacy comparisons as internal product QA, and a situation-first catalog entry
   instead of the proposed abstract axes.
+
+## Venture-specific amendment — 2026-09-14
+
+The operator authorized the Venture-first spec, task decomposition, implementation,
+verification and review. For sequences containing briefs 60–67, the shared Venture
+conductor specializes the existing run contract: INDEX.md is created during
+preflight and updated throughout, with `reports/venture-run.json` for structured
+recovery. This supersedes the final-only index timing for those sequences. Individual
+briefs still write one report at root or reports/; conductor metadata is a distinct
+coordinator responsibility. Existing reports and unrelated index entries are preserved.
+
+Venture discovery accepts empty repos with operator context. One candidate and wedge
+are selected by the operator or explicit delegation; research does not authorize
+implementation or outreach. Verdict bars retain their original timing and revisions.
+Unknown evidence may yield insufficient evidence. Final actions prioritize cheap
+validation tests, with code changes only when selected and authorized. The optional
+stdlib checker validates structure and hashes, not business truth or agent compliance.
+Other families and the broader alignment migration remain unchanged. Details and
+verification: specs/VENTURE_WORKFLOW.md and specs/VENTURE_WORKFLOW_TASKS.md.
